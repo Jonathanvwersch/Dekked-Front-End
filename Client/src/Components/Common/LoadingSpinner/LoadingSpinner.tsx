@@ -38,7 +38,7 @@ export const FullPageLoadingSpinner: React.FC = () => {
   );
 };
 
-export const useStyles = createUseStyles((theme: ThemeType) => ({
+export const useStyles = createUseStyles({
   FullPageSpinner: {
     inset: "0",
     position: "fixed",
@@ -67,4 +67,4 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
     animationIterationCount: "infinite",
     animationTimingFunction: "linear",
   },
-}));
+});

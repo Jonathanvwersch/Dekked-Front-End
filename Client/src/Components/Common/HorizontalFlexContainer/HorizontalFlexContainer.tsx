@@ -26,7 +26,7 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
   hover,
   pressed,
 }) => {
-  const useStyles = createUseStyles((theme: ThemeType) => ({
+  const useStyles = createUseStyles({
     HorizontalFlexContainer: {
       display: "flex",
       flexDirection: "horizontal",
@@ -40,7 +40,7 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
       hover: `${hover}`,
       pressed: `${pressed}`,
     },
-  }));
+  });
   const classes = useStyles();
   return <div className={classes.HorizontalFlexContainer}>{children}</div>;
 };

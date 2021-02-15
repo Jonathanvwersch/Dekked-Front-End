@@ -26,7 +26,7 @@ const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
   hover,
   pressed,
 }) => {
-  const useStyles = createUseStyles((theme: ThemeType) => ({
+  const useStyles = createUseStyles({
     VerticalFlexContainer: {
       display: "flex",
       flexDirection: "column",
@@ -40,7 +40,7 @@ const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
       hover: `${hover}`,
       pressed: `${pressed}`,
     },
-  }));
+  });
   const classes = useStyles();
   return <div className={classes.VerticalFlexContainer}>{children}</div>;
 };

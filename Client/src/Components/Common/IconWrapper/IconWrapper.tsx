@@ -9,12 +9,12 @@ const IconWrapper: React.FC<IconWrapperProps> = ({ children }) => {
   return <div className={classes.IconWrapper}>{children}</div>;
 };
 
-export default IconWrapper;
-
-export const useStyles = createUseStyles((theme: ThemeType) => ({
+export const useStyles = createUseStyles({
   IconWrapper: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
-}));
+});
+
+export default IconWrapper;

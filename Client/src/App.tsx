@@ -1,4 +1,5 @@
 import React from "react";
+import Avatar from "./Components/Common/Avatar/Avatar";
 import {
   ComponentLoadingSpinner,
   FullPageLoadingSpinner,
@@ -17,6 +18,7 @@ export const App: React.FC = () => {
         <ComponentLoadingSpinner />
         <ComponentLoadingSpinner />
         <ComponentLoadingSpinner />
+        <Avatar>J</Avatar>
       </VerticalFlexContainer>
     </div>
   );
