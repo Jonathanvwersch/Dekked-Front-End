@@ -1,14 +1,16 @@
 import { theme } from "../../theme";
 
-export default function LogoIcon({
-  className = "logo",
-  colour = theme.colours.offBlack,
-  size = theme.icons.size,
-}: {
+interface IconProps {
   className?: string;
   colour?: string;
   size?: string;
-}) {
+}
+
+const LogoIcon: React.FC<IconProps> = ({
+  className = "logo",
+  colour = theme.colours.offBlack,
+  size = theme.icons.size,
+}) => {
   return (
     <svg
       className={className}
@@ -30,4 +32,6 @@ export default function LogoIcon({
       />
     </svg>
   );
-}
+};
+
+export default LogoIcon;
