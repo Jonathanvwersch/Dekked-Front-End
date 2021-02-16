@@ -1,6 +1,5 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { ThemeType } from "../../../theme";
 
 interface VerticalFlexContainerProps {
   border?: string;
