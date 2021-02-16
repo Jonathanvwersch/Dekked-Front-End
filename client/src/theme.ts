@@ -11,6 +11,7 @@ export type ThemeType = {
     offWhite: string;
     beige: string;
     offBlack: string;
+    fontColour: string;
   };
 
   filters: {
@@ -76,6 +77,7 @@ export const theme: ThemeType = {
     offWhite: "#F7F8FA",
     beige: "#F5F5F4",
     offBlack: "#2C2C31",
+    fontColour: "#2C2C31",
   },
 
   filters: {

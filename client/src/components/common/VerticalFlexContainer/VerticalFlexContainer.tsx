@@ -9,35 +9,29 @@ interface VerticalFlexContainerProps {
   justifyContent?: string;
   height?: string;
   width?: string;
-  hover?: string;
-  pressed?: string;
 }
 
 const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
   children,
   border = "none",
   padding = "0px",
-  backgroundColour = "fff",
+  backgroundColour = "transparent",
   alignItems,
   justifyContent,
   height,
   width,
-  hover,
-  pressed,
 }) => {
   const useStyles = createUseStyles({
     VerticalFlexContainer: {
       display: "flex",
       flexDirection: "column",
-      border: `${border}`,
-      padding: `${padding}`,
-      backgroundColour: `${backgroundColour}`,
-      alignItems: `${alignItems}`,
-      justifyContent: `${justifyContent}`,
-      height: `${height}`,
-      width: `${width}`,
-      hover: `${hover}`,
-      pressed: `${pressed}`,
+      border: border ? `${border}` : null,
+      padding: padding ? `${padding}` : null,
+      backgroundColor: backgroundColour ? `${backgroundColour}` : null,
+      alignItems: alignItems ? `${alignItems}` : null,
+      justifyContent: justifyContent ? `${justifyContent}` : null,
+      height: height ? `${height}` : null,
+      width: width ? `${width}` : null,
     },
   });
   const classes = useStyles();

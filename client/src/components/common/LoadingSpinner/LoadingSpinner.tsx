@@ -1,6 +1,6 @@
 import React from "react";
-import { LogoIcon } from "../../../Icons";
 import { createUseStyles, useTheme } from "react-jss";
+import { LogoIcon } from "../../../assets";
 import { ThemeType } from "../../../theme";
 import IconWrapper from "../IconWrapper/IconWrapper";
 

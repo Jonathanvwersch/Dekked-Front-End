@@ -16,10 +16,10 @@ const Spacer: React.FC<SpacerProps> = ({
 }) => {
   const useStyles = createUseStyles({
     Spacer: {
-      width: `${width}`,
-      height: `${height}`,
-      flexGrow: `${grow}`,
-      flexShrink: `${shrink}`,
+      width: width ? `${width}` : null,
+      height: height ? `${height}` : null,
+      flexGrow: grow ? `${grow}` : null,
+      flexShrink: shrink ? `${shrink}` : null,
     },
   });
 

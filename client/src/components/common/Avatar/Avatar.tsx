@@ -1,7 +1,7 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
-import { ThemeType } from "../../../theme";
+import { createUseStyles } from "react-jss";
 import { theme } from "../../../theme";
+import { ThemeType } from "../../../theme";
 
 interface AvatarProps {
   diameter?: string;
@@ -15,18 +15,19 @@ const Avatar: React.FC<AvatarProps> = ({
   diameter = "28px",
   fontColour = "white",
 }) => {
-  const useStyles = createUseStyles({
+  const useStyles = createUseStyles((theme: ThemeType) => ({
     Avatar: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       borderRadius: "50%",
+      fontFamily: theme.typography.fontFamily,
       width: `${diameter}`,
       backgroundColor: `${backgroundColour}`,
       height: `${diameter}`,
       color: `${fontColour}`,
     },
-  });
+  }));
   const classes = useStyles();
   return <div className={classes.Avatar}>{children}</div>;
 };

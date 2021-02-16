@@ -1,15 +1,37 @@
 import React from "react";
 import { theme } from "../../theme";
-import { IconProps } from "../types";
+import { createUseStyles } from "react-jss";
+import { IconProps, ORIENTATION } from "../types";
 
 const DropDownArrowIcon: React.FC<IconProps> = ({
-  className = "dropDownArrow-icon",
   colour = theme.colours.offBlack,
   size = theme.icons.size,
+  orientation = ORIENTATION.DOWN, // Arrow defaults to pointing down
 }) => {
+  const useStyles = createUseStyles({
+    DropDownArrowLeftIcon: {
+      transform: "rotate(90deg)",
+    },
+    DropDownArrowRightIcon: {
+      transform: "rotate(-90deg)",
+    },
+    DropDownArrowUpIcon: {
+      transform: "rotate(180deg)",
+    },
+  });
+  const classes = useStyles();
+
+  const arrowOrientation = () => {
+    if (orientation === ORIENTATION.RIGHT)
+      return classes.DropDownArrowRightIcon;
+    else if (orientation === ORIENTATION.LEFT)
+      return classes.DropDownArrowLeftIcon;
+    else if (orientation === ORIENTATION.UP) return classes.DropDownArrowUpIcon;
+    else return "DropDownArrowDownIcon";
+  };
   return (
     <svg
-      className={className}
+      className={arrowOrientation()}
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
