@@ -21,7 +21,7 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
   return <div className={classes.HorizontalFlexContainer}>{children}</div>;
 };
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles({
   HorizontalFlexContainer: (props) => ({
     display: "flex",
     boxSizing: "border-box",
@@ -34,11 +34,12 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: props.backgroundColour,
     padding: props.padding,
   }),
-}));
+});
 
 HorizontalFlexContainer.defaultProps = {
   alignItems: "center",
   width: "100%",
+  padding: "16px",
 };
 
 export default HorizontalFlexContainer;

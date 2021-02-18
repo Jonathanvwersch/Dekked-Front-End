@@ -30,7 +30,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
 }));
 
 Avatar.defaultProps = {
-  diameter: "28px",
+  diameter: "32px",
   fontColour: "white",
 };
 

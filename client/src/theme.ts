@@ -3,7 +3,6 @@ export type ThemeType = {
 
   colours: {
     primary: string;
-    primaryHover: string;
     success: string;
     danger: string;
     grey1: string; // dark
@@ -13,11 +12,10 @@ export type ThemeType = {
     beige: string;
     offBlack: string;
     fontColour: string;
-  };
-
-  filters: {
-    hover: string;
-    pressed: string;
+    hover: {
+      primaryHover: string;
+      beigeHover: string;
+    };
   };
 
   icons: {
@@ -74,7 +72,6 @@ export const theme: ThemeType = {
   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   colours: {
     primary: "#00B6CE",
-    primaryHover: "#00A7BE",
     danger: "#DB524B",
     success: "#0CCA4A",
     grey1: "#B8B7B6", // dark
@@ -84,11 +81,10 @@ export const theme: ThemeType = {
     beige: "#F5F5F4",
     offBlack: "#2C2C31",
     fontColour: "#2C2C31",
-  },
-
-  filters: {
-    hover: "80%",
-    pressed: "60%",
+    hover: {
+      primaryHover: "#00A7BE",
+      beigeHover: "#E1E1E0",
+    },
   },
 
   icons: {

@@ -10,6 +10,7 @@ interface VerticalFlexContainerProps {
   width?: string;
   cursor?: string;
   position?: string;
+  overflow?: string;
 }
 
 const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
@@ -33,11 +34,14 @@ const useStyles = createUseStyles((theme) => ({
     width: props.width,
     cursor: props.cursor,
     backgroundColor: props.backgroundColour,
+    overflow: props.overflow,
   }),
 }));
 
 VerticalFlexContainer.defaultProps = {
   alignItems: "center",
+  height: "100%",
+  width: "100%",
 };
 
 export default VerticalFlexContainer;

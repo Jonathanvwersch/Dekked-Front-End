@@ -4,13 +4,8 @@ import { IconProps } from "../types";
 import { useStyles } from "../styles";
 import { useTheme } from "react-jss";
 
-const DropDownArrowIcon: React.FC<IconProps> = ({
-  colour,
-  size,
-  rotate,
-  active = true,
-}) => {
-  const classes = useStyles({ rotate, active });
+const DropDownArrowIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
+  const classes = useStyles({ rotate });
   const theme: ThemeType = useTheme();
   const iconSize = size ? size : theme.icons.size;
   const iconColour = colour ? colour : theme.colours.offBlack;

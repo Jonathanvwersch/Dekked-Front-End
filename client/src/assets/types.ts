@@ -9,5 +9,4 @@ export interface IconProps {
   colour?: string;
   size?: string;
   rotate?: ROTATE;
-  active?: boolean;
 }

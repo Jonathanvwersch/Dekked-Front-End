@@ -1,14 +1,7 @@
-import { ThemeType } from "../theme";
 import { createUseStyles } from "react-jss";
 
-export const useStyles = createUseStyles((theme: ThemeType) => ({
-  icon: ({ rotate, active }) => ({
+export const useStyles = createUseStyles({
+  icon: ({ rotate }) => ({
     transform: `${rotate}`,
-    cursor: active ? "pointer" : null,
-    "&:hover": {
-      "& path": {
-        fill: active ? `${theme.colours.primaryHover}` : null,
-      },
-    },
   }),
-}));
+});
