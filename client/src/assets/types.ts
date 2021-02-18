@@ -1,13 +1,13 @@
-export enum ORIENTATION {
-  LEFT = "left",
-  RIGHT = "right",
-  UP = "up",
-  DOWN = "down",
+export enum ROTATE {
+  NINETY = "rotate(90deg)",
+  ONEEIGHTY = "rotate(180deg)",
+  TWOSEVENTY = "rotate(270deg)",
 }
 
 export interface IconProps {
   className?: string;
   colour?: string;
   size?: string;
-  orientation?: ORIENTATION;
+  rotate?: ROTATE;
+  active?: boolean;
 }

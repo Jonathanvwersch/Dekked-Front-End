@@ -9,10 +9,10 @@ export const ComponentLoadingSpinner: React.FC = () => {
   const theme: ThemeType = useTheme();
 
   return (
-    <div className={classes.ComponentSpinner}>
+    <div className={classes.component}>
       <IconWrapper>
         <LogoIcon
-          className={classes.LogoAnimations}
+          className={classes.animate}
           colour={theme.colours.primary}
           size="24px"
         />
@@ -26,10 +26,10 @@ export const FullPageLoadingSpinner: React.FC = () => {
   const theme: ThemeType = useTheme();
 
   return (
-    <div className={classes.ComponentSpinner}>
+    <div className={classes.fullPage}>
       <IconWrapper>
         <LogoIcon
-          className={classes.LogoAnimations}
+          className={classes.animate}
           colour={theme.colours.primary}
           size="24px"
         />
@@ -38,33 +38,35 @@ export const FullPageLoadingSpinner: React.FC = () => {
   );
 };
 
-export const useStyles = createUseStyles({
-  FullPageSpinner: {
-    inset: "0",
-    position: "fixed",
-    zIndex: "10",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#fff",
-  },
-  ComponentSpinner: {
-    height: "100%",
-    width: "100%",
-    zIndex: "10",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  "@keyframes spin": {
-    from: { transform: "rotate(0deg)" },
-    to: { transform: "rotate(360deg)" },
-  },
+export const useStyles = createUseStyles(
+  {
+    fullPage: {
+      inset: "0",
+      position: "fixed",
+      zIndex: "10",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    component: {
+      height: "100%",
+      width: "100%",
+      zIndex: "10",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    "@keyframes spin": {
+      from: { transform: "rotate(0deg)" },
+      to: { transform: "rotate(360deg)" },
+    },
 
-  LogoAnimations: {
-    animationName: "$spin",
-    animationDuration: "500ms",
-    animationIterationCount: "infinite",
-    animationTimingFunction: "linear",
+    animate: {
+      animationName: "$spin",
+      animationDuration: "500ms",
+      animationIterationCount: "infinite",
+      animationTimingFunction: "linear",
+    },
   },
-});
+  { name: "LoadingSpinner" }
+);

@@ -2,7 +2,7 @@ import { theme } from "../../theme";
 import { IconProps } from "../types";
 
 const LogoIcon: React.FC<IconProps> = ({
-  className = "logo-icon",
+  className,
   colour = theme.colours.offBlack,
   size = theme.icons.size,
 }) => {

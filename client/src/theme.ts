@@ -3,8 +3,9 @@ export type ThemeType = {
 
   colours: {
     primary: string;
-    danger: string;
+    primaryHover: string;
     success: string;
+    danger: string;
     grey1: string; // dark
     grey2: string; // mid
     grey3: string; // light
@@ -40,8 +41,12 @@ export type ThemeType = {
     lineHeight: string;
     lineHeightSmall: string;
     fontFamily: string;
-    fontWeight: string;
-    fontWeightBold: string;
+
+    fontWeights: {
+      light: string;
+      normal: string;
+      bold: string;
+    };
   };
 
   display: {
@@ -69,6 +74,7 @@ export const theme: ThemeType = {
   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   colours: {
     primary: "#00B6CE",
+    primaryHover: "#00A7BE",
     danger: "#DB524B",
     success: "#0CCA4A",
     grey1: "#B8B7B6", // dark
@@ -107,8 +113,12 @@ export const theme: ThemeType = {
     lineHeightSmall: "1.4",
 
     fontFamily: "DM Sans, sans-serif",
-    fontWeight: "400",
-    fontWeightBold: "700",
+
+    fontWeights: {
+      light: "300",
+      normal: "400",
+      bold: "700",
+    },
   },
 
   display: {

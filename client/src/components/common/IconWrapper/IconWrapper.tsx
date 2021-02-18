@@ -1,16 +1,15 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { ThemeType } from "../../../theme";
 
 interface IconWrapperProps {}
 
 const IconWrapper: React.FC<IconWrapperProps> = ({ children }) => {
   const classes = useStyles();
-  return <div className={classes.IconWrapper}>{children}</div>;
+  return <div className={classes.iconWrapper}>{children}</div>;
 };
 
 export const useStyles = createUseStyles({
-  IconWrapper: {
+  iconWrapper: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

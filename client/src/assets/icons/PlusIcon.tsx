@@ -1,27 +1,35 @@
-import React from 'react';
+import React from "react";
+import { ThemeType } from "../../theme";
+import { IconProps } from "../types";
+import { useStyles } from "../styles";
+import { useTheme } from "react-jss";
 
-export default function NumberedListIcon({
-  colour = 'var(--main-black)',
-  className = 'icon',
-  size = '16'
-}: {
-  className?: string;
-  colour?: string;
-  size?: string;
-}) {
+const PlusIcon: React.FC<IconProps> = ({
+  colour,
+  size,
+  rotate,
+  active = true,
+}) => {
+  const classes = useStyles({ rotate, active });
+  const theme: ThemeType = useTheme();
+  const iconSize = size ? size : theme.icons.size;
+  const iconColour = colour ? colour : theme.colours.offBlack;
+
   return (
     <svg
-      className={className}
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      className={classes.icon}
+      width={iconSize}
+      height={iconSize}
+      viewBox={`0 0 ${iconSize} ${iconSize}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M12.6654 8.66732H8.66536V12.6673H7.33203V8.66732H3.33203V7.33398H7.33203V3.33398H8.66536V7.33398H12.6654V8.66732Z"
-        fill={colour}
+        fill={iconColour}
       />
     </svg>
   );
-}
+};
+
+export default PlusIcon;

@@ -8,23 +8,25 @@ interface SpacerProps {
   shrink?: string;
 }
 
-const Spacer: React.FC<SpacerProps> = ({
-  width = "1px",
-  height = "1px",
-  grow = "0",
-  shrink = "1",
-}) => {
-  const useStyles = createUseStyles({
-    Spacer: {
-      width: width ? `${width}` : null,
-      height: height ? `${height}` : null,
-      flexGrow: grow ? `${grow}` : null,
-      flexShrink: shrink ? `${shrink}` : null,
-    },
-  });
+const Spacer: React.FC<SpacerProps> = ({ ...props }) => {
+  const classes = useStyles(props);
+  return <div className={classes.spacer}></div>;
+};
 
-  const classes = useStyles();
-  return <div className={classes.Spacer}></div>;
+const useStyles = createUseStyles({
+  spacer: (props) => ({
+    width: props.width,
+    height: props.height,
+    grow: props.grow,
+    shrink: props.shrink,
+  }),
+});
+
+Spacer.defaultProps = {
+  width: "1px",
+  height: "1px",
+  grow: "0",
+  shrink: "1",
 };
 
 export default Spacer;

@@ -1,12 +1,14 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
-import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
+import { DoubleChevronIcon, DropDownArrowIcon, PlusIcon } from "../../assets";
 import { ThemeType } from "../../theme";
 import Avatar from "../common/Avatar/Avatar";
 import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
 import Spacer from "../common/Spacer/Spacer";
 import VerticalFlexContainer from "../common/VerticalFlexContainer/VerticalFlexContainer";
 import Text from "../common/Text/Text";
+import IconWrapper from "../common/IconWrapper/IconWrapper";
+import { ROTATE } from "../../assets/types";
 
 interface SidebarProps {}
 
@@ -26,18 +28,35 @@ const Sidebar: React.FC<SidebarProps> = () => {
           justifyContent="space-between"
         >
           <HorizontalFlexContainer alignItems="center">
-            <Avatar>J</Avatar>
-            <Spacer width="8px" />
+            <IconWrapper>
+              <Avatar>J</Avatar>
+            </IconWrapper>
+            <Spacer width={theme.spacers.size8} />
             <Text>Jane Doe</Text>
-            <Spacer width="12px" />
-            <DropDownArrowIcon />
+            <Spacer width={theme.spacers.size12} />
+            <IconWrapper>
+              <DropDownArrowIcon />
+            </IconWrapper>
           </HorizontalFlexContainer>
           <DoubleChevronIcon />
         </HorizontalFlexContainer>
-        <VerticalFlexContainer>
-          <HorizontalFlexContainer></HorizontalFlexContainer>
-        </VerticalFlexContainer>
+        <HorizontalFlexContainer padding="8px 16px">
+          <Text fontColour={theme.colours.grey1}>Workspace</Text>
+        </HorizontalFlexContainer>
         <HorizontalFlexContainer></HorizontalFlexContainer>
+        <HorizontalFlexContainer
+          cursor="pointer"
+          alignItems="center"
+          height="40px"
+          padding="16px"
+        >
+          <IconWrapper>
+            <PlusIcon active={false} />
+          </IconWrapper>
+          <Spacer width={theme.spacers.size8} />
+          <Text fontSize={theme.typography.fontSizes.size14}>Add folder</Text>
+        </HorizontalFlexContainer>
+        <VerticalFlexContainer></VerticalFlexContainer>
       </VerticalFlexContainer>
     </nav>
   );
@@ -50,7 +69,7 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
     width: "250px",
     userSelect: "none",
     zIndex: "10",
-    position: "absolute",
+    position: "fixed",
     top: "0px",
     left: "0px",
     bottom: "0px",
