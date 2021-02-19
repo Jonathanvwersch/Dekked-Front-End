@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { PlusIcon } from "../../assets";
@@ -10,7 +9,7 @@ import Text from "../common/Text/Text";
 
 interface SidebarBottomProps {}
 
-const SidebarBottom: React.FC<SidebarBottomProps> = ({}) => {
+const SidebarBottom: React.FC<SidebarBottomProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles({ theme });
   return (
@@ -32,7 +31,7 @@ const SidebarBottom: React.FC<SidebarBottomProps> = ({}) => {
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarBottom: {
-    borderTop: `2px solid ${theme.colours.grey3};`,
+    borderTop: `1px solid ${theme.colours.grey3};`,
     width: "100%",
     height: "50px",
     cursor: "pointer",

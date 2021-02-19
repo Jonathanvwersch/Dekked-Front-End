@@ -1,21 +1,18 @@
-import React from "react";
 import { ThemeType } from "../../theme";
 import { IconProps } from "../types";
-import { useStyles } from "../styles";
 import { useTheme } from "react-jss";
 
-const PlusIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
-  const classes = useStyles({ rotate });
+const PlusIcon: React.FC<IconProps> = ({ colour, size }) => {
   const theme: ThemeType = useTheme();
   const iconSize = size ? size : theme.icons.size;
   const iconColour = colour ? colour : theme.colours.offBlack;
 
   return (
     <svg
-      className={classes.icon}
+      className="plus-icon"
       width={iconSize}
       height={iconSize}
-      viewBox={`0 0 ${iconSize} ${iconSize}`}
+      viewBox={`0 0 ${parseInt(iconSize)} ${parseInt(iconSize)}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

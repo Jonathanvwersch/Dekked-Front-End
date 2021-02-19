@@ -35,6 +35,7 @@ const useStyles = createUseStyles((theme) => ({
     cursor: props.cursor,
     backgroundColor: props.backgroundColour,
     overflow: props.overflow,
+    padding: props.padding,
   }),
 }));
 

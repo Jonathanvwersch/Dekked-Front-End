@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
@@ -11,7 +10,7 @@ import Text from "../common/Text/Text";
 
 interface SidebarTopProps {}
 
-const SidebarTop: React.FC<SidebarTopProps> = ({}) => {
+const SidebarTop: React.FC<SidebarTopProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles();
 
@@ -37,7 +36,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({}) => {
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarTop: {
-    borderBottom: `2px solid ${theme.colours.grey3};`,
+    borderBottom: `1px solid ${theme.colours.grey3};`,
     width: "100%",
   },
 }));

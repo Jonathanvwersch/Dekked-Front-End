@@ -15,7 +15,7 @@ const DropDownArrowIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
       className={classes.icon}
       width={iconSize}
       height={iconSize}
-      viewBox={`0 0 ${iconSize} ${iconSize}`}
+      viewBox={`0 0 ${parseInt(iconSize)} ${parseInt(iconSize)}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
