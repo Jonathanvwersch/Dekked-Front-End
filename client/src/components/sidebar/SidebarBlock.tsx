@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { DotsMenuIcon, DropDownArrowIcon, FolderIcon } from "../../assets";
 import { ROTATE } from "../../assets/types";
-import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
-import HoverCard from "../common/HoverCard/HoverCard";
-import IconActive from "../common/IconActive/IconActive";
-import IconWrapper from "../common/IconWrapper/IconWrapper";
-import Spacer from "../common/Spacer/Spacer";
-import Text from "../common/Text/Text";
+import {
+  HorizontalFlexContainer,
+  HoverCard,
+  IconActive,
+  IconWrapper,
+  Spacer,
+  Text,
+} from "../common";
 
 interface SidebarBlockProps {
   paddingLeft?: string;

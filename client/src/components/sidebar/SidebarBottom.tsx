@@ -2,11 +2,13 @@ import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { PlusIcon } from "../../assets";
 import { ThemeType } from "../../theme";
-import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
-import HoverCard from "../common/HoverCard/HoverCard";
-import IconWrapper from "../common/IconWrapper/IconWrapper";
-import Spacer from "../common/Spacer/Spacer";
-import Text from "../common/Text/Text";
+import {
+  HorizontalFlexContainer,
+  HoverCard,
+  IconWrapper,
+  Spacer,
+  Text,
+} from "../common";
 
 interface SidebarBottomProps {}
 

@@ -3,11 +3,13 @@ import { createUseStyles, useTheme } from "react-jss";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
 import { ROTATE } from "../../assets/types";
 import { ThemeType } from "../../theme";
-import Avatar from "../common/Avatar/Avatar";
-import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
-import IconActive from "../common/IconActive/IconActive";
-import Spacer from "../common/Spacer/Spacer";
-import Text from "../common/Text/Text";
+import {
+  Avatar,
+  HorizontalFlexContainer,
+  IconActive,
+  Spacer,
+  Text,
+} from "../common";
 
 interface SidebarTopProps {}
 

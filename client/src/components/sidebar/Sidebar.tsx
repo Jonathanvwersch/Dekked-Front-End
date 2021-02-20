@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../theme";
-import { ComponentLoadingSpinner } from "../common/LoadingSpinner/LoadingSpinner";
-import VerticalFlexContainer from "../common/VerticalFlexContainer/VerticalFlexContainer";
+import { ComponentLoadingSpinner, VerticalFlexContainer } from "../common";
 import SidebarBottom from "./SidebarBottom";
 import SidebarTop from "./SidebarTop";
 import SidebarWorkspace from "./SidebarWorkspace";

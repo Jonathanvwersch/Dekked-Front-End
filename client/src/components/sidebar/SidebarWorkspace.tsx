@@ -1,9 +1,12 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import { ThemeType } from "../../theme";
-import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
-import Text from "../common/Text/Text";
-import VerticalFlexContainer from "../common/VerticalFlexContainer/VerticalFlexContainer";
+import {
+  HorizontalFlexContainer,
+  VerticalFlexContainer,
+  Text,
+} from "../common";
+
 import SidebarBlock from "./SidebarBlock";
 
 interface SidebarWorkspaceProps {}
