@@ -16,7 +16,7 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
       <HorizontalFlexContainer padding="8px 16px">
         <Text fontColour={theme.colours.grey1}>Workspace</Text>
       </HorizontalFlexContainer>
-      <VerticalFlexContainer overflow="hidden auto" padding="0px 0px 60px 0px">
+      <VerticalFlexContainer overflow="hidden auto" height="calc(100% - 146px)">
         <SidebarBlock />
       </VerticalFlexContainer>
     </VerticalFlexContainer>

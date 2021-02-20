@@ -8,12 +8,14 @@ interface TextProps {
   fontColour?: string;
   fontFamily?: string;
   margin?: string;
+  overflowText?: boolean;
+  className?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <p className={classes.text}>{children}</p>;
+  return <p className={`${classes.text} ${props.className}`}>{children}</p>;
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({

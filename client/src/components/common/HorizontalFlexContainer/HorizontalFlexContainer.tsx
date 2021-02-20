@@ -18,11 +18,11 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <div className={classes.HorizontalFlexContainer}>{children}</div>;
+  return <div className={classes.hFlexContainer}>{children}</div>;
 };
 
 const useStyles = createUseStyles({
-  HorizontalFlexContainer: (props) => ({
+  hFlexContainer: (props) => ({
     display: "flex",
     boxSizing: "border-box",
     alignItems: props.alignItems,

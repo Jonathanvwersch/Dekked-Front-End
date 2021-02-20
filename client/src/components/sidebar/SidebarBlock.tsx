@@ -1,32 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
+import { createUseStyles } from "react-jss";
 import { DotsMenuIcon, DropDownArrowIcon, FolderIcon } from "../../assets";
+import { ROTATE } from "../../assets/types";
 import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
+import HoverCard from "../common/HoverCard/HoverCard";
 import IconActive from "../common/IconActive/IconActive";
 import IconWrapper from "../common/IconWrapper/IconWrapper";
 import Spacer from "../common/Spacer/Spacer";
 import Text from "../common/Text/Text";
 
-interface SidebarBlockProps {}
+interface SidebarBlockProps {
+  paddingLeft?: string;
+}
 
-const SidebarBlock: React.FC<SidebarBlockProps> = () => {
+const SidebarBlock: React.FC<SidebarBlockProps> = ({ paddingLeft }) => {
+  const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+
+  const handleDropDownClick = () => {
+    setExpanded((prevState) => !prevState);
+  };
+
   return (
-    <HorizontalFlexContainer justifyContent="space-between" padding="8px 16px">
-      <HorizontalFlexContainer padding="0px">
-        <IconActive>
-          <DropDownArrowIcon />
+    <HoverCard className={classes.sidebarBlock}>
+      <HorizontalFlexContainer
+        padding={`8px 8px 8px ${paddingLeft}`}
+        position="relative"
+      >
+        <IconActive handleClick={handleDropDownClick}>
+          <DropDownArrowIcon rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO} />
         </IconActive>
         <Spacer width="8px" />
         <IconWrapper>
           <FolderIcon />
         </IconWrapper>
         <Spacer width="8px" />
-        <Text>Welcome to Dekked</Text>
+        <Text className={classes.overflowText}>
+          Welcome to Dekkkkkedsfds gfdsg dfs gdsfg e
+        </Text>
+        <IconActive className={classes.menuIcon}>
+          <DotsMenuIcon />
+        </IconActive>
       </HorizontalFlexContainer>
-      <IconActive>
-        <DotsMenuIcon />
-      </IconActive>
-    </HorizontalFlexContainer>
+    </HoverCard>
   );
+};
+
+const useStyles = createUseStyles({
+  sidebarBlock: {
+    "&:hover": {
+      "& $menuIcon": {
+        opacity: "1",
+        visibility: "visible",
+        display: "flex",
+      },
+    },
+  },
+  overflowText: {
+    flex: "1 1 auto",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+
+    "&[contenteditable=true]": {
+      textOverflow: "clip",
+    },
+    "&:empty:before": {
+      content: '"Untitled"',
+    },
+  },
+  menuIcon: {
+    visibility: "hidden",
+    opacity: "0",
+    display: "none",
+    marginLeft: "2px",
+  },
+});
+
+SidebarBlock.defaultProps = {
+  paddingLeft: "16px",
 };
 
 export default SidebarBlock;

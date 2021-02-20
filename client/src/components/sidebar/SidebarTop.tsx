@@ -1,6 +1,7 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
+import { ROTATE } from "../../assets/types";
 import { ThemeType } from "../../theme";
 import Avatar from "../common/Avatar/Avatar";
 import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
@@ -23,7 +24,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
           <Text>Jane Doe</Text>
           <Spacer width={theme.spacers.size12} />
           <IconActive>
-            <DropDownArrowIcon />
+            <DropDownArrowIcon rotate={ROTATE.NINETY} />
           </IconActive>
         </HorizontalFlexContainer>
         <IconActive>

@@ -2,19 +2,32 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
 
-interface IconActiveProps {}
+interface IconActiveProps {
+  className?: string;
+  handleClick?: () => void;
+}
 
-const IconActive: React.FC<IconActiveProps> = ({ children }) => {
-  const classes = useStyles();
+const IconActive: React.FC<IconActiveProps> = ({
+  children,
+  handleClick,
+  ...props
+}) => {
+  const classes = useStyles({ ...props });
   return (
-    <button aria-label="icon" className={classes.iconActive}>
+    <button
+      aria-label="icon"
+      className={`${classes.iconActive} ${props.className}`}
+      onClick={handleClick}
+    >
       {children}
     </button>
   );
 };
 
 export const useStyles = createUseStyles((theme: ThemeType) => ({
-  iconActive: {
+  iconActive: (props) => ({
+    position: props.position,
+    right: props.right,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -38,7 +51,7 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
         },
       },
     },
-  },
+  }),
 }));
 
 export default IconActive;

@@ -20,7 +20,7 @@ const DropDownArrowIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M4.66797 6.66602L8.0013 9.99935L11.3346 6.66602H4.66797Z"
+        d="M6.66797 11.333L10.0013 7.99967L6.66797 4.66634V11.333Z"
         fill={iconColour}
       />
     </svg>

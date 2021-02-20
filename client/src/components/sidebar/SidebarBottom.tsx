@@ -3,6 +3,7 @@ import { createUseStyles, useTheme } from "react-jss";
 import { PlusIcon } from "../../assets";
 import { ThemeType } from "../../theme";
 import HorizontalFlexContainer from "../common/HorizontalFlexContainer/HorizontalFlexContainer";
+import HoverCard from "../common/HoverCard/HoverCard";
 import IconWrapper from "../common/IconWrapper/IconWrapper";
 import Spacer from "../common/Spacer/Spacer";
 import Text from "../common/Text/Text";
@@ -13,11 +14,7 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles({ theme });
   return (
-    <div
-      role="button"
-      aria-label="sidebar bottom"
-      className={classes.sidebarBottom}
-    >
+    <HoverCard className={classes.sidebarBottom}>
       <HorizontalFlexContainer height="100%">
         <IconWrapper>
           <PlusIcon />
@@ -25,16 +22,14 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
         <Spacer width={theme.spacers.size8} />
         <Text fontSize={theme.typography.fontSizes.size16}>Add folder</Text>
       </HorizontalFlexContainer>
-    </div>
+    </HoverCard>
   );
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarBottom: {
     borderTop: `1px solid ${theme.colours.grey3};`,
-    width: "100%",
     height: "50px",
-    cursor: "pointer",
     zIndex: "10",
     position: "absolute",
     bottom: "0",

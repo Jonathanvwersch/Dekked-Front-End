@@ -11,6 +11,7 @@ interface VerticalFlexContainerProps {
   cursor?: string;
   position?: string;
   overflow?: string;
+  className?: string;
 }
 
 const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
@@ -19,11 +20,19 @@ const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <div className={classes.VerticalFlexContainer}>{children}</div>;
+  return (
+    <div
+      className={`${classes.vFlexContainer} ${
+        props.className && props.className
+      }`}
+    >
+      {children}
+    </div>
+  );
 };
 
 const useStyles = createUseStyles((theme) => ({
-  VerticalFlexContainer: (props) => ({
+  vFlexContainer: (props) => ({
     display: "flex",
     flexDirection: "column",
     boxSizing: "border-box",

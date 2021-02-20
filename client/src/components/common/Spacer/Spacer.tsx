@@ -15,8 +15,8 @@ const Spacer: React.FC<SpacerProps> = ({ ...props }) => {
 
 const useStyles = createUseStyles({
   spacer: (props) => ({
-    width: props.width,
-    height: props.height,
+    minWidth: props.width,
+    minHeight: props.height,
     grow: props.grow,
     shrink: props.shrink,
   }),
