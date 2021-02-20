@@ -4,7 +4,7 @@ import { IconProps } from "../types";
 
 const StudySetIcon: React.FC<IconProps> = ({
   className = "studyset-icon",
-  colour = theme.colours.offBlack,
+  color = theme.colors.iconColor,
   size = theme.icons.size,
 }) => {
   return (
@@ -23,12 +23,12 @@ const StudySetIcon: React.FC<IconProps> = ({
           width="9.33667"
           height="12"
           rx="0.666667"
-          stroke={colour}
+          stroke={color}
           strokeWidth="1.33333"
         />
         <path
           d="M9.6665 0.666504H2.99984C2.26346 0.666504 1.6665 1.26346 1.6665 1.99984V9.6665"
-          stroke={colour}
+          stroke={color}
           strokeWidth="1.33333"
           strokeLinecap="round"
           strokeLinejoin="round"

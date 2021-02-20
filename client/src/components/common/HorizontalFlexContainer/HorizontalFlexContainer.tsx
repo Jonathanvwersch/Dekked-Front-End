@@ -3,13 +3,14 @@ import { createUseStyles, useTheme } from "react-jss";
 
 interface HorizontalFlexContainerProps {
   padding?: string;
-  backgroundColour?: string;
+  backgroundcolor?: string;
   alignItems?: string;
   justifyContent?: string;
   height?: string;
   width?: string;
   cursor?: string;
   position?: string;
+  className?: string;
 }
 
 const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
@@ -18,7 +19,11 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <div className={classes.hFlexContainer}>{children}</div>;
+  return (
+    <div className={`${classes.hFlexContainer} ${props.className}`}>
+      {children}
+    </div>
+  );
 };
 
 const useStyles = createUseStyles({
@@ -31,7 +36,7 @@ const useStyles = createUseStyles({
     height: props.height,
     width: props.width,
     cursor: props.cursor,
-    backgroundColor: props.backgroundColour,
+    backgroundColor: props.backgroundcolor,
     padding: props.padding,
   }),
 });

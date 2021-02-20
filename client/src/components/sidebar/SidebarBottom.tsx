@@ -15,6 +15,7 @@ interface SidebarBottomProps {}
 const SidebarBottom: React.FC<SidebarBottomProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles({ theme });
+
   return (
     <HoverCard className={classes.sidebarBottom}>
       <HorizontalFlexContainer height="100%">
@@ -30,20 +31,19 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarBottom: {
-    borderTop: `1px solid ${theme.colours.grey3};`,
+    borderTop: `1px solid ${theme.colors.grey3};`,
     height: "50px",
     zIndex: "10",
-    position: "absolute",
-    bottom: "0",
-    backgroundColor: `${theme.colours.beige}`,
+    marginTop: "auto",
+    backgroundColor: `${theme.colors.secondary}`,
     "&:hover": {
-      backgroundColor: `${theme.colours.hover.beigeHover}`,
+      filter: `${theme.colors.hover.filter}`,
     },
     "&:focus": {
-      backgroundColor: `${theme.colours.hover.beigeHover}`,
+      filter: `${theme.colors.active.filter}`,
     },
     "&:active": {
-      backgroundColor: `${theme.colours.beige}`,
+      filter: `${theme.colors.active.filter}`,
     },
   },
 }));

@@ -15,11 +15,11 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
   const theme: ThemeType = useTheme();
 
   return (
-    <VerticalFlexContainer>
+    <VerticalFlexContainer overflow="hidden auto">
       <HorizontalFlexContainer padding="8px 16px">
-        <Text fontColour={theme.colours.grey1}>Workspace</Text>
+        <Text fontcolor={theme.colors.grey1}>Workspace</Text>
       </HorizontalFlexContainer>
-      <VerticalFlexContainer overflow="hidden auto" height="calc(100% - 146px)">
+      <VerticalFlexContainer overflow="hidden auto">
         <SidebarBlock />
       </VerticalFlexContainer>
     </VerticalFlexContainer>

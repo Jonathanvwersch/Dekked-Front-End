@@ -4,6 +4,7 @@ import { LogoIcon } from "../../../assets";
 import { ThemeType } from "../../../theme";
 import IconWrapper from "../IconWrapper/IconWrapper";
 
+// Use whenever you want to add a loading spinner in place of a component
 export const ComponentLoadingSpinner: React.FC = () => {
   const classes = useStyles();
   const theme: ThemeType = useTheme();
@@ -13,7 +14,7 @@ export const ComponentLoadingSpinner: React.FC = () => {
       <IconWrapper>
         <LogoIcon
           className={classes.animate}
-          colour={theme.colours.primary}
+          color={theme.colors.primary}
           size="24px"
         />
       </IconWrapper>
@@ -21,6 +22,7 @@ export const ComponentLoadingSpinner: React.FC = () => {
   );
 };
 
+// Use whenever you want to add a full page loading spinner e.g. on initial page load
 export const FullPageLoadingSpinner: React.FC = () => {
   const classes = useStyles();
   const theme: ThemeType = useTheme();
@@ -30,7 +32,7 @@ export const FullPageLoadingSpinner: React.FC = () => {
       <IconWrapper>
         <LogoIcon
           className={classes.animate}
-          colour={theme.colours.primary}
+          color={theme.colors.primary}
           size="24px"
         />
       </IconWrapper>

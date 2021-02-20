@@ -5,7 +5,7 @@ import { ThemeType } from "../../../theme";
 interface TextProps {
   fontSize?: string;
   fontWeight?: string;
-  fontColour?: string;
+  fontcolor?: string;
   fontFamily?: string;
   margin?: string;
   overflowText?: boolean;
@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
   text: (props) => ({
     fontSize: props.fontSize || `${theme.typography.fontSizes.size12}`,
     fontWeight: props.fontWeight || `${theme.typography.fontWeights.normal}`,
-    color: props.fontColour || `${theme.colours.offBlack}`,
+    color: props.fontcolor || `${theme.colors.fontColor}`,
     fontFamily: `${theme.typography.fontFamily}`,
     margin: props.margin,
   }),

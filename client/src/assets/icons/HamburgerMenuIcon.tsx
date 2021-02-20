@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function HamburgerMenuIcon({
-  colour = 'var(--main-black)',
-  className = 'icon',
-  size = '16'
+  color = "var(--main-black)",
+  className = "icon",
+  size = "16",
 }: {
-  colour?: string;
+  color?: string;
   className?: string;
   size?: string;
 }) {
@@ -20,7 +20,7 @@ export default function HamburgerMenuIcon({
     >
       <path
         d="M2 12H14V10.6667H2V12ZM2 8.66667H14V7.33333H2V8.66667ZM2 4V5.33333H14V4H2Z"
-        fill={colour}
+        fill={color}
       />
     </svg>
   );

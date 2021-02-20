@@ -4,8 +4,8 @@ import { ThemeType } from "../../../theme";
 
 interface AvatarProps {
   diameter?: string;
-  backgroundColour?: string;
-  fontColour?: string;
+  backgroundcolor?: string;
+  fontcolor?: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ children, ...props }) => {
@@ -24,14 +24,14 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
     fontWeight: `${theme.typography.fontWeights.bold}`,
     height: props.diameter,
     width: props.diameter,
-    backgroundColor: props.backgroundColour || `${theme.colours.primary}`,
-    color: props.fontColour,
+    backgroundColor: props.backgroundcolor || `${theme.colors.primary}`,
+    color: props.fontcolor,
   }),
 }));
 
 Avatar.defaultProps = {
   diameter: "32px",
-  fontColour: "white",
+  fontcolor: "white",
 };
 
 export default Avatar;

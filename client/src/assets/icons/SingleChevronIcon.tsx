@@ -1,11 +1,11 @@
 import React from "react";
 
 export default function SingleChevronIcon({
-  colour = "var(--main-black)",
+  color = "var(--main-black)",
   className = "icon",
   size = "16",
 }: {
-  colour?: string;
+  color?: string;
   className?: string;
   size?: string;
 }) {
@@ -20,7 +20,7 @@ export default function SingleChevronIcon({
     >
       <path
         d="M5.72656 11.06L8.7799 8L5.72656 4.94L6.66656 4L10.6666 8L6.66656 12L5.72656 11.06Z"
-        fill={colour}
+        fill={color}
       />
     </svg>
   );

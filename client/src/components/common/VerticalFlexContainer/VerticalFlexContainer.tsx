@@ -3,7 +3,7 @@ import { createUseStyles, useTheme } from "react-jss";
 
 interface VerticalFlexContainerProps {
   padding?: string;
-  backgroundColour?: string;
+  backgroundcolor?: string;
   alignItems?: string;
   justifyContent?: string;
   height?: string;
@@ -12,6 +12,7 @@ interface VerticalFlexContainerProps {
   position?: string;
   overflow?: string;
   className?: string;
+  flexGrow?: string;
 }
 
 const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
@@ -36,13 +37,14 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     boxSizing: "border-box",
+    flexGrow: props.flexGrow,
     alignItems: props.alignItems,
     justifyContent: props.justifyContent,
     position: props.position,
     height: props.height,
     width: props.width,
     cursor: props.cursor,
-    backgroundColor: props.backgroundColour,
+    backgroundColor: props.backgroundcolor,
     overflow: props.overflow,
     padding: props.padding,
   }),
@@ -50,7 +52,6 @@ const useStyles = createUseStyles((theme) => ({
 
 VerticalFlexContainer.defaultProps = {
   alignItems: "center",
-  height: "100%",
   width: "100%",
 };
 

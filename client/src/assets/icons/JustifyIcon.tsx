@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function JustifyIcon({
-  colour = 'var(--main-black)',
-  className = 'icon',
-  size = '16'
+  color = "var(--main-black)",
+  className = "icon",
+  size = "16",
 }: {
-  colour?: string;
+  color?: string;
   className?: string;
   size?: string;
 }) {
@@ -20,7 +20,7 @@ export default function JustifyIcon({
     >
       <path
         d="M2 2H14V3.33333H2V2ZM2 7.33333H14V8.66667H2V7.33333ZM2 12.6667H14V14H2V12.6667ZM2 10H14V11.3333H2V10ZM2 4.66667H14V6H2V4.66667Z"
-        fill={colour}
+        fill={color}
       />
     </svg>
   );

@@ -15,6 +15,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
   useEffect(() => {
     setLoading(false);
   }, [loading]);
+
   return (
     <VerticalFlexContainer className={classes.sidebar}>
       {!loading ? (
@@ -41,8 +42,8 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
     bottom: "0px",
     height: "100%",
     maxHeight: "100%",
-    borderRight: `1px solid ${theme.colours.grey3}`,
-    backgroundColor: `${theme.colours.beige}`,
+    borderRight: `1px solid ${theme.colors.grey3}`,
+    backgroundColor: `${theme.colors.secondary}`,
   },
 }));
 

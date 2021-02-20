@@ -26,7 +26,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ paddingLeft }) => {
   return (
     <HoverCard className={classes.sidebarBlock}>
       <HorizontalFlexContainer
-        padding={`8px 8px 8px ${paddingLeft}`}
+        padding={`8px 12px 8px ${paddingLeft}`}
         position="relative"
       >
         <IconActive handleClick={handleDropDownClick}>

@@ -18,29 +18,29 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.sidebarTop}>
-      <HorizontalFlexContainer justifyContent="space-between">
-        <HorizontalFlexContainer padding="0px">
-          <Avatar>J</Avatar>
-          <Spacer width={theme.spacers.size8} />
-          <Text>Jane Doe</Text>
-          <Spacer width={theme.spacers.size12} />
-          <IconActive>
-            <DropDownArrowIcon rotate={ROTATE.NINETY} />
-          </IconActive>
-        </HorizontalFlexContainer>
+    <HorizontalFlexContainer
+      className={classes.sidebarTop}
+      justifyContent="space-between"
+    >
+      <HorizontalFlexContainer padding="0px">
+        <Avatar>J</Avatar>
+        <Spacer width={theme.spacers.size8} />
+        <Text>Jane Doe</Text>
+        <Spacer width={theme.spacers.size12} />
         <IconActive>
-          <DoubleChevronIcon />
+          <DropDownArrowIcon rotate={ROTATE.NINETY} />
         </IconActive>
       </HorizontalFlexContainer>
-    </div>
+      <IconActive>
+        <DoubleChevronIcon />
+      </IconActive>
+    </HorizontalFlexContainer>
   );
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarTop: {
-    borderBottom: `1px solid ${theme.colours.grey3};`,
-    width: "100%",
+    borderBottom: `1px solid ${theme.colors.grey3};`,
   },
 }));
 

@@ -4,11 +4,11 @@ import { IconProps } from "../types";
 import { useStyles } from "../styles";
 import { useTheme } from "react-jss";
 
-const DropDownArrowIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
+const DropDownArrowIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
   const classes = useStyles({ rotate });
   const theme: ThemeType = useTheme();
   const iconSize = size ? size : theme.icons.size;
-  const iconColour = colour ? colour : theme.colours.offBlack;
+  const iconcolor = color ? color : theme.colors.iconColor;
 
   return (
     <svg
@@ -21,7 +21,7 @@ const DropDownArrowIcon: React.FC<IconProps> = ({ colour, size, rotate }) => {
     >
       <path
         d="M6.66797 11.333L10.0013 7.99967L6.66797 4.66634V11.333Z"
-        fill={iconColour}
+        fill={iconcolor}
       />
     </svg>
   );

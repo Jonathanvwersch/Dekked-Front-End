@@ -27,7 +27,7 @@ export { default as LeftAlignIcon } from "./icons/LeftAlignIcon";
 export { default as MoveIcon } from "./icons/MoveIcon";
 export { default as NumberedListIcon } from "./icons/NumberedListIcon";
 export { default as PlusIcon } from "./icons/PlusIcon";
-export { default as ReColourIcon } from "./icons/ReColourIcon";
+export { default as ReColorIcon } from "./icons/ReColorIcon";
 export { default as RestoreIcon } from "./icons/RestoreIcon";
 export { default as ReturnIcon } from "./icons/ReturnIcon";
 export { default as RightAlignIcon } from "./icons/RightAlignIcon";

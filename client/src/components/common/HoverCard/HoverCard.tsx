@@ -1,3 +1,4 @@
+// Wrapper component for whenever you want to add a hover and active state to another component
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
@@ -8,6 +9,7 @@ interface HoverCardProps {
   width?: string;
   height?: string;
   className?: string;
+  backgroundColor?: string;
   handleClick?: () => void;
 }
 
@@ -17,7 +19,6 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
     <div
       className={`${classes.hoverCard} ${props.className}`}
       role="button"
-      aria-label="block"
       tab-index="0"
       onClick={props.handleClick}
     >
@@ -29,19 +30,18 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
 const useStyles = createUseStyles((theme: ThemeType) => ({
   hoverCard: (props) => ({
     width: props.width,
+    backgroundColor: props.backgroundColor
+      ? props.backgroundColor
+      : `${theme.colors.secondary}`,
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: `${
-        props.hover ? props.hover : theme.colours.hover.beigeHover
-      }`,
+      filter: `${theme.colors.hover.filter}`,
     },
     "&:focus": {
-      backgroundColor: `${
-        props.hover ? props.hover : theme.colours.hover.beigeHover
-      }`,
+      filter: `${theme.colors.hover.filter}`,
     },
     "&:active": {
-      backgroundColor: `${props.hover ? props.hover : theme.colours.beige}`,
+      filter: `${theme.colors.active.filter}`,
     },
   }),
 }));

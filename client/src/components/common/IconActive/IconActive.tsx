@@ -1,3 +1,5 @@
+// Wrapper component for making an icon into a button with a hover and active state
+
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
@@ -41,14 +43,12 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
     "& svg": {
       "&:hover": {
         "& path": {
-          fill: `${theme.colours.hover.primaryHover}`,
+          fill: `${theme.colors.primary}`,
         },
       },
 
       "&:active": {
-        "& path": {
-          fill: `${theme.colours.offBlack}!important`,
-        },
+        filter: `${theme.colors.hover.filter}`,
       },
     },
   }),
