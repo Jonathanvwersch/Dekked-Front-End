@@ -1,11 +1,13 @@
 import React from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-
+import { FileTreeContextProvider } from "./services/file-structure/FileTreeContext";
 export const App: React.FC = () => {
   return (
-    <div className="app">
-      <Sidebar />
-    </div>
+    <FileTreeContextProvider>
+      <div className="app">
+        <Sidebar />
+      </div>
+    </FileTreeContextProvider>
   );
 };
 
