@@ -8,3 +8,5 @@ export { FullPageLoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export { default as Spacer } from "./Spacer/Spacer";
 export { default as Text } from "./Text/Text";
 export { default as VerticalFlexContainer } from "./VerticalFlexContainer/VerticalFlexContainer";
+export { default as ShadowCard } from "./ShadowCard/ShadowCard";
+export { default as Overlay } from "./Overlay/Overlay";

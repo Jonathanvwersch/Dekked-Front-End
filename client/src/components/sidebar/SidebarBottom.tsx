@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { PlusIcon } from "../../assets";
 import { ThemeType } from "../../theme";
@@ -9,15 +9,25 @@ import {
   Spacer,
   Text,
 } from "../common";
+import {
+  FileTreeContext,
+  FILETREE_TYPES,
+} from "../../contexts/FileTreeContext";
 
 interface SidebarBottomProps {}
 
 const SidebarBottom: React.FC<SidebarBottomProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles({ theme });
+  const { handleAddingAsset } = useContext(FileTreeContext);
 
   return (
-    <HoverCard className={classes.sidebarBottom}>
+    <HoverCard
+      className={classes.sidebarBottom}
+      handleClick={() => {
+        handleAddingAsset(FILETREE_TYPES.FOLDER);
+      }}
+    >
       <HorizontalFlexContainer height="100%">
         <IconWrapper>
           <PlusIcon />
