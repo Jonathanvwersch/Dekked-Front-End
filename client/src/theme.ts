@@ -9,9 +9,13 @@ export type ThemeType = {
     grey1: string; // dark
     grey2: string; // mid
     grey3: string; // light
-    studyModeBackground: string;
     iconColor: string;
     fontColor: string;
+    backgrounds: {
+      studyModeBackground: string;
+      modalBackground: string;
+      lightbox: string;
+    };
     hover: {
       filter: string;
     };
@@ -82,7 +86,11 @@ export const theme: ThemeType = {
     grey1: "#B8B7B6", // dark
     grey2: "#DAD9D7", // mid
     grey3: "#EAEAEA", // light
-    studyModeBackground: "#F7F8FA",
+    backgrounds: {
+      studyModeBackground: "#F7F8FA",
+      modalBackground: "#FFF",
+      lightbox: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+    },
     hover: {
       filter: "brightness(95%)",
     },

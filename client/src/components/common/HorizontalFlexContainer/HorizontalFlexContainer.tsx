@@ -18,11 +18,9 @@ const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
   ...props
 }) => {
   const theme = useTheme();
-  const classes = useStyles({ theme, ...props });
+  const { hFlexContainer } = useStyles({ theme, ...props });
   return (
-    <div className={`${classes.hFlexContainer} ${props.className}`}>
-      {children}
-    </div>
+    <div className={`${hFlexContainer} ${props.className}`}>{children}</div>
   );
 };
 

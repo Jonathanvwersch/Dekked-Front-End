@@ -5,7 +5,7 @@ import { ThemeType } from "../../../theme";
 interface TextProps {
   fontSize?: string;
   fontWeight?: string;
-  fontcolor?: string;
+  fontColor?: string;
   fontFamily?: string;
   margin?: string;
   overflowText?: boolean;
@@ -15,14 +15,14 @@ interface TextProps {
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <p className={`${classes.text} ${props.className}`}>{children}</p>;
+  return <div className={`${classes.text} ${props.className}`}>{children}</div>;
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   text: (props) => ({
     fontSize: props.fontSize || `${theme.typography.fontSizes.size12}`,
     fontWeight: props.fontWeight || `${theme.typography.fontWeights.normal}`,
-    color: props.fontcolor || `${theme.colors.fontColor}`,
+    color: props.fontColor || `${theme.colors.fontColor}`,
     fontFamily: `${theme.typography.fontFamily}`,
     margin: props.margin,
   }),
