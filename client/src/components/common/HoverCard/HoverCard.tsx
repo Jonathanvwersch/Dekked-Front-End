@@ -34,6 +34,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
       ? props.backgroundColor
       : `${theme.colors.secondary}`,
     cursor: "pointer",
+    userSelect: "none",
     "&:hover": {
       filter: `${theme.colors.hover.filter}`,
     },

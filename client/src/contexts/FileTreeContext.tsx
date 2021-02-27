@@ -79,12 +79,12 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     fullFileTreeUpdate();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(fileTree);
-  //   console.log(folders);
-  //   console.log(studyPacks);
-  //   console.log(binders);
-  // }, [fileTree, folders, studyPacks, binders]);
+  useEffect(() => {
+    console.log(fileTree);
+    console.log(folders);
+    console.log(binders);
+    console.log(studyPacks);
+  }, [fileTree, folders, studyPacks, binders]);
 
   return (
     <FileTreeContext.Provider

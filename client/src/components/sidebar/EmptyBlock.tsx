@@ -1,0 +1,36 @@
+import React from "react";
+import { useTheme } from "react-jss";
+import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
+import { ThemeType } from "../../theme";
+import { HorizontalFlexContainer, HoverCard, Text } from "../common";
+
+interface SidebarBlockProps {
+  type: string;
+}
+
+const SidebarBlock: React.FC<SidebarBlockProps> = ({ type }) => {
+  const theme: ThemeType = useTheme();
+  const paddingLeft =
+    type === FILETREE_TYPES.FOLDER
+      ? "40px"
+      : type === FILETREE_TYPES.BINDER
+      ? "48px"
+      : null;
+
+  const message =
+    type === FILETREE_TYPES.FOLDER
+      ? "No binders inside"
+      : type === FILETREE_TYPES.BINDER
+      ? "No study sets inside"
+      : null;
+
+  return (
+    <HoverCard>
+      <HorizontalFlexContainer padding={`8px 12px 8px ${paddingLeft}`}>
+        <Text fontColor={theme.colors.grey1}>{message}</Text>
+      </HorizontalFlexContainer>
+    </HoverCard>
+  );
+};
+
+export default SidebarBlock;

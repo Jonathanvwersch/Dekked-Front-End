@@ -19,14 +19,14 @@ const StudySetIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0)">
+      <g clipPath="url(#clip0)">
         <rect
           x="3.66667"
           y="2.66667"
           width="9.33667"
           height="12"
           rx="0.666667"
-          stroke={color}
+          stroke={iconColor}
           strokeWidth="1.33333"
         />
         <path

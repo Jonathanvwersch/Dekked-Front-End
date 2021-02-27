@@ -2,8 +2,8 @@
 
 interface FileTreeInterface {
   [instance_id: string]: {
-    type: FILETREE_TYPES;
-    children: FileTree;
+    type: string;
+    children: FileTreeInterface;
   };
 }
 

@@ -24,9 +24,14 @@ import SidebarBlockModal from "./SidebarBlockModal";
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
   type: string;
+  openBlock?: () => void;
 }
 
-const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
+const SidebarBlock: React.FC<SidebarBlockProps> = ({
+  blockData,
+  type,
+  openBlock,
+}) => {
   const classes = useStyles();
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -61,21 +66,19 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
 
   const handleExpandBlock = () => {
     setExpanded((prevState) => !prevState);
+    openBlock && openBlock();
   };
 
   return blockData ? (
     <>
       <HoverCard className={classes.sidebarBlock}>
-        <HorizontalFlexContainer
-          padding={`8px 12px 8px ${paddingLeft}`}
-          position="relative"
-        >
+        <HorizontalFlexContainer padding={`8px 12px 8px ${paddingLeft}`}>
           <IconActive handleClick={handleExpandBlock}>
             <DropDownArrowIcon
               rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
             />
           </IconActive>
-          <Spacer width="8px" />
+          <Spacer width="8pxa" />
           <IconWrapper>{iconType(type)}</IconWrapper>
           <Spacer width="8px" />
           <Text className={classes.overflowText}>{blockData.name}</Text>
@@ -92,7 +95,11 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
         handleState={() => setBlockModal(false)}
         coords={coords}
       >
-        <SidebarBlockModal type={type} id={blockData.owner_id} />
+        <SidebarBlockModal
+          handleBlockModal={() => setBlockModal(false)}
+          type={type}
+          id={blockData.id}
+        />
       </Overlay>
     </>
   ) : null;
