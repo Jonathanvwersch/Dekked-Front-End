@@ -11,10 +11,7 @@ import {
   Text,
   Overlay,
 } from "../common";
-import { NavLink } from "react-router-dom";
-import { ThemeType } from "../../theme";
-import SidebarWorkspaceModal from "./SidebarWorkspaceModal";
-import { FileTreeContext } from "../../contexts/FileTreeContext";
+import SidebarBlockModal from "./SidebarBlockModal";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
@@ -23,14 +20,14 @@ interface SidebarBlockProps {
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const classes = useStyles();
-  const [modal, setModal] = useState(false);
-  // const theme: ThemeType = useTheme();
-  const [expanded, setExpanded] = useState(false);
-
-  const handleDropDownClick = () => {
-    setExpanded((prevState) => !prevState);
-  };
-
+  const [modal, setModal] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [coords, setCoords] = useState<{
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  }>();
   const paddingLeft =
     type === "folder"
       ? "16px"
@@ -40,21 +37,47 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       ? "32px"
       : null;
 
+  const getMousePosition = (e: MouseEvent) => {
+    const event = e.target as HTMLElement; // Necessary conversion so typescript doesnt complain about MouseEvent type
+    const rect = event.getBoundingClientRect();
+    const distanceToTop = rect.y; // Distance from mouse click to top of window
+    const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
+    const distanceToLeft = rect.x + rect.width / 2; // Distance from mouse click to left of window
+    const distanceToRight = window.innerWidth - distanceToLeft; // Distance from mouse click to right of window
+    return {
+      top: distanceToTop,
+      right: distanceToRight,
+      bottom: distanceToBottom,
+      left: distanceToLeft,
+    };
+  };
+
+  const positionModals = (e: MouseEvent, componentHeight: number) => {
+    const { top, bottom, left } = getMousePosition(e);
+    let newCoordinate;
+
+    if (componentHeight && bottom - componentHeight < componentHeight) {
+      newCoordinate = { bottom: bottom };
+    } else {
+      newCoordinate = { top: top };
+    }
+    return { ...newCoordinate, left: left };
+  };
+
+  const handleModal = (e: MouseEvent) => {
+    setModal(true);
+    const blockModalHeight = 128;
+    setCoords(positionModals(e, blockModalHeight));
+  };
+
   return blockData ? (
-    /* <NavLink
-        to={`/${blockData.id}`}
-        activeStyle={{
-          fontWeight: "bold",
-          filter: `${theme.colors.hover.filter}`,
-        }}
-      > */
     <>
       <HoverCard className={classes.sidebarBlock}>
         <HorizontalFlexContainer
           padding={`8px 12px 8px ${paddingLeft}`}
           position="relative"
         >
-          <IconActive handleClick={handleDropDownClick}>
+          <IconActive>
             <DropDownArrowIcon
               rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
             />
@@ -65,25 +88,20 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
           </IconWrapper>
           <Spacer width="8px" />
           <Text className={classes.overflowText}>{blockData.name}</Text>
-          <IconActive
-            className={classes.menuIcon}
-            handleClick={() => setModal(true)}
-          >
+          <IconActive className={classes.menuIcon} handleClick={handleModal}>
             <DotsMenuIcon />
           </IconActive>
         </HorizontalFlexContainer>
       </HoverCard>
-      <Overlay state={modal} handleState={() => setModal(false)}>
-        <SidebarWorkspaceModal
-          handleModal={() => setModal(false)}
-          type={type}
-          id={blockData.owner_id}
-        />
+      <Overlay
+        state={modal}
+        handleState={() => setModal(false)}
+        coords={coords}
+      >
+        <SidebarBlockModal type={type} id={blockData.owner_id} />
       </Overlay>
     </>
-  ) : /* </NavLink> */
-
-  null;
+  ) : null;
 };
 
 const useStyles = createUseStyles({

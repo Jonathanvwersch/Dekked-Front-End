@@ -2,20 +2,20 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
 
-interface ShadowCardProps {
+interface ModalProps {
   borderRadius?: string;
   height?: string;
   width?: string;
   className?: string;
 }
 
-const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
-  const { shadowCard } = useStyles({ ...props });
-  return <div className={`${shadowCard} ${props.className}`}>{children}</div>;
+const Modal: React.FC<ModalProps> = ({ children, ...props }) => {
+  const { modal } = useStyles({ ...props });
+  return <div className={`${modal} ${props.className}`}>{children}</div>;
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
-  shadowCard: (props) => ({
+  modal: (props) => ({
     boxShadow: `${theme.boxShadow}`,
     borderRadius: props.borderRadius
       ? props.borderRadius
@@ -25,6 +25,4 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
   }),
 }));
 
-ShadowCard.defaultProps = { width: "100%" };
-
-export default ShadowCard;
+export default Modal;

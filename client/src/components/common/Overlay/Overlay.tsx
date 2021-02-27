@@ -1,47 +1,57 @@
 /* Overlay container used to render all popovers and modals */
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { createUseStyles } from "react-jss";
 import { CloseIcon } from "../../../assets";
 import { ThemeType } from "../../../theme";
 import IconActive from "../IconActive/IconActive";
 
-interface Props {
+interface OverlayProps {
   children: JSX.Element;
   state: boolean;
   handleState: () => void;
   lightbox?: boolean;
   center?: boolean;
   close?: boolean | null;
+  coords?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
 }
 
-const Portal: React.FC<Props> = ({
-  children,
-  state,
-  handleState,
-  lightbox = false, // Set state of lightbox
-  center = false, // Center child item on portal
-  close = false, // Show close icon in top right of child item
-}) => {
-  const classes = useStyles();
+const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
+  const classes = useStyles({ ...props });
+
+  const handleEscape = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") props.handleState();
+    },
+    [props]
+  );
 
   useEffect(() => {
-    document.addEventListener("keydown", (e: KeyboardEvent) => handleState);
-  }, [handleState]);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [handleEscape]);
 
   return createPortal(
-    state ? (
-      <div className={center ? classes.centeredOverlay : classes.overlay}>
+    props.state ? (
+      <div className={props.center ? classes.centeredOverlay : classes.overlay}>
         <div
           className={`${classes.modalContainer} ${
-            lightbox && classes.lightbox
+            props.lightbox && classes.lightbox
           }`}
-          onClick={handleState}
+          onClick={props.handleState}
         ></div>
-        <div className={close ? classes.closeModal : classes.modal}>
+        <div className={props.close ? classes.closeModal : classes.modal}>
           {children}
-          {close ? (
-            <IconActive className={classes.closeIcon} handleClick={handleState}>
+          {props.close ? (
+            <IconActive
+              className={classes.closeIcon}
+              handleClick={props.handleState}
+            >
               <CloseIcon />
             </IconActive>
           ) : null}
@@ -77,9 +87,10 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
     width: "100vw",
     height: "100vh",
   },
-  modal: {
+  modal: (props) => ({
+    ...props.coords,
     position: "fixed",
-  },
+  }),
   closeModal: {
     position: "relative",
   },
@@ -91,4 +102,4 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
   },
 }));
 
-export default Portal;
+export default Overlay;
