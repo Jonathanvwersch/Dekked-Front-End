@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { createUseStyles, useTheme } from "react-jss";
+import React, { useState } from "react";
+import { createUseStyles } from "react-jss";
 import { DotsMenuIcon, DropDownArrowIcon, FolderIcon } from "../../assets";
 import { ROTATE } from "../../assets/types";
 import {
@@ -11,6 +11,7 @@ import {
   Text,
   Overlay,
 } from "../common";
+import { positionModals } from "./Sidebar.helpers";
 import SidebarBlockModal from "./SidebarBlockModal";
 
 interface SidebarBlockProps {
@@ -36,33 +37,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       : type === "study_pack"
       ? "32px"
       : null;
-
-  const getMousePosition = (e: MouseEvent) => {
-    const event = e.target as HTMLElement; // Necessary conversion so typescript doesnt complain about MouseEvent type
-    const rect = event.getBoundingClientRect();
-    const distanceToTop = rect.y; // Distance from mouse click to top of window
-    const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
-    const distanceToLeft = rect.x + rect.width / 2; // Distance from mouse click to left of window
-    const distanceToRight = window.innerWidth - distanceToLeft; // Distance from mouse click to right of window
-    return {
-      top: distanceToTop,
-      right: distanceToRight,
-      bottom: distanceToBottom,
-      left: distanceToLeft,
-    };
-  };
-
-  const positionModals = (e: MouseEvent, componentHeight: number) => {
-    const { top, bottom, left } = getMousePosition(e);
-    let newCoordinate;
-
-    if (componentHeight && bottom - componentHeight < componentHeight) {
-      newCoordinate = { bottom: bottom };
-    } else {
-      newCoordinate = { top: top };
-    }
-    return { ...newCoordinate, left: left };
-  };
 
   const handleModal = (e: MouseEvent) => {
     setModal(true);
