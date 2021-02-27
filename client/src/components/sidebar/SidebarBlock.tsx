@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
-import { DotsMenuIcon, DropDownArrowIcon, FolderIcon } from "../../assets";
+import {
+  BinderIcon,
+  DotsMenuIcon,
+  DropDownArrowIcon,
+  FolderIcon,
+  StudySetIcon,
+} from "../../assets";
 import { ROTATE } from "../../assets/types";
+import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 import {
   HorizontalFlexContainer,
   HoverCard,
@@ -21,7 +28,7 @@ interface SidebarBlockProps {
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const classes = useStyles();
-  const [modal, setModal] = useState<boolean>(false);
+  const [blockModal, setBlockModal] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);
   const [coords, setCoords] = useState<{
     top?: number;
@@ -30,18 +37,30 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     left?: number;
   }>();
   const paddingLeft =
-    type === "folder"
+    type === FILETREE_TYPES.FOLDER
       ? "16px"
-      : type === "binder"
+      : type === FILETREE_TYPES.BINDER
       ? "24px"
-      : type === "study_pack"
+      : type === FILETREE_TYPES.STUDY_SET
       ? "32px"
       : null;
 
-  const handleModal = (e: MouseEvent) => {
-    setModal(true);
+  const iconType = (type: string) => {
+    if (type === FILETREE_TYPES.FOLDER)
+      return <FolderIcon color={blockData?.color} />;
+    else if (type === FILETREE_TYPES.BINDER)
+      return <BinderIcon color={blockData?.color} />;
+    else return <StudySetIcon color={blockData?.color} />;
+  };
+
+  const handleBlockModal = (e: MouseEvent) => {
+    setBlockModal(true);
     const blockModalHeight = 128;
     setCoords(positionModals(e, blockModalHeight));
+  };
+
+  const handleExpandBlock = () => {
+    setExpanded((prevState) => !prevState);
   };
 
   return blockData ? (
@@ -51,25 +70,26 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
           padding={`8px 12px 8px ${paddingLeft}`}
           position="relative"
         >
-          <IconActive>
+          <IconActive handleClick={handleExpandBlock}>
             <DropDownArrowIcon
               rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
             />
           </IconActive>
           <Spacer width="8px" />
-          <IconWrapper>
-            <FolderIcon color={blockData.color} />
-          </IconWrapper>
+          <IconWrapper>{iconType(type)}</IconWrapper>
           <Spacer width="8px" />
           <Text className={classes.overflowText}>{blockData.name}</Text>
-          <IconActive className={classes.menuIcon} handleClick={handleModal}>
+          <IconActive
+            className={classes.menuIcon}
+            handleClick={handleBlockModal}
+          >
             <DotsMenuIcon />
           </IconActive>
         </HorizontalFlexContainer>
       </HoverCard>
       <Overlay
-        state={modal}
-        handleState={() => setModal(false)}
+        state={blockModal}
+        handleState={() => setBlockModal(false)}
         coords={coords}
       >
         <SidebarBlockModal type={type} id={blockData.owner_id} />

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
+import { SidebarContext } from "../../contexts";
 import { ThemeType } from "../../theme";
 import { ComponentLoadingSpinner, VerticalFlexContainer } from "../common";
 import SidebarBottom from "./SidebarBottom";
@@ -11,12 +12,13 @@ interface SidebarProps {}
 const Sidebar: React.FC<SidebarProps> = () => {
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
+  const { sidebar } = useContext(SidebarContext);
 
   useEffect(() => {
     setLoading(false);
   }, [loading]);
 
-  return (
+  return sidebar ? (
     <VerticalFlexContainer className={classes.sidebar}>
       {!loading ? (
         <>
@@ -28,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <ComponentLoadingSpinner />
       )}
     </VerticalFlexContainer>
-  );
+  ) : null;
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({

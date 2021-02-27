@@ -12,7 +12,7 @@ export enum FILETREE_TYPES {
   STUDY_SET = "study_pack",
 }
 
-export const FileTreeContext = createContext<{
+interface FileTreeContextTypes {
   // updateFileTree: () => Promise<void>;
   handleAddingAsset: (type: string, parent_id?: string) => void;
   getAsset: (
@@ -20,7 +20,9 @@ export const FileTreeContext = createContext<{
     asset_id: string
   ) => FolderInterface | BinderInterface | StudyPackInterface | undefined;
   fileTree: FileTreeInterface;
-}>({
+}
+
+export const FileTreeContext = createContext<FileTreeContextTypes>({
   // updateFileTree: async () => {},
   handleAddingAsset: () => {},
   fileTree: {},
@@ -77,12 +79,12 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     fullFileTreeUpdate();
   }, []);
 
-  useEffect(() => {
-    // console.log(fileTree);
-    // console.log(folders);
-    // console.log(studyPacks);
-    // console.log(binders);
-  }, [fileTree, folders, studyPacks, binders]);
+  // useEffect(() => {
+  //   console.log(fileTree);
+  //   console.log(folders);
+  //   console.log(studyPacks);
+  //   console.log(binders);
+  // }, [fileTree, folders, studyPacks, binders]);
 
   return (
     <FileTreeContext.Provider

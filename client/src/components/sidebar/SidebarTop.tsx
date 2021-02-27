@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
 import { ROTATE } from "../../assets/types";
+import { SidebarContext } from "../../contexts";
 import { ThemeType } from "../../theme";
 import {
   Avatar,
@@ -16,6 +17,7 @@ interface SidebarTopProps {}
 const SidebarTop: React.FC<SidebarTopProps> = () => {
   const theme: ThemeType = useTheme();
   const classes = useStyles();
+  const { handleSidebar } = useContext(SidebarContext);
 
   return (
     <HorizontalFlexContainer
@@ -31,7 +33,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
           <DropDownArrowIcon rotate={ROTATE.NINETY} />
         </IconActive>
       </HorizontalFlexContainer>
-      <IconActive>
+      <IconActive handleClick={handleSidebar}>
         <DoubleChevronIcon />
       </IconActive>
     </HorizontalFlexContainer>
