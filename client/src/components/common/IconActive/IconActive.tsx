@@ -6,7 +6,7 @@ import { ThemeType } from "../../../theme";
 
 interface IconActiveProps {
   className?: string;
-  handleClick?: () => void;
+  handleClick?: Function;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -19,7 +19,9 @@ const IconActive: React.FC<IconActiveProps> = ({
     <button
       aria-label="icon"
       className={`${classes.iconActive} ${props.className}`}
-      onClick={handleClick}
+      onClick={(event: any) => {
+        handleClick && handleClick(event);
+      }}
     >
       {children}
     </button>

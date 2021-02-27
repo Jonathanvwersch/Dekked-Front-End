@@ -15,8 +15,6 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
   const theme: ThemeType = useTheme();
   const fileTreeContext = useContext(FileTreeContext);
 
-  console.log(fileTreeContext);
-
   return (
     <VerticalFlexContainer overflow="hidden auto">
       <HorizontalFlexContainer padding="8px 16px">
