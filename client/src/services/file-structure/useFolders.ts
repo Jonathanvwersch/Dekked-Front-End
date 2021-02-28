@@ -47,13 +47,47 @@ export function useFolders() {
 
       if (response.ok) {
         const json = await response.json();
+        console.log(json);
         if (json.success) {
-          const newFolder: FolderInterface = json.data;
+          getFolders();
+          return;
+        }
+      }
+      throw Error("There was an error adding folders");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-          const foldersCopy = { ...folders };
-          foldersCopy[newFolder.id] = newFolder;
-
-          setFolders(foldersCopy);
+  async function updateFolder(
+    folder_id: string,
+    {
+      name,
+      color,
+    }: {
+      name?: string;
+      color?: string;
+    }
+  ) {
+    try {
+      const uri = config.api + "/folder";
+      const response = await fetch(uri, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          folder_id,
+          color,
+          name,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+        if (json.success) {
+          getFolders();
           return;
         }
       }
@@ -68,5 +102,6 @@ export function useFolders() {
     addFolder,
     folderIsError: isError,
     folders,
+    updateFolder,
   };
 }

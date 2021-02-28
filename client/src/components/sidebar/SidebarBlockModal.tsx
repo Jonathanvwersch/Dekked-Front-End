@@ -31,7 +31,7 @@ interface SidebarBlockModalProps {
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const theme: ThemeType = useTheme();
-  const { handleAddingAsset } = useContext(FileTreeContext);
+  const { handleAddingAsset, updateAsset } = useContext(FileTreeContext);
   const modalData =
     props.type === FILETREE_TYPES.FOLDER
       ? FolderData
@@ -51,10 +51,12 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   };
 
   const handleRename = () => {
+    updateAsset(props.type, props.id, { name: "Whatever" });
     props.handleBlockModal();
   };
   const handleRecolor = () => {
     props.handleBlockModal();
+    updateAsset(props.type, props.id, { color: "blue" });
   };
 
   const handleClick = (type: string) => {

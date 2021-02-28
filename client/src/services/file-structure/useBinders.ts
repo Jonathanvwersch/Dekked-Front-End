@@ -50,15 +50,49 @@ export function useBinders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          const newBinder: BinderInterface = json.data;
-
-          const bindersCopy = { ...binders };
-          bindersCopy[newBinder.id] = newBinder;
-          setBinders(bindersCopy);
+          getBinders();
           return;
         }
       }
       throw Error("There was an error updating binders");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateBinder(
+    binder_id: string,
+    {
+      name,
+      color,
+    }: {
+      name?: string;
+      color?: string;
+    }
+  ) {
+    try {
+      const uri = config.api + "/binder";
+      const response = await fetch(uri, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          binder_id,
+          color,
+          name,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+        if (json.success) {
+          getBinders();
+          return;
+        }
+      }
+      throw Error("There was an error updating folders");
     } catch (error) {
       console.log(error);
     }
@@ -69,5 +103,6 @@ export function useBinders() {
     addBinder,
     bindersIsError: isError,
     binders,
+    updateBinder,
   };
 }

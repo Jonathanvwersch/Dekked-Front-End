@@ -20,20 +20,33 @@ interface FileTreeContextTypes {
     asset_id: string
   ) => FolderInterface | BinderInterface | StudyPackInterface | undefined;
   fileTree: FileTreeInterface;
+  updateAsset: (
+    type: string,
+    asset_id: string,
+    update_data: {
+      color?: string;
+      name?: string;
+    }
+  ) => void;
 }
 
 export const FileTreeContext = createContext<FileTreeContextTypes>({
-  // updateFileTree: async () => {},
   handleAddingAsset: () => {},
   fileTree: {},
   getAsset: (type, asset_id) => undefined,
+  updateAsset: (type, asset_id, update_data) => {},
 });
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
   const { getFileTree, fileTree } = useFileTree();
-  const { getFolders, addFolder, folders } = useFolders();
-  const { getStudyPacks, addStudyPack, studyPacks } = useStudyPacks();
-  const { getBinders, addBinder, binders } = useBinders();
+  const { getFolders, addFolder, folders, updateFolder } = useFolders();
+  const {
+    getStudyPacks,
+    addStudyPack,
+    studyPacks,
+    updateStudyPack,
+  } = useStudyPacks();
+  const { getBinders, addBinder, binders, updateBinder } = useBinders();
   const theme: ThemeType = useTheme();
 
   const handleAddingAsset = (type: string, parent_id?: string) => {
@@ -68,23 +81,43 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     }
   };
 
+  const updateAsset = (
+    type: string,
+    asset_id: string,
+    update_data: {
+      color?: string;
+      name?: string;
+    }
+  ) => {
+    switch (type) {
+      case FILETREE_TYPES.FOLDER:
+        return updateFolder(asset_id, update_data);
+      case FILETREE_TYPES.BINDER:
+        return updateBinder(asset_id, update_data);
+      case FILETREE_TYPES.STUDY_SET:
+        return updateStudyPack(asset_id, update_data);
+      // case FILETREE_TYPES.BINDER:
+      //   return binders[asset_id];
+      // case FILETREE_TYPES.STUDY_SET:
+      //   return studyPacks[asset_id];
+      default:
+        break;
+    }
+  };
+
   const fullFileTreeUpdate = () => {
     getFileTree();
     getFolders();
     getStudyPacks();
     getBinders();
   };
-
   useEffect(() => {
     fullFileTreeUpdate();
   }, []);
 
   useEffect(() => {
-    console.log(fileTree);
-    console.log(folders);
-    console.log(binders);
-    console.log(studyPacks);
-  }, [fileTree, folders, studyPacks, binders]);
+    getFileTree();
+  }, [folders, studyPacks, binders]);
 
   return (
     <FileTreeContext.Provider
@@ -93,6 +126,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         handleAddingAsset,
         fileTree,
         getAsset,
+        updateAsset,
       }}
     >
       {children}

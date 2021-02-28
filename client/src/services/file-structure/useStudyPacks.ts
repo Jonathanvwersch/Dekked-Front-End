@@ -32,11 +32,13 @@ export function useStudyPacks() {
 
   async function addStudyPack(name: string, color: string, binder_id: string) {
     try {
+      console.log({ binder_id, name, color });
       const uri = config.api + "/study-pack";
       const response = await fetch(uri, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
         },
         body: JSON.stringify({
           color,
@@ -48,14 +50,49 @@ export function useStudyPacks() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          const newStudyPack: StudyPackInterface = json.data;
-          const studyPacksCopy = { ...studyPacks };
-          studyPacksCopy[newStudyPack.id] = newStudyPack;
-          setStudyPacks(studyPacksCopy);
+          getStudyPacks();
           return;
         }
       }
       throw Error("There was an error updating folders");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateStudyPack(
+    study_pack_id: string,
+    {
+      name,
+      color,
+    }: {
+      name?: string;
+      color?: string;
+    }
+  ) {
+    try {
+      const uri = config.api + "/study-pack";
+      const response = await fetch(uri, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          study_pack_id,
+          color,
+          name,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+        if (json.success) {
+          getStudyPacks();
+          return;
+        }
+      }
+      throw Error("There was an error updating study packs");
     } catch (error) {
       console.log(error);
     }
@@ -66,5 +103,6 @@ export function useStudyPacks() {
     addStudyPack,
     studyPacksIsError: isError,
     studyPacks,
+    updateStudyPack,
   };
 }
