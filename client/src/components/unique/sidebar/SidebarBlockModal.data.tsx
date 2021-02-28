@@ -5,7 +5,7 @@ import {
   EditIcon,
   DeleteIcon,
   StudySetIcon,
-} from "../../assets";
+} from "../../../assets";
 
 // declare global variables
 const ADDBINDER: string = "Add binder";

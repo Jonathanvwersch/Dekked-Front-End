@@ -1,14 +1,6 @@
-import React, { useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useTheme } from "react-jss";
-import {
-  HorizontalFlexContainer,
-  HoverCard,
-  IconWrapper,
-  ShadowCard,
-  Spacer,
-  Text,
-} from "../common";
-import { ThemeType } from "../../theme";
+
 import {
   ADD,
   BinderData,
@@ -21,12 +13,23 @@ import {
 import {
   FileTreeContext,
   FILETREE_TYPES,
-} from "../../contexts/FileTreeContext";
+} from "../../../contexts/FileTreeContext";
+import {
+  HoverCard,
+  IconWrapper,
+  ShadowCard,
+  Spacer,
+  HFlex,
+  Text,
+} from "../../common";
+import { ThemeType } from "../../../theme";
 
 interface SidebarBlockModalProps {
   type: string;
   id: string;
   handleBlockModal: () => void;
+  handleEditableText: Dispatch<SetStateAction<boolean>>;
+  handleOpenFolder?: () => void;
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
@@ -41,9 +44,10 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
 
   const handleAddItem = () => {
     props.handleBlockModal();
-    props.type === FILETREE_TYPES.FOLDER
-      ? handleAddingAsset(FILETREE_TYPES.BINDER, props.id)
-      : handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);
+    if (props.type === FILETREE_TYPES.FOLDER) {
+      handleAddingAsset(FILETREE_TYPES.BINDER, props.id);
+      props.handleOpenFolder && props.handleOpenFolder();
+    } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);
   };
 
   const handleDelete = () => {
@@ -51,9 +55,11 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   };
 
   const handleRename = () => {
+    props.handleEditableText(true);
     updateAsset(props.type, props.id, { name: "Whatever" });
     props.handleBlockModal();
   };
+
   const handleRecolor = () => {
     props.handleBlockModal();
     updateAsset(props.type, props.id, { color: "blue" });
@@ -75,11 +81,11 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
             key={`SidebarBlockModal ${index}`}
             handleClick={() => handleClick(item.type)}
           >
-            <HorizontalFlexContainer padding="8px 16px">
+            <HFlex padding="8px 16px">
               <IconWrapper>{item.icon}</IconWrapper>
               <Spacer width={theme.spacers.size8} />
               <Text>{item.action}</Text>
-            </HorizontalFlexContainer>
+            </HFlex>
           </HoverCard>
         );
       })}

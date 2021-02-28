@@ -1,7 +1,7 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 
-interface VerticalFlexContainerProps {
+interface VFlexProps {
   padding?: string;
   backgroundcolor?: string;
   alignItems?: string;
@@ -15,28 +15,20 @@ interface VerticalFlexContainerProps {
   flexGrow?: string;
 }
 
-const VerticalFlexContainer: React.FC<VerticalFlexContainerProps> = ({
-  children,
-  ...props
-}) => {
+const VFlex: React.FC<VFlexProps> = ({ children, ...props }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
   return (
-    <div
-      className={`${classes.vFlexContainer} ${
-        props.className && props.className
-      }`}
-    >
+    <div className={`${classes.vFlex} ${props.className && props.className}`}>
       {children}
     </div>
   );
 };
 
-const useStyles = createUseStyles((theme) => ({
-  vFlexContainer: (props) => ({
+const useStyles = createUseStyles({
+  vFlex: (props) => ({
     display: "flex",
     flexDirection: "column",
-    boxSizing: "border-box",
     flexGrow: props.flexGrow,
     alignItems: props.alignItems,
     justifyContent: props.justifyContent,
@@ -48,11 +40,11 @@ const useStyles = createUseStyles((theme) => ({
     overflow: props.overflow,
     padding: props.padding,
   }),
-}));
+});
 
-VerticalFlexContainer.defaultProps = {
+VFlex.defaultProps = {
   alignItems: "center",
   width: "100%",
 };
 
-export default VerticalFlexContainer;
+export default VFlex;

@@ -1,8 +1,8 @@
 import React from "react";
 import { useTheme } from "react-jss";
-import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
-import { ThemeType } from "../../theme";
-import { HorizontalFlexContainer, HoverCard, Text } from "../common";
+import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
+import { ThemeType } from "../../../theme";
+import { HFlex, Text } from "../../common";
 
 interface SidebarBlockProps {
   type: string;
@@ -25,11 +25,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ type }) => {
       : null;
 
   return (
-    <HoverCard>
-      <HorizontalFlexContainer padding={`8px 12px 8px ${paddingLeft}`}>
-        <Text fontColor={theme.colors.grey1}>{message}</Text>
-      </HorizontalFlexContainer>
-    </HoverCard>
+    <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
+      <Text fontColor={theme.colors.grey1}>{message}</Text>
+    </HFlex>
   );
 };
 

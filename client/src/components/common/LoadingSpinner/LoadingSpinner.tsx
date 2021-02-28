@@ -51,8 +51,7 @@ export const useStyles = createUseStyles(
       alignItems: "center",
     },
     component: {
-      height: "100%",
-      width: "100%",
+      flexGrow: "1",
       zIndex: "10",
       display: "flex",
       justifyContent: "center",

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState } from "react";
-import { FileTreeContext } from "../../contexts/FileTreeContext";
-import { VerticalFlexContainer } from "../common";
+import { FileTreeContext } from "../../../contexts/FileTreeContext";
+import { VFlex } from "../../common";
 import EmptyBlock from "./EmptyBlock";
 import SidebarBlock from "./SidebarBlock";
 
@@ -12,14 +12,13 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const { getAsset } = useContext(FileTreeContext);
   const fileId = Object.keys(file)[0];
   const [folderOpen, setFolderOpen] = useState<boolean>(false);
-  const [binderOpen, setBinderOpen] = useState<boolean>(false);
 
   return (
-    <VerticalFlexContainer>
+    <>
       <SidebarBlock
         blockData={getAsset(file[fileId].type, fileId)}
         type={file[fileId].type}
-        openBlock={() => setFolderOpen((prevState) => !prevState)}
+        setFolderOpen={setFolderOpen}
       />
       {folderOpen ? (
         Object.keys(file[fileId].children).length > 0 ? (
@@ -28,27 +27,22 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
               <SidebarBlock
                 blockData={getAsset(binder[1].type, binder[0])}
                 type={binder[1].type}
-                openBlock={() => setBinderOpen((prevState) => !prevState)}
               />
-              {binderOpen ? (
-                Object.entries(binder[1].children).length > 0 ? (
-                  Object.entries(binder[1].children).map((studyPack) => (
+              {Object.entries(binder[1].children).length > 0
+                ? Object.entries(binder[1].children).map((studySet) => (
                     <SidebarBlock
-                      blockData={getAsset(studyPack[1].type, studyPack[0])}
-                      type={studyPack[1].type}
+                      blockData={getAsset(studySet[1].type, studySet[0])}
+                      type={studySet[1].type}
                     />
                   ))
-                ) : (
-                  <EmptyBlock type={binder[1].type} />
-                )
-              ) : null}
+                : null}
             </Fragment>
           ))
         ) : (
           <EmptyBlock type={file[fileId].type} />
         )
       ) : null}
-    </VerticalFlexContainer>
+    </>
   );
 };
 

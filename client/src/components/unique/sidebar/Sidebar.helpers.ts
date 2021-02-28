@@ -14,7 +14,7 @@ export const getMousePosition = (e: MouseEvent) => {
   };
 };
 
-// Function used to position modals depending on positio of button click used to open modal
+// Function used to position modals depending on position of button click used to open modal and the height of the component
 export const positionModals = (e: MouseEvent, componentHeight: number) => {
   const { top, bottom, left } = getMousePosition(e);
   let newCoordinate;

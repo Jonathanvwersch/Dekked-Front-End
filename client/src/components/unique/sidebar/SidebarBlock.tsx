@@ -1,40 +1,46 @@
-import React, { useState } from "react";
-import { createUseStyles } from "react-jss";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { createUseStyles, useTheme } from "react-jss";
 import {
   BinderIcon,
   DotsMenuIcon,
   DropDownArrowIcon,
   FolderIcon,
   StudySetIcon,
-} from "../../assets";
-import { ROTATE } from "../../assets/types";
-import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
+} from "../../../assets";
+import { ROTATE } from "../../../assets/types";
+import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
 import {
-  HorizontalFlexContainer,
+  HFlex,
   HoverCard,
   IconActive,
   IconWrapper,
-  Spacer,
-  Text,
   Overlay,
-} from "../common";
+  Spacer,
+} from "../../common";
+import { NavLink } from "react-router-dom";
+
 import { positionModals } from "./Sidebar.helpers";
 import SidebarBlockModal from "./SidebarBlockModal";
+import { ThemeType } from "../../../theme";
+import EditableText from "./EditableText";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
   type: string;
-  openBlock?: () => void;
+  setFolderOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({
   blockData,
   type,
-  openBlock,
+  setFolderOpen,
 }) => {
   const classes = useStyles();
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [editableText, setEditableText] = useState<boolean>(false);
+  const theme: ThemeType = useTheme();
+
   const [coords, setCoords] = useState<{
     top?: number;
     right?: number;
@@ -47,7 +53,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       : type === FILETREE_TYPES.BINDER
       ? "24px"
       : type === FILETREE_TYPES.STUDY_SET
-      ? "32px"
+      ? "48px"
       : null;
 
   const iconType = (type: string) => {
@@ -59,36 +65,58 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   };
 
   const handleBlockModal = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setBlockModal(true);
+    // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
     const blockModalHeight = 128;
     setCoords(positionModals(e, blockModalHeight));
   };
 
   const handleExpandBlock = () => {
     setExpanded((prevState) => !prevState);
-    openBlock && openBlock();
+    if (type === FILETREE_TYPES.FOLDER)
+      setFolderOpen && setFolderOpen((prevState) => !prevState);
+  };
+
+  const handleFolderOpen = () => {
+    setExpanded(true);
+    setFolderOpen && setFolderOpen(true);
   };
 
   return blockData ? (
-    <>
+    <NavLink
+      to={`/${type}/${blockData.id}`}
+      activeStyle={{
+        filter: `${theme.colors.active.filter}`,
+        fontWeight: "bold",
+      }}
+    >
       <HoverCard className={classes.sidebarBlock}>
-        <HorizontalFlexContainer padding={`8px 12px 8px ${paddingLeft}`}>
-          <IconActive handleClick={handleExpandBlock}>
-            <DropDownArrowIcon
-              rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
-            />
-          </IconActive>
+        <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
+          {type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER ? (
+            <IconActive handleClick={handleExpandBlock}>
+              <DropDownArrowIcon
+                rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
+              />
+            </IconActive>
+          ) : null}
           <Spacer width="8pxa" />
           <IconWrapper>{iconType(type)}</IconWrapper>
           <Spacer width="8px" />
-          <Text className={classes.overflowText}>{blockData.name}</Text>
+          <EditableText
+            className={classes.overflowText}
+            editableText={editableText}
+          >
+            {blockData.name}
+          </EditableText>
           <IconActive
             className={classes.menuIcon}
             handleClick={handleBlockModal}
           >
             <DotsMenuIcon />
           </IconActive>
-        </HorizontalFlexContainer>
+        </HFlex>
       </HoverCard>
       <Overlay
         state={blockModal}
@@ -99,9 +127,11 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           handleBlockModal={() => setBlockModal(false)}
           type={type}
           id={blockData.id}
+          handleOpenFolder={handleFolderOpen}
+          handleEditableText={setEditableText}
         />
       </Overlay>
-    </>
+    </NavLink>
   ) : null;
 };
 
@@ -117,10 +147,6 @@ const useStyles = createUseStyles({
   },
   overflowText: {
     flex: "1 1 auto",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-
     "&[contenteditable=true]": {
       textOverflow: "clip",
     },

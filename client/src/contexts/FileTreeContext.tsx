@@ -111,6 +111,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     getStudyPacks();
     getBinders();
   };
+
   useEffect(() => {
     fullFileTreeUpdate();
   }, []);

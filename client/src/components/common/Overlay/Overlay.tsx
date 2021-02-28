@@ -43,7 +43,10 @@ const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
           className={`${classes.modalContainer} ${
             props.lightbox && classes.lightbox
           }`}
-          onClick={props.handleState}
+          onClick={(e) => {
+            e.preventDefault();
+            props.handleState();
+          }}
         ></div>
         <div className={props.close ? classes.closeModal : classes.modal}>
           {children}

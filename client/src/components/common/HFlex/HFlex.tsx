@@ -1,7 +1,7 @@
 import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 
-interface HorizontalFlexContainerProps {
+interface HFlexProps {
   padding?: string;
   backgroundcolor?: string;
   alignItems?: string;
@@ -13,21 +13,15 @@ interface HorizontalFlexContainerProps {
   className?: string;
 }
 
-const HorizontalFlexContainer: React.FC<HorizontalFlexContainerProps> = ({
-  children,
-  ...props
-}) => {
+const HFlex: React.FC<HFlexProps> = ({ children, ...props }) => {
   const theme = useTheme();
-  const { hFlexContainer } = useStyles({ theme, ...props });
-  return (
-    <div className={`${hFlexContainer} ${props.className}`}>{children}</div>
-  );
+  const { hFlex } = useStyles({ theme, ...props });
+  return <div className={`${hFlex} ${props.className}`}>{children}</div>;
 };
 
 const useStyles = createUseStyles({
-  hFlexContainer: (props) => ({
+  hFlex: (props) => ({
     display: "flex",
-    boxSizing: "border-box",
     alignItems: props.alignItems,
     justifyContent: props.justifyContent,
     position: props.position,
@@ -39,10 +33,10 @@ const useStyles = createUseStyles({
   }),
 });
 
-HorizontalFlexContainer.defaultProps = {
+HFlex.defaultProps = {
   alignItems: "center",
   width: "100%",
   padding: "16px",
 };
 
-export default HorizontalFlexContainer;
+export default HFlex;

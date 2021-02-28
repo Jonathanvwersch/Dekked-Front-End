@@ -47,7 +47,6 @@ export function useFolders() {
 
       if (response.ok) {
         const json = await response.json();
-        console.log(json);
         if (json.success) {
           getFolders();
           return;
@@ -85,7 +84,6 @@ export function useFolders() {
       });
       if (response.ok) {
         const json = await response.json();
-        console.log(json);
         if (json.success) {
           getFolders();
           return;

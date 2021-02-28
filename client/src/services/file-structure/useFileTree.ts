@@ -3,7 +3,6 @@ import { config } from "../../config";
 export function useFileTree() {
   const [fileTree, setFileTree] = useState<FileTreeInterface>({});
   const getFileTree = async () => {
-    console.log("UPDATING FILE TREE!");
     const uri = config.api + "/file-tree";
     const response = await fetch(uri, {
       headers: {

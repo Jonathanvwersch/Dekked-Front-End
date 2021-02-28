@@ -1,18 +1,12 @@
 import React, { useContext } from "react";
 import { createUseStyles, useTheme } from "react-jss";
-import { PlusIcon } from "../../assets";
-import { ThemeType } from "../../theme";
-import {
-  HorizontalFlexContainer,
-  HoverCard,
-  IconWrapper,
-  Spacer,
-  Text,
-} from "../common";
+import { PlusIcon } from "../../../assets";
+import { ThemeType } from "../../../theme";
+import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import {
   FileTreeContext,
   FILETREE_TYPES,
-} from "../../contexts/FileTreeContext";
+} from "../../../contexts/FileTreeContext";
 
 interface SidebarBottomProps {}
 
@@ -28,13 +22,13 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
         handleAddingAsset(FILETREE_TYPES.FOLDER);
       }}
     >
-      <HorizontalFlexContainer height="100%">
+      <HFlex height="100%">
         <IconWrapper>
-          <PlusIcon />
+          <PlusIcon size="20px" />
         </IconWrapper>
         <Spacer width={theme.spacers.size8} />
         <Text fontSize={theme.typography.fontSizes.size16}>Add folder</Text>
-      </HorizontalFlexContainer>
+      </HFlex>
     </HoverCard>
   );
 };

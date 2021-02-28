@@ -15,6 +15,7 @@ export type ThemeType = {
       studyModeBackground: string;
       modalBackground: string;
       lightbox: string;
+      pageBackground: string;
     };
     hover: {
       filter: string;
@@ -90,6 +91,7 @@ export const theme: ThemeType = {
       studyModeBackground: "#F7F8FA",
       modalBackground: "#FFF",
       lightbox: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+      pageBackground: "#FFF",
     },
     hover: {
       filter: "brightness(95%)",

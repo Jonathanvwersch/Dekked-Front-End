@@ -1,27 +1,29 @@
 import React from "react";
+import { useTheme } from "react-jss";
+import { ThemeType } from "../../theme";
+import { useStyles } from "../styles";
+import { IconProps } from "../types";
 
-export default function HamburgerMenuIcon({
-  color = "var(--main-black)",
-  className = "icon",
-  size = "16",
-}: {
-  color?: string;
-  className?: string;
-  size?: string;
-}) {
+const HamburgerMenuIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
+  const classes = useStyles({ rotate });
+  const theme: ThemeType = useTheme();
+  const iconSize = size ? size : theme.icons.size;
+  const iconColor = color ? color : theme.colors.iconColor;
   return (
     <svg
-      className={className}
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      className={classes.icon}
+      width={iconSize}
+      height={iconSize}
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M2 12H14V10.6667H2V12ZM2 8.66667H14V7.33333H2V8.66667ZM2 4V5.33333H14V4H2Z"
-        fill={color}
+        fill={iconColor}
       />
     </svg>
   );
-}
+};
+
+export default HamburgerMenuIcon;

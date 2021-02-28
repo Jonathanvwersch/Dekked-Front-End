@@ -10,22 +10,35 @@ interface TextProps {
   margin?: string;
   overflowText?: boolean;
   className?: string;
+  editableText?: boolean;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   const theme = useTheme();
   const classes = useStyles({ theme, ...props });
-  return <div className={`${classes.text} ${props.className}`}>{children}</div>;
+  const className = props.overflowText
+    ? `${classes.text} ${classes.overflow} ${props.className}`
+    : `${classes.text} ${props.className}`;
+  return (
+    <div contentEditable={props.editableText} className={className}>
+      {children}
+    </div>
+  );
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({
   text: (props) => ({
     fontSize: props.fontSize || `${theme.typography.fontSizes.size12}`,
-    fontWeight: props.fontWeight || `${theme.typography.fontWeights.normal}`,
+    fontWeight: props.fontWeight,
     color: props.fontColor || `${theme.colors.fontColor}`,
-    fontFamily: `${theme.typography.fontFamily}`,
+    fontFamily: props.fontFamily,
     margin: props.margin,
   }),
+  overflow: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  },
 }));
 
 Text.defaultProps = {

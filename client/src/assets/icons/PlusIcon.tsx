@@ -12,7 +12,7 @@ const PlusIcon: React.FC<IconProps> = ({ color, size }) => {
       className="plus-icon"
       width={iconSize}
       height={iconSize}
-      viewBox={`0 0 ${parseInt(iconSize)} ${parseInt(iconSize)}`}
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
