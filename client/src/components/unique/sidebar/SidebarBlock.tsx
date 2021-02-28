@@ -65,7 +65,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   };
 
   const handleBlockModal = (e: MouseEvent) => {
-    e.stopPropagation();
     e.preventDefault();
     setBlockModal(true);
     // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
