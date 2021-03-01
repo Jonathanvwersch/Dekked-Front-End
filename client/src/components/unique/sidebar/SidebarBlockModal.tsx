@@ -61,8 +61,6 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
     setTimeout(function () {
       props.editableTextRef.current?.focus();
     }, 50);
-    console.log(props.editableTextRef);
-    updateAsset(props.type, props.id, { name: "Whatever" });
   };
 
   const handleRecolor = () => {

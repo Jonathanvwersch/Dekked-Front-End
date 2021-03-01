@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState } from "react";
 import { FileTreeContext } from "../../../contexts/FileTreeContext";
-import EmptyBlock from "./EmptyBlock";
+import SidebarEmptyBlock from "./SidebarEmptyBlock";
 import SidebarBlock from "./SidebarBlock";
 
 interface SidebarFileTreeProps {
@@ -38,7 +38,7 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
             </Fragment>
           ))
         ) : (
-          <EmptyBlock type={file[fileId].type} />
+          <SidebarEmptyBlock type={file[fileId].type} />
         )
       ) : null}
     </>

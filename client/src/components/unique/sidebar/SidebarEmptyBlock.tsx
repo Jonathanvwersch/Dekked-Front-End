@@ -4,11 +4,11 @@ import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
 import { ThemeType } from "../../../theme";
 import { HFlex, Text } from "../../common";
 
-interface SidebarBlockProps {
+interface SidebarEmptyBlockProps {
   type: string;
 }
 
-const SidebarBlock: React.FC<SidebarBlockProps> = ({ type }) => {
+const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
   const theme: ThemeType = useTheme();
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
@@ -31,4 +31,4 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ type }) => {
   );
 };
 
-export default SidebarBlock;
+export default SidebarEmptyBlock;

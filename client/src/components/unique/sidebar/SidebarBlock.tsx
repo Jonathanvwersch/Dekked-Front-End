@@ -22,7 +22,7 @@ import { NavLink } from "react-router-dom";
 import { positionModals } from "./Sidebar.helpers";
 import SidebarBlockModal from "./SidebarBlockModal";
 import { ThemeType } from "../../../theme";
-import EditableText from "./EditableText";
+import SidebarEditableText from "./SidebarEditableText";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
@@ -106,13 +106,15 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           <Spacer width="8px" />
           <IconWrapper>{iconType(type)}</IconWrapper>
           <Spacer width="8px" />
-          <EditableText
-            className={classes.overflowText}
+          <SidebarEditableText
             editableText={editableText}
             editableTextRef={editableTextRef}
+            setEditableText={setEditableText}
+            blockId={blockData.id}
+            blockType={type}
           >
             {blockData.name}
-          </EditableText>
+          </SidebarEditableText>
           <IconActive
             className={classes.menuIcon}
             handleClick={handleBlockModal}
@@ -149,15 +151,7 @@ const useStyles = createUseStyles({
       },
     },
   },
-  overflowText: {
-    flex: "1 1 auto",
-    "&[contenteditable=true]": {
-      textOverflow: "clip",
-    },
-    "&:empty:before": {
-      content: '"Untitled"',
-    },
-  },
+
   menuIcon: {
     visibility: "hidden",
     opacity: "0",
