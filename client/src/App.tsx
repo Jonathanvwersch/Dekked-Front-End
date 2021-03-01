@@ -32,6 +32,9 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
       margin: "0",
       boxSizing: "border-box",
       fontFamily: `${theme.typography.fontFamily}`,
+      "&:focus": {
+        outline: "0",
+      },
     },
 
     "*::-webkit-scrollbar": {

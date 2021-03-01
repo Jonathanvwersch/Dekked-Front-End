@@ -11,6 +11,7 @@ interface TextProps {
   overflowText?: boolean;
   className?: string;
   editableText?: boolean;
+  textRef?: React.RefObject<HTMLDivElement>;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
@@ -20,7 +21,12 @@ const Text: React.FC<TextProps> = ({ children, ...props }) => {
     ? `${classes.text} ${classes.overflow} ${props.className}`
     : `${classes.text} ${props.className}`;
   return (
-    <div contentEditable={props.editableText} className={className}>
+    <div
+      contentEditable={props.editableText}
+      spellCheck={false}
+      className={className}
+      ref={props.textRef}
+    >
       {children}
     </div>
   );

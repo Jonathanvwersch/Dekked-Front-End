@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import {
   BinderIcon,
@@ -36,6 +36,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   setFolderOpen,
 }) => {
   const classes = useStyles();
+  const editableTextRef = useRef<HTMLDivElement>(null);
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(false);
   const [editableText, setEditableText] = useState<boolean>(false);
@@ -47,6 +48,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     bottom?: number;
     left?: number;
   }>();
+
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? "16px"
@@ -72,7 +74,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     setCoords(positionModals(e, blockModalHeight));
   };
 
-  const handleExpandBlock = () => {
+  const handleExpandBlock = (e: MouseEvent) => {
+    e.preventDefault();
     setExpanded((prevState) => !prevState);
     if (type === FILETREE_TYPES.FOLDER)
       setFolderOpen && setFolderOpen((prevState) => !prevState);
@@ -94,18 +97,19 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       <HoverCard className={classes.sidebarBlock}>
         <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
           {type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER ? (
-            <IconActive handleClick={handleExpandBlock}>
+            <IconActive handleClick={(e: MouseEvent) => handleExpandBlock(e)}>
               <DropDownArrowIcon
                 rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
               />
             </IconActive>
           ) : null}
-          <Spacer width="8pxa" />
+          <Spacer width="8px" />
           <IconWrapper>{iconType(type)}</IconWrapper>
           <Spacer width="8px" />
           <EditableText
             className={classes.overflowText}
             editableText={editableText}
+            editableTextRef={editableTextRef}
           >
             {blockData.name}
           </EditableText>
@@ -128,6 +132,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           id={blockData.id}
           handleOpenFolder={handleFolderOpen}
           handleEditableText={setEditableText}
+          editableTextRef={editableTextRef}
         />
       </Overlay>
     </NavLink>

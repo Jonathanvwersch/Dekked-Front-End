@@ -29,6 +29,7 @@ interface SidebarBlockModalProps {
   id: string;
   handleBlockModal: () => void;
   handleEditableText: Dispatch<SetStateAction<boolean>>;
+  editableTextRef: React.RefObject<HTMLDivElement>;
   handleOpenFolder?: () => void;
 }
 
@@ -55,9 +56,13 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   };
 
   const handleRename = () => {
-    props.handleEditableText(true);
-    updateAsset(props.type, props.id, { name: "Whatever" });
     props.handleBlockModal();
+    props.handleEditableText(true);
+    setTimeout(function () {
+      props.editableTextRef.current?.focus();
+    }, 50);
+    console.log(props.editableTextRef);
+    updateAsset(props.type, props.id, { name: "Whatever" });
   };
 
   const handleRecolor = () => {

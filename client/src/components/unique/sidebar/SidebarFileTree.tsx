@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useState } from "react";
 import { FileTreeContext } from "../../../contexts/FileTreeContext";
-import { VFlex } from "../../common";
 import EmptyBlock from "./EmptyBlock";
 import SidebarBlock from "./SidebarBlock";
 
