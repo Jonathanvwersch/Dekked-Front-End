@@ -4,11 +4,10 @@ import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
 
 interface HoverCardProps {
-  hover?: string;
-  pressed?: string;
   width?: string;
   height?: string;
   className?: string;
+  borderRadius?: string;
   backgroundColor?: string;
   handleClick?: () => void;
 }
@@ -34,6 +33,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
       ? props.backgroundColor
       : `${theme.colors.secondary}`,
     cursor: "pointer",
+    borderRadius: props.borderRadius ? props.borderRadius : "auto",
     userSelect: "none",
     "&:hover": {
       filter: `${theme.colors.hover.filter}`,

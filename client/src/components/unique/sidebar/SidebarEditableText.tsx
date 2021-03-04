@@ -22,6 +22,7 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   ...props
 }) => {
   const classes = useStyles({ ...props });
+
   const { updateAsset } = useContext(FileTreeContext);
   const [blockName, setBlockName] = useState<string | undefined>(
     props.editableTextRef.current?.innerText
@@ -60,6 +61,7 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   return (
     <div
       contentEditable={props.editableText}
+      suppressContentEditableWarning={true}
       spellCheck={false}
       className={classes.editableText}
       ref={props.editableTextRef}

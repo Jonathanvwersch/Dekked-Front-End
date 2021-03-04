@@ -10,3 +10,5 @@ export { default as Text } from "./Text/Text";
 export { default as VFlex } from "./VFlex/VFlex";
 export { default as ShadowCard } from "./ShadowCard/ShadowCard";
 export { default as Overlay } from "./Overlay/Overlay";
+export { default as ColorPicker } from "./ColorPicker/ColorPicker";
+export { default as Toolbar } from "./Toolbar/Toolbar";

@@ -27,7 +27,9 @@ import { ThemeType } from "../../../theme";
 interface SidebarBlockModalProps {
   type: string;
   id: string;
+  iconColor: string;
   handleBlockModal: () => void;
+  handleColorPicker: () => void;
   handleEditableText: Dispatch<SetStateAction<boolean>>;
   editableTextRef: React.RefObject<HTMLDivElement>;
   handleOpenFolder?: () => void;
@@ -35,7 +37,7 @@ interface SidebarBlockModalProps {
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const theme: ThemeType = useTheme();
-  const { handleAddingAsset, updateAsset } = useContext(FileTreeContext);
+  const { handleAddingAsset } = useContext(FileTreeContext);
   const modalData =
     props.type === FILETREE_TYPES.FOLDER
       ? FolderData
@@ -65,7 +67,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
 
   const handleRecolor = () => {
     props.handleBlockModal();
-    updateAsset(props.type, props.id, { color: "blue" });
+    props.handleColorPicker();
   };
 
   const handleClick = (type: string) => {

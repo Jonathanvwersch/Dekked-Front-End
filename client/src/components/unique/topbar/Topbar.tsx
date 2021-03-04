@@ -4,6 +4,7 @@ import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
 import { ThemeType } from "../../../theme";
 import { HFlex, IconActive } from "../../common";
+import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
@@ -15,6 +16,7 @@ const TopBar: React.FC = () => {
           <HamburgerMenuIcon size="24px" />
         </IconActive>
       ) : null}
+      <Breadcrumbs />
     </HFlex>
   );
 };

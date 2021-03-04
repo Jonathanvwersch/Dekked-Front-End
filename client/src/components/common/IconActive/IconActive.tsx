@@ -41,16 +41,18 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
     background: "none",
     cursor: "pointer",
     outline: "none",
-
-    "& svg": {
-      "&:hover": {
+    "&:hover": {
+      "& svg": {
         "& path": {
           fill: `${theme.colors.primary}`,
         },
       },
-
-      "&:active": {
-        filter: `${theme.colors.hover.filter}`,
+    },
+    "&:active": {
+      "& svg": {
+        "& path": {
+          filter: `${theme.colors.hover.filter}`,
+        },
       },
     },
   }),

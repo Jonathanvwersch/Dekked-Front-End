@@ -26,7 +26,6 @@ export const useStyles = createUseStyles((theme: ThemeType) => ({
   "@global": {
     a: {
       textDecoration: "none",
-      width: "100%",
     },
     "*": {
       margin: "0",

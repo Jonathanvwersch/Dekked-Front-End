@@ -11,6 +11,7 @@ interface TextProps {
   overflowText?: boolean;
   className?: string;
   editableText?: boolean;
+  maxWidth?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
@@ -37,6 +38,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
     color: props.fontColor || `${theme.colors.fontColor}`,
     fontFamily: props.fontFamily,
     margin: props.margin,
+    maxWidth: props.maxWidth,
   }),
   overflow: {
     textOverflow: "ellipsis",

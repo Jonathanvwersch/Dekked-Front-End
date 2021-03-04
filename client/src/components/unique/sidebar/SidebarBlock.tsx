@@ -1,4 +1,11 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import {
   BinderIcon,
@@ -8,7 +15,10 @@ import {
   StudySetIcon,
 } from "../../../assets";
 import { ROTATE } from "../../../assets/types";
-import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
+import {
+  FileTreeContext,
+  FILETREE_TYPES,
+} from "../../../contexts/FileTreeContext";
 import {
   HFlex,
   HoverCard,
@@ -23,23 +33,39 @@ import { positionModals } from "./Sidebar.helpers";
 import SidebarBlockModal from "./SidebarBlockModal";
 import { ThemeType } from "../../../theme";
 import SidebarEditableText from "./SidebarEditableText";
+import ColorPicker from "../../common/ColorPicker/ColorPicker";
+import { SidebarContext } from "../../../contexts";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
   type: string;
   setFolderOpen?: Dispatch<SetStateAction<boolean>>;
+  folderData: FolderInterface;
+  binderData?: BinderInterface;
+  studySetData?: StudyPackInterface;
 }
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({
   blockData,
   type,
   setFolderOpen,
+  folderData,
+  binderData,
+  studySetData,
 }) => {
   const classes = useStyles();
   const editableTextRef = useRef<HTMLDivElement>(null);
   const [blockModal, setBlockModal] = useState<boolean>(false);
+  const [colorPicker, setColorPicker] = useState<boolean>(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+  const { updateAsset } = useContext(FileTreeContext);
+  const [iconColor, setIconColor] = useState<string>(blockData?.color!);
   const [expanded, setExpanded] = useState<boolean>(false);
   const [editableText, setEditableText] = useState<boolean>(false);
+  const { handleFolderData, handleBinderData, handleStudySetData } = useContext(
+    SidebarContext
+  );
+
   const theme: ThemeType = useTheme();
 
   const [coords, setCoords] = useState<{
@@ -57,6 +83,11 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       : type === FILETREE_TYPES.STUDY_SET
       ? "48px"
       : null;
+
+  useLayoutEffect(() => {
+    if (colorPickerRef.current)
+      updateAsset(type, blockData!.id, { color: iconColor });
+  }, [iconColor]);
 
   const iconType = (type: string) => {
     if (type === FILETREE_TYPES.FOLDER)
@@ -88,10 +119,20 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
 
   return blockData ? (
     <NavLink
-      to={`/${type}/${blockData.id}`}
+      to={{
+        pathname: `/${type}/${blockData.id}`,
+      }}
+      style={{ width: "100%" }}
       activeStyle={{
         filter: `${theme.colors.active.filter}`,
         fontWeight: "bold",
+      }}
+      onClick={() => {
+        handleFolderData(folderData);
+        binderData && handleBinderData(folderData, binderData);
+        binderData &&
+          studySetData &&
+          handleStudySetData(folderData, binderData, studySetData);
       }}
     >
       <HoverCard className={classes.sidebarBlock}>
@@ -130,11 +171,25 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       >
         <SidebarBlockModal
           handleBlockModal={() => setBlockModal(false)}
+          handleColorPicker={() => setColorPicker(true)}
           type={type}
           id={blockData.id}
           handleOpenFolder={handleFolderOpen}
           handleEditableText={setEditableText}
           editableTextRef={editableTextRef}
+          iconColor={iconColor}
+        />
+      </Overlay>
+
+      <Overlay
+        state={colorPicker}
+        handleState={() => setColorPicker(false)}
+        coords={coords}
+      >
+        <ColorPicker
+          colorPickerRef={colorPickerRef}
+          iconColor={iconColor}
+          setIconColor={setIconColor}
         />
       </Overlay>
     </NavLink>
@@ -159,7 +214,5 @@ const useStyles = createUseStyles({
     marginLeft: "2px",
   },
 });
-
-SidebarBlock.defaultProps = {};
 
 export default SidebarBlock;

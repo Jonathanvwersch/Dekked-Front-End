@@ -25,7 +25,7 @@ const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
       : null;
 
   return (
-    <HFlex padding={`0px 12px 8px ${paddingLeft}`}>
+    <HFlex padding={`4px 12px 8px ${paddingLeft}`}>
       <Text fontColor={theme.colors.grey1}>{message}</Text>
     </HFlex>
   );
