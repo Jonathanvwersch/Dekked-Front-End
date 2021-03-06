@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import Sidebar from "./components/unique/sidebar/Sidebar";
 import { FileTreeContext } from "./contexts";
 import { FILETREE_TYPES } from "./contexts/FileTreeContext";
 import { NotFoundPage, OptionsPage, StudySetPage } from "./pages";
@@ -10,6 +11,7 @@ const Routes = () => {
 
   return (
     <>
+      <Sidebar />
       <Switch>
         <Route exact path="/">
           {firstFolderId && (

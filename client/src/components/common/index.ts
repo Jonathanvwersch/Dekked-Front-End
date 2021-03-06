@@ -13,4 +13,4 @@ export { default as Overlay } from "./Overlay/Overlay";
 export { default as ColorPicker } from "./ColorPicker/ColorPicker";
 export { default as Toolbar } from "./Toolbar/Toolbar";
 export { default as Page } from "./Page/Page";
-export { default as Divider } from "./Divider/Divider";
+// export { default as Divider } from "./Divider/Divider";

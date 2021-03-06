@@ -8,20 +8,11 @@ import Sidebar from "../../components/unique/sidebar/Sidebar";
 interface FolderPageProps {}
 
 const FolderPage: React.FC<FolderPageProps> = () => {
-  const classes = useStyles();
-  const theme: ThemeType = useTheme();
   return (
-    <>
-      <Sidebar />
-      <MainFrame>
-        <VFlex></VFlex>
-      </MainFrame>
-    </>
+    <MainFrame>
+      <VFlex></VFlex>
+    </MainFrame>
   );
 };
-
-const useStyles = createUseStyles((theme: ThemeType) => ({}));
-
-FolderPage.defaultProps = {};
 
 export default FolderPage;

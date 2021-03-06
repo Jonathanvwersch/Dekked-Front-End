@@ -2,14 +2,7 @@ import React, { useContext } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { PlusIcon } from "../../../assets";
 import { ThemeType } from "../../../theme";
-import {
-  Divider,
-  HFlex,
-  HoverCard,
-  IconWrapper,
-  Spacer,
-  Text,
-} from "../../common";
+import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import {
   FileTreeContext,
   FILETREE_TYPES,
@@ -29,7 +22,7 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
         handleAddingAsset(FILETREE_TYPES.FOLDER);
       }}
     >
-      <Divider />
+      {/* <Divider /> */}
       <HFlex height="100%">
         <IconWrapper>
           <PlusIcon size="20px" />

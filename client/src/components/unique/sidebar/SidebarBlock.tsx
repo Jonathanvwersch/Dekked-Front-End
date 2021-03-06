@@ -123,8 +123,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           folderData: folderData && folderData,
           binderData: binderData && binderData,
           studySetData: studySetData && studySetData,
-          color: iconColor,
-          name: blockName,
         },
       }}
       style={{ width: "100%" }}
