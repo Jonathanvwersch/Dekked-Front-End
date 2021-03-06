@@ -7,7 +7,7 @@ interface NotFoundPageProps {}
 const NotFoundPage: React.FC<NotFoundPageProps> = ({}) => {
   const classes = useStyles();
   const theme: ThemeType = useTheme();
-  return <div></div>;
+  return <div>404</div>;
 };
 
 const useStyles = createUseStyles((theme: ThemeType) => ({}));

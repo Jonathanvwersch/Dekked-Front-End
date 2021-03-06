@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { FileTreeContext } from "../../../contexts/FileTreeContext";
 import SidebarEmptyBlock from "./SidebarEmptyBlock";
 import SidebarBlock from "./SidebarBlock";
@@ -12,7 +12,6 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const fileId = Object.keys(file)[0];
   const [folderOpen, setFolderOpen] = useState<boolean>(false);
   const folderData = getAsset(file[fileId].type, fileId) as FolderInterface;
-  console.log(fileId);
 
   return fileId ? (
     <>
@@ -37,6 +36,7 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
                   folderData={folderData}
                   binderData={binderData}
                 />
+
                 {Object.entries(binder[1].children).length > 0
                   ? Object.entries(binder[1].children).map((studySet) => {
                       const studySetData = getAsset(

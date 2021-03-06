@@ -10,6 +10,7 @@ interface SidebarEmptyBlockProps {
 
 const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
   const theme: ThemeType = useTheme();
+
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? "40px"

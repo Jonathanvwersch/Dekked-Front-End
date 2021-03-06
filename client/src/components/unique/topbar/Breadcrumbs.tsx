@@ -1,34 +1,49 @@
 import React, { useContext } from "react";
 import { useTheme } from "react-jss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { BinderIcon, FolderIcon, StudySetIcon } from "../../../assets";
 import { ThemeType } from "../../../theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
-import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
-import { SidebarContext } from "../../../contexts";
+import {
+  FileTreeContext,
+  FILETREE_TYPES,
+} from "../../../contexts/FileTreeContext";
 
-interface BreadcrumbsProps {}
+interface LocationProps {
+  name: string;
+  color: string;
+  folderData: FolderInterface;
+  binderData: BinderInterface;
+  studySetData: StudyPackInterface;
+}
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = () => {
+const Breadcrumbs: React.FC = () => {
   const theme: ThemeType = useTheme();
-  const {
-    selectedItem,
-    handleBinderData,
-    handleFolderData,
-    handleStudySetData,
-  } = useContext(SidebarContext);
+  const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
+  const location = useLocation<LocationProps>();
+  const { getAsset } = useContext(FileTreeContext);
+  const selectedItem = getAsset(type, id);
+
+  const handleUntitled = (name: string) => {
+    if (name === "") return "Untitled";
+    else return name;
+  };
 
   return (
     <HFlex>
-      {selectedItem ? (
+      {location.state && selectedItem ? (
         <>
           <NavLink
             to={{
-              pathname: `/${FILETREE_TYPES.FOLDER}/${selectedItem.folderData?.id}`,
-            }}
-            onClick={() => {
-              selectedItem.folderData &&
-                handleFolderData(selectedItem.folderData);
+              pathname: `/${FILETREE_TYPES.FOLDER}/${location.state.folderData?.id}`,
+              state: {
+                folderData:
+                  location.state.folderData && location.state.folderData,
+                binderData:
+                  location.state.binderData && location.state.binderData,
+                studySetData:
+                  location.state.studySetData && location.state.studySetData,
+              },
             }}
           >
             <HoverCard
@@ -38,30 +53,37 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = () => {
             >
               <HFlex padding="2px 4px">
                 <IconWrapper>
-                  <FolderIcon color={selectedItem.folderData?.color} />
+                  <FolderIcon
+                    color={
+                      type === FILETREE_TYPES.FOLDER
+                        ? selectedItem?.color
+                        : location.state.folderData?.color
+                    }
+                  />
                 </IconWrapper>
                 <Spacer width="4px" />
                 <Text maxWidth="200px" overflowText={true}>
-                  {selectedItem.folderData?.name === ""
-                    ? "Untitled"
-                    : selectedItem.folderData?.name}
+                  {type === FILETREE_TYPES.FOLDER
+                    ? handleUntitled(selectedItem?.name)
+                    : handleUntitled(location.state.folderData?.name)}
                 </Text>
               </HFlex>
             </HoverCard>
           </NavLink>
 
-          {selectedItem.binderData ? (
+          {type === FILETREE_TYPES.BINDER ||
+          type === FILETREE_TYPES.STUDY_SET ? (
             <NavLink
               to={{
-                pathname: `/${FILETREE_TYPES.BINDER}/${selectedItem.binderData?.id}`,
-              }}
-              onClick={() => {
-                selectedItem.binderData &&
-                  selectedItem.folderData &&
-                  handleBinderData(
-                    selectedItem.folderData,
-                    selectedItem.binderData
-                  );
+                pathname: `/${FILETREE_TYPES.BINDER}/${location.state.binderData?.id}`,
+                state: {
+                  folderData:
+                    location.state.folderData && location.state.folderData,
+                  binderData:
+                    location.state.binderData && location.state.binderData,
+                  studySetData:
+                    location.state.studySetData && location.state.studySetData,
+                },
               }}
             >
               <HFlex padding="0px">
@@ -80,33 +102,37 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = () => {
                 >
                   <HFlex padding="2px 4px">
                     <IconWrapper>
-                      <BinderIcon color={selectedItem.binderData?.color} />
+                      <BinderIcon
+                        color={
+                          type === FILETREE_TYPES.BINDER
+                            ? selectedItem?.color
+                            : location.state.binderData?.color
+                        }
+                      />
                     </IconWrapper>
                     <Spacer width="4px" />
                     <Text maxWidth="200px" overflowText={true}>
-                      {selectedItem.binderData?.name === ""
-                        ? "Untitled"
-                        : selectedItem.binderData?.name}
+                      {type === FILETREE_TYPES.BINDER
+                        ? handleUntitled(selectedItem?.name)
+                        : handleUntitled(location.state.binderData?.name)}
                     </Text>
                   </HFlex>
                 </HoverCard>
               </HFlex>
             </NavLink>
           ) : null}
-          {selectedItem.studySetData ? (
+          {type === FILETREE_TYPES.STUDY_SET ? (
             <NavLink
               to={{
-                pathname: `/${FILETREE_TYPES.STUDY_SET}/${selectedItem.studySetData?.id}`,
-              }}
-              onClick={() => {
-                selectedItem.binderData &&
-                  selectedItem.studySetData &&
-                  selectedItem.folderData &&
-                  handleStudySetData(
-                    selectedItem.folderData,
-                    selectedItem.binderData,
-                    selectedItem.studySetData
-                  );
+                pathname: `/${FILETREE_TYPES.STUDY_SET}/${location.state.studySetData?.id}`,
+                state: {
+                  folderData:
+                    location.state.folderData && location.state.folderData,
+                  binderData:
+                    location.state.binderData && location.state.binderData,
+                  studySetData:
+                    location.state.studySetData && location.state.studySetData,
+                },
               }}
             >
               <HFlex padding="0px">
@@ -125,13 +151,19 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = () => {
                 >
                   <HFlex padding="2px 4px">
                     <IconWrapper>
-                      <StudySetIcon color={selectedItem.studySetData?.color} />
+                      <StudySetIcon
+                        color={
+                          type === FILETREE_TYPES.STUDY_SET
+                            ? selectedItem?.color
+                            : location.state.studySetData?.color
+                        }
+                      />
                     </IconWrapper>
                     <Spacer width="4px" />
                     <Text maxWidth="200px" overflowText={true}>
-                      {selectedItem.studySetData?.name === ""
-                        ? "Untitled"
-                        : selectedItem.studySetData?.name}
+                      {type === FILETREE_TYPES.STUDY_SET
+                        ? handleUntitled(selectedItem?.name)
+                        : handleUntitled(location.state.studySetData?.name)}
                     </Text>
                   </HFlex>
                 </HoverCard>

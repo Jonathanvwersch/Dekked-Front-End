@@ -34,7 +34,6 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
 const useStyles = createUseStyles((theme: ThemeType) => ({
   sidebarTop: {
     position: "relative",
-    borderBottom: `1px solid ${theme.colors.grey3};`,
   },
   minimiseIcon: {
     position: "absolute",

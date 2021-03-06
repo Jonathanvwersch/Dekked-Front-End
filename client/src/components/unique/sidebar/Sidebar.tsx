@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { SidebarContext } from "../../../contexts";
 import { ThemeType } from "../../../theme";
-import { ComponentLoadingSpinner, VFlex } from "../../common";
+import { ComponentLoadingSpinner, Divider, VFlex } from "../../common";
 import SidebarBottom from "./SidebarBottom";
 import SidebarTop from "./SidebarTop";
 import SidebarWorkspace from "./SidebarWorkspace";
@@ -23,6 +23,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       {!loading ? (
         <>
           <SidebarTop />
+          <Divider />
           <SidebarWorkspace />
           <SidebarBottom />
         </>

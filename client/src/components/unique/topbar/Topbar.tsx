@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme: ThemeType) => ({
   topbar: {
     background: `${theme.colors.backgrounds.pageBackground}`,
     height: "65px",
-    zIndex: "1000",
+    zIndex: "998",
     position: "sticky",
     top: "0",
     userSelect: "none",

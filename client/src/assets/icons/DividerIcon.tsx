@@ -4,7 +4,7 @@ import { IconProps } from "../types";
 import { useStyles } from "../styles";
 import { useTheme } from "react-jss";
 
-const Divider: React.FC<IconProps> = ({ color, size, rotate }) => {
+const DividerIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
   const classes = useStyles({ rotate });
   const theme: ThemeType = useTheme();
   const iconSize = size ? size : theme.icons.size;
@@ -30,4 +30,4 @@ const Divider: React.FC<IconProps> = ({ color, size, rotate }) => {
   );
 };
 
-export default Divider;
+export default DividerIcon;

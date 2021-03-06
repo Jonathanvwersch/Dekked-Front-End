@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { createUseStyles } from "react-jss";
 import { FileTreeContext } from "../../../contexts";
 import { ThemeType } from "../../../theme";
@@ -15,6 +9,8 @@ interface SidebarEditableTextProps {
   setEditableText: Dispatch<SetStateAction<boolean>>;
   blockType: string;
   blockId: string;
+  blockName: string | undefined;
+  setBlockName: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
@@ -24,13 +20,10 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   const classes = useStyles({ ...props });
 
   const { updateAsset } = useContext(FileTreeContext);
-  const [blockName, setBlockName] = useState<string | undefined>(
-    props.editableTextRef.current?.innerText
-  );
 
   const handleRename = () => {
     updateAsset(props.blockType, props.blockId, {
-      name: blockName,
+      name: props.blockName,
     });
   };
 
@@ -70,7 +63,7 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
           props.setEditableText((prevValue) => !prevValue);
           handleRename();
         }
-        setBlockName(props.editableTextRef.current?.innerText);
+        props.setBlockName(props.editableTextRef.current?.innerText);
       }}
     >
       {children}

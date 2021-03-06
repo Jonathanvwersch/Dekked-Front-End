@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-import Sidebar from "./components/unique/sidebar/Sidebar";
 import { FileTreeContext } from "./contexts";
-import { BinderPage, FolderPage, NotFoundPage, StudySetPage } from "./pages";
+import { FILETREE_TYPES } from "./contexts/FileTreeContext";
+import { NotFoundPage, OptionsPage, StudySetPage } from "./pages";
 
 const Routes = () => {
   const { fileTree } = useContext(FileTreeContext);
@@ -10,14 +10,13 @@ const Routes = () => {
 
   return (
     <>
-      <Sidebar />
       <Switch>
         <Route exact path="/">
-          {firstFolderId && <Redirect to={`/folder/${firstFolderId}`} />}
+          {firstFolderId && (
+            <Redirect to={`/${FILETREE_TYPES.FOLDER}/${firstFolderId}`} />
+          )}
         </Route>
-        <Route path="/folder/:id" component={FolderPage} />
-        <Route path="/binder/:id" component={BinderPage} />
-        <Route path="/study_pack/:id" component={StudySetPage} />
+        <Route path="/:type/:id" component={OptionsPage} />
         <Route path="/studyMode/:id" component={StudySetPage} />
         <Route component={NotFoundPage} />
       </Switch>

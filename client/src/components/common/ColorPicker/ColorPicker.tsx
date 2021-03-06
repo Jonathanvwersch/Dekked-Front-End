@@ -1,6 +1,13 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import { createUseStyles } from "react-jss";
+import { SidebarContext } from "../../../contexts";
 import { ThemeType } from "../../../theme";
 
 // Colour picker taken from https://casesandberg.github.io/react-color/

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { ThemeType } from "../../../theme";
-import { ComponentLoadingSpinner, VFlex } from "../../common";
+import { ComponentLoadingSpinner, Page, VFlex } from "../../common";
 import TopBar from "../topbar/Topbar";
-import Page from "./Page";
 
 const MainFrame: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);

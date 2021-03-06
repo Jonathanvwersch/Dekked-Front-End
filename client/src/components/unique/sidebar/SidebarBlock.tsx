@@ -2,7 +2,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -34,7 +34,6 @@ import SidebarBlockModal from "./SidebarBlockModal";
 import { ThemeType } from "../../../theme";
 import SidebarEditableText from "./SidebarEditableText";
 import ColorPicker from "../../common/ColorPicker/ColorPicker";
-import { SidebarContext } from "../../../contexts";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
@@ -62,12 +61,10 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const [iconColor, setIconColor] = useState<string>(blockData?.color!);
   const [expanded, setExpanded] = useState<boolean>(false);
   const [editableText, setEditableText] = useState<boolean>(false);
-  const { handleFolderData, handleBinderData, handleStudySetData } = useContext(
-    SidebarContext
+  const [blockName, setBlockName] = useState<string | undefined>(
+    blockData?.name
   );
-
   const theme: ThemeType = useTheme();
-
   const [coords, setCoords] = useState<{
     top?: number;
     right?: number;
@@ -84,9 +81,10 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       ? "48px"
       : null;
 
-  useLayoutEffect(() => {
-    if (colorPickerRef.current)
+  useEffect(() => {
+    if (colorPickerRef.current) {
       updateAsset(type, blockData!.id, { color: iconColor });
+    }
   }, [iconColor]);
 
   const iconType = (type: string) => {
@@ -112,7 +110,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       setFolderOpen && setFolderOpen((prevState) => !prevState);
   };
 
-  const handleFolderOpen = () => {
+  const handleOpenFolder = () => {
     setExpanded(true);
     setFolderOpen && setFolderOpen(true);
   };
@@ -121,18 +119,18 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     <NavLink
       to={{
         pathname: `/${type}/${blockData.id}`,
+        state: {
+          folderData: folderData && folderData,
+          binderData: binderData && binderData,
+          studySetData: studySetData && studySetData,
+          color: iconColor,
+          name: blockName,
+        },
       }}
       style={{ width: "100%" }}
       activeStyle={{
         filter: `${theme.colors.active.filter}`,
         fontWeight: "bold",
-      }}
-      onClick={() => {
-        handleFolderData(folderData);
-        binderData && handleBinderData(folderData, binderData);
-        binderData &&
-          studySetData &&
-          handleStudySetData(folderData, binderData, studySetData);
       }}
     >
       <HoverCard className={classes.sidebarBlock}>
@@ -153,6 +151,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             setEditableText={setEditableText}
             blockId={blockData.id}
             blockType={type}
+            blockName={blockName}
+            setBlockName={setBlockName}
           >
             {blockData.name}
           </SidebarEditableText>
@@ -174,7 +174,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           handleColorPicker={() => setColorPicker(true)}
           type={type}
           id={blockData.id}
-          handleOpenFolder={handleFolderOpen}
+          handleOpenFolder={handleOpenFolder}
           handleEditableText={setEditableText}
           editableTextRef={editableTextRef}
           iconColor={iconColor}
