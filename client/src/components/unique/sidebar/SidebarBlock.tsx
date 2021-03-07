@@ -6,7 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { createUseStyles, useTheme } from "react-jss";
 import {
   BinderIcon,
   DotsMenuIcon,
@@ -31,9 +30,10 @@ import { NavLink } from "react-router-dom";
 
 import { positionModals } from "./Sidebar.helpers";
 import SidebarBlockModal from "./SidebarBlockModal";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
 import SidebarEditableText from "./SidebarEditableText";
 import ColorPicker from "../../common/ColorPicker/ColorPicker";
+import styled, { ThemeContext } from "styled-components";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
@@ -52,7 +52,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   binderData,
   studySetData,
 }) => {
-  const classes = useStyles();
   const editableTextRef = useRef<HTMLDivElement>(null);
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const [colorPicker, setColorPicker] = useState<boolean>(false);
@@ -64,7 +63,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const [blockName, setBlockName] = useState<string | undefined>(
     blockData?.name
   );
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
+
   const [coords, setCoords] = useState<{
     top?: number;
     right?: number;
@@ -131,36 +131,39 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
         fontWeight: "bold",
       }}
     >
-      <HoverCard className={classes.sidebarBlock}>
-        <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
-          {type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER ? (
-            <IconActive handleClick={(e: MouseEvent) => handleExpandBlock(e)}>
-              <DropDownArrowIcon
-                rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
-              />
-            </IconActive>
-          ) : null}
-          <Spacer width="8px" />
-          <IconWrapper>{iconType(type)}</IconWrapper>
-          <Spacer width="8px" />
-          <SidebarEditableText
-            editableText={editableText}
-            editableTextRef={editableTextRef}
-            setEditableText={setEditableText}
-            blockId={blockData.id}
-            blockType={type}
-            blockName={blockName}
-            setBlockName={setBlockName}
-          >
-            {blockData.name}
-          </SidebarEditableText>
-          <IconActive
-            className={classes.menuIcon}
-            handleClick={handleBlockModal}
-          >
-            <DotsMenuIcon />
-          </IconActive>
-        </HFlex>
+      <HoverCard>
+        <StyledSidebarBlock>
+          <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
+            {type === FILETREE_TYPES.FOLDER ||
+            type === FILETREE_TYPES.BINDER ? (
+              <IconActive handleClick={(e: MouseEvent) => handleExpandBlock(e)}>
+                <DropDownArrowIcon
+                  rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
+                />
+              </IconActive>
+            ) : null}
+            <Spacer width="8px" />
+            <IconWrapper>{iconType(type)}</IconWrapper>
+            <Spacer width="8px" />
+            <SidebarEditableText
+              editableText={editableText}
+              editableTextRef={editableTextRef}
+              setEditableText={setEditableText}
+              blockId={blockData.id}
+              blockType={type}
+              blockName={blockName}
+              setBlockName={setBlockName}
+            >
+              {blockData.name}
+            </SidebarEditableText>
+            <Spacer width="2px" />
+            <DotsMenuIconContainer>
+              <IconActive className="menu-icon" handleClick={handleBlockModal}>
+                <DotsMenuIcon />
+              </IconActive>
+            </DotsMenuIconContainer>
+          </HFlex>
+        </StyledSidebarBlock>
       </HoverCard>
       <Overlay
         state={blockModal}
@@ -194,23 +197,20 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   ) : null;
 };
 
-const useStyles = createUseStyles({
-  sidebarBlock: {
-    "&:hover": {
-      "& $menuIcon": {
-        opacity: "1",
-        visibility: "visible",
-        display: "flex",
-      },
-    },
-  },
+const DotsMenuIconContainer = styled.div`
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+`;
 
-  menuIcon: {
-    visibility: "hidden",
-    opacity: "0",
-    display: "none",
-    marginLeft: "2px",
-  },
-});
+const StyledSidebarBlock = styled.div`
+  &:hover {
+    ${DotsMenuIconContainer} {
+      opacity: 1;
+      visibility: visible;
+      display: flex;
+    }
+  }
+`;
 
 export default SidebarBlock;

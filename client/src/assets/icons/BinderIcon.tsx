@@ -1,24 +1,15 @@
-import React from "react";
-import { ThemeType } from "../../theme";
+import React, { useContext } from "react";
+import { ThemeType } from "../../styles/theme";
 import { IconProps } from "../types";
-import { useStyles } from "../styles";
-import { useTheme } from "react-jss";
+import { ThemeContext } from "styled-components";
+import { Svg } from "../styles";
 
-const BinderIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
-  const classes = useStyles({ rotate });
-  const theme: ThemeType = useTheme();
-  const iconSize = size ? size : theme.icons.size;
+const BinderIcon: React.FC<IconProps> = ({ color, size }) => {
+  const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 
   return (
-    <svg
-      className={classes.icon}
-      width={iconSize}
-      height={iconSize}
-      viewBox={`0 0 ${parseInt(iconSize)} ${parseInt(iconSize)}`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg size={size} viewBox="0 0 16 16" fill="none">
       <path
         d="M4 7C2.89524 7 2 6.10048 2 5.00957C2 3.91866 2.89524 3 4 3C5.10476 3 6 3.89952 6 5.00957"
         stroke={iconColor}
@@ -35,7 +26,7 @@ const BinderIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
         strokeWidth="1.33"
       />
       <path d="M7.5 2V14.5" stroke={iconColor} />
-    </svg>
+    </Svg>
   );
 };
 

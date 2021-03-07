@@ -1,10 +1,11 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { useTheme } from "react-jss";
-import { ThemeType } from "../theme";
+import { ThemeType } from "../styles/theme";
 import { useBinders } from "../services/file-structure/useBinders";
 import { useFileTree } from "../services/file-structure/useFileTree";
 import { useFolders } from "../services/file-structure/useFolders";
 import { useStudyPacks } from "../services/file-structure/useStudyPacks";
+import { ThemeContext } from "styled-components";
 
 export enum FILETREE_TYPES {
   FOLDER = "folder",
@@ -47,7 +48,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     updateStudyPack,
   } = useStudyPacks();
   const { getBinders, addBinder, binders, updateBinder } = useBinders();
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
 
   const handleAddingAsset = (type: string, parent_id?: string) => {
     const iconColor = theme.colors.iconColor;

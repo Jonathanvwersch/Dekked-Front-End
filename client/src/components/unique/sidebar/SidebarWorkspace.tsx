@@ -1,36 +1,37 @@
 import React, { useContext } from "react";
-import { useTheme } from "react-jss";
+import { ThemeContext } from "styled-components";
 import { FileTreeContext } from "../../../contexts/FileTreeContext";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
 import { HFlex, VFlex, Text } from "../../common";
+import Scroller from "../../common/Scroller/Scroller";
 import SidebarFileTree from "./SidebarFileTree";
 
 interface SidebarWorkspaceProps {}
 
 const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
   const { fileTree } = useContext(FileTreeContext);
 
   return (
-    <VFlex overflow="hidden auto" className="sidebarWorkspace">
-      <HFlex padding="8px 16px" className="headingContainer">
-        <Text fontColor={theme.colors.grey1} className="heading">
-          Workspace
-        </Text>
-      </HFlex>
-      <VFlex overflow="hidden auto" className="block">
-        {fileTree
-          ? Object.entries(fileTree).map((file) => {
-              return (
-                <SidebarFileTree
-                  key={file[0]}
-                  file={Object.fromEntries([file])}
-                />
-              );
-            })
-          : null}
+    <Scroller>
+      <VFlex padding="0px">
+        <HFlex padding="8px 16px">
+          <Text fontColor={theme.colors.grey1}>Workspace</Text>
+        </HFlex>
+        <VFlex padding="0px">
+          {fileTree
+            ? Object.entries(fileTree).map((file) => {
+                return (
+                  <SidebarFileTree
+                    key={file[0]}
+                    file={Object.fromEntries([file])}
+                  />
+                );
+              })
+            : null}
+        </VFlex>
       </VFlex>
-    </VFlex>
+    </Scroller>
   );
 };
 

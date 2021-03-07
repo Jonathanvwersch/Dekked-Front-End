@@ -1,50 +1,26 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
+import styled from "styled-components";
 
 interface VFlexProps {
   padding?: string;
-  backgroundcolor?: string;
   alignItems?: string;
   justifyContent?: string;
   height?: string;
   width?: string;
-  cursor?: string;
-  position?: string;
-  overflow?: string;
-  className?: string;
-  flexGrow?: string;
 }
 
 const VFlex: React.FC<VFlexProps> = ({ children, ...props }) => {
-  const theme = useTheme();
-  const classes = useStyles({ theme, ...props });
-  return (
-    <div className={`${classes.vFlex} ${props.className && props.className}`}>
-      {children}
-    </div>
-  );
+  return <StyledVFlex {...props}>{children}</StyledVFlex>;
 };
 
-const useStyles = createUseStyles({
-  vFlex: (props) => ({
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: props.flexGrow,
-    alignItems: props.alignItems,
-    justifyContent: props.justifyContent,
-    position: props.position,
-    height: props.height,
-    width: props.width,
-    cursor: props.cursor,
-    backgroundColor: props.backgroundcolor,
-    overflow: props.overflow,
-    padding: props.padding,
-  }),
-});
-
-VFlex.defaultProps = {
-  alignItems: "center",
-  width: "100%",
-};
+const StyledVFlex = styled.div<VFlexProps>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ alignItems }) => (alignItems ? alignItems : "center")};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  padding: ${({ padding }) => (padding ? padding : "16px")};
+  height: ${({ height }) => height};
+  width: ${({ width }) => (width ? width : "100%")};
+`;
 
 export default VFlex;

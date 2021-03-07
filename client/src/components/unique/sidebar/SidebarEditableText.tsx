@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
-import { createUseStyles } from "react-jss";
+import styled from "styled-components";
 import { FileTreeContext } from "../../../contexts";
-import { ThemeType } from "../../../theme";
 
 interface SidebarEditableTextProps {
   editableText: boolean;
@@ -17,8 +16,6 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   children,
   ...props
 }) => {
-  const classes = useStyles({ ...props });
-
   const { updateAsset } = useContext(FileTreeContext);
 
   const handleRename = () => {
@@ -52,11 +49,10 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   }, [props]);
 
   return (
-    <div
+    <EditableText
       contentEditable={props.editableText}
       suppressContentEditableWarning={true}
       spellCheck={false}
-      className={classes.editableText}
       ref={props.editableTextRef}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -67,27 +63,24 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
       }}
     >
       {children}
-    </div>
+    </EditableText>
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  editableText: (props) => ({
-    fontSize: props.fontSize || `${theme.typography.fontSizes.size12}`,
-    fontWeight: props.fontWeight,
-    color: `${theme.colors.fontColor}`,
-    margin: "0",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    flex: "1 1 auto",
-    "&[contenteditable=true]": {
-      textOverflow: "clip",
-    },
-    "&:empty:before": {
-      content: '"Untitled"',
-    },
-  }),
-}));
+const EditableText = styled.div`
+  font-size: ${({ theme }) => theme.typography.fontSizes.size12};
+  color: ${({ theme }) => theme.colors.fontColor};
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1 1 auto;
+  &[contenteditable="true"] {
+    text-overflow: clip;
+  }
+  &:empty:before {
+    content: "Untitled";
+  }
+`;
 
 export default SidebarEditableText;

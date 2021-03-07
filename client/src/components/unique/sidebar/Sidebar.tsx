@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { createUseStyles } from "react-jss";
+import styled from "styled-components";
 import { SidebarContext } from "../../../contexts";
-import { ThemeType } from "../../../theme";
-import { ComponentLoadingSpinner, VFlex } from "../../common";
+import { ComponentLoadingSpinner, Divider } from "../../common";
 import SidebarBottom from "./SidebarBottom";
 import SidebarTop from "./SidebarTop";
 import SidebarWorkspace from "./SidebarWorkspace";
@@ -11,7 +10,6 @@ interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const [loading, setLoading] = useState(true);
-  const classes = useStyles();
   const { sidebar } = useContext(SidebarContext);
 
   useEffect(() => {
@@ -19,35 +17,35 @@ const Sidebar: React.FC<SidebarProps> = () => {
   }, [loading]);
 
   return sidebar ? (
-    <VFlex className={classes.sidebar}>
+    <StyledSidebar>
       {!loading ? (
         <>
           <SidebarTop />
-          {/* <Divider /> */}
+          <Divider />
           <SidebarWorkspace />
           <SidebarBottom />
         </>
       ) : (
         <ComponentLoadingSpinner />
       )}
-    </VFlex>
+    </StyledSidebar>
   ) : null;
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  sidebar: {
-    width: "250px",
-    userSelect: "none",
-    zIndex: "10",
-    position: "relative",
-    top: "0px",
-    left: "0px",
-    bottom: "0px",
-    height: "100%",
-    maxHeight: "100%",
-    borderRight: `1px solid ${theme.colors.grey3}`,
-    backgroundColor: `${theme.colors.secondary}`,
-  },
-}));
+const StyledSidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  user-select: none;
+  z-index: 10;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  height: 100%;
+  max-height: 100%;
+  border-right: ${({ theme }) => `1px solid ${theme.colors.grey3}`};
+  background-color: ${({ theme }) => theme.colors.secondary};
+`;
 
 export default Sidebar;

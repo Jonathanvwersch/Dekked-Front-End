@@ -1,7 +1,7 @@
-import React from "react";
-import { useTheme } from "react-jss";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
 import { HFlex, Text } from "../../common";
 
 interface SidebarEmptyBlockProps {
@@ -9,7 +9,7 @@ interface SidebarEmptyBlockProps {
 }
 
 const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER

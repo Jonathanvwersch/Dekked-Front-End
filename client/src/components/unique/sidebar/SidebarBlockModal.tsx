@@ -22,7 +22,8 @@ import {
   HFlex,
   Text,
 } from "../../common";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
+import { ThemeContext } from "styled-components";
 
 interface SidebarBlockModalProps {
   type: string;
@@ -36,7 +37,7 @@ interface SidebarBlockModalProps {
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
   const { handleAddingAsset } = useContext(FileTreeContext);
   const modalData =
     props.type === FILETREE_TYPES.FOLDER

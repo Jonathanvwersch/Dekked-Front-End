@@ -1,6 +1,5 @@
 import React from "react";
 import MainFrame from "../../components/unique/main-frame/MainFrame";
-
 interface BinderPageProps {}
 
 const BinderPage: React.FC<BinderPageProps> = () => {
@@ -10,7 +9,5 @@ const BinderPage: React.FC<BinderPageProps> = () => {
     </MainFrame>
   );
 };
-
-BinderPage.defaultProps = {};
 
 export default BinderPage;

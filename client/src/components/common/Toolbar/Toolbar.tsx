@@ -61,6 +61,4 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   );
 };
 
-Toolbar.defaultProps = {};
-
 export default Toolbar;

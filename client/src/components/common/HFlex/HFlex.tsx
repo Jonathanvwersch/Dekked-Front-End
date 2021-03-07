@@ -1,5 +1,5 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
+import styled from "styled-components";
 
 interface HFlexProps {
   padding?: string;
@@ -14,29 +14,16 @@ interface HFlexProps {
 }
 
 const HFlex: React.FC<HFlexProps> = ({ children, ...props }) => {
-  const theme = useTheme();
-  const { hFlex } = useStyles({ theme, ...props });
-  return <div className={`${hFlex} ${props.className}`}>{children}</div>;
+  return <StyledHFlex {...props}>{children}</StyledHFlex>;
 };
 
-const useStyles = createUseStyles({
-  hFlex: (props) => ({
-    display: "flex",
-    alignItems: props.alignItems,
-    justifyContent: props.justifyContent,
-    position: props.position,
-    height: props.height,
-    width: props.width,
-    cursor: props.cursor,
-    backgroundColor: props.backgroundcolor,
-    padding: props.padding,
-  }),
-});
-
-HFlex.defaultProps = {
-  alignItems: "center",
-  width: "100%",
-  padding: "16px",
-};
+const StyledHFlex = styled.div<HFlexProps>`
+  display: flex;
+  align-items: ${({ alignItems }) => (alignItems ? alignItems : "center")};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  padding: ${({ padding }) => (padding ? padding : "16px")};
+  height: ${({ height }) => height};
+  width: ${({ width }) => (width ? width : "100%")};
+`;
 
 export default HFlex;

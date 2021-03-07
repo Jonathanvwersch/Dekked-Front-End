@@ -1,7 +1,6 @@
 // Wrapper component for whenever you want to add a hover and active state to another component
 import React from "react";
-import { createUseStyles } from "react-jss";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
 
 interface HoverCardProps {
   width?: string;
@@ -13,42 +12,35 @@ interface HoverCardProps {
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
-  const classes = useStyles({ ...props });
   return (
-    <div
-      className={`${classes.hoverCard} ${props.className}`}
+    <StyledHoverCard
       role="button"
       tab-index="0"
       onClick={props.handleClick}
+      {...props}
     >
       {children}
-    </div>
+    </StyledHoverCard>
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  hoverCard: (props) => ({
-    width: props.width,
-    backgroundColor: props.backgroundColor
-      ? props.backgroundColor
-      : `${theme.colors.secondary}`,
-    cursor: "pointer",
-    borderRadius: props.borderRadius ? props.borderRadius : "auto",
-    userSelect: "none",
-    "&:hover": {
-      filter: `${theme.colors.hover.filter}`,
-    },
-    "&:focus": {
-      filter: `${theme.colors.hover.filter}`,
-    },
-    "&:active": {
-      filter: `${theme.colors.active.filter}`,
-    },
-  }),
-}));
+const StyledHoverCard = styled.div<HoverCardProps>`
+  width: ${({ width }) => (width ? width : "100%")};
+  background-color: ${({ backgroundColor, theme }) =>
+    backgroundColor ? backgroundColor : theme.colors.secondary};
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    filter: ${({ theme }) => theme.colors.hover.filter};
+  }
 
-HoverCard.defaultProps = {
-  width: "100%",
-};
+  &:focus {
+    filter: ${({ theme }) => theme.colors.hover.filter};
+  }
+
+  &:active {
+    filter: ${({ theme }) => theme.colors.hover.active};
+  }
+`;
 
 export default HoverCard;

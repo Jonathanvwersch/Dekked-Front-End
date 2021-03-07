@@ -1,44 +1,49 @@
 import React, { useContext } from "react";
-import { createUseStyles, useTheme } from "react-jss";
+import styled, { ThemeContext } from "styled-components";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../../assets";
 import { ROTATE } from "../../../assets/types";
 import { SidebarContext } from "../../../contexts";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
 import { Avatar, HFlex, IconActive, Spacer, Text } from "../../common";
 
 interface SidebarTopProps {}
 
 const SidebarTop: React.FC<SidebarTopProps> = () => {
-  const theme: ThemeType = useTheme();
-  const classes = useStyles();
   const { handleSidebar } = useContext(SidebarContext);
+  const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <HFlex className={classes.sidebarTop}>
+    <StyledSidebarTop>
       <HFlex padding="0px">
         <Avatar>T</Avatar>
         <Spacer width={theme.spacers.size8} />
-        <Text overflowText={true}>This is a really long name</Text>
+        <Text className="overflow">This is a really really long name</Text>
+        <Spacer width={theme.spacers.size4} />
         <IconActive>
           <DropDownArrowIcon rotate={ROTATE.NINETY} />
         </IconActive>
         <Spacer width={theme.spacers.size32} />
       </HFlex>
-      <IconActive className={classes.minimiseIcon} handleClick={handleSidebar}>
-        <DoubleChevronIcon />
-      </IconActive>
-    </HFlex>
+
+      <DoubleChevronIconContainer>
+        <IconActive handleClick={handleSidebar}>
+          <DoubleChevronIcon />
+        </IconActive>
+      </DoubleChevronIconContainer>
+    </StyledSidebarTop>
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  sidebarTop: {
-    position: "relative",
-  },
-  minimiseIcon: {
-    position: "absolute",
-    right: "16px",
-  },
-}));
+const StyledSidebarTop = styled.div`
+  display: flex;
+  position: relative;
+  padding: 16px;
+`;
+
+const DoubleChevronIconContainer = styled.div`
+  position: absolute;
+  right: 16px;
+  top: 24px;
+`;
 
 export default SidebarTop;

@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import { useTheme } from "react-jss";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import { BinderIcon, FolderIcon, StudySetIcon } from "../../../assets";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import {
   FileTreeContext,
   FILETREE_TYPES,
 } from "../../../contexts/FileTreeContext";
+import { ThemeContext } from "styled-components";
 
 interface LocationProps {
   name: string;
@@ -18,7 +19,7 @@ interface LocationProps {
 }
 
 const Breadcrumbs: React.FC = () => {
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
   const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
   const location = useLocation<LocationProps>();
   const { getAsset } = useContext(FileTreeContext);
@@ -62,7 +63,7 @@ const Breadcrumbs: React.FC = () => {
                   />
                 </IconWrapper>
                 <Spacer width="4px" />
-                <Text maxWidth="200px" overflowText={true}>
+                <Text maxWidth="200px" className="overflow">
                   {type === FILETREE_TYPES.FOLDER
                     ? handleUntitled(selectedItem?.name)
                     : handleUntitled(location.state.folderData?.name)}
@@ -111,7 +112,7 @@ const Breadcrumbs: React.FC = () => {
                       />
                     </IconWrapper>
                     <Spacer width="4px" />
-                    <Text maxWidth="200px" overflowText={true}>
+                    <Text maxWidth="200px" className="overflow">
                       {type === FILETREE_TYPES.BINDER
                         ? handleUntitled(selectedItem?.name)
                         : handleUntitled(location.state.binderData?.name)}
@@ -160,7 +161,7 @@ const Breadcrumbs: React.FC = () => {
                       />
                     </IconWrapper>
                     <Spacer width="4px" />
-                    <Text maxWidth="200px" overflowText={true}>
+                    <Text maxWidth="200px" className="overflow">
                       {type === FILETREE_TYPES.STUDY_SET
                         ? handleUntitled(selectedItem?.name)
                         : handleUntitled(location.state.studySetData?.name)}

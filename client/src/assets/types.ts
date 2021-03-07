@@ -6,8 +6,7 @@ export enum ROTATE {
 }
 
 export interface IconProps {
-  className?: string;
   color?: string;
   size?: string;
-  rotate?: ROTATE | null;
+  rotate?: ROTATE;
 }

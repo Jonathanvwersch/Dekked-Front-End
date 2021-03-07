@@ -1,8 +1,6 @@
 // Wrapper component for making an icon into a button with a hover and active state
-
 import React from "react";
-import { createUseStyles } from "react-jss";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
 
 interface IconActiveProps {
   className?: string;
@@ -14,48 +12,44 @@ const IconActive: React.FC<IconActiveProps> = ({
   handleClick,
   ...props
 }) => {
-  const classes = useStyles({ ...props });
   return (
-    <button
+    <StyledIconActive
       aria-label="icon"
-      className={`${classes.iconActive} ${props.className}`}
       onClick={(event: any) => {
         handleClick && handleClick(event);
       }}
+      className={props.className}
     >
       {children}
-    </button>
+    </StyledIconActive>
   );
 };
 
-export const useStyles = createUseStyles((theme: ThemeType) => ({
-  iconActive: (props) => ({
-    position: props.position,
-    right: props.right,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "0",
-    padding: "0",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    outline: "none",
-    "&:hover": {
-      "& svg": {
-        "& path": {
-          fill: `${theme.colors.primary}`,
-        },
-      },
-    },
-    "&:active": {
-      "& svg": {
-        "& path": {
-          filter: `${theme.colors.hover.filter}`,
-        },
-      },
-    },
-  }),
-}));
+const StyledIconActive = styled.button<IconActiveProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    & svg {
+      & path {
+        fill: ${({ theme }) => theme.colors.primary};
+      }
+    }
+  }
+
+  &:active {
+    & svg {
+      & path {
+        filter: ${({ theme }) => theme.colors.hover.filter};
+      }
+    }
+  }
+`;
 
 export default IconActive;
