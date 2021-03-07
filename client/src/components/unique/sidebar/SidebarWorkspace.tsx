@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { FileTreeContext } from "../../../contexts/FileTreeContext";
 import { ThemeType } from "../../../styles/theme";
-import { HFlex, VFlex, Text } from "../../common";
+import { VFlex, Text, Card } from "../../common";
 import Scroller from "../../common/Scroller/Scroller";
 import SidebarFileTree from "./SidebarFileTree";
 
@@ -15,9 +15,9 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
   return (
     <Scroller>
       <VFlex padding="0px">
-        <HFlex padding="8px 16px">
+        <Card padding="8px 16px">
           <Text fontColor={theme.colors.grey1}>Workspace</Text>
-        </HFlex>
+        </Card>
         <VFlex padding="0px">
           {fileTree
             ? Object.entries(fileTree).map((file) => {

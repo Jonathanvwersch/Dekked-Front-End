@@ -8,7 +8,8 @@ interface HoverCardProps {
   className?: string;
   borderRadius?: string;
   backgroundColor?: string;
-  handleClick?: () => void;
+  handleClick?: Function;
+  padding?: string;
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
@@ -16,7 +17,9 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
     <StyledHoverCard
       role="button"
       tab-index="0"
-      onClick={props.handleClick}
+      onClick={(event: any) => {
+        props.handleClick && props.handleClick(event);
+      }}
       {...props}
     >
       {children}
@@ -26,6 +29,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
 
 const StyledHoverCard = styled.div<HoverCardProps>`
   width: ${({ width }) => (width ? width : "100%")};
+  padding: ${({ padding }) => padding};
   background-color: ${({ backgroundColor, theme }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
   cursor: pointer;

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
-import { IconActive } from "../../common";
+import { IconActive, Spacer } from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
@@ -10,9 +10,12 @@ const TopBar: React.FC = () => {
   return (
     <StyledTopbar>
       {!sidebar ? (
-        <IconActive handleClick={handleSidebar}>
-          <HamburgerMenuIcon size="24px" />
-        </IconActive>
+        <>
+          <IconActive handleClick={handleSidebar}>
+            <HamburgerMenuIcon size="24px" />
+          </IconActive>
+          <Spacer width="16px" />
+        </>
       ) : null}
       <Breadcrumbs />
     </StyledTopbar>
@@ -28,7 +31,7 @@ const StyledTopbar = styled.div`
   top: 0;
   user-select: none;
   justify-content: flex-start;
-  padding: 16px;
+  padding: 16px 32px;
 `;
 
 export default TopBar;

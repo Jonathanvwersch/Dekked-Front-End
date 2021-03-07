@@ -21,7 +21,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   return (
     <HFlex>
       <IconActive>
-        <HFlex padding="0px">
+        <HFlex>
           <BodyTextIcon />
           <DropDownArrowIcon rotate={ROTATE.NINETY} />
         </HFlex>

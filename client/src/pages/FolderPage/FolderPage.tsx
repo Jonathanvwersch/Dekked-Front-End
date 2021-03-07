@@ -1,13 +1,16 @@
 import React from "react";
+import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/unique/main-frame/MainFrame";
-import { VFlex } from "../../components/common";
+import { FolderBinderCardContainer } from "../common";
 
 interface FolderPageProps {}
 
 const FolderPage: React.FC<FolderPageProps> = () => {
   return (
     <MainFrame>
-      <VFlex></VFlex>
+      <InsetPage>
+        <FolderBinderCardContainer />
+      </InsetPage>
     </MainFrame>
   );
 };

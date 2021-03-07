@@ -5,6 +5,8 @@ interface ShadowCardProps {
   borderRadius?: string;
   height?: string;
   width?: string;
+  border?: string;
+  backgroundColor?: string;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
@@ -17,6 +19,11 @@ const StyledShadowCard = styled.div<ShadowCardProps>`
     borderRadius ? borderRadius : theme.display.borderRadiusTwo};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
+  border: ${({ border }) => border};
+  background-color: ${({ theme, backgroundColor }) =>
+    backgroundColor
+      ? backgroundColor
+      : theme.colors.backgrounds.pageBackground};
 `;
 
 export default ShadowCard;

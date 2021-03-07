@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useTheme } from "react-jss";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import { BinderIcon, FolderIcon, StudySetIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
@@ -9,6 +8,7 @@ import {
   FILETREE_TYPES,
 } from "../../../contexts/FileTreeContext";
 import { ThemeContext } from "styled-components";
+import { handleUntitled } from "../../../helpers/handleUntitled";
 
 interface LocationProps {
   name: string;
@@ -24,11 +24,6 @@ const Breadcrumbs: React.FC = () => {
   const location = useLocation<LocationProps>();
   const { getAsset } = useContext(FileTreeContext);
   const selectedItem = getAsset(type, id);
-
-  const handleUntitled = (name: string) => {
-    if (name === "") return "Untitled";
-    else return name;
-  };
 
   return (
     <HFlex>
@@ -51,8 +46,9 @@ const Breadcrumbs: React.FC = () => {
               width="auto"
               borderRadius={`${theme.display.borderRadiusTwo}`}
               backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+              padding="2px 4px"
             >
-              <HFlex padding="2px 4px">
+              <HFlex>
                 <IconWrapper>
                   <FolderIcon
                     color={
@@ -87,7 +83,7 @@ const Breadcrumbs: React.FC = () => {
                 },
               }}
             >
-              <HFlex padding="0px">
+              <HFlex>
                 <Spacer width="4px" />
                 <Text
                   fontSize={`${theme.typography.fontSizes.size14}`}
@@ -100,8 +96,9 @@ const Breadcrumbs: React.FC = () => {
                   width="auto"
                   borderRadius={`${theme.display.borderRadiusTwo}`}
                   backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+                  padding="2px 4px"
                 >
-                  <HFlex padding="2px 4px">
+                  <HFlex>
                     <IconWrapper>
                       <BinderIcon
                         color={
@@ -136,7 +133,7 @@ const Breadcrumbs: React.FC = () => {
                 },
               }}
             >
-              <HFlex padding="0px">
+              <HFlex>
                 <Spacer width="4px" />
                 <Text
                   fontSize={`${theme.typography.fontSizes.size14}`}
@@ -149,8 +146,9 @@ const Breadcrumbs: React.FC = () => {
                   width="auto"
                   borderRadius={`${theme.display.borderRadiusTwo}`}
                   backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+                  padding="2px 4px"
                 >
-                  <HFlex padding="2px 4px">
+                  <HFlex>
                     <IconWrapper>
                       <StudySetIcon
                         color={

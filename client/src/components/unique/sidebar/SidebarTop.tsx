@@ -4,7 +4,7 @@ import { DoubleChevronIcon, DropDownArrowIcon } from "../../../assets";
 import { ROTATE } from "../../../assets/types";
 import { SidebarContext } from "../../../contexts";
 import { ThemeType } from "../../../styles/theme";
-import { Avatar, HFlex, IconActive, Spacer, Text } from "../../common";
+import { Avatar, Card, HFlex, IconActive, Spacer, Text } from "../../common";
 
 interface SidebarTopProps {}
 
@@ -14,16 +14,18 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
 
   return (
     <StyledSidebarTop>
-      <HFlex padding="0px">
-        <Avatar>T</Avatar>
-        <Spacer width={theme.spacers.size8} />
-        <Text className="overflow">This is a really really long name</Text>
-        <Spacer width={theme.spacers.size4} />
-        <IconActive>
-          <DropDownArrowIcon rotate={ROTATE.NINETY} />
-        </IconActive>
-        <Spacer width={theme.spacers.size32} />
-      </HFlex>
+      <Card padding="0px">
+        <HFlex>
+          <Avatar>T</Avatar>
+          <Spacer width={theme.spacers.size8} />
+          <Text className="overflow">This is a really really long name</Text>
+          <Spacer width={theme.spacers.size4} />
+          <IconActive>
+            <DropDownArrowIcon rotate={ROTATE.NINETY} />
+          </IconActive>
+          <Spacer width={theme.spacers.size32} />
+        </HFlex>
+      </Card>
 
       <DoubleChevronIconContainer>
         <IconActive handleClick={handleSidebar}>

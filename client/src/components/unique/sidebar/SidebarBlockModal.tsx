@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
-import { useTheme } from "react-jss";
 
 import {
   ADD,
@@ -66,16 +65,17 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
     }, 50);
   };
 
-  const handleRecolor = () => {
+  const handleRecolor = (e: MouseEvent) => {
+    e.preventDefault();
     props.handleBlockModal();
     props.handleColorPicker();
   };
 
-  const handleClick = (type: string) => {
+  const handleClick = (type: string, e: MouseEvent) => {
     if (type === RENAME) handleRename();
     else if (type === DELETE) handleDelete();
     else if (type === ADD) handleAddItem();
-    else if (type === RECOLOR) handleRecolor();
+    else if (type === RECOLOR) handleRecolor(e);
   };
 
   return (
@@ -85,9 +85,10 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
           <HoverCard
             backgroundColor={theme.colors.backgrounds.modalBackground}
             key={`SidebarBlockModal ${index}`}
-            handleClick={() => handleClick(item.type)}
+            handleClick={(e: MouseEvent) => handleClick(item.type, e)}
+            padding="8px 16px"
           >
-            <HFlex padding="8px 16px">
+            <HFlex>
               <IconWrapper>{item.icon}</IconWrapper>
               <Spacer width={theme.spacers.size8} />
               <Text>{item.action}</Text>

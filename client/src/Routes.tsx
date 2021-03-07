@@ -6,16 +6,22 @@ import { FILETREE_TYPES } from "./contexts/FileTreeContext";
 import { NotFoundPage, OptionsPage, StudySetPage } from "./pages";
 
 const Routes = () => {
-  const { fileTree } = useContext(FileTreeContext);
+  const { fileTree, getAsset } = useContext(FileTreeContext);
   const firstFolderId = Object.keys(fileTree)[0];
+  const folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
 
   return (
     <>
       <Sidebar />
       <Switch>
         <Route exact path="/">
-          {firstFolderId && (
-            <Redirect to={`/${FILETREE_TYPES.FOLDER}/${firstFolderId}`} />
+          {firstFolderId && folderData && (
+            <Redirect
+              to={{
+                pathname: `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`,
+                state: { folderData: folderData },
+              }}
+            />
           )}
         </Route>
         <Route path="/:type/:id" component={OptionsPage} />

@@ -23,13 +23,14 @@ const SidebarBottom: React.FC<SidebarBottomProps> = () => {
 
   return (
     <StyledSidebarBottom>
+      <Divider />
       <HoverCard
         handleClick={() => {
           handleAddingAsset(FILETREE_TYPES.FOLDER);
         }}
+        padding="16px"
       >
-        <Divider />
-        <HFlex height="100%">
+        <HFlex>
           <IconWrapper>
             <PlusIcon size="20px" />
           </IconWrapper>

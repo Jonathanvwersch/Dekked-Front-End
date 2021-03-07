@@ -19,6 +19,7 @@ import {
   FILETREE_TYPES,
 } from "../../../contexts/FileTreeContext";
 import {
+  Card,
   HFlex,
   HoverCard,
   IconActive,
@@ -133,36 +134,43 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     >
       <HoverCard>
         <StyledSidebarBlock>
-          <HFlex padding={`8px 12px 8px ${paddingLeft}`}>
-            {type === FILETREE_TYPES.FOLDER ||
-            type === FILETREE_TYPES.BINDER ? (
-              <IconActive handleClick={(e: MouseEvent) => handleExpandBlock(e)}>
-                <DropDownArrowIcon
-                  rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
-                />
-              </IconActive>
-            ) : null}
-            <Spacer width="8px" />
-            <IconWrapper>{iconType(type)}</IconWrapper>
-            <Spacer width="8px" />
-            <SidebarEditableText
-              editableText={editableText}
-              editableTextRef={editableTextRef}
-              setEditableText={setEditableText}
-              blockId={blockData.id}
-              blockType={type}
-              blockName={blockName}
-              setBlockName={setBlockName}
-            >
-              {blockData.name}
-            </SidebarEditableText>
-            <Spacer width="2px" />
-            <DotsMenuIconContainer>
-              <IconActive className="menu-icon" handleClick={handleBlockModal}>
-                <DotsMenuIcon />
-              </IconActive>
-            </DotsMenuIconContainer>
-          </HFlex>
+          <Card padding={`8px 12px 8px ${paddingLeft}`}>
+            <HFlex>
+              {type === FILETREE_TYPES.FOLDER ||
+              type === FILETREE_TYPES.BINDER ? (
+                <IconActive
+                  handleClick={(e: MouseEvent) => handleExpandBlock(e)}
+                >
+                  <DropDownArrowIcon
+                    rotate={expanded ? ROTATE.NINETY : ROTATE.ZERO}
+                  />
+                </IconActive>
+              ) : null}
+              <Spacer width="8px" />
+              <IconWrapper>{iconType(type)}</IconWrapper>
+              <Spacer width="8px" />
+              <SidebarEditableText
+                editableText={editableText}
+                editableTextRef={editableTextRef}
+                setEditableText={setEditableText}
+                blockId={blockData.id}
+                blockType={type}
+                blockName={blockName}
+                setBlockName={setBlockName}
+              >
+                {blockData.name}
+              </SidebarEditableText>
+              <Spacer width="2px" />
+              <DotsMenuIconContainer>
+                <IconActive
+                  className="menu-icon"
+                  handleClick={(e: MouseEvent) => handleBlockModal(e)}
+                >
+                  <DotsMenuIcon />
+                </IconActive>
+              </DotsMenuIconContainer>
+            </HFlex>
+          </Card>
         </StyledSidebarBlock>
       </HoverCard>
       <Overlay

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect } from "react";
-import { useTheme } from "react-jss";
 import { ThemeType } from "../styles/theme";
 import { useBinders } from "../services/file-structure/useBinders";
 import { useFileTree } from "../services/file-structure/useFileTree";

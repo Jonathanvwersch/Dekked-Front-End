@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
 import { ThemeType } from "../../../styles/theme";
-import { HFlex, Text } from "../../common";
+import { Card, HFlex, Text } from "../../common";
 
 interface SidebarEmptyBlockProps {
   type: string;
@@ -26,9 +26,11 @@ const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
       : null;
 
   return (
-    <HFlex padding={`4px 12px 8px ${paddingLeft}`}>
-      <Text fontColor={theme.colors.grey1}>{message}</Text>
-    </HFlex>
+    <Card padding={`4px 12px 8px ${paddingLeft}`}>
+      <HFlex>
+        <Text fontColor={theme.colors.grey1}>{message}</Text>
+      </HFlex>
+    </Card>
   );
 };
 
