@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { BinderIcon, StudySetIcon } from "../../../../assets";
 import { FILETREE_TYPES } from "../../../../contexts/FileTreeContext";
@@ -13,6 +14,10 @@ interface FolderBinderCardProps {
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const theme: ThemeType = useContext(ThemeContext);
+  const linkType =
+    type === FILETREE_TYPES.FOLDER
+      ? FILETREE_TYPES.BINDER
+      : FILETREE_TYPES.STUDY_SET;
 
   const handleIconType = (type: FILETREE_TYPES, color: string) => {
     if (type === FILETREE_TYPES.FOLDER) {
@@ -21,35 +26,41 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   };
 
   return (
-    <StyledCard
-      borderRadius={theme.display.borderRadiusTwo}
-      height="188px"
-      width="170px"
-      padding="0px"
-      border={`1px solid ${theme.colors.grey2}`}
-    >
-      <Thumbnail />
-      <Description>
-        <Text className="overflow">{handleUntitled(data?.name!)}</Text>
-        <Spacer height="4px" />
-        <HFlex>
-          {handleIconType(type, data?.color!)}
-          <Spacer width="4px" />
-          <Text
-            fontColor={theme.colors.grey1}
-            fontSize={theme.typography.fontSizes.size10}
-          >
-            Created
-          </Text>
-        </HFlex>
-      </Description>
-    </StyledCard>
+    <NavLink to={`/${linkType}/${data?.id}`}>
+      <StyledCard
+        borderRadius={theme.display.borderRadiusTwo}
+        height="188px"
+        width="170px"
+        padding="0px"
+        border={`1px solid ${theme.colors.grey2}`}
+      >
+        <Thumbnail />
+        <Description>
+          <Text className="overflow">{handleUntitled(data?.name!)}</Text>
+          <Spacer height="4px" />
+          <HFlex>
+            {handleIconType(type, data?.color!)}
+            <Spacer width="4px" />
+            <Text
+              fontColor={theme.colors.grey1}
+              fontSize={theme.typography.fontSizes.size10}
+            >
+              Created
+            </Text>
+          </HFlex>
+        </Description>
+      </StyledCard>
+    </NavLink>
   );
 };
 
 const StyledCard = styled(Card)`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   position: relative;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadow};
+  }
 `;
 
 const Thumbnail = styled(HFlex)`

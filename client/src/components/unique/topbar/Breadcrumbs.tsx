@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import { BinderIcon, FolderIcon, StudySetIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
@@ -10,167 +10,137 @@ import {
 import { ThemeContext } from "styled-components";
 import { handleUntitled } from "../../../helpers/handleUntitled";
 
-interface LocationProps {
-  name: string;
-  color: string;
-  folderData: FolderInterface;
-  binderData: BinderInterface;
-  studySetData: StudyPackInterface;
-}
-
 const Breadcrumbs: React.FC = () => {
+  const [folderData, setFolderData] = useState<FolderInterface>();
+  const [binderData, setBinderData] = useState<BinderInterface>();
+  const [studySetData, setStudySetData] = useState<StudyPackInterface>();
   const theme: ThemeType = useContext(ThemeContext);
   const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
-  const location = useLocation<LocationProps>();
   const { getAsset } = useContext(FileTreeContext);
-  const selectedItem = getAsset(type, id);
+
+  useEffect(() => {
+    if (type === FILETREE_TYPES.FOLDER) {
+      setFolderData(getAsset(type, id) as FolderInterface);
+    } else if (type === FILETREE_TYPES.BINDER) {
+      setBinderData(getAsset(type, id) as BinderInterface);
+      setFolderData(
+        getAsset(
+          FILETREE_TYPES.FOLDER,
+          binderData?.folder_id!
+        ) as FolderInterface
+      );
+    } else {
+      setStudySetData(getAsset(type, id) as StudyPackInterface);
+      setBinderData(
+        getAsset(
+          FILETREE_TYPES.BINDER,
+          studySetData?.binder_id!
+        ) as BinderInterface
+      );
+      setFolderData(
+        getAsset(
+          FILETREE_TYPES.FOLDER,
+          binderData?.folder_id!
+        ) as FolderInterface
+      );
+    }
+  }, [id, binderData, studySetData, folderData, getAsset, type]);
 
   return (
     <HFlex>
-      {location.state && selectedItem ? (
-        <>
+      <>
+        <NavLink
+          to={{
+            pathname: `/${FILETREE_TYPES.FOLDER}/${folderData?.id}`,
+          }}
+        >
+          <HoverCard
+            width="auto"
+            borderRadius={`${theme.display.borderRadiusTwo}`}
+            backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+            padding="2px 4px"
+          >
+            <HFlex>
+              <IconWrapper>
+                <FolderIcon color={folderData?.color} />
+              </IconWrapper>
+              <Spacer width="4px" />
+              <Text maxWidth="200px" className="overflow">
+                {handleUntitled(folderData?.name!)}
+              </Text>
+            </HFlex>
+          </HoverCard>
+        </NavLink>
+
+        {type === FILETREE_TYPES.BINDER || type === FILETREE_TYPES.STUDY_SET ? (
           <NavLink
             to={{
-              pathname: `/${FILETREE_TYPES.FOLDER}/${location.state.folderData?.id}`,
-              state: {
-                folderData:
-                  location.state.folderData && location.state.folderData,
-                binderData:
-                  location.state.binderData && location.state.binderData,
-                studySetData:
-                  location.state.studySetData && location.state.studySetData,
-              },
+              pathname: `/${FILETREE_TYPES.BINDER}/${binderData?.id}`,
             }}
           >
-            <HoverCard
-              width="auto"
-              borderRadius={`${theme.display.borderRadiusTwo}`}
-              backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
-              padding="2px 4px"
-            >
-              <HFlex>
-                <IconWrapper>
-                  <FolderIcon
-                    color={
-                      type === FILETREE_TYPES.FOLDER
-                        ? selectedItem?.color
-                        : location.state.folderData?.color
-                    }
-                  />
-                </IconWrapper>
-                <Spacer width="4px" />
-                <Text maxWidth="200px" className="overflow">
-                  {type === FILETREE_TYPES.FOLDER
-                    ? handleUntitled(selectedItem?.name)
-                    : handleUntitled(location.state.folderData?.name)}
-                </Text>
-              </HFlex>
-            </HoverCard>
+            <HFlex>
+              <Spacer width="4px" />
+              <Text
+                fontSize={`${theme.typography.fontSizes.size14}`}
+                fontColor={`${theme.colors.grey1}`}
+              >
+                /
+              </Text>
+              <Spacer width="4px" />
+              <HoverCard
+                width="auto"
+                borderRadius={`${theme.display.borderRadiusTwo}`}
+                backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+                padding="2px 4px"
+              >
+                <HFlex>
+                  <IconWrapper>
+                    <BinderIcon color={binderData?.color} />
+                  </IconWrapper>
+                  <Spacer width="4px" />
+                  <Text maxWidth="200px" className="overflow">
+                    {handleUntitled(binderData?.name!)}
+                  </Text>
+                </HFlex>
+              </HoverCard>
+            </HFlex>
           </NavLink>
-
-          {type === FILETREE_TYPES.BINDER ||
-          type === FILETREE_TYPES.STUDY_SET ? (
-            <NavLink
-              to={{
-                pathname: `/${FILETREE_TYPES.BINDER}/${location.state.binderData?.id}`,
-                state: {
-                  folderData:
-                    location.state.folderData && location.state.folderData,
-                  binderData:
-                    location.state.binderData && location.state.binderData,
-                  studySetData:
-                    location.state.studySetData && location.state.studySetData,
-                },
-              }}
-            >
-              <HFlex>
-                <Spacer width="4px" />
-                <Text
-                  fontSize={`${theme.typography.fontSizes.size14}`}
-                  fontColor={`${theme.colors.grey1}`}
-                >
-                  /
-                </Text>
-                <Spacer width="4px" />
-                <HoverCard
-                  width="auto"
-                  borderRadius={`${theme.display.borderRadiusTwo}`}
-                  backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
-                  padding="2px 4px"
-                >
-                  <HFlex>
-                    <IconWrapper>
-                      <BinderIcon
-                        color={
-                          type === FILETREE_TYPES.BINDER
-                            ? selectedItem?.color
-                            : location.state.binderData?.color
-                        }
-                      />
-                    </IconWrapper>
-                    <Spacer width="4px" />
-                    <Text maxWidth="200px" className="overflow">
-                      {type === FILETREE_TYPES.BINDER
-                        ? handleUntitled(selectedItem?.name)
-                        : handleUntitled(location.state.binderData?.name)}
-                    </Text>
-                  </HFlex>
-                </HoverCard>
-              </HFlex>
-            </NavLink>
-          ) : null}
-          {type === FILETREE_TYPES.STUDY_SET ? (
-            <NavLink
-              to={{
-                pathname: `/${FILETREE_TYPES.STUDY_SET}/${location.state.studySetData?.id}`,
-                state: {
-                  folderData:
-                    location.state.folderData && location.state.folderData,
-                  binderData:
-                    location.state.binderData && location.state.binderData,
-                  studySetData:
-                    location.state.studySetData && location.state.studySetData,
-                },
-              }}
-            >
-              <HFlex>
-                <Spacer width="4px" />
-                <Text
-                  fontSize={`${theme.typography.fontSizes.size14}`}
-                  fontColor={`${theme.colors.grey1}`}
-                >
-                  /
-                </Text>
-                <Spacer width="4px" />
-                <HoverCard
-                  width="auto"
-                  borderRadius={`${theme.display.borderRadiusTwo}`}
-                  backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
-                  padding="2px 4px"
-                >
-                  <HFlex>
-                    <IconWrapper>
-                      <StudySetIcon
-                        color={
-                          type === FILETREE_TYPES.STUDY_SET
-                            ? selectedItem?.color
-                            : location.state.studySetData?.color
-                        }
-                      />
-                    </IconWrapper>
-                    <Spacer width="4px" />
-                    <Text maxWidth="200px" className="overflow">
-                      {type === FILETREE_TYPES.STUDY_SET
-                        ? handleUntitled(selectedItem?.name)
-                        : handleUntitled(location.state.studySetData?.name)}
-                    </Text>
-                  </HFlex>
-                </HoverCard>
-              </HFlex>
-            </NavLink>
-          ) : null}
-        </>
-      ) : null}
+        ) : null}
+        {type === FILETREE_TYPES.STUDY_SET ? (
+          <NavLink
+            to={{
+              pathname: `/${FILETREE_TYPES.STUDY_SET}/${studySetData?.id}`,
+            }}
+          >
+            <HFlex>
+              <Spacer width="4px" />
+              <Text
+                fontSize={`${theme.typography.fontSizes.size14}`}
+                fontColor={`${theme.colors.grey1}`}
+              >
+                /
+              </Text>
+              <Spacer width="4px" />
+              <HoverCard
+                width="auto"
+                borderRadius={`${theme.display.borderRadiusTwo}`}
+                backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+                padding="2px 4px"
+              >
+                <HFlex>
+                  <IconWrapper>
+                    <StudySetIcon color={studySetData?.color} />
+                  </IconWrapper>
+                  <Spacer width="4px" />
+                  <Text maxWidth="200px" className="overflow">
+                    {handleUntitled(studySetData?.name!)}
+                  </Text>
+                </HFlex>
+              </HoverCard>
+            </HFlex>
+          </NavLink>
+        ) : null}
+      </>
     </HFlex>
   );
 };
