@@ -1,50 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { BinderIcon, FolderIcon, StudySetIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../../contexts/FileTreeContext";
+import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
 import { ThemeContext } from "styled-components";
 import { handleUntitled } from "../../../helpers/handleUntitled";
+import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 
 const Breadcrumbs: React.FC = () => {
-  const [folderData, setFolderData] = useState<FolderInterface>();
-  const [binderData, setBinderData] = useState<BinderInterface>();
-  const [studySetData, setStudySetData] = useState<StudyPackInterface>();
   const theme: ThemeType = useContext(ThemeContext);
-  const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
-  const { getAsset } = useContext(FileTreeContext);
-
-  useEffect(() => {
-    if (type === FILETREE_TYPES.FOLDER) {
-      setFolderData(getAsset(type, id) as FolderInterface);
-    } else if (type === FILETREE_TYPES.BINDER) {
-      setBinderData(getAsset(type, id) as BinderInterface);
-      setFolderData(
-        getAsset(
-          FILETREE_TYPES.FOLDER,
-          binderData?.folder_id!
-        ) as FolderInterface
-      );
-    } else {
-      setStudySetData(getAsset(type, id) as StudyPackInterface);
-      setBinderData(
-        getAsset(
-          FILETREE_TYPES.BINDER,
-          studySetData?.binder_id!
-        ) as BinderInterface
-      );
-      setFolderData(
-        getAsset(
-          FILETREE_TYPES.FOLDER,
-          binderData?.folder_id!
-        ) as FolderInterface
-      );
-    }
-  }, [id, binderData, studySetData, folderData, getAsset, type]);
+  const { folderData, binderData, studySetData, type } = useContext(
+    SelectedItemContext
+  );
 
   return (
     <HFlex>

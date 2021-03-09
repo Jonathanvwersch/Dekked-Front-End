@@ -14,3 +14,4 @@ export { default as Toolbar } from "./Toolbar/Toolbar";
 export { default as Page } from "./Pages/Page";
 export { default as InsetPage } from "./Pages/InsetPage";
 export { default as Divider } from "./Divider/Divider";
+export { H1, H2, H3, H4, H5, H6 } from "./Headers/Headers";

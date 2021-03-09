@@ -1,13 +1,14 @@
 import React from "react";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/unique/main-frame/MainFrame";
-import { FolderBinderCardContainer } from "../common";
+import { FolderBinderCardContainer, FolderBinderHeader } from "../common";
 interface BinderPageProps {}
 
 const BinderPage: React.FC<BinderPageProps> = () => {
   return (
     <MainFrame>
       <InsetPage>
+        <FolderBinderHeader />
         <FolderBinderCardContainer />
       </InsetPage>
     </MainFrame>

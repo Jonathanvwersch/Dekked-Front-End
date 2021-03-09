@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
-import { BinderIcon, StudySetIcon } from "../../../../assets";
-import { FILETREE_TYPES } from "../../../../contexts/FileTreeContext";
-import { handleUntitled } from "../../../../helpers/handleUntitled";
-import { ThemeType } from "../../../../styles/theme";
-import { Card, HFlex, Spacer, Text } from "../../../common";
+import { BinderIcon, StudySetIcon } from "../../assets";
+import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
+import { handleUntitled } from "../../helpers/handleUntitled";
+import { ThemeType } from "../../styles/theme";
+import { Card, HFlex, Spacer, Text } from "../../components/common";
 
 interface FolderBinderCardProps {
   data?: BinderInterface | StudyPackInterface;

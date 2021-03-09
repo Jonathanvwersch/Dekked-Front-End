@@ -20,7 +20,8 @@ const StudySetPage = styled.div`
   width: 100%;
   flex-grow: 1;
   max-width: 1200px;
-  margin-bottom: 100px;
+  margin-top: 64px;
+  margin-bottom: 96px;
 `;
 
 const GeneralPage = styled.div`
@@ -29,7 +30,8 @@ const GeneralPage = styled.div`
   width: 100%;
   flex-grow: 1;
   max-width: 1400px;
-  margin-bottom: 100px;
+  margin-top: 64px;
+  margin-bottom: 96px;
 `;
 
 export default InsetPage;

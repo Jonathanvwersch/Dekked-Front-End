@@ -14,11 +14,11 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = () => {
 
   return (
     <Scroller>
-      <VFlex padding="0px">
+      <VFlex>
         <Card padding="8px 16px">
           <Text fontColor={theme.colors.grey1}>Workspace</Text>
         </Card>
-        <VFlex padding="0px">
+        <VFlex>
           {fileTree
             ? Object.entries(fileTree).map((file) => {
                 return (

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { PlusIcon } from "../../../../assets";
+import { PlusIcon } from "../../assets";
 import {
   FileTreeContext,
   FILETREE_TYPES,
-} from "../../../../contexts/FileTreeContext";
-import { ThemeType } from "../../../../styles/theme";
-import { Card, IconActive } from "../../../common";
+} from "../../contexts/FileTreeContext";
+import { ThemeType } from "../../styles/theme";
+import { Card, IconActive } from "../../components/common";
 
 interface AddCardProps {
   type: FILETREE_TYPES;

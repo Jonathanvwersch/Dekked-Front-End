@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { SidebarContext } from "../../../contexts";
+import { SidebarContextProvider } from "../../../contexts/SidebarContext";
 import { ComponentLoadingSpinner, Divider } from "../../common";
 import SidebarBottom from "./SidebarBottom";
 import SidebarTop from "./SidebarTop";
@@ -17,18 +18,20 @@ const Sidebar: React.FC<SidebarProps> = () => {
   }, [loading]);
 
   return sidebar ? (
-    <StyledSidebar>
-      {!loading ? (
-        <>
-          <SidebarTop />
-          <Divider />
-          <SidebarWorkspace />
-          <SidebarBottom />
-        </>
-      ) : (
-        <ComponentLoadingSpinner />
-      )}
-    </StyledSidebar>
+    <SidebarContextProvider>
+      <StyledSidebar>
+        {!loading ? (
+          <>
+            <SidebarTop />
+            <Divider />
+            <SidebarWorkspace />
+            <SidebarBottom />
+          </>
+        ) : (
+          <ComponentLoadingSpinner />
+        )}
+      </StyledSidebar>
+    </SidebarContextProvider>
   ) : null;
 };
 

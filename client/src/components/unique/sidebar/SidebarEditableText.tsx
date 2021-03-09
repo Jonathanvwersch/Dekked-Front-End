@@ -52,14 +52,17 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
     <EditableText
       contentEditable={props.editableText}
       suppressContentEditableWarning={true}
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
       spellCheck={false}
       ref={props.editableTextRef}
       onKeyDown={(e) => {
+        props.setBlockName(props.editableTextRef.current?.innerText);
         if (e.key === "Enter") {
           props.setEditableText((prevValue) => !prevValue);
           handleRename();
         }
-        props.setBlockName(props.editableTextRef.current?.innerText);
       }}
     >
       {children}

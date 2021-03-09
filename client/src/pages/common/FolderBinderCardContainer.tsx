@@ -1,34 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import AddCard from "../../components/unique/main-frame/folder-binder/AddCard";
-import FolderBinderCard from "../../components/unique/main-frame/folder-binder/FolderBinderCard";
+import AddCard from "./AddCard";
+import FolderBinderCard from "./FolderBinderCard";
 import {
   FileTreeContext,
   FILETREE_TYPES,
 } from "../../contexts/FileTreeContext";
+import { SelectedItemContext } from "../../contexts/SelectedItemContext";
 
 interface FolderBinderCardContainerProps {}
 
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> = () => {
-  const [folderData, setFolderData] = useState<FolderInterface>();
-  const [binderData, setBinderData] = useState<BinderInterface>();
-  const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
   const { getAsset, fileTree } = useContext(FileTreeContext);
-
-  useEffect(() => {
-    if (type === FILETREE_TYPES.FOLDER) {
-      setFolderData(getAsset(type, id) as FolderInterface);
-    } else if (type === FILETREE_TYPES.BINDER) {
-      setBinderData(getAsset(type, id) as BinderInterface);
-      setFolderData(
-        getAsset(
-          FILETREE_TYPES.FOLDER,
-          binderData?.folder_id!
-        ) as FolderInterface
-      );
-    }
-  }, [id, binderData, folderData, getAsset, type]);
+  const { folderData, type, id } = useContext(SelectedItemContext);
 
   return (
     <StyledContainer>

@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { StudySetPage } from "..";
 import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
+import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import BinderPage from "../BinderPage/BinderPage";
 import FolderPage from "../FolderPage/FolderPage";
 
@@ -13,7 +14,11 @@ const OptionsPage: React.FC = () => {
     else return <StudySetPage />;
   };
 
-  return handlePageType();
+  return (
+    <SelectedItemContextProvider>
+      {handlePageType()}
+    </SelectedItemContextProvider>
+  );
 };
 
 export default OptionsPage;

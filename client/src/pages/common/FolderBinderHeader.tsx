@@ -1,64 +1,30 @@
 import React, { useContext } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import styled from "styled-components";
-import AddCard from "../../components/unique/main-frame/folder-binder/AddCard";
-import FolderBinderCard from "../../components/unique/main-frame/folder-binder/FolderBinderCard";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../contexts/FileTreeContext";
+import { useParams } from "react-router-dom";
+import { ThemeContext } from "styled-components";
+import { PageHeader } from ".";
+import { HFlex, VFlex, Text, Spacer } from "../../components/common";
+import { SelectedItemContext } from "../../contexts/SelectedItemContext";
+import { handleUntitled } from "../../helpers/handleUntitled";
+import { ThemeType } from "../../styles/theme";
 
 interface FolderBinderHeaderProps {}
 
-interface LocationProps {
-  name: string;
-  color: string;
-  folderData: FolderInterface;
-  binderData: BinderInterface;
-  studySetData: StudyPackInterface;
-}
-
 const FolderBinderHeader: React.FC<FolderBinderHeaderProps> = () => {
-  const location = useLocation<LocationProps>();
-  const { getAsset, fileTree } = useContext(FileTreeContext);
-  const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
+  const theme: ThemeType = useContext(ThemeContext);
+  const { selectedItemData } = useContext(SelectedItemContext);
 
   return (
-    <StyledContainer>
-      <>
-        <AddCard id={id} type={type} />
-        {type === FILETREE_TYPES.FOLDER
-          ? Object.entries(fileTree[location.state.folderData.id].children).map(
-              (binder) => {
-                const binderData = getAsset(
-                  binder[1].type,
-                  binder[0]
-                ) as BinderInterface;
-                return <FolderBinderCard data={binderData} type={type} />;
-              }
-            )
-          : Object.entries(
-              fileTree[location.state.folderData.id].children[id].children
-            ).map((binder) => {
-              const binderData = getAsset(
-                binder[1].type,
-                binder[0]
-              ) as BinderInterface;
-              return <FolderBinderCard data={binderData} type={type} />;
-            })}
-      </>
-    </StyledContainer>
+    <VFlex>
+      <HFlex>
+        <PageHeader>{handleUntitled(selectedItemData?.name!)}</PageHeader>
+      </HFlex>
+      <Spacer height="16px" />
+      <HFlex justifyContent="space-between">
+        <Text fontColor={theme.colors.grey1}> studyset</Text>
+      </HFlex>
+      <Spacer height="32px" />
+    </VFlex>
   );
 };
-
-const StyledContainer = styled.div<FolderBinderHeaderProps>`
-  flex-shrink: 0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-  grid-row-gap: 32px;
-`;
 
 export default FolderBinderHeader;
