@@ -12,6 +12,11 @@ export enum FILETREE_TYPES {
   STUDY_SET = "study_pack",
 }
 
+export enum TAB_TYPE {
+  FLASHCARDS = "flashcards",
+  NOTES = "notes",
+}
+
 interface FileTreeContextTypes {
   // updateFileTree: () => Promise<void>;
   handleAddingAsset: (type: string, parent_id?: string) => void;

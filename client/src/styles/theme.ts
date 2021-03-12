@@ -59,6 +59,13 @@ export type ThemeType = {
     borderRadiusTwo: string;
   };
 
+  sizes: {
+    modal: {
+      small: string;
+    };
+    sidebar: string;
+  };
+
   spacers: {
     size4: string;
     size8: string;
@@ -134,6 +141,13 @@ export const theme: ThemeType = {
   display: {
     borderRadiusFive: "5px",
     borderRadiusTwo: "2px",
+  },
+
+  sizes: {
+    modal: {
+      small: "220px",
+    },
+    sidebar: "250px",
   },
 
   spacers: {

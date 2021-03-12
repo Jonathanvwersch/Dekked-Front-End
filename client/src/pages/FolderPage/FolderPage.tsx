@@ -1,7 +1,7 @@
 import React from "react";
-import { InsetPage } from "../../components/common";
-import MainFrame from "../../components/unique/main-frame/MainFrame";
-import { FolderBinderCardContainer, FolderBinderHeader } from "../common";
+import { InsetPage } from "../../common";
+import MainFrame from "../../common/MainFrame/MainFrame";
+import { FolderBinderCardContainer, FolderBinderHeader } from "../shared";
 
 interface FolderPageProps {}
 
