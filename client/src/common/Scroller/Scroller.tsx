@@ -1,13 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 
-const Scroller: React.FC = ({ children, ...props }) => {
+interface ScrollerProps {
+  width?: string;
+  height?: string;
+}
+
+const Scroller: React.FC<ScrollerProps> = ({ children, ...props }) => {
   return <StyledScroller {...props}>{children}</StyledScroller>;
 };
 
-const StyledScroller = styled.div`
-  overflow: hidden auto;
-  width: 100%;
+const StyledScroller = styled.div<ScrollerProps>`
+  overflow: hidden;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  &:hover {
+    overflow: auto;
+  }
 `;
 
 export default Scroller;

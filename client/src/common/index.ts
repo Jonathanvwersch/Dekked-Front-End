@@ -20,3 +20,5 @@ export { default as Topbar } from "./Topbar/Topbar";
 export { default as MainFrame } from "./MainFrame/MainFrame";
 export { default as Scroller } from "./Scroller/Scroller";
 export { default as Button } from "./Button/Button";
+export { default as Flashcard } from "./Flashcard/Flashcard";
+export { default as LinkedFlashcard } from "./LinkedFlashcard/LinkedFlashcard";

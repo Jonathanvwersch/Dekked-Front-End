@@ -68,7 +68,6 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         );
       setNumOfBinders(0);
     } else if (type === FILETREE_TYPES.STUDY_SET) {
-      console.log("hello");
       setSelectedItemData(getAsset(type, id) as StudyPackInterface);
       setStudySetData(getAsset(type, id) as StudyPackInterface);
       studySetData &&

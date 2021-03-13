@@ -2,15 +2,23 @@
 import React from "react";
 import styled from "styled-components";
 
+export enum FILL_TYPE {
+  FILL = "fill",
+  STROKE = "stroke",
+  BOTH = "both",
+}
+
 interface IconActiveProps {
   className?: string;
   handleClick?: Function;
+  fillType?: string;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
   children,
   handleClick,
-  ...props
+  fillType = FILL_TYPE.FILL,
+  className,
 }) => {
   return (
     <StyledIconActive
@@ -18,7 +26,8 @@ const IconActive: React.FC<IconActiveProps> = ({
       onClick={(event: any) => {
         handleClick && handleClick(event);
       }}
-      className={props.className}
+      className={className}
+      fillType={fillType}
     >
       {children}
     </StyledIconActive>
@@ -38,7 +47,14 @@ const StyledIconActive = styled.button<IconActiveProps>`
   &:hover {
     & svg {
       & path {
-        fill: ${({ theme }) => theme.colors.primary};
+        fill: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
+            ? theme.colors.primary
+            : "auto"};
+        stroke: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
+            ? theme.colors.primary
+            : "auto"};
       }
     }
   }

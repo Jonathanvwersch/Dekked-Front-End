@@ -33,7 +33,7 @@ const StudySetTabs: React.FC<StudySetTabsProps> = ({ children, ...props }) => {
       >
         <Text
           hover={theme.colors.primary}
-          fontSize={theme.typography.fontSizes.size14}
+          fontSize={theme.typography.fontSizes.size16}
         >
           Notes
         </Text>
@@ -45,7 +45,7 @@ const StudySetTabs: React.FC<StudySetTabsProps> = ({ children, ...props }) => {
       >
         <Text
           hover={theme.colors.primary}
-          fontSize={theme.typography.fontSizes.size14}
+          fontSize={theme.typography.fontSizes.size16}
         >
           Flashcards
         </Text>

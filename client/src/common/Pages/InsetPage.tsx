@@ -2,34 +2,36 @@ import React from "react";
 import styled from "styled-components";
 import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 
-interface InsetPageProps {
-  type?: FILETREE_TYPES;
+export enum SIZES {
+  SMALL = "small",
+  MEDIUM = "medium",
+  LARGE = "large",
 }
 
-const InsetPage: React.FC<InsetPageProps> = ({ children, type }) => {
-  return type === FILETREE_TYPES.STUDY_SET ? (
-    <StudySetPage>{children}</StudySetPage>
-  ) : (
-    <GeneralPage>{children}</GeneralPage>
+interface InsetPageProps {
+  type?: FILETREE_TYPES;
+  size?: SIZES;
+  pageRef?: React.RefObject<HTMLDivElement>;
+}
+
+const InsetPage: React.FC<InsetPageProps> = ({
+  children,
+  size = SIZES.SMALL,
+  pageRef,
+}) => {
+  return (
+    <StyledInsetPage ref={pageRef} size={size}>
+      {children}
+    </StyledInsetPage>
   );
 };
 
-const StudySetPage = styled.div`
+const StyledInsetPage = styled.div<InsetPageProps>`
   padding-left: calc(100px + env(safe-area-inset-left));
   padding-right: calc(100px + env(safe-area-inset-right));
   width: 100%;
   flex-grow: 1;
-  max-width: 1200px;
-  margin-top: 64px;
-  margin-bottom: 96px;
-`;
-
-const GeneralPage = styled.div`
-  padding-left: calc(100px + env(safe-area-inset-left));
-  padding-right: calc(100px + env(safe-area-inset-right));
-  width: 100%;
-  flex-grow: 1;
-  max-width: 1400px;
+  max-width: ${({ theme, size }) => theme.wrappers[size!]};
   margin-top: 64px;
   margin-bottom: 96px;
 `;

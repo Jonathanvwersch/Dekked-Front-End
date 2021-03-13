@@ -26,7 +26,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   const handleBlockModal = (e: MouseEvent) => {
     setBlockOptions(true);
     // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
-    const blockModalHeight = 192;
+    const blockModalHeight = 193;
     setCoords(positionModals(e, blockModalHeight));
   };
 

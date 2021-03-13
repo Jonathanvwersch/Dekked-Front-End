@@ -80,6 +80,12 @@ export type ThemeType = {
     size80: string;
     size128: string;
   };
+
+  wrappers: {
+    small: string;
+    medium: string;
+    large: string;
+  };
 };
 
 export const theme: ThemeType = {
@@ -163,5 +169,11 @@ export const theme: ThemeType = {
     size64: "64px",
     size80: "80px",
     size128: "128px",
+  },
+
+  wrappers: {
+    small: "1200px",
+    medium: "1400px",
+    large: "1600px",
   },
 };
