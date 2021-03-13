@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { SidebarContext } from "../../contexts";
+import { SelectedItemContext } from "../../contexts/SelectedItemContext";
+import EditableText from "../EditableText/EditableText";
 
 interface SidebarEditableTextProps {
   editableText: boolean;
@@ -9,7 +11,6 @@ interface SidebarEditableTextProps {
   blockType: string;
   blockId: string;
   blockName: string | undefined;
-  setBlockName: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
@@ -17,6 +18,7 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
   ...props
 }) => {
   const { handleUpdateName } = useContext(SidebarContext);
+  const { id, selectedBlockName } = useContext(SelectedItemContext);
 
   useEffect(() => {
     const updateEditableName = (e: any) => {
@@ -31,7 +33,7 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
       if (props.editableText) {
         if (!props.editableTextRef?.current?.contains(e.target)) {
           props.setEditableText((prevValue) => !prevValue);
-          handleUpdateName(props.blockType, props.blockId, props.blockName);
+          handleUpdateName(props.blockType, props.blockId, selectedBlockName);
         }
       }
     };
@@ -40,31 +42,22 @@ const SidebarEditableText: React.FC<SidebarEditableTextProps> = ({
     return () => {
       document.removeEventListener("click", updateEditableName);
     };
-  }, [props]);
+  }, [props, handleUpdateName, selectedBlockName]);
 
   return (
-    <EditableText
-      contentEditable={props.editableText}
-      suppressContentEditableWarning={true}
-      onDragOver={(e) => {
-        e.preventDefault();
+    <StyledEditableText
+      isEditable={props.editableText}
+      handleOnKeyDownEnter={() => {
+        props.setEditableText((prevValue) => !prevValue);
       }}
-      spellCheck={false}
-      ref={props.editableTextRef}
-      onKeyDown={(e) => {
-        props.setBlockName(props.editableTextRef.current?.innerText);
-        if (e.key === "Enter") {
-          props.setEditableText((prevValue) => !prevValue);
-          handleUpdateName(props.blockType, props.blockId, props.blockName);
-        }
-      }}
+      editableTextRef={props.editableTextRef}
     >
-      {children}
-    </EditableText>
+      {id === props.blockId ? selectedBlockName : props.blockName}
+    </StyledEditableText>
   );
 };
 
-const EditableText = styled.div`
+const StyledEditableText = styled(EditableText)`
   font-size: ${({ theme }) => theme.typography.fontSizes.size12};
   color: ${({ theme }) => theme.colors.fontColor};
   margin: 0;

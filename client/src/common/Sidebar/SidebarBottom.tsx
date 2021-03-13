@@ -1,19 +1,11 @@
 import React, { useContext } from "react";
-import { PlusIcon } from "../../assets";
-import { ThemeType } from "../../styles/theme";
-import {
-  Divider,
-  HFlex,
-  HoverCard,
-  IconWrapper,
-  Spacer,
-  Text,
-} from "../../common";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../contexts/FileTreeContext";
+import { Divider, HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
+
 import styled, { ThemeContext } from "styled-components";
+import { PlusIcon } from "../../assets";
+import { FileTreeContext } from "../../contexts";
+import { ThemeType } from "../../styles/theme";
+import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 
 interface SidebarBottomProps {}
 

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+
+import { ComponentLoadingSpinner, Divider } from "..";
 import { SidebarContext } from "../../contexts";
-import { ComponentLoadingSpinner, Divider } from "../../common";
 import SidebarBottom from "./SidebarBottom";
 import SidebarTop from "./SidebarTop";
 import SidebarWorkspace from "./SidebarWorkspace";

@@ -22,3 +22,4 @@ export { default as Scroller } from "./Scroller/Scroller";
 export { default as Button } from "./Button/Button";
 export { default as Flashcard } from "./Flashcard/Flashcard";
 export { default as LinkedFlashcard } from "./LinkedFlashcard/LinkedFlashcard";
+export { default as EditableText } from "./EditableText/EditableText";

@@ -1,25 +1,16 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 
+import { HoverCard, IconWrapper, ShadowCard, Spacer, HFlex, Text } from "..";
+import { ThemeContext } from "styled-components";
+import { ThemeType } from "../../styles/theme";
+import { FileTreeContext } from "../../contexts";
+import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 import {
   BinderData,
   FolderData,
-  StudySetData,
   SIDEBAR_BLOCK_MENU,
+  StudySetData,
 } from "./SidebarBlockModal.data";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../contexts/FileTreeContext";
-import {
-  HoverCard,
-  IconWrapper,
-  ShadowCard,
-  Spacer,
-  HFlex,
-  Text,
-} from "../../common";
-import { ThemeType } from "../../styles/theme";
-import { ThemeContext } from "styled-components";
 
 interface SidebarBlockModalProps {
   type: string;
@@ -72,15 +63,15 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
     if (type === SIDEBAR_BLOCK_MENU.RENAME) handleRename();
     else if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete();
     else if (
-      type === SIDEBAR_BLOCK_MENU.ADD_STUDYSET ||
-      type === SIDEBAR_BLOCK_MENU.ADD_BINDER
+      type === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
+      type === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     )
       handleAddItem();
     else if (type === SIDEBAR_BLOCK_MENU.RECOLOR) handleRecolor(e);
   };
 
   return (
-    <ShadowCard width={theme.sizes.modal.small}>
+    <ShadowCard width="220px">
       {modalData.map((item, index) => {
         return (
           <HoverCard

@@ -33,7 +33,6 @@ const StyledText = styled.div<TextProps>`
   font-weight: ${({ fontWeight }) => fontWeight};
   color: ${({ fontColor, theme }) =>
     fontColor ? fontColor : theme.colors.fontColor};
-  font-family: ${({ theme }) => theme.typography.fontFamily};
   margin: 0;
   max-width: ${({ maxWidth }) => maxWidth};
   &.overflow {

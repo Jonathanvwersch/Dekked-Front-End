@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
+
+import { Avatar, Card, HFlex, IconActive, Spacer, Text } from "..";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../assets";
 import { ROTATE } from "../../assets/types";
 import { SidebarContext } from "../../contexts";
 import { ThemeType } from "../../styles/theme";
-import { Avatar, Card, HFlex, IconActive, Spacer, Text } from "../../common";
 
 interface SidebarTopProps {}
 

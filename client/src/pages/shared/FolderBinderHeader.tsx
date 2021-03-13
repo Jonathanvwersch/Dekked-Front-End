@@ -5,7 +5,7 @@ import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 import { SelectedItemContext } from "../../contexts/SelectedItemContext";
 
 const FolderBinderHeader: React.FC = () => {
-  const { selectedItemData, type, numOfBinders, numOfStudySets } = useContext(
+  const { type, numOfBinders, numOfStudySets } = useContext(
     SelectedItemContext
   );
 
@@ -22,12 +22,7 @@ const FolderBinderHeader: React.FC = () => {
 
   return (
     <VFlex>
-      <PageHeader
-        message={numberOfItems(type)}
-        type={type}
-        id={selectedItemData?.id!}
-        name={selectedItemData?.name!}
-      ></PageHeader>
+      <PageHeader message={numberOfItems(type)}></PageHeader>
     </VFlex>
   );
 };

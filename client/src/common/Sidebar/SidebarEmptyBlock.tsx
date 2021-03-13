@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
+
+import { Card, HFlex, Text } from "..";
 import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 import { ThemeType } from "../../styles/theme";
-import { Card, HFlex, Text } from "../../common";
 
 interface SidebarEmptyBlockProps {
   type: string;

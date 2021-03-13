@@ -27,6 +27,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
         <Card
           backgroundColor={theme.colors.backgrounds.pageBackground}
           padding="4px 8px"
+          borderRadius={theme.display.borderRadiusFive}
         >
           <StyledText fontColor={theme.colors.grey2}>
             {side === "front" ? "Front" : "Back"}

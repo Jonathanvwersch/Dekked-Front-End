@@ -36,6 +36,8 @@ import SidebarEditableText from "./SidebarEditableText";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import styled, { ThemeContext } from "styled-components";
 import { positionModals } from "../../helpers";
+import { CoordsProps } from "../../helpers/positionModals";
+import { SelectedItemContext } from "../../contexts/SelectedItemContext";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface | undefined;
@@ -61,13 +63,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     blockData?.name
   );
   const theme: ThemeType = useContext(ThemeContext);
-
-  const [coords, setCoords] = useState<{
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  }>();
+  const { selectedBlockName } = useContext(SelectedItemContext);
+  const [coords, setCoords] = useState<CoordsProps>();
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
@@ -79,9 +76,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       : null;
 
   useEffect(() => {
-    if (colorPickerRef.current) {
+    colorPickerRef.current &&
       updateAsset(type, blockData!.id, { color: iconColor });
-    }
   }, [iconColor]);
 
   const iconType = (type: string) => {
@@ -159,11 +155,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
                 setEditableText={setEditableText}
                 blockId={blockData.id}
                 blockType={type}
-                blockName={blockName}
-                setBlockName={setBlockName}
-              >
-                {blockData.name}
-              </SidebarEditableText>
+                blockName={blockData.name}
+              />
               <Spacer width="2px" />
               <DotsMenuIconContainer>
                 <IconActive
@@ -193,7 +186,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
           iconColor={iconColor}
         />
       </Overlay>
-
       <Overlay
         state={colorPicker}
         handleState={() => setColorPicker(false)}
