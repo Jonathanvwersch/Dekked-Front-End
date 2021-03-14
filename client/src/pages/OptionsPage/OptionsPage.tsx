@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { BinderPage, FolderPage, StudySetPage } from "..";
-import { Sidebar } from "../../common";
 import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
+import { Sidebar } from "../../components/shared/Sidebar";
 
 const OptionsPage: React.FC = () => {
   return (

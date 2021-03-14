@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext, FILETREE_TYPES } from "./FileTreeContext";
 
@@ -6,11 +6,7 @@ interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
   binderData: BinderInterface | undefined;
   studySetData: StudyPackInterface | undefined;
-  selectedItemData:
-    | FolderInterface
-    | BinderInterface
-    | StudyPackInterface
-    | undefined;
+
   type: FILETREE_TYPES;
   id: string;
   numOfBinders: number | undefined;
@@ -23,7 +19,6 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>({
   folderData: undefined,
   binderData: undefined,
   studySetData: undefined,
-  selectedItemData: undefined,
   type: FILETREE_TYPES.FOLDER,
   id: "",
   numOfBinders: 0,
@@ -40,22 +35,19 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const [folderData, setFolderData] = useState<FolderInterface>();
   const [binderData, setBinderData] = useState<BinderInterface>();
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
-  const [selectedItemData, setSelectedItemData] = useState<
-    FolderInterface | BinderInterface | StudyPackInterface
-  >();
+
   const [selectedBlockName, setSelectedBlockName] = useState<
     string | undefined
-  >(selectedItemData?.name);
+  >();
 
   const handleSelectedBlockName = (name: string) => {
     setSelectedBlockName(name);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
-      setSelectedItemData(getAsset(type, id) as FolderInterface);
-      setSelectedBlockName(selectedItemData?.name);
+      setSelectedBlockName(folderData?.name);
       folderData &&
         fileTree[folderData?.id!]?.children &&
         setNumOfBinders(
@@ -64,8 +56,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
       setNumOfStudySets(0);
     } else if (type === FILETREE_TYPES.BINDER) {
       setBinderData(getAsset(type, id) as BinderInterface);
-      setSelectedItemData(getAsset(type, id) as BinderInterface);
-      setSelectedBlockName(selectedItemData?.name);
+      setSelectedBlockName(binderData?.name);
       binderData &&
         setFolderData(
           getAsset(
@@ -81,9 +72,8 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         );
       setNumOfBinders(0);
     } else if (type === FILETREE_TYPES.STUDY_SET) {
-      setSelectedItemData(getAsset(type, id) as StudyPackInterface);
       setStudySetData(getAsset(type, id) as StudyPackInterface);
-      setSelectedBlockName(selectedItemData?.name);
+      setSelectedBlockName(studySetData?.name);
       studySetData &&
         setBinderData(
           getAsset(
@@ -99,21 +89,11 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
           ) as FolderInterface
         );
     }
-  }, [
-    id,
-    binderData,
-    studySetData,
-    folderData,
-    getAsset,
-    type,
-    fileTree,
-    selectedItemData,
-  ]);
+  }, [id, binderData, studySetData, folderData, getAsset, type, fileTree]);
 
   return (
     <SelectedItemContext.Provider
       value={{
-        selectedItemData,
         folderData,
         binderData,
         studySetData,

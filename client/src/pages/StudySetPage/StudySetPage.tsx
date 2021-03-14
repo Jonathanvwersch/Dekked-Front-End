@@ -1,12 +1,14 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
-import { InsetPage } from "../../common";
-import MainFrame from "../../common/MainFrame/MainFrame";
+import { InsetPage } from "../../components/common";
+import MainFrame from "../../components/common/MainFrame/MainFrame";
+import {
+  FlashcardsContainer,
+  StudySetHeader,
+  NotesContainer,
+} from "../../components/study-set";
 import { FILETREE_TYPES, TAB_TYPE } from "../../contexts/FileTreeContext";
 import { useResize } from "../../hooks/useResize";
-import StudySetFlashcards from "./StudySetFlashcards";
-import StudySetHeader from "./StudySetHeader";
-import StudySetNotes from "./StudySetNotes";
 
 interface StudySetPageProps {}
 
@@ -20,9 +22,9 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
       <InsetPage pageRef={studySetPageRef} type={FILETREE_TYPES.STUDY_SET}>
         <StudySetHeader />
         {tab === TAB_TYPE.NOTES ? (
-          <StudySetNotes flashcardSize={width ? width - 200 : 1000} />
+          <NotesContainer flashcardSize={width ? width - 200 : 1000} />
         ) : (
-          <StudySetFlashcards />
+          <FlashcardsContainer />
         )}
       </InsetPage>
     </MainFrame>

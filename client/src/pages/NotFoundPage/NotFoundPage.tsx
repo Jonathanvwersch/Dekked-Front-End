@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "styled-components";
-import { HFlex, Spacer, Text, VFlex, Button } from "../../common";
-import { BUTTON_THEME } from "../../common/Button/Button";
+import { HFlex, Spacer, Text, VFlex, Button } from "../../components/common";
+import { BUTTON_THEME } from "../../components/common/Button/Button";
 import { ThemeType } from "../../styles/theme";
 
 interface NotFoundPageProps {}
