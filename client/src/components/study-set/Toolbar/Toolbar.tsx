@@ -23,6 +23,7 @@ interface ToolbarProps {
 const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   const [blockOptions, setBlockOptions] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsProps>();
+  const iconSize = "20px";
 
   const handleBlockModal = (e: MouseEvent) => {
     setBlockOptions(true);
@@ -36,38 +37,38 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
       <HFlex width="auto">
         <IconActive handleClick={(e: MouseEvent) => handleBlockModal(e)}>
           <HFlex>
-            <BodyTextIcon />
-            <DropDownArrowIcon rotate={ROTATE.NINETY} />
+            <BodyTextIcon size={iconSize} />
+            <DropDownArrowIcon size={iconSize} rotate={ROTATE.NINETY} />
           </HFlex>
         </IconActive>
         <Spacer width="8px" />
         <IconActive>
-          <BoldIcon />
+          <BoldIcon size={iconSize} />
         </IconActive>
         <Spacer width="8px" />
         <IconActive>
-          <ItalicsIcon />
+          <ItalicsIcon size={iconSize} />
         </IconActive>
         <Spacer width="8px" />
         <IconActive>
-          <UnderlineIcon />
+          <UnderlineIcon size={iconSize} />
         </IconActive>
 
         {toolbarFull ? (
           <>
             <Spacer width="8px" />
-            <DividerIcon />
+            <DividerIcon size={iconSize} />
             <Spacer width="8px" />
             <IconActive>
-              <LeftAlignIcon />
+              <LeftAlignIcon size={iconSize} />
             </IconActive>
             <Spacer width="8px" />
             <IconActive>
-              <CenterAlignIcon />
+              <CenterAlignIcon size={iconSize} />
             </IconActive>
             <Spacer width="8px" />
             <IconActive>
-              <RightAlignIcon />
+              <RightAlignIcon size={iconSize} />
             </IconActive>
           </>
         ) : null}

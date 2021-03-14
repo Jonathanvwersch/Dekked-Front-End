@@ -30,7 +30,6 @@ const BlockName: React.FC<BlockNameProps> = ({ children, ...props }) => {
       if (props.editableText) {
         if (!props.editableTextRef?.current?.contains(e.target)) {
           props.setEditableText((prevValue) => !prevValue);
-          handleUpdateName(props.blockType, props.blockId, selectedBlockName);
         }
       }
     };
