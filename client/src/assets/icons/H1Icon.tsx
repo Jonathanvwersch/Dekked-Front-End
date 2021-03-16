@@ -3,7 +3,7 @@ import React from "react";
 export default function H1Icon({
   color = "var(--main-black)",
   className = "icon",
-  size = "16",
+  size = "16px",
 }: {
   color?: string;
   className?: string;

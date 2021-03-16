@@ -1,0 +1,29 @@
+.page-title {
+  font-size: 100;
+  font-weight: 400;
+}
+
+#title .public-DraftEditorPlaceholder-root {
+  font-size: 48px;
+}
+
+/* .DraftEditor-root {
+  border: black solid 1px;
+} */
+
+/* h2,
+h3,
+ul,
+ol {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+} */
+
+#draft-editor-container h1 {
+  margin-top: 32px;
+  margin-bottom: 0px;
+}
+
+.unstyled {
+  border: black solid 1px;
+}
