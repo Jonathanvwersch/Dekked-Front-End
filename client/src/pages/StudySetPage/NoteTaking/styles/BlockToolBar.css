@@ -1,0 +1,42 @@
+.blockToolBoxContainer {
+  width: 250px;
+  box-shadow: 0px 0px 6px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  position: absolute;
+  z-index: 2;
+  background-color: white;
+  transition: all 0.1s ease-in-out;
+  transform-origin: top left;
+}
+
+.hidden {
+  transform: scale(0);
+}
+
+.visible {
+  transform: scale(1);
+}
+
+.toolContainer {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toolLabel {
+  font-family: 'DM Sans';
+  pointer-events: none;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.toolImage {
+  margin-left: 17.5px;
+  margin-right: 8px;
+}
+
+.selected {
+  background-color: #f0f0f0;
+}
