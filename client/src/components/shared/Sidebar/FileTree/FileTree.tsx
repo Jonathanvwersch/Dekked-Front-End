@@ -30,7 +30,6 @@ const FileTree: React.FC<FileTreeProps> = ({ file }) => {
             return (
               <Fragment key={binder[0]}>
                 <SidebarBlock blockData={binderData} type={binder[1].type} />
-
                 {Object.entries(binder[1].children).length > 0
                   ? Object.entries(binder[1].children).map((studySet) => {
                       const studySetData = getAsset(

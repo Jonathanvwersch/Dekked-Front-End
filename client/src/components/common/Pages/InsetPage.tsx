@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { FILETREE_TYPES } from "../../../contexts/FileTreeContext";
 
 export enum SIZES {
   SMALL = "small",
@@ -9,7 +8,6 @@ export enum SIZES {
 }
 
 interface InsetPageProps {
-  type?: FILETREE_TYPES;
   size?: SIZES;
   pageRef?: React.RefObject<HTMLDivElement>;
 }

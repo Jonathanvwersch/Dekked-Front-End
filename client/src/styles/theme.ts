@@ -64,6 +64,18 @@ export type ThemeType = {
       small: string;
     };
     sidebar: string;
+
+    input: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+
+    button: {
+      small: string;
+      medium: string;
+      large: string;
+    };
   };
 
   spacers: {
@@ -154,6 +166,16 @@ export const theme: ThemeType = {
       small: "220px",
     },
     sidebar: "250px",
+    input: {
+      small: "32px",
+      medium: "40px",
+      large: "48px;",
+    },
+    button: {
+      small: "32px",
+      medium: "40px",
+      large: "48px;",
+    },
   },
 
   spacers: {

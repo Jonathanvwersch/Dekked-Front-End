@@ -9,4 +9,6 @@ export interface IconProps {
   color?: string;
   size?: string;
   rotate?: ROTATE;
+  height?: string;
+  width?: string;
 }

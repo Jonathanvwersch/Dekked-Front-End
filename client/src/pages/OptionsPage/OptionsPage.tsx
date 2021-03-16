@@ -10,13 +10,18 @@ const OptionsPage: React.FC = () => {
     <SelectedItemContextProvider>
       <Sidebar />
       <Switch>
-        <Route path={`/${FILETREE_TYPES.FOLDER}/:id`} component={FolderPage} />
+        <Route
+          exact
+          path={`/${FILETREE_TYPES.FOLDER}/:id`}
+          component={FolderPage}
+        />
         <Route path={`/${FILETREE_TYPES.BINDER}/:id`} component={BinderPage} />
         <Route
+          exact
           path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
           component={StudySetPage}
         />
-        <Route path={`/:type/:id/study`} component={StudySetPage} />
+        <Route exact path={`/:type/:id/study`} component={StudySetPage} />
       </Switch>
     </SelectedItemContextProvider>
   );

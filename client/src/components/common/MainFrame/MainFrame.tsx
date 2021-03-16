@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ComponentLoadingSpinner, Page } from "..";
+import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import TopBar from "../../shared/Topbar/Topbar";
 
 const MainFrame: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const { folderData } = useContext(SelectedItemContext);
 
   useEffect(() => {
-    setLoading(false);
-  }, [loading]);
+    if (folderData) setLoading(false);
+  }, [folderData]);
 
   return !loading ? (
     <StyledMainFrame>

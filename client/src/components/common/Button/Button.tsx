@@ -1,18 +1,13 @@
 import React, { ReactNode } from "react";
-
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
+import { SIZES } from "../Pages/InsetPage";
 
 const ButtonStyles = {
   primary: ButtonPrimary,
   secondary: ButtonSecondary,
   danger: ButtonDanger,
 };
-
-export enum VARIANT_TYPES {
-  DEFAULT = "default",
-  LARGE = "large",
-}
 
 export enum BUTTON_TYPES {
   SUBMIT = "submit",
@@ -34,7 +29,7 @@ interface ButtonProps {
   disabled?: boolean;
   buttonStyle?: BUTTON_THEME;
   handleClick?: (args: any) => any;
-  variant?: VARIANT_TYPES;
+  size?: SIZES;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -45,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   buttonStyle = BUTTON_THEME.PRIMARY,
   fullWidth = false,
-  variant = "default",
+  size = SIZES.SMALL,
 }) => {
   const Button = ButtonStyles[buttonStyle];
   const className = fullWidth ? "fullWidth" : "";
@@ -56,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled || isLoading}
       isLoading={isLoading}
       onClick={handleClick}
-      variant={variant}
+      size={size}
       className={className}
     >
       {isLoading ? (

@@ -8,6 +8,7 @@ interface ShadowCardProps {
   border?: string;
   backgroundColor?: string;
   position?: string;
+  padding?: string;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
@@ -22,6 +23,7 @@ const StyledShadowCard = styled.div<ShadowCardProps>`
   width: ${({ width }) => (width ? width : "100%")};
   border: ${({ border }) => border};
   position: ${({ position }) => position};
+  padding: ${({ padding }) => padding};
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor
       ? backgroundColor

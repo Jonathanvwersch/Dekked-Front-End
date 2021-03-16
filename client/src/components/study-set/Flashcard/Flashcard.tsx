@@ -46,8 +46,6 @@ const Flashcard: React.FC<FlashcardProps> = ({
         >
           <VFlex alignItems="flex-start">
             <Spacer height="8px" />
-            <Text> {side === "front" ? frontText : backText}</Text>
-            <VFlex></VFlex>
           </VFlex>
         </StyledCard>
       </VFlex>

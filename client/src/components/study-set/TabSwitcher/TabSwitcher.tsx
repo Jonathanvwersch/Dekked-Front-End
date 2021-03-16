@@ -21,35 +21,28 @@ const TabSwitcher: React.FC<TabSwitcherProps> = ({ children, ...props }) => {
 
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
-
     borderBottom: `2px solid ${theme.colors.primary}`,
+  };
+
+  const tabLink = (slug: TAB_TYPE, text: string) => {
+    return (
+      <NavLink to={`/${type}/${id}/${slug}`} activeStyle={activeTabStyle}>
+        <Text
+          hover={theme.colors.primary}
+          filterActive
+          fontSize={theme.typography.fontSizes.size16}
+        >
+          {text}
+        </Text>
+      </NavLink>
+    );
   };
 
   return (
     <HFlex width="auto">
-      <NavLink
-        to={`/${type}/${id}/${TAB_TYPE.NOTES}`}
-        activeStyle={activeTabStyle}
-      >
-        <Text
-          hover={theme.colors.primary}
-          fontSize={theme.typography.fontSizes.size16}
-        >
-          Notes
-        </Text>
-      </NavLink>
-      <Spacer width="16px" />
-      <NavLink
-        to={`/${type}/${id}/${TAB_TYPE.FLASHCARDS}`}
-        activeStyle={activeTabStyle}
-      >
-        <Text
-          hover={theme.colors.primary}
-          fontSize={theme.typography.fontSizes.size16}
-        >
-          Flashcards
-        </Text>
-      </NavLink>
+      {tabLink(TAB_TYPE.NOTES, "Notes")}
+      <Spacer width={theme.spacers.size16} />
+      {tabLink(TAB_TYPE.FLASHCARDS, "Flashcards")}
     </HFlex>
   );
 };

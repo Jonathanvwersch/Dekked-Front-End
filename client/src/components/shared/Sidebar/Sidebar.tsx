@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { SidebarContext } from "../../../contexts";
+import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ComponentLoadingSpinner, Divider } from "../../common";
 import Base from "./Base/Base";
 import Top from "./Top/Top";
@@ -11,10 +12,11 @@ interface SidebarProps {}
 const Sidebar: React.FC<SidebarProps> = () => {
   const [loading, setLoading] = useState(true);
   const { sidebar } = useContext(SidebarContext);
+  const { folderData } = useContext(SelectedItemContext);
 
   useEffect(() => {
-    setLoading(false);
-  }, [loading]);
+    if (folderData) setLoading(false);
+  }, [folderData]);
 
   return sidebar ? (
     <StyledSidebar>

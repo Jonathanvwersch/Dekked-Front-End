@@ -5,23 +5,19 @@ interface TextProps {
   fontSize?: string;
   fontWeight?: string;
   fontColor?: string;
-  fontFamily?: string;
   margin?: string;
   overflowText?: boolean;
   className?: string;
-  editableText?: boolean;
   maxWidth?: string;
   hover?: string;
+  filterHover?: boolean;
+  filterActive?: boolean;
+  textDecoration?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   return (
-    <StyledText
-      contentEditable={props.editableText}
-      spellCheck={false}
-      className={props.className}
-      {...props}
-    >
+    <StyledText spellCheck={false} className={props.className} {...props}>
       {children}
     </StyledText>
   );
@@ -35,6 +31,8 @@ const StyledText = styled.div<TextProps>`
     fontColor ? fontColor : theme.colors.fontColor};
   margin: 0;
   max-width: ${({ maxWidth }) => maxWidth};
+  text-decoration: ${({ textDecoration }) => textDecoration};
+
   &.overflow {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -43,6 +41,13 @@ const StyledText = styled.div<TextProps>`
 
   &:hover {
     color: ${({ hover }) => hover};
+    filter: ${({ filterHover, theme }) =>
+      filterHover ? theme.colors.hover.filter : null};
+  }
+
+  &:active {
+    filter: ${({ filterActive, theme }) =>
+      filterActive ? theme.colors.active.filter : null};
   }
 `;
 

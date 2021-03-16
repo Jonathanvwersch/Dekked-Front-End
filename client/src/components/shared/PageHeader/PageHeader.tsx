@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
@@ -16,13 +16,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const { selectedBlockName } = useContext(SelectedItemContext);
   const { tab } = useParams<{ tab: TAB_TYPE }>();
+  const [name, setName] = useState<string>(selectedBlockName!);
+
+  useEffect(() => {
+    console.log(selectedBlockName);
+    setName(selectedBlockName!);
+  }, [selectedBlockName]);
 
   return (
     <VFlex>
-      <StyledEditableText
-        editableTextRef={headerRef}
-        name={selectedBlockName!}
-      />
+      <StyledEditableText editableTextRef={headerRef} name={name} />
       <Spacer height="16px" />
       <HFlex justifyContent="space-between">
         <Text fontColor={theme.colors.grey1}>{message}</Text>

@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { SidebarContext } from "../../../../contexts";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
@@ -16,6 +22,13 @@ interface BlockNameProps {
 const BlockName: React.FC<BlockNameProps> = ({ children, ...props }) => {
   const { handleUpdateName } = useContext(SidebarContext);
   const { id, selectedBlockName } = useContext(SelectedItemContext);
+  const [name, setName] = useState(props.blockName);
+
+  useEffect(() => {
+    if (props.blockId === id) {
+      setName(selectedBlockName);
+    }
+  }, [selectedBlockName]);
 
   useEffect(() => {
     const updateEditableName = (e: any) => {
@@ -47,7 +60,7 @@ const BlockName: React.FC<BlockNameProps> = ({ children, ...props }) => {
         props.setEditableText((prevValue) => !prevValue);
       }}
       editableTextRef={props.editableTextRef}
-      name={id === props.blockId ? selectedBlockName! : props.blockName!}
+      name={name}
     />
   );
 };

@@ -1,19 +1,23 @@
 import styled from "styled-components";
+import { SIZES } from "../Pages/InsetPage";
 
 export const StyledButton = styled.button<{
   isLoading: boolean;
+  size: SIZES;
 }>`
   transition: opacity 0.1s ease-out, border-color 0.1s ease-out,
     background-color 0.1s ease-out;
   border-radius: ${({ theme }) => theme.display.borderRadiusFive};
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size16}`};
-  font-size: ${({ theme }) => theme.typography.fontSizes.size14};
-
+  font-size: ${({ theme, size }) =>
+    size === SIZES.SMALL
+      ? theme.typography.fontSizes.size14
+      : theme.typography.fontSizes.size16};
+  height: ${({ theme, size }) => theme.sizes.button[size!]};
   border-width: 1px;
   cursor: pointer;
   border-style: solid;
   border-color: ${({ theme }) => theme.colors.primary};
-
   white-space: nowrap;
   position: relative;
   display: flex;

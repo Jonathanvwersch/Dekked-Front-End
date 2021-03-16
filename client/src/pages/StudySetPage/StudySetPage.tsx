@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
+import { SIZES } from "../../components/common/Pages/InsetPage";
 import {
   FlashcardsContainer,
   StudySetHeader,
@@ -13,19 +14,31 @@ import { useResize } from "../../hooks/useResize";
 interface StudySetPageProps {}
 
 const StudySetPage: React.FC<StudySetPageProps> = () => {
-  const { tab } = useParams<{ tab: TAB_TYPE }>();
   const studySetPageRef = useRef<HTMLDivElement>(null);
   const { width } = useResize(studySetPageRef);
 
   return (
     <MainFrame>
-      <InsetPage pageRef={studySetPageRef} type={FILETREE_TYPES.STUDY_SET}>
+      <InsetPage pageRef={studySetPageRef} size={SIZES.SMALL}>
         <StudySetHeader />
-        {tab === TAB_TYPE.NOTES ? (
-          <NotesContainer flashcardSize={width ? width - 200 : 1000} />
-        ) : (
-          <FlashcardsContainer />
-        )}
+        <Switch>
+          <Route
+            path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
+            render={() => (
+              <NotesContainer
+                flashcardSize={
+                  width
+                    ? width - 200
+                    : studySetPageRef.current?.clientWidth! - 200
+                }
+              />
+            )}
+          />
+          <Route
+            path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
+            component={FlashcardsContainer}
+          />
+        </Switch>
       </InsetPage>
     </MainFrame>
   );

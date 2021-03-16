@@ -24,8 +24,15 @@ const EditableText: React.FC<EditableTextProps> = ({
   const { handleUpdateName } = useContext(SidebarContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const [html, setHtml] = useState(name);
+
+  const handleChange = (e: any) => {
+    setHtml(e.target.value);
+  };
+
   useEffect(() => {
     if (name?.length >= 0) {
+      setHtml(name);
       setIsLoading(false);
     }
   }, [name]);
@@ -38,8 +45,8 @@ const EditableText: React.FC<EditableTextProps> = ({
       onKeyDown={(e: any) => {
         if (e.key === "Enter") {
           handleOnKeyDownEnter &&
-            handleUpdateName(type, id, editableTextRef.current?.innerText!) &&
-            handleOnKeyDownEnter();
+            handleOnKeyDownEnter() &&
+            handleUpdateName(type, id, editableTextRef.current?.innerText!);
           e.preventDefault();
         }
       }}
@@ -54,10 +61,8 @@ const EditableText: React.FC<EditableTextProps> = ({
       onKeyUp={() => {
         handleSelectedBlockName(editableTextRef.current?.innerText!);
       }}
-      onChange={() => {
-        return;
-      }}
-      html={name}
+      onChange={handleChange}
+      html={html}
     />
   ) : null;
 };

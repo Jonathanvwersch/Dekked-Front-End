@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { FileTreeContext } from "./contexts";
 import { FILETREE_TYPES } from "./contexts/FileTreeContext";
-import { NotFoundPage, OptionsPage } from "./pages";
+import { LogInSignUpPage, NotFoundPage, OptionsPage } from "./pages";
 
 const Routes = () => {
   const { fileTree, getAsset } = useContext(FileTreeContext);
@@ -11,7 +11,7 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route exact path="/">
+      <Route exact path="/" component={OptionsPage}>
         {firstFolderId && folderData && (
           <Redirect
             to={{
@@ -22,6 +22,8 @@ const Routes = () => {
         )}
       </Route>
       <Route path="/:type/:id" component={OptionsPage} />
+      <Route path="/login" render={() => <LogInSignUpPage login={true} />} />
+      <Route path="/sign-up" component={LogInSignUpPage} />
       <Route component={NotFoundPage} />
     </Switch>
   );
