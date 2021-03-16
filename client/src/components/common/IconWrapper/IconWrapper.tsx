@@ -1,19 +1,14 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
+import styled from "styled-components";
 
-interface IconWrapperProps {}
-
-const IconWrapper: React.FC<IconWrapperProps> = ({ children }) => {
-  const classes = useStyles();
-  return <div className={classes.iconWrapper}>{children}</div>;
+const IconWrapper: React.FC = ({ children }) => {
+  return <StyledIconWrapper>{children}</StyledIconWrapper>;
 };
 
-export const useStyles = createUseStyles({
-  iconWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const StyledIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default IconWrapper;

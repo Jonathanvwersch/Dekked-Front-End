@@ -1,36 +1,29 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
 
 interface AvatarProps {
   diameter?: string;
-  backgroundcolor?: string;
-  fontcolor?: string;
+  backgroundColor?: string;
+  fontColor?: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ children, ...props }) => {
-  const theme = useTheme();
-  const classes = useStyles({ theme, ...props });
-  return <div className={classes.avatar}>{children}</div>;
+  return <StyledAvatar>{children}</StyledAvatar>;
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  avatar: (props) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "50%",
-    fontFamily: `${theme.typography.fontFamily}`,
-    minHeight: props.diameter,
-    minWidth: props.diameter,
-    backgroundColor: props.backgroundcolor || `${theme.colors.primary}`,
-    color: props.fontcolor,
-  }),
-}));
-
-Avatar.defaultProps = {
-  diameter: "32px",
-  fontcolor: "white",
-};
+const StyledAvatar = styled.div<AvatarProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-family: ${({ theme }) => theme.typography.fontFamily};
+  height: ${({ diameter }) => (diameter ? diameter : "32px")};
+  width: ${({ diameter }) => (diameter ? diameter : "32px")};
+  min-height: ${({ diameter }) => (diameter ? diameter : "32px")};
+  min-width: ${({ diameter }) => (diameter ? diameter : "32px")};
+  background-color: ${({ theme, backgroundColor }) =>
+    backgroundColor ? backgroundColor : theme.colors.primary};
+  color: ${({ fontColor }) => (fontColor ? fontColor : "white")};
+`;
 
 export default Avatar;

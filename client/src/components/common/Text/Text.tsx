@@ -1,6 +1,5 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
 
 interface TextProps {
   fontSize?: string;
@@ -12,43 +11,39 @@ interface TextProps {
   className?: string;
   editableText?: boolean;
   maxWidth?: string;
+  hover?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
-  const theme = useTheme();
-  const classes = useStyles({ theme, ...props });
-  const className = props.overflowText
-    ? `${classes.text} ${classes.overflow} ${props.className}`
-    : `${classes.text} ${props.className}`;
   return (
-    <div
+    <StyledText
       contentEditable={props.editableText}
       spellCheck={false}
-      className={className}
+      className={props.className}
+      {...props}
     >
       {children}
-    </div>
+    </StyledText>
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  text: (props) => ({
-    fontSize: props.fontSize || `${theme.typography.fontSizes.size12}`,
-    fontWeight: props.fontWeight,
-    color: props.fontColor || `${theme.colors.fontColor}`,
-    fontFamily: props.fontFamily,
-    margin: props.margin,
-    maxWidth: props.maxWidth,
-  }),
-  overflow: {
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-  },
-}));
+const StyledText = styled.div<TextProps>`
+  font-size: ${({ fontSize, theme }) =>
+    fontSize ? fontSize : theme.typography.fontSizes.size12};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  color: ${({ fontColor, theme }) =>
+    fontColor ? fontColor : theme.colors.fontColor};
+  margin: 0;
+  max-width: ${({ maxWidth }) => maxWidth};
+  &.overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-Text.defaultProps = {
-  margin: "0",
-};
+  &:hover {
+    color: ${({ hover }) => hover};
+  }
+`;
 
 export default Text;

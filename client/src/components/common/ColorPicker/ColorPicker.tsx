@@ -1,14 +1,6 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
-import { createUseStyles } from "react-jss";
-import { SidebarContext } from "../../../contexts";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
 
 // Colour picker taken from https://casesandberg.github.io/react-color/
 interface ColorPickerProps {
@@ -22,7 +14,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   setIconColor,
   colorPickerRef,
 }) => {
-  const classes = useStyles();
   const [colour, setColour] = useState<{
     background: string | HSLColor | RGBColor | undefined;
   }>({
@@ -48,41 +39,45 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ];
 
   return (
-    <div ref={colorPickerRef} className={classes.colorPicker}>
+    <StyledColorPicker ref={colorPickerRef}>
       <BlockPicker
         color={colour.background}
         onChange={handleChange}
         triangle="hide"
         colors={defaultColors}
+        className="colors"
       />
-    </div>
+    </StyledColorPicker>
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  colorPicker: {
-    "& div": {
-      color: `${theme.colors.backgrounds.pageBackground}`,
-      borderRadius: `${theme.display.borderRadiusTwo} !important`,
-      boxShadow: `${theme.boxShadow} !important`,
-      userSelect: "none",
+const StyledColorPicker = styled.div`
+  border-radius: ${({ theme }) =>
+    `${theme.display.borderRadiusTwo} !important`};
+  box-shadow: ${({ theme }) => `${theme.boxShadow} !important`};
 
-      "& div": {
-        textTransform: "capitalize !important",
-        borderRadius: `${theme.display.borderRadiusTwo} !important`,
-        boxShadow: "none !important",
-        color: "transparent !important",
-      },
+  & div {
+    color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+    box-shadow: none !important;
+    border-radius: ${({ theme }) =>
+      `${theme.display.borderRadiusTwo} !important`};
+    user-select: none;
+  }
 
-      "& input": {
-        color: `${theme.colors.fontColor} !important`,
-        fontSize: `${theme.typography.fontSizes.size12} !important`,
-        borderRadius: `${theme.display.borderRadiusTwo} !important`,
-        fontFamily: `${theme.typography.fontFamily} !important`,
-        background: `${theme.colors.secondary} !important`,
-      },
-    },
-  },
-}));
+  & div:nth-child(1) {
+    color: transparent !important;
+  }
+
+  & div:nth-child(2) {
+    & input {
+      color: ${({ theme }) => `${theme.colors.fontColor} !important`};
+      border-radius: ${({ theme }) =>
+        `${theme.display.borderRadiusTwo} !important`};
+      background: ${({ theme }) => `${theme.colors.secondary} !important`};
+      box-shadow: none !important;
+      border: ${({ theme }) => `1px solid ${theme.colors.grey2}!important`};
+    }
+  }
+`;
 
 export default ColorPicker;

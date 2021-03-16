@@ -1,9 +1,9 @@
 /* Overlay container used to render all popovers and modals */
 import React, { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { createUseStyles } from "react-jss";
+import styled from "styled-components";
 import { CloseIcon } from "../../../assets";
-import { ThemeType } from "../../../theme";
+import { CoordsProps } from "../../../helpers/positionModals";
 import IconActive from "../IconActive/IconActive";
 
 interface OverlayProps {
@@ -13,17 +13,10 @@ interface OverlayProps {
   lightbox?: boolean;
   center?: boolean;
   close?: boolean | null;
-  coords?: {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  };
+  coords?: CoordsProps;
 }
 
 const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
-  const classes = useStyles({ ...props });
-
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") props.handleState();
@@ -38,71 +31,81 @@ const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
 
   return createPortal(
     props.state ? (
-      <div className={props.center ? classes.centeredOverlay : classes.overlay}>
-        <div
-          className={`${classes.modalContainer} ${
-            props.lightbox && classes.lightbox
-          }`}
+      <StyledOverlay className={props.center ? "centered" : undefined}>
+        <Lightbox
+          className={props.lightbox ? "lightbox-on" : undefined}
           onClick={(e) => {
             e.preventDefault();
             props.handleState();
           }}
-        ></div>
-        <div className={props.close ? classes.closeModal : classes.modal}>
+        ></Lightbox>
+        <CloseModalContainer
+          {...props}
+          className={props.close ? "close" : undefined}
+        >
           {children}
           {props.close ? (
-            <IconActive
-              className={classes.closeIcon}
-              handleClick={props.handleState}
-            >
-              <CloseIcon />
-            </IconActive>
+            <CloseIconContainer>
+              <IconActive handleClick={props.handleState}>
+                <CloseIcon />
+              </IconActive>
+            </CloseIconContainer>
           ) : null}
-        </div>
-      </div>
+        </CloseModalContainer>
+      </StyledOverlay>
     ) : null,
     document.getElementById("modal-overlay")!
   );
 };
 
-const useStyles = createUseStyles((theme: ThemeType) => ({
-  overlay: {
-    pointerEvents: "auto",
-    position: "relative",
-    width: "100%",
-    height: "100%",
-  },
-  centeredOverlay: {
-    pointerEvents: "auto",
-    position: "relative",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  lightbox: {
-    background: `${theme.colors.backgrounds.lightbox}`,
-  },
-  modalContainer: {
-    position: "fixed",
-    inset: "0px",
-    width: "100vw",
-    height: "100vh",
-  },
-  modal: (props) => ({
-    ...props.coords,
-    position: "fixed",
-  }),
-  closeModal: {
-    position: "relative",
-  },
-  closeIcon: {
-    position: "absolute",
-    right: "0",
-    top: "0",
-    margin: "8px 16px 0px 0px",
-  },
-}));
+const CloseModalContainer = styled.div<{
+  coords?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
+}>`
+  top: ${({ coords }) => coords?.top && coords?.top + 15}px;
+  bottom: ${({ coords }) => coords?.bottom}px;
+  left: ${({ coords }) => coords?.left}px;
+  right: ${({ coords }) => coords?.right}px;
+  position: fixed;
+
+  &.close {
+    position: relative;
+  }
+`;
+
+const StyledOverlay = styled.div`
+  pointer-events: auto;
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &.centered {
+    display: flex;
+    alignitems: center;
+    justify-content: center;
+  }
+`;
+
+const Lightbox = styled.div`
+  position: fixed;
+  inset: 0px;
+  width: 100vw;
+  height: 100vh;
+
+  &.lightbox-on {
+    background: ${({ theme }) => theme.colors.backgrounds.lightbox};
+  }
+`;
+
+const CloseIconContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 8px 16px 0px 0px;
+`;
 
 export default Overlay;

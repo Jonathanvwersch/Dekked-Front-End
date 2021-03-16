@@ -54,7 +54,7 @@ export function useBinders() {
           return;
         }
       }
-      throw Error("There was an error updating binders");
+      throw Error("There was an error adding binders");
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +91,7 @@ export function useBinders() {
           return;
         }
       }
-      throw Error("There was an error updating folders");
+      throw Error("There was an error updating binders");
     } catch (error) {
       console.log(error);
     }

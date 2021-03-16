@@ -1,73 +1,60 @@
-import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
+import React, { useContext } from "react";
+import styled, { keyframes, ThemeContext } from "styled-components";
 import { LogoIcon } from "../../../assets";
-import { ThemeType } from "../../../theme";
+import { ThemeType } from "../../../styles/theme";
+
 import IconWrapper from "../IconWrapper/IconWrapper";
 
 // Use whenever you want to add a loading spinner in place of a component
 export const ComponentLoadingSpinner: React.FC = () => {
-  const classes = useStyles();
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <div className={classes.component}>
+    <StyledComponentSpinner>
       <IconWrapper>
-        <LogoIcon
-          className={classes.animate}
-          color={theme.colors.primary}
-          size="24px"
-        />
+        <LogoIcon color={theme.colors.primary} size="24px" />
       </IconWrapper>
-    </div>
+    </StyledComponentSpinner>
   );
 };
 
 // Use whenever you want to add a full page loading spinner e.g. on initial page load
 export const FullPageLoadingSpinner: React.FC = () => {
-  const classes = useStyles();
-  const theme: ThemeType = useTheme();
+  const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <div className={classes.fullPage}>
+    <StyledFullPageSpinner>
       <IconWrapper>
-        <LogoIcon
-          className={classes.animate}
-          color={theme.colors.primary}
-          size="24px"
-        />
+        <LogoIcon color={theme.colors.primary} size="24px" />
       </IconWrapper>
-    </div>
+    </StyledFullPageSpinner>
   );
 };
 
-export const useStyles = createUseStyles(
-  {
-    fullPage: {
-      inset: "0",
-      position: "fixed",
-      zIndex: "10",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    component: {
-      flexGrow: "1",
-      zIndex: "10",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    "@keyframes spin": {
-      from: { transform: "rotate(0deg)" },
-      to: { transform: "rotate(360deg)" },
-    },
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
-    animate: {
-      animationName: "$spin",
-      animationDuration: "500ms",
-      animationIterationCount: "infinite",
-      animationTimingFunction: "linear",
-    },
-  },
-  { name: "LoadingSpinner" }
-);
+const StyledFullPageSpinner = styled.div`
+  inset: 0;
+  position: fixed;
+  zindex: 10;
+  display: flex;
+  justify-content: center;
+  alignitems: center;
+  animation: ${rotate} 500ms linear infinite;
+`;
+
+const StyledComponentSpinner = styled.div`
+  flex-grow: 1;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotate} 500ms linear infinite;
+`;

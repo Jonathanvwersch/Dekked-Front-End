@@ -1,24 +1,15 @@
-import React from "react";
-import { ThemeType } from "../../theme";
+import React, { useContext } from "react";
+import { ThemeType } from "../../styles/theme";
 import { IconProps } from "../types";
-import { useStyles } from "../styles";
-import { useTheme } from "react-jss";
+import { ThemeContext } from "styled-components";
+import { Svg } from "../styles";
 
 const StudySetIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
-  const classes = useStyles({ rotate });
-  const theme: ThemeType = useTheme();
-  const iconSize = size ? size : theme.icons.size;
+  const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 
   return (
-    <svg
-      className={classes.icon}
-      width={iconSize}
-      height={iconSize}
-      viewBox={`0 0 ${parseInt(iconSize)} ${parseInt(iconSize)}`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg rotate={rotate} size={size} viewBox="0 0 16 16" fill="none">
       <g clipPath="url(#clip0)">
         <rect
           x="3.66667"
@@ -42,7 +33,7 @@ const StudySetIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
           <rect width="16" height="16" fill="white" />
         </clipPath>
       </defs>
-    </svg>
+    </Svg>
   );
 };
 

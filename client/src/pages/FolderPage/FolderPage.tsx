@@ -1,16 +1,21 @@
 import React from "react";
-import { createUseStyles, useTheme } from "react-jss";
-import MainFrame from "../../components/unique/main-frame/MainFrame";
-import { ThemeType } from "../../theme";
-import { VFlex } from "../../components/common";
-import Sidebar from "../../components/unique/sidebar/Sidebar";
+import { InsetPage } from "../../components/common";
+import MainFrame from "../../components/common/MainFrame/MainFrame";
+import { SIZES } from "../../components/common/Pages/InsetPage";
+import {
+  FolderBinderCardContainer,
+  FolderBinderHeader,
+} from "../../components/folder-binder";
 
 interface FolderPageProps {}
 
 const FolderPage: React.FC<FolderPageProps> = () => {
   return (
     <MainFrame>
-      <VFlex></VFlex>
+      <InsetPage size={SIZES.MEDIUM}>
+        <FolderBinderHeader />
+        <FolderBinderCardContainer />
+      </InsetPage>
     </MainFrame>
   );
 };

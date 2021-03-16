@@ -1,61 +1,71 @@
 // Wrapper component for making an icon into a button with a hover and active state
-
 import React from "react";
-import { createUseStyles } from "react-jss";
-import { ThemeType } from "../../../theme";
+import styled from "styled-components";
+
+export enum FILL_TYPE {
+  FILL = "fill",
+  STROKE = "stroke",
+  BOTH = "both",
+}
 
 interface IconActiveProps {
   className?: string;
   handleClick?: Function;
+  fillType?: string;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
   children,
   handleClick,
-  ...props
+  fillType = FILL_TYPE.FILL,
+  className,
 }) => {
-  const classes = useStyles({ ...props });
   return (
-    <button
+    <StyledIconActive
       aria-label="icon"
-      className={`${classes.iconActive} ${props.className}`}
       onClick={(event: any) => {
         handleClick && handleClick(event);
       }}
+      className={className}
+      fillType={fillType}
     >
       {children}
-    </button>
+    </StyledIconActive>
   );
 };
 
-export const useStyles = createUseStyles((theme: ThemeType) => ({
-  iconActive: (props) => ({
-    position: props.position,
-    right: props.right,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "0",
-    padding: "0",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    outline: "none",
-    "&:hover": {
-      "& svg": {
-        "& path": {
-          fill: `${theme.colors.primary}`,
-        },
-      },
-    },
-    "&:active": {
-      "& svg": {
-        "& path": {
-          filter: `${theme.colors.hover.filter}`,
-        },
-      },
-    },
-  }),
-}));
+const StyledIconActive = styled.button<IconActiveProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    & svg {
+      & path {
+        fill: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
+            ? theme.colors.primary
+            : "auto"};
+        stroke: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
+            ? theme.colors.primary
+            : "auto"};
+      }
+    }
+  }
+
+  &:active {
+    & svg {
+      & path {
+        filter: ${({ theme }) => theme.colors.hover.filter};
+      }
+    }
+  }
+`;
 
 export default IconActive;

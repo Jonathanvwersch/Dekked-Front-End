@@ -1,5 +1,5 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
+import styled from "styled-components";
 
 interface SpacerProps {
   width?: string;
@@ -9,24 +9,14 @@ interface SpacerProps {
 }
 
 const Spacer: React.FC<SpacerProps> = ({ ...props }) => {
-  const classes = useStyles(props);
-  return <div className={classes.spacer}></div>;
+  return <StyledSpacer {...props}></StyledSpacer>;
 };
 
-const useStyles = createUseStyles({
-  spacer: (props) => ({
-    minWidth: props.width,
-    minHeight: props.height,
-    grow: props.grow,
-    shrink: props.shrink,
-  }),
-});
-
-Spacer.defaultProps = {
-  width: "1px",
-  height: "1px",
-  grow: "0",
-  shrink: "1",
-};
+const StyledSpacer = styled.div<SpacerProps>`
+  min-width: ${({ width }) => (width ? width : "1px")};
+  min-height: ${({ height }) => (height ? height : "1px")};
+  flex-grow: ${({ grow }) => (grow ? grow : "0")};
+  flex-shrink: ${({ shrink }) => (shrink ? shrink : "0")};
+`;
 
 export default Spacer;
