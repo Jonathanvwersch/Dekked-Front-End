@@ -83,13 +83,13 @@ const BlockModal: React.FC<BlockModalProps> = ({ ...props }) => {
           <HoverCard
             backgroundColor={theme.colors.backgrounds.modalBackground}
             key={`BlockModal ${index}`}
-            handleClick={(e: MouseEvent) => handleClick(item.action, e)}
+            handleClick={(e: MouseEvent) => handleClick(item.label, e)}
             padding="8px 16px"
           >
             <HFlex>
               <IconWrapper>{item.icon}</IconWrapper>
               <Spacer width={theme.spacers.size8} />
-              <Text>{item.action}</Text>
+              <Text>{item.label}</Text>
             </HFlex>
           </HoverCard>
         );

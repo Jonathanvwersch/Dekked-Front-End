@@ -16,59 +16,59 @@ export enum SIDEBAR_BLOCK_MENU {
 }
 
 export type ModalData = {
-  action: string;
+  label: string;
   icon: React.ReactNode;
 }[];
 
 export const FolderData: ModalData = [
   {
-    action: SIDEBAR_BLOCK_MENU.ADD_BINDER,
+    label: SIDEBAR_BLOCK_MENU.ADD_BINDER,
     icon: <BinderIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: SIDEBAR_BLOCK_MENU.RECOLOR,
     icon: <ReColorIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.RENAME,
+    label: SIDEBAR_BLOCK_MENU.RENAME,
     icon: <EditIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.DELETE,
+    label: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
   },
 ];
 
 export const BinderData: ModalData = [
   {
-    action: SIDEBAR_BLOCK_MENU.ADD_STUDYSET,
+    label: SIDEBAR_BLOCK_MENU.ADD_STUDYSET,
     icon: <StudySetIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: SIDEBAR_BLOCK_MENU.RECOLOR,
     icon: <ReColorIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.RENAME,
+    label: SIDEBAR_BLOCK_MENU.RENAME,
     icon: <EditIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.DELETE,
+    label: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
   },
 ];
 
 export const StudySetData: ModalData = [
   {
-    action: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: SIDEBAR_BLOCK_MENU.RECOLOR,
     icon: <ReColorIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.RENAME,
+    label: SIDEBAR_BLOCK_MENU.RENAME,
     icon: <EditIcon />,
   },
   {
-    action: SIDEBAR_BLOCK_MENU.DELETE,
+    label: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
   },
 ];

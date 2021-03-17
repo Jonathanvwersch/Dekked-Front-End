@@ -9,10 +9,15 @@ interface ShadowCardProps {
   backgroundColor?: string;
   position?: string;
   padding?: string;
+  cardRef?: React.RefObject<HTMLDivElement>;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
-  return <StyledShadowCard {...props}>{children}</StyledShadowCard>;
+  return (
+    <StyledShadowCard ref={props.cardRef} {...props}>
+      {children}
+    </StyledShadowCard>
+  );
 };
 
 const StyledShadowCard = styled.div<ShadowCardProps>`

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { HFlex, IconActive, Spacer, Overlay } from "../../common";
+import {
+  HFlex,
+  IconActive,
+  Spacer,
+  Overlay,
+  ScrollerModal,
+} from "../../common";
 import {
   BodyTextIcon,
   BoldIcon,
@@ -73,15 +79,11 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
           </>
         ) : null}
       </HFlex>
-      <Overlay
-        coords={coords}
-        state={blockOptions}
-        handleState={() => setBlockOptions(false)}
-      >
-        <BlockOptionsModal
-          handleBlockOptionsModal={() => setBlockOptions(false)}
-        />
-      </Overlay>
+      <BlockOptionsModal
+        open={blockOptions}
+        handleClose={() => setBlockOptions(false)}
+        coords={coords!}
+      />
     </>
   );
 };

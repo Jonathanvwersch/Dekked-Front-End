@@ -1,52 +1,29 @@
-import React, { useContext } from "react";
-import { ThemeType } from "../../../styles/theme";
-import { ThemeContext } from "styled-components";
-import { BlockOptions, BLOCK_OPTIONS } from "./BlockOptionsModal.data";
-import {
-  Divider,
-  HFlex,
-  HoverCard,
-  IconWrapper,
-  ShadowCard,
-  Spacer,
-  Text,
-} from "../../common";
+import React from "react";
+import { BlockOptions } from "./BlockOptionsModal.data";
+import { ScrollerModal } from "../../common";
+import { CoordsProps } from "../../../helpers/positionModals";
 
 interface BlockOptionsModalProps {
-  handleBlockOptionsModal: () => void;
+  open: boolean;
+  handleClose: () => void;
+  coords: CoordsProps;
 }
 
 const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
-  handleBlockOptionsModal,
+  handleClose,
+  open,
+  coords,
 }) => {
-  const theme: ThemeType = useContext(ThemeContext);
-
-  const handleClick = (type: string) => {
-    handleBlockOptionsModal();
-  };
+  const clickFunctions = (type: string) => {};
 
   return (
-    <ShadowCard width={theme.sizes.modal.small}>
-      {BlockOptions.map((item, index) => {
-        return (
-          <>
-            <HoverCard
-              backgroundColor={theme.colors.backgrounds.modalBackground}
-              key={`BlockOptionsModal ${index}`}
-              handleClick={() => handleClick(item.action)}
-              padding="8px 16px"
-            >
-              <HFlex>
-                <IconWrapper>{item.icon}</IconWrapper>
-                <Spacer width={theme.spacers.size8} />
-                <Text>{item.action}</Text>
-              </HFlex>
-            </HoverCard>
-            {item.action === BLOCK_OPTIONS.SMALL_HEADING ? <Divider /> : null}
-          </>
-        );
-      })}
-    </ShadowCard>
+    <ScrollerModal
+      coords={coords}
+      clickFunctions={clickFunctions}
+      open={open}
+      handleClose={handleClose}
+      data={BlockOptions}
+    />
   );
 };
 

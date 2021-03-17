@@ -16,11 +16,14 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
   return (
     <StyledHoverCard
       role="button"
-      tab-index="0"
       onClick={(event: any) => {
         props.handleClick && props.handleClick(event);
       }}
       {...props}
+      onKeyDown={(event: any) => {
+        if (event.key === "Enter")
+          props.handleClick && props.handleClick(event);
+      }}
     >
       {children}
     </StyledHoverCard>

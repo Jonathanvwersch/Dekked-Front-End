@@ -1,5 +1,6 @@
 import React from "react";
 import { LinkedFlashcard } from "..";
+import NoteTaker from "../../../pages/StudySetPage/NoteTaking/NoteTaker";
 import { VFlex } from "../../common";
 
 interface NotesContainerProps {
@@ -9,7 +10,9 @@ interface NotesContainerProps {
 const NotesContainer: React.FC<NotesContainerProps> = ({ flashcardSize }) => {
   return (
     <>
-      <VFlex></VFlex>
+      <VFlex height="auto">
+        <NoteTaker />
+      </VFlex>
       {flashcardSize ? <LinkedFlashcard flashcardSize={flashcardSize} /> : null}
     </>
   );
