@@ -31,3 +31,10 @@ interface StudyPackInterface {
   name: string;
   color: string;
 }
+
+interface PageInterface {
+  id?: string;
+  owner_id: string;
+  title: string;
+  ordering: string[];
+}

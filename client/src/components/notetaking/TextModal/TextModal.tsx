@@ -109,7 +109,9 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
           <HoverCard
             backgroundColor={theme.colors.backgrounds.modalBackground}
             key={`TextModal ${dataIndex}`}
-            handleClick={(e: KeyboardEvent) => handleToggle(e, item.style)}
+            handleClick={(e: KeyboardEvent) => {
+              handleToggle(e, item.style);
+            }}
             padding="8px 16px"
             index={dataIndex}
             activeIndex={index}

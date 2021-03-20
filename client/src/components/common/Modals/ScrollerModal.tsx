@@ -45,9 +45,10 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
               <HoverCard
                 backgroundColor={theme.colors.backgrounds.modalBackground}
                 key={`TextModal ${index}`}
-                handleClick={clickFunctions(
-                  item?.style ? item.style : item.label
-                )}
+                handleClick={() => {
+                  console.log(item);
+                  clickFunctions(item?.style ? item.style : item.label);
+                }}
                 padding="8px 16px"
               >
                 <HFlex>

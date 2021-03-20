@@ -16,7 +16,7 @@ import {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -28,25 +28,19 @@ import TextModal from "../TextModal/TextModal";
 import UnstyledComponent from "./UnstyledComponent/UnstyledComponent";
 import StyledComponent from "./StyledComponent/StyledComponent";
 import styled from "styled-components";
+import { EditorContext } from "../../../contexts/EditorContext";
 
 interface EditorProps {
   savedContent?: ContentState;
-  setRawContent: React.Dispatch<
-    React.SetStateAction<RawDraftContentState | undefined>
-  >;
-  onSave: () => void;
 }
 
-const RichEditor: React.FC<EditorProps> = ({
-  savedContent,
-  setRawContent,
-  onSave,
-}) => {
-  const [editorState, setEditorState] = useState(() =>
-    savedContent
-      ? EditorState.createWithContent(savedContent)
-      : EditorState.createEmpty()
-  );
+const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
+  // const [editorState, setEditorState] = useState(() =>
+  //   savedContent
+  //     ? EditorState.createWithContent(savedContent)
+  //     : EditorState.createEmpty()
+  // );
+  const { editorState, setEditorState, onSave } = useContext(EditorContext);
 
   const editorRef = useRef<any>();
 
@@ -169,8 +163,6 @@ const RichEditor: React.FC<EditorProps> = ({
   };
 
   const onChange = (e: EditorState) => {
-    const raw = convertToRaw(e.getCurrentContent());
-    setRawContent(raw);
     setEditorState(e);
   };
 

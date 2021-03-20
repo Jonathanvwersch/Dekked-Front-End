@@ -71,13 +71,7 @@ const NoteTaker: React.FC = () => {
     getSavedContent();
   }, []);
 
-  return (
-    <RichEditor
-      savedContent={contentSaved}
-      setRawContent={setRawContent}
-      onSave={onSave}
-    />
-  );
+  return <RichEditor savedContent={contentSaved} />;
   //   return (
   //       {loading ? (
   //         <div>Loading...</div>

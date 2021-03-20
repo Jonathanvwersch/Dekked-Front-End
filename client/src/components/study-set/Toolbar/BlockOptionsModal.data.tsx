@@ -20,33 +20,39 @@ export enum BLOCK_OPTIONS {
 export type ModalData = {
   label: string;
   icon: React.ReactNode;
+  style: string;
   divider?: boolean;
 }[];
 
 export const BlockOptions: ModalData = [
   {
-    label: BLOCK_OPTIONS.BODY,
+    label: "Body",
     icon: <BodyTextIcon />,
+    style: "unstyled",
   },
   {
-    label: BLOCK_OPTIONS.LARGE_HEADING,
+    label: "Large heading",
+    style: "header-one",
     icon: <H1Icon />,
   },
   {
-    label: BLOCK_OPTIONS.MEDIUM_HEADING,
+    label: "Medium heading",
+    style: "header-two",
     icon: <H2Icon />,
   },
   {
-    label: BLOCK_OPTIONS.SMALL_HEADING,
+    label: "Small heading",
+    style: "header-three",
     icon: <H3Icon />,
-    divider: true,
   },
   {
-    label: BLOCK_OPTIONS.BULLETED_LIST,
+    label: "Bulleted list",
+    style: "unordered-list-item",
     icon: <BulletedListIcon />,
   },
   {
-    label: BLOCK_OPTIONS.NUMBERED_LIST,
+    label: "Numbered list",
+    style: "ordered-list-item",
     icon: <NumberedListIcon />,
   },
 ];

@@ -1,26 +1,17 @@
-import React, { useState } from "react";
-import {
-  HFlex,
-  IconActive,
-  Spacer,
-  Overlay,
-  ScrollerModal,
-} from "../../common";
+import React, { useContext, useState } from "react";
+import { HFlex, IconActive, Spacer } from "../../common";
 import {
   BodyTextIcon,
   BoldIcon,
-  CenterAlignIcon,
   DropDownArrowIcon,
   ItalicsIcon,
-  RightAlignIcon,
   UnderlineIcon,
-  LeftAlignIcon,
-  DividerIcon,
 } from "../../../assets";
 import { ROTATE } from "../../../assets/types";
 import { positionModals } from "../../../helpers";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { BlockOptionsModal } from ".";
+import { EditorContext } from "../../../contexts/EditorContext";
 
 interface ToolbarProps {
   toolbarFull?: boolean;
@@ -38,6 +29,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
     setCoords(positionModals(e, blockModalHeight));
   };
 
+  const { toggleInLineStyle } = useContext(EditorContext);
+
   return (
     <>
       <HFlex width="auto">
@@ -48,19 +41,37 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
           </HFlex>
         </IconActive>
         <Spacer width="8px" />
-        <IconActive>
+        <IconActive
+          handleClick={(e: MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleInLineStyle("BOLD");
+          }}
+        >
           <BoldIcon size={iconSize} />
         </IconActive>
         <Spacer width="8px" />
-        <IconActive>
+        <IconActive
+          handleClick={(e: MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleInLineStyle("ITALICS");
+          }}
+        >
           <ItalicsIcon size={iconSize} />
         </IconActive>
         <Spacer width="8px" />
-        <IconActive>
+        <IconActive
+          handleClick={(e: MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleInLineStyle("UNDERLINE");
+          }}
+        >
           <UnderlineIcon size={iconSize} />
         </IconActive>
 
-        {toolbarFull ? (
+        {/* {toolbarFull ? (
           <>
             <Spacer width="8px" />
             <DividerIcon size={iconSize} />
@@ -77,7 +88,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
               <RightAlignIcon size={iconSize} />
             </IconActive>
           </>
-        ) : null}
+        ) : null} */}
       </HFlex>
       <BlockOptionsModal
         open={blockOptions}

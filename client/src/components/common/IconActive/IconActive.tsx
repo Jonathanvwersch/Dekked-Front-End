@@ -23,7 +23,8 @@ const IconActive: React.FC<IconActiveProps> = ({
   return (
     <StyledIconActive
       aria-label="icon"
-      onClick={(event: any) => {
+      // If need to change onMouseDown for on click, create a new component
+      onMouseDown={(event: any) => {
         handleClick && handleClick(event);
       }}
       className={className}
