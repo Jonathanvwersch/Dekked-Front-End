@@ -27,7 +27,7 @@ const EmptyCommandBlock = styled.div`
   position: absolute;
 
   &:empty:before {
-    content: "Start writing or type '/' to view commands";
+    content: "Type '/' to view block types";
   }
 `;
 

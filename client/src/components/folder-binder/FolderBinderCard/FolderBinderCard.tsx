@@ -41,7 +41,9 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
         border={`1px solid ${theme.colors.grey2}`}
       >
         <Thumbnail />
-        <Description>
+        <Description
+          borderRadius={`0px 0px ${theme.display.borderRadiusTwo} ${theme.display.borderRadiusTwo}`}
+        >
           <Text className="overflow">{handleUntitled(data?.name!)}</Text>
           <Spacer height="4px" />
           <HFlex>

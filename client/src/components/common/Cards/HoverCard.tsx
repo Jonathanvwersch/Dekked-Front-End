@@ -27,7 +27,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
       ref={cardRef}
       tabIndex={0}
       {...props}
-      onMouseDown={props.handleClick && props.handleClick}
+      onMouseDown={(e: any) => props.handleClick && props.handleClick(e)}
       onKeyDown={(e: any) => {
         if (e.key === "Enter") props.handleClick && props.handleClick(e);
       }}
@@ -42,8 +42,7 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   padding: ${({ padding }) => padding};
   background-color: ${({ backgroundColor, theme }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
-  border-radius: ${({ theme, borderRadius }) =>
-    borderRadius ? borderRadius : theme.display.borderRadiusTwo};
+  border-radius: ${({ borderRadius }) => borderRadius};
   cursor: pointer;
   user-select: none;
   &:hover {

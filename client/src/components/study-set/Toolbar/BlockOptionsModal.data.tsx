@@ -44,6 +44,7 @@ export const BlockOptions: ModalData = [
     label: "Small heading",
     style: "header-three",
     icon: <H3Icon />,
+    divider: true,
   },
   {
     label: "Bulleted list",

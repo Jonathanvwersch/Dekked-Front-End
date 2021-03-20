@@ -1,18 +1,21 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
 import { IconActive, Spacer } from "../../common";
+import { SIZES } from "../../common/Pages/InsetPage";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
+  const theme = useContext(ThemeContext);
+
   return (
     <StyledTopbar>
       {!sidebar ? (
         <>
           <IconActive handleClick={handleSidebar}>
-            <HamburgerMenuIcon size="24px" />
+            <HamburgerMenuIcon size={SIZES.LARGE} />
           </IconActive>
           <Spacer width="16px" />
         </>

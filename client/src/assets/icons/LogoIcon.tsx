@@ -2,20 +2,14 @@ import React, { useContext } from "react";
 import { IconProps } from "../types";
 import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../styles/theme";
+import { Svg } from "../styles";
 
 const LogoIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
   const theme: ThemeType = useContext(ThemeContext);
-  const iconSize = size ? size : theme.icons.size;
   const iconColor = color ? color : theme.colors.iconColor;
 
   return (
-    <svg
-      width={iconSize}
-      height={iconSize}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg size={size} viewBox="0 0 16 16" fill="none">
       <path
         d="M7.28821 10.0128C7.81073 10.0119 9.13211 10.0097 10.1453 9.70384C10.628 9.50222 11.0667 9.20715 11.4362 8.8355C11.8056 8.46385 12.0987 8.02288 12.2987 7.53777C12.4986 7.05266 12.6016 6.53291 12.6016 6.0082C12.6016 5.48348 12.4986 4.96409 12.2987 4.47966C12.0987 3.99522 11.8056 3.55524 11.4362 3.18484C11.0667 2.81443 10.628 2.52086 10.1453 2.32087C9.15637 1.9112 7.81073 2.02067 7.28821 2.02155"
         stroke={iconColor}
@@ -26,7 +20,7 @@ const LogoIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
         stroke={iconColor}
         strokeWidth="1.60072"
       />
-    </svg>
+    </Svg>
   );
 };
 

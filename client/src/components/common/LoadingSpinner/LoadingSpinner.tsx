@@ -4,6 +4,7 @@ import { LogoIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 
 import IconWrapper from "../IconWrapper/IconWrapper";
+import { SIZES } from "../Pages/InsetPage";
 
 // Use whenever you want to add a loading spinner in place of a component
 export const ComponentLoadingSpinner: React.FC = () => {
@@ -12,7 +13,7 @@ export const ComponentLoadingSpinner: React.FC = () => {
   return (
     <StyledComponentSpinner>
       <IconWrapper>
-        <LogoIcon color={theme.colors.primary} size="24px" />
+        <LogoIcon color={theme.colors.primary} size={SIZES.LARGE} />
       </IconWrapper>
     </StyledComponentSpinner>
   );
@@ -25,7 +26,7 @@ export const FullPageLoadingSpinner: React.FC = () => {
   return (
     <StyledFullPageSpinner>
       <IconWrapper>
-        <LogoIcon color={theme.colors.primary} size="24px" />
+        <LogoIcon color={theme.colors.primary} size={SIZES.LARGE} />
       </IconWrapper>
     </StyledFullPageSpinner>
   );

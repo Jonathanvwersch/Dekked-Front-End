@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useContext, useState } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { Flashcard } from "..";
 import { LogoIcon } from "../../../assets";
 import { VFlex, IconActive } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
+import { SIZES } from "../../common/Pages/InsetPage";
 
 interface LinkedFlashcardProps {
   flashcardSize: number;
@@ -18,7 +19,7 @@ const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({ flashcardSize }) => {
         handleClick={() => setShowFlashcard((prevState) => !prevState)}
         fillType={FILL_TYPE.STROKE}
       >
-        <LogoIcon size="20px" />
+        <LogoIcon size={SIZES.MEDIUM} />
       </Tab>
       {showFlashcard ? <Flashcard linked={true} /> : null}
     </LinkedCard>

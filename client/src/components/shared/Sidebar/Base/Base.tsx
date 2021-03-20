@@ -12,6 +12,7 @@ import { PlusIcon } from "../../../../assets";
 import { FileTreeContext } from "../../../../contexts";
 import { ThemeType } from "../../../../styles/theme";
 import { FILETREE_TYPES } from "../../../../contexts/FileTreeContext";
+import { SIZES } from "../../../common/Pages/InsetPage";
 
 interface BaseProps {}
 
@@ -30,7 +31,7 @@ const Base: React.FC<BaseProps> = () => {
       >
         <HFlex>
           <IconWrapper>
-            <PlusIcon size="20px" />
+            <PlusIcon size={SIZES.MEDIUM} />
           </IconWrapper>
           <Spacer width={theme.spacers.size8} />
           <Text fontSize={theme.typography.fontSizes.size16}>Add folder</Text>

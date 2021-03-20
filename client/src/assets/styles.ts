@@ -1,15 +1,26 @@
 import styled from "styled-components";
+import { SIZES } from "../components/common/Pages/InsetPage";
 import Icon from "./Icon";
 import { IconProps } from "./types";
 
 export const Svg = styled(Icon)<IconProps>`
   transform: ${({ rotate }) => rotate};
-  width: ${({ theme, size, width }) => (size ? size : theme.icons.size)};
-  height: ${({ theme, size }) => (size ? size : theme.icons.size)};
+  width: ${({ theme, size }) =>
+    !size
+      ? theme.sizes.icons[SIZES.SMALL]
+      : size === SIZES.MEDIUM || size === SIZES.LARGE
+      ? theme.sizes.icons[size]
+      : size};
+  height: ${({ theme, size }) =>
+    !size
+      ? theme.sizes.icons[SIZES.SMALL]
+      : size === SIZES.MEDIUM || size === SIZES.LARGE
+      ? theme.sizes.icons[size]
+      : size};
 `;
 
 export const SvgVaried = styled(Icon)<IconProps>`
   transform: ${({ rotate }) => rotate};
-  width: ${({ theme, width }) => width};
-  height: ${({ theme, height }) => height};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
 `;

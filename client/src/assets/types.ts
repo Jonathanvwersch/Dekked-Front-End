@@ -1,3 +1,5 @@
+import { SIZES } from "../components/common/Pages/InsetPage";
+
 export enum ROTATE {
   NINETY = "rotate(90deg)",
   ONEEIGHTY = "rotate(180deg)",
@@ -7,7 +9,7 @@ export enum ROTATE {
 
 export interface IconProps {
   color?: string;
-  size?: string;
+  size?: SIZES | string;
   rotate?: ROTATE;
   height?: string;
   width?: string;

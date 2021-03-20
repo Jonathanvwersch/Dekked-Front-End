@@ -17,6 +17,7 @@ const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
 }) => {
   const { toggleBlockStyle } = useContext(EditorContext);
   const clickFunctions = (type: string) => {
+    handleClose();
     toggleBlockStyle(type);
   };
 

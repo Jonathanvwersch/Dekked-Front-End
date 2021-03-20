@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
 import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
 import { Toolbar } from "..";
 import TabSwitcher from "../TabSwitcher/TabSwitcher";
+import styled from "styled-components";
 
-interface StudySetHeaderProps {}
+interface StudySetHeaderProps {
+  headerRef?: React.RefObject<HTMLDivElement>;
+}
 
-const StudySetHeader: React.FC<StudySetHeaderProps> = () => {
+const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   return (
-    <VFlex>
-      <HFlex justifyContent="space-between">
-        <Toolbar />
-        <TabSwitcher />
-      </HFlex>
-      <Spacer height="32px" />
-      <PageHeader />
-    </VFlex>
+    <div ref={headerRef}>
+      <VFlex>
+        <HFlex justifyContent="space-between">
+          <Toolbar />
+          <TabSwitcher />
+        </HFlex>
+        <Spacer height="32px" />
+        <PageHeader />
+      </VFlex>
+    </div>
   );
 };
 

@@ -1,4 +1,10 @@
-import React, { useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Route, Switch } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
@@ -15,25 +21,27 @@ import { useResize } from "../../hooks/useResize";
 interface StudySetPageProps {}
 
 const StudySetPage: React.FC<StudySetPageProps> = () => {
-  const studySetPageRef = useRef<HTMLDivElement>(null);
-  const { width } = useResize(studySetPageRef);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [initialWidth, setInitialWidth] = useState(0);
+  const { width } = useResize(headerRef);
+
+  // This ref is used to get the initial width of the flashcard as the headerRef is undefined on mount
+  const initialRef = useCallback((node) => {
+    if (node !== null) {
+      setInitialWidth(node.getBoundingClientRect().width - 200);
+    }
+  }, []);
 
   return (
     <EditorContextProvider>
       <MainFrame>
-        <InsetPage pageRef={studySetPageRef} size={SIZES.SMALL}>
-          <StudySetHeader />
+        <InsetPage initialRef={initialRef} size={SIZES.SMALL}>
+          <StudySetHeader headerRef={headerRef} />
           <Switch>
             <Route
               path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
               render={() => (
-                <NotesContainer
-                  flashcardSize={
-                    width
-                      ? width - 200
-                      : studySetPageRef.current?.clientWidth! - 200
-                  }
-                />
+                <NotesContainer flashcardSize={width ? width : initialWidth} />
               )}
             />
             <Route

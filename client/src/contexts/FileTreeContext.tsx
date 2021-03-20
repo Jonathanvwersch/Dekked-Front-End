@@ -25,6 +25,7 @@ interface FileTreeContextTypes {
     asset_id: string
   ) => FolderInterface | BinderInterface | StudyPackInterface | undefined;
   fileTree: FileTreeInterface;
+  isTreeEmpty: boolean;
   updateAsset: (
     type: string,
     asset_id: string,
@@ -40,10 +41,12 @@ export const FileTreeContext = createContext<FileTreeContextTypes>({
   fileTree: {},
   getAsset: () => undefined,
   updateAsset: () => {},
+  isTreeEmpty: false,
 });
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
-  const { getFileTree, fileTree } = useFileTree();
+  const { getFileTree, fileTree, isTreeEmpty } = useFileTree();
+
   const { getFolders, addFolder, folders, updateFolder } = useFolders();
   const {
     getStudyPacks,
@@ -133,6 +136,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         fileTree,
         getAsset,
         updateAsset,
+        isTreeEmpty,
       }}
     >
       {children}

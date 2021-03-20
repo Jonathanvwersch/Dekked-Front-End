@@ -4,6 +4,7 @@ import { StudyQueueIcon } from "../../../assets";
 import { HFlex, HoverCard, IconWrapper, Overlay, Text } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import StudyQueueModal from "./StudyQueueModal";
+import { SIZES } from "../../common/Pages/InsetPage";
 
 interface StudyQueueProps {}
 
@@ -25,7 +26,7 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = ({ children }) => {
         <StudyQueue handleClick={() => setStudyQueueModal(true)}>
           <IconWrapper>
             <StudyQueueIcon
-              size="20px"
+              size={SIZES.MEDIUM}
               color={theme.colors.backgrounds.pageBackground}
             />
           </IconWrapper>
@@ -52,7 +53,7 @@ const Container = styled(HFlex)<StudyQueueProps>`
 
 const StudyQueue = styled(HoverCard)<StudyQueueProps>`
   display: flex;
-  alignitems: center;
+  align-items: center;
   justify-content: center;
   height: 40px;
   width: 40px;

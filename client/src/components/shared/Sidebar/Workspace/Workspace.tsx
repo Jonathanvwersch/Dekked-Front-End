@@ -12,25 +12,27 @@ const Workspace: React.FC<WorkspaceProps> = () => {
   const { fileTree } = useContext(FileTreeContext);
 
   return (
-    <Scroller>
-      <VFlex>
-        <Card padding="8px 16px">
-          <Text fontColor={theme.colors.grey1}>Workspace</Text>
-        </Card>
+    <>
+      <Card padding="8px 16px">
+        <Text fontColor={theme.colors.grey1}>Workspace</Text>
+      </Card>
+      <Scroller>
         <VFlex>
-          {fileTree
-            ? Object.entries(fileTree).map((file) => {
-                return (
-                  <SidebarFileTree
-                    key={file[0]}
-                    file={Object.fromEntries([file])}
-                  />
-                );
-              })
-            : null}
+          <VFlex>
+            {fileTree
+              ? Object.entries(fileTree).map((file) => {
+                  return (
+                    <SidebarFileTree
+                      key={file[0]}
+                      file={Object.fromEntries([file])}
+                    />
+                  );
+                })
+              : null}
+          </VFlex>
         </VFlex>
-      </VFlex>
-    </Scroller>
+      </Scroller>
+    </>
   );
 };
 

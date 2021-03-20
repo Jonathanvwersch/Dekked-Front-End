@@ -63,6 +63,7 @@ export type ThemeType = {
     modal: {
       small: string;
     };
+
     sidebar: string;
 
     input: {
@@ -72,6 +73,18 @@ export type ThemeType = {
     };
 
     button: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+
+    icons: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+
+    wrappers: {
       small: string;
       medium: string;
       large: string;
@@ -91,12 +104,6 @@ export type ThemeType = {
     size64: string;
     size80: string;
     size128: string;
-  };
-
-  wrappers: {
-    small: string;
-    medium: string;
-    large: string;
   };
 };
 
@@ -165,16 +172,31 @@ export const theme: ThemeType = {
     modal: {
       small: "220px",
     },
+
     sidebar: "250px",
+
     input: {
       small: "32px",
       medium: "40px",
       large: "48px;",
     },
+
     button: {
       small: "32px",
       medium: "40px",
       large: "48px;",
+    },
+
+    icons: {
+      small: "16px",
+      medium: "20px",
+      large: "24px",
+    },
+
+    wrappers: {
+      small: "1200px",
+      medium: "1400px",
+      large: "1600px",
     },
   },
 
@@ -191,11 +213,5 @@ export const theme: ThemeType = {
     size64: "64px",
     size80: "80px",
     size128: "128px",
-  },
-
-  wrappers: {
-    small: "1200px",
-    medium: "1400px",
-    large: "1600px",
   },
 };

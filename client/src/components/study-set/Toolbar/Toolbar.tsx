@@ -12,6 +12,9 @@ import { positionModals } from "../../../helpers";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { BlockOptionsModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
+import { ThemeContext } from "styled-components";
+import { ThemeType } from "../../../styles/theme";
+import { SIZES } from "../../common/Pages/InsetPage";
 
 interface ToolbarProps {
   toolbarFull?: boolean;
@@ -20,7 +23,7 @@ interface ToolbarProps {
 const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   const [blockOptions, setBlockOptions] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsProps>();
-  const iconSize = "20px";
+  const theme: ThemeType = useContext(ThemeContext);
 
   const handleBlockModal = (e: MouseEvent) => {
     setBlockOptions(true);
@@ -36,8 +39,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
       <HFlex width="auto">
         <IconActive handleClick={(e: MouseEvent) => handleBlockModal(e)}>
           <HFlex>
-            <BodyTextIcon size={iconSize} />
-            <DropDownArrowIcon size={iconSize} rotate={ROTATE.NINETY} />
+            <BodyTextIcon size={SIZES.MEDIUM} />
+            <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
           </HFlex>
         </IconActive>
         <Spacer width="8px" />
@@ -48,17 +51,17 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
             toggleInLineStyle("BOLD");
           }}
         >
-          <BoldIcon size={iconSize} />
+          <BoldIcon size={SIZES.MEDIUM} />
         </IconActive>
         <Spacer width="8px" />
         <IconActive
           handleClick={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleInLineStyle("ITALICS");
+            toggleInLineStyle("ITALIC");
           }}
         >
-          <ItalicsIcon size={iconSize} />
+          <ItalicsIcon size={SIZES.MEDIUM} />
         </IconActive>
         <Spacer width="8px" />
         <IconActive
@@ -68,24 +71,24 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
             toggleInLineStyle("UNDERLINE");
           }}
         >
-          <UnderlineIcon size={iconSize} />
+          <UnderlineIcon size={SIZES.MEDIUM} />
         </IconActive>
 
         {/* {toolbarFull ? (
           <>
             <Spacer width="8px" />
-            <DividerIcon size={iconSize} />
+            <DividerIcon size={SIZES.MEDIUM}/>
             <Spacer width="8px" />
             <IconActive>
-              <LeftAlignIcon size={iconSize} />
+              <LeftAlignIcon size={SIZES.MEDIUM}/>
             </IconActive>
             <Spacer width="8px" />
             <IconActive>
-              <CenterAlignIcon size={iconSize} />
+              <CenterAlignIcon size={SIZES.MEDIUM}/>
             </IconActive>
             <Spacer width="8px" />
             <IconActive>
-              <RightAlignIcon size={iconSize} />
+              <RightAlignIcon size={SIZES.MEDIUM}/>
             </IconActive>
           </>
         ) : null} */}

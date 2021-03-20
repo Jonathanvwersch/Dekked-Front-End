@@ -111,6 +111,7 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
       newContent,
       "insert-characters"
     );
+
     setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
   };
 
