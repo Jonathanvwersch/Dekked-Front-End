@@ -67,7 +67,7 @@ const CloseModalContainer = styled.div<{
   };
 }>`
   top: ${({ coords }) => coords?.top && coords?.top + 15}px;
-  bottom: ${({ coords }) => coords?.bottom}px;
+  bottom: ${({ coords }) => coords?.bottom && coords?.bottom + 5}px;
   left: ${({ coords }) => coords?.left}px;
   right: ${({ coords }) => coords?.right}px;
   position: fixed;

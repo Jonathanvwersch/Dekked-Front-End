@@ -1,6 +1,6 @@
 import React from "react";
 import { LinkedFlashcard } from "..";
-import NoteTaker from "../../../pages/StudySetPage/NoteTaking/NoteTaker";
+import NoteTaker from "../../notetaking/NoteTaker";
 import { VFlex } from "../../common";
 
 interface NotesContainerProps {

@@ -38,8 +38,8 @@ interface FileTreeContextTypes {
 export const FileTreeContext = createContext<FileTreeContextTypes>({
   handleAddingAsset: () => {},
   fileTree: {},
-  getAsset: (type, asset_id) => undefined,
-  updateAsset: (type, asset_id, update_data) => {},
+  getAsset: () => undefined,
+  updateAsset: () => {},
 });
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {

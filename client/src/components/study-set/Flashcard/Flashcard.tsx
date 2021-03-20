@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import {
   Card,
@@ -13,6 +13,7 @@ import { DeleteIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 import { Toolbar } from "..";
 import { BUTTON_THEME } from "../../common/Button/Button";
+import NoteTaker from "../../notetaking/NoteTaker";
 
 interface FlashcardProps {
   frontText?: string;
@@ -29,26 +30,24 @@ const Flashcard: React.FC<FlashcardProps> = ({
 
   const frontAndBack = (side: string) => {
     return (
-      <VFlex>
-        <Card
-          backgroundColor={theme.colors.backgrounds.pageBackground}
-          padding="4px 8px"
-          borderRadius={theme.display.borderRadiusFive}
-        >
-          <StyledText fontColor={theme.colors.grey2}>
+      <TextCardContainer
+        padding="0px"
+        backgroundColor={theme.colors.backgrounds.pageBackground}
+        borderRadius={theme.display.borderRadiusFive}
+      >
+        <CardHeader>
+          <Text fontColor={theme.colors.grey1}>
             {side === "front" ? "Front" : "Back"}
-          </StyledText>
-        </Card>
-        <StyledCard
+          </Text>
+        </CardHeader>
+        <Spacer height="8px" />
+        <TextCard
           linked={linked}
-          padding="0px 16px 8px 16px"
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
-          <VFlex alignItems="flex-start">
-            <Spacer height="8px" />
-          </VFlex>
-        </StyledCard>
-      </VFlex>
+          <NoteTaker />
+        </TextCard>
+      </TextCardContainer>
     );
   };
 
@@ -71,9 +70,8 @@ const Flashcard: React.FC<FlashcardProps> = ({
       <VFlex>
         {toolbar()}
         <Spacer height="8px" />
-        <HFlex>
+        <HFlex justifyContent="space-between" alignItems="stretch">
           {frontAndBack("front")}
-          <Spacer width="16px" />
           {frontAndBack("back")}
         </HFlex>
         <Spacer height="8px" />
@@ -87,16 +85,27 @@ const Flashcard: React.FC<FlashcardProps> = ({
   );
 };
 
-const StyledCard = styled(Card)<FlashcardProps>`
-  max-height: 198px;
-  min-height: ${({ linked }) => (linked ? "150px" : "40px")};
+const TextCardContainer = styled(Card)<FlashcardProps>`
+  max-width: 49%;
+  width: 49%;
   position: relative;
+`;
+
+const TextCard = styled(Card)<FlashcardProps>`
   overflow: hidden;
   &:hover {
     overflow: auto;
   }
+  max-height: 198px;
+  min-height: ${({ linked }) => (linked ? "150px" : "60px")};
 `;
 
-const StyledText = styled(Text)``;
+const CardHeader = styled.div`
+  width: 100%;
+  z-index: 10;
+  padding: 4px 8px;
+  position: absolute;
+  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+`;
 
 export default Flashcard;

@@ -8,13 +8,13 @@ import {
   EditorState,
   getDefaultKeyBinding,
   KeyBindingUtil,
+  Modifier,
   RawDraftContentState,
   RichUtils,
   SelectionState,
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
-import "../styles/TextEditor.css";
 
 import React, { useEffect, useRef, useState } from "react";
 
@@ -47,7 +47,8 @@ const RichEditor: React.FC<EditorProps> = ({
       ? EditorState.createWithContent(savedContent)
       : EditorState.createEmpty()
   );
-  const editor = useRef<any>();
+
+  const editorRef = useRef<any>();
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -64,6 +65,10 @@ const RichEditor: React.FC<EditorProps> = ({
       return "handled";
     }
     return "not-handled";
+  };
+
+  const focus = () => {
+    editorRef.current?.focus();
   };
 
   const focusLast = () => {
@@ -90,9 +95,29 @@ const RichEditor: React.FC<EditorProps> = ({
   }, []);
 
   const toggleBlockType = (blockType: string) => {
-    // setShowToolBar(false);
-    // setBlockType(blockType);
-    setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+    const currentContent = editorState.getCurrentContent();
+    const currentBlock = getCurrentBlock(editorState);
+
+    const targetRange = new SelectionState({
+      anchorKey: currentBlock.getKey(),
+      anchorOffset: 0,
+      focusKey: currentBlock.getKey(),
+      focusOffset: 1,
+      hasFocus: true,
+    });
+
+    const newContent = Modifier.removeRange(
+      currentContent,
+      targetRange,
+      "backward"
+    );
+
+    const newEditorState = EditorState.push(
+      editorState,
+      newContent,
+      "insert-characters"
+    );
+    setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
   };
 
   const myBlockRenderer = (contentBlock: ContentBlock) => {
@@ -102,6 +127,7 @@ const RichEditor: React.FC<EditorProps> = ({
         component: UnstyledComponent,
         editable: true,
         props: {
+          editorState,
           toggleBlockType,
         },
       };
@@ -144,7 +170,6 @@ const RichEditor: React.FC<EditorProps> = ({
 
   const onChange = (e: EditorState) => {
     const raw = convertToRaw(e.getCurrentContent());
-    console.log(e);
     setRawContent(raw);
     setEditorState(e);
   };
@@ -155,34 +180,36 @@ const RichEditor: React.FC<EditorProps> = ({
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
-        ref={(node) => (editor.current = node)}
+        ref={(node) => (editorRef.current = node)}
         blockRendererFn={myBlockRenderer}
         handleReturn={handleReturn}
         keyBindingFn={myKeyBindingFn}
       />
-      <TextModal
-        onToggle={toggleBlockType}
-        editorState={editorState}
-        setEditorState={setEditorState}
-      />
+      <TextModal onToggle={toggleBlockType} editorState={editorState} />
     </EditorContainer>
   );
 };
 
 const EditorContainer = styled.div`
+  div[data-editor] {
+    padding: ${({ theme }) => theme.spacers.size4} 0px;
+  }
   width: 100%;
   position: relative;
 
   h1 {
-    margin-top: ${({ theme }) => theme.spacers.size32};
-  }
-
-  h2 {
-    margin-top: ${({ theme }) => theme.spacers.size24};
-  }
-
-  h2 {
     margin-top: ${({ theme }) => theme.spacers.size16};
+    margin-bottom: ${({ theme }) => theme.spacers.size24};
+  }
+
+  h2 {
+    margin-top: ${({ theme }) => theme.spacers.size12};
+    margin-bottom: ${({ theme }) => theme.spacers.size20};
+  }
+
+  h3 {
+    margin-top: ${({ theme }) => theme.spacers.size8};
+    margin-bottom: ${({ theme }) => theme.spacers.size16};
   }
 `;
 

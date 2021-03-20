@@ -7,14 +7,13 @@ import {
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
-import "./styles/TextEditor.css";
 
 import React from "react";
-import RichEditor from "./Editor/Editor";
+import RichEditor from "./editor/RichEditor";
 import { useParams } from "react-router";
 // import { getPage, savePage } from "../services/pageService";
 
-export default function NoteTaker() {
+const NoteTaker: React.FC = () => {
   const { page_id }: { page_id: string } = useParams();
   const [rawContent, setRawContent] = React.useState<
     RawDraftContentState | undefined
@@ -86,4 +85,6 @@ export default function NoteTaker() {
   //       )}
   //     </div>
   //   );
-}
+};
+
+export default NoteTaker;

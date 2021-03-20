@@ -16,8 +16,13 @@ interface ScrollerModalProps {
   open: boolean;
   handleClose: () => void;
   clickFunctions: any;
-  data: { label: string; icon: React.ReactNode; divider?: boolean }[];
-  coords: CoordsProps;
+  data: {
+    label: string;
+    icon: React.ReactNode;
+    divider?: boolean;
+    style?: string;
+  }[];
+  coords?: CoordsProps;
   cardRef?: React.RefObject<HTMLDivElement>;
 }
 
@@ -40,7 +45,9 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
               <HoverCard
                 backgroundColor={theme.colors.backgrounds.modalBackground}
                 key={`TextModal ${index}`}
-                handleClick={clickFunctions(item.label)}
+                handleClick={clickFunctions(
+                  item?.style ? item.style : item.label
+                )}
                 padding="8px 16px"
               >
                 <HFlex>

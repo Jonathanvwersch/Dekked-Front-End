@@ -1,5 +1,5 @@
 // Wrapper component for whenever you want to add a hover and active state to another component
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 interface HoverCardProps {
@@ -8,21 +8,28 @@ interface HoverCardProps {
   className?: string;
   borderRadius?: string;
   backgroundColor?: string;
-  handleClick?: Function;
+  handleClick?: (args: any) => any;
   padding?: string;
+  activeIndex?: number;
+  index?: number;
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (cardRef && props.index === props.activeIndex && props.index != null)
+      cardRef.current?.focus();
+  }, [props.activeIndex, props.index]);
+
   return (
     <StyledHoverCard
       role="button"
-      onClick={(event: any) => {
-        props.handleClick && props.handleClick(event);
-      }}
+      ref={cardRef}
+      tabIndex={0}
       {...props}
-      onKeyDown={(event: any) => {
-        if (event.key === "Enter")
-          props.handleClick && props.handleClick(event);
+      onMouseDown={props.handleClick && props.handleClick}
+      onKeyDown={(e: any) => {
+        if (e.key === "Enter") props.handleClick && props.handleClick(e);
       }}
     >
       {children}

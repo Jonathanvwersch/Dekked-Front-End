@@ -5,9 +5,9 @@ import { FILETREE_TYPES } from "./contexts/FileTreeContext";
 import { LogInSignUpPage, NotFoundPage, OptionsPage } from "./pages";
 
 const Routes = () => {
-  const { fileTree, getAsset } = useContext(FileTreeContext);
-  const firstFolderId = Object.keys(fileTree)[0];
-  const folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
+  const { fileTree, getAsset, handleAddingAsset } = useContext(FileTreeContext);
+  let firstFolderId = Object.keys(fileTree)[0];
+  let folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
 
   return (
     <Switch>

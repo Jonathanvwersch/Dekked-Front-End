@@ -15,7 +15,6 @@ import {
 
 import Immutable, { List, Map } from "immutable";
 import "draft-js/dist/Draft.css";
-import "./styles/TextEditor.css";
 
 import React from "react";
 

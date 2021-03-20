@@ -5,8 +5,8 @@ export function useResize(myRef: React.RefObject<any>) {
 
   useLayoutEffect(() => {
     const getDimensions = () => ({
-      width: (myRef && myRef.current.offsetWidth) || 0,
-      height: (myRef && myRef.current.offsetHeight) || 0,
+      width: (myRef && myRef?.current?.offsetWidth) || 0,
+      height: (myRef && myRef?.current?.offsetHeight) || 0,
     });
 
     const handleResize = () => {

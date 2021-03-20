@@ -26,6 +26,7 @@ const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({ flashcardSize }) => {
 };
 
 const LinkedCard = styled(VFlex)<LinkedFlashcardProps>`
+  z-index: 998;
   position: fixed;
   bottom: 0;
   width: ${({ flashcardSize }) => flashcardSize}px;

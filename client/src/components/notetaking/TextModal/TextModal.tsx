@@ -1,5 +1,5 @@
 import { EditorState } from "draft-js";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { TextModalData } from "./TextModal.data";
 
@@ -11,8 +11,9 @@ import {
   ShadowCard,
   Spacer,
   Text,
-} from "../../../../components/common";
-import { ThemeType } from "../../../../styles/theme";
+} from "../../common";
+import { CoordsProps } from "../../../helpers/positionModals";
+import { positionBlockEditor } from "../Utils/editorUtils";
 
 const getSelectedBlockNode = (root: any) => {
   const selection = root.getSelection();
@@ -20,38 +21,35 @@ const getSelectedBlockNode = (root: any) => {
     return null;
   }
   let node = selection.getRangeAt(0).startContainer;
-  // console.log(node);
   do {
     if (node.getAttribute && node.getAttribute("data-block") === "true") {
       return node;
     }
     node = node.parentNode;
-    // console.log(node);
   } while (node !== null);
   return null;
 };
 
-export default function TextModal({
-  onToggle,
-  editorState,
-  setEditorState,
-}: {
-  onToggle: any;
+interface TextModalProps {
+  onToggle: (style: string) => void;
   editorState: EditorState;
-  setEditorState: any;
-}) {
-  const node = React.useRef<any>(null);
-  const [style, setStyle] = React.useState({});
+}
+
+const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
+  const node = React.useRef<HTMLDivElement>(null);
+  const theme = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
-  const theme: ThemeType = useContext(ThemeContext);
   const [index, setIndex] = React.useState(0);
+  const [coords, setCoords] = useState<CoordsProps>();
 
   const updatePosition = () => {
     const nodeSelected = getSelectedBlockNode(window);
     if (nodeSelected) {
       const selectedBox = nodeSelected.getBoundingClientRect();
-      setStyle({
-        top: selectedBox.top - 180,
+      const blockHeight = 180;
+      const newCoords = positionBlockEditor(selectedBox, blockHeight);
+      setCoords({
+        ...newCoords,
       });
     }
   };
@@ -63,9 +61,10 @@ export default function TextModal({
     return block;
   };
 
+  const currentBlock = getCurrentBlock();
+
   useEffect(() => {
     updatePosition();
-    const currentBlock = getCurrentBlock();
     if (
       currentBlock.getText() === "/" &&
       currentBlock.getType() === "unstyled"
@@ -74,19 +73,14 @@ export default function TextModal({
     } else {
       setOpen(false);
     }
-  }, [editorState]);
+  }, [currentBlock]);
 
   const eventHandler = (event: KeyboardEvent) => {
     if (open) {
       if (event.key === "ArrowUp") {
-        event.stopPropagation();
         setIndex((index - 1 + TextModalData.length) % TextModalData.length);
       } else if (event.key === "ArrowDown") {
-        event.stopPropagation();
         setIndex((index + 1) % TextModalData.length);
-      } else if (event.key === "Enter") {
-        event.stopPropagation();
-        onToggle(TextModalData[index].style);
       }
     }
   };
@@ -102,15 +96,23 @@ export default function TextModal({
     }
   }, [open]);
 
+  const handleToggle = (e: KeyboardEvent, style: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggle(style);
+  };
+
   return (
-    <Overlay state={open} handleState={() => setOpen(false)}>
+    <Overlay state={open} handleState={() => setOpen(false)} coords={coords}>
       <ShadowCard cardRef={node} width={theme.sizes.modal.small}>
-        {TextModalData.map((item, index) => (
+        {TextModalData.map((item, dataIndex) => (
           <HoverCard
             backgroundColor={theme.colors.backgrounds.modalBackground}
-            key={`TextModal ${index}`}
-            handleClick={() => onToggle(item.style)}
+            key={`TextModal ${dataIndex}`}
+            handleClick={(e: KeyboardEvent) => handleToggle(e, item.style)}
             padding="8px 16px"
+            index={dataIndex}
+            activeIndex={index}
           >
             <HFlex>
               <IconWrapper>{item.icon}</IconWrapper>
@@ -122,4 +124,6 @@ export default function TextModal({
       </ShadowCard>
     </Overlay>
   );
-}
+};
+
+export default TextModal;

@@ -5,7 +5,7 @@ import {
   H2Icon,
   H3Icon,
   NumberedListIcon,
-} from "../../../../assets";
+} from "../../../assets";
 
 export type ModalData = {
   label: string;
@@ -17,26 +17,26 @@ export const TextModalData: ModalData = [
   {
     label: "Large heading",
     style: "header-one",
-    icon: <H1Icon size="20px" />,
+    icon: <H1Icon />,
   },
   {
     label: "Medium heading",
     style: "header-two",
-    icon: <H2Icon size="20px" />,
+    icon: <H2Icon />,
   },
   {
     label: "Small heading",
     style: "header-three",
-    icon: <H3Icon size="20px" />,
+    icon: <H3Icon />,
   },
   {
     label: "Bulleted list",
     style: "unordered-list-item",
-    icon: <BulletedListIcon size="20px" />,
+    icon: <BulletedListIcon />,
   },
   {
     label: "Numbered list",
     style: "ordered-list-item",
-    icon: <NumberedListIcon size="20px" />,
+    icon: <NumberedListIcon />,
   },
 ];
