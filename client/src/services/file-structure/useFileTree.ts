@@ -10,6 +10,7 @@ export function useFileTree() {
         Authorization: `Bearer ${config.authToken}`,
       },
     });
+    console.log(response);
     if (response.ok) {
       const json = await response.json();
       if (json.success) {

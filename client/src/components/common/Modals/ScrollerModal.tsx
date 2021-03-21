@@ -46,7 +46,6 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 backgroundColor={theme.colors.backgrounds.modalBackground}
                 key={`TextModal ${index}`}
                 handleClick={() => {
-                  console.log(item);
                   clickFunctions(item?.style ? item.style : item.label);
                 }}
                 padding="8px 16px"

@@ -36,5 +36,6 @@ interface PageInterface {
   id?: string;
   owner_id: string;
   title: string;
+  study_pack_id: string;
   ordering: string[];
 }

@@ -42,7 +42,6 @@ const Base: React.FC<BaseProps> = () => {
 };
 
 const StyledBase = styled.div`
-  height: 50px;
   z-index: 10;
   margin-top: auto;
   width: 100%;

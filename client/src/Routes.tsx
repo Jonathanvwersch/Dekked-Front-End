@@ -8,9 +8,9 @@ const Routes = () => {
   const { fileTree, getAsset, handleAddingAsset, isTreeEmpty } = useContext(
     FileTreeContext
   );
-  console.log(isTreeEmpty);
   let firstFolderId = Object.keys(fileTree)[0];
   let folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
+  console.log(isTreeEmpty);
 
   useEffect(() => {
     if (isTreeEmpty) {

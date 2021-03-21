@@ -16,6 +16,6 @@ export default App;
 
 const StyledApp = styled.div`
   height: 100vh;
-  overflow: hidden;
   display: flex;
+  overflow: hidden;
 `;

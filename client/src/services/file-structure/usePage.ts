@@ -15,6 +15,7 @@ export function usePage(study_pack_id: string) {
     if (response.ok) {
       const json = await response.json();
       console.log(json);
+      console.log("succesfdsafgds");
       if (json.success) {
         setPage(json.data.page);
         return;
@@ -48,6 +49,7 @@ export function usePage(study_pack_id: string) {
           blocks,
         }),
       });
+      console.log(response.json());
       return await response.json();
     } catch (e) {
       console.log(e);

@@ -32,7 +32,6 @@ export function useStudyPacks() {
 
   async function addStudyPack(name: string, color: string, binder_id: string) {
     try {
-      console.log({ binder_id, name, color });
       const uri = config.api + "/study-pack";
       const response = await fetch(uri, {
         method: "POST",
