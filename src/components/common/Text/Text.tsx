@@ -6,12 +6,11 @@ interface TextProps {
   fontWeight?: string;
   fontColor?: string;
   margin?: string;
-  overflowText?: boolean;
   className?: string;
   maxWidth?: string;
   hover?: string;
-  filterHover?: boolean;
-  filterActive?: boolean;
+  filterHover?: boolean; // set to true if you want to apply a filter based hover state
+  filterActive?: boolean; // set to true if you want to apply a filter based active state
   textDecoration?: string;
 }
 

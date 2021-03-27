@@ -1,19 +1,21 @@
 import styled from "styled-components";
-import { SIZES } from "../Pages/InsetPage";
+import { SIZES } from "../../../shared";
 
-export const StyledButton = styled.button<{
+interface ButtonProps {
   isLoading: boolean;
   size: SIZES;
-}>`
+}
+
+export const StyledButton = styled.button<ButtonProps>`
   transition: opacity 0.1s ease-out, border-color 0.1s ease-out,
     background-color 0.1s ease-out;
-  border-radius: ${({ theme }) => theme.display.borderRadiusFive};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size16}`};
   font-size: ${({ theme, size }) =>
     size === SIZES.SMALL
       ? theme.typography.fontSizes.size14
       : theme.typography.fontSizes.size16};
-  height: ${({ theme, size }) => theme.sizes.button[size!]};
+  height: ${({ theme, size }) => theme.sizes.button[size]};
   border-width: 1px;
   cursor: pointer;
   border-style: solid;

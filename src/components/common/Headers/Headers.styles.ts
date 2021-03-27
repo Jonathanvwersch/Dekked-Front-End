@@ -9,7 +9,7 @@ export const commonStyles = css<HeadingProps>`
 
 export const headingStyles = {
   h1: css`
-    font-size: ${({ theme }) => theme.typography.fontSizes.size54};
+    font-size: ${({ theme }) => theme.typography.fontSizes.size48};
     line-height: ${({ theme }) => theme.typography.lineHeightSmall};
   `,
   h2: css`

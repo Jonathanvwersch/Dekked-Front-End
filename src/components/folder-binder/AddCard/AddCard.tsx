@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../assets";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../../contexts/FileTreeContext";
+import { FileTreeContext } from "../../../contexts";
+import { FILETREE_TYPES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { Card, IconActive } from "../../common";
 
@@ -24,14 +22,9 @@ const AddCard: React.FC<AddCardProps> = ({ type, id }) => {
   };
 
   return (
-    <Card
-      borderRadius={theme.display.borderRadiusTwo}
-      height="188px"
-      width="170px"
-      padding="0px"
-    >
+    <Card height="188px" width="170px" padding="0px">
       <StyledIconActive handleClick={handleAddItem}>
-        <PlusIcon size="80px" />
+        <PlusIcon size={theme.spacers.size80} />
       </StyledIconActive>
     </Card>
   );

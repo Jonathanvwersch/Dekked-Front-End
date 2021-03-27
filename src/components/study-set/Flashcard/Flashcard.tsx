@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import {
   Card,
@@ -40,7 +40,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
             {side === "front" ? "Front" : "Back"}
           </Text>
         </CardHeader>
-        <Spacer height="8px" />
+        <Spacer height={theme.spacers.size8} />
         <TextCard
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
@@ -69,12 +69,12 @@ const Flashcard: React.FC<FlashcardProps> = ({
     <Card borderRadius={theme.display.borderRadiusFive}>
       <VFlex>
         {toolbar()}
-        <Spacer height="8px" />
+        <Spacer height={theme.spacers.size8} />
         <HFlex justifyContent="space-between" alignItems="stretch">
           {frontAndBack("front")}
           {frontAndBack("back")}
         </HFlex>
-        <Spacer height="8px" />
+        <Spacer height={theme.spacers.size8} />
         {linked ? (
           <HFlex justifyContent="flex-end">
             <Button buttonStyle={BUTTON_THEME.PRIMARY}>Save</Button>
@@ -96,14 +96,14 @@ const TextCard = styled(Card)<FlashcardProps>`
   &:hover {
     overflow: auto;
   }
-  max-height: 198px;
-  min-height: ${({ linked }) => (linked ? "150px" : "60px")};
+  max-height: 200px;
+  min-height: ${({ linked }) => (linked ? "150px" : "64px")};
 `;
 
 const CardHeader = styled.div`
   width: 100%;
   z-index: 10;
-  padding: 4px 8px;
+  padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
   position: absolute;
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;

@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { BinderPage, FolderPage, StudySetPage } from "..";
-import { FILETREE_TYPES } from "../../contexts/FileTreeContext";
+import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import { Sidebar } from "../../components/shared/Sidebar";
+import { FILETREE_TYPES } from "../../shared";
 
 const OptionsPage: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ const OptionsPage: React.FC = () => {
           path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
           component={StudySetPage}
         />
-        <Route exact path={`/:type/:id/study`} component={StudySetPage} />
+        <Route exact path={`/:type/:id/study`} component={StudyModePage} />
       </Switch>
     </SelectedItemContextProvider>
   );

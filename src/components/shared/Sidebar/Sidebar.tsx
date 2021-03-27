@@ -1,31 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 import { SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { ComponentLoadingSpinner, Divider } from "../../common";
-import Base from "./Base/Base";
-import Top from "./Top/Top";
-import Workspace from "./Workspace/Workspace";
+import { ComponentLoadingSpinner } from "../../common";
+import SidebarBase from "./SidebarBase/SidebarBase";
+import SidebarTop from "./SidebarTop/SidebarTop";
+import SidebarWorkspace from "./SidebarWorkspace/SidebarWorkspace";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const [loading, setLoading] = useState(true);
   const { sidebar } = useContext(SidebarContext);
-  const { folderData } = useContext(SelectedItemContext);
+  const { loading } = useContext(SelectedItemContext);
+  const bottomFolderRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (folderData) setLoading(false);
-  }, [folderData]);
+  // scroll down to bottom of list as you add elements
+  const scrollToBottom = () => {
+    if (bottomFolderRef && bottomFolderRef.current) {
+      bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return sidebar ? (
     <StyledSidebar>
       {!loading ? (
         <>
-          <Top />
-          <Divider />
-          <Workspace />
-          <Base />
+          <SidebarTop />
+          <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+          <SidebarBase scrollToBottom={scrollToBottom} />
         </>
       ) : (
         <ComponentLoadingSpinner />

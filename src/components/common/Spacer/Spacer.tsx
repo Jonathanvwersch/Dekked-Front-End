@@ -1,3 +1,4 @@
+// Basic spacer component; use in place of margins
 import React from "react";
 import styled from "styled-components";
 

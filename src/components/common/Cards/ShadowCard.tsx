@@ -1,5 +1,7 @@
+// Wrapper component for whenever you want to add a box shadow to a component
 import React from "react";
 import styled from "styled-components";
+import { SIZES } from "../../../shared";
 
 interface ShadowCardProps {
   borderRadius?: string;
@@ -23,7 +25,7 @@ const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
 const StyledShadowCard = styled.div<ShadowCardProps>`
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ theme, borderRadius }) =>
-    borderRadius ? borderRadius : theme.display.borderRadiusTwo};
+    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.SMALL]};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
   border: ${({ border }) => border};

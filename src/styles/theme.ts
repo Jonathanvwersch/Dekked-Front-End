@@ -40,7 +40,7 @@ export type ThemeType = {
       size26: string;
       size32: string;
       size42: string;
-      size54: string;
+      size48: string;
     };
 
     lineHeight: string;
@@ -62,6 +62,8 @@ export type ThemeType = {
   sizes: {
     modal: {
       small: string;
+      medium: string;
+      large: string;
     };
 
     sidebar: string;
@@ -73,6 +75,12 @@ export type ThemeType = {
     };
 
     button: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+
+    borderRadius: {
       small: string;
       medium: string;
       large: string;
@@ -148,7 +156,7 @@ export const theme: ThemeType = {
       size26: "26px",
       size32: "32px",
       size42: "42px",
-      size54: "54px",
+      size48: "48px",
     },
 
     lineHeight: "1.6",
@@ -171,6 +179,8 @@ export const theme: ThemeType = {
   sizes: {
     modal: {
       small: "220px",
+      medium: "380px",
+      large: "500px",
     },
 
     sidebar: "250px",
@@ -181,6 +191,12 @@ export const theme: ThemeType = {
       large: "48px;",
     },
 
+    borderRadius: {
+      small: "2px",
+      medium: "5px",
+      large: "8px",
+    },
+
     button: {
       small: "32px",
       medium: "40px",
@@ -188,7 +204,7 @@ export const theme: ThemeType = {
     },
 
     icons: {
-      small: "16px",
+      small: "18px",
       medium: "20px",
       large: "24px",
     },

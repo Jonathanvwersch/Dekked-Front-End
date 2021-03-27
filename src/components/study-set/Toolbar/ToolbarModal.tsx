@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
-import { BlockOptions } from "./BlockOptionsModal.data";
+import { ToolbarModalData } from "./ToolbarModal.data";
 import { ScrollerModal } from "../../common";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { EditorContext } from "../../../contexts/EditorContext";
 
-interface BlockOptionsModalProps {
+interface ToolbarModalProps {
   open: boolean;
   handleClose: () => void;
   coords: CoordsProps;
 }
 
-const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
+const ToolbarModal: React.FC<ToolbarModalProps> = ({
   handleClose,
   open,
   coords,
@@ -27,9 +27,9 @@ const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
       clickFunctions={clickFunctions}
       open={open}
       handleClose={handleClose}
-      data={BlockOptions}
+      data={ToolbarModalData}
     />
   );
 };
 
-export default BlockOptionsModal;
+export default ToolbarModal;

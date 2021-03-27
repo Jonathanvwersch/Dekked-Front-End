@@ -1,54 +1,50 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
-import { BinderIcon, StudySetIcon } from "../../../assets";
-import { FILETREE_TYPES, TAB_TYPE } from "../../../contexts/FileTreeContext";
 import { handleUntitled } from "../../../helpers/handleUntitled";
+import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { Card, HFlex, Spacer, Text } from "../../common";
+import { handleIconType } from "../../shared/Sidebar/SidebarBlock/SidebarBlock";
 
 interface FolderBinderCardProps {
-  data?: BinderInterface | StudyPackInterface;
+  data: BinderInterface | StudyPackInterface;
   type: FILETREE_TYPES;
 }
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const theme: ThemeType = useContext(ThemeContext);
-  const linkType =
+  const childType =
     type === FILETREE_TYPES.FOLDER
       ? FILETREE_TYPES.BINDER
       : FILETREE_TYPES.STUDY_SET;
 
-  const handleIconType = (type: FILETREE_TYPES, color: string) => {
-    if (type === FILETREE_TYPES.FOLDER) {
-      return <BinderIcon color={color} />;
-    } else return <StudySetIcon color={color} />;
-  };
-
   return (
     <NavLink
       to={
-        linkType === FILETREE_TYPES.BINDER
-          ? `/${linkType}/${data?.id}`
-          : `/${linkType}/${data?.id}/${TAB_TYPE.NOTES}`
+        childType === FILETREE_TYPES.BINDER
+          ? `/${childType}/${data?.id}`
+          : `/${childType}/${data?.id}/${TAB_TYPE.NOTES}`
       }
     >
       <StyledCard
-        borderRadius={theme.display.borderRadiusTwo}
         height="188px"
         width="170px"
         padding="0px"
         border={`1px solid ${theme.colors.grey2}`}
+        backgroundColor={theme.colors.backgrounds.pageBackground}
       >
         <Thumbnail />
         <Description
-          borderRadius={`0px 0px ${theme.display.borderRadiusTwo} ${theme.display.borderRadiusTwo}`}
+          borderRadius={`0px 0px ${theme.sizes.borderRadius[SIZES.SMALL]} ${
+            theme.sizes.borderRadius[SIZES.SMALL]
+          }`}
         >
-          <Text className="overflow">{handleUntitled(data?.name!)}</Text>
-          <Spacer height="4px" />
+          <Text className="overflow">{handleUntitled(data?.name)}</Text>
+          <Spacer height={theme.spacers.size4} />
           <HFlex>
-            {handleIconType(type, data?.color!)}
-            <Spacer width="4px" />
+            {handleIconType(childType, data?.color)}
+            <Spacer width={theme.spacers.size4} />
             <Text
               fontColor={theme.colors.grey1}
               fontSize={theme.typography.fontSizes.size10}
@@ -63,7 +59,6 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
 };
 
 const StyledCard = styled(Card)`
-  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   position: relative;
 
   &:hover {
@@ -85,6 +80,7 @@ const Description = styled(Card)`
   bottom: 0;
   padding: 12px 16px;
   border-top: 1px solid ${({ theme }) => theme.colors.grey2};
+  min-height: 63px;
 `;
 
 export default FolderBinderCard;

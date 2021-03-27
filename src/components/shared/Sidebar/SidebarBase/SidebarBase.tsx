@@ -11,23 +11,25 @@ import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../../assets";
 import { FileTreeContext } from "../../../../contexts";
 import { ThemeType } from "../../../../styles/theme";
-import { FILETREE_TYPES } from "../../../../contexts/FileTreeContext";
-import { SIZES } from "../../../common/Pages/InsetPage";
+import { FILETREE_TYPES, SIZES } from "../../../../shared";
 
-interface BaseProps {}
+interface SidebarBaseProps {
+  scrollToBottom: () => void;
+}
 
-const Base: React.FC<BaseProps> = () => {
+const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const { handleAddingAsset } = useContext(FileTreeContext);
 
   return (
-    <StyledBase>
+    <StyledSidebarBase>
       <Divider />
       <HoverCard
-        handleClick={() => {
+        handleMouseDown={() => {
           handleAddingAsset(FILETREE_TYPES.FOLDER);
+          scrollToBottom();
         }}
-        padding="16px"
+        padding={theme.spacers.size16}
       >
         <HFlex>
           <IconWrapper>
@@ -37,14 +39,14 @@ const Base: React.FC<BaseProps> = () => {
           <Text fontSize={theme.typography.fontSizes.size16}>Add folder</Text>
         </HFlex>
       </HoverCard>
-    </StyledBase>
+    </StyledSidebarBase>
   );
 };
 
-const StyledBase = styled.div`
+const StyledSidebarBase = styled.div`
   z-index: 10;
   margin-top: auto;
   width: 100%;
 `;
 
-export default Base;
+export default SidebarBase;

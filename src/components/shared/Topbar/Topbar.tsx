@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
+import { SIZES } from "../../../shared";
 import { IconActive, Spacer } from "../../common";
-import { SIZES } from "../../common/Pages/InsetPage";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
@@ -17,7 +17,7 @@ const TopBar: React.FC = () => {
           <IconActive handleClick={handleSidebar}>
             <HamburgerMenuIcon size={SIZES.LARGE} />
           </IconActive>
-          <Spacer width="16px" />
+          <Spacer width={theme.spacers.size16} />
         </>
       ) : null}
       <Breadcrumbs />
@@ -28,7 +28,7 @@ const TopBar: React.FC = () => {
 const StyledTopbar = styled.div`
   display: flex;
   background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
-  height: 65px;
+  min-height: 65px;
   z-index: 998;
   position: sticky;
   top: 0;

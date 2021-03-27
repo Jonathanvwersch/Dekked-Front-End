@@ -1,9 +1,9 @@
 export { default as Sidebar } from "./Sidebar";
-export { default as Block } from "./Block/Block";
-export { default as BlockModal } from "./BlockModal/BlockModal";
-export { default as Base } from "./Base/Base";
-export { default as BlockName } from "./BlockName/BlockName";
-export { default as EmptyBlock } from "./EmptyBlock/EmptyBlock";
-export { default as FileTree } from "./FileTree/FileTree";
-export { default as Top } from "./Top/Top";
-export { default as Workspace } from "./Workspace/Workspace";
+export { default as SidebarBlock } from "./SidebarBlock/SidebarBlock";
+export { default as SidebarBlockModal } from "./SidebarBlockModal/SidebarBlockModal";
+export { default as SidebarBase } from "./SidebarBase/SidebarBase";
+export { default as SidebarBlockName } from "./SidebarBlockName/SidebarBlockName";
+export { default as SidebarEmptyBlock } from "./SidebarEmptyBlock/SidebarEmptyBlock";
+export { default as SidebarFileTree } from "./SidebarFileTree/SidebarFileTree";
+export { default as SidebarTop } from "./SidebarTop/SidebarTop";
+export { default as SidebarWorkspace } from "./SidebarWorkspace/SidebarWorkspace";

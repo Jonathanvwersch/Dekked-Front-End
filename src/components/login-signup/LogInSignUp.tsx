@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { SignUpForm, LogInForm } from ".";
 import { Spacer, VFlex, ShadowCard, H2, Text } from "../../components/common";
+import { SIZES } from "../../shared";
 
 interface LogInSignUpProps {
   login: boolean;
@@ -24,11 +25,14 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
           The most efficient way to learn anything
         </Text>
       </VFlex>
-      <Spacer height="32px" />
-      <ShadowCard width="500px" padding="48px 48px">
+      <Spacer height={theme.spacers.size32} />
+      <ShadowCard
+        width={theme.sizes.modal[SIZES.LARGE]}
+        padding={`${theme.spacers.size48} ${theme.spacers.size48}`}
+      >
         {login ? <LogInForm /> : <SignUpForm />}
       </ShadowCard>
-      <Spacer height="32px" />
+      <Spacer height={theme.spacers.size32} />
       <Text fontSize={theme.typography.fontSizes.size16}>
         {linkText}
         <StyledLink to={`${link}`}> Sign up here</StyledLink>

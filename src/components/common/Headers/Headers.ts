@@ -3,7 +3,6 @@ import { commonStyles, headingStyles } from "./Headers.styles";
 
 export type HeadingProps = {
   fontColor?: string;
-  ref?: any;
 };
 
 export const H1 = styled.h1<HeadingProps>`

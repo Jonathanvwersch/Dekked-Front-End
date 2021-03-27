@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import { SIZES } from "../Pages/InsetPage";
+import { SIZES } from "../../../shared";
 
-export const StyledInput = styled.input<{ height?: SIZES }>`
+interface InputProps {
+  height: SIZES;
+}
+
+export const StyledInput = styled.input<InputProps>`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   border-radius: ${({ theme }) => theme.display.borderRadiusFive};
   padding: 10px 6px;
@@ -10,16 +14,16 @@ export const StyledInput = styled.input<{ height?: SIZES }>`
   font-size: ${({ theme }) => theme.typography.fontSizes.size14};
   width: 100%;
   min-width: 0;
-  height: ${({ theme, height }) => theme.sizes.input[height!]};
+  height: ${({ theme, height }) => theme.sizes.input[height]};
 
   ::placeholder,
   ::-webkit-input-placeholder {
-    color: ${({ theme }) => theme.colors.grey1};
+    color: ${({ theme }) => theme.colors.grey2};
   }
 
   /* For IE this declaration needs to be separate */
   ::-ms-input-placeholder {
-    color: ${({ theme }) => theme.colors.grey1};
+    color: ${({ theme }) => theme.colors.grey2};
   }
 
   &:focus,

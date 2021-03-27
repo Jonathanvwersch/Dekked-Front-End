@@ -11,6 +11,7 @@ export type ModalData = {
   label: string;
   style: string;
   icon: React.ReactNode;
+  divider?: boolean;
 }[];
 
 export const TextModalData: ModalData = [
@@ -28,6 +29,7 @@ export const TextModalData: ModalData = [
     label: "Small heading",
     style: "header-three",
     icon: <H3Icon />,
+    divider: true,
   },
   {
     label: "Bulleted list",

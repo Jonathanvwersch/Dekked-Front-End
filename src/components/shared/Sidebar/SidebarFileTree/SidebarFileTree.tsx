@@ -1,13 +1,13 @@
 import React, { Fragment, useContext, useState } from "react";
-import { FileTreeContext } from "../../../../contexts/FileTreeContext";
-import SidebarEmptyBlock from "../EmptyBlock/EmptyBlock";
-import SidebarBlock from "../Block/Block";
+import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
+import SidebarBlock from "../SidebarBlock/SidebarBlock";
+import { FileTreeContext } from "../../../../contexts";
 
-interface FileTreeProps {
+interface SidebarFileTreeProps {
   file: FileTreeInterface;
 }
 
-const FileTree: React.FC<FileTreeProps> = ({ file }) => {
+const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const { getAsset } = useContext(FileTreeContext);
   const fileId = Object.keys(file)[0];
   const [folderOpen, setFolderOpen] = useState<boolean>(false);
@@ -56,4 +56,4 @@ const FileTree: React.FC<FileTreeProps> = ({ file }) => {
   ) : null;
 };
 
-export default FileTree;
+export default SidebarFileTree;

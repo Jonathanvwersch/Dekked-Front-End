@@ -1,7 +1,6 @@
 import {
   ContentBlock,
   ContentState,
-  convertToRaw,
   DraftEditorCommand,
   DraftHandleValue,
   Editor,
@@ -9,14 +8,13 @@ import {
   getDefaultKeyBinding,
   KeyBindingUtil,
   Modifier,
-  RawDraftContentState,
   RichUtils,
   SelectionState,
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import {
   addNewBlockAt,
@@ -61,32 +59,32 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     return "not-handled";
   };
 
-  const focus = () => {
-    editorRef.current?.focus();
-  };
+  // const focus = () => {
+  //   editorRef.current?.focus();
+  // };
 
-  const focusLast = () => {
-    const lastBlock = editorState.getCurrentContent().getLastBlock();
-    const selection = new SelectionState({
-      anchorKey: lastBlock.getKey(),
-      anchorOffset: lastBlock.getLength(),
-      focusKey: lastBlock.getKey(),
-      focusOffset: lastBlock.getLength(),
-      hasFocus: true,
-      isBackward: false,
-    });
+  // const focusLast = () => {
+  //   const lastBlock = editorState.getCurrentContent().getLastBlock();
+  //   const selection = new SelectionState({
+  //     anchorKey: lastBlock.getKey(),
+  //     anchorOffset: lastBlock.getLength(),
+  //     focusKey: lastBlock.getKey(),
+  //     focusOffset: lastBlock.getLength(),
+  //     hasFocus: true,
+  //     isBackward: false,
+  //   });
 
-    setEditorState(EditorState.forceSelection(editorState, selection));
-    setTimeout(() => {
-      window.getSelection()?.anchorNode?.parentElement?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 200);
-  };
+  //   setEditorState(EditorState.forceSelection(editorState, selection));
+  //   setTimeout(() => {
+  //     window.getSelection()?.anchorNode?.parentElement?.scrollIntoView({
+  //       behavior: "smooth",
+  //     });
+  //   }, 200);
+  // };
 
-  useEffect(() => {
-    focusLast();
-  }, []);
+  // useEffect(() => {
+  //   focusLast();
+  // }, []);
 
   const toggleBlockType = (blockType: string) => {
     const currentContent = editorState.getCurrentContent();

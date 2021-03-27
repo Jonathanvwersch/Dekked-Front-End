@@ -17,10 +17,14 @@ const StyledAvatar = styled.div<AvatarProps>`
   align-items: center;
   border-radius: 50%;
   font-family: ${({ theme }) => theme.typography.fontFamily};
-  height: ${({ diameter }) => (diameter ? diameter : "32px")};
-  width: ${({ diameter }) => (diameter ? diameter : "32px")};
-  min-height: ${({ diameter }) => (diameter ? diameter : "32px")};
-  min-width: ${({ diameter }) => (diameter ? diameter : "32px")};
+  height: ${({ diameter, theme }) =>
+    diameter ? diameter : theme.spacers.size32};
+  width: ${({ diameter, theme }) =>
+    diameter ? diameter : theme.spacers.size32};
+  min-height: ${({ diameter, theme }) =>
+    diameter ? diameter : theme.spacers.size32};
+  min-width: ${({ diameter, theme }) =>
+    diameter ? diameter : theme.spacers.size32};
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? backgroundColor : theme.colors.primary};
   color: ${({ fontColor }) => (fontColor ? fontColor : "white")};

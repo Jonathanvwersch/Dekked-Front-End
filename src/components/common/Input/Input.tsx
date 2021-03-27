@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FocusEvent } from "react";
 import { HFlex } from "..";
-import { SIZES } from "../Pages/InsetPage";
+import { SIZES } from "../../../shared";
 import { Label, LabelAndInputWrapper, StyledInput } from "./Input.styles";
 
 export interface InputProps {
@@ -14,10 +14,8 @@ export interface InputProps {
   placeholder?: string;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   isMissing?: boolean;
   isIncomplete?: boolean;
-  clearOnFocus?: boolean;
   size?: SIZES;
 }
 
@@ -32,21 +30,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   onBlur,
   onChange,
-  onFocus,
-  clearOnFocus = false,
   size = SIZES.SMALL,
 }) => {
-  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
-    // For input fields that contain sensitive data, like encrypted passwords
-    // we want to clear the input on focus rather than letting users edit it
-    if (clearOnFocus) {
-      e.target.value = "";
-      e.currentTarget.value = "";
-      onChange && onChange(e);
-    }
-    onFocus && onFocus(e);
-  };
-
   return (
     <LabelAndInputWrapper>
       {label && <Label htmlFor={id}>{label}</Label>}
@@ -60,7 +45,6 @@ const Input: React.FC<InputProps> = ({
           autoComplete="off"
           onBlur={onBlur}
           onChange={onChange}
-          onFocus={handleFocus}
           aria-label={ariaLabel}
           placeholder={placeholder}
           id={id}

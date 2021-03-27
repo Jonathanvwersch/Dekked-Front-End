@@ -1,34 +1,11 @@
 import { EditorState } from "draft-js";
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "styled-components";
+import React, { useEffect, useState } from "react";
 import { TextModalData } from "./TextModal.data";
 
-import {
-  HFlex,
-  HoverCard,
-  IconWrapper,
-  Overlay,
-  ShadowCard,
-  Spacer,
-  Text,
-} from "../../common";
+import { ScrollerModal } from "../../common";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { positionBlockEditor } from "../Utils/editorUtils";
-
-const getSelectedBlockNode = (root: any) => {
-  const selection = root.getSelection();
-  if (selection.rangeCount === 0) {
-    return null;
-  }
-  let node = selection.getRangeAt(0).startContainer;
-  do {
-    if (node.getAttribute && node.getAttribute("data-block") === "true") {
-      return node;
-    }
-    node = node.parentNode;
-  } while (node !== null);
-  return null;
-};
+import { getSelectedBlockNode } from "./TextModal.helpers";
 
 interface TextModalProps {
   onToggle: (style: string) => void;
@@ -36,10 +13,7 @@ interface TextModalProps {
 }
 
 const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
-  const node = React.useRef<HTMLDivElement>(null);
-  const theme = useContext(ThemeContext);
-  const [open, setOpen] = React.useState(false);
-  const [index, setIndex] = React.useState(0);
+  const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<CoordsProps>();
 
   const updatePosition = () => {
@@ -75,56 +49,20 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
     }
   }, [currentBlock]);
 
-  const eventHandler = (event: KeyboardEvent) => {
-    if (open) {
-      if (event.key === "ArrowUp") {
-        setIndex((index - 1 + TextModalData.length) % TextModalData.length);
-      } else if (event.key === "ArrowDown") {
-        setIndex((index + 1) % TextModalData.length);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", eventHandler);
-    return () => window.removeEventListener("keydown", eventHandler);
-  }, [open, index]);
-
-  useEffect(() => {
-    if (!open) {
-      setIndex(0);
-    }
-  }, [open]);
-
-  const handleToggle = (e: KeyboardEvent, style: string) => {
+  const handleToggle = (style: string, e: any) => {
     e.preventDefault();
     e.stopPropagation();
     onToggle(style);
   };
 
   return (
-    <Overlay state={open} handleState={() => setOpen(false)} coords={coords}>
-      <ShadowCard cardRef={node} width={theme.sizes.modal.small}>
-        {TextModalData.map((item, dataIndex) => (
-          <HoverCard
-            backgroundColor={theme.colors.backgrounds.modalBackground}
-            key={`TextModal ${dataIndex}`}
-            handleClick={(e: KeyboardEvent) => {
-              handleToggle(e, item.style);
-            }}
-            padding="8px 16px"
-            index={dataIndex}
-            activeIndex={index}
-          >
-            <HFlex>
-              <IconWrapper>{item.icon}</IconWrapper>
-              <Spacer width={theme.spacers.size8} />
-              <Text>{item.label}</Text>
-            </HFlex>
-          </HoverCard>
-        ))}
-      </ShadowCard>
-    </Overlay>
+    <ScrollerModal
+      open={open}
+      handleClose={() => setOpen(false)}
+      coords={coords}
+      clickFunctions={handleToggle}
+      data={TextModalData}
+    />
   );
 };
 

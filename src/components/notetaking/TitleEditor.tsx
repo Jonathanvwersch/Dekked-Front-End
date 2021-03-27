@@ -1,7 +1,6 @@
 import {
   ContentBlock,
   ContentState,
-  convertToRaw,
   DefaultDraftBlockRenderMap,
   DraftEditorCommand,
   Editor,
@@ -9,7 +8,6 @@ import {
   genKey,
   getDefaultKeyBinding,
   KeyBindingUtil,
-  RawDraftContentState,
   RichUtils,
 } from "draft-js";
 

@@ -1,4 +1,5 @@
-import React, { Fragment, useContext } from "react";
+// Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "styled-components";
 import {
   Divider,
@@ -35,6 +36,28 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   coords,
 }) => {
   const theme = useContext(ThemeContext);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const eventHandler = (event: KeyboardEvent) => {
+    if (open) {
+      if (event.key === "ArrowUp") {
+        setActiveIndex((activeIndex - 1 + data.length) % data.length);
+      } else if (event.key === "ArrowDown") {
+        setActiveIndex((activeIndex + 1) % data.length);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!open) {
+      setActiveIndex(0);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", eventHandler);
+    return () => window.removeEventListener("keydown", eventHandler);
+  }, [open, activeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Overlay state={open} handleState={handleClose} coords={coords}>
@@ -43,12 +66,13 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
           return (
             <Fragment key={`ScrollerModal ${index}`}>
               <HoverCard
+                index={index}
+                activeIndex={activeIndex}
                 backgroundColor={theme.colors.backgrounds.modalBackground}
-                key={`TextModal ${index}`}
-                handleClick={() => {
-                  clickFunctions(item?.style ? item.style : item.label);
+                handleMouseDown={(e: MouseEvent) => {
+                  clickFunctions(item?.style ? item.style : item.label, e);
                 }}
-                padding="8px 16px"
+                padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
               >
                 <HFlex>
                   <IconWrapper>{item.icon}</IconWrapper>

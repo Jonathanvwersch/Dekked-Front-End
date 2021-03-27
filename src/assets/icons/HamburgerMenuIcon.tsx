@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../styles/theme";
-import { Svg } from "../styles";
-import { IconProps } from "../types";
+import { Svg } from "../Icon.styles";
+import { IconProps } from "../Icon.types";
 
 const HamburgerMenuIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);

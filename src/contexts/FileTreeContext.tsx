@@ -5,20 +5,9 @@ import { useFileTree } from "../services/file-structure/useFileTree";
 import { useFolders } from "../services/file-structure/useFolders";
 import { useStudyPacks } from "../services/file-structure/useStudyPacks";
 import { ThemeContext } from "styled-components";
-
-export enum FILETREE_TYPES {
-  FOLDER = "folder",
-  BINDER = "binder",
-  STUDY_SET = "study_pack",
-}
-
-export enum TAB_TYPE {
-  FLASHCARDS = "flashcards",
-  NOTES = "notes",
-}
+import { FILETREE_TYPES } from "../shared";
 
 interface FileTreeContextTypes {
-  // updateFileTree: () => Promise<void>;
   handleAddingAsset: (type: string, parent_id?: string) => void;
   getAsset: (
     type: string,
@@ -36,17 +25,12 @@ interface FileTreeContextTypes {
   ) => void;
 }
 
-export const FileTreeContext = createContext<FileTreeContextTypes>({
-  handleAddingAsset: () => {},
-  fileTree: {},
-  getAsset: () => undefined,
-  updateAsset: () => {},
-  isTreeEmpty: false,
-});
+export const FileTreeContext = createContext<FileTreeContextTypes>(
+  {} as FileTreeContextTypes
+);
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
   const { getFileTree, fileTree, isTreeEmpty } = useFileTree();
-
   const { getFolders, addFolder, folders, updateFolder } = useFolders();
   const {
     getStudyPacks,
@@ -56,8 +40,11 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   } = useStudyPacks();
   const { getBinders, addBinder, binders, updateBinder } = useBinders();
   const theme: ThemeType = useContext(ThemeContext);
+  const folderLength = Object.keys(folders).length;
+  const binderLength = Object.keys(binders).length;
+  const studySetLength = Object.keys(studyPacks).length;
 
-  const handleAddingAsset = (type: string, parent_id?: string) => {
+  const handleAddingAsset = (type: string, parentId?: string) => {
     const iconColor = theme.colors.iconColor;
     const itemName = "";
 
@@ -66,24 +53,24 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         addFolder(itemName, iconColor);
         break;
       case FILETREE_TYPES.BINDER:
-        parent_id && addBinder(itemName, iconColor, parent_id);
+        parentId && addBinder(itemName, iconColor, parentId);
         break;
       case FILETREE_TYPES.STUDY_SET:
-        parent_id && addStudyPack(itemName, iconColor, parent_id);
+        parentId && addStudyPack(itemName, iconColor, parentId);
         break;
       default:
         break;
     }
   };
 
-  const getAsset = (type: string, asset_id: string) => {
+  const getAsset = (type: string, assetId: string) => {
     switch (type) {
       case FILETREE_TYPES.FOLDER:
-        return folders[asset_id];
+        return folders[assetId];
       case FILETREE_TYPES.BINDER:
-        return binders[asset_id];
+        return binders[assetId];
       case FILETREE_TYPES.STUDY_SET:
-        return studyPacks[asset_id];
+        return studyPacks[assetId];
       default:
         break;
     }
@@ -91,23 +78,19 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
 
   const updateAsset = (
     type: string,
-    asset_id: string,
-    update_data: {
+    assetId: string,
+    updateData: {
       color?: string;
       name?: string;
     }
   ) => {
     switch (type) {
       case FILETREE_TYPES.FOLDER:
-        return updateFolder(asset_id, update_data);
+        return updateFolder(assetId, updateData);
       case FILETREE_TYPES.BINDER:
-        return updateBinder(asset_id, update_data);
+        return updateBinder(assetId, updateData);
       case FILETREE_TYPES.STUDY_SET:
-        return updateStudyPack(asset_id, update_data);
-      // case FILETREE_TYPES.BINDER:
-      //   return binders[asset_id];
-      // case FILETREE_TYPES.STUDY_SET:
-      //   return studyPacks[asset_id];
+        return updateStudyPack(assetId, updateData);
       default:
         break;
     }
@@ -116,22 +99,21 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   const fullFileTreeUpdate = () => {
     getFileTree();
     getFolders();
-    getStudyPacks();
     getBinders();
+    getStudyPacks();
   };
 
   useEffect(() => {
     fullFileTreeUpdate();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     getFileTree();
-  }, [folders, studyPacks, binders]);
+  }, [folderLength, binderLength, studySetLength]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <FileTreeContext.Provider
       value={{
-        //   updateFileTree: async () => {},
         handleAddingAsset,
         fileTree,
         getAsset,

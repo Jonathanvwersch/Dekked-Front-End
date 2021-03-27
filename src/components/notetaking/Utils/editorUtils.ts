@@ -91,7 +91,7 @@ export const positionBlockEditor = (rect: DOMRect, componentHeight: number) => {
   const { top, left, bottom } = getBlockEditorPosition(rect);
   let newCoordinate;
 
-  if (componentHeight && bottom! - componentHeight < componentHeight) {
+  if (componentHeight && bottom - componentHeight < componentHeight) {
     newCoordinate = { bottom: bottom && bottom - 15 };
   } else {
     newCoordinate = { top: top && top + 15 };

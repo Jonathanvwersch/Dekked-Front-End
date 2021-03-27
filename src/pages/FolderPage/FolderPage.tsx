@@ -1,15 +1,13 @@
 import React from "react";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
-import { SIZES } from "../../components/common/Pages/InsetPage";
 import {
   FolderBinderCardContainer,
   FolderBinderHeader,
 } from "../../components/folder-binder";
+import { SIZES } from "../../shared";
 
-interface FolderPageProps {}
-
-const FolderPage: React.FC<FolderPageProps> = () => {
+const FolderPage: React.FC = () => {
   return (
     <MainFrame>
       <InsetPage size={SIZES.MEDIUM}>

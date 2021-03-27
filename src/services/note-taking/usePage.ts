@@ -27,7 +27,7 @@ export function usePage(study_pack_id: string) {
     if (study_pack_id) {
       getPageByStudyPackId();
     }
-  }, [study_pack_id]);
+  }, [study_pack_id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function savePage({
     draft_keys,

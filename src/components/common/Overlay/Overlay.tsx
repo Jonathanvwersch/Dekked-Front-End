@@ -10,13 +10,14 @@ interface OverlayProps {
   children: JSX.Element;
   state: boolean;
   handleState: () => void;
-  lightbox?: boolean;
-  center?: boolean;
-  close?: boolean | null;
-  coords?: CoordsProps;
+  lightbox?: boolean; // set to true if you want to add a lightbox
+  center?: boolean; // set to true if you want to center the div on the screen
+  close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
+  coords?: CoordsProps; // pass down top, left, bottom, right coordinates to position div relative to viewport
 }
 
 const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
+  // Close modal on press of escape key
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") props.handleState();
@@ -92,7 +93,10 @@ const StyledOverlay = styled.div`
 
 const Lightbox = styled.div`
   position: fixed;
-  inset: 0px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 100vw;
   height: 100vh;
 

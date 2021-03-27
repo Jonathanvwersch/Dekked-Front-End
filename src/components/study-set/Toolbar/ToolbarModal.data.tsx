@@ -24,35 +24,35 @@ export type ModalData = {
   divider?: boolean;
 }[];
 
-export const BlockOptions: ModalData = [
+export const ToolbarModalData: ModalData = [
   {
-    label: "Body",
+    label: BLOCK_OPTIONS.BODY,
     icon: <BodyTextIcon />,
     style: "unstyled",
   },
   {
-    label: "Large heading",
+    label: BLOCK_OPTIONS.LARGE_HEADING,
     style: "header-one",
     icon: <H1Icon />,
   },
   {
-    label: "Medium heading",
+    label: BLOCK_OPTIONS.MEDIUM_HEADING,
     style: "header-two",
     icon: <H2Icon />,
   },
   {
-    label: "Small heading",
+    label: BLOCK_OPTIONS.SMALL_HEADING,
     style: "header-three",
     icon: <H3Icon />,
     divider: true,
   },
   {
-    label: "Bulleted list",
+    label: BLOCK_OPTIONS.BULLETED_LIST,
     style: "unordered-list-item",
     icon: <BulletedListIcon />,
   },
   {
-    label: "Numbered list",
+    label: BLOCK_OPTIONS.NUMBERED_LIST,
     style: "ordered-list-item",
     icon: <NumberedListIcon />,
   },

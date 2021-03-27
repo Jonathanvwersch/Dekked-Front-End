@@ -1,20 +1,27 @@
-import React, { useContext, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 import { Flashcard } from "..";
 import { LogoIcon } from "../../../assets";
+import { SIZES } from "../../../shared";
 import { VFlex, IconActive } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
-import { SIZES } from "../../common/Pages/InsetPage";
 
 interface LinkedFlashcardProps {
   flashcardSize: number;
+  flashcardPosition: number;
 }
 
-const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({ flashcardSize }) => {
+const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({
+  flashcardSize,
+  flashcardPosition,
+}) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
 
   return (
-    <LinkedCard flashcardSize={flashcardSize}>
+    <LinkedCard
+      flashcardSize={flashcardSize}
+      flashcardPosition={flashcardPosition}
+    >
       <Tab
         handleClick={() => setShowFlashcard((prevState) => !prevState)}
         fillType={FILL_TYPE.STROKE}
@@ -30,6 +37,8 @@ const LinkedCard = styled(VFlex)<LinkedFlashcardProps>`
   z-index: 998;
   position: fixed;
   bottom: 0;
+  left: ${({ flashcardPosition }) =>
+    flashcardPosition ? `${flashcardPosition}px` : "auto"};
   width: ${({ flashcardSize }) => flashcardSize}px;
 `;
 

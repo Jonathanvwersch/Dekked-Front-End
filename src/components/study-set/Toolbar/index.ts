@@ -1,2 +1,2 @@
 export { default as Toolbar } from "./Toolbar";
-export { default as BlockOptionsModal } from "./BlockOptionsModal";
+export { default as ToolbarModal } from "./ToolbarModal";

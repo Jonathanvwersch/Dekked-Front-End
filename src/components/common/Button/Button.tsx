@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import { SIZES } from "../Pages/InsetPage";
+import { SIZES } from "../../../shared";
 
 const ButtonStyles = {
   primary: ButtonPrimary,

@@ -1,22 +1,22 @@
 import React, { useContext, useEffect } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { FileTreeContext } from "./contexts";
-import { FILETREE_TYPES } from "./contexts/FileTreeContext";
 import { LogInSignUpPage, NotFoundPage, OptionsPage } from "./pages";
+import { FILETREE_TYPES } from "./shared";
 
 const Routes = () => {
   const { fileTree, getAsset, handleAddingAsset, isTreeEmpty } = useContext(
     FileTreeContext
   );
-  let firstFolderId = Object.keys(fileTree)[0];
-  let folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
-  console.log(isTreeEmpty);
+  const firstFolderId = Object.keys(fileTree)[0];
+  const folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
 
   useEffect(() => {
+    // if file tree is empty auto-add one folder
     if (isTreeEmpty) {
       handleAddingAsset(FILETREE_TYPES.FOLDER);
     }
-  }, [isTreeEmpty]);
+  }, [isTreeEmpty]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Switch>

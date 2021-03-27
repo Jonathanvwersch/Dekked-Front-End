@@ -5,11 +5,11 @@ import {
   RawDraftContentBlock,
   convertFromRaw,
 } from "draft-js";
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import React from "react";
-import { usePage } from "../services/file-structure/usePage";
+import { usePage } from "../services/note-taking/usePage";
 import { useParams } from "react-router";
-import { useBlocks } from "../services/file-structure/useBlocks";
+import { useBlocks } from "../services/note-taking/useBlocks";
 
 interface EditorContextProps {
   editorState: EditorState;
@@ -19,18 +19,12 @@ interface EditorContextProps {
   onSave: () => void;
 }
 
-export const EditorContext = createContext<EditorContextProps>({
-  editorState: EditorState.createEmpty(),
-  setEditorState: (editorState) => {},
-  toggleInLineStyle: (style) => {},
-  toggleBlockStyle: (style) => {},
-  onSave: () => {},
-});
+export const EditorContext = createContext<EditorContextProps>(
+  {} as EditorContextProps
+);
 
 export const EditorContextProvider: React.FC = ({ children }) => {
-  const [editorState, setEditorState] = React.useState(
-    EditorState.createEmpty()
-  );
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { id }: { id: string } = useParams();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
@@ -43,7 +37,6 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   };
 
   const onSave = async () => {
-    console.log("HERE");
     const rawContent = convertToRaw(editorState.getCurrentContent());
     const keys = rawContent.blocks.map((val) => val.key);
     const blocks = rawContent.blocks.map((val) => JSON.stringify(val));

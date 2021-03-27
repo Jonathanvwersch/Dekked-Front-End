@@ -6,9 +6,8 @@ export interface CoordsProps {
 }
 
 // Function used to get mouse click position
-export const getMousePosition = (e: MouseEvent) => {
-  const event = e.target as HTMLElement; // Necessary conversion so typescript doesnt complain about MouseEvent type
-  const rect = event.getBoundingClientRect();
+export const getMousePosition = (e: any) => {
+  const rect = e.target.getBoundingClientRect();
   const distanceToTop = rect.y; // Distance from mouse click to top of window
   const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
   const distanceToLeft = rect.x + rect.width / 2; // Distance from mouse click to left of window
@@ -21,7 +20,7 @@ export const getMousePosition = (e: MouseEvent) => {
   };
 };
 
-// Function used to position modals depending on position of button click used to open modal and the height of the component
+// Function used to position modals depending on position of button click 
 export const positionModals = (e: MouseEvent, componentHeight: number) => {
   const { top, bottom, left } = getMousePosition(e);
   let newCoordinate;

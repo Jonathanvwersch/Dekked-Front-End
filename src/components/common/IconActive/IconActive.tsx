@@ -10,8 +10,9 @@ export enum FILL_TYPE {
 
 interface IconActiveProps {
   className?: string;
-  handleClick?: Function;
+  handleClick?: (args: any) => void;
   fillType?: string;
+  handleMouseDown?: (args: any) => void;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -19,14 +20,13 @@ const IconActive: React.FC<IconActiveProps> = ({
   handleClick,
   fillType = FILL_TYPE.FILL,
   className,
+  handleMouseDown,
 }) => {
   return (
     <StyledIconActive
       aria-label="icon"
-      // If need to change onMouseDown for on click, create a new component
-      onMouseDown={(event: any) => {
-        handleClick && handleClick(event);
-      }}
+      onMouseDown={handleMouseDown && handleMouseDown}
+      onClick={handleClick && handleClick}
       className={className}
       fillType={fillType}
     >

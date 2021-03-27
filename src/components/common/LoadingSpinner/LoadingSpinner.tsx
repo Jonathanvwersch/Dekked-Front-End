@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { LogoIcon } from "../../../assets";
+import { SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 
 import IconWrapper from "../IconWrapper/IconWrapper";
-import { SIZES } from "../Pages/InsetPage";
 
 // Use whenever you want to add a loading spinner in place of a component
 export const ComponentLoadingSpinner: React.FC = () => {
@@ -42,7 +42,10 @@ const rotate = keyframes`
 `;
 
 const StyledFullPageSpinner = styled.div`
-  inset: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   position: fixed;
   zindex: 10;
   display: flex;

@@ -1,10 +1,15 @@
-import React, { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useContext, RefObject } from "react";
+import { SidebarContext } from "../contexts";
 
-export function useResize(myRef: React.RefObject<any>) {
+export const useResize = (myRef: RefObject<HTMLDivElement>) => {
   const [dimensions, setDimensions] = useState({
     width: 0,
     height: 0,
   });
+  const [position, setPosition] = useState({
+    left: 0,
+  });
+  const { sidebar } = useContext(SidebarContext);
 
   useLayoutEffect(() => {
     const getDimensions = () => ({
@@ -12,12 +17,18 @@ export function useResize(myRef: React.RefObject<any>) {
       height: (myRef && myRef?.current?.offsetHeight) || 0,
     });
 
+    const getPosition = () => ({
+      left: (myRef && myRef?.current?.offsetLeft) || 0,
+    });
+
     const handleResize = () => {
       setDimensions(getDimensions());
+      setPosition(getPosition());
     };
 
     if (myRef.current) {
       setDimensions(getDimensions());
+      setPosition(getPosition());
     }
 
     window.addEventListener("resize", handleResize);
@@ -25,7 +36,7 @@ export function useResize(myRef: React.RefObject<any>) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [myRef]);
+  }, [myRef, sidebar]);
 
-  return dimensions;
-}
+  return { dimensions, position };
+};

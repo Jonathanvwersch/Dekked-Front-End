@@ -27,8 +27,8 @@ const LogInPage: React.FC<LogInPageProps> = ({ login }) => {
 
 const StyledLink = styled.a`
   position: absolute;
-  left: 32px;
-  top: 32px;
+  left: ${({ theme }) => theme.spacers.size32};
+  top: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default LogInPage;

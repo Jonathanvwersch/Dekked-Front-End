@@ -1,10 +1,10 @@
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "../types";
+import { IconProps } from "../Icon.types";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { Svg } from "../styles";
+import { Svg } from "../Icon.styles";
 
-const DoubleChevronIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
+const DoubleChevronIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 

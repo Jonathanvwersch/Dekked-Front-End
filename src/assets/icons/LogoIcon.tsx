@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { IconProps } from "../types";
+import { IconProps } from "../Icon.types";
 import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../styles/theme";
-import { Svg } from "../styles";
+import { Svg } from "../Icon.styles";
 
-const LogoIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
+const LogoIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 

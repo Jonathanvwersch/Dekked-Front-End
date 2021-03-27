@@ -2,11 +2,8 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import AddCard from "../AddCard/AddCard";
 import FolderBinderCard from "../FolderBinderCard/FolderBinderCard";
-import {
-  FileTreeContext,
-  FILETREE_TYPES,
-} from "../../../contexts/FileTreeContext";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
+import { FILETREE_TYPES } from "../../../shared";
+import { FileTreeContext, SelectedItemContext } from "../../../contexts";
 
 interface FolderBinderCardContainerProps {}
 
@@ -16,10 +13,14 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> = () =
     SelectedItemContext
   );
 
-  const returnComponent = (type: FILETREE_TYPES) => {
+  const Cards = (type: FILETREE_TYPES) => {
+    // if type = folders, create cards using binder data
     if (type === FILETREE_TYPES.FOLDER) {
-      return numOfBinders! > 0 && fileTree[folderData?.id!]?.children
-        ? Object.entries(fileTree[folderData?.id!]?.children).map(
+      return numOfBinders &&
+        numOfBinders > 0 &&
+        folderData &&
+        fileTree[folderData?.id]?.children
+        ? Object.entries(fileTree[folderData?.id]?.children).map(
             (binder, index) => {
               const binderDetails = getAsset(
                 binder[1].type,
@@ -36,9 +37,12 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> = () =
           )
         : null;
     } else {
-      return numOfStudySets! > 0 &&
-        fileTree[folderData?.id!]?.children[id]?.children
-        ? Object.entries(fileTree[folderData?.id!]?.children[id]?.children).map(
+      // if type = binders, create cards with study set data
+      return numOfStudySets &&
+        numOfStudySets > 0 &&
+        folderData &&
+        fileTree[folderData?.id]?.children[id]?.children
+        ? Object.entries(fileTree[folderData?.id]?.children[id]?.children).map(
             (studySet, index) => {
               const studySetDetails = getAsset(
                 studySet[1].type,
@@ -61,7 +65,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> = () =
     <StyledContainer>
       <>
         <AddCard id={id} type={type} />
-        {folderData && returnComponent(type)}
+        {Cards(type)}
       </>
     </StyledContainer>
   );
@@ -74,7 +78,7 @@ const StyledContainer = styled.div<FolderBinderCardContainerProps>`
   flex-direction: column;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-  grid-row-gap: 32px;
+  grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default FolderBinderCardContainer;

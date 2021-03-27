@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { SIZES } from "../../../shared";
 
 interface CardProps {
   padding?: string;
@@ -15,12 +16,13 @@ const Card: React.FC<CardProps> = ({ children, ...props }) => {
 };
 
 const StyledCard = styled.div<CardProps>`
-  padding: ${({ padding }) => (padding ? padding : "16px")};
+  padding: ${({ padding, theme }) =>
+    padding ? padding : theme.spacers.size16};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
   border: ${({ border }) => border};
   border-radius: ${({ theme, borderRadius }) =>
-    borderRadius ? borderRadius : theme.display.borderRadiusTwo};
+    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.SMALL]};
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
 `;

@@ -2,20 +2,11 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { HFlex, Spacer, Text } from "../../common";
-import { TAB_TYPE } from "../../../contexts/FileTreeContext";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
+import { TAB_TYPE } from "../../../shared";
 
-interface TabSwitcherProps {
-  padding?: string;
-  backgroundColor?: string;
-  height?: string;
-  width?: string;
-  border?: string;
-  borderRadius?: string;
-}
-
-const TabSwitcher: React.FC<TabSwitcherProps> = ({ children, ...props }) => {
+const TabSwitcher: React.FC = () => {
   const theme: ThemeType = useContext(ThemeContext);
   const { type, id } = useContext(SelectedItemContext);
 

@@ -1,21 +1,21 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { Card, HFlex, Text } from "../../../common";
-import { FILETREE_TYPES } from "../../../../contexts/FileTreeContext";
 import { ThemeType } from "../../../../styles/theme";
+import { FILETREE_TYPES } from "../../../../shared";
 
-interface EmptyBlockProps {
+interface SidebarEmptyBlockProps {
   type: string;
 }
 
-const EmptyBlock: React.FC<EmptyBlockProps> = ({ type }) => {
+const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
-      ? "40px"
+      ? theme.spacers.size40
       : type === FILETREE_TYPES.BINDER
-      ? "48px"
+      ? theme.spacers.size48
       : null;
 
   const message =
@@ -26,7 +26,9 @@ const EmptyBlock: React.FC<EmptyBlockProps> = ({ type }) => {
       : null;
 
   return (
-    <Card padding={`4px 12px 8px ${paddingLeft}`}>
+    <Card
+      padding={`${theme.spacers.size4} ${theme.spacers.size12} ${theme.spacers.size8} ${paddingLeft}`}
+    >
       <HFlex>
         <Text fontColor={theme.colors.grey1}>{message}</Text>
       </HFlex>
@@ -34,4 +36,4 @@ const EmptyBlock: React.FC<EmptyBlockProps> = ({ type }) => {
   );
 };
 
-export default EmptyBlock;
+export default SidebarEmptyBlock;

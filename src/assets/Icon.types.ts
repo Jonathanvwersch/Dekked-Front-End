@@ -1,4 +1,4 @@
-import { SIZES } from "../components/common/Pages/InsetPage";
+import { SIZES } from "../shared";
 
 export enum ROTATE {
   NINETY = "rotate(90deg)",

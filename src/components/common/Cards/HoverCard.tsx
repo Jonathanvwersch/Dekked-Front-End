@@ -9,6 +9,7 @@ interface HoverCardProps {
   borderRadius?: string;
   backgroundColor?: string;
   handleClick?: (args: any) => any;
+  handleMouseDown?: (args: any) => any;
   padding?: string;
   activeIndex?: number;
   index?: number;
@@ -16,9 +17,14 @@ interface HoverCardProps {
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Used to allow up and down movement using your arrows keys on hover cards, such as those found in a modal
+  // To use, two variables are needed. Firstly, the index of the hover card (obtained from the array map prototype).
+  // And secondly the active index of the arrow keys. Look at the TextModal in the note-taking component folder for a full example.
   useEffect(() => {
-    if (cardRef && props.index === props.activeIndex && props.index != null)
+    if (cardRef && props.index === props.activeIndex && props.index != null) {
       cardRef.current?.focus();
+    }
   }, [props.activeIndex, props.index]);
 
   return (
@@ -27,9 +33,12 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
       ref={cardRef}
       tabIndex={0}
       {...props}
-      onMouseDown={(e: any) => props.handleClick && props.handleClick(e)}
+      onClick={props.handleClick && props.handleClick}
+      onMouseDown={props.handleMouseDown && props.handleMouseDown}
       onKeyDown={(e: any) => {
-        if (e.key === "Enter") props.handleClick && props.handleClick(e);
+        if (e.key === "Enter")
+          (props.handleClick && props.handleClick(e)) ||
+            (props.handleMouseDown && props.handleMouseDown(e));
       }}
     >
       {children}
@@ -45,11 +54,9 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: pointer;
   user-select: none;
-  &:hover {
-    filter: ${({ theme }) => theme.colors.hover.filter};
-  }
 
-  &:focus {
+  &:focus,
+  &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 

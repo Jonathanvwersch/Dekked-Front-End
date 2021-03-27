@@ -1,17 +1,16 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "../types";
-import { Svg } from "../styles";
+import { IconProps } from "../Icon.types";
+import { Svg } from "../Icon.styles";
 import { ThemeContext } from "styled-components";
 
-const ReColorIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
+const ReColorIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 
   return (
     <Svg
       size={size}
-      rotate={rotate}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

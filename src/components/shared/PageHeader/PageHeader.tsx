@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { BUTTON_THEME } from "../../common/Button/Button";
-import { TAB_TYPE } from "../../../contexts/FileTreeContext";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
+import { TAB_TYPE } from "../../../shared";
 
 interface PageHeaderProps {
   message?: string;
@@ -14,19 +14,17 @@ interface PageHeaderProps {
 const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const theme: ThemeType = useContext(ThemeContext);
-  const { selectedBlockName } = useContext(SelectedItemContext);
+  const { selectedBlockName, id } = useContext(SelectedItemContext);
   const { tab } = useParams<{ tab: TAB_TYPE }>();
-  const [name, setName] = useState<string>(selectedBlockName!);
-
-  useEffect(() => {
-    console.log(selectedBlockName);
-    setName(selectedBlockName!);
-  }, [selectedBlockName]);
 
   return (
     <VFlex>
-      <StyledEditableText editableTextRef={headerRef} name={name} />
-      <Spacer height="16px" />
+      <StyledEditableText
+        id={id}
+        editableTextRef={headerRef}
+        name={selectedBlockName}
+      />
+      <Spacer height={theme.spacers.size16} />
       <HFlex justifyContent="space-between">
         <Text fontColor={theme.colors.grey1}>{message}</Text>
         <HFlex width="auto">
@@ -35,24 +33,24 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
               + Add flashcard
             </Button>
           ) : null}
-          <Spacer width="16px" />
+          <Spacer width={theme.spacers.size16} />
           <Button buttonStyle={BUTTON_THEME.PRIMARY} disabled={true}>
             Study
           </Button>
         </HFlex>
       </HFlex>
-      <Spacer height="32px" />
+      <Spacer height={theme.spacers.size32} />
     </VFlex>
   );
 };
 
 const StyledEditableText = styled((props) => <EditableText {...props} />)`
-  font-size: ${({ theme }) => theme.typography.fontSizes.size54};
+  font-size: ${({ theme }) => theme.typography.fontSizes.size48};
   font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.lineHeightSmall};
   &:empty:before {
     color: ${({ theme }) => theme.colors.grey2};
-    cursor: text;
+    z-index: 1000;
   }
 `;
 

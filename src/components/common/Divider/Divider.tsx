@@ -1,3 +1,4 @@
+// Vertical or horizontal dividing line
 import React from "react";
 import styled from "styled-components";
 

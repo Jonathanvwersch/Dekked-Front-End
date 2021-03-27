@@ -7,14 +7,14 @@ import {
   ItalicsIcon,
   UnderlineIcon,
 } from "../../../assets";
-import { ROTATE } from "../../../assets/types";
+import { ROTATE } from "../../../assets/Icon.types";
 import { positionModals } from "../../../helpers";
 import { CoordsProps } from "../../../helpers/positionModals";
-import { BlockOptionsModal } from ".";
+import { ToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../../styles/theme";
-import { SIZES } from "../../common/Pages/InsetPage";
+import { SIZES } from "../../../shared";
 
 interface ToolbarProps {
   toolbarFull?: boolean;
@@ -37,15 +37,15 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   return (
     <>
       <HFlex width="auto">
-        <IconActive handleClick={(e: MouseEvent) => handleBlockModal(e)}>
+        <IconActive handleMouseDown={(e: MouseEvent) => handleBlockModal(e)}>
           <HFlex>
             <BodyTextIcon size={SIZES.MEDIUM} />
             <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
           </HFlex>
         </IconActive>
-        <Spacer width="8px" />
+        <Spacer width={theme.spacers.size8} />
         <IconActive
-          handleClick={(e: MouseEvent) => {
+          handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
             toggleInLineStyle("BOLD");
@@ -53,9 +53,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
         >
           <BoldIcon size={SIZES.MEDIUM} />
         </IconActive>
-        <Spacer width="8px" />
+        <Spacer width={theme.spacers.size8} />
         <IconActive
-          handleClick={(e: MouseEvent) => {
+          handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
             toggleInLineStyle("ITALIC");
@@ -63,9 +63,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
         >
           <ItalicsIcon size={SIZES.MEDIUM} />
         </IconActive>
-        <Spacer width="8px" />
+        <Spacer width={theme.spacers.size8} />
         <IconActive
-          handleClick={(e: MouseEvent) => {
+          handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
             toggleInLineStyle("UNDERLINE");
@@ -93,11 +93,13 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
           </>
         ) : null} */}
       </HFlex>
-      <BlockOptionsModal
-        open={blockOptions}
-        handleClose={() => setBlockOptions(false)}
-        coords={coords!}
-      />
+      {coords && (
+        <ToolbarModal
+          open={blockOptions}
+          handleClose={() => setBlockOptions(false)}
+          coords={coords}
+        />
+      )}
     </>
   );
 };
