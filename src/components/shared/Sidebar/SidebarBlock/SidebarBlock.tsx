@@ -67,7 +67,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
 
   // Update icon color only if new icon color is different from current icon color
   useEffect(() => {
-    if (iconColor !== blockData.color && colorPickerRef)
+    if (blockData && iconColor !== blockData.color && colorPickerRef)
       updateAsset(type, blockData.id, { color: iconColor });
   }, [iconColor, blockData, colorPickerRef, type, updateAsset]);
 

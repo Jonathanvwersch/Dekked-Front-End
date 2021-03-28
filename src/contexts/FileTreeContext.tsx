@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { ThemeType } from "../styles/theme";
 import { useBinders } from "../services/file-structure/useBinders";
 import { useFileTree } from "../services/file-structure/useFileTree";
@@ -107,7 +107,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     fullFileTreeUpdate();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
+  useMemo(() => {
     getFileTree();
   }, [folderLength, binderLength, studySetLength]); // eslint-disable-line react-hooks/exhaustive-deps
 

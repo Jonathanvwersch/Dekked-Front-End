@@ -15,14 +15,14 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
   return (
     <>
       <Container>
-        <Notifications>
+        {/* <Notifications>
           <Text
             fontColor={theme.colors.backgrounds.pageBackground}
             fontWeight={theme.typography.fontWeights.bold}
           >
             1
           </Text>
-        </Notifications>
+        </Notifications> */}
         <StudyQueue
           handleClick={() => setStudyQueueModal(true)}
           backgroundColor={theme.colors.primary}
@@ -58,13 +58,14 @@ const StudyQueue = styled(HoverCard)<StudyQueueProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
   height: ${({ theme }) => theme.spacers.size40}!important;
   width: ${({ theme }) => theme.spacers.size40}!important;
-  border-radius: 50%;
   z-index: 0;
   position: absolute;
   bottom: 0;
   left: 0;
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
 const Notifications = styled(HFlex)<StudyQueueProps>`
