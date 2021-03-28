@@ -21,7 +21,7 @@ interface SidebarBlockModalProps {
   handleColorPicker: () => void;
   handleEditableText: () => void;
   editableTextRef: React.RefObject<HTMLDivElement>;
-  handleOpenFolder?: () => void;
+  handleOpenBlock?: () => void;
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
@@ -36,9 +36,10 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const handleAddItem = (e: MouseEvent) => {
     e.preventDefault();
     props.handleBlockModal();
+    props.handleOpenBlock && props.handleOpenBlock();
+
     if (props.type === FILETREE_TYPES.FOLDER) {
       handleAddingAsset(FILETREE_TYPES.BINDER, props.id);
-      props.handleOpenFolder && props.handleOpenFolder();
     } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);
   };
 

@@ -38,7 +38,8 @@ import { FileTreeContext } from "../../../../contexts";
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
   type: string;
-  setFolderOpen?: Dispatch<SetStateAction<boolean>>;
+  setFolderOpen?: Dispatch<SetStateAction<boolean | undefined>>;
+  handleOpenBinder?: (id: string, isOpen?: boolean) => void;
 }
 
 export const handleIconType = (type: string, iconColor: string) => {
@@ -52,6 +53,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   blockData,
   type,
   setFolderOpen,
+  handleOpenBinder,
 }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const { pathname } = useLocation();
@@ -95,11 +97,15 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     setIsExpanded((prevState) => !prevState);
     if (type === FILETREE_TYPES.FOLDER)
       setFolderOpen && setFolderOpen((prevState) => !prevState);
+    else if (type === FILETREE_TYPES.BINDER)
+      handleOpenBinder && handleOpenBinder(blockData.id);
   };
 
-  const handleOpenFolder = () => {
+  const handleOpenBlock = () => {
     setIsExpanded(true);
-    setFolderOpen && setFolderOpen(true);
+    if (type === FILETREE_TYPES.FOLDER) setFolderOpen && setFolderOpen(true);
+    else if (type === FILETREE_TYPES.BINDER)
+      handleOpenBinder && handleOpenBinder(blockData.id, true);
   };
 
   return (
@@ -175,7 +181,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
               handleColorPicker={() => setColorPicker(true)}
               type={type}
               id={blockData.id}
-              handleOpenFolder={handleOpenFolder}
+              handleOpenBlock={handleOpenBlock}
               handleEditableText={() => setIsEditable(true)}
               editableTextRef={editableTextRef}
               iconColor={iconColor}

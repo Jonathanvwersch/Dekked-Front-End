@@ -10,8 +10,19 @@ interface SidebarFileTreeProps {
 const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const { getAsset } = useContext(FileTreeContext);
   const fileId = Object.keys(file)[0];
-  const [folderOpen, setFolderOpen] = useState<boolean>(false);
+  const [folderOpen, setFolderOpen] = useState<boolean>();
+  const [binderOpen, setBinderOpen] = useState<{ [id: string]: boolean }>({});
   const folderData = getAsset(file[fileId].type, fileId) as FolderInterface;
+
+  const handleOpenBinder = (id: string, isOpen?: boolean) => {
+    const binderCopy = { ...binderOpen };
+    if (isOpen === true || isOpen === false) {
+      binderCopy[id] = isOpen;
+    } else {
+      binderCopy[id] = !binderCopy[id];
+    }
+    setBinderOpen(binderCopy);
+  };
 
   return fileId ? (
     <>
@@ -29,9 +40,14 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
             ) as BinderInterface;
             return (
               <Fragment key={binder[0]}>
-                <SidebarBlock blockData={binderData} type={binder[1].type} />
-                {Object.entries(binder[1].children).length > 0
-                  ? Object.entries(binder[1].children).map((studySet) => {
+                <SidebarBlock
+                  handleOpenBinder={handleOpenBinder}
+                  blockData={binderData}
+                  type={binder[1].type}
+                />
+                {binderOpen[binder[0]] ? (
+                  Object.entries(binder[1].children).length > 0 ? (
+                    Object.entries(binder[1].children).map((studySet) => {
                       const studySetData = getAsset(
                         studySet[1].type,
                         studySet[0]
@@ -44,7 +60,10 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
                         />
                       );
                     })
-                  : null}
+                  ) : (
+                    <SidebarEmptyBlock type={binder[1].type} />
+                  )
+                ) : null}
               </Fragment>
             );
           })
