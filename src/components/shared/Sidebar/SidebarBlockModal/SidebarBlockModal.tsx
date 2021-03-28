@@ -42,12 +42,6 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
     } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);
   };
 
-  const handleRename = (e: MouseEvent) => {
-    e.preventDefault();
-    props.handleBlockModal();
-    props.handleEditableText();
-  };
-
   const handleRecolor = (e: MouseEvent) => {
     e.preventDefault();
     props.handleBlockModal();
@@ -60,8 +54,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   };
 
   const handleClick = (type: string, e: MouseEvent) => {
-    if (type === SIDEBAR_BLOCK_MENU.RENAME) handleRename(e);
-    else if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete(e);
+    if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete(e);
     else if (
       type === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
       type === SIDEBAR_BLOCK_MENU.ADD_STUDYSET

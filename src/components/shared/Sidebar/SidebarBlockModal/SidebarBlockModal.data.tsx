@@ -2,7 +2,6 @@ import React from "react";
 import {
   BinderIcon,
   ReColorIcon,
-  EditIcon,
   DeleteIcon,
   StudySetIcon,
 } from "../../../../assets";
@@ -11,7 +10,6 @@ export enum SIDEBAR_BLOCK_MENU {
   ADD_BINDER = "Add binder",
   ADD_STUDYSET = "Add study set",
   RECOLOR = "Icon colour",
-  RENAME = "Rename",
   DELETE = "Delete",
 }
 
@@ -30,10 +28,6 @@ export const FolderData: ModalData = [
     icon: <ReColorIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.RENAME,
-    icon: <EditIcon />,
-  },
-  {
     label: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
   },
@@ -49,10 +43,6 @@ export const BinderData: ModalData = [
     icon: <ReColorIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.RENAME,
-    icon: <EditIcon />,
-  },
-  {
     label: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
   },
@@ -62,10 +52,6 @@ export const StudySetData: ModalData = [
   {
     label: SIDEBAR_BLOCK_MENU.RECOLOR,
     icon: <ReColorIcon />,
-  },
-  {
-    label: SIDEBAR_BLOCK_MENU.RENAME,
-    icon: <EditIcon />,
   },
   {
     label: SIDEBAR_BLOCK_MENU.DELETE,

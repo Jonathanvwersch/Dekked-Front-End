@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
-import { EditableText } from "../../../common";
+import { Text } from "../../../common";
 
 interface SidebarBlockNameProps {
   isEditable: boolean;
@@ -31,30 +31,11 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
     }
   }, [id, props.blockId, selectedBlockName]);
 
-  return (
-    <StyledEditableText
-      isEditable={props.isEditable}
-      handleEditable={() => {
-        props.setIsEditable((prevValue) => !prevValue);
-      }}
-      editableTextRef={props.editableTextRef}
-      name={name}
-      itemId={props.blockId}
-    />
-  );
+  return <StyledText className="overflow">{name}</StyledText>;
 };
 
-const StyledEditableText = styled((props) => <EditableText {...props} />)`
-  font-size: ${({ theme }) => theme.typography.fontSizes.size12};
-  color: ${({ theme }) => theme.colors.fontColor};
-  margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+const StyledText = styled(Text)`
   flex: 1 1 auto;
-  &[contenteditable="true"] {
-    text-overflow: clip;
-  }
   &:empty:before {
     content: "Untitled";
   }
