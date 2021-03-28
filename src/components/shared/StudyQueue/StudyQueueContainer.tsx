@@ -29,7 +29,7 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
         >
           <IconWrapper>
             <StudyQueueIcon
-              size={SIZES.MEDIUM}
+              size={SIZES.LARGE}
               color={theme.colors.backgrounds.pageBackground}
             />
           </IconWrapper>
@@ -47,8 +47,8 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
 };
 
 const Container = styled(HFlex)<StudyQueueProps>`
-  height: 44px;
-  width: 44px;
+  height: ${({ theme }) => theme.spacers.size48};
+  width: ${({ theme }) => theme.spacers.size48};
   position: fixed;
   bottom: 32px;
   right: 32px;
@@ -59,8 +59,8 @@ const StudyQueue = styled(HoverCard)<StudyQueueProps>`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  height: ${({ theme }) => theme.spacers.size40}!important;
-  width: ${({ theme }) => theme.spacers.size40}!important;
+  height: ${({ theme }) => theme.spacers.size48}!important;
+  width: ${({ theme }) => theme.spacers.size48}!important;
   z-index: 0;
   position: absolute;
   bottom: 0;

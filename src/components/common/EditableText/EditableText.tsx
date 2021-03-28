@@ -9,7 +9,7 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
   name: string;
-  id: string;
+  itemId: string;
   handleEditable?: () => void;
   isEditable?: boolean;
   className?: string;
@@ -21,7 +21,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   handleEditable,
   name,
   className,
-  id,
+  itemId,
 }) => {
   const { handleSelectedBlockName, type } = useContext(SelectedItemContext);
   const { updateAsset } = useContext(FileTreeContext);
@@ -29,17 +29,17 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const handleChange = (e: any) => {
     setHtml(e.target.value);
-    // save every 2 seconds as you type
+    // save every 500 milliseconds as you type
     autoSave();
   };
 
   const autoSave = useCallback(
     debounce(() => {
-      updateAsset(type, id, {
+      updateAsset(type, itemId, {
         name: editableTextRef.current?.innerText,
       });
     }, 500),
-    [id, editableTextRef, type]
+    [itemId, editableTextRef, type]
   );
 
   const handleScrollToStart = () => {
@@ -49,13 +49,14 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   useEffect(() => {
     setHtml(name);
-  }, [id, name]);
+  }, [name]);
 
+  // focus in on text when isEditable is true
   useEffect(() => {
     if (isEditable && editableTextRef && editableTextRef.current) {
       editableTextRef.current.focus();
     }
-  }, [isEditable, editableTextRef, id]);
+  }, [isEditable, editableTextRef, itemId]);
 
   return (
     <StyledContentEditable

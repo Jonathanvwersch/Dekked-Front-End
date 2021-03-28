@@ -8,6 +8,7 @@ import {
   Text,
   Button,
   IconActive,
+  ShadowCard,
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
@@ -66,7 +67,11 @@ const Flashcard: React.FC<FlashcardProps> = ({
   };
 
   return (
-    <Card borderRadius={theme.display.borderRadiusFive}>
+    <ShadowCard
+      backgroundColor={theme.colors.secondary}
+      padding={theme.spacers.size16}
+      borderRadius={theme.display.borderRadiusFive}
+    >
       <VFlex>
         {toolbar()}
         <Spacer height={theme.spacers.size8} />
@@ -81,7 +86,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
           </HFlex>
         ) : null}
       </VFlex>
-    </Card>
+    </ShadowCard>
   );
 };
 

@@ -39,7 +39,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
       }}
       editableTextRef={props.editableTextRef}
       name={name}
-      id={props.blockId}
+      itemId={props.blockId}
     />
   );
 };

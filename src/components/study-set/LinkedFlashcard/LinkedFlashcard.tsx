@@ -43,6 +43,7 @@ const LinkedCard = styled(VFlex)<LinkedFlashcardProps>`
 `;
 
 const Tab = styled(IconActive)`
+  box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.colors.secondary};
   border-color: ${({ theme }) => theme.colors.secondary};
   border-radius: ${({ theme }) =>

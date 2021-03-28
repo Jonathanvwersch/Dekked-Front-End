@@ -20,7 +20,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   return (
     <VFlex>
       <StyledEditableText
-        id={id}
+        itemId={id}
         editableTextRef={headerRef}
         name={selectedBlockName}
       />
