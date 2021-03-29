@@ -11,6 +11,8 @@ interface BinderInterface {
   id: string;
   owner_id: string;
   folder_id: string;
+  date_created: Date;
+  date_modified: Date;
   name: string;
   color: string;
 }
@@ -28,6 +30,8 @@ interface StudyPackInterface {
   id: string;
   owner_id: string;
   binder_id: string;
+  date_created: Date;
+  date_modified: Date;
   name: string;
   color: string;
 }

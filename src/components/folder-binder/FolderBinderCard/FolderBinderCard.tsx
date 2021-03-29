@@ -49,7 +49,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
               fontColor={theme.colors.grey1}
               fontSize={theme.typography.fontSizes.size10}
             >
-              Created
+              {`Created ${data?.date_created}`}
             </Text>
           </HFlex>
         </Description>
