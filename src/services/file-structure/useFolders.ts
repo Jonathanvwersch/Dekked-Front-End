@@ -85,7 +85,6 @@ export function useFolders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getFolders();
           return;
         }
       }

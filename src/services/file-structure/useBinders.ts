@@ -87,7 +87,6 @@ export function useBinders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getBinders();
           return;
         }
       }

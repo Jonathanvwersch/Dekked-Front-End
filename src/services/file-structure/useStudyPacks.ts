@@ -87,7 +87,6 @@ export function useStudyPacks() {
         const json = await response.json();
         console.log(json);
         if (json.success) {
-          getStudyPacks();
           return;
         }
       }
