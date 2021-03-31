@@ -40,9 +40,7 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   //     ? EditorState.createWithContent(savedContent)
   //     : EditorState.createEmpty()
   // );
-  const { editorState, setEditorState, onSave, blocks } = useContext(
-    EditorContext
-  );
+  const { editorState, setEditorState, onSave } = useContext(EditorContext);
 
   const editorRef = useRef<any>();
 
@@ -170,24 +168,18 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   };
 
   return (
-    <>
-      {!isEmpty(blocks) ? (
-        <EditorContainer>
-          <Editor
-            editorState={editorState}
-            onChange={onChange}
-            handleKeyCommand={handleKeyCommand}
-            ref={(node) => (editorRef.current = node)}
-            blockRendererFn={myBlockRenderer}
-            handleReturn={handleReturn}
-            keyBindingFn={myKeyBindingFn}
-          />
-          <TextModal onToggle={toggleBlockType} editorState={editorState} />
-        </EditorContainer>
-      ) : (
-        <ComponentLoadingSpinner />
-      )}
-    </>
+    <EditorContainer>
+      <Editor
+        editorState={editorState}
+        onChange={onChange}
+        handleKeyCommand={handleKeyCommand}
+        ref={(node) => (editorRef.current = node)}
+        blockRendererFn={myBlockRenderer}
+        handleReturn={handleReturn}
+        keyBindingFn={myKeyBindingFn}
+      />
+      <TextModal onToggle={toggleBlockType} editorState={editorState} />
+    </EditorContainer>
   );
 };
 
