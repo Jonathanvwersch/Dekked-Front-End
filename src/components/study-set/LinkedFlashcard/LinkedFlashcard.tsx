@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Flashcard } from "..";
-import { LogoIcon } from "../../../assets";
+import { LogoIcon, SingleChevronIcon } from "../../../assets";
+import { ROTATE } from "../../../assets/Icon.types";
 import { SIZES } from "../../../shared";
 import { VFlex, IconActive } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
@@ -16,6 +17,19 @@ const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({
   flashcardPosition,
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const iconType = () => {
+    if (isHovered && showFlashcard) {
+      return <SingleChevronIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />;
+    } else if (isHovered && !showFlashcard) {
+      return (
+        <SingleChevronIcon size={SIZES.MEDIUM} rotate={ROTATE.TWOSEVENTY} />
+      );
+    } else {
+      return <LogoIcon size={SIZES.MEDIUM} />;
+    }
+  };
 
   return (
     <LinkedCard
@@ -24,9 +38,11 @@ const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({
     >
       <Tab
         handleClick={() => setShowFlashcard((prevState) => !prevState)}
-        fillType={FILL_TYPE.STROKE}
+        fillType={FILL_TYPE.BOTH}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <LogoIcon size={SIZES.MEDIUM} />
+        {iconType()}
       </Tab>
       {showFlashcard ? <Flashcard linked={true} /> : null}
     </LinkedCard>

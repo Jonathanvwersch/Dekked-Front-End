@@ -17,6 +17,7 @@ interface EditorContextProps {
   toggleInLineStyle: (style: string) => void;
   toggleBlockStyle: (style: string) => void;
   onSave: () => void;
+  blocks: string[];
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -69,6 +70,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         toggleInLineStyle,
         toggleBlockStyle,
         onSave,
+        blocks,
       }}
     >
       {children}

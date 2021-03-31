@@ -10,13 +10,11 @@ const UnstyledComponent = (props: any) => {
     props.blockProps.editorState
   ).getKey();
   const blockKey = props.offsetKey.split("-")[0];
-  const hasFocus = props.selection.hasFocus;
+  console.log(props.selection.hasFocus);
 
   return (
     <>
-      {!hasText && currentBlockKey === blockKey && hasFocus ? (
-        <EmptyCommandBlock />
-      ) : null}
+      {!hasText && currentBlockKey === blockKey ? <EmptyCommandBlock /> : null}
       <EditorBlock {...props} />
     </>
   );

@@ -15,7 +15,7 @@ export function usePage(study_pack_id: string) {
     if (response.ok) {
       const json = await response.json();
       console.log(json);
-      console.log("succesfdsafgds");
+      console.log("success");
       if (json.success) {
         setPage(json.data.page);
         return;

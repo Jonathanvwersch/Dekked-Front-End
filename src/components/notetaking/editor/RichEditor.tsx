@@ -14,7 +14,8 @@ import {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
+import { isEmpty } from "lodash";
 
 import {
   addNewBlockAt,
@@ -27,6 +28,7 @@ import UnstyledComponent from "./UnstyledComponent/UnstyledComponent";
 import StyledComponent from "./StyledComponent/StyledComponent";
 import styled from "styled-components";
 import { EditorContext } from "../../../contexts/EditorContext";
+import { ComponentLoadingSpinner } from "../../common";
 
 interface EditorProps {
   savedContent?: ContentState;
@@ -38,7 +40,9 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   //     ? EditorState.createWithContent(savedContent)
   //     : EditorState.createEmpty()
   // );
-  const { editorState, setEditorState, onSave } = useContext(EditorContext);
+  const { editorState, setEditorState, onSave, blocks } = useContext(
+    EditorContext
+  );
 
   const editorRef = useRef<any>();
 
@@ -166,18 +170,24 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   };
 
   return (
-    <EditorContainer>
-      <Editor
-        editorState={editorState}
-        onChange={onChange}
-        handleKeyCommand={handleKeyCommand}
-        ref={(node) => (editorRef.current = node)}
-        blockRendererFn={myBlockRenderer}
-        handleReturn={handleReturn}
-        keyBindingFn={myKeyBindingFn}
-      />
-      <TextModal onToggle={toggleBlockType} editorState={editorState} />
-    </EditorContainer>
+    <>
+      {!isEmpty(blocks) ? (
+        <EditorContainer>
+          <Editor
+            editorState={editorState}
+            onChange={onChange}
+            handleKeyCommand={handleKeyCommand}
+            ref={(node) => (editorRef.current = node)}
+            blockRendererFn={myBlockRenderer}
+            handleReturn={handleReturn}
+            keyBindingFn={myKeyBindingFn}
+          />
+          <TextModal onToggle={toggleBlockType} editorState={editorState} />
+        </EditorContainer>
+      ) : (
+        <ComponentLoadingSpinner />
+      )}
+    </>
   );
 };
 

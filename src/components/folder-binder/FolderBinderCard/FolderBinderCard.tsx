@@ -64,6 +64,10 @@ const StyledCard = styled(Card)`
   &:hover {
     box-shadow: ${({ theme }) => theme.boxShadow};
   }
+
+  &:active {
+    box-shadow: none;
+  }
 `;
 
 const Thumbnail = styled(HFlex)`

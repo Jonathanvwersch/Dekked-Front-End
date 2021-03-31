@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { Svg } from "../Icon.styles";
 
-const DoubleChevronIcon: React.FC<IconProps> = ({ color, size }) => {
+const CloseIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 
@@ -18,4 +18,4 @@ const DoubleChevronIcon: React.FC<IconProps> = ({ color, size }) => {
   );
 };
 
-export default DoubleChevronIcon;
+export default CloseIcon;

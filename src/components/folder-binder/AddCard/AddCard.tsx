@@ -33,6 +33,13 @@ const AddCard: React.FC<AddCardProps> = ({ type, id }) => {
 const StyledIconActive = styled(IconActive)`
   width: 100%;
   height: 100%;
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadow};
+  }
+
+  &:active {
+    box-shadow: none;
+  }
 `;
 
 export default AddCard;
