@@ -15,7 +15,6 @@ import {
 import "draft-js/dist/Draft.css";
 
 import React, { useContext, useRef } from "react";
-import { isEmpty } from "lodash";
 
 import {
   addNewBlockAt,

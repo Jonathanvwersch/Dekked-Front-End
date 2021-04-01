@@ -1,15 +1,15 @@
 import React from "react";
-import { LinkedFlashcard } from "..";
+import { StudySetLinkedFlashcard } from "..";
 import NoteTaker from "../../notetaking/NoteTaker";
 import { VFlex } from "../../common";
 
-interface NotesContainerProps {
+interface StudySetNotesContainerProps {
   flashcardSize: number;
   flashcardPosition: number;
   notesRef?: (node: any) => void;
 }
 
-const NotesContainer: React.FC<NotesContainerProps> = ({
+const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
   flashcardSize,
   flashcardPosition,
   notesRef,
@@ -20,7 +20,7 @@ const NotesContainer: React.FC<NotesContainerProps> = ({
         <NoteTaker />
       </VFlex>
       {flashcardSize ? (
-        <LinkedFlashcard
+        <StudySetLinkedFlashcard
           flashcardSize={flashcardSize}
           flashcardPosition={flashcardPosition}
         />
@@ -29,4 +29,4 @@ const NotesContainer: React.FC<NotesContainerProps> = ({
   );
 };
 
-export default NotesContainer;
+export default StudySetNotesContainer;

@@ -7,7 +7,7 @@ interface InputProps {
 
 export const StyledInput = styled.input<InputProps>`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
-  border-radius: ${({ theme }) => theme.display.borderRadiusFive};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
   padding: 10px 6px;
   border: 1px solid ${({ theme }) => theme.colors.grey2};
   transition: all 0.1s ease-in-out;

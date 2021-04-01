@@ -24,7 +24,7 @@ export type ModalData = {
   divider?: boolean;
 }[];
 
-export const ToolbarModalData: ModalData = [
+export const StudySetToolbarModalData: ModalData = [
   {
     label: BLOCK_OPTIONS.BODY,
     icon: <BodyTextIcon />,

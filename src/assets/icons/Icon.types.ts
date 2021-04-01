@@ -1,4 +1,4 @@
-import { SIZES } from "../shared";
+import { SIZES } from "../../shared";
 
 export enum ROTATE {
   NINETY = "rotate(90deg)",

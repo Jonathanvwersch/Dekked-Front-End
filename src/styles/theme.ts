@@ -54,11 +54,6 @@ export type ThemeType = {
     };
   };
 
-  display: {
-    borderRadiusFive: string;
-    borderRadiusTwo: string;
-  };
-
   sizes: {
     modal: {
       small: string;
@@ -169,11 +164,6 @@ export const theme: ThemeType = {
       normal: "400",
       bold: "700",
     },
-  },
-
-  display: {
-    borderRadiusFive: "5px",
-    borderRadiusTwo: "2px",
   },
 
   sizes: {

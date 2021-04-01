@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "../Icon.types";
+import { IconProps } from "./Icon.types";
 import { ThemeContext } from "styled-components";
-import { Svg } from "../Icon.styles";
+import { Svg } from "./Icon.styles";
 
 const EditIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);

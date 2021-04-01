@@ -22,6 +22,7 @@ interface GeneralModalProps {
   type?: MODAL_TYPE;
   handleMainButtonClick?: () => void;
   footerType?: string;
+  isDisabledFooter?: boolean;
 }
 
 const GeneralModal: React.FC<GeneralModalProps> = ({
@@ -34,6 +35,7 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
   footer,
   handleMainButtonClick,
   footerType,
+  isDisabledFooter,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -47,7 +49,7 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
           >
             Cancel
           </Button>
-          <Spacer width={theme.spacers.size32} />
+          <Spacer width={theme.spacers.size64} />
           <Button
             handleClick={handleMainButtonClick}
             buttonStyle={
@@ -55,14 +57,15 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
                 ? BUTTON_THEME.PRIMARY
                 : BUTTON_THEME.DANGER
             }
+            disabled={isDisabledFooter}
           >
             Study
           </Button>
         </HFlex>
       );
-    } else {
+    } else if (footer) {
       return footer;
-    }
+    } else return null;
   };
 
   return (
@@ -79,9 +82,9 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
       >
         <VFlex>
           {header}
-          <Spacer height={theme.spacers.size16} />
+          <Spacer height={theme.spacers.size24} />
           {children}
-          <Spacer height={theme.spacers.size16} />
+          <Spacer height={theme.spacers.size24} />
           {selectFooter()}
         </VFlex>
       </ShadowCard>

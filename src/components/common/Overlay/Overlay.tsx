@@ -1,5 +1,5 @@
 /* Overlay container used to render all popovers and modals */
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 import { CloseIcon } from "../../../assets";
@@ -11,7 +11,6 @@ export enum MODAL_TYPE {
   // see https://www.nngroup.com/articles/popups/ for further reference on modal types
   MODAL_LIGHTBOX = "modal-lightbox", // includes modal and you can't interact with the background
   MODAL_NON_LIGHTBOX = "modal-non-lightbox", // no lightbox and you can't interact with the background
-  NON_MODAL_LIGHTBOX = "non-modal-lightbox", // includes lightbox and you can interact with the background
   NON_MODAL_NON_LIGHTBOX = "non-modal-non-lightbox", // no lightbox and can interact with the background
 }
 
@@ -34,7 +33,7 @@ const Overlay: React.FC<OverlayProps> = ({
   close,
   coords,
 }) => {
-  let modalTypeClassName = type;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal on press of escape key
   const handleEscape = useCallback(
@@ -49,20 +48,49 @@ const Overlay: React.FC<OverlayProps> = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [handleEscape]);
 
+  // Close modal on press outside of modal
+  const handleClickOutside = useCallback(
+    (e: any) => {
+      if (
+        modalRef.current &&
+        type === MODAL_TYPE.NON_MODAL_NON_LIGHTBOX &&
+        !modalRef?.current.contains(e.target)
+      ) {
+        handleState();
+      }
+    },
+    [handleState, type]
+  );
+
+  useEffect(() => {
+    if (modalRef) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalRef, handleClickOutside]);
+
   return createPortal(
     state ? (
       <OuterContainer>
         <CenteredOverlay className={center ? "centered" : undefined}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
             <ModalType
-              className={modalTypeClassName}
+              className={type}
               onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                 e.preventDefault();
                 handleState();
               }}
             />
           ) : null}
-          <Modal coords={coords} className={close ? "close" : undefined}>
+          <Modal
+            coords={coords}
+            className={close ? "close" : undefined}
+            ref={modalRef}
+          >
             {children}
             {close ? (
               <CloseIconContainer>
@@ -127,10 +155,6 @@ const ModalType = styled.div`
     left: 0px;
     width: 100vw;
     height: 100vh;
-  }
-
-  &.non-modal-lightbox {
-    background: ${({ theme }) => theme.colors.backgrounds.lightbox};
   }
 `;
 

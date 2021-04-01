@@ -12,17 +12,18 @@ import {
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
-import { Toolbar } from "..";
+import { StudySetToolbar } from "..";
 import { BUTTON_THEME } from "../../common/Button/Button";
 import NoteTaker from "../../notetaking/NoteTaker";
+import { SIZES } from "../../../shared";
 
-interface FlashcardProps {
+interface StudySetFlashcardProps {
   frontText?: string;
   backText?: string;
   linked?: boolean;
 }
 
-const Flashcard: React.FC<FlashcardProps> = ({
+const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   frontText,
   backText,
   linked = false,
@@ -34,7 +35,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
       <TextCardContainer
         padding="0px"
         backgroundColor={theme.colors.backgrounds.pageBackground}
-        borderRadius={theme.display.borderRadiusFive}
+        borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
       >
         <CardHeader>
           <Text fontColor={theme.colors.grey1}>
@@ -55,7 +56,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
   const toolbar = () => {
     return linked ? (
       <HFlex justifyContent="flex-start">
-        <Toolbar toolbarFull={false} />
+        <StudySetToolbar toolbarFull={false} />
       </HFlex>
     ) : (
       <HFlex justifyContent="flex-end">
@@ -70,7 +71,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
     <ShadowCard
       backgroundColor={theme.colors.secondary}
       padding={theme.spacers.size16}
-      borderRadius={theme.display.borderRadiusFive}
+      borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
     >
       <VFlex>
         {toolbar()}
@@ -90,13 +91,13 @@ const Flashcard: React.FC<FlashcardProps> = ({
   );
 };
 
-const TextCardContainer = styled(Card)<FlashcardProps>`
+const TextCardContainer = styled(Card)<StudySetFlashcardProps>`
   max-width: 49%;
   width: 49%;
   position: relative;
 `;
 
-const TextCard = styled(Card)<FlashcardProps>`
+const TextCard = styled(Card)<StudySetFlashcardProps>`
   overflow: hidden;
   &:hover {
     overflow: auto;
@@ -113,4 +114,4 @@ const CardHeader = styled.div`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
-export default Flashcard;
+export default StudySetFlashcard;

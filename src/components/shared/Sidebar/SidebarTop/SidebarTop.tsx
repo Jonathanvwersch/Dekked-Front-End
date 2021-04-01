@@ -11,9 +11,9 @@ import {
   VFlex,
 } from "../../../common";
 import { DoubleChevronIcon, DropDownArrowIcon } from "../../../../assets";
-import { ROTATE } from "../../../../assets/Icon.types";
 import { SidebarContext } from "../../../../contexts";
 import { ThemeType } from "../../../../styles/theme";
+import { ROTATE } from "../../../../assets/icons/Icon.types";
 
 interface SidebarTopProps {}
 

@@ -6,7 +6,7 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
 import { TAB_TYPE } from "../../../shared";
 
-const TabSwitcher: React.FC = () => {
+const StudySetTabSwitcher: React.FC = () => {
   const theme: ThemeType = useContext(ThemeContext);
   const { type, id } = useContext(SelectedItemContext);
 
@@ -38,4 +38,4 @@ const TabSwitcher: React.FC = () => {
   );
 };
 
-export default TabSwitcher;
+export default StudySetTabSwitcher;

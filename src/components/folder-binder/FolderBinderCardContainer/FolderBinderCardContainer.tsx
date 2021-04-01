@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import AddCard from "../AddCard/AddCard";
+import FolderBinderAddCard from "../FolderBinderAddCard/FolderBinderAddCard";
 import FolderBinderCard from "../FolderBinderCard/FolderBinderCard";
 import { FILETREE_TYPES } from "../../../shared";
 import { FileTreeContext, SelectedItemContext } from "../../../contexts";
@@ -64,7 +64,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> = () =
   return (
     <StyledContainer>
       <>
-        <AddCard id={id} type={type} />
+        <FolderBinderAddCard id={id} type={type} />
         {Cards(type)}
       </>
     </StyledContainer>

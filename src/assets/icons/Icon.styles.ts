@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SIZES } from "../shared";
+import { SIZES } from "../../shared";
 import Icon from "./Icon";
 import { IconProps } from "./Icon.types";
 

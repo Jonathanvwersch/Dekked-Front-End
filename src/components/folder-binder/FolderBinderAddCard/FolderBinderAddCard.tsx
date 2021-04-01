@@ -6,12 +6,15 @@ import { FILETREE_TYPES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { Card, IconActive } from "../../common";
 
-interface AddCardProps {
+interface FolderBinderAddCardProps {
   type: FILETREE_TYPES;
   id: string;
 }
 
-const AddCard: React.FC<AddCardProps> = ({ type, id }) => {
+const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
+  type,
+  id,
+}) => {
   const { handleAddingAsset } = useContext(FileTreeContext);
   const theme: ThemeType = useContext(ThemeContext);
 
@@ -42,4 +45,4 @@ const StyledIconActive = styled(IconActive)`
   }
 `;
 
-export default AddCard;
+export default FolderBinderAddCard;

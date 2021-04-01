@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
-import { ToolbarModalData } from "./ToolbarModal.data";
+import { StudySetToolbarModalData } from "./StudySetToolbarModal.data";
 import { ScrollerModal } from "../../common";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { EditorContext } from "../../../contexts/EditorContext";
 
-interface ToolbarModalProps {
+interface StudySetToolbarModalProps {
   open: boolean;
   handleClose: () => void;
   coords: CoordsProps;
 }
 
-const ToolbarModal: React.FC<ToolbarModalProps> = ({
+const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   handleClose,
   open,
   coords,
@@ -27,9 +27,9 @@ const ToolbarModal: React.FC<ToolbarModalProps> = ({
       clickFunctions={clickFunctions}
       open={open}
       handleClose={handleClose}
-      data={ToolbarModalData}
+      data={StudySetToolbarModalData}
     />
   );
 };
 
-export default ToolbarModal;
+export default StudySetToolbarModal;

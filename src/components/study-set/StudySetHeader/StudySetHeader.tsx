@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
-import { Toolbar } from "..";
-import TabSwitcher from "../TabSwitcher/TabSwitcher";
+import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components";
 
 interface StudySetHeaderProps {
@@ -15,8 +14,8 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   return (
     <>
       <ToolbarAndTabs justifyContent="space-between">
-        <Toolbar />
-        <TabSwitcher />
+        <StudySetToolbar />
+        <StudySetTabSwitcher />
       </ToolbarAndTabs>
       <div ref={headerRef}>
         <VFlex>

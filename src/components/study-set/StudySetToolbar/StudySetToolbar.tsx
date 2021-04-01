@@ -7,20 +7,22 @@ import {
   ItalicsIcon,
   UnderlineIcon,
 } from "../../../assets";
-import { ROTATE } from "../../../assets/Icon.types";
 import { positionModals } from "../../../helpers";
 import { CoordsProps } from "../../../helpers/positionModals";
-import { ToolbarModal } from ".";
+import { StudySetToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../../styles/theme";
 import { SIZES } from "../../../shared";
+import { ROTATE } from "../../../assets/icons/Icon.types";
 
-interface ToolbarProps {
+interface StudySetToolbarProps {
   toolbarFull?: boolean;
 }
 
-const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
+const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
+  toolbarFull = true,
+}) => {
   const [blockOptions, setBlockOptions] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsProps>();
   const theme: ThemeType = useContext(ThemeContext);
@@ -94,7 +96,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
         ) : null} */}
       </HFlex>
       {coords && (
-        <ToolbarModal
+        <StudySetToolbarModal
           open={blockOptions}
           handleClose={() => setBlockOptions(false)}
           coords={coords}
@@ -104,4 +106,4 @@ const Toolbar: React.FC<ToolbarProps> = ({ toolbarFull = true }) => {
   );
 };
 
-export default Toolbar;
+export default StudySetToolbar;

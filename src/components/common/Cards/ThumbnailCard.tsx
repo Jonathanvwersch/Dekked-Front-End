@@ -7,6 +7,7 @@ import { Card, HFlex, Spacer, Text } from "../../common";
 interface ThumbnailCardProps {
   topText: string;
   bottomText: string;
+  backgroundImage?: string;
   icon?: any;
 }
 
@@ -14,6 +15,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
   topText,
   bottomText,
   icon,
+  backgroundImage,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
@@ -25,10 +27,10 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       border={`1px solid ${theme.colors.grey2}`}
       backgroundColor={theme.colors.backgrounds.pageBackground}
     >
-      <Thumbnail />
+      <Thumbnail backgroundImage={backgroundImage} />
       <Description
-        borderRadius={`0px 0px ${theme.sizes.borderRadius[SIZES.SMALL]} ${
-          theme.sizes.borderRadius[SIZES.SMALL]
+        borderRadius={`0px 0px ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
+          theme.sizes.borderRadius[SIZES.MEDIUM]
         }`}
       >
         <Text className="overflow">{topText}</Text>
@@ -63,10 +65,12 @@ const StyledCard = styled((props) => <Card {...props} />)`
   }
 `;
 
-const Thumbnail = styled(HFlex)`
+const Thumbnail = styled.div<{ backgroundImage?: string }>`
   width: 100%;
   height: 100%;
   z-index: 0;
+  background-size: contain;
+  background-image: url(${({ backgroundImage }) => backgroundImage});
 `;
 
 const Description = styled((props) => <Card {...props} />)`

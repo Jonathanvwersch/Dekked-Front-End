@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Flashcard } from "..";
+import { StudySetFlashcard } from "..";
 import { LogoIcon, SingleChevronIcon } from "../../../assets";
-import { ROTATE } from "../../../assets/Icon.types";
+import { ROTATE } from "../../../assets/icons/Icon.types";
 import { SIZES } from "../../../shared";
 import { VFlex, IconActive } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 
-interface LinkedFlashcardProps {
+interface StudySetLinkedFlashcardProps {
   flashcardSize: number;
   flashcardPosition: number;
 }
 
-const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({
+const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   flashcardSize,
   flashcardPosition,
 }) => {
@@ -44,12 +44,12 @@ const LinkedFlashcard: React.FC<LinkedFlashcardProps> = ({
       >
         {iconType()}
       </Tab>
-      {showFlashcard ? <Flashcard linked={true} /> : null}
+      {showFlashcard ? <StudySetFlashcard linked={true} /> : null}
     </LinkedCard>
   );
 };
 
-const LinkedCard = styled(VFlex)<LinkedFlashcardProps>`
+const LinkedCard = styled(VFlex)<StudySetLinkedFlashcardProps>`
   z-index: 998;
   position: fixed;
   bottom: 0;
@@ -63,8 +63,10 @@ const Tab = styled(IconActive)`
   background-color: ${({ theme }) => theme.colors.secondary};
   border-color: ${({ theme }) => theme.colors.secondary};
   border-radius: ${({ theme }) =>
-    `${theme.display.borderRadiusFive} ${theme.display.borderRadiusFive} 0px 0px`};
+    `${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
+      theme.sizes.borderRadius[SIZES.MEDIUM]
+    } 0px 0px`};
   padding: ${({ theme }) => `${theme.spacers.size8} ${theme.spacers.size64}`};
 `;
 
-export default LinkedFlashcard;
+export default StudySetLinkedFlashcard;

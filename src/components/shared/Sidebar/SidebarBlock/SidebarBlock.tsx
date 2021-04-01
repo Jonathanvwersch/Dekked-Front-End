@@ -13,7 +13,6 @@ import {
   FolderIcon,
   StudySetIcon,
 } from "../../../../assets";
-import { ROTATE } from "../../../../assets/Icon.types";
 
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -34,6 +33,7 @@ import {
 import { SidebarBlockModal } from "..";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
 import { FileTreeContext } from "../../../../contexts";
+import { ROTATE } from "../../../../assets/icons/Icon.types";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;

@@ -3,9 +3,9 @@ import { Route, Switch } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
 import {
-  FlashcardsContainer,
+  StudySetFlashcardsContainer,
   StudySetHeader,
-  NotesContainer,
+  StudySetNotesContainer,
 } from "../../components/study-set";
 import { EditorContextProvider } from "../../contexts/EditorContext";
 import { useResize } from "../../hooks/useResize";
@@ -34,7 +34,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
             <Route
               path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
               render={() => (
-                <NotesContainer
+                <StudySetNotesContainer
                   notesRef={initialRef}
                   flashcardSize={
                     dimensions.width ? dimensions.width : initialWidth
@@ -45,7 +45,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
             />
             <Route
               path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
-              component={FlashcardsContainer}
+              component={StudySetFlashcardsContainer}
             />
           </Switch>
         </InsetPage>
