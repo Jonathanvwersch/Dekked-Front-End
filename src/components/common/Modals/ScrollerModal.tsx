@@ -12,6 +12,7 @@ import {
   Text,
 } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
+import { MODAL_TYPE } from "../Overlay/Overlay";
 
 interface ScrollerModalProps {
   open: boolean;
@@ -25,6 +26,7 @@ interface ScrollerModalProps {
   }[];
   coords?: CoordsProps;
   cardRef?: React.RefObject<HTMLDivElement>;
+  type?: MODAL_TYPE;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -34,6 +36,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   clickFunctions,
   data,
   coords,
+  type,
 }) => {
   const theme = useContext(ThemeContext);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -60,7 +63,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   }, [open, activeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Overlay state={open} handleState={handleClose} coords={coords}>
+    <Overlay state={open} handleState={handleClose} coords={coords} type={type}>
       <ShadowCard cardRef={cardRef} width={theme.sizes.modal.small}>
         {data.map((item, index) => {
           return (

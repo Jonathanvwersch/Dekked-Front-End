@@ -6,6 +6,7 @@ import { ScrollerModal } from "../../common";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { positionBlockEditor } from "../Utils/editorUtils";
 import { getSelectedBlockNode } from "./TextModal.helpers";
+import { MODAL_TYPE } from "../../common/Overlay/Overlay";
 
 interface TextModalProps {
   onToggle: (style: string) => void;
@@ -56,13 +57,18 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
   };
 
   return (
-    <ScrollerModal
-      open={open}
-      handleClose={() => setOpen(false)}
-      coords={coords}
-      clickFunctions={handleToggle}
-      data={TextModalData}
-    />
+    <>
+      {coords ? (
+        <ScrollerModal
+          open={open}
+          handleClose={() => setOpen(false)}
+          coords={coords}
+          clickFunctions={handleToggle}
+          data={TextModalData}
+          type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+        />
+      ) : null}
+    </>
   );
 };
 

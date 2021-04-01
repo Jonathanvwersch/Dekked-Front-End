@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
-import { HFlex, HoverCard, IconWrapper, Overlay, Text } from "../../common";
+import { HFlex, HoverCard, IconWrapper, Overlay } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
@@ -68,16 +68,16 @@ const StudyQueue = styled(HoverCard)<StudyQueueProps>`
   box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
-const Notifications = styled(HFlex)<StudyQueueProps>`
-  justify-content: center;
-  height: ${({ theme }) => theme.spacers.size16};
-  width: ${({ theme }) => theme.spacers.size16};
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.fontColor};
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  right: 0;
-`;
+// const Notifications = styled(HFlex)<StudyQueueProps>`
+//   justify-content: center;
+//   height: ${({ theme }) => theme.spacers.size16};
+//   width: ${({ theme }) => theme.spacers.size16};
+//   border-radius: 50%;
+//   background-color: ${({ theme }) => theme.colors.fontColor};
+//   z-index: 1;
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+// `;
 
 export default StudyQueueContainer;

@@ -28,7 +28,6 @@ import UnstyledComponent from "./UnstyledComponent/UnstyledComponent";
 import StyledComponent from "./StyledComponent/StyledComponent";
 import styled from "styled-components";
 import { EditorContext } from "../../../contexts/EditorContext";
-import { ComponentLoadingSpinner } from "../../common";
 
 interface EditorProps {
   savedContent?: ContentState;

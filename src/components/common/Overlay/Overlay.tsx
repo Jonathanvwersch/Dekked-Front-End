@@ -4,25 +4,44 @@ import { createPortal } from "react-dom";
 import styled from "styled-components";
 import { CloseIcon } from "../../../assets";
 import { CoordsProps } from "../../../helpers/positionModals";
+import { SIZES } from "../../../shared";
 import IconActive from "../IconActive/IconActive";
+
+export enum MODAL_TYPE {
+  // see https://www.nngroup.com/articles/popups/ for further reference on modal types
+  MODAL_LIGHTBOX = "modal-lightbox", // includes modal and you can't interact with the background
+  MODAL_NON_LIGHTBOX = "modal-non-lightbox", // no lightbox and you can't interact with the background
+  NON_MODAL_LIGHTBOX = "non-modal-lightbox", // includes lightbox and you can interact with the background
+  NON_MODAL_NON_LIGHTBOX = "non-modal-non-lightbox", // no lightbox and can interact with the background
+}
 
 interface OverlayProps {
   children: JSX.Element;
   state: boolean;
   handleState: () => void;
-  lightbox?: boolean; // set to true if you want to add a lightbox
+  type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
   coords?: CoordsProps; // pass down top, left, bottom, right coordinates to position div relative to viewport
 }
 
-const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
+const Overlay: React.FC<OverlayProps> = ({
+  children,
+  state,
+  handleState,
+  type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
+  center,
+  close,
+  coords,
+}) => {
+  let modalTypeClassName = type;
+
   // Close modal on press of escape key
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") props.handleState();
+      if (e.key === "Escape") handleState();
     },
-    [props]
+    [handleState]
   );
 
   useEffect(() => {
@@ -31,46 +50,49 @@ const Overlay: React.FC<OverlayProps> = ({ children, ...props }) => {
   }, [handleEscape]);
 
   return createPortal(
-    props.state ? (
-      <StyledOverlay className={props.center ? "centered" : undefined}>
-        <Lightbox
-          className={props.lightbox ? "lightbox-on" : undefined}
-          onClick={(e) => {
-            e.preventDefault();
-            props.handleState();
-          }}
-        ></Lightbox>
-        <CloseModalContainer
-          {...props}
-          className={props.close ? "close" : undefined}
-        >
-          {children}
-          {props.close ? (
-            <CloseIconContainer>
-              <IconActive handleClick={props.handleState}>
-                <CloseIcon />
-              </IconActive>
-            </CloseIconContainer>
+    state ? (
+      <OuterContainer>
+        <CenteredOverlay className={center ? "centered" : undefined}>
+          {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
+            <ModalType
+              className={modalTypeClassName}
+              onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                e.preventDefault();
+                handleState();
+              }}
+            />
           ) : null}
-        </CloseModalContainer>
-      </StyledOverlay>
+          <Modal coords={coords} className={close ? "close" : undefined}>
+            {children}
+            {close ? (
+              <CloseIconContainer>
+                <IconActive handleClick={handleState}>
+                  <CloseIcon size={SIZES.LARGE} />
+                </IconActive>
+              </CloseIconContainer>
+            ) : null}
+          </Modal>
+        </CenteredOverlay>
+      </OuterContainer>
     ) : null,
     document.getElementById("modal-overlay")!
   );
 };
 
-const CloseModalContainer = styled.div<{
-  coords?: {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  };
+const OuterContainer = styled.div`
+  pointer-events: auto;
+  position: relative;
+  z-index: 0;
+`;
+
+const Modal = styled.div<{
+  coords?: CoordsProps;
 }>`
-  top: ${({ coords }) => coords?.top && coords?.top + 15}px;
-  bottom: ${({ coords }) => coords?.bottom && coords?.bottom + 5}px;
-  left: ${({ coords }) => coords?.left}px;
-  right: ${({ coords }) => coords?.right}px;
+  top: ${({ coords }) => (coords?.top ? `${coords?.top + 15}px` : "auto")};
+  bottom: ${({ coords }) =>
+    coords?.bottom ? `${coords?.bottom + 5}px` : "auto"};
+  left: ${({ coords }) => (coords?.left ? `${coords?.left}px` : "auto")};
+  right: ${({ coords }) => (coords?.right ? `${coords?.right}px` : "auto")};
   position: fixed;
 
   &.close {
@@ -78,29 +100,36 @@ const CloseModalContainer = styled.div<{
   }
 `;
 
-const StyledOverlay = styled.div`
-  pointer-events: auto;
-  position: relative;
-  width: 100%;
-  height: 100%;
-
+const CenteredOverlay = styled.div`
   &.centered {
+    position: fixed;
     display: flex;
-    alignitems: center;
+    width: 100vw;
+    height: 100%;
+    align-items: center;
     justify-content: center;
   }
 `;
 
-const Lightbox = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  width: 100vw;
-  height: 100vh;
+const ModalType = styled.div`
+  &.modal-lightbox {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background: ${({ theme }) => theme.colors.backgrounds.lightbox};
+  }
 
-  &.lightbox-on {
+  &.modal-non-lightbox {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &.non-modal-lightbox {
     background: ${({ theme }) => theme.colors.backgrounds.lightbox};
   }
 `;
