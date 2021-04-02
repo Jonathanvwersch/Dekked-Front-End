@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { SIZES } from "../../../shared";
+import { BUTTON_THEME, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
-import { BUTTON_THEME } from "../../common/Button/Button";
 
 interface SignUpFormProps {}
 

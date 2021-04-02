@@ -4,8 +4,7 @@ import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import styled from "styled-components";
 import { Overlay } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
-import { FILETREE_TYPES, SIZES } from "../../../shared";
-import { MODAL_TYPE } from "../Overlay/Overlay";
+import { FILETREE_TYPES, MODAL_TYPE, SIZES } from "../../../shared";
 
 interface ColorPickerProps {
   state: boolean;

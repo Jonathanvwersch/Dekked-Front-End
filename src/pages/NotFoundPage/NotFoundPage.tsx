@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { HFlex, Spacer, Text, VFlex, Button } from "../../components/common";
-import { BUTTON_THEME } from "../../components/common/Button/Button";
+import { BUTTON_THEME } from "../../shared";
 import { ThemeType } from "../../styles/theme";
 
 const NotFoundPage: React.FC = () => {

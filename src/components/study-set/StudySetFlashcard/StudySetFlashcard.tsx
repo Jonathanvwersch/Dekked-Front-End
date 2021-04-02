@@ -13,8 +13,7 @@ import {
 import { DeleteIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 import { StudySetToolbar } from "..";
-import { BUTTON_THEME } from "../../common/Button/Button";
-import { SIZES } from "../../../shared";
+import { BUTTON_THEME, SIZES } from "../../../shared";
 
 interface StudySetFlashcardProps {
   frontText?: string;

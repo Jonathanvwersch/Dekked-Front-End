@@ -1,8 +1,15 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Divider, HFlex, Scroller, ShadowCard, VFlex } from "../../common";
-import Button, { BUTTON_THEME } from "../../common/Button/Button";
+import {
+  Divider,
+  HFlex,
+  Scroller,
+  ShadowCard,
+  VFlex,
+  Button,
+} from "../../common";
 import { ThemeType } from "../../../styles/theme";
+import { BUTTON_THEME } from "../../../shared";
 
 interface StudyQueueProps {}
 

@@ -2,10 +2,9 @@ import React, { useContext, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
-import { BUTTON_THEME } from "../../common/Button/Button";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
-import { Params, TAB_TYPE } from "../../../shared";
+import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 
 interface PageHeaderProps {

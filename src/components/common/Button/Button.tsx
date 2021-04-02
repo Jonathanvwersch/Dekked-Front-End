@@ -1,24 +1,13 @@
 import React, { ReactNode } from "react";
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import { SIZES } from "../../../shared";
+import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 
 const ButtonStyles = {
   primary: ButtonPrimary,
   secondary: ButtonSecondary,
   danger: ButtonDanger,
 };
-
-export enum BUTTON_TYPES {
-  SUBMIT = "submit",
-  BUTTON = "button",
-}
-
-export enum BUTTON_THEME {
-  PRIMARY = "primary",
-  SECONDARY = "secondary",
-  DANGER = "danger",
-}
 
 interface ButtonProps {
   children: ReactNode;

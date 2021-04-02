@@ -31,6 +31,7 @@ const StyledShadowCard = styled.div<ShadowCardProps>`
   border: ${({ border }) => border};
   position: ${({ position }) => position};
   padding: ${({ padding }) => padding};
+  overflow: hidden;
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor
       ? backgroundColor

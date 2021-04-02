@@ -3,8 +3,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { Block, Divider, Overlay, ShadowCard } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
-import { ScrollerModalData } from "../../../shared";
-import { MODAL_TYPE } from "../Overlay/Overlay";
+import { MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
 interface ScrollerModalProps {
   open: boolean;

@@ -6,7 +6,7 @@ import { ScrollerModal } from "../../common";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { positionBlockEditor } from "../Utils/editorUtils";
 import { getSelectedBlockNode } from "./TextModal.helpers";
-import { MODAL_TYPE } from "../../common/Overlay/Overlay";
+import { MODAL_TYPE } from "../../../shared";
 
 interface TextModalProps {
   onToggle: (style: string) => void;
