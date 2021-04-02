@@ -20,7 +20,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
 
   // Used to allow up and down movement using your arrows keys on hover cards, such as those found in a modal
   // To use, two variables are needed. Firstly, the index of the hover card (obtained from the array map prototype).
-  // And secondly the active index of the arrow keys. Look at the TextModal in the note-taking component folder for a full example.
+  // And secondly the active index of the arrow keys. See ScrollerModal to see implementation.
   useEffect(() => {
     if (cardRef && props.index === props.activeIndex && props.index != null) {
       cardRef.current?.focus();

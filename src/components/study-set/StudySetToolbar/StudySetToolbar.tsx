@@ -27,7 +27,9 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   const [coords, setCoords] = useState<CoordsProps>();
   const theme: ThemeType = useContext(ThemeContext);
 
-  const handleBlockModal = (e: MouseEvent) => {
+  const handleBlockModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     setBlockOptions(true);
     // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
     const blockModalHeight = 193;
@@ -39,7 +41,11 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   return (
     <>
       <HFlex width="auto">
-        <IconActive handleMouseDown={(e: MouseEvent) => handleBlockModal(e)}>
+        <IconActive
+          handleMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+            handleBlockModal(e)
+          }
+        >
           <HFlex>
             <BodyTextIcon size={SIZES.MEDIUM} />
             <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />

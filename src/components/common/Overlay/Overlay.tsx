@@ -9,9 +9,10 @@ import IconActive from "../IconActive/IconActive";
 
 export enum MODAL_TYPE {
   // see https://www.nngroup.com/articles/popups/ for further reference on modal types
-  MODAL_LIGHTBOX = "modal-lightbox", // includes modal and you can't interact with the background
+  MODAL_LIGHTBOX = "modal-lightbox", // includes lightbox and you can't interact with the background
   MODAL_NON_LIGHTBOX = "modal-non-lightbox", // no lightbox and you can't interact with the background
   NON_MODAL_NON_LIGHTBOX = "non-modal-non-lightbox", // no lightbox and can interact with the background
+  NON_MODAL_LIGHTBOX = "non-modal-lightbox", // includes lightbox and you can interact with the background
 }
 
 interface OverlayProps {
@@ -34,6 +35,12 @@ const Overlay: React.FC<OverlayProps> = ({
   coords,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const centeredOverlayClassname =
+    center && type === MODAL_TYPE.NON_MODAL_LIGHTBOX
+      ? "centered non-modal-lightbox"
+      : center
+      ? "centered"
+      : undefined;
 
   // Close modal on press of escape key
   const handleEscape = useCallback(
@@ -53,7 +60,8 @@ const Overlay: React.FC<OverlayProps> = ({
     (e: any) => {
       if (
         modalRef.current &&
-        type === MODAL_TYPE.NON_MODAL_NON_LIGHTBOX &&
+        (type === MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ||
+          type === MODAL_TYPE.NON_MODAL_LIGHTBOX) &&
         !modalRef?.current.contains(e.target)
       ) {
         handleState();
@@ -76,7 +84,7 @@ const Overlay: React.FC<OverlayProps> = ({
   return createPortal(
     state ? (
       <OuterContainer>
-        <CenteredOverlay className={center ? "centered" : undefined}>
+        <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
             <ModalType
               className={type}
@@ -122,13 +130,14 @@ const Modal = styled.div<{
   left: ${({ coords }) => (coords?.left ? `${coords?.left}px` : "auto")};
   right: ${({ coords }) => (coords?.right ? `${coords?.right}px` : "auto")};
   position: fixed;
-
-  &.close {
-    position: relative;
-  }
+  z-index: 100;
 `;
 
 const CenteredOverlay = styled.div`
+  &.non-modal-lightbox {
+    pointer-events: none;
+  }
+
   &.centered {
     position: fixed;
     display: flex;
@@ -155,6 +164,13 @@ const ModalType = styled.div`
     left: 0px;
     width: 100vw;
     height: 100vh;
+  }
+
+  &.non-modal-lightbox {
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    background: ${({ theme }) => theme.colors.backgrounds.lightbox};
   }
 `;
 

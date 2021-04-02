@@ -10,6 +10,7 @@ import React from "react";
 import { usePage } from "../services/note-taking/usePage";
 import { useParams } from "react-router";
 import { useBlocks } from "../services/note-taking/useBlocks";
+import { Params } from "../shared";
 
 interface EditorContextProps {
   editorState: EditorState;
@@ -25,7 +26,7 @@ export const EditorContext = createContext<EditorContextProps>(
 
 export const EditorContextProvider: React.FC = ({ children }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { id }: { id: string } = useParams();
+  const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
   const toggleInLineStyle = (style: string) => {

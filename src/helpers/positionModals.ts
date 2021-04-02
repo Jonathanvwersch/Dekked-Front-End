@@ -20,8 +20,11 @@ export const getMousePosition = (e: any) => {
   };
 };
 
-// Function used to position modals depending on position of button click 
-export const positionModals = (e: MouseEvent, componentHeight: number) => {
+// Function used to position modals depending on position of button click
+export const positionModals = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  componentHeight: number
+) => {
   const { top, bottom, left } = getMousePosition(e);
   let newCoordinate;
 

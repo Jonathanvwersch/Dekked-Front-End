@@ -3,7 +3,7 @@ export { default as FolderIcon } from "./icons/FolderIcon";
 export { default as StudySetIcon } from "./icons/StudySetIcon";
 export { default as StudyQueueIcon } from "./icons/StudyQueueIcon";
 export { default as LogoIcon } from "./icons/LogoIcon";
-export { default as LogOutIcon } from "./icons/LogoIcon";
+export { default as LogOutIcon } from "./icons/LogOutIcon";
 export { default as BodyTextIcon } from "./icons/BodyTextIcon";
 export { default as AccountIcon } from "./icons/AccountIcon";
 export { default as SingleChevronIcon } from "./icons/SingleChevronIcon";

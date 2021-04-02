@@ -82,7 +82,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       ? theme.spacers.size48
       : null;
 
-  const handleBlockModal = (e: MouseEvent) => {
+  const handleBlockModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     setBlockModal(true);
@@ -91,7 +93,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     setCoords(positionModals(e, blockModalHeight));
   };
 
-  const handleExpandBlock = (e: MouseEvent) => {
+  const handleExpandBlock = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     setIsExpanded((prevState) => !prevState);
@@ -142,7 +146,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
                   {type === FILETREE_TYPES.FOLDER ||
                   type === FILETREE_TYPES.BINDER ? (
                     <IconActive
-                      handleClick={(e: MouseEvent) => handleExpandBlock(e)}
+                      handleClick={(
+                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                      ) => handleExpandBlock(e)}
                     >
                       <DropDownArrowIcon
                         rotate={isExpanded ? ROTATE.NINETY : ROTATE.ZERO}
@@ -163,7 +169,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
                   <Spacer width={theme.spacers.size4} />
                   <DotsMenuIconContainer>
                     <IconActive
-                      handleClick={(e: MouseEvent) => handleBlockModal(e)}
+                      handleClick={(
+                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                      ) => handleBlockModal(e)}
                     >
                       <DotsMenuIcon />
                     </IconActive>

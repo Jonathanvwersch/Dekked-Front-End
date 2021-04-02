@@ -14,7 +14,6 @@ import { DeleteIcon } from "../../../assets";
 import { ThemeType } from "../../../styles/theme";
 import { StudySetToolbar } from "..";
 import { BUTTON_THEME } from "../../common/Button/Button";
-import NoteTaker from "../../notetaking/NoteTaker";
 import { SIZES } from "../../../shared";
 
 interface StudySetFlashcardProps {
@@ -46,9 +45,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <TextCard
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
-        >
-          <NoteTaker />
-        </TextCard>
+        ></TextCard>
       </TextCardContainer>
     );
   };

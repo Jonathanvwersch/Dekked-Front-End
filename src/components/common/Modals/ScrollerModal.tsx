@@ -1,29 +1,16 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "styled-components";
-import {
-  Divider,
-  HFlex,
-  HoverCard,
-  IconWrapper,
-  Overlay,
-  ShadowCard,
-  Spacer,
-  Text,
-} from "..";
+import { Block, Divider, Overlay, ShadowCard } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
+import { ScrollerModalData } from "../../../shared";
 import { MODAL_TYPE } from "../Overlay/Overlay";
 
 interface ScrollerModalProps {
   open: boolean;
   handleClose: () => void;
   clickFunctions: any;
-  data: {
-    label: string;
-    icon: React.ReactNode;
-    divider?: boolean;
-    style?: string;
-  }[];
+  data: ScrollerModalData;
   coords?: CoordsProps;
   cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
@@ -36,7 +23,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   clickFunctions,
   data,
   coords,
-  type,
+  type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
 }) => {
   const theme = useContext(ThemeContext);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -68,21 +55,15 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
         {data.map((item, index) => {
           return (
             <Fragment key={`ScrollerModal ${index}`}>
-              <HoverCard
+              <Block
                 index={index}
                 activeIndex={activeIndex}
-                backgroundColor={theme.colors.backgrounds.modalBackground}
-                handleMouseDown={(e: MouseEvent) => {
-                  clickFunctions(item?.style ? item.style : item.label, e);
-                }}
-                padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
-              >
-                <HFlex>
-                  <IconWrapper>{item.icon}</IconWrapper>
-                  <Spacer width={theme.spacers.size8} />
-                  <Text>{item.label}</Text>
-                </HFlex>
-              </HoverCard>
+                icon={item.icon}
+                label={item.label}
+                handleClick={(e: MouseEvent) =>
+                  clickFunctions(item?.style ? item.style : item.label, e)
+                }
+              />
               {item?.divider ? <Divider /> : null}
             </Fragment>
           );

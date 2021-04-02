@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Overlay } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { FILETREE_TYPES, SIZES } from "../../../shared";
+import { MODAL_TYPE } from "../Overlay/Overlay";
 
 interface ColorPickerProps {
   state: boolean;
@@ -52,7 +53,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ];
 
   return (
-    <Overlay state={state} handleState={handleState} coords={coords}>
+    <Overlay
+      state={state}
+      handleState={handleState}
+      coords={coords}
+      type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
+    >
       <StyledColorPicker
         onClick={(e: any) => e.preventDefault()}
         ref={colorPickerRef}

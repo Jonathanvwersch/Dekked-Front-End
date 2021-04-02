@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 interface SidebarContextProps {
   sidebar: boolean;
   handleSidebar: () => void;
+  setSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SidebarContext = createContext<SidebarContextProps>(
@@ -21,6 +22,7 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
       value={{
         sidebar,
         handleSidebar,
+        setSidebar,
       }}
     >
       {children}

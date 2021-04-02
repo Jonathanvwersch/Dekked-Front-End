@@ -21,7 +21,11 @@ const OptionsPage: React.FC = () => {
           path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
           component={StudySetPage}
         />
-        <Route exact path={`/:type/:id/study`} component={StudyModePage} />
+        <Route
+          exact
+          path={`/:type/:id/study/:studyModes`}
+          component={StudyModePage}
+        />
       </Switch>
     </SelectedItemContextProvider>
   );

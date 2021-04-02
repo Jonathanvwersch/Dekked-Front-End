@@ -5,7 +5,7 @@ import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { BUTTON_THEME } from "../../common/Button/Button";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
-import { TAB_TYPE } from "../../../shared";
+import { Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 
 interface PageHeaderProps {
@@ -17,7 +17,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const theme: ThemeType = useContext(ThemeContext);
   const { selectedBlockName, id } = useContext(SelectedItemContext);
-  const { tab } = useParams<{ tab: TAB_TYPE }>();
+  const { tab } = useParams<Params>();
 
   return (
     <>

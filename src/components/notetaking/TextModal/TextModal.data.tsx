@@ -6,15 +6,9 @@ import {
   H3Icon,
   NumberedListIcon,
 } from "../../../assets";
+import { ScrollerModalData } from "../../../shared";
 
-export type ModalData = {
-  label: string;
-  style: string;
-  icon: React.ReactNode;
-  divider?: boolean;
-}[];
-
-export const TextModalData: ModalData = [
+export const TextModalData: ScrollerModalData = [
   {
     label: "Large heading",
     style: "header-one",

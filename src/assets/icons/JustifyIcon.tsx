@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeType } from "../../styles/theme";
+import { IconProps } from "./Icon.types";
+import { Svg } from "./Icon.styles";
+import { ThemeContext } from "styled-components";
 
-export default function JustifyIcon({
-  color = "var(--main-black)",
-  className = "icon",
-  size = "16",
-}: {
-  color?: string;
-  className?: string;
-  size?: string;
-}) {
+const JustifyIcon: React.FC<IconProps> = ({ color, size }) => {
+  const theme: ThemeType = useContext(ThemeContext);
+  const iconColor = color ? color : theme.colors.iconColor;
+
   return (
-    <svg
-      className={className}
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg size={size} viewBox="0 0 16 16" fill="none">
       <path
         d="M2 2H14V3.33333H2V2ZM2 7.33333H14V8.66667H2V7.33333ZM2 12.6667H14V14H2V12.6667ZM2 10H14V11.3333H2V10ZM2 4.66667H14V6H2V4.66667Z"
-        fill={color}
+        fill={iconColor}
       />
-    </svg>
+    </Svg>
   );
-}
+};
+
+export default JustifyIcon;

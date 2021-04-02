@@ -7,6 +7,7 @@ import {
   NumberedListIcon,
   H2Icon,
 } from "../../../assets";
+import { ScrollerModalData } from "../../../shared";
 
 export enum BLOCK_OPTIONS {
   BODY = "Body",
@@ -17,14 +18,7 @@ export enum BLOCK_OPTIONS {
   NUMBERED_LIST = "Numbered list",
 }
 
-export type ModalData = {
-  label: string;
-  icon: React.ReactNode;
-  style: string;
-  divider?: boolean;
-}[];
-
-export const StudySetToolbarModalData: ModalData = [
+export const StudySetToolbarModalData: ScrollerModalData = [
   {
     label: BLOCK_OPTIONS.BODY,
     icon: <BodyTextIcon />,

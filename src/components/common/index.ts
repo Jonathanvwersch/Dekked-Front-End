@@ -20,4 +20,5 @@ export { default as Scroller } from "./Scroller/Scroller";
 export { default as Button } from "./Button/Button";
 export { default as EditableText } from "./EditableText/EditableText";
 export { default as Input } from "./Input/Input";
+export { default as Block } from "./Block/Block";
 export { ScrollerModal, GeneralModal } from "./Modals";

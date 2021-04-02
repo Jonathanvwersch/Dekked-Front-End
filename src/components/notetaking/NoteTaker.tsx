@@ -11,10 +11,11 @@ import "draft-js/dist/Draft.css";
 import React from "react";
 import RichEditor from "./editor/RichEditor";
 import { useParams } from "react-router";
+import { Params } from "../../shared";
 // import { getPage, savePage } from "../services/pageService";
 
 const NoteTaker: React.FC = () => {
-  const { page_id }: { page_id: string } = useParams();
+  const { id } = useParams<Params>();
   const [rawContent, setRawContent] = React.useState<
     RawDraftContentState | undefined
   >();

@@ -8,7 +8,7 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ children, ...props }) => {
-  return <StyledAvatar>{children}</StyledAvatar>;
+  return <StyledAvatar {...props}>{children}</StyledAvatar>;
 };
 
 const StyledAvatar = styled.div<AvatarProps>`
@@ -16,7 +16,6 @@ const StyledAvatar = styled.div<AvatarProps>`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  font-family: ${({ theme }) => theme.typography.fontFamily};
   height: ${({ diameter, theme }) =>
     diameter ? diameter : theme.spacers.size32};
   width: ${({ diameter, theme }) =>

@@ -8,6 +8,7 @@ interface SignUpFormProps {}
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
   const theme = useContext(ThemeContext);
+
   return (
     <>
       <Input

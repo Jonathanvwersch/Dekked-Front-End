@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeType } from "../../styles/theme";
+import { IconProps } from "./Icon.types";
+import { Svg } from "./Icon.styles";
+import { ThemeContext } from "styled-components";
 
-export default function ReturnIcon({
-  color = "var(--main-black)",
-  className = "icon",
-  size = "16",
-}: {
-  className?: string;
-  color?: string;
-  size?: string;
-}) {
+const ReturnIcon: React.FC<IconProps> = ({ color, size }) => {
+  const theme: ThemeType = useContext(ThemeContext);
+  const iconColor = color ? color : theme.colors.iconColor;
+
   return (
-    <svg
-      className={className}
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <Svg size={size} viewBox="0 0 16 16" fill="none">
       <path
         d="M2.66797 6.66667L6.66797 2.66667L7.61464 3.61333L5.2213 6L12.668 6V14H11.3346V7.33333L5.2213 7.33333L7.61464 9.72L6.66797 10.6667L2.66797 6.66667Z"
-        fill={color}
+        fill={iconColor}
       />
-    </svg>
+    </Svg>
   );
-}
+};
+
+export default ReturnIcon;

@@ -1,11 +1,16 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Params } from "../../../shared";
 import { StudyQueueContainer } from "../../shared";
 
 const Page: React.FC = ({ children }) => {
+  const { studyModes } = useParams<Params>();
+
   return (
     <StyledPage>
-      <StudyQueueContainer />
+      {/* hide study queue on study mode page */}
+      {!studyModes ? <StudyQueueContainer /> : null}
       {children}
     </StyledPage>
   );

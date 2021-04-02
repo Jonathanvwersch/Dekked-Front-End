@@ -22,7 +22,7 @@ const MainFrame: React.FC = ({ children }) => {
   );
 };
 
-const StyledMainFrame = styled.div`
+export const StyledMainFrame = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;

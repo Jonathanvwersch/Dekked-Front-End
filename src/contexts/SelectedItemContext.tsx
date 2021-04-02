@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext } from ".";
-import { FILETREE_TYPES } from "../shared";
+import { FILETREE_TYPES, Params } from "../shared";
 
 interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
@@ -26,7 +26,7 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>(
 );
 
 export const SelectedItemContextProvider: React.FC = ({ children }) => {
-  const { type, id } = useParams<{ type: FILETREE_TYPES; id: string }>();
+  const { type, id } = useParams<Params>();
   const { getAsset, fileTree } = useContext(FileTreeContext);
   const [numOfBinders, setNumOfBinders] = useState<number>(0);
   const [numOfStudySets, setNumOfStudySets] = useState<number>(0);

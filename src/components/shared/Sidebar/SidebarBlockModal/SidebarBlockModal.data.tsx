@@ -5,6 +5,7 @@ import {
   DeleteIcon,
   StudySetIcon,
 } from "../../../../assets";
+import { ScrollerModalData } from "../../../../shared";
 
 export enum SIDEBAR_BLOCK_MENU {
   ADD_BINDER = "Add binder",
@@ -13,12 +14,7 @@ export enum SIDEBAR_BLOCK_MENU {
   DELETE = "Delete",
 }
 
-export type ModalData = {
-  label: string;
-  icon: React.ReactNode;
-}[];
-
-export const FolderData: ModalData = [
+export const FolderData: ScrollerModalData = [
   {
     label: SIDEBAR_BLOCK_MENU.ADD_BINDER,
     icon: <BinderIcon />,
@@ -33,7 +29,7 @@ export const FolderData: ModalData = [
   },
 ];
 
-export const BinderData: ModalData = [
+export const BinderData: ScrollerModalData = [
   {
     label: SIDEBAR_BLOCK_MENU.ADD_STUDYSET,
     icon: <StudySetIcon />,
@@ -48,7 +44,7 @@ export const BinderData: ModalData = [
   },
 ];
 
-export const StudySetData: ModalData = [
+export const StudySetData: ScrollerModalData = [
   {
     label: SIDEBAR_BLOCK_MENU.RECOLOR,
     icon: <ReColorIcon />,

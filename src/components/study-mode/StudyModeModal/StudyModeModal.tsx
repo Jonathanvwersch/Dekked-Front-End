@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { GeneralModal, H4, HFlex, Spacer, ThumbnailCard } from "../../common";
 import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
+import { Params, STUDY_MODE_TYPES } from "../../../shared";
+import { SelectedItemContext } from "../../../contexts";
 
 interface StudyModeModalProps {
   isOpen: boolean;
@@ -16,12 +18,14 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
 }) => {
   const header = <H4>Choose your study mode</H4>;
   const theme = useContext(ThemeContext);
-  const { url } = useRouteMatch();
-
+  const { id } = useParams<Params>();
+  const { type } = useContext(SelectedItemContext);
   return (
     <GeneralModal isOpen={isOpen} header={header} handleClose={handleClose}>
       <HFlex justifyContent="center">
-        <NavLink to={`${url}/study-mode/space-repetition`}>
+        <NavLink
+          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
+        >
           <ThumbnailCard
             topText="Spaced repetition"
             bottomText="Interval studying"
@@ -29,7 +33,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
           />
         </NavLink>
         <Spacer width={theme.spacers.size64} />
-        <NavLink to={`${url}/study-mode/free-study`}>
+        <NavLink to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`}>
           <ThumbnailCard
             topText="Free study"
             bottomText="Linear studying"

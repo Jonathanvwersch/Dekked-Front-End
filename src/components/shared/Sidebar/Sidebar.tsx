@@ -46,7 +46,7 @@ const StyledSidebar = styled.div`
   top: 0px;
   left: 0px;
   bottom: 0px;
-  height: 100vh;
+  height: 100%;
   max-height: 100%;
   border-right: ${({ theme }) => `1px solid ${theme.colors.grey3}`};
   background-color: ${({ theme }) => theme.colors.secondary};
