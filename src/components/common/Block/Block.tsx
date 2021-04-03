@@ -10,6 +10,8 @@ interface BlockProps {
   icon: any;
   activeIndex?: number;
   index?: number;
+  fontWeight?: string;
+  className?: string;
 }
 
 const Block: React.FC<BlockProps> = ({
@@ -20,6 +22,8 @@ const Block: React.FC<BlockProps> = ({
   activeIndex,
   index,
   backgroundColor,
+  fontWeight,
+  className,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -35,11 +39,12 @@ const Block: React.FC<BlockProps> = ({
       handleMouseDown={handleMouseDown && handleMouseDown}
       handleClick={handleClick && handleClick}
       padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
+      className={className}
     >
       <HFlex>
         <IconWrapper>{icon}</IconWrapper>
         <Spacer width={theme.spacers.size8} />
-        <Text>{label}</Text>
+        <Text fontWeight={fontWeight}>{label}</Text>
       </HFlex>
     </HoverCard>
   );
