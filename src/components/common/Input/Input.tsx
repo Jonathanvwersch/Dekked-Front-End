@@ -14,8 +14,6 @@ export interface InputProps {
   placeholder?: string;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  isMissing?: boolean;
-  isIncomplete?: boolean;
   size?: SIZES;
 }
 

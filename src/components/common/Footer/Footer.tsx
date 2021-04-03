@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { Button, HFlex } from "..";
+import { Box, Button, Divider, HFlex, Spacer } from "..";
 import { ALIGNMENT, BUTTON_THEME } from "../../../shared";
-import Spacer from "../Spacer/Spacer";
 
 interface FooterProps {
   handleCancel?: () => void;
@@ -11,6 +10,7 @@ interface FooterProps {
   isDisabled?: boolean;
   alignment?: ALIGNMENT;
   mainButtonText?: string;
+  padding?: string;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -20,23 +20,32 @@ const Footer: React.FC<FooterProps> = ({
   mainButtonStyle = BUTTON_THEME.PRIMARY,
   alignment = ALIGNMENT.CENTER,
   mainButtonText,
+  padding,
 }) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <HFlex justifyContent={alignment}>
-      <Button handleClick={handleCancel} buttonStyle={BUTTON_THEME.SECONDARY}>
-        Cancel
-      </Button>
-      <Spacer width={theme.spacers.size64} />
-      <Button
-        handleClick={handleMainButton}
-        buttonStyle={mainButtonStyle}
-        disabled={isDisabled}
-      >
-        {mainButtonText}
-      </Button>
-    </HFlex>
+    <>
+      <Divider />
+      <Box p={padding ? padding : theme.spacers.size16}>
+        <HFlex justifyContent={alignment}>
+          <Button
+            handleClick={handleCancel}
+            buttonStyle={BUTTON_THEME.SECONDARY}
+          >
+            Cancel
+          </Button>
+          <Spacer width={theme.spacers.size32} />
+          <Button
+            handleClick={handleMainButton}
+            buttonStyle={mainButtonStyle}
+            disabled={isDisabled}
+          >
+            {mainButtonText}
+          </Button>
+        </HFlex>
+      </Box>
+    </>
   );
 };
 

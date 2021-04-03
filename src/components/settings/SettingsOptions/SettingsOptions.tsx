@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { SettingsAccount } from "..";
-import { SIZES } from "../../../shared";
-import { InsetPage } from "../../common";
+import { ALIGNMENT } from "../../../shared";
+import { Box, Footer, Scroller } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 
 interface SettingsOptionsProps {
   activeSetting: SETTINGS_SIDEBAR_DATA;
+  handleCloseModal: () => void;
 }
 
-const SettingsOptions: React.FC<SettingsOptionsProps> = ({ activeSetting }) => {
-  console.log(activeSetting);
+const SettingsOptions: React.FC<SettingsOptionsProps> = ({
+  activeSetting,
+  handleCloseModal,
+}) => {
+  const theme = useContext(ThemeContext);
+
   return (
-    <InsetPage size={SIZES.LARGE}>
-      {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
-        <SettingsAccount />
-      ) : null}
-    </InsetPage>
+    <>
+      <Scroller height="100%">
+        <Box p={theme.spacers.size64}>
+          {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
+            <SettingsAccount handleCloseModal={handleCloseModal} />
+          ) : null}
+        </Box>
+      </Scroller>
+      <Footer
+        padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
+        handleCancel={handleCloseModal}
+        mainButtonText="Save changes"
+        alignment={ALIGNMENT.LEFT}
+      />
+    </>
   );
 };
 

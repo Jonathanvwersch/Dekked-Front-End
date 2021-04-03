@@ -32,9 +32,15 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
     >
       <ShadowCard height="800px" width="1000px">
         <HFlex height="100%">
-          <SettingsSidebar handleBlockClick={handleActiveSetting} />
+          <SettingsSidebar
+            activeSetting={activeSetting}
+            handleBlockClick={handleActiveSetting}
+          />
           <StyledMainFrame>
-            <SettingsOptions activeSetting={activeSetting} />
+            <SettingsOptions
+              handleCloseModal={handleCloseModal}
+              activeSetting={activeSetting}
+            />
           </StyledMainFrame>
         </HFlex>
       </ShadowCard>

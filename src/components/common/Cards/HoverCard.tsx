@@ -30,6 +30,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
   return (
     <StyledHoverCard
       role="button"
+      className={props.className}
       ref={cardRef}
       tabIndex={0}
       {...props}
@@ -55,11 +56,15 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   cursor: pointer;
   user-select: none;
 
-  &:focus,
+  &.active {
+    filter: ${({ theme }) => theme.colors.active.filter};
+  }
+
   &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
+  &:focus,
   &:active {
     filter: ${({ theme }) => theme.colors.active.filter};
   }
