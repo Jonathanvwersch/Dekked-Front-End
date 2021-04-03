@@ -34,3 +34,4 @@ export { default as RightAlignIcon } from "./icons/RightAlignIcon";
 export { default as SettingsIcon } from "./icons/SettingsIcon";
 export { default as UnderlineIcon } from "./icons/UnderlineIcon";
 export { default as DividerIcon } from "./icons/DividerIcon";
+export { default as StudyModeIcon } from "./icons/StudyModeIcon";

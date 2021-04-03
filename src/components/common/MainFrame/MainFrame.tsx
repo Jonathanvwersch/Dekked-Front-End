@@ -5,13 +5,17 @@ import { ComponentLoadingSpinner, Page } from "..";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import TopBar from "../../shared/Topbar/Topbar";
 
-const MainFrame: React.FC = ({ children }) => {
+interface MainFrameProps {
+  backgroundColor?: string;
+}
+
+const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
   const { loading } = useContext(SelectedItemContext);
 
   return (
     <>
       {!loading ? (
-        <StyledMainFrame>
+        <StyledMainFrame backgroundColor={backgroundColor}>
           <TopBar />
           <Page>{children}</Page>
         </StyledMainFrame>
@@ -22,11 +26,14 @@ const MainFrame: React.FC = ({ children }) => {
   );
 };
 
-export const StyledMainFrame = styled.div`
+export const StyledMainFrame = styled.div<MainFrameProps>`
   display: flex;
   flex-direction: column;
   overflow: auto;
-  background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  background: ${({ theme, backgroundColor }) =>
+    backgroundColor
+      ? backgroundColor
+      : theme.colors.backgrounds.pageBackground};
   height: 100%;
   max-height: 100%;
   flex-grow: 1;

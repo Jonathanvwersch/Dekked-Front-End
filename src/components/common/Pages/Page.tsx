@@ -22,7 +22,6 @@ const StyledPage = styled.div`
   flex-grow: 1;
   align-items: center;
   overflow: auto;
-  background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
 export default Page;

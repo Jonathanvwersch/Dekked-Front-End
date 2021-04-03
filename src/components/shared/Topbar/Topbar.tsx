@@ -27,7 +27,6 @@ const TopBar: React.FC = () => {
 
 const StyledTopbar = styled.div`
   display: flex;
-  background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   min-height: 65px;
   z-index: 998;
   position: sticky;

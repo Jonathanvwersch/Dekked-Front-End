@@ -1,63 +1,69 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components";
 import { handleUntitled } from "../../../helpers/handleUntitled";
-import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
+import { FILETREE_TYPES, Params } from "../../../shared";
 import { handleIconType } from "../Sidebar/SidebarBlock/SidebarBlock";
 
 interface CrumbProps {
-  breadCrumbData?:
-    | FolderInterface
-    | BinderInterface
-    | StudyPackInterface
-    | undefined;
-  breadCrumbType: FILETREE_TYPES;
+  breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;
+  breadCrumbType?: FILETREE_TYPES;
+  link?: string;
+  name?: string;
+  icon?: JSX.Element;
 }
 
-const Crumb: React.FC<CrumbProps> = ({ breadCrumbData, breadCrumbType }) => {
+const Crumb: React.FC<CrumbProps> = ({
+  breadCrumbData,
+  breadCrumbType,
+  link,
+  icon,
+  name,
+}) => {
   const theme: ThemeType = useContext(ThemeContext);
-
-  const link =
-    breadCrumbType === FILETREE_TYPES.STUDY_SET
-      ? `/${breadCrumbType}/${breadCrumbData?.id}/${TAB_TYPE.NOTES}`
-      : `/${breadCrumbType}/${breadCrumbData?.id}`;
+  const { studyModes } = useParams<Params>();
 
   return (
     <>
-      {breadCrumbData ? (
+      {breadCrumbData || (name && icon) ? (
         <NavLink
           to={{
             pathname: link,
           }}
         >
           <HFlex>
-            {breadCrumbType === FILETREE_TYPES.BINDER ||
-            breadCrumbType === FILETREE_TYPES.STUDY_SET ? (
+            {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
               <>
                 <Spacer width={theme.spacers.size4} />
                 <Text
-                  fontSize={`${theme.typography.fontSizes.size14}`}
-                  fontColor={`${theme.colors.grey1}`}
+                  fontSize={theme.typography.fontSizes.size14}
+                  fontColor={theme.colors.grey1}
                 >
-                  /
+                  {">"}
                 </Text>
                 <Spacer width={theme.spacers.size4} />
               </>
             ) : null}
             <HoverCard
               width="auto"
-              backgroundColor={`${theme.colors.backgrounds.pageBackground}`}
+              backgroundColor={
+                studyModes
+                  ? theme.colors.backgrounds.studyModeBackground
+                  : theme.colors.backgrounds.pageBackground
+              }
               padding={`0px ${theme.spacers.size4}`}
             >
               <HFlex>
                 <IconWrapper>
-                  {handleIconType(breadCrumbType, breadCrumbData.color)}
+                  {breadCrumbType && breadCrumbData
+                    ? handleIconType(breadCrumbType, breadCrumbData.color)
+                    : icon}
                 </IconWrapper>
                 <Spacer width={theme.spacers.size4} />
                 <Text maxWidth="120px" className="overflow">
-                  {breadCrumbData && handleUntitled(breadCrumbData.name)}
+                  {breadCrumbData ? handleUntitled(breadCrumbData.name) : name}
                 </Text>
               </HFlex>
             </HoverCard>

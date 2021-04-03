@@ -59,6 +59,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 activeIndex={activeIndex}
                 icon={item.icon}
                 label={item.label}
+                className="focus"
                 handleClick={(e: MouseEvent) =>
                   clickFunctions(item?.style ? item.style : item.label, e)
                 }
