@@ -13,6 +13,7 @@ interface HoverCardProps {
   padding?: string;
   activeIndex?: number;
   index?: number;
+  ariaLabel?: string;
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
@@ -32,6 +33,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
       role="button"
       className={props.className}
       ref={cardRef}
+      ariaLabel={props.ariaLabel}
       tabIndex={0}
       {...props}
       onClick={props.handleClick && props.handleClick}
@@ -70,7 +72,6 @@ const StyledHoverCard = styled.div<HoverCardProps>`
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
-  &:focus,
   &:active {
     filter: ${({ theme }) => theme.colors.active.filter};
   }

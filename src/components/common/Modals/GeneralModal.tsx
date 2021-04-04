@@ -12,6 +12,7 @@ interface GeneralModalProps {
   size?: SIZES;
   type?: MODAL_TYPE;
   footer?: JSX.Element;
+  children: React.ReactNode;
 }
 
 const GeneralModal: React.FC<GeneralModalProps> = ({
@@ -49,4 +50,4 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
   );
 };
 
-export default GeneralModal;
+export default React.memo(GeneralModal);

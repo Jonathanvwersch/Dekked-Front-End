@@ -73,4 +73,4 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   );
 };
 
-export default ScrollerModal;
+export default React.memo(ScrollerModal);

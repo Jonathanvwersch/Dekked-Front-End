@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
-import { HFlex, HoverCard, IconWrapper, Overlay } from "../../common";
+import { HoverCard, IconWrapper, Overlay } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
@@ -26,6 +26,7 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
         <StudyQueue
           handleClick={() => setStudyQueueModal(true)}
           backgroundColor={theme.colors.primary}
+          ariaLabel="study queue"
         >
           <IconWrapper>
             <StudyQueueIcon
@@ -46,7 +47,7 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
   );
 };
 
-const Container = styled(HFlex)<StudyQueueProps>`
+const Container = styled.div<StudyQueueProps>`
   height: ${({ theme }) => theme.spacers.size48};
   width: ${({ theme }) => theme.spacers.size48};
   position: fixed;
@@ -80,4 +81,4 @@ const StudyQueue = styled(HoverCard)<StudyQueueProps>`
 //   right: 0;
 // `;
 
-export default StudyQueueContainer;
+export default React.memo(StudyQueueContainer);

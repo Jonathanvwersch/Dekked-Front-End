@@ -69,4 +69,4 @@ const Tab = styled(IconActive)`
   padding: ${({ theme }) => `${theme.spacers.size8} ${theme.spacers.size64}`};
 `;
 
-export default StudySetLinkedFlashcard;
+export default React.memo(StudySetLinkedFlashcard);

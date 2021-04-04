@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";
-import { useIntl, IntlShape } from "react-intl";
+import { useIntl } from "react-intl";
 
 interface SidebarBlockNameProps {
   isEditable: boolean;
@@ -35,16 +35,19 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
   }, [id, props.blockId, selectedBlockName]);
 
   return (
-    <StyledText intl={intl} className="overflow">
+    <StyledText
+      placeholder={formatMessage("generics.untitled", intl)}
+      className="overflow"
+    >
       {name}
     </StyledText>
   );
 };
 
-const StyledText = styled(Text)<{ intl: IntlShape }>`
+const StyledText = styled(Text)`
   flex: 1 1 auto;
   &:empty:before {
-    content: " ${({ intl }) => formatMessage("generics.untitled", intl)}";
+    content: attr(placeholder);
   }
 `;
 

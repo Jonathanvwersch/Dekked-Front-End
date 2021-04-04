@@ -77,7 +77,7 @@ const en_GB = {
     studySet: {
       notetaking: {
         placeholder: "Type '/' to view block types",
-        blockModal: {
+        toolbar: {
           body: "Body",
           largeHeading: "Large heading",
           mediumHeading: "Medium heading",

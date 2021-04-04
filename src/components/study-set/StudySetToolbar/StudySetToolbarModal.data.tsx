@@ -10,12 +10,12 @@ import {
 import { ScrollerModalData } from "../../../shared";
 
 export enum BLOCK_OPTIONS {
-  BODY = "studySet.notetaking.blockModal.body",
-  LARGE_HEADING = "studySet.notetaking.blockModal.largeHeading",
-  MEDIUM_HEADING = "studySet.notetaking.blockModal.mediumHeading",
-  SMALL_HEADING = "studySet.notetaking.blockModal.smallHeading",
-  BULLETED_LIST = "studySet.notetaking.blockModal.bulletedList",
-  NUMBERED_LIST = "studySet.notetaking.blockModal.numberedList",
+  BODY = "studySet.notetaking.toolbar.body",
+  LARGE_HEADING = "studySet.notetaking.toolbar.largeHeading",
+  MEDIUM_HEADING = "studySet.notetaking.toolbar.mediumHeading",
+  SMALL_HEADING = "studySet.notetaking.toolbar.smallHeading",
+  BULLETED_LIST = "studySet.notetaking.toolbar.bulletedList",
+  NUMBERED_LIST = "studySet.notetaking.toolbar.numberedList",
 }
 
 export const StudySetToolbarModalData: ScrollerModalData = [

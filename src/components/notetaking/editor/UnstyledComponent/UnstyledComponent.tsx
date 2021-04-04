@@ -2,7 +2,7 @@ import React from "react";
 import { ContentBlock, EditorBlock } from "draft-js";
 import styled from "styled-components";
 import { getCurrentBlock } from "../../Utils/editorUtils";
-import { useIntl, IntlShape } from "react-intl";
+import { useIntl } from "react-intl";
 import { formatMessage } from "../../../../intl";
 
 const UnstyledComponent = (props: any) => {
@@ -17,20 +17,21 @@ const UnstyledComponent = (props: any) => {
   return (
     <>
       {!hasText && currentBlockKey === blockKey ? (
-        <EmptyCommandBlock intl={intl} />
+        <EmptyCommandBlock
+          placeholder={formatMessage("studySet.notetaking.placeholder", intl)}
+        />
       ) : null}
       <EditorBlock {...props} />
     </>
   );
 };
 
-const EmptyCommandBlock = styled.div<{ intl: IntlShape }>`
+const EmptyCommandBlock = styled.div`
   color: ${({ theme }) => theme.colors.grey1};
   position: absolute;
 
   &:empty:before {
-    content: " ${({ intl }) =>
-      formatMessage("studySet.notetaking.placeholder", intl)}";
+    content: attr(placeholder);
   }
 `;
 

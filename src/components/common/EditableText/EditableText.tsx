@@ -3,8 +3,10 @@ import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import { FileTreeContext } from "../../../contexts";
 import { debounce } from "lodash";
+import { useIntl } from "react-intl";
 
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
+import { formatMessage } from "../../../intl";
 
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
@@ -24,6 +26,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   itemId,
 }) => {
   const { handleSelectedBlockName, type } = useContext(SelectedItemContext);
+  const intl = useIntl();
   const { updateAsset } = useContext(FileTreeContext);
   const [html, setHtml] = useState<string>(name);
 
@@ -60,7 +63,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   return (
     <StyledContentEditable
-      placeholder="Untitled"
+      placeholder={formatMessage("generics.untitled", intl)}
       spellCheck={false}
       disabled={!isEditable}
       innerRef={editableTextRef}
@@ -96,7 +99,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 
 const StyledContentEditable = styled(ContentEditable)`
   &:empty:before {
-    content: "Untitled";
+    content: attr(placeholder);
   }
   width: 100%;
   &[contenteditable="true"] {

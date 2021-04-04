@@ -12,11 +12,17 @@ interface TextProps {
   filterHover?: boolean; // set to true if you want to apply a filter based hover state
   filterActive?: boolean; // set to true if you want to apply a filter based active state
   textDecoration?: string;
+  placeholder?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
   return (
-    <StyledText spellCheck={false} className={props.className} {...props}>
+    <StyledText
+      placeholder={props.placeholder}
+      spellCheck={false}
+      className={props.className}
+      {...props}
+    >
       {children}
     </StyledText>
   );
@@ -47,6 +53,10 @@ const StyledText = styled.div<TextProps>`
   &:active {
     filter: ${({ filterActive, theme }) =>
       filterActive ? theme.colors.active.filter : null};
+  }
+
+  &:empty:before {
+    content: attr(placeholder);
   }
 `;
 
