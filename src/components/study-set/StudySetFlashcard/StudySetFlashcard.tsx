@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled, { ThemeContext } from "styled-components";
 import {
   Card,

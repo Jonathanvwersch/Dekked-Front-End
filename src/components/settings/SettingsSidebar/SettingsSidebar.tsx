@@ -24,6 +24,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
         {SettingsSidebarData.map((block) => {
           return (
             <Block
+              key={block.label}
               backgroundColor={theme.colors.secondary}
               icon={block.icon}
               label={block.label}

@@ -113,6 +113,10 @@ const en_GB = {
       sidebar: {
         account: "Account",
       },
+      account: {
+        header: "Account",
+        personalInformation: "Personal Information",
+      },
     },
   },
 };

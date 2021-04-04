@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { HFlex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { ThemeType } from "../../../styles/theme";
 import { TAB_TYPE } from "../../../shared";
 import { useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";

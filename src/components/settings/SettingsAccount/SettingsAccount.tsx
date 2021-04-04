@@ -4,9 +4,7 @@ import { usePageSetupHelpers } from "../../../hooks";
 import { Box, Divider, H4, Text, Input, Spacer } from "../../common";
 import { useIntl } from "react-intl";
 
-interface SettingsAccountProps {}
-
-const SettingsAccount: React.FC<SettingsAccountProps> = () => {
+const SettingsAccount: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
@@ -16,7 +14,7 @@ const SettingsAccount: React.FC<SettingsAccountProps> = () => {
       <Divider />
       <Box my={theme.spacers.size32}>
         <Text fontSize={theme.typography.fontSizes.size16}>
-          Personal Information
+          {formatMessage("settings.account.personalInformation")}
         </Text>
         <Spacer height={theme.spacers.size16} />
         <Input label={formatMessage("forms.names.firstName")}></Input>
@@ -25,7 +23,9 @@ const SettingsAccount: React.FC<SettingsAccountProps> = () => {
       </Box>
       <Divider />
       <Box my={theme.spacers.size32}>
-        <Text fontSize={theme.typography.fontSizes.size16}>Password</Text>
+        <Text fontSize={theme.typography.fontSizes.size16}>
+          {formatMessage("forms.password.password")}
+        </Text>
         <Spacer height={theme.spacers.size16} />
         <Input
           type="password"
