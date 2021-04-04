@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeContext } from "styled-components";
 import { Box, Button, Divider, HFlex, Spacer } from "..";
+import { usePageSetupHelpers } from "../../../hooks";
 import { ALIGNMENT, BUTTON_THEME } from "../../../shared";
+import { useIntl } from "react-intl";
 
 interface FooterProps {
   handleCancel?: () => void;
@@ -9,7 +11,7 @@ interface FooterProps {
   mainButtonStyle?: BUTTON_THEME;
   isDisabled?: boolean;
   alignment?: ALIGNMENT;
-  mainButtonText?: string;
+  mainButtonText: string;
   padding?: string;
 }
 
@@ -22,7 +24,8 @@ const Footer: React.FC<FooterProps> = ({
   mainButtonText,
   padding,
 }) => {
-  const theme = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   return (
     <>
@@ -33,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({
             handleClick={handleCancel}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
-            Cancel
+            {formatMessage("generics.cancel")}
           </Button>
           <Spacer width={theme.spacers.size32} />
           <Button
@@ -41,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({
             buttonStyle={mainButtonStyle}
             disabled={isDisabled}
           >
-            {mainButtonText}
+            {formatMessage(mainButtonText)}
           </Button>
         </HFlex>
       </Box>

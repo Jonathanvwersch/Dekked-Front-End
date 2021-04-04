@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeContext } from "styled-components";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
+import { useIntl } from "react-intl";
+import { usePageSetupHelpers } from "../../../hooks";
 
 interface SignUpFormProps {}
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
-  const theme = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   return (
     <>
@@ -17,19 +20,27 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         type="email"
       />
       <Spacer height={theme.spacers.size16} />
-      <Input size={SIZES.LARGE} placeholder="Tim" label="First name" />
-      <Spacer height={theme.spacers.size16} />
-      <Input size={SIZES.LARGE} placeholder="Berners-Lee" label="Last name" />
+      <Input
+        size={SIZES.LARGE}
+        placeholder={formatMessage("forms.names.firstNamePlaceholder", intl)}
+        label={formatMessage("forms.names.firstName", intl)}
+      />
       <Spacer height={theme.spacers.size16} />
       <Input
         size={SIZES.LARGE}
-        placeholder="Current password"
+        placeholder={formatMessage("forms.names.lastNamePlaceholder", intl)}
+        label={formatMessage("forms.names.lastName", intl)}
+      />
+      <Spacer height={theme.spacers.size16} />
+      <Input
+        size={SIZES.LARGE}
+        placeholder={formatMessage("forms.password.currentPassword", intl)}
         type="password"
-        label="Password"
+        label={formatMessage("forms.password.password", intl)}
       />
       <Spacer height={theme.spacers.size48} />
       <Button size={SIZES.LARGE} fullWidth buttonStyle={BUTTON_THEME.PRIMARY}>
-        Sign up
+        {formatMessage("forms.signUp.signUp", intl)}
       </Button>
     </>
   );

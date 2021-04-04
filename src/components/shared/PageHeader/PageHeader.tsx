@@ -3,18 +3,20 @@ import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { ThemeType } from "../../../styles/theme";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
+import { usePageSetupHelpers } from "../../../hooks";
+import { useIntl } from "react-intl";
 
 interface PageHeaderProps {
   message?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
+  const intl = useIntl();
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
-  const theme: ThemeType = useContext(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
   const { selectedBlockName, id } = useContext(SelectedItemContext);
   const { tab } = useParams<Params>();
 
@@ -32,7 +34,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
           <HFlex width="auto">
             {tab === TAB_TYPE.FLASHCARDS ? (
               <Button buttonStyle={BUTTON_THEME.SECONDARY}>
-                + Add flashcard
+                {formatMessage("studySet.flashcards.addFlashcard")}
               </Button>
             ) : null}
             <Spacer width={theme.spacers.size16} />
@@ -40,7 +42,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
               buttonStyle={BUTTON_THEME.PRIMARY}
               handleClick={() => setStudyMode(true)}
             >
-              Study
+              {formatMessage("generics.study")}
             </Button>
           </HFlex>
         </HFlex>

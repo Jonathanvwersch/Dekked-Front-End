@@ -13,9 +13,7 @@ import {
   FolderIcon,
   StudySetIcon,
 } from "../../../../assets";
-
 import { NavLink, useLocation } from "react-router-dom";
-
 import { ThemeType } from "../../../../styles/theme";
 import SidebarEditableText from "../SidebarBlockName/SidebarBlockName";
 import styled, { ThemeContext } from "styled-components";

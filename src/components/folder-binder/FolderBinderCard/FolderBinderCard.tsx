@@ -4,6 +4,8 @@ import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { handleIconType } from "../../shared/Sidebar/SidebarBlock/SidebarBlock";
+import { useIntl } from "react-intl";
+import { formatMessage } from "../../../intl";
 
 interface FolderBinderCardProps {
   data: BinderInterface | StudyPackInterface;
@@ -11,25 +13,33 @@ interface FolderBinderCardProps {
 }
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
+  const intl = useIntl();
+
   const childType =
     type === FILETREE_TYPES.FOLDER
       ? FILETREE_TYPES.BINDER
       : FILETREE_TYPES.STUDY_SET;
 
   return (
-    <NavLink
-      to={
-        childType === FILETREE_TYPES.BINDER
-          ? `/${childType}/${data?.id}`
-          : `/${childType}/${data?.id}/${TAB_TYPE.NOTES}`
-      }
-    >
-      <ThumbnailCard
-        topText={handleUntitled(data?.name)}
-        bottomText={`Created ${data?.date_created}`}
-        icon={handleIconType(childType, data?.color)}
-      />
-    </NavLink>
+    <>
+      {data ? (
+        <NavLink
+          to={
+            childType === FILETREE_TYPES.BINDER
+              ? `/${childType}/${data?.id}`
+              : `/${childType}/${data?.id}/${TAB_TYPE.NOTES}`
+          }
+        >
+          <ThumbnailCard
+            topText={handleUntitled(data?.name, intl)}
+            bottomText={`${formatMessage("folderBinders.created", intl)} ${
+              data?.date_created
+            }`}
+            icon={handleIconType(childType, data?.color)}
+          />
+        </NavLink>
+      ) : null}
+    </>
   );
 };
 

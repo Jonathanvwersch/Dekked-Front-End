@@ -8,10 +8,10 @@ import {
 import { ScrollerModalData } from "../../../../shared";
 
 export enum SIDEBAR_BLOCK_MENU {
-  ADD_BINDER = "Add binder",
-  ADD_STUDYSET = "Add study set",
-  RECOLOR = "Icon colour",
-  DELETE = "Delete",
+  ADD_BINDER = "sidebar.blockModal.addBinder",
+  ADD_STUDYSET = "sidebar.blockModal.addStudySet",
+  RECOLOR = "sidebar.blockModal.iconColour",
+  DELETE = "sidebar.blockModal.delete",
 }
 
 export const FolderData: ScrollerModalData = [

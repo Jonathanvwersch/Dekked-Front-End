@@ -11,9 +11,10 @@ import {
   ShadowCard,
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
-import { ThemeType } from "../../../styles/theme";
 import { StudySetToolbar } from "..";
 import { BUTTON_THEME, SIZES } from "../../../shared";
+import { usePageSetupHelpers } from "../../../hooks";
+import { useIntl } from "react-intl";
 
 interface StudySetFlashcardProps {
   frontText?: string;
@@ -26,7 +27,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   backText,
   linked = false,
 }) => {
-  const theme: ThemeType = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   const frontAndBack = (side: string) => {
     return (
@@ -79,7 +81,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <Spacer height={theme.spacers.size8} />
         {linked ? (
           <HFlex justifyContent="flex-end">
-            <Button buttonStyle={BUTTON_THEME.PRIMARY}>Save</Button>
+            <Button buttonStyle={BUTTON_THEME.PRIMARY}>
+              {formatMessage("generics.save", intl)}
+            </Button>
           </HFlex>
         ) : null}
       </VFlex>

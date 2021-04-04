@@ -1,30 +1,34 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeContext } from "styled-components";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
+import { useIntl } from "react-intl";
+import { usePageSetupHelpers } from "../../../hooks";
 
 interface LogInFormProps {}
 
 const LogInForm: React.FC<LogInFormProps> = () => {
-  const theme = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+
   return (
     <>
       <Input
         size={SIZES.LARGE}
-        placeholder="Example@dekked.com"
-        label="Email address"
+        placeholder={formatMessage("forms.email.placeholder", intl)}
+        label={formatMessage("forms.email.email", intl)}
         type="email"
       />
       <Spacer height={theme.spacers.size16} />
       <Input
         size={SIZES.LARGE}
-        placeholder="Current password"
+        placeholder={formatMessage("forms.password.currentPassword", intl)}
         type="password"
-        label="Password"
+        label={formatMessage("forms.password.password", intl)}
       />
       <Spacer height={theme.spacers.size48} />
       <Button size={SIZES.LARGE} fullWidth buttonStyle={BUTTON_THEME.PRIMARY}>
-        Log in
+        {formatMessage("forms.logIn.logIn", intl)}
       </Button>
     </>
   );

@@ -20,7 +20,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
 
   return (
     <StyledSidebar>
-      <SidebarScroller heading="Settings">
+      <SidebarScroller heading={"sidebar.settingsModal.settings"}>
         {SettingsSidebarData.map((block) => {
           return (
             <Block
@@ -29,8 +29,9 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
               label={block.label}
               handleClick={() => handleBlockClick(block.label)}
               fontWeight={
-                activeSetting === block.label &&
-                theme.typography.fontWeights.bold
+                activeSetting === block.label
+                  ? theme.typography.fontWeights.bold
+                  : theme.typography.fontWeights.normal
               }
               className={activeSetting === block.label ? "active" : undefined}
             />

@@ -6,6 +6,8 @@ import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
 import { Params, STUDY_MODE_TYPES } from "../../../shared";
 import { SelectedItemContext } from "../../../contexts";
+import { usePageSetupHelpers } from "../../../hooks";
+import { useIntl } from "react-intl";
 
 interface StudyModeModalProps {
   isOpen: boolean;
@@ -16,10 +18,13 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
   isOpen,
   handleClose,
 }) => {
-  const header = <H4>Choose your study mode</H4>;
-  const theme = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
   const { id } = useParams<Params>();
   const { type } = useContext(SelectedItemContext);
+
+  const header = <H4>{formatMessage("studyMode.chooseModal.header", intl)}</H4>;
+
   return (
     <GeneralModal isOpen={isOpen} header={header} handleClose={handleClose}>
       <HFlex justifyContent="center">
@@ -27,16 +32,25 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
           to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
         >
           <ThumbnailCard
-            topText="Spaced repetition"
-            bottomText="Interval studying"
+            topText={formatMessage(
+              "studyMode.chooseModal.spacedRepetition",
+              intl
+            )}
+            bottomText={formatMessage(
+              "studyMode.chooseModal.intervalStudying",
+              intl
+            )}
             backgroundImage={SpacedRepetitionCard}
           />
         </NavLink>
         <Spacer width={theme.spacers.size64} />
         <NavLink to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`}>
           <ThumbnailCard
-            topText="Free study"
-            bottomText="Linear studying"
+            topText={formatMessage("studyMode.chooseModal.freeStudy", intl)}
+            bottomText={formatMessage(
+              "studyMode.chooseModal.linearStudying",
+              intl
+            )}
             backgroundImage={FreeStudyCard}
           />
         </NavLink>

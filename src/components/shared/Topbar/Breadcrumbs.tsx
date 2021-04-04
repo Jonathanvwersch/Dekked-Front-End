@@ -5,6 +5,8 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { HFlex } from "../../common";
 import Crumb from "./Crumb";
+import { useIntl } from "react-intl";
+import { formatMessage } from "../../../intl";
 
 const Breadcrumbs: React.FC = () => {
   const { folderData, binderData, studySetData, type, loading } = useContext(
@@ -12,6 +14,8 @@ const Breadcrumbs: React.FC = () => {
   );
   const { studyModes } = useParams<Params>();
   const { url } = useRouteMatch();
+
+  const intl = useIntl();
 
   return !loading ? (
     <HFlex>
@@ -35,7 +39,11 @@ const Breadcrumbs: React.FC = () => {
         />
       ) : null}
       {studyModes ? (
-        <Crumb icon={<StudyModeIcon />} name="Study mode" link={url} />
+        <Crumb
+          icon={<StudyModeIcon />}
+          name={formatMessage("breadCrumbs.studyMode", intl)}
+          link={url}
+        />
       ) : null}
     </HFlex>
   ) : null;

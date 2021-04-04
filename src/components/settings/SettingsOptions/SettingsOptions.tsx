@@ -21,14 +21,14 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
       <Scroller height="100%">
         <Box p={theme.spacers.size64}>
           {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
-            <SettingsAccount handleCloseModal={handleCloseModal} />
+            <SettingsAccount />
           ) : null}
         </Box>
       </Scroller>
       <Footer
         padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
         handleCancel={handleCloseModal}
-        mainButtonText="Save changes"
+        mainButtonText={"generics.saveChanges"}
         alignment={ALIGNMENT.LEFT}
       />
     </>

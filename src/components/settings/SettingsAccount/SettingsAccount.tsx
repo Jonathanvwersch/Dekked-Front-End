@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeContext } from "styled-components";
+import { usePageSetupHelpers } from "../../../hooks";
 import { Box, Divider, H4, Text, Input, Spacer } from "../../common";
+import { useIntl } from "react-intl";
 
-interface SettingsAccountProps {
-  handleCloseModal: () => void;
-}
+interface SettingsAccountProps {}
 
-const SettingsAccount: React.FC<SettingsAccountProps> = ({
-  handleCloseModal,
-}) => {
-  const theme = useContext(ThemeContext);
+const SettingsAccount: React.FC<SettingsAccountProps> = () => {
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   return (
     <>
@@ -20,20 +19,26 @@ const SettingsAccount: React.FC<SettingsAccountProps> = ({
           Personal Information
         </Text>
         <Spacer height={theme.spacers.size16} />
-        <Input label="First name"></Input>
+        <Input label={formatMessage("forms.names.firstName")}></Input>
         <Spacer height={theme.spacers.size8} />
-        <Input label="Last name"></Input>
+        <Input label={formatMessage("forms.names.lastName")}></Input>
       </Box>
       <Divider />
       <Box my={theme.spacers.size32}>
         <Text fontSize={theme.typography.fontSizes.size16}>Password</Text>
         <Spacer height={theme.spacers.size16} />
-        <Input type="password" label="New password" />
+        <Input
+          type="password"
+          label={formatMessage("forms.password.newPassword")}
+        />
         <Spacer height={theme.spacers.size8} />
-        <Input label="Repeat new password" type="password" />
+        <Input
+          label={formatMessage("forms.password.repeatPassword")}
+          type="password"
+        />
         <Spacer height={theme.spacers.size8} />
         <Text fontColor={theme.colors.grey1}>
-          Your password must be atleast eight characters long.
+          {formatMessage("forms.password.length")}
         </Text>
       </Box>
     </>

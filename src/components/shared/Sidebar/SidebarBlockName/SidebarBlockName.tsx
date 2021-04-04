@@ -8,6 +8,8 @@ import React, {
 import styled from "styled-components";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
+import { formatMessage } from "../../../../intl";
+import { useIntl, IntlShape } from "react-intl";
 
 interface SidebarBlockNameProps {
   isEditable: boolean;
@@ -24,6 +26,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
 }) => {
   const { id, selectedBlockName } = useContext(SelectedItemContext);
   const [name, setName] = useState(props.blockName);
+  const intl = useIntl();
 
   useEffect(() => {
     if (props.blockId === id) {
@@ -31,13 +34,17 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
     }
   }, [id, props.blockId, selectedBlockName]);
 
-  return <StyledText className="overflow">{name}</StyledText>;
+  return (
+    <StyledText intl={intl} className="overflow">
+      {name}
+    </StyledText>
+  );
 };
 
-const StyledText = styled(Text)`
+const StyledText = styled(Text)<{ intl: IntlShape }>`
   flex: 1 1 auto;
   &:empty:before {
-    content: "Untitled";
+    content: " ${({ intl }) => formatMessage("generics.untitled", intl)}";
   }
 `;
 

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { ThemeType } from "../../../../styles/theme";
+import { usePageSetupHelpers } from "../../../../hooks";
+import { useIntl } from "react-intl";
 import { VFlex, Text, Card, Scroller } from "../../../common";
 
 interface SidebarScrollerProps {
@@ -11,7 +12,8 @@ const SidebarScroller: React.FC<SidebarScrollerProps> = ({
   heading,
   children,
 }) => {
-  const theme: ThemeType = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   return (
     <>
@@ -20,7 +22,7 @@ const SidebarScroller: React.FC<SidebarScrollerProps> = ({
           fontSize={theme.typography.fontSizes.size14}
           fontColor={theme.colors.grey1}
         >
-          {heading}
+          {formatMessage(heading)}
         </Text>
       </Card>
       <Scroller>

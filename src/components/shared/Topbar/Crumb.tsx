@@ -6,6 +6,7 @@ import { ThemeContext } from "styled-components";
 import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { handleIconType } from "../Sidebar/SidebarBlock/SidebarBlock";
+import { useIntl } from "react-intl";
 
 interface CrumbProps {
   breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;
@@ -23,6 +24,7 @@ const Crumb: React.FC<CrumbProps> = ({
   name,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
+  const intl = useIntl();
   const { studyModes } = useParams<Params>();
 
   return (
@@ -63,7 +65,9 @@ const Crumb: React.FC<CrumbProps> = ({
                 </IconWrapper>
                 <Spacer width={theme.spacers.size4} />
                 <Text maxWidth="120px" className="overflow">
-                  {breadCrumbData ? handleUntitled(breadCrumbData.name) : name}
+                  {breadCrumbData
+                    ? handleUntitled(breadCrumbData.name, intl)
+                    : name}
                 </Text>
               </HFlex>
             </HoverCard>

@@ -5,9 +5,12 @@ import { HFlex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ThemeType } from "../../../styles/theme";
 import { TAB_TYPE } from "../../../shared";
+import { useIntl } from "react-intl";
+import { usePageSetupHelpers } from "../../../hooks";
 
 const StudySetTabSwitcher: React.FC = () => {
-  const theme: ThemeType = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
   const { type, id } = useContext(SelectedItemContext);
 
   const activeTabStyle = {
@@ -31,9 +34,12 @@ const StudySetTabSwitcher: React.FC = () => {
 
   return (
     <HFlex width="auto">
-      {tabLink(TAB_TYPE.NOTES, "Notes")}
+      {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes", intl))}
       <Spacer width={theme.spacers.size16} />
-      {tabLink(TAB_TYPE.FLASHCARDS, "Flashcards")}
+      {tabLink(
+        TAB_TYPE.FLASHCARDS,
+        formatMessage("studySet.tabs.flashcards", intl)
+      )}
     </HFlex>
   );
 };

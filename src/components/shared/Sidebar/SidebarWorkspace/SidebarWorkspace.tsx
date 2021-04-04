@@ -13,7 +13,7 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
   const { fileTree } = useContext(FileTreeContext);
 
   return (
-    <SidebarScroller heading="Home">
+    <SidebarScroller heading={"sidebar.workspace.header"}>
       {fileTree
         ? Object.entries(fileTree).map((file) => {
             return (
