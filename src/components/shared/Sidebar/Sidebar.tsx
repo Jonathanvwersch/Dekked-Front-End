@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { ComponentLoadingSpinner } from "../../common";
@@ -21,19 +21,23 @@ const Sidebar: React.FC<SidebarProps> = () => {
     }
   };
 
-  return sidebar ? (
-    <StyledSidebar>
-      {!loading ? (
-        <>
-          <SidebarTop />
-          <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
-          <SidebarBase scrollToBottom={scrollToBottom} />
-        </>
-      ) : (
-        <ComponentLoadingSpinner />
-      )}
-    </StyledSidebar>
-  ) : null;
+  return (
+    <>
+      {sidebar ? (
+        <StyledSidebar>
+          {!loading ? (
+            <>
+              <SidebarTop />
+              <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+              <SidebarBase scrollToBottom={scrollToBottom} />
+            </>
+          ) : (
+            <ComponentLoadingSpinner />
+          )}
+        </StyledSidebar>
+      ) : null}
+    </>
+  );
 };
 
 const StyledSidebar = styled.div`

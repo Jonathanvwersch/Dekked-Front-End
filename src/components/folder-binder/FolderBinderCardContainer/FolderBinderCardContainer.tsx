@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import FolderBinderAddCard from "../FolderBinderAddCard/FolderBinderAddCard";
 import FolderBinderCard from "../FolderBinderCard/FolderBinderCard";
 import { FILETREE_TYPES } from "../../../shared";

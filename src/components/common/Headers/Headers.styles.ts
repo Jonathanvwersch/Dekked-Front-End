@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from "styled-components/macro";
 import { HeadingProps } from "./Headers";
 
 export const commonStyles = css<HeadingProps>`

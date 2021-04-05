@@ -1,7 +1,7 @@
 /* Overlay container used to render all popovers and modals */
 import React, { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { CloseIcon } from "../../../assets";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { MODAL_TYPE, SIZES } from "../../../shared";

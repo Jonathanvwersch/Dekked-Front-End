@@ -1,6 +1,6 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { Block, Divider, Overlay, ShadowCard } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { MODAL_TYPE, ScrollerModalData } from "../../../shared";

@@ -11,7 +11,7 @@ import { positionModals } from "../../../helpers";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { StudySetToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
 import { SIZES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";

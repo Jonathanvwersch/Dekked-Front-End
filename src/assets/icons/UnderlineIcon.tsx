@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { IconProps } from "./Icon.types";
 import { Svg } from "./Icon.styles";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../styles/theme";
 
 const BoldIcon: React.FC<IconProps> = ({ color, size }) => {

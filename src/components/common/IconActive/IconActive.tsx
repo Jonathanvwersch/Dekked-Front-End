@@ -1,6 +1,6 @@
 // Wrapper component for making an icon into a button with a hover and active state
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export enum FILL_TYPE {
   FILL = "fill",

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Divider, HFlex, HoverCard, Spacer, Text } from "../../../common";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { PlusIcon } from "../../../../assets";
 import { FileTreeContext } from "../../../../contexts";
 import { FILETREE_TYPES, SIZES } from "../../../../shared";

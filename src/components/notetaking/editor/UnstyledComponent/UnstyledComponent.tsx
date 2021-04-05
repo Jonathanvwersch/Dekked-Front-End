@@ -1,6 +1,6 @@
 import React from "react";
 import { ContentBlock, EditorBlock } from "draft-js";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { getCurrentBlock } from "../../Utils/editorUtils";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../../intl";

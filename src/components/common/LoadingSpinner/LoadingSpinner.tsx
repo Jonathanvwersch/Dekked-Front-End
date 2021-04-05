@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { keyframes, ThemeContext } from "styled-components";
+import styled, { keyframes, ThemeContext } from "styled-components/macro";
 import { LogoIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";

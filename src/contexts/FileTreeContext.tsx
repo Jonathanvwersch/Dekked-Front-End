@@ -4,7 +4,7 @@ import { useBinders } from "../services/file-structure/useBinders";
 import { useFileTree } from "../services/file-structure/useFileTree";
 import { useFolders } from "../services/file-structure/useFolders";
 import { useStudyPacks } from "../services/file-structure/useStudyPacks";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { FILETREE_TYPES } from "../shared";
 
 interface FileTreeContextTypes {

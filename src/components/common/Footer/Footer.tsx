@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { Box, Button, Divider, HFlex, Spacer } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
 import { ALIGNMENT, BUTTON_THEME } from "../../../shared";

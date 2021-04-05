@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { SIZES } from "../../shared";
 import Icon from "./Icon";
 import { IconProps } from "./Icon.types";

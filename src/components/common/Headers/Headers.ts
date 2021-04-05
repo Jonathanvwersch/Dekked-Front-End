@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { commonStyles, headingStyles } from "./Headers.styles";
 
 export type HeadingProps = {

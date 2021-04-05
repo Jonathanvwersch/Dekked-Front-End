@@ -1,6 +1,6 @@
 // Basic spacer component; use in place of margins
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 interface SpacerProps {
   width?: string;

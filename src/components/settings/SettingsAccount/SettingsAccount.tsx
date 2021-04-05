@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { usePageSetupHelpers } from "../../../hooks";
 import { Box, Divider, H4, Text, Input, Spacer } from "../../common";
 import { useIntl } from "react-intl";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { Params } from "../../../shared";
 import { StudyQueueContainer } from "../../shared";
 

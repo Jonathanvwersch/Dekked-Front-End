@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect } from "react";
 import { Route } from "react-router-dom";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { InsetPage, MainFrame } from "../../components/common";
 import {
   StudyModeFreeStudy,

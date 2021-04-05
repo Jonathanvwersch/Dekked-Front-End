@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { HFlex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";

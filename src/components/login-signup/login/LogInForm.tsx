@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
 import { useIntl } from "react-intl";

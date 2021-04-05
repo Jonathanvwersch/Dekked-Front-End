@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { IconProps } from "./Icon.types";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../styles/theme";
 import { Svg } from "./Icon.styles";
 

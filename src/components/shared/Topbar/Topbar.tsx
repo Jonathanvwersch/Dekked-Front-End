@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
 import { SIZES } from "../../../shared";

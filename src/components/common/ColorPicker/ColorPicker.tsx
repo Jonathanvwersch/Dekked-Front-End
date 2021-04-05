@@ -1,7 +1,7 @@
 // Colour picker taken from https://casesandberg.github.io/react-color/
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { Overlay } from "..";
 import { CoordsProps } from "../../../helpers/positionModals";
 import { FILETREE_TYPES, MODAL_TYPE, SIZES } from "../../../shared";

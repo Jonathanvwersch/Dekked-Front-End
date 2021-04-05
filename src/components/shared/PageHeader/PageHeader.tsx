@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";

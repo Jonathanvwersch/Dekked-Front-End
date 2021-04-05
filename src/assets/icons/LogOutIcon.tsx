@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
 import { IconProps } from "./Icon.types";
 import { Svg } from "./Icon.styles";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 
 const LogOutIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);

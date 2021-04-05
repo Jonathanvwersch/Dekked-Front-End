@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { PlusIcon } from "../../../assets";
 import { FileTreeContext } from "../../../contexts";
 import { FILETREE_TYPES } from "../../../shared";

@@ -9,6 +9,10 @@ const en_GB = {
       saveChanges: "Save changes",
       cancel: "Cancel",
     },
+    notFoundPage: {
+      goHome: "Go home",
+      lost: "You're lost",
+    },
     sidebar: {
       workspace: {
         header: "Folders ({num})",

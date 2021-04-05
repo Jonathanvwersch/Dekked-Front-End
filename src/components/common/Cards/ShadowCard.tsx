@@ -1,6 +1,6 @@
 // Wrapper component for whenever you want to add a box shadow to a component
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { SIZES } from "../../../shared";
 
 interface ShadowCardProps {

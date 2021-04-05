@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { EditorContext } from "../../../contexts";
 import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { Card, HFlex, Spacer, Text } from "../../common";

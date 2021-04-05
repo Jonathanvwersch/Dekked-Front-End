@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { StudyQueueIcon } from "../../../assets";
 import { HoverCard, IconWrapper, Overlay } from "../../common";
 import { ThemeType } from "../../../styles/theme";

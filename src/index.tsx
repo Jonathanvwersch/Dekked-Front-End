@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/macro";
 import App from "./App";
 import { FileTreeContextProvider } from "./contexts/FileTreeContext";
 import { SidebarContextProvider } from "./contexts/SidebarContext";

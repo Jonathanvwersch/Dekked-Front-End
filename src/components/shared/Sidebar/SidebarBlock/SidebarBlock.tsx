@@ -16,7 +16,7 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
 import SidebarEditableText from "../SidebarBlockName/SidebarBlockName";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { positionModals } from "../../../../helpers";
 import { CoordsProps } from "../../../../helpers/positionModals";
 import {

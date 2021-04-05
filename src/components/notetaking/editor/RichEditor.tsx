@@ -25,7 +25,7 @@ import TextModal from "../TextModal/TextModal";
 
 import UnstyledComponent from "./UnstyledComponent/UnstyledComponent";
 import StyledComponent from "./StyledComponent/StyledComponent";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { EditorContext } from "../../../contexts/EditorContext";
 
 interface EditorProps {

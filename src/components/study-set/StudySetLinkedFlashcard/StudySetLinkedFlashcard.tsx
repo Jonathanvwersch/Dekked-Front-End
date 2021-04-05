@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { LogoIcon, SingleChevronIcon } from "../../../assets";
 import { ROTATE } from "../../../assets/icons/Icon.types";
