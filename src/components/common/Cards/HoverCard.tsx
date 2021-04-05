@@ -33,7 +33,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
       role="button"
       className={props.className}
       ref={cardRef}
-      ariaLabel={props.ariaLabel}
+      aria-label={props.ariaLabel}
       tabIndex={0}
       {...props}
       onClick={props.handleClick && props.handleClick}

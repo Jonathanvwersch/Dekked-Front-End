@@ -30,6 +30,11 @@ const IconActive: React.FC<IconActiveProps> = ({
     <StyledIconActive
       onMouseDown={handleMouseDown && handleMouseDown}
       onClick={handleClick && handleClick}
+      onKeyDown={(e: any) => {
+        if (e.key === "Enter")
+          (handleClick && handleClick(e)) ||
+            (handleMouseDown && handleMouseDown(e));
+      }}
       className={className}
       fillType={fillType}
       onMouseEnter={onMouseEnter}

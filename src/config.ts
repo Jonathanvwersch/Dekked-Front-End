@@ -1,5 +1,13 @@
-export const config = {
+import { StringMappingType } from "typescript";
+
+type ConfigType = {
+  api: string;
+  authToken: string;
+  GA_TRACKING_CODE: string;
+};
+
+export const config: ConfigType = {
   api: "https://dekked-api.onrender.com",
-  authToken:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9hZGRyZXNzIjoianBxbzk1MDhAZ21haWwuY29tIiwiaWF0IjoxNjE2MzUxNjA3LCJleHAiOjE2MjYzNTE2MDd9.vGTuVKGJL6sM-NuIYTxc3ToCCdvxc24a6BX4VFODp9Q",
+  authToken: process.env.REACT_APP_AUTH_TOKEN!,
+  GA_TRACKING_CODE: process.env.REACT_APP_GA_TRACKING_CODE!,
 };

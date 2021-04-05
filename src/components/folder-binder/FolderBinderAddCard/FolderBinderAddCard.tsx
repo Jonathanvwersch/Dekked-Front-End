@@ -26,7 +26,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
 
   return (
     <Card height="188px" width="170px" padding="0px" ariaLabel="Add item">
-      <StyledIconActive handleClick={handleAddItem}>
+      <StyledIconActive handleMouseDown={handleAddItem}>
         <PlusIcon size={theme.spacers.size80} />
       </StyledIconActive>
     </Card>
@@ -36,6 +36,8 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
 const StyledIconActive = styled(IconActive)`
   width: 100%;
   height: 100%;
+
+  &:focus,
   &:hover {
     box-shadow: ${({ theme }) => theme.boxShadow};
   }
