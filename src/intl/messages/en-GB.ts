@@ -80,8 +80,8 @@ const en_GB = {
     },
     studySet: {
       notetaking: {
-        numOfBlock: "{num} block",
-        numOfBlocks: "{num} blocks",
+        numOfWord: "{num} word",
+        numOfWords: "{num} words",
         placeholder: "Type '/' to view block types",
         toolbar: {
           body: "Body",

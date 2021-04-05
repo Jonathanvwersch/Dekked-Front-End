@@ -3,22 +3,23 @@ import {
   ContentState,
   DraftEditorCommand,
   DraftHandleValue,
-  Editor,
   EditorState,
   getDefaultKeyBinding,
   KeyBindingUtil,
   Modifier,
   RichUtils,
   SelectionState,
+  Editor,
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import {
   addNewBlockAt,
   getCurrentBlock,
+  getWordCount,
   isSoftNewlineEvent,
 } from "../Utils/editorUtils";
 import TextModal from "../TextModal/TextModal";
@@ -38,7 +39,13 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   //     ? EditorState.createWithContent(savedContent)
   //     : EditorState.createEmpty()
   // );
-  const { editorState, setEditorState, onSave } = useContext(EditorContext);
+  const {
+    editorState,
+    setEditorState,
+    onSave,
+    setNumOfWords,
+    numOfWords,
+  } = useContext(EditorContext);
 
   const editorRef = useRef<any>();
 
@@ -164,6 +171,10 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   const onChange = (e: EditorState) => {
     setEditorState(e);
   };
+
+  useEffect(() => {
+    setNumOfWords(getWordCount(editorState));
+  }, [numOfWords, editorState, setNumOfWords]);
 
   return (
     <EditorContainer>

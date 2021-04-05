@@ -16,16 +16,15 @@ interface StudySetHeaderProps {
 const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
-  const { numOfBlocks } = useContext(EditorContext);
+  const { numOfWords } = useContext(EditorContext);
   const { tab } = useParams<Params>();
 
   const message = (tab: TAB_TYPE) => {
-    console.log(tab);
     if (tab === TAB_TYPE.NOTES) {
       return getPluralOrSingular(
-        numOfBlocks,
-        "studySet.notetaking.numOfBlock",
-        "studySet.notetaking.numOfBlocks",
+        numOfWords,
+        "studySet.notetaking.numOfWord",
+        "studySet.notetaking.numOfWords",
         intl
       );
     }

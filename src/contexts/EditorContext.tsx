@@ -18,7 +18,8 @@ interface EditorContextProps {
   toggleInLineStyle: (style: string) => void;
   toggleBlockStyle: (style: string) => void;
   onSave: () => void;
-  numOfBlocks: number;
+  numOfWords: number;
+  setNumOfWords: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -27,7 +28,7 @@ export const EditorContext = createContext<EditorContextProps>(
 
 export const EditorContextProvider: React.FC = ({ children }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [numOfBlocks, setNumOfBlocks] = useState<number>(0);
+  const [numOfWords, setNumOfWords] = useState<number>(0);
   const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
@@ -53,7 +54,6 @@ export const EditorContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (blocks) {
-      setNumOfBlocks(blocks.length);
       const parsedBlocks: RawDraftContentBlock[] = blocks.map((blocks) =>
         JSON.parse(blocks)
       );
@@ -64,6 +64,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
       setEditorState(EditorState.createWithContent(savedState));
     }
   }, [blocks]);
+  console.log(blocks);
 
   return (
     <EditorContext.Provider
@@ -73,7 +74,8 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         toggleInLineStyle,
         toggleBlockStyle,
         onSave,
-        numOfBlocks,
+        numOfWords,
+        setNumOfWords,
       }}
     >
       {children}
