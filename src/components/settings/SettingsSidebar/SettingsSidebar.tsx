@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled, { ThemeContext } from "styled-components";
+import { usePageSetupHelpers } from "../../../hooks";
 import { Block } from "../../common";
 import SidebarScroller from "../../shared/Sidebar/SidebarScroller/SidebarScroller";
 import {
   SettingsSidebarData,
   SETTINGS_SIDEBAR_DATA,
 } from "./SettingSidebar.data";
+import { useIntl } from "react-intl";
 
 interface MainSettingsModalProps {
   handleBlockClick: (activeSetting: SETTINGS_SIDEBAR_DATA) => any;
@@ -16,11 +18,14 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
   handleBlockClick,
   activeSetting,
 }) => {
-  const theme = useContext(ThemeContext);
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
 
   return (
     <StyledSidebar>
-      <SidebarScroller heading={"sidebar.settingsModal.settings"}>
+      <SidebarScroller
+        heading={formatMessage("sidebar.settingsModal.settings")}
+      >
         {SettingsSidebarData.map((block) => {
           return (
             <Block

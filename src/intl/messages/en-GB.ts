@@ -11,7 +11,7 @@ const en_GB = {
     },
     sidebar: {
       workspace: {
-        header: "Home",
+        header: "Folders ({num})",
         untitled: "Untitled",
       },
       base: {
@@ -76,6 +76,8 @@ const en_GB = {
     },
     studySet: {
       notetaking: {
+        numOfBlock: "{num} block",
+        numOfBlocks: "{num} blocks",
         placeholder: "Type '/' to view block types",
         toolbar: {
           body: "Body",
@@ -104,10 +106,10 @@ const en_GB = {
     folderBinders: {
       created: "Created",
       untitled: "Untitled",
-      binders: "binders",
-      binder: "binder",
-      studySets: "study sets",
-      studySet: "study set",
+      numOfBinders: "{num} binders",
+      numOfBinder: "{num} binder",
+      numOfStudySets: "{num} study sets",
+      numOfStudySet: "{num} study set",
     },
     settings: {
       sidebar: {

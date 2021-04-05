@@ -3,13 +3,33 @@ import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components";
+import { EditorContext } from "../../../contexts";
+import { useIntl } from "react-intl";
+import { getPluralOrSingular } from "../../../helpers";
+import { Params, TAB_TYPE } from "../../../shared";
+import { useParams } from "react-router-dom";
 
 interface StudySetHeaderProps {
   headerRef?: React.RefObject<HTMLDivElement>;
 }
 
 const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
+  const intl = useIntl();
   const theme = useContext(ThemeContext);
+  const { numOfBlocks } = useContext(EditorContext);
+  const { tab } = useParams<Params>();
+
+  const message = (tab: TAB_TYPE) => {
+    console.log(tab);
+    if (tab === TAB_TYPE.NOTES) {
+      return getPluralOrSingular(
+        numOfBlocks,
+        "studySet.notetaking.numOfBlock",
+        "studySet.notetaking.numOfBlocks",
+        intl
+      );
+    }
+  };
 
   return (
     <>
@@ -20,7 +40,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
       <div ref={headerRef}>
         <VFlex>
           <Spacer height={theme.spacers.size16} />
-          <PageHeader />
+          <PageHeader message={message(tab)} />
         </VFlex>
       </div>
     </>

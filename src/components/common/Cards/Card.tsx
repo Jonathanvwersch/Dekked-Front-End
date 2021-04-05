@@ -9,10 +9,15 @@ interface CardProps {
   width?: string;
   border?: string;
   borderRadius?: string;
+  ariaLabel?: string;
 }
 
 const Card: React.FC<CardProps> = ({ children, ...props }) => {
-  return <StyledCard {...props}>{children}</StyledCard>;
+  return (
+    <StyledCard aria-label={props.ariaLabel} tabIndex={0} {...props}>
+      {children}
+    </StyledCard>
+  );
 };
 
 const StyledCard = styled.div<CardProps>`

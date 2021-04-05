@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-import { FileTreeContext } from "./contexts";
-import { LogInSignUpPage, NotFoundPage, OptionsPage } from "./pages";
-import { FILETREE_TYPES } from "./shared";
+import { Route, withRouter, Redirect } from "react-router-dom";
+import { FileTreeContext } from "../contexts";
+import { LogInSignUpPage, OptionsPage } from "../pages";
+import { FILETREE_TYPES } from "../shared";
+import CustomSwitch from "./CustomSwitch";
 
 const Routes = () => {
   const { fileTree, getAsset, handleAddingAsset, isTreeEmpty } = useContext(
@@ -19,8 +20,8 @@ const Routes = () => {
   }, [isTreeEmpty]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Switch>
-      <Route exact path="/" component={OptionsPage}>
+    <CustomSwitch>
+      <Route exact path="/">
         {firstFolderId && folderData && (
           <Redirect
             to={{
@@ -33,8 +34,7 @@ const Routes = () => {
       <Route path="/:type/:id" component={OptionsPage} />
       <Route path="/login" render={() => <LogInSignUpPage login={true} />} />
       <Route path="/sign-up" component={LogInSignUpPage} />
-      <Route component={NotFoundPage} />
-    </Switch>
+    </CustomSwitch>
   );
 };
 

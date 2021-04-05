@@ -1,6 +1,6 @@
 import React from "react";
-import Routes from "./Routes";
 import styled from "styled-components";
+import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
 
 export const App: React.FC = () => {

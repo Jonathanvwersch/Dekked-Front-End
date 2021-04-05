@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../../components/study-set";
 import { EditorContextProvider } from "../../contexts/EditorContext";
 import { useResize } from "../../hooks/useResize";
+import CustomSwitch from "../../Router/CustomSwitch";
 import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../shared";
 
 interface StudySetPageProps {}
@@ -30,7 +31,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
       <MainFrame>
         <InsetPage size={SIZES.SMALL}>
           <StudySetHeader headerRef={headerRef} />
-          <Switch>
+          <CustomSwitch>
             <Route
               path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
               render={() => (
@@ -47,7 +48,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
               path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
               component={StudySetFlashcardsContainer}
             />
-          </Switch>
+          </CustomSwitch>
         </InsetPage>
       </MainFrame>
     </EditorContextProvider>

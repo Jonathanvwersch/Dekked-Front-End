@@ -14,6 +14,7 @@ interface SelectedItemContextProps {
     | undefined;
   type: FILETREE_TYPES;
   id: string;
+  numOfFolders: number;
   numOfBinders: number;
   numOfStudySets: number;
   selectedBlockName: string;
@@ -28,6 +29,7 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>(
 export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const { type, id } = useParams<Params>();
   const { getAsset, fileTree } = useContext(FileTreeContext);
+  const [numOfFolders, setNumOfFolders] = useState<number>(0);
   const [numOfBinders, setNumOfBinders] = useState<number>(0);
   const [numOfStudySets, setNumOfStudySets] = useState<number>(0);
   const [folderData, setFolderData] = useState<FolderInterface>();
@@ -51,6 +53,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
       setSelectedItemData(getAsset(type, id) as FolderInterface);
+      setNumOfFolders(Object.keys(fileTree).length);
       folderData &&
         fileTree[folderData?.id]?.children &&
         setNumOfBinders(Object.keys(fileTree[folderData?.id]?.children).length);
@@ -59,6 +62,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
     } else if (type === FILETREE_TYPES.BINDER) {
       setBinderData(getAsset(type, id) as BinderInterface);
       setSelectedItemData(getAsset(type, id) as BinderInterface);
+      setNumOfFolders(Object.keys(fileTree).length);
       binderData &&
         setFolderData(
           getAsset(
@@ -77,6 +81,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
     } else if (type === FILETREE_TYPES.STUDY_SET) {
       setSelectedItemData(getAsset(type, id) as StudyPackInterface);
       setStudySetData(getAsset(type, id) as StudyPackInterface);
+      setNumOfFolders(Object.keys(fileTree).length);
       studySetData &&
         setBinderData(
           getAsset(
@@ -104,6 +109,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         studySetData,
         type,
         id,
+        numOfFolders,
         numOfBinders,
         numOfStudySets,
         selectedBlockName,

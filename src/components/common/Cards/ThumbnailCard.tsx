@@ -26,6 +26,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       padding="0px"
       border={`1px solid ${theme.colors.grey2}`}
       backgroundColor={theme.colors.backgrounds.pageBackground}
+      ariaLabel={topText}
     >
       <Thumbnail backgroundImage={backgroundImage} />
       <Description

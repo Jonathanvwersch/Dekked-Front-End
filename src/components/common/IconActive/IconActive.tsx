@@ -28,13 +28,13 @@ const IconActive: React.FC<IconActiveProps> = ({
 }) => {
   return (
     <StyledIconActive
-      aria-label="icon"
       onMouseDown={handleMouseDown && handleMouseDown}
       onClick={handleClick && handleClick}
       className={className}
       fillType={fillType}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      tabIndex={0}
     >
       {children}
     </StyledIconActive>
@@ -66,6 +66,7 @@ const StyledIconActive = styled.button<IconActiveProps>`
     }
   }
 
+  &:focus,
   &:active {
     & svg {
       & path {
