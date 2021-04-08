@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
-import { SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { Card, HFlex, Spacer, Text } from "../../common";
 
@@ -29,11 +28,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       ariaLabel={topText}
     >
       <Thumbnail backgroundImage={backgroundImage} />
-      <Description
-        borderRadius={`0px 0px ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
-          theme.sizes.borderRadius[SIZES.MEDIUM]
-        }`}
-      >
+      <Description borderRadius="0px">
         <Text className="overflow">{topText}</Text>
         <Spacer height={theme.spacers.size4} />
         <HFlex>
@@ -56,6 +51,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
 };
 const StyledCard = styled((props) => <Card {...props} />)`
   position: relative;
+  overflow: hidden;
 
   &:focus,
   &:hover {
@@ -83,7 +79,7 @@ const Description = styled((props) => <Card {...props} />)`
   bottom: 0;
   padding: 12px 16px;
   border-top: 1px solid ${({ theme }) => theme.colors.grey2};
-  min-height: 63px;
+  min-height: ${({ theme }) => theme.spacers.size64};
 `;
 
 export default ThumbnailCard;

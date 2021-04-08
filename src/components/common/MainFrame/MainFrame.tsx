@@ -29,7 +29,6 @@ const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
 export const StyledMainFrame = styled.div<MainFrameProps>`
   display: flex;
   flex-direction: column;
-  overflow: auto;
   background: ${({ theme, backgroundColor }) =>
     backgroundColor
       ? backgroundColor

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FileTreeContext } from "../../../../contexts";
+import { FileTreeContext, SidebarContext } from "../../../../contexts";
 import {
   BinderData,
   FolderData,
@@ -21,11 +21,12 @@ interface SidebarBlockModalProps {
   handleColorPicker: () => void;
   handleEditableText: () => void;
   editableTextRef: React.RefObject<HTMLDivElement>;
-  handleOpenBlock?: () => void;
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const { handleAddingAsset } = useContext(FileTreeContext);
+  const { handleOpenBlock } = useContext(SidebarContext);
+
   const modalData =
     props.type === FILETREE_TYPES.FOLDER
       ? FolderData
@@ -36,8 +37,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const handleAddItem = (e: MouseEvent) => {
     e.preventDefault();
     props.handleBlockModal();
-    props.handleOpenBlock && props.handleOpenBlock();
-
+    handleOpenBlock(props.id, true);
     if (props.type === FILETREE_TYPES.FOLDER) {
       handleAddingAsset(FILETREE_TYPES.BINDER, props.id);
     } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);

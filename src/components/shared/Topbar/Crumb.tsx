@@ -5,8 +5,8 @@ import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components/macro";
 import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES, Params } from "../../../shared";
-import { handleIconType } from "../Sidebar/SidebarBlock/SidebarBlock";
 import { useIntl } from "react-intl";
+import { handleIconType } from "../../../helpers";
 
 interface CrumbProps {
   breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;

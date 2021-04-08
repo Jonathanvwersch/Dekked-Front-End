@@ -24,8 +24,8 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
 
   return (
     <Overlay
-      state={openModal}
-      handleState={handleCloseModal}
+      isOpen={openModal}
+      handleClose={handleCloseModal}
       close
       center
       type={MODAL_TYPE.MODAL_LIGHTBOX}

@@ -1,18 +1,5 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  BinderIcon,
-  DotsMenuIcon,
-  DropDownArrowIcon,
-  FolderIcon,
-  StudySetIcon,
-} from "../../../../assets";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { DotsMenuIcon, DropDownArrowIcon } from "../../../../assets";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
 import SidebarEditableText from "../SidebarBlockName/SidebarBlockName";
@@ -30,29 +17,16 @@ import {
 } from "../../../common";
 import { SidebarBlockModal } from "..";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
-import { FileTreeContext } from "../../../../contexts";
+import { FileTreeContext, SidebarContext } from "../../../../contexts";
 import { ROTATE } from "../../../../assets/icons/Icon.types";
+import { handleIconType } from "../../../../helpers/handleIconType";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
   type: string;
-  setFolderOpen?: Dispatch<SetStateAction<boolean | undefined>>;
-  handleOpenBinder?: (id: string, isOpen?: boolean) => void;
 }
 
-export const handleIconType = (type: string, iconColor: string) => {
-  if (type === FILETREE_TYPES.FOLDER) return <FolderIcon color={iconColor} />;
-  else if (type === FILETREE_TYPES.BINDER)
-    return <BinderIcon color={iconColor} />;
-  else return <StudySetIcon color={iconColor} />;
-};
-
-const SidebarBlock: React.FC<SidebarBlockProps> = ({
-  blockData,
-  type,
-  setFolderOpen,
-  handleOpenBinder,
-}) => {
+const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const { pathname } = useLocation();
   const theme: ThemeType = useContext(ThemeContext);
@@ -62,15 +36,11 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { updateAsset } = useContext(FileTreeContext);
-
-  // Update icon color only if new icon color is different from current icon color
-  useEffect(() => {
-    if (blockData && iconColor !== blockData.color && colorPickerRef)
-      updateAsset(type, blockData.id, { color: iconColor });
-  }, [iconColor, blockData, colorPickerRef, type, updateAsset]);
-
+  const { isBlockOpen, handleOpenBlock, studySetTab } = useContext(
+    SidebarContext
+  );
+  const studySetTabLink = studySetTab[blockData.id] || TAB_TYPE.NOTES;
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16
@@ -80,34 +50,34 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
       ? theme.spacers.size48
       : null;
 
+  // Update icon color only if new icon color is different from current icon color
+  useEffect(() => {
+    if (blockData && iconColor !== blockData.color && colorPickerRef)
+      updateAsset(type, blockData.id, { color: iconColor });
+  }, [iconColor, blockData, colorPickerRef, type, updateAsset]);
+
   const handleBlockModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.preventDefault();
     e.stopPropagation();
     setBlockModal(true);
-    // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
     const blockModalHeight = 128;
     setCoords(positionModals(e, blockModalHeight));
   };
 
+  // open block on click of dropdown arrow
   const handleExpandBlock = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsExpanded((prevState) => !prevState);
-    if (type === FILETREE_TYPES.FOLDER)
-      setFolderOpen && setFolderOpen((prevState) => !prevState);
-    else if (type === FILETREE_TYPES.BINDER)
-      handleOpenBinder && handleOpenBinder(blockData.id);
+    handleOpenBlock(blockData.id);
   };
 
-  const handleOpenBlock = () => {
-    setIsExpanded(true);
-    if (type === FILETREE_TYPES.FOLDER) setFolderOpen && setFolderOpen(true);
-    else if (type === FILETREE_TYPES.BINDER)
-      handleOpenBinder && handleOpenBinder(blockData.id, true);
+  // rotate dropdown arrow on click
+  const handleDropDownArrow = () => {
+    return isBlockOpen ? isBlockOpen[blockData.id] : false;
   };
 
   return (
@@ -118,12 +88,11 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             pathname:
               type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
                 ? `/${type}/${blockData.id}`
-                : `/${type}/${blockData.id}/${TAB_TYPE.NOTES}`,
+                : `/${type}/${blockData.id}/${studySetTabLink}`,
           }}
           isActive={() => {
             if (
-              pathname === `/${type}/${blockData.id}/${TAB_TYPE.FLASHCARDS}` ||
-              pathname === `/${type}/${blockData.id}/${TAB_TYPE.NOTES}` ||
+              pathname === `/${type}/${blockData.id}/${studySetTabLink}` ||
               pathname === `/${type}/${blockData.id}`
             )
               return true;
@@ -149,7 +118,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
                       ) => handleExpandBlock(e)}
                     >
                       <DropDownArrowIcon
-                        rotate={isExpanded ? ROTATE.NINETY : ROTATE.ZERO}
+                        rotate={
+                          handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO
+                        }
                       />
                     </IconActive>
                   ) : null}
@@ -187,7 +158,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
               handleColorPicker={() => setColorPicker(true)}
               type={type}
               id={blockData.id}
-              handleOpenBlock={handleOpenBlock}
               handleEditableText={() => setIsEditable(true)}
               editableTextRef={editableTextRef}
               iconColor={iconColor}
@@ -197,8 +167,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             <ColorPicker
               id={blockData.id}
               type={type as FILETREE_TYPES}
-              state={colorPicker}
-              handleState={() => setColorPicker(false)}
+              isOpen={colorPicker}
+              handleClose={() => setColorPicker(false)}
               coords={coords}
               colorPickerRef={colorPickerRef}
               iconColor={iconColor}
@@ -227,4 +197,4 @@ const StyledBlock = styled.div`
   }
 `;
 
-export default SidebarBlock;
+export default React.memo(SidebarBlock);

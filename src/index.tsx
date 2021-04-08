@@ -12,11 +12,11 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <IntlProvider locale={LOCALES.ENGLISH_GB}>
       <FileTreeContextProvider>
-        <SidebarContextProvider>
-          <Router>
+        <Router>
+          <SidebarContextProvider>
             <App />
-          </Router>
-        </SidebarContextProvider>
+          </SidebarContextProvider>
+        </Router>
       </FileTreeContextProvider>
     </IntlProvider>
   </ThemeProvider>,

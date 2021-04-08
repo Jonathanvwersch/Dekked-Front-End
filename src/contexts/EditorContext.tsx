@@ -64,7 +64,6 @@ export const EditorContextProvider: React.FC = ({ children }) => {
       setEditorState(EditorState.createWithContent(savedState));
     }
   }, [blocks]);
-  console.log(blocks);
 
   return (
     <EditorContext.Provider

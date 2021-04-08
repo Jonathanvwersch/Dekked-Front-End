@@ -6,11 +6,13 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";
 import { useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
+import { SidebarContext } from "../../../contexts";
 
 const StudySetTabSwitcher: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
   const { type, id } = useContext(SelectedItemContext);
+  const { handleStudySetTab } = useContext(SidebarContext);
 
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
@@ -19,7 +21,11 @@ const StudySetTabSwitcher: React.FC = () => {
 
   const tabLink = (slug: TAB_TYPE, text: string) => {
     return (
-      <NavLink to={`/${type}/${id}/${slug}`} activeStyle={activeTabStyle}>
+      <NavLink
+        to={`/${type}/${id}/${slug}`}
+        activeStyle={activeTabStyle}
+        onClick={() => handleStudySetTab(id, slug)}
+      >
         <Text
           hover={theme.colors.primary}
           filterActive

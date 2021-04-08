@@ -28,8 +28,8 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
 
   return (
     <Overlay
-      state={isOpen}
-      handleState={handleClose}
+      isOpen={isOpen}
+      handleClose={handleClose}
       type={type}
       center={true}
       close={true}

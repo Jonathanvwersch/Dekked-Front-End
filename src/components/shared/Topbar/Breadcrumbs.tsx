@@ -7,6 +7,7 @@ import { HFlex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
+import { SidebarContext } from "../../../contexts";
 
 const Breadcrumbs: React.FC = () => {
   const { folderData, binderData, studySetData, type, loading } = useContext(
@@ -14,28 +15,33 @@ const Breadcrumbs: React.FC = () => {
   );
   const { studyModes } = useParams<Params>();
   const { url } = useRouteMatch();
-
   const intl = useIntl();
+  const { studySetTab } = useContext(SidebarContext);
 
   return !loading ? (
     <HFlex>
-      <Crumb
-        breadCrumbData={folderData}
-        breadCrumbType={FILETREE_TYPES.FOLDER}
-        link={`/${FILETREE_TYPES.FOLDER}/${folderData?.id}`}
-      />
-      {type === FILETREE_TYPES.BINDER || type === FILETREE_TYPES.STUDY_SET ? (
+      {folderData && (
+        <Crumb
+          breadCrumbData={folderData}
+          breadCrumbType={FILETREE_TYPES.FOLDER}
+          link={`/${FILETREE_TYPES.FOLDER}/${folderData.id}`}
+        />
+      )}
+      {(type === FILETREE_TYPES.BINDER || type === FILETREE_TYPES.STUDY_SET) &&
+      binderData ? (
         <Crumb
           breadCrumbData={binderData}
           breadCrumbType={FILETREE_TYPES.BINDER}
-          link={`/${FILETREE_TYPES.BINDER}/${binderData?.id}`}
+          link={`/${FILETREE_TYPES.BINDER}/${binderData.id}`}
         />
       ) : null}
-      {type === FILETREE_TYPES.STUDY_SET ? (
+      {type === FILETREE_TYPES.STUDY_SET && studySetData ? (
         <Crumb
           breadCrumbData={studySetData}
           breadCrumbType={FILETREE_TYPES.STUDY_SET}
-          link={`/${FILETREE_TYPES.STUDY_SET}/${studySetData?.id}/${TAB_TYPE.NOTES}`}
+          link={`/${FILETREE_TYPES.STUDY_SET}/${studySetData.id}/${
+            studySetTab[studySetData.id] || TAB_TYPE.NOTES
+          }`}
         />
       ) : null}
       {studyModes ? (

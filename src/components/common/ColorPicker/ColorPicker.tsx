@@ -7,8 +7,8 @@ import { CoordsProps } from "../../../helpers/positionModals";
 import { FILETREE_TYPES, MODAL_TYPE, SIZES } from "../../../shared";
 
 interface ColorPickerProps {
-  state: boolean;
-  handleState: () => void;
+  isOpen: boolean;
+  handleClose: () => void;
   coords: CoordsProps;
   iconColor: string;
   setIconColor: Dispatch<SetStateAction<string>>;
@@ -18,8 +18,8 @@ interface ColorPickerProps {
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
-  state,
-  handleState,
+  isOpen,
+  handleClose,
   coords,
   iconColor,
   setIconColor,
@@ -53,8 +53,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <Overlay
-      state={state}
-      handleState={handleState}
+      isOpen={isOpen}
+      handleClose={handleClose}
       coords={coords}
       type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
     >
@@ -107,4 +107,4 @@ const StyledColorPicker = styled.div`
   }
 `;
 
-export default ColorPicker;
+export default React.memo(ColorPicker);

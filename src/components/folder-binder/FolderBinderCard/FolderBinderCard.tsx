@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
 import { ThumbnailCard } from "../../common";
-import { handleIconType } from "../../shared/Sidebar/SidebarBlock/SidebarBlock";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
+import { handleIconType } from "../../../helpers";
 
 interface FolderBinderCardProps {
   data: BinderInterface | StudyPackInterface;

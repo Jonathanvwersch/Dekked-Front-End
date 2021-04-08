@@ -9,6 +9,7 @@ import ReactGa from "react-ga";
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
 
+  // Google analytics user tracking
   useEffect(() => {
     ReactGa.pageview(window.location.pathname + window.location.search);
   });
@@ -24,7 +25,10 @@ export const App: React.FC = () => {
 export default withRouter(App);
 
 const StyledApp = styled.div`
+  width: 100vw;
+  position: relative;
   height: 100vh;
+  flex: 1 1 0%;
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
 `;

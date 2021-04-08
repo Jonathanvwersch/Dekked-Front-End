@@ -37,8 +37,8 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
         </StudyQueue>
       </Container>
       <Overlay
-        state={studyQueueModal}
-        handleState={() => setStudyQueueModal(false)}
+        isOpen={studyQueueModal}
+        handleClose={() => setStudyQueueModal(false)}
         coords={{ bottom: 78, right: 78 }}
       >
         <StudyQueueModal />

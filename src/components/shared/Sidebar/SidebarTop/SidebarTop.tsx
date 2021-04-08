@@ -23,7 +23,7 @@ import { OpenSettingsModal } from "../../../settings";
 interface SidebarTopProps {}
 
 const SidebarTop: React.FC<SidebarTopProps> = () => {
-  const { handleSidebar } = useContext(SidebarContext);
+  const { handleSidebar, sidebar } = useContext(SidebarContext);
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsProps>();
@@ -61,7 +61,9 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
 
           <DoubleChevronIconContainer>
             <IconActive handleClick={handleSidebar}>
-              <DoubleChevronIcon />
+              <DoubleChevronIcon
+                rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
+              />
             </IconActive>
           </DoubleChevronIconContainer>
         </StyledSidebarTop>

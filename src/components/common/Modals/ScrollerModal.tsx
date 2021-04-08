@@ -49,7 +49,12 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   }, [open, activeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Overlay state={open} handleState={handleClose} coords={coords} type={type}>
+    <Overlay
+      isOpen={open}
+      handleClose={handleClose}
+      coords={coords}
+      type={type}
+    >
       <ShadowCard cardRef={cardRef} width={theme.sizes.modal.small}>
         {data.map((item, index) => {
           return (

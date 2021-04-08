@@ -9,8 +9,8 @@ import IconActive from "../IconActive/IconActive";
 
 interface OverlayProps {
   children: JSX.Element;
-  state: boolean;
-  handleState: () => void;
+  isOpen: boolean;
+  handleClose: () => void;
   type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
@@ -19,8 +19,8 @@ interface OverlayProps {
 
 const Overlay: React.FC<OverlayProps> = ({
   children,
-  state,
-  handleState,
+  isOpen,
+  handleClose,
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
   center,
   close,
@@ -37,9 +37,9 @@ const Overlay: React.FC<OverlayProps> = ({
   // Close modal on press of escape key
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleState();
+      if (e.key === "Escape") handleClose();
     },
-    [handleState]
+    [handleClose]
   );
 
   useEffect(() => {
@@ -56,10 +56,10 @@ const Overlay: React.FC<OverlayProps> = ({
           type === MODAL_TYPE.NON_MODAL_LIGHTBOX) &&
         !modalRef?.current.contains(e.target)
       ) {
-        handleState();
+        handleClose();
       }
     },
-    [handleState, type]
+    [handleClose, type]
   );
 
   useEffect(() => {
@@ -74,15 +74,15 @@ const Overlay: React.FC<OverlayProps> = ({
   }, [modalRef, handleClickOutside]);
 
   return createPortal(
-    state ? (
-      <OuterContainer>
+    isOpen ? (
+      <OuterContainer id="Portal">
         <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
             <ModalType
               className={type}
               onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                 e.preventDefault();
-                handleState();
+                handleClose();
               }}
             />
           ) : null}
@@ -94,7 +94,7 @@ const Overlay: React.FC<OverlayProps> = ({
             {children}
             {close ? (
               <CloseIconContainer>
-                <IconActive handleClick={handleState}>
+                <IconActive handleClick={handleClose}>
                   <CloseIcon size={SIZES.LARGE} />
                 </IconActive>
               </CloseIconContainer>
@@ -173,4 +173,4 @@ const CloseIconContainer = styled.div`
   margin: 8px 16px 0px 0px;
 `;
 
-export default Overlay;
+export default React.memo(Overlay);

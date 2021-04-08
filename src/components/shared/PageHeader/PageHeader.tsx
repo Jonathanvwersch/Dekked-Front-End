@@ -48,12 +48,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
         </HFlex>
         <Spacer height={theme.spacers.size32} />
       </VFlex>
-      {studyMode ? (
-        <StudyModeModal
-          isOpen={studyMode}
-          handleClose={() => setStudyMode(false)}
-        />
-      ) : null}
+      <StudyModeModal
+        isOpen={studyMode}
+        handleClose={() => setStudyMode(false)}
+      />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext } from ".";
-import { FILETREE_TYPES, Params } from "../shared";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
 
 interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
@@ -20,6 +20,7 @@ interface SelectedItemContextProps {
   selectedBlockName: string;
   handleSelectedBlockName: (name: string) => void;
   loading: boolean;
+  tab: TAB_TYPE;
 }
 
 export const SelectedItemContext = createContext<SelectedItemContextProps>(
@@ -27,7 +28,7 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>(
 );
 
 export const SelectedItemContextProvider: React.FC = ({ children }) => {
-  const { type, id } = useParams<Params>();
+  const { type, id, tab } = useParams<Params>();
   const { getAsset, fileTree } = useContext(FileTreeContext);
   const [numOfFolders, setNumOfFolders] = useState<number>(0);
   const [numOfBinders, setNumOfBinders] = useState<number>(0);
@@ -115,6 +116,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         selectedBlockName,
         handleSelectedBlockName,
         loading,
+        tab,
       }}
     >
       {children}
