@@ -1,12 +1,27 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import React, { useContext, useLayoutEffect } from "react";
+import { Route, useHistory, useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import { Sidebar } from "../../components/shared/Sidebar";
-import { FILETREE_TYPES } from "../../shared";
+import { FILETREE_TYPES, Params } from "../../shared";
 import CustomSwitch from "../../Router/CustomSwitch";
+import { FileTreeContext } from "../../contexts";
 
-const OptionsPage: React.FC = () => {
+interface OptionsPageProps {
+  firstFolderId: string;
+}
+
+const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
+  const { type, id } = useParams<Params>();
+  const { getAsset } = useContext(FileTreeContext);
+  const history = useHistory();
+  const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
+
+  // if id doesn't exist, just push to first folder
+  useLayoutEffect(() => {
+    if (!getAsset(type, id) && firstFolderId) history.push(firstFolderLink);
+  }, [type, id, history, getAsset, firstFolderId, firstFolderLink]);
+
   return (
     <SelectedItemContextProvider>
       <Sidebar />

@@ -11,7 +11,7 @@ const en_GB = {
     },
     notFoundPage: {
       goHome: "Go home",
-      lost: "You're lost",
+      mainMessage: "That link does not exist",
     },
     sidebar: {
       workspace: {

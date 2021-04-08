@@ -19,7 +19,7 @@ const NotFoundPage: React.FC = () => {
     <HFlex width="100%" height="100%" justifyContent="center">
       <VFlex>
         <Text fontSize={theme.typography.fontSizes.size16}>
-          {formatMessage("notFoundPage.lost", intl)}
+          {formatMessage("notFoundPage.mainMessage", intl)}
         </Text>
         <Spacer height={theme.spacers.size8} />
         <Link to="/">

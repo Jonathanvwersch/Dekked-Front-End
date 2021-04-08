@@ -40,7 +40,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const { isBlockOpen, handleOpenBlock, studySetTab } = useContext(
     SidebarContext
   );
-  const studySetTabLink = studySetTab[blockData.id] || TAB_TYPE.NOTES;
+  const studySetTabLink = studySetTab[blockData?.id] || TAB_TYPE.NOTES;
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16

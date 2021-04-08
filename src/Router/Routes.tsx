@@ -10,6 +10,7 @@ const Routes = () => {
     FileTreeContext
   );
   const firstFolderId = Object.keys(fileTree)[0];
+  const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
   const folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);
 
   useEffect(() => {
@@ -25,13 +26,16 @@ const Routes = () => {
         {firstFolderId && folderData && (
           <Redirect
             to={{
-              pathname: `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`,
+              pathname: firstFolderLink,
               state: { folderData: folderData },
             }}
           />
         )}
       </Route>
-      <Route path="/:type/:id" component={OptionsPage} />
+      <Route
+        path="/:type/:id"
+        render={() => <OptionsPage firstFolderId={firstFolderId} />}
+      />
       <Route path="/login" render={() => <LogInSignUpPage login={true} />} />
       <Route path="/sign-up" component={LogInSignUpPage} />
     </CustomSwitch>
