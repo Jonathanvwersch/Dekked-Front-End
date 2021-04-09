@@ -22,8 +22,8 @@ const en_GB = {
         addFolder: "Add folder",
       },
       block: {
-        noBinders: "No binders inside",
-        noStudySets: "No study sets inside",
+        noBinders: "This folder is empty",
+        noStudySets: "This binder is empty",
       },
       blockModal: {
         addBinder: "Add binder",

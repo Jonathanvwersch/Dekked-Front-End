@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { handleUntitled } from "../../../helpers/handleUntitled";
-import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
+import { FILETREE_TYPES } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { handleIconType } from "../../../helpers";
+import { getChildType, handleIconType } from "../../../helpers";
+import { SidebarContext } from "../../../contexts";
 
 interface FolderBinderCardProps {
   data: BinderInterface | StudyPackInterface;
@@ -14,20 +15,18 @@ interface FolderBinderCardProps {
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const intl = useIntl();
-
-  const childType =
-    type === FILETREE_TYPES.FOLDER
-      ? FILETREE_TYPES.BINDER
-      : FILETREE_TYPES.STUDY_SET;
+  const { studySetTabLink } = useContext(SidebarContext);
 
   return (
     <>
       {data ? (
         <NavLink
           to={
-            childType === FILETREE_TYPES.BINDER
-              ? `/${childType}/${data?.id}`
-              : `/${childType}/${data?.id}/${TAB_TYPE.NOTES}`
+            getChildType(type) === FILETREE_TYPES.BINDER
+              ? `/${FILETREE_TYPES.BINDER}/${data?.id}`
+              : `/${FILETREE_TYPES.STUDY_SET}/${data?.id}/${studySetTabLink(
+                  data?.id
+                )}`
           }
         >
           <ThumbnailCard
@@ -35,7 +34,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
             bottomText={`${formatMessage("folderBinders.created", intl)} ${
               data?.date_created
             }`}
-            icon={handleIconType(childType, data?.color)}
+            icon={handleIconType(getChildType(type), data?.color)}
           />
         </NavLink>
       ) : null}

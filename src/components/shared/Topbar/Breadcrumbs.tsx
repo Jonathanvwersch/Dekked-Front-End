@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { StudyModeIcon } from "../../../assets";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
+import { FILETREE_TYPES, Params } from "../../../shared";
 import { HFlex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
@@ -16,7 +16,7 @@ const Breadcrumbs: React.FC = () => {
   const { studyModes } = useParams<Params>();
   const { url } = useRouteMatch();
   const intl = useIntl();
-  const { studySetTab } = useContext(SidebarContext);
+  const { studySetTabLink } = useContext(SidebarContext);
 
   return !loading ? (
     <HFlex>
@@ -27,8 +27,7 @@ const Breadcrumbs: React.FC = () => {
           link={`/${FILETREE_TYPES.FOLDER}/${folderData.id}`}
         />
       )}
-      {(type === FILETREE_TYPES.BINDER || type === FILETREE_TYPES.STUDY_SET) &&
-      binderData ? (
+      {type !== FILETREE_TYPES.FOLDER && binderData ? (
         <Crumb
           breadCrumbData={binderData}
           breadCrumbType={FILETREE_TYPES.BINDER}
@@ -39,9 +38,9 @@ const Breadcrumbs: React.FC = () => {
         <Crumb
           breadCrumbData={studySetData}
           breadCrumbType={FILETREE_TYPES.STUDY_SET}
-          link={`/${FILETREE_TYPES.STUDY_SET}/${studySetData.id}/${
-            studySetTab[studySetData.id] || TAB_TYPE.NOTES
-          }`}
+          link={`/${FILETREE_TYPES.STUDY_SET}/${
+            studySetData.id
+          }/${studySetTabLink(studySetData.id)}`}
         />
       ) : null}
       {studyModes ? (

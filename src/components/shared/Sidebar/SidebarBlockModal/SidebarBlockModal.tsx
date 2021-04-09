@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FileTreeContext, SidebarContext } from "../../../../contexts";
+import { SidebarContext } from "../../../../contexts";
 import {
   BinderData,
   FolderData,
@@ -9,6 +9,7 @@ import {
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES } from "../../../../shared";
 import { CoordsProps } from "../../../../helpers/positionModals";
+import { getChildType } from "../../../../helpers";
 
 interface SidebarBlockModalProps {
   state: boolean;
@@ -24,8 +25,7 @@ interface SidebarBlockModalProps {
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
-  const { handleAddingAsset } = useContext(FileTreeContext);
-  const { handleOpenBlock } = useContext(SidebarContext);
+  const { handleAddBlock } = useContext(SidebarContext);
 
   const modalData =
     props.type === FILETREE_TYPES.FOLDER
@@ -37,10 +37,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const handleAddItem = (e: MouseEvent) => {
     e.preventDefault();
     props.handleBlockModal();
-    handleOpenBlock(props.id, true);
-    if (props.type === FILETREE_TYPES.FOLDER) {
-      handleAddingAsset(FILETREE_TYPES.BINDER, props.id);
-    } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, props.id);
+    handleAddBlock(props.id, getChildType(props.type as FILETREE_TYPES));
   };
 
   const handleRecolor = (e: MouseEvent) => {

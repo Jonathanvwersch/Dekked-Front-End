@@ -1,6 +1,7 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { useStorageState } from "../hooks";
-import { TAB_TYPE } from "../shared";
+import { FILETREE_TYPES, TAB_TYPE } from "../shared";
+import { FileTreeContext } from "./FileTreeContext";
 
 interface SidebarContextProps {
   sidebar: boolean;
@@ -10,6 +11,8 @@ interface SidebarContextProps {
   handleOpenBlock: (id: string, isOpen?: boolean) => void;
   studySetTab: { [id: string]: TAB_TYPE };
   handleStudySetTab: (id: string, tab: TAB_TYPE) => void;
+  handleAddBlock: (id: string, type: FILETREE_TYPES) => void;
+  studySetTabLink: (id: string) => any;
 }
 
 export const SidebarContext = createContext<SidebarContextProps>(
@@ -17,6 +20,8 @@ export const SidebarContext = createContext<SidebarContextProps>(
 );
 
 export const SidebarContextProvider: React.FC = ({ children }) => {
+  const { handleAddingAsset } = useContext(FileTreeContext);
+
   // handle opening and closing of sidebar
   const [sidebar, setSidebar] = useStorageState(true, "sidebar-state");
   const handleSidebar = () => {
@@ -28,6 +33,10 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     {} as { [id: string]: TAB_TYPE },
     "study-set-tabs-state"
   );
+
+  const studySetTabLink = (id: string) => {
+    return studySetTab[id] || TAB_TYPE.NOTES;
+  };
 
   // helper function to set state of study set tabs per block
   const handleStudySetTab = (id: string, tab: TAB_TYPE) => {
@@ -56,6 +65,11 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     setIsBlockOpen(fileCopy);
   };
 
+  const handleAddBlock = (id: string, type: FILETREE_TYPES) => {
+    handleOpenBlock(id, true);
+    handleAddingAsset(type, id);
+  };
+
   return (
     <SidebarContext.Provider
       value={{
@@ -66,6 +80,8 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
         handleOpenBlock,
         studySetTab,
         handleStudySetTab,
+        handleAddBlock,
+        studySetTabLink,
       }}
     >
       {children}

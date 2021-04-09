@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { DotsMenuIcon, DropDownArrowIcon } from "../../../../assets";
+import { DotsMenuIcon, DropDownArrowIcon, PlusIcon } from "../../../../assets";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
 import SidebarEditableText from "../SidebarBlockName/SidebarBlockName";
 import styled, { ThemeContext } from "styled-components/macro";
-import { positionModals } from "../../../../helpers";
+import { getChildType, positionModals } from "../../../../helpers";
 import { CoordsProps } from "../../../../helpers/positionModals";
 import {
   Card,
@@ -37,10 +37,12 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
   const { updateAsset } = useContext(FileTreeContext);
-  const { isBlockOpen, handleOpenBlock, studySetTab } = useContext(
-    SidebarContext
-  );
-  const studySetTabLink = studySetTab[blockData?.id] || TAB_TYPE.NOTES;
+  const {
+    isBlockOpen,
+    handleOpenBlock,
+    studySetTabLink,
+    handleAddBlock,
+  } = useContext(SidebarContext);
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16
@@ -56,6 +58,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       updateAsset(type, blockData.id, { color: iconColor });
   }, [iconColor, blockData, colorPickerRef, type, updateAsset]);
 
+  // open and position block modal
   const handleBlockModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -80,6 +83,13 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     return isBlockOpen ? isBlockOpen[blockData.id] : false;
   };
 
+  // add item on click of plus icon
+  const handleAddItem = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleAddBlock(blockData.id, getChildType(type as FILETREE_TYPES));
+  };
+
   return (
     <>
       {blockData ? (
@@ -88,11 +98,12 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
             pathname:
               type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
                 ? `/${type}/${blockData.id}`
-                : `/${type}/${blockData.id}/${studySetTabLink}`,
+                : `/${type}/${blockData.id}/${studySetTabLink(blockData.id)}`,
           }}
           isActive={() => {
             if (
-              pathname === `/${type}/${blockData.id}/${studySetTabLink}` ||
+              pathname ===
+                `/${type}/${blockData.id}/${studySetTabLink(blockData.id)}` ||
               pathname === `/${type}/${blockData.id}`
             )
               return true;
@@ -136,7 +147,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                     blockName={blockData.name}
                   />
                   <Spacer width={theme.spacers.size4} />
-                  <DotsMenuIconContainer>
+                  <HiddenIconsContainer>
                     <IconActive
                       handleClick={(
                         e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -144,7 +155,14 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                     >
                       <DotsMenuIcon />
                     </IconActive>
-                  </DotsMenuIconContainer>
+                    <IconActive
+                      handleClick={(
+                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                      ) => handleAddItem(e)}
+                    >
+                      <PlusIcon />
+                    </IconActive>
+                  </HiddenIconsContainer>
                 </HFlex>
               </Card>
             </StyledBlock>
@@ -181,7 +199,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   );
 };
 
-const DotsMenuIconContainer = styled.div`
+const HiddenIconsContainer = styled.div`
   visibility: hidden;
   opacity: 0;
   display: none;
@@ -189,7 +207,7 @@ const DotsMenuIconContainer = styled.div`
 
 const StyledBlock = styled.div`
   &:hover {
-    ${DotsMenuIconContainer} {
+    ${HiddenIconsContainer} {
       opacity: 1;
       visibility: visible;
       display: flex;
