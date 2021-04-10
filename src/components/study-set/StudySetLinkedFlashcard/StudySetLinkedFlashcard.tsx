@@ -24,7 +24,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
     >
       <Tab
         handleClick={() => setShowFlashcard((prevState) => !prevState)}
-        fillType={FILL_TYPE.BOTH}
+        fillType={FILL_TYPE.STROKE}
       >
         <LogoIcon size={SIZES.MEDIUM} />
       </Tab>

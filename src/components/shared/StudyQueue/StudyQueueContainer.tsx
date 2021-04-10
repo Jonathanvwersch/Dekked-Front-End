@@ -21,11 +21,15 @@ const StudyQueueContainer: React.FC = () => {
             1
           </Text>
         </Notifications> */}
-        <Tooltip id="StudyQueue" text="tooltips.studyQueue.bubble">
-          <StudyQueue
-            handleClick={() => setStudyQueueModal(true)}
-            backgroundColor={theme.colors.primary}
-            ariaLabel="study queue"
+        <StudyQueue
+          handleClick={() => setStudyQueueModal(true)}
+          backgroundColor={theme.colors.primary}
+          ariaLabel="study queue"
+        >
+          <Tooltip
+            id="StudyQueue"
+            text="tooltips.studyQueue.bubble"
+            offset={{ left: 10 }}
           >
             <IconWrapper>
               <StudyQueueIcon
@@ -33,8 +37,8 @@ const StudyQueueContainer: React.FC = () => {
                 color={theme.colors.backgrounds.pageBackground}
               />
             </IconWrapper>
-          </StudyQueue>
-        </Tooltip>
+          </Tooltip>
+        </StudyQueue>
       </Container>
       <StudyQueueModal
         isOpen={studyQueueModal}
