@@ -1,5 +1,3 @@
-import { StringMappingType } from "typescript";
-
 type ConfigType = {
   api: string;
   authToken: string;
