@@ -20,7 +20,6 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
 
-  <<<<<<< HEAD
   // before checking if the id exists by using the getAsset function, we first need to make sure that
   // the file files (folders, binders, and study sets) have been successfully fetched
   const doFilesExist = useCallback(() => {
