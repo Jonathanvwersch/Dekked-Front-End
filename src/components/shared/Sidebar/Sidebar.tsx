@@ -1,12 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import styled, { css } from "styled-components/macro";
+import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
 import { SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { SIZES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
-import SidebarBase from "./SidebarBase/SidebarBase";
-import SidebarTop from "./SidebarTop/SidebarTop";
-import SidebarWorkspace from "./SidebarWorkspace/SidebarWorkspace";
 
 interface SidebarProps {}
 

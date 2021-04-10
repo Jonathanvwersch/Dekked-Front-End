@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
-import { LogoIcon, SingleChevronIcon } from "../../../assets";
-import { ROTATE } from "../../../assets/icons/Icon.types";
+import { LogoIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { VFlex, IconActive } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
@@ -17,19 +16,6 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   flashcardPosition,
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-
-  const iconType = () => {
-    if (isHovered && showFlashcard) {
-      return <SingleChevronIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />;
-    } else if (isHovered && !showFlashcard) {
-      return (
-        <SingleChevronIcon size={SIZES.MEDIUM} rotate={ROTATE.TWOSEVENTY} />
-      );
-    } else {
-      return <LogoIcon size={SIZES.MEDIUM} />;
-    }
-  };
 
   return (
     <LinkedCard
@@ -39,10 +25,8 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
       <Tab
         handleClick={() => setShowFlashcard((prevState) => !prevState)}
         fillType={FILL_TYPE.BOTH}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
-        {iconType()}
+        <LogoIcon size={SIZES.MEDIUM} />
       </Tab>
       {showFlashcard ? <StudySetFlashcard linked={true} /> : null}
     </LinkedCard>

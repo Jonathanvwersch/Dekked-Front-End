@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { StudySetToolbarModalData } from "./StudySetToolbarModal.data";
 import { ScrollerModal } from "../../common";
-import { CoordsProps } from "../../../helpers/positionModals";
 import { EditorContext } from "../../../contexts/EditorContext";
+import { CoordsType } from "../../../shared";
 
 interface StudySetToolbarModalProps {
   open: boolean;
   handleClose: () => void;
-  coords: CoordsProps;
+  coords: CoordsType;
 }
 
 const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "./Icon.types";
-import { Svg } from "./Icon.styles";
+import { Svg, IconProps } from "..";
+
 import { ThemeContext } from "styled-components/macro";
 
 const LeftAlignIcon: React.FC<IconProps> = ({ color, size }) => {

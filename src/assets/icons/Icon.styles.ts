@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
+import { IconProps } from "..";
 import { SIZES } from "../../shared";
 import Icon from "./Icon";
-import { IconProps } from "./Icon.types";
 
 // SVG wrapper component to be used when height and width of the component are equal to one another
 // If no size is provided the SVG will default to a size of small, otherwise it will equal the specified size

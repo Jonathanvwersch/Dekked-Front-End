@@ -13,3 +13,10 @@ export type Params = {
   type: FILETREE_TYPES;
   studyModes: STUDY_MODE_TYPES;
 };
+
+export type CoordsType = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+};

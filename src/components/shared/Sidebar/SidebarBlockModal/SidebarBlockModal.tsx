@@ -7,14 +7,13 @@ import {
   StudySetData,
 } from "./SidebarBlockModal.data";
 import { ScrollerModal } from "../../../common";
-import { FILETREE_TYPES } from "../../../../shared";
-import { CoordsProps } from "../../../../helpers/positionModals";
+import { FILETREE_TYPES, CoordsType } from "../../../../shared";
 import { getChildType } from "../../../../helpers";
 
 interface SidebarBlockModalProps {
   state: boolean;
   handleState: () => void;
-  coords: CoordsProps;
+  coords: CoordsType;
   type: string;
   id: string;
   iconColor: string;

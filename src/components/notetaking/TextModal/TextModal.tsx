@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import { TextModalData } from "./TextModal.data";
 
 import { ScrollerModal } from "../../common";
-import { CoordsProps } from "../../../helpers/positionModals";
 import { positionBlockEditor } from "../Utils/editorUtils";
 import { getSelectedBlockNode } from "./TextModal.helpers";
-import { MODAL_TYPE } from "../../../shared";
+import { MODAL_TYPE, CoordsType } from "../../../shared";
 
 interface TextModalProps {
   onToggle: (style: string) => void;
@@ -15,7 +14,7 @@ interface TextModalProps {
 
 const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
   const [open, setOpen] = useState(false);
-  const [coords, setCoords] = useState<CoordsProps>();
+  const [coords, setCoords] = useState<CoordsType>();
 
   const updatePosition = () => {
     const nodeSelected = getSelectedBlockNode(window);

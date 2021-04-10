@@ -124,6 +124,18 @@ const en_GB = {
         personalInformation: "Personal Information",
       },
     },
+    tooltips: {
+      sidebar: {
+        addBinder: "Add a binder inside",
+        addStudySet: "Add a study set inside",
+        closeSidebar: "Close sidebar",
+        openSidebar: "Open sidebar",
+        menu: "Recolour icon and delete",
+      },
+      studyQueue: {
+        bubble: "View which decks are ready to study",
+      },
+    },
   },
 };
 export default en_GB;

@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "./Icon.types";
 import { ThemeContext } from "styled-components/macro";
-import { Svg } from "./Icon.styles";
+import { Svg, IconProps } from "..";
 
 const StudySetIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);

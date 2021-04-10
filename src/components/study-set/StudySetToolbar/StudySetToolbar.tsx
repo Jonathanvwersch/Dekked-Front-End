@@ -8,12 +8,11 @@ import {
   UnderlineIcon,
 } from "../../../assets";
 import { positionModals } from "../../../helpers";
-import { CoordsProps } from "../../../helpers/positionModals";
 import { StudySetToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
-import { SIZES } from "../../../shared";
+import { CoordsType, SIZES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";
 
 interface StudySetToolbarProps {
@@ -24,7 +23,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   toolbarFull = true,
 }) => {
   const [blockOptions, setBlockOptions] = useState<boolean>(false);
-  const [coords, setCoords] = useState<CoordsProps>();
+  const [coords, setCoords] = useState<CoordsType>();
   const theme: ThemeType = useContext(ThemeContext);
 
   const handleBlockModal = (

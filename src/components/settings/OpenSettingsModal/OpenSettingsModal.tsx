@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { ScrollerModal } from "../../common";
-import { CoordsProps } from "../../../helpers/positionModals";
 import {
   OPEN_SETTINGS_DATA,
   OpenSettingsModalData,
 } from "./OpenSettingsModal.data";
-import MainSettingsModal from "../MainSettingsModal/MainSettingsModal";
+import { CoordsType } from "../../../shared";
+import { MainSettingsModal } from "..";
 
 interface OpenSettingsModalProps {
   open: boolean;
   handleClose: () => void;
-  coords: CoordsProps;
+  coords: CoordsType;
 }
 
 const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({

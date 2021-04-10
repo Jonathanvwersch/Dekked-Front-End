@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../styles/theme";
-import { IconProps } from "./Icon.types";
-import { Svg } from "./Icon.styles";
+import { Svg, IconProps } from "..";
 
 const DotsMenuIcon: React.FC<IconProps> = ({ color, size, rotate }) => {
   const theme: ThemeType = useContext(ThemeContext);

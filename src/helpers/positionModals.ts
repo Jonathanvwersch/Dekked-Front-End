@@ -1,10 +1,3 @@
-export interface CoordsProps {
-  top?: number;
-  right?: number;
-  bottom?: number;
-  left?: number;
-}
-
 // Function used to get mouse click position
 export const getMousePosition = (e: any) => {
   const rect = e.target.getBoundingClientRect();

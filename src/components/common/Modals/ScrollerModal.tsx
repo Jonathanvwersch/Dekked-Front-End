@@ -2,15 +2,14 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "styled-components/macro";
 import { Block, Divider, Overlay, ShadowCard } from "..";
-import { CoordsProps } from "../../../helpers/positionModals";
-import { MODAL_TYPE, ScrollerModalData } from "../../../shared";
+import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
 interface ScrollerModalProps {
   open: boolean;
   handleClose: () => void;
   clickFunctions: any;
   data: ScrollerModalData;
-  coords?: CoordsProps;
+  coords?: CoordsType;
   cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
 }

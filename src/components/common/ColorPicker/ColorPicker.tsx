@@ -3,13 +3,12 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import styled from "styled-components/macro";
 import { Overlay } from "..";
-import { CoordsProps } from "../../../helpers/positionModals";
-import { FILETREE_TYPES, MODAL_TYPE, SIZES } from "../../../shared";
+import { CoordsType, FILETREE_TYPES, MODAL_TYPE, SIZES } from "../../../shared";
 
 interface ColorPickerProps {
   isOpen: boolean;
   handleClose: () => void;
-  coords: CoordsProps;
+  coords: CoordsType;
   iconColor: string;
   setIconColor: Dispatch<SetStateAction<string>>;
   colorPickerRef: React.RefObject<HTMLDivElement>;
@@ -24,8 +23,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   iconColor,
   setIconColor,
   colorPickerRef,
-  id,
-  type,
 }) => {
   const [colour, setColour] = useState<{
     background: string | HSLColor | RGBColor | undefined;

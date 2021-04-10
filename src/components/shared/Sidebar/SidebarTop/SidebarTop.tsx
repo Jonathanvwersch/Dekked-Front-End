@@ -8,17 +8,19 @@ import {
   IconActive,
   Spacer,
   Text,
+  Tooltip,
   VFlex,
 } from "../../../common";
-import { DoubleChevronIcon, DropDownArrowIcon } from "../../../../assets";
+import {
+  DoubleChevronIcon,
+  DropDownArrowIcon,
+  ROTATE,
+} from "../../../../assets";
 import { SidebarContext } from "../../../../contexts";
 import { ThemeType } from "../../../../styles/theme";
-import { ROTATE } from "../../../../assets/icons/Icon.types";
-import {
-  CoordsProps,
-  positionModals,
-} from "../../../../helpers/positionModals";
+import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
+import { CoordsType } from "../../../../shared";
 
 interface SidebarTopProps {}
 
@@ -26,7 +28,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const { handleSidebar, sidebar } = useContext(SidebarContext);
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [coords, setCoords] = useState<CoordsProps>();
+  const [coords, setCoords] = useState<CoordsType>();
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -61,9 +63,18 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
 
           <DoubleChevronIconContainer>
             <IconActive handleClick={handleSidebar}>
-              <DoubleChevronIcon
-                rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
-              />
+              <Tooltip
+                id="CloseSidebar"
+                text={
+                  !sidebar
+                    ? "tooltips.sidebar.openSidebar"
+                    : "tooltips.sidebar.closeSidebar"
+                }
+              >
+                <DoubleChevronIcon
+                  rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
+                />
+              </Tooltip>
             </IconActive>
           </DoubleChevronIconContainer>
         </StyledSidebarTop>

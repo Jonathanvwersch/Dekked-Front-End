@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getChildType, handleIconType } from "../../../helpers";
+import { getChildType, handleIconType, handleUntitled } from "../../../helpers";
 import { SidebarContext } from "../../../contexts";
 
 interface FolderBinderCardProps {

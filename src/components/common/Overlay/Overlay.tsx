@@ -3,18 +3,17 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components/macro";
 import { CloseIcon } from "../../../assets";
-import { CoordsProps } from "../../../helpers/positionModals";
-import { MODAL_TYPE, SIZES } from "../../../shared";
+import { CoordsType, MODAL_TYPE, SIZES } from "../../../shared";
 import IconActive from "../IconActive/IconActive";
 
 interface OverlayProps {
   children: JSX.Element;
-  isOpen: boolean;
-  handleClose: () => void;
+  isOpen?: boolean;
+  handleClose?: () => void;
   type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
-  coords?: CoordsProps; // pass down top, left, bottom, right coordinates to position div relative to viewport
+  coords?: CoordsType; // pass down top, left, bottom, right coordinates to position div relative to viewport
 }
 
 const Overlay: React.FC<OverlayProps> = ({
@@ -37,7 +36,7 @@ const Overlay: React.FC<OverlayProps> = ({
   // Close modal on press of escape key
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
+      if (e.key === "Escape") handleClose && handleClose();
     },
     [handleClose]
   );
@@ -47,7 +46,7 @@ const Overlay: React.FC<OverlayProps> = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [handleEscape]);
 
-  // Close modal on press outside of modal
+  // Close modal on press outside of modal (only necessary for modal type: non-modal-non-lightbox)
   const handleClickOutside = useCallback(
     (e: any) => {
       if (
@@ -56,7 +55,7 @@ const Overlay: React.FC<OverlayProps> = ({
           type === MODAL_TYPE.NON_MODAL_LIGHTBOX) &&
         !modalRef?.current.contains(e.target)
       ) {
-        handleClose();
+        handleClose && handleClose();
       }
     },
     [handleClose, type]
@@ -75,14 +74,14 @@ const Overlay: React.FC<OverlayProps> = ({
 
   return createPortal(
     isOpen ? (
-      <OuterContainer id="Portal">
+      <OuterContainer>
         <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
             <ModalType
               className={type}
               onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                 e.preventDefault();
-                handleClose();
+                handleClose && handleClose();
               }}
             />
           ) : null}
@@ -114,7 +113,7 @@ const OuterContainer = styled.div`
 `;
 
 const Modal = styled.div<{
-  coords?: CoordsProps;
+  coords?: CoordsType;
 }>`
   top: ${({ coords }) => (coords?.top ? `${coords?.top + 15}px` : "auto")};
   bottom: ${({ coords }) =>

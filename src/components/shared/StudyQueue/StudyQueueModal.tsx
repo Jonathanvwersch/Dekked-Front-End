@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import {
   Divider,
@@ -7,29 +7,46 @@ import {
   ShadowCard,
   VFlex,
   Button,
+  Overlay,
 } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import { BUTTON_THEME } from "../../../shared";
 
-interface StudyQueueProps {}
+interface StudyQueueProps {
+  isOpen: boolean;
+  handleClose: () => void;
+}
 
-const StudyQueueModal: React.FC<StudyQueueProps> = () => {
+const StudyQueueModal: React.FC<StudyQueueProps> = ({
+  isOpen,
+  handleClose,
+}) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <ShadowCard width={theme.sizes.sidebar} height="300px" position="relative">
-      <VFlex height="100%" width="100%">
-        <HFlex width="100%" height="100%">
-          <Scroller></Scroller>
-        </HFlex>
-        <Divider />
-        <Base>
-          <Button buttonStyle={BUTTON_THEME.PRIMARY} disabled={true}>
-            Study
-          </Button>
-        </Base>
-      </VFlex>
-    </ShadowCard>
+    <Overlay
+      isOpen={isOpen}
+      handleClose={handleClose}
+      coords={{ bottom: 78, right: 78 }}
+    >
+      <ShadowCard
+        width={theme.sizes.sidebar}
+        height="300px"
+        position="relative"
+      >
+        <VFlex height="100%" width="100%">
+          <HFlex width="100%" height="100%">
+            <Scroller></Scroller>
+          </HFlex>
+          <Divider />
+          <Base>
+            <Button buttonStyle={BUTTON_THEME.PRIMARY} disabled={true}>
+              Study
+            </Button>
+          </Base>
+        </VFlex>
+      </ShadowCard>
+    </Overlay>
   );
 };
 

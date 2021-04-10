@@ -1,11 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { DotsMenuIcon, DropDownArrowIcon, PlusIcon } from "../../../../assets";
+import {
+  DotsMenuIcon,
+  DropDownArrowIcon,
+  PlusIcon,
+  ROTATE,
+} from "../../../../assets";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
-import SidebarEditableText from "../SidebarBlockName/SidebarBlockName";
 import styled, { ThemeContext } from "styled-components/macro";
-import { getChildType, positionModals } from "../../../../helpers";
-import { CoordsProps } from "../../../../helpers/positionModals";
+import {
+  getChildType,
+  positionModals,
+  handleIconType,
+} from "../../../../helpers";
 import {
   Card,
   ColorPicker,
@@ -14,12 +21,11 @@ import {
   IconActive,
   IconWrapper,
   Spacer,
+  Tooltip,
 } from "../../../common";
-import { SidebarBlockModal } from "..";
-import { FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
+import { SidebarBlockModal, SidebarBlockName } from "..";
+import { CoordsType, FILETREE_TYPES } from "../../../../shared";
 import { FileTreeContext, SidebarContext } from "../../../../contexts";
-import { ROTATE } from "../../../../assets/icons/Icon.types";
-import { handleIconType } from "../../../../helpers/handleIconType";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
@@ -30,7 +36,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const { pathname } = useLocation();
   const theme: ThemeType = useContext(ThemeContext);
-  const [coords, setCoords] = useState<CoordsProps>();
+  const [coords, setCoords] = useState<CoordsType>();
   const editableTextRef = useRef<HTMLDivElement>(null);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [colorPicker, setColorPicker] = useState<boolean>(false);
@@ -138,7 +144,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                   <Spacer width={theme.spacers.size8} />
                   <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
                   <Spacer width={theme.spacers.size8} />
-                  <SidebarEditableText
+                  <SidebarBlockName
                     isEditable={isEditable}
                     setIsEditable={setIsEditable}
                     editableTextRef={editableTextRef}
@@ -153,15 +159,28 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                         e: React.MouseEvent<HTMLDivElement, MouseEvent>
                       ) => handleBlockModal(e)}
                     >
-                      <DotsMenuIcon />
+                      <Tooltip id="menu" text="tooltips.sidebar.menu">
+                        <DotsMenuIcon rotate={ROTATE.NINETY} />
+                      </Tooltip>
                     </IconActive>
-                    <IconActive
-                      handleClick={(
-                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                      ) => handleAddItem(e)}
-                    >
-                      <PlusIcon />
-                    </IconActive>
+                    {type !== FILETREE_TYPES.STUDY_SET ? (
+                      <IconActive
+                        handleClick={(
+                          e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                        ) => handleAddItem(e)}
+                      >
+                        <Tooltip
+                          id="AddItem"
+                          text={
+                            type === FILETREE_TYPES.FOLDER
+                              ? "tooltips.sidebar.addBinder"
+                              : "tooltips.sidebar.addStudySet"
+                          }
+                        >
+                          <PlusIcon />
+                        </Tooltip>
+                      </IconActive>
+                    ) : null}
                   </HiddenIconsContainer>
                 </HFlex>
               </Card>

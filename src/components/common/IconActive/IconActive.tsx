@@ -13,8 +13,6 @@ interface IconActiveProps {
   handleClick?: (args: any) => void;
   fillType?: string;
   handleMouseDown?: (args: any) => void;
-  onMouseEnter?: (event: any) => void;
-  onMouseLeave?: (event: any) => void;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -23,26 +21,24 @@ const IconActive: React.FC<IconActiveProps> = ({
   fillType = FILL_TYPE.FILL,
   className,
   handleMouseDown,
-  onMouseEnter,
-  onMouseLeave,
 }) => {
   return (
-    <StyledIconActive
-      onMouseDown={handleMouseDown && handleMouseDown}
-      onClick={handleClick && handleClick}
-      onKeyDown={(e: any) => {
-        if (e.key === "Enter")
-          (handleClick && handleClick(e)) ||
-            (handleMouseDown && handleMouseDown(e));
-      }}
-      className={className}
-      fillType={fillType}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      tabIndex={0}
-    >
-      {children}
-    </StyledIconActive>
+    <>
+      <StyledIconActive
+        onMouseDown={handleMouseDown && handleMouseDown}
+        onClick={handleClick && handleClick}
+        onKeyDown={(e: any) => {
+          if (e.key === "Enter")
+            (handleClick && handleClick(e)) ||
+              (handleMouseDown && handleMouseDown(e));
+        }}
+        className={className}
+        fillType={fillType}
+        tabIndex={0}
+      >
+        {children}
+      </StyledIconActive>
+    </>
   );
 };
 

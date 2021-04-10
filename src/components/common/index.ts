@@ -23,4 +23,5 @@ export { default as Input } from "./Input/Input";
 export { default as Block } from "./Block/Block";
 export { default as Footer } from "./Footer/Footer";
 export { default as Box } from "./Box/Box";
+export { default as Tooltip } from "./Tooltip/Tooltip";
 export { ScrollerModal, GeneralModal } from "./Modals";

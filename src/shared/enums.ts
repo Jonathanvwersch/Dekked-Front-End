@@ -40,6 +40,7 @@ export enum MODAL_TYPE {
   MODAL_NON_LIGHTBOX = "modal-non-lightbox", // no lightbox and you can't interact with the background
   NON_MODAL_NON_LIGHTBOX = "non-modal-non-lightbox", // no lightbox and can interact with the background
   NON_MODAL_LIGHTBOX = "non-modal-lightbox", // includes lightbox and you can interact with the background
+  TOOL_TIP = "non-modal-non-lightbox",
 }
 
 // buttons

@@ -3,7 +3,7 @@ import styled, { ThemeContext } from "styled-components/macro";
 import { HamburgerMenuIcon } from "../../../assets";
 import { SidebarContext } from "../../../contexts";
 import { SIZES } from "../../../shared";
-import { IconActive, Spacer } from "../../common";
+import { IconActive, Spacer, Tooltip } from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
@@ -15,7 +15,12 @@ const TopBar: React.FC = () => {
       {!sidebar ? (
         <>
           <IconActive handleClick={handleSidebar}>
-            <HamburgerMenuIcon size={SIZES.LARGE} />
+            <Tooltip
+              id="OpenSidebarHamburgerMenu"
+              text="tooltips.sidebar.openSidebar"
+            >
+              <HamburgerMenuIcon size={SIZES.LARGE} />
+            </Tooltip>
           </IconActive>
           <Spacer width={theme.spacers.size16} />
         </>

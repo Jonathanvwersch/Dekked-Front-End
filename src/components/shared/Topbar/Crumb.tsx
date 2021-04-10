@@ -3,10 +3,9 @@ import { NavLink, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components/macro";
-import { handleUntitled } from "../../../helpers/handleUntitled";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { useIntl } from "react-intl";
-import { handleIconType } from "../../../helpers";
+import { handleIconType, handleUntitled } from "../../../helpers";
 
 interface CrumbProps {
   breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;

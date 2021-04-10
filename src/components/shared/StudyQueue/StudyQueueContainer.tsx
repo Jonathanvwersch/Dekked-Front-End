@@ -1,14 +1,12 @@
 import React, { useContext, useState } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import { StudyQueueIcon } from "../../../assets";
-import { HoverCard, IconWrapper, Overlay } from "../../common";
+import { HoverCard, IconWrapper, Tooltip } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
 
-interface StudyQueueProps {}
-
-const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
+const StudyQueueContainer: React.FC = () => {
   const theme: ThemeType = useContext(ThemeContext);
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
 
@@ -23,31 +21,30 @@ const StudyQueueContainer: React.FC<StudyQueueProps> = () => {
             1
           </Text>
         </Notifications> */}
-        <StudyQueue
-          handleClick={() => setStudyQueueModal(true)}
-          backgroundColor={theme.colors.primary}
-          ariaLabel="study queue"
-        >
-          <IconWrapper>
-            <StudyQueueIcon
-              size={SIZES.LARGE}
-              color={theme.colors.backgrounds.pageBackground}
-            />
-          </IconWrapper>
-        </StudyQueue>
+        <Tooltip id="StudyQueue" text="tooltips.studyQueue.bubble">
+          <StudyQueue
+            handleClick={() => setStudyQueueModal(true)}
+            backgroundColor={theme.colors.primary}
+            ariaLabel="study queue"
+          >
+            <IconWrapper>
+              <StudyQueueIcon
+                size={SIZES.LARGE}
+                color={theme.colors.backgrounds.pageBackground}
+              />
+            </IconWrapper>
+          </StudyQueue>
+        </Tooltip>
       </Container>
-      <Overlay
+      <StudyQueueModal
         isOpen={studyQueueModal}
         handleClose={() => setStudyQueueModal(false)}
-        coords={{ bottom: 78, right: 78 }}
-      >
-        <StudyQueueModal />
-      </Overlay>
+      />
     </>
   );
 };
 
-const Container = styled.div<StudyQueueProps>`
+const Container = styled.div`
   height: ${({ theme }) => theme.spacers.size48};
   width: ${({ theme }) => theme.spacers.size48};
   position: fixed;
@@ -55,7 +52,7 @@ const Container = styled.div<StudyQueueProps>`
   right: 32px;
 `;
 
-const StudyQueue = styled(HoverCard)<StudyQueueProps>`
+const StudyQueue = styled(HoverCard)`
   display: flex;
   align-items: center;
   justify-content: center;
