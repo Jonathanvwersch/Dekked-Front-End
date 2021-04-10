@@ -37,7 +37,7 @@ export const StyledMainFrame = styled.div<MainFrameProps>`
   max-height: 100%;
   flex-grow: 1;
   flex-shrink: 1;
-  width: auto;
+  width: 0px;
 `;
 
 export default MainFrame;

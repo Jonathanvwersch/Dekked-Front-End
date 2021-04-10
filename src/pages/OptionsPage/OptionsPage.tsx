@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useMemo } from "react";
 import { Route, useHistory, useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
@@ -6,6 +6,7 @@ import { Sidebar } from "../../components/shared/Sidebar";
 import { FILETREE_TYPES, Params } from "../../shared";
 import CustomSwitch from "../../Router/CustomSwitch";
 import { FileTreeContext } from "../../contexts";
+import { isEmpty } from "lodash";
 
 interface OptionsPageProps {
   firstFolderId: string;
@@ -13,14 +14,35 @@ interface OptionsPageProps {
 
 const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
   const { type, id } = useParams<Params>();
-  const { getAsset } = useContext(FileTreeContext);
+  const { getAsset, folders, binders, studyPacks } = useContext(
+    FileTreeContext
+  );
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
+  const foldersExist = type === FILETREE_TYPES.FOLDER && !isEmpty(folders);
+  const bindersExist = type === FILETREE_TYPES.BINDER && !isEmpty(binders);
+  const studyPacksExist =
+    type === FILETREE_TYPES.STUDY_SET && !isEmpty(studyPacks);
 
   // if id doesn't exist, just push to first folder
-  useLayoutEffect(() => {
-    if (!getAsset(type, id) && firstFolderId) history.push(firstFolderLink);
-  }, [type, id, history, getAsset, firstFolderId, firstFolderLink]);
+  useMemo(() => {
+    if (
+      firstFolderId &&
+      (foldersExist || bindersExist || studyPacksExist) &&
+      !getAsset(type, id)
+    )
+      history.push(firstFolderLink);
+  }, [
+    firstFolderId,
+    foldersExist,
+    bindersExist,
+    studyPacksExist,
+    getAsset,
+    history,
+    type,
+    id,
+    firstFolderLink,
+  ]);
 
   return (
     <SelectedItemContextProvider>
