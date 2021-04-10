@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { Route, useHistory, useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
@@ -19,24 +19,23 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
   );
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-  const foldersExist = type === FILETREE_TYPES.FOLDER && !isEmpty(folders);
-  const bindersExist = type === FILETREE_TYPES.BINDER && !isEmpty(binders);
-  const studyPacksExist =
-    type === FILETREE_TYPES.STUDY_SET && !isEmpty(studyPacks);
+
+  // before checking if the id exists by using the getAsset function, we first need to make sure that
+  // the file files (folders, binders, and study sets) have been successfully fetched
+  const doFilesExist = useCallback(() => {
+    if (type === FILETREE_TYPES.FOLDER) return !isEmpty(folders);
+    else if (type === FILETREE_TYPES.BINDER)
+      return !isEmpty(folders) && !isEmpty(binders);
+    else return !isEmpty(folders) && !isEmpty(binders) && !isEmpty(studyPacks);
+  }, [type, folders, binders, studyPacks]);
 
   // if id doesn't exist, just push to first folder
-  useMemo(() => {
-    if (
-      firstFolderId &&
-      (foldersExist || bindersExist || studyPacksExist) &&
-      !getAsset(type, id)
-    )
+  useEffect(() => {
+    if (firstFolderId && doFilesExist() && !getAsset(type, id))
       history.push(firstFolderLink);
   }, [
     firstFolderId,
-    foldersExist,
-    bindersExist,
-    studyPacksExist,
+    doFilesExist,
     getAsset,
     history,
     type,
