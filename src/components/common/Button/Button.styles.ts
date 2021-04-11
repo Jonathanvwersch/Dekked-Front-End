@@ -34,7 +34,8 @@ export const StyledButton = styled.button<ButtonProps>`
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
-  &:focus &:active {
+  &:focus,
+  &:active {
     filter: ${({ theme }) => theme.colors.active.filter};
   }
 
