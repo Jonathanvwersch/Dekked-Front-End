@@ -46,9 +46,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
             <HFlex>
               <Avatar>T</Avatar>
               <Spacer width={theme.spacers.size8} />
-              <Text className="overflow">
-                This is a really really long name
-              </Text>
+              <Text className="overflow">Toby Corner</Text>
               <Spacer width={theme.spacers.size4} />
               <IconActive
                 handleClick={(
