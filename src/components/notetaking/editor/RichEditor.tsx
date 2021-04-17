@@ -177,22 +177,26 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   }, [numOfWords, editorState, setNumOfWords]);
 
   return (
-    <EditorContainer>
-      <Editor
-        editorState={editorState}
-        onChange={onChange}
-        handleKeyCommand={handleKeyCommand}
-        ref={(node) => (editorRef.current = node)}
-        blockRendererFn={myBlockRenderer}
-        handleReturn={handleReturn}
-        keyBindingFn={myKeyBindingFn}
-      />
-      <TextModal onToggle={toggleBlockType} editorState={editorState} />
-    </EditorContainer>
+    <>
+      <EditorContainer>
+        <Editor
+          editorState={editorState}
+          onChange={onChange}
+          handleKeyCommand={handleKeyCommand}
+          ref={(node) => (editorRef.current = node)}
+          blockRendererFn={myBlockRenderer}
+          handleReturn={handleReturn}
+          keyBindingFn={myKeyBindingFn}
+        />
+
+        <TextModal onToggle={toggleBlockType} editorState={editorState} />
+      </EditorContainer>
+    </>
   );
 };
 
 const EditorContainer = styled.div`
+  padding-bottom: 100px;
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;
   }

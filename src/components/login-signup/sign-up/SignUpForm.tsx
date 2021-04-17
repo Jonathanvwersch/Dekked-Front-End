@@ -9,7 +9,7 @@ interface SignUpFormProps {}
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
   const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
 
   return (
     <>

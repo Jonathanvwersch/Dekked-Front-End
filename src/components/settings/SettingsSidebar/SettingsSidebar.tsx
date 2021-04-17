@@ -7,7 +7,6 @@ import {
   SettingsSidebarData,
   SETTINGS_SIDEBAR_DATA,
 } from "./SettingSidebar.data";
-import { useIntl } from "react-intl";
 
 interface MainSettingsModalProps {
   handleBlockClick: (activeSetting: SETTINGS_SIDEBAR_DATA) => any;
@@ -18,8 +17,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
   handleBlockClick,
   activeSetting,
 }) => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
 
   return (
     <StyledSidebar>

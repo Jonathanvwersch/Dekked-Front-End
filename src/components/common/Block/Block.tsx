@@ -2,7 +2,6 @@ import React from "react";
 import { ThemeContext } from "styled-components/macro";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
-import { useIntl } from "react-intl";
 
 interface BlockProps {
   label: string;
@@ -27,8 +26,7 @@ const Block: React.FC<BlockProps> = ({
   fontWeight,
   className,
 }) => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
 
   return (
     <HoverCard

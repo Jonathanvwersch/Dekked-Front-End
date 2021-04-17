@@ -16,7 +16,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const intl = useIntl();
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
   const { selectedBlockName, id } = useContext(SelectedItemContext);
   const { tab } = useParams<Params>();
 

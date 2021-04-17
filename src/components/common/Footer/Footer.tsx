@@ -2,17 +2,17 @@ import React from "react";
 import { ThemeContext } from "styled-components/macro";
 import { Box, Button, Divider, HFlex, Spacer } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
-import { ALIGNMENT, BUTTON_THEME } from "../../../shared";
-import { useIntl } from "react-intl";
+import { BUTTON_THEME } from "../../../shared";
 
 interface FooterProps {
-  handleCancel?: () => void;
+  handleCancel: () => void;
   handleMainButton?: () => void;
   mainButtonStyle?: BUTTON_THEME;
   isDisabled?: boolean;
-  alignment?: ALIGNMENT;
+  alignment?: "flex-start" | "center";
   mainButtonText: string;
   padding?: string;
+  divider?: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -20,16 +20,16 @@ const Footer: React.FC<FooterProps> = ({
   handleMainButton,
   isDisabled,
   mainButtonStyle = BUTTON_THEME.PRIMARY,
-  alignment = ALIGNMENT.CENTER,
+  alignment = "center",
   mainButtonText,
   padding,
+  divider,
 }) => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
 
   return (
     <>
-      <Divider />
+      {divider ? <Divider /> : null}
       <Box p={padding ? padding : theme.spacers.size16}>
         <HFlex justifyContent={alignment}>
           <Button
