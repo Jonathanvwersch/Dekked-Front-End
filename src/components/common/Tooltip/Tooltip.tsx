@@ -14,7 +14,7 @@ interface TooltipProps {
   textColor?: string;
   backgroundColor?: string;
   type?: Type;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
