@@ -29,11 +29,6 @@ export enum MODAL_FOOTER_TYPE {
   DELETE = "delete",
 }
 
-export enum ALIGNMENT {
-  LEFT = "flex-start",
-  CENTER = "center",
-}
-
 export enum MODAL_TYPE {
   // see https://www.nngroup.com/articles/popups/ for further reference on modal types
   MODAL_LIGHTBOX = "modal-lightbox", // includes lightbox and you can't interact with the background

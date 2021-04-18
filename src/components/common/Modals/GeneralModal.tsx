@@ -40,9 +40,9 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
       >
         <VFlex>
           {header ? header : null}
-          <Spacer height={theme.spacers.size24} />
+          <Spacer height={theme.spacers.size20} />
           {children}
-          <Spacer height={theme.spacers.size24} />
+          <Spacer height={theme.spacers.size20} />
           {footer ? footer : null}
         </VFlex>
       </ShadowCard>

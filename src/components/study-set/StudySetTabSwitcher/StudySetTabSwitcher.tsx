@@ -1,16 +1,13 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "styled-components/macro";
 import { HFlex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";
-import { useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
 import { SidebarContext } from "../../../contexts";
 
 const StudySetTabSwitcher: React.FC = () => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const { type, id } = useContext(SelectedItemContext);
   const { handleStudySetTab } = useContext(SidebarContext);
 
@@ -39,12 +36,9 @@ const StudySetTabSwitcher: React.FC = () => {
 
   return (
     <HFlex width="auto">
-      {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes", intl))}
+      {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes"))}
       <Spacer width={theme.spacers.size16} />
-      {tabLink(
-        TAB_TYPE.FLASHCARDS,
-        formatMessage("studySet.tabs.flashcards", intl)
-      )}
+      {tabLink(TAB_TYPE.FLASHCARDS, formatMessage("studySet.tabs.flashcards"))}
     </HFlex>
   );
 };

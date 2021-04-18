@@ -21,6 +21,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
     }
   };
 
+  console.log(hoverbar);
+
   return (
     <SidebarContainer sidebar={sidebar}>
       <InnerSidebar
@@ -46,11 +48,10 @@ const Sidebar: React.FC<SidebarProps> = () => {
 const SidebarContainer = styled.div<{ sidebar: boolean }>`
   display: flex;
   align-items: center;
-  flex-shrink: 0;
   position: relative;
   z-index: 1000;
   transition: box-shadow 300ms ease-in 0s;
-  width: ${({ theme, sidebar }) => (sidebar ? theme.sizes.sidebar : "0px")};
+  max-width: ${({ theme, sidebar }) => (sidebar ? theme.sizes.sidebar : "0px")};
 `;
 
 const InnerSidebar = styled.div<{ sidebar: boolean; hoverbar: boolean }>`
@@ -65,28 +66,25 @@ const InnerSidebar = styled.div<{ sidebar: boolean; hoverbar: boolean }>`
 `;
 
 const sidebarVisible = css`
-  width: ${({ theme }) => theme.sizes.sidebar};
+  min-width: ${({ theme }) => theme.sizes.sidebar};
   pointer-events: auto;
   z-index: 10;
   height: 100%;
   max-height: 100%;
   border-right: ${({ theme }) => `1px solid ${theme.colors.grey3}`};
-  background-color: ${({ theme }) => theme.colors.secondary};
   opacity: 1;
 `;
 
 const sidebarHidden = css<{ hoverbar: boolean }>`
   height: calc(100vh - 130px);
-  width: ${({ theme }) => theme.sizes.sidebar};
-  background-color: ${({ theme }) => theme.colors.secondary};
+  min-width: ${({ theme }) => theme.sizes.sidebar};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
-
   opacity: ${({ hoverbar }) => (hoverbar ? 1 : 0)};
   transform: ${({ hoverbar }) =>
     hoverbar
       ? "transform: translateX(0px) translateZ(0px);"
-      : "translateX(-230px) translateZ(0px)"};
+      : "translateX(-200px) translateZ(0px)"};
 `;
 
 export default React.memo(Sidebar);

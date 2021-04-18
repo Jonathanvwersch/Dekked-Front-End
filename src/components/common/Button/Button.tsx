@@ -19,6 +19,7 @@ interface ButtonProps {
   buttonStyle?: BUTTON_THEME;
   handleClick?: (args: any) => any;
   size?: SIZES;
+  width?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -30,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   buttonStyle = BUTTON_THEME.PRIMARY,
   fullWidth = false,
   size = SIZES.SMALL,
+  width,
 }) => {
   const Button = ButtonStyles[buttonStyle];
   const className = fullWidth ? "fullWidth" : "";
@@ -42,6 +44,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={handleClick}
       size={size}
       className={className}
+      width={width}
     >
       {isLoading ? (
         <span>

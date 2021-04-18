@@ -4,6 +4,7 @@ import { SIZES } from "../../../shared";
 interface ButtonProps {
   isLoading: boolean;
   size: SIZES;
+  width: string;
 }
 
 export const StyledButton = styled.button<ButtonProps>`
@@ -16,6 +17,7 @@ export const StyledButton = styled.button<ButtonProps>`
       ? theme.typography.fontSizes.size14
       : theme.typography.fontSizes.size16};
   height: ${({ theme, size }) => theme.sizes.button[size]};
+  width: ${({ width }) => width};
   border-width: 1px;
   cursor: pointer;
   border-style: solid;
@@ -30,11 +32,11 @@ export const StyledButton = styled.button<ButtonProps>`
     width: 100%;
   }
 
+  &:focus,
   &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
-  &:focus,
   &:active {
     filter: ${({ theme }) => theme.colors.active.filter};
   }

@@ -3,3 +3,4 @@ export { default as FolderBinderAddCard } from "../folder-binder/FolderBinderAdd
 export * from "./StudyQueue";
 export * from "./Topbar";
 export * from "./Sidebar";
+export { default as DeleteModal } from "./DeleteModal/DeleteModal";

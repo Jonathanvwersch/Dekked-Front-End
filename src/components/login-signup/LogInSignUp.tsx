@@ -4,7 +4,6 @@ import styled, { ThemeContext } from "styled-components/macro";
 import { SignUpForm, LogInForm } from ".";
 import { Spacer, VFlex, ShadowCard, H2, Text } from "../../components/common";
 import { SIZES } from "../../shared";
-import { useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../hooks";
 
 interface LogInSignUpProps {
@@ -12,8 +11,7 @@ interface LogInSignUpProps {
 }
 
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const header = login ? "forms.logIn.header" : "forms.signUp.header";
   const subHeader = login ? "forms.logIn.subHeader" : "forms.signUp.subHeader";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";

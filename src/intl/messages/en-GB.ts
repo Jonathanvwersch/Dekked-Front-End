@@ -44,6 +44,17 @@ const en_GB = {
         freeStudy: "Free study",
         linearStudying: "Linear studying",
       },
+      deleteModal: {
+        deleteCard: "Do you really want to delete this card?",
+      },
+      spacedRepetition: {
+        controller: {
+          repeat: "Repeat",
+          remembered: "Remembered",
+          easilyRemembered: "Easily remembered",
+          nextReview: "Next review in {time}",
+        },
+      },
     },
     forms: {
       password: {
@@ -129,11 +140,24 @@ const en_GB = {
         addBinder: "Add a binder inside",
         addStudySet: "Add a study set inside",
         closeSidebar: "Close sidebar",
-        openSidebar: "Open sidebar",
+        openSidebar: "Lock open sidebar",
         menu: "Recolour icon and delete",
       },
       studyQueue: {
         bubble: "View which decks are ready to study",
+      },
+      studyMode: {
+        flip: "Flip flashcard",
+        editCard: "Edit flashcard",
+        deleteCard: "Delete flashcard",
+      },
+    },
+    sharedModals: {
+      deleteModal: {
+        header: "Are you sure?",
+        body: "This action cannot be undone.",
+        cancel: "Cancel",
+        delete: "Delete",
       },
     },
   },

@@ -1,17 +1,11 @@
 import { useCallback, useContext } from "react";
-import { IntlShape } from "react-intl";
+import { useIntl } from "react-intl";
+import { ThemeContext } from "styled-components";
 import { ThemeType } from "../styles/theme";
 
-export interface UsePageSetupHelpersProps {
-  theme: ThemeType;
-  formatMessage: (id: string, values?: any) => string;
-}
-
-export const usePageSetupHelpers = (
-  themeContext: React.Context<ThemeType>,
-  intl?: IntlShape
-): UsePageSetupHelpersProps => {
-  const theme = useContext<ThemeType>(themeContext);
+export const usePageSetupHelpers = () => {
+  const intl = useIntl();
+  const theme = useContext<ThemeType>(ThemeContext);
   const formatMessage = useCallback(
     (id: string, values?: any) =>
       (intl && intl.formatMessage({ id }, values)) || id,

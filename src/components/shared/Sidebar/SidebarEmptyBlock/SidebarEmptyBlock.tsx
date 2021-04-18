@@ -1,8 +1,6 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { Card, HFlex, Text } from "../../../common";
 import { usePageSetupHelpers } from "../../../../hooks";
-import { useIntl } from "react-intl";
 import { FILETREE_TYPES } from "../../../../shared";
 
 interface SidebarEmptyBlockProps {
@@ -10,8 +8,7 @@ interface SidebarEmptyBlockProps {
 }
 
 const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
-  const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext, intl);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   const paddingLeft = () => {
     if (type === FILETREE_TYPES.FOLDER) return theme.spacers.size40;

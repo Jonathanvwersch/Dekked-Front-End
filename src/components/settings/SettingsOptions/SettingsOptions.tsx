@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components/macro";
 import { SettingsAccount } from "..";
-import { ALIGNMENT } from "../../../shared";
 import { Box, Footer, Scroller } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 
@@ -29,7 +28,8 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
         padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
         handleCancel={handleCloseModal}
         mainButtonText={"generics.saveChanges"}
-        alignment={ALIGNMENT.LEFT}
+        alignment="flex-start"
+        divider={true}
       />
     </>
   );

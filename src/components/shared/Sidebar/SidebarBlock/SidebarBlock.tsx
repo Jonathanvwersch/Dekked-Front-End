@@ -159,7 +159,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                         e: React.MouseEvent<HTMLDivElement, MouseEvent>
                       ) => handleBlockModal(e)}
                     >
-                      <Tooltip id="menu" text="tooltips.sidebar.menu">
+                      <Tooltip id="Menu" text="tooltips.sidebar.menu">
                         <DotsMenuIcon rotate={ROTATE.NINETY} />
                       </Tooltip>
                     </IconActive>
