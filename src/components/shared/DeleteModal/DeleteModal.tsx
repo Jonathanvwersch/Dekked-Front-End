@@ -1,10 +1,8 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { Footer, GeneralModal, H4, VFlex, Text } from "../../common";
 import { BUTTON_THEME } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";
-import { theme } from "../../../styles/theme";
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -17,7 +15,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   handleClose,
   bodyText,
 }) => {
-  const { formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
 
@@ -28,6 +26,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       handleClose={handleClose}
       footer={
         <Footer
+          padding="0px"
           handleCancel={handleClose}
           handleMainButton={handleClose}
           mainButtonStyle={BUTTON_THEME.DANGER}

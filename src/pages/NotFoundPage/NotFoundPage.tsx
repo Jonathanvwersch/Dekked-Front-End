@@ -1,12 +1,11 @@
 import React, { useLayoutEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { ThemeContext } from "styled-components/macro";
 import { HFlex, Spacer, Text, VFlex, Button } from "../../components/common";
 import { usePageSetupHelpers } from "../../hooks";
 import { BUTTON_THEME } from "../../shared";
 
 const NotFoundPage: React.FC = () => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const history = useHistory();
 
   useLayoutEffect(() => {

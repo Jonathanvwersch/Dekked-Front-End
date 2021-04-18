@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
+import { theme } from "../../../styles/theme";
 import { HFlex, Spacer, Text } from "../../common";
 
 interface StudyModeToolbarProps {}
@@ -18,7 +19,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
       >{`${flashcardIndex}/${flashcardTotal}`}</Text>
       <Spacer width={theme.spacers.size16} />
       <ProgressBar>
-        <Filler percentageComplete={percentageComplete} />
+        <Filler percentageComplete={percentageComplete} bgColor={undefined} />
       </ProgressBar>
     </HFlex>
   );
@@ -28,13 +29,14 @@ const ProgressBar = styled.div`
   width: 100%;
   height: ${({ theme }) => theme.spacers.size24};
   border-radius: ${({ theme }) => theme.spacers.size24};
-  background: ${({ theme }) => theme.colors.grey3};
+  background-color: ${({ theme }) => theme.colors.grey3};
 `;
 
-const Filler = styled.div<{ percentageComplete: number }>`
+const Filler = styled.div<{ percentageComplete: number; bgColor?: string }>`
   width: ${({ percentageComplete }) => percentageComplete}%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ bgColor }) =>
+    bgColor ? bgColor : theme.colors.primary};
   border-radius: inherit;
 `;
 

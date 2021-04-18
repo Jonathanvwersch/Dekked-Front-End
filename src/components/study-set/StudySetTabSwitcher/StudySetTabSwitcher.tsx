@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "styled-components/macro";
 import { HFlex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";
@@ -8,7 +7,7 @@ import { usePageSetupHelpers } from "../../../hooks";
 import { SidebarContext } from "../../../contexts";
 
 const StudySetTabSwitcher: React.FC = () => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const { type, id } = useContext(SelectedItemContext);
   const { handleStudySetTab } = useContext(SidebarContext);
 

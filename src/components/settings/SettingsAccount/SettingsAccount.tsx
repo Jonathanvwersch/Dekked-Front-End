@@ -1,10 +1,9 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { usePageSetupHelpers } from "../../../hooks";
 import { Box, Divider, H4, Text, Input, Spacer } from "../../common";
 
 const SettingsAccount: React.FC = () => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   return (
     <>

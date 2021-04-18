@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { ThemeContext } from "styled-components/macro";
 import { GeneralModal, H4, HFlex, Spacer, ThumbnailCard } from "../../common";
 import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
@@ -17,7 +16,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
   isOpen,
   handleClose,
 }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const { id } = useParams<Params>();
   const { type } = useContext(SelectedItemContext);
 

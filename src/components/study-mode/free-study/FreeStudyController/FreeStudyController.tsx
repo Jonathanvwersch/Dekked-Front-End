@@ -1,5 +1,4 @@
 import React from "react";
-import { ThemeContext } from "styled-components";
 import { ROTATE, SingleChevronIcon } from "../../../../assets";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
 import { usePageSetupHelpers } from "../../../../hooks";
@@ -9,7 +8,7 @@ import { HFlex, IconActive, Spacer, Tooltip } from "../../../common";
 interface FreeStudyControllerProps {}
 
 const FreeStudyController: React.FC<FreeStudyControllerProps> = () => {
-  const { theme } = usePageSetupHelpers(ThemeContext);
+  const { theme } = usePageSetupHelpers();
 
   return (
     <HFlex justifyContent="center">

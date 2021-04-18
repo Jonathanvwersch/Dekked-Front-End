@@ -51,7 +51,7 @@ const SidebarContainer = styled.div<{ sidebar: boolean }>`
   position: relative;
   z-index: 1000;
   transition: box-shadow 300ms ease-in 0s;
-  width: ${({ theme, sidebar }) => (sidebar ? theme.sizes.sidebar : 0)};
+  max-width: ${({ theme, sidebar }) => (sidebar ? theme.sizes.sidebar : "0px")};
 `;
 
 const InnerSidebar = styled.div<{ sidebar: boolean; hoverbar: boolean }>`
@@ -66,7 +66,7 @@ const InnerSidebar = styled.div<{ sidebar: boolean; hoverbar: boolean }>`
 `;
 
 const sidebarVisible = css`
-  width: ${({ theme }) => theme.sizes.sidebar};
+  min-width: ${({ theme }) => theme.sizes.sidebar};
   pointer-events: auto;
   z-index: 10;
   height: 100%;
@@ -77,15 +77,14 @@ const sidebarVisible = css`
 
 const sidebarHidden = css<{ hoverbar: boolean }>`
   height: calc(100vh - 130px);
-  width: ${({ theme }) => theme.sizes.sidebar};
+  min-width: ${({ theme }) => theme.sizes.sidebar};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
-
   opacity: ${({ hoverbar }) => (hoverbar ? 1 : 0)};
   transform: ${({ hoverbar }) =>
     hoverbar
       ? "transform: translateX(0px) translateZ(0px);"
-      : "translateX(-230px) translateZ(0px)"};
+      : "translateX(-200px) translateZ(0px)"};
 `;
 
 export default React.memo(Sidebar);

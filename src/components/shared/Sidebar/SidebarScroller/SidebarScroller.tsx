@@ -11,6 +11,7 @@ const SidebarScroller: React.FC<SidebarScrollerProps> = ({
   children,
 }) => {
   const theme = useContext(ThemeContext);
+
   return (
     <>
       <Card padding={`${theme.spacers.size8} ${theme.spacers.size16}`}>

@@ -1,6 +1,5 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { ThemeContext } from "styled-components";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
 import { usePageSetupHelpers } from "../../../../hooks";
 import { BUTTON_THEME, SIZES } from "../../../../shared";
@@ -17,7 +16,7 @@ import {
 interface SpacedRepetitionControllerProps {}
 
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = () => {
-  const { theme } = usePageSetupHelpers(ThemeContext);
+  const { theme } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
 
   const spacedRepetitionButton = (

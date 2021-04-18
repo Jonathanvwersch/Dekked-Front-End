@@ -140,7 +140,7 @@ const en_GB = {
         addBinder: "Add a binder inside",
         addStudySet: "Add a study set inside",
         closeSidebar: "Close sidebar",
-        openSidebar: "Open sidebar",
+        openSidebar: "Lock open sidebar",
         menu: "Recolour icon and delete",
       },
       studyQueue: {

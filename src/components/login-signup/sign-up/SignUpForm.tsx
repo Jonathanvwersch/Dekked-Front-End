@@ -1,5 +1,4 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
 import { useIntl } from "react-intl";
@@ -9,7 +8,7 @@ interface SignUpFormProps {}
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
   const intl = useIntl();
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   return (
     <>

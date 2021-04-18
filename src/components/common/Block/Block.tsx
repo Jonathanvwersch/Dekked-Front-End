@@ -1,5 +1,4 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
 
@@ -26,7 +25,7 @@ const Block: React.FC<BlockProps> = ({
   fontWeight,
   className,
 }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   return (
     <HoverCard

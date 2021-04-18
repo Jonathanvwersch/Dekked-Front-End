@@ -26,7 +26,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   backText,
   linked = false,
 }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   const frontAndBack = (side: string) => {
     return (

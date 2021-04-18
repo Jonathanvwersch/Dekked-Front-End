@@ -1,8 +1,7 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { Box, Button, Divider, HFlex, Spacer } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
-import { BUTTON_THEME } from "../../../shared";
+import { BUTTON_THEME, SIZES } from "../../../shared";
 
 interface FooterProps {
   handleCancel: () => void;
@@ -25,7 +24,7 @@ const Footer: React.FC<FooterProps> = ({
   padding,
   divider,
 }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   return (
     <>
@@ -33,6 +32,7 @@ const Footer: React.FC<FooterProps> = ({
       <Box p={padding ? padding : theme.spacers.size16}>
         <HFlex justifyContent={alignment}>
           <Button
+            size={SIZES.MEDIUM}
             handleClick={handleCancel}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
@@ -40,6 +40,7 @@ const Footer: React.FC<FooterProps> = ({
           </Button>
           <Spacer width={theme.spacers.size32} />
           <Button
+            size={SIZES.MEDIUM}
             handleClick={handleMainButton}
             buttonStyle={mainButtonStyle}
             disabled={isDisabled}

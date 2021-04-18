@@ -1,5 +1,4 @@
 import React from "react";
-import { ThemeContext } from "styled-components/macro";
 import { Card, HFlex, Text } from "../../../common";
 import { usePageSetupHelpers } from "../../../../hooks";
 import { FILETREE_TYPES } from "../../../../shared";
@@ -9,7 +8,7 @@ interface SidebarEmptyBlockProps {
 }
 
 const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
 
   const paddingLeft = () => {
     if (type === FILETREE_TYPES.FOLDER) return theme.spacers.size40;

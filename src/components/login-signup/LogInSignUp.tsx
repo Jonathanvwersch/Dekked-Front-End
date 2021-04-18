@@ -11,7 +11,7 @@ interface LogInSignUpProps {
 }
 
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
-  const { theme, formatMessage } = usePageSetupHelpers(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const header = login ? "forms.logIn.header" : "forms.signUp.header";
   const subHeader = login ? "forms.logIn.subHeader" : "forms.signUp.subHeader";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
