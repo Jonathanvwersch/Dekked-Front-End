@@ -49,3 +49,14 @@ export enum BUTTON_THEME {
   SECONDARY = "secondary",
   DANGER = "danger",
 }
+
+// note-taking
+
+export enum STYLES {
+  UNSTYLED = "unstyled",
+  HEADER_ONE = "header-one",
+  HEADER_TWO = "header-two",
+  HEADER_THREE = "header-three",
+  BULLETED_LIST = "unordered-list-item",
+  NUMBERED_LIST = "ordered-list-item",
+}

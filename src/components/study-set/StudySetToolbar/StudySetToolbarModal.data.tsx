@@ -7,7 +7,7 @@ import {
   NumberedListIcon,
   H2Icon,
 } from "../../../assets";
-import { ScrollerModalData } from "../../../shared";
+import { ScrollerModalData, STYLES } from "../../../shared";
 
 export enum BLOCK_OPTIONS {
   BODY = "studySet.notetaking.toolbar.body",
@@ -22,32 +22,32 @@ export const StudySetToolbarModalData: ScrollerModalData = [
   {
     label: BLOCK_OPTIONS.BODY,
     icon: <BodyTextIcon />,
-    style: "unstyled",
+    style: STYLES.UNSTYLED,
   },
   {
     label: BLOCK_OPTIONS.LARGE_HEADING,
-    style: "header-one",
+    style: STYLES.HEADER_ONE,
     icon: <H1Icon />,
   },
   {
     label: BLOCK_OPTIONS.MEDIUM_HEADING,
-    style: "header-two",
+    style: STYLES.HEADER_TWO,
     icon: <H2Icon />,
   },
   {
     label: BLOCK_OPTIONS.SMALL_HEADING,
-    style: "header-three",
+    style: STYLES.HEADER_THREE,
     icon: <H3Icon />,
     divider: true,
   },
   {
     label: BLOCK_OPTIONS.BULLETED_LIST,
-    style: "unordered-list-item",
+    style: STYLES.BULLETED_LIST,
     icon: <BulletedListIcon />,
   },
   {
     label: BLOCK_OPTIONS.NUMBERED_LIST,
-    style: "ordered-list-item",
+    style: STYLES.NUMBERED_LIST,
     icon: <NumberedListIcon />,
   },
 ];

@@ -27,7 +27,7 @@ const UnstyledComponent = (props: any) => {
 };
 
 const EmptyCommandBlock = styled.div`
-  color: ${({ theme }) => theme.colors.grey1};
+  color: ${({ theme }) => theme.colors.grey2};
   position: absolute;
 
   &:empty:before {

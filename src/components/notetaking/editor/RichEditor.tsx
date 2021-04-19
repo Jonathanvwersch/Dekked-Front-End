@@ -47,7 +47,7 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     numOfWords,
   } = useContext(EditorContext);
 
-  const editorRef = useRef<any>();
+  const editorRef = useRef<any>(null);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
