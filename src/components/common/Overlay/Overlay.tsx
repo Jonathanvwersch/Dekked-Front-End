@@ -1,15 +1,16 @@
 /* Overlay container used to render all popovers and modals */
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components/macro";
 import { CloseIcon } from "../../../assets";
+import { useOutsideClickListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, SIZES } from "../../../shared";
 import IconActive from "../IconActive/IconActive";
 
 interface OverlayProps {
   children: JSX.Element;
-  isOpen?: boolean;
-  handleClose?: () => void;
+  isOpen: boolean;
+  handleClose: () => void;
   type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
@@ -33,57 +34,14 @@ const Overlay: React.FC<OverlayProps> = ({
       ? "centered"
       : undefined;
 
-  // Close modal on press of escape key
-  const handleEscape = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose && handleClose();
-    },
-    [handleClose]
-  );
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [handleEscape]);
-
-  // Close modal on press outside of modal (only necessary for modal type: non-modal-non-lightbox)
-  const handleClickOutside = useCallback(
-    (e: any) => {
-      if (
-        modalRef.current &&
-        (type === MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ||
-          type === MODAL_TYPE.NON_MODAL_LIGHTBOX) &&
-        !modalRef?.current.contains(e.target)
-      ) {
-        handleClose && handleClose();
-      }
-    },
-    [handleClose, type]
-  );
-
-  useEffect(() => {
-    if (modalRef) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, handleClickOutside]);
+  useOutsideClickListener(modalRef, handleClose, isOpen);
 
   return createPortal(
     isOpen ? (
       <OuterContainer>
         <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
-            <ModalType
-              className={type}
-              onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                e.preventDefault();
-                handleClose && handleClose();
-              }}
-            />
+            <ModalType className={type} />
           ) : null}
           <Modal
             coords={coords}

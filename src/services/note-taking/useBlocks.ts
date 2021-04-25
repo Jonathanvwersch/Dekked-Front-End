@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { config } from "../../config";
 
 export function useBlocks(page_id?: string) {
-  const [blocks, setBlocks] = useState<string[]>([]);
+  const [blocks, setBlocks] = useState<string[] | null>(null);
   const getBlocksByPageId = async () => {
     const uri = config.api + `/get-blocks-by-page/${page_id}`;
     const response = await fetch(uri, {
@@ -25,6 +25,5 @@ export function useBlocks(page_id?: string) {
       getBlocksByPageId();
     }
   }, [page_id]); // eslint-disable-line react-hooks/exhaustive-deps
-
   return blocks;
 }

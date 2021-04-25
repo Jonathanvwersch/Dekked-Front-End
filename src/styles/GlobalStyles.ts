@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
             outline: 0;
         }
     }
-
+   
     *::-webkit-scrollbar {
         width: 8px;
         cursor: auto;
@@ -37,6 +37,12 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
             cursor: pointer!important;
         }
     }
+
+    .public-DraftStyleDefault-ltr {
+        width: 100%;
+        word-break: break-word; 
+    }
+
 `;
 
 export default GlobalStyle;

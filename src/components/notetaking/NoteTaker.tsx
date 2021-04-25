@@ -9,7 +9,7 @@ import {
 import "draft-js/dist/Draft.css";
 
 import React from "react";
-import RichEditor from "./editor/RichEditor";
+import RichEditor from "./Editor/RichEditor";
 import { useParams } from "react-router";
 import { Params } from "../../shared";
 // import { getPage, savePage } from "../services/pageService";

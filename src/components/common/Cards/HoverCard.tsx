@@ -35,6 +35,7 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
       ref={cardRef}
       aria-label={props.ariaLabel}
       tabIndex={0}
+      contentEditable={false}
       {...props}
       onClick={props.handleClick && props.handleClick}
       onMouseDown={props.handleMouseDown && props.handleMouseDown}

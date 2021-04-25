@@ -20,8 +20,10 @@ const StyledInsetPage = styled.div<InsetPageProps>`
   flex-grow: 1;
   max-width: ${({ theme, size }) =>
     size ? theme.sizes.wrappers[size] : theme.sizes.wrappers[SIZES.SMALL]};
-  padding-top: ${({ theme }) => theme.spacers.size64};
-  padding-bottom: ${({ theme }) => theme.spacers.size128};
+  padding-top: ${({ theme, size }) =>
+    size === SIZES.LARGE ? theme.spacers.size32 : theme.spacers.size64};
+  padding-bottom: ${({ theme, size }) =>
+    size === SIZES.LARGE ? theme.spacers.size64 : theme.spacers.size128};
 `;
 
 export default InsetPage;

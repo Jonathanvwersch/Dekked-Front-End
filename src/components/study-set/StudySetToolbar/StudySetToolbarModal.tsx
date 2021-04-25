@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { StudySetToolbarModalData } from "./StudySetToolbarModal.data";
 import { ScrollerModal } from "../../common";
 import { EditorContext } from "../../../contexts/EditorContext";
-import { CoordsType } from "../../../shared";
+import { BLOCK_TYPES, CoordsType } from "../../../shared";
+import { NoteTakingBlocksData } from "../../notetaking/TextModal/NotetakingBlocks.data";
 
 interface StudySetToolbarModalProps {
   open: boolean;
@@ -15,10 +15,10 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   open,
   coords,
 }) => {
-  const { toggleBlockStyle } = useContext(EditorContext);
-  const clickFunctions = (type: string) => {
+  const { toggleBlockType } = useContext(EditorContext);
+  const clickFunctions = (type: BLOCK_TYPES) => {
     handleClose();
-    toggleBlockStyle(type);
+    toggleBlockType(type);
   };
 
   return (
@@ -27,7 +27,7 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
       clickFunctions={clickFunctions}
       open={open}
       handleClose={handleClose}
-      data={StudySetToolbarModalData}
+      data={NoteTakingBlocksData}
     />
   );
 };

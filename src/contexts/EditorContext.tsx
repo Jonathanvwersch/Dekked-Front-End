@@ -4,22 +4,32 @@ import {
   convertToRaw,
   RawDraftContentBlock,
   convertFromRaw,
+  SelectionState,
+  ContentBlock,
 } from "draft-js";
 import { createContext, useEffect, useState } from "react";
 import React from "react";
 import { usePage } from "../services/note-taking/usePage";
 import { useParams } from "react-router";
 import { useBlocks } from "../services/note-taking/useBlocks";
-import { Params } from "../shared";
+import { BLOCK_TYPES, Params, TEXT_STYLES } from "../shared";
+import { getWordCount } from "../components/notetaking/Utils/editorUtils";
+import { isNull } from "lodash";
 
 interface EditorContextProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  toggleInLineStyle: (style: string) => void;
-  toggleBlockStyle: (style: string) => void;
+  toggleInlineStyle: (style: TEXT_STYLES) => void;
+  toggleBlockType: (style: BLOCK_TYPES) => void;
   onSave: () => void;
   numOfWords: number;
-  setNumOfWords: React.Dispatch<React.SetStateAction<number>>;
+  toggleBlockStyle: (
+    style: TEXT_STYLES,
+    currentBlock: ContentBlock,
+    currentKey: any
+  ) => void;
+  updateDataOfBlock: (currentBlock: ContentBlock, newData: any) => EditorState;
+  loading: boolean;
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -32,12 +42,37 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
-  const toggleInLineStyle = (style: string) => {
+  const loading = isNull(blocks);
+
+  // Changes style of inline text
+  const toggleInlineStyle = (style: TEXT_STYLES) => {
     setEditorState(RichUtils.toggleInlineStyle(editorState, style));
   };
 
-  const toggleBlockStyle = (style: string) => {
-    setEditorState(RichUtils.toggleBlockType(editorState, style));
+  // Changes style of all text in a given block
+  const toggleBlockStyle = (
+    style: TEXT_STYLES,
+    currentBlock: ContentBlock,
+    currentKey: any
+  ) => {
+    const selectionState = SelectionState.createEmpty(currentKey);
+
+    const entireBlockSelectionState = selectionState.merge({
+      anchorKey: currentKey,
+      anchorOffset: 0,
+      focusKey: currentKey,
+      focusOffset: currentBlock.getText().length,
+    });
+
+    const newEditorState = EditorState.forceSelection(
+      editorState,
+      entireBlockSelectionState
+    );
+    setEditorState(RichUtils.toggleInlineStyle(newEditorState, style));
+  };
+
+  const toggleBlockType = (type: BLOCK_TYPES) => {
+    setEditorState(RichUtils.toggleBlockType(editorState, type));
   };
 
   const onSave = async () => {
@@ -50,6 +85,22 @@ export const EditorContextProvider: React.FC = ({ children }) => {
     });
 
     console.log(response);
+  };
+
+  const updateDataOfBlock = (currentBlock: any, newData: any) => {
+    const contentState = editorState.getCurrentContent();
+    const newBlock = currentBlock.merge({
+      data: newData,
+    });
+    console.log(newData);
+    const newContentState = contentState.merge({
+      blockMap: contentState.getBlockMap().set(currentBlock.getKey(), newBlock),
+    });
+    return EditorState.push(
+      editorState,
+      newContentState as any,
+      "change-block-type"
+    );
   };
 
   useEffect(() => {
@@ -65,16 +116,22 @@ export const EditorContextProvider: React.FC = ({ children }) => {
     }
   }, [blocks]);
 
+  useEffect(() => {
+    setNumOfWords(getWordCount(editorState));
+  }, [numOfWords, editorState, setNumOfWords]);
+
   return (
     <EditorContext.Provider
       value={{
         editorState,
         setEditorState,
-        toggleInLineStyle,
-        toggleBlockStyle,
+        toggleInlineStyle,
+        toggleBlockType,
         onSave,
         numOfWords,
-        setNumOfWords,
+        toggleBlockStyle,
+        updateDataOfBlock,
+        loading,
       }}
     >
       {children}

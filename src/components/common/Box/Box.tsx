@@ -18,6 +18,7 @@ interface BoxProps {
   px?: string; // padding left, padding right (e.g. '10px 11px' or '10px' if you want the same value for left and right)
   py?: string; // padding top, padding bottom (e.g. '10px 11px' or '10px' if you want the same value for left and right
   p?: string; // padding top, padding right, padding bottom, padding left (e.g. '10px 11px 12px 13px' or '10px' (same padding on all 4 sides) or '10px 11px' (first number refers to top and bottom padding and second number refers to left and right padding))
+  width?: string;
 }
 
 const getXAndYValues = (value: string, afterSpace?: boolean) => {
@@ -32,8 +33,7 @@ const Box: React.FC<BoxProps> = ({ children, ...props }) => {
 };
 
 const StyledBox = styled.div<BoxProps>`
-  width: 100%;
-
+  width: ${({ width }) => width};
   margin-top: ${({ mt }) => mt};
   margin-right: ${({ mr }) => mr};
   margin-bottom: ${({ mb }) => mb};

@@ -5,6 +5,7 @@ import {
   BoldIcon,
   DropDownArrowIcon,
   ItalicsIcon,
+  StrikethroughIcon,
   UnderlineIcon,
 } from "../../../assets";
 import { positionModals } from "../../../helpers";
@@ -12,7 +13,7 @@ import { StudySetToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
-import { CoordsType, SIZES } from "../../../shared";
+import { CoordsType, SIZES, TEXT_STYLES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";
 
 interface StudySetToolbarProps {
@@ -35,7 +36,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
     setCoords(positionModals(e, blockModalHeight));
   };
 
-  const { toggleInLineStyle } = useContext(EditorContext);
+  const { toggleInlineStyle } = useContext(EditorContext);
 
   return (
     <>
@@ -55,7 +56,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
           handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleInLineStyle("BOLD");
+            toggleInlineStyle(TEXT_STYLES.BOLD);
           }}
         >
           <BoldIcon size={SIZES.MEDIUM} />
@@ -65,7 +66,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
           handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleInLineStyle("ITALIC");
+            toggleInlineStyle(TEXT_STYLES.ITALIC);
           }}
         >
           <ItalicsIcon size={SIZES.MEDIUM} />
@@ -75,10 +76,20 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
           handleMouseDown={(e: MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleInLineStyle("UNDERLINE");
+            toggleInlineStyle(TEXT_STYLES.UNDERLINE);
           }}
         >
           <UnderlineIcon size={SIZES.MEDIUM} />
+        </IconActive>
+        <Spacer width={theme.spacers.size8} />
+        <IconActive
+          handleMouseDown={(e: MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleInlineStyle(TEXT_STYLES.STRIKETHROUGH);
+          }}
+        >
+          <StrikethroughIcon size={SIZES.MEDIUM} />
         </IconActive>
 
         {/* {toolbarFull ? (

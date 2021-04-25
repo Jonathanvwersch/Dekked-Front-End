@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = ({
       <Box p={padding ? padding : theme.spacers.size16}>
         <HFlex justifyContent={alignment}>
           <Button
-            size={SIZES.MEDIUM}
+            size={SIZES.SMALL}
             handleClick={handleCancel}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({
           </Button>
           <Spacer width={theme.spacers.size32} />
           <Button
-            size={SIZES.MEDIUM}
+            size={SIZES.SMALL}
             handleClick={handleMainButton}
             buttonStyle={mainButtonStyle}
             disabled={isDisabled}

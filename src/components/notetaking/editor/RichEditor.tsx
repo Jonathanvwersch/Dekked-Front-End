@@ -1,4 +1,4 @@
-import {
+import Draft, {
   ContentBlock,
   ContentState,
   DraftEditorCommand,
@@ -14,37 +14,34 @@ import {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 
 import {
   addNewBlockAt,
   getCurrentBlock,
-  getWordCount,
   isSoftNewlineEvent,
 } from "../Utils/editorUtils";
-import TextModal from "../TextModal/TextModal";
 
-import UnstyledComponent from "./UnstyledComponent/UnstyledComponent";
-import StyledComponent from "./StyledComponent/StyledComponent";
 import styled from "styled-components/macro";
 import { EditorContext } from "../../../contexts/EditorContext";
+import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
+import PlaceholderBlock from "../custom-blocks/PlaceholderBlock";
+import { TodoBlock, DividerBlock, ToggleBlock } from "../custom-blocks";
+import { BLOCK_TYPES } from "../../../shared";
+import { ComponentLoadingSpinner } from "../../common";
+const Immutable = require("immutable");
 
 interface EditorProps {
   savedContent?: ContentState;
 }
 
 const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
-  // const [editorState, setEditorState] = useState(() =>
-  //   savedContent
-  //     ? EditorState.createWithContent(savedContent)
-  //     : EditorState.createEmpty()
-  // );
   const {
     editorState,
     setEditorState,
     onSave,
-    setNumOfWords,
-    numOfWords,
+    toggleBlockStyle,
+    loading,
   } = useContext(EditorContext);
 
   const editorRef = useRef<any>(null);
@@ -65,35 +62,9 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     }
     return "not-handled";
   };
+  console.log(loading);
 
-  // const focus = () => {
-  //   editorRef.current?.focus();
-  // };
-
-  // const focusLast = () => {
-  //   const lastBlock = editorState.getCurrentContent().getLastBlock();
-  //   const selection = new SelectionState({
-  //     anchorKey: lastBlock.getKey(),
-  //     anchorOffset: lastBlock.getLength(),
-  //     focusKey: lastBlock.getKey(),
-  //     focusOffset: lastBlock.getLength(),
-  //     hasFocus: true,
-  //     isBackward: false,
-  //   });
-
-  //   setEditorState(EditorState.forceSelection(editorState, selection));
-  //   setTimeout(() => {
-  //     window.getSelection()?.anchorNode?.parentElement?.scrollIntoView({
-  //       behavior: "smooth",
-  //     });
-  //   }, 200);
-  // };
-
-  // useEffect(() => {
-  //   focusLast();
-  // }, []);
-
-  const toggleBlockType = (blockType: string) => {
+  const toggleBlockType = (blockType: BLOCK_TYPES) => {
     const currentContent = editorState.getCurrentContent();
     const currentBlock = getCurrentBlock(editorState);
 
@@ -120,25 +91,56 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
   };
 
+  // block type selector
   const myBlockRenderer = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
-    if (type === "unstyled") {
-      return {
-        component: UnstyledComponent,
-        editable: true,
-        props: {
-          editorState,
-          toggleBlockType,
-        },
-      };
-    } else {
-      return {
-        component: StyledComponent,
-        editable: true,
-      };
+
+    switch (type) {
+      case "divider":
+        return {
+          component: DividerBlock,
+          editable: false,
+          props: {
+            editorState,
+            setEditorState,
+          },
+        };
+
+      case "to-do":
+        return {
+          component: TodoBlock,
+          editable: true,
+          props: {
+            editorState,
+            setEditorState,
+            toggleBlockStyle,
+          },
+        };
+
+      case "toggle":
+        return {
+          component: ToggleBlock,
+          editable: true,
+          props: {
+            editorState,
+            setEditorState,
+            toggleBlockStyle,
+          },
+        };
+
+      default:
+        return {
+          component: PlaceholderBlock,
+          editable: true,
+          props: {
+            editorState,
+            toggleBlockType,
+          },
+        };
     }
   };
 
+  // handle what happens when return key is pressed
   const handleReturn = (e: any): DraftHandleValue => {
     if (isSoftNewlineEvent(e)) {
       setEditorState(RichUtils.insertSoftNewline(editorState));
@@ -150,7 +152,9 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     if (
       blockType === "unstyled" ||
       blockType === "unordered-list-item" ||
-      blockType === "ordered-list-item"
+      blockType === "ordered-list-item" ||
+      blockType === "to-do" ||
+      "toggle"
     ) {
       return "not-handled";
     }
@@ -172,25 +176,44 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     setEditorState(e);
   };
 
-  useEffect(() => {
-    setNumOfWords(getWordCount(editorState));
-  }, [numOfWords, editorState, setNumOfWords]);
+  // see https://draftjs.org/docs/advanced-topics-block-styling
+  const myBlockStyleFn = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+    if (type === "blockquote") {
+      return "custom-blockquote";
+    } else return "";
+  };
+
+  // see https://draftjs.org/docs/advanced-topics-custom-block-render-map
+  const blockRenderMap = Immutable.Map({});
+
+  const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(
+    blockRenderMap
+  );
 
   return (
     <>
-      <EditorContainer>
-        <Editor
-          editorState={editorState}
-          onChange={onChange}
-          handleKeyCommand={handleKeyCommand}
-          ref={(node) => (editorRef.current = node)}
-          blockRendererFn={myBlockRenderer}
-          handleReturn={handleReturn}
-          keyBindingFn={myKeyBindingFn}
-        />
-
-        <TextModal onToggle={toggleBlockType} editorState={editorState} />
-      </EditorContainer>
+      {!loading ? (
+        <EditorContainer>
+          <Editor
+            editorState={editorState}
+            onChange={onChange}
+            handleKeyCommand={handleKeyCommand}
+            ref={(node) => (editorRef.current = node)}
+            blockRendererFn={myBlockRenderer}
+            handleReturn={handleReturn}
+            keyBindingFn={myKeyBindingFn}
+            blockStyleFn={myBlockStyleFn}
+            blockRenderMap={extendedBlockRenderMap}
+          />
+          <NotetakingBlocksModal
+            onToggle={toggleBlockType}
+            editorState={editorState}
+          />
+        </EditorContainer>
+      ) : (
+        <ComponentLoadingSpinner />
+      )}
     </>
   );
 };
@@ -216,6 +239,15 @@ const EditorContainer = styled.div`
   h3 {
     margin-top: ${({ theme }) => theme.spacers.size8};
     margin-bottom: ${({ theme }) => theme.spacers.size16};
+  }
+
+  .custom-blockquote {
+    margin-top: ${({ theme }) => theme.spacers.size20};
+    margin-bottom: ${({ theme }) => theme.spacers.size20};
+    border-left: 2px solid ${({ theme }) => theme.colors.fontColor};
+    font-style: italic;
+    font-size: ${({ theme }) => theme.typography.fontSizes.size18};
+    padding-left: ${({ theme }) => theme.spacers.size16};
   }
 `;
 

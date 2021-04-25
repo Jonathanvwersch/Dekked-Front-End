@@ -101,6 +101,10 @@ const en_GB = {
           smallHeading: "Small heading",
           bulletedList: "Bulleted list",
           numberedList: "Numbered list",
+          quote: "Quote",
+          divider: "Divider",
+          todo: "To-do",
+          toggle: "Toggle list",
         },
       },
       flashcards: {

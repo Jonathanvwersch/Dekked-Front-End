@@ -1,6 +1,6 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components/macro";
 import { Block, Divider, Overlay, ShadowCard } from "..";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
@@ -54,7 +54,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
       coords={coords}
       type={type}
     >
-      <ShadowCard cardRef={cardRef} width={theme.sizes.modal.small}>
+      <StyledScrollerModal cardRef={cardRef} width={theme.sizes.modal.small}>
         {data.map((item, index) => {
           return (
             <Fragment key={`ScrollerModal ${index}`}>
@@ -72,9 +72,17 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
             </Fragment>
           );
         })}
-      </ShadowCard>
+      </StyledScrollerModal>
     </Overlay>
   );
 };
+
+const StyledScrollerModal = styled(ShadowCard)`
+  max-height: 250px;
+  overflow: hidden;
+  &:hover {
+    overflow: auto;
+  }
+`;
 
 export default React.memo(ScrollerModal);

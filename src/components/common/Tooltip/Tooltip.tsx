@@ -32,23 +32,13 @@ const Tooltip: React.FC<TooltipProps> = ({
   const { theme, formatMessage } = usePageSetupHelpers();
   const [tooltip, setTooltip] = useState<boolean>(false);
 
-  // close tooltip when you click on element with tooltip
-  const handleClickOutside = useCallback(() => {
-    setTooltip && setTooltip(false);
-  }, [setTooltip]);
-
-  useEffect(() => {
-    if (tooltip) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [tooltip, handleClickOutside]);
-
   return (
     <>
-      <Overlay isOpen={tooltip} type={MODAL_TYPE.TOOL_TIP}>
+      <Overlay
+        handleClose={() => setTooltip(false)}
+        isOpen={tooltip}
+        type={MODAL_TYPE.TOOL_TIP}
+      >
         <ReactTooltip
           multiline
           type={type}
@@ -71,6 +61,7 @@ const Tooltip: React.FC<TooltipProps> = ({
         data-for={id}
         onMouseEnter={() => setTooltip(true)}
         onMouseLeave={() => setTooltip(false)}
+        onClick={() => setTooltip(false)}
       >
         {children}
       </TooltipChildren>

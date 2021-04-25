@@ -1,18 +1,21 @@
 import { EditorState } from "draft-js";
 import React, { useEffect, useState } from "react";
-import { TextModalData } from "./TextModal.data";
+import { NoteTakingBlocksData } from "./NotetakingBlocks.data";
 
 import { ScrollerModal } from "../../common";
 import { positionBlockEditor } from "../Utils/editorUtils";
-import { getSelectedBlockNode } from "./TextModal.helpers";
-import { MODAL_TYPE, CoordsType } from "../../../shared";
+import { getSelectedBlockNode } from "./NotetakingBlocksModal.helpers";
+import { MODAL_TYPE, CoordsType, BLOCK_TYPES } from "../../../shared";
 
-interface TextModalProps {
-  onToggle: (style: string) => void;
+interface NotetakingBlocksModalProps {
+  onToggle: (style: BLOCK_TYPES) => void;
   editorState: EditorState;
 }
 
-const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
+const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
+  onToggle,
+  editorState,
+}) => {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<CoordsType>();
 
@@ -49,7 +52,7 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
     }
   }, [currentBlock]);
 
-  const handleToggle = (style: string, e: any) => {
+  const handleToggle = (style: BLOCK_TYPES, e: any) => {
     e.preventDefault();
     e.stopPropagation();
     onToggle(style);
@@ -63,7 +66,7 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
           handleClose={() => setOpen(false)}
           coords={coords}
           clickFunctions={handleToggle}
-          data={TextModalData}
+          data={NoteTakingBlocksData.slice(1)}
           type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
         />
       ) : null}
@@ -71,4 +74,4 @@ const TextModal: React.FC<TextModalProps> = ({ onToggle, editorState }) => {
   );
 };
 
-export default TextModal;
+export default NotetakingBlocksModal;

@@ -107,3 +107,18 @@ export const getWordCount = (editorState: EditorState) => {
   const wordArray = cleanString.match(/\S+/g); // matches words according to whitespace
   return wordArray ? wordArray.length : 0;
 };
+
+export const updateDataOfBlock = (
+  editorState: any,
+  block: any,
+  newData: any
+) => {
+  const contentState = editorState.getCurrentContent();
+  const newBlock = block.merge({
+    data: newData,
+  });
+  const newContentState = contentState.merge({
+    blockMap: contentState.getBlockMap().set(block.getKey(), newBlock),
+  });
+  return EditorState.push(editorState, newContentState, "change-block-type");
+};

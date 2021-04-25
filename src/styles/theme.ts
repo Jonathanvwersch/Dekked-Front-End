@@ -11,6 +11,7 @@ export type ThemeType = {
     grey3: string; // light
     iconColor: string;
     fontColor: string;
+    selection: string;
     backgrounds: {
       studyModeBackground: string;
       modalBackground: string;
@@ -35,6 +36,7 @@ export type ThemeType = {
       size12: string;
       size14: string;
       size16: string;
+      size18: string;
       size20: string;
       size22: string;
       size26: string;
@@ -122,6 +124,7 @@ export const theme: ThemeType = {
     grey1: "#B8B7B6", // dark
     grey2: "#DAD9D7", // mid
     grey3: "#EAEAEA", // light
+    selection: "#B1FAFF",
     backgrounds: {
       studyModeBackground: "#F7F8FA",
       modalBackground: "#FFF",
@@ -146,6 +149,7 @@ export const theme: ThemeType = {
       size12: "12px",
       size14: "14px",
       size16: "16px",
+      size18: "18px",
       size20: "20px",
       size22: "22px",
       size26: "26px",

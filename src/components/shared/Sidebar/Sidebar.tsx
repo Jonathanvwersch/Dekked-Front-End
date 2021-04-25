@@ -82,7 +82,7 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
   transform: ${({ hoverbar }) =>
     hoverbar
       ? "transform: translateX(0px) translateZ(0px);"
-      : "translateX(-200px) translateZ(0px)"};
+      : "translateX(-230px) translateZ(0px)"};
 `;
 
 export default React.memo(Sidebar);

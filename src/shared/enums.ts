@@ -52,11 +52,22 @@ export enum BUTTON_THEME {
 
 // note-taking
 
-export enum STYLES {
+export enum BLOCK_TYPES {
   UNSTYLED = "unstyled",
   HEADER_ONE = "header-one",
   HEADER_TWO = "header-two",
   HEADER_THREE = "header-three",
   BULLETED_LIST = "unordered-list-item",
   NUMBERED_LIST = "ordered-list-item",
+  QUOTE = "blockquote",
+  DIVIDER = "divider",
+  TODO = "to-do",
+  TOGGLE = "toggle",
+}
+
+export enum TEXT_STYLES {
+  BOLD = "BOLD",
+  ITALIC = "ITALIC",
+  UNDERLINE = "UNDERLINE",
+  STRIKETHROUGH = "STRIKETHROUGH",
 }
