@@ -10,6 +10,7 @@ import {
   DividerIcon,
   ROTATE,
   TodoIcon,
+  CloseIcon,
 } from "../../../assets";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
@@ -24,6 +25,7 @@ export enum NOTETAKING_BLOCKS {
   DIVIDER = "studySet.notetaking.toolbar.divider",
   TODO = "studySet.notetaking.toolbar.todo",
   TOGGLE = "studySet.notetaking.toolbar.toggle",
+  NO_DATA = "studySet.notetaking.noMatchingBlocks",
 }
 
 export const NoteTakingBlocksData: ScrollerModalData = [
@@ -72,10 +74,13 @@ export const NoteTakingBlocksData: ScrollerModalData = [
     style: BLOCK_TYPES.TODO,
     icon: <TodoIcon />,
   },
+];
+
+export const noMatchingBlocksData: ScrollerModalData = [
   {
-    label: NOTETAKING_BLOCKS.TOGGLE,
-    style: BLOCK_TYPES.TOGGLE,
-    icon: <TodoIcon />,
+    label: NOTETAKING_BLOCKS.NO_DATA,
+    icon: <CloseIcon />,
+    hoverCard: false,
   },
 ];
 

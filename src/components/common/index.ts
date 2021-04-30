@@ -25,4 +25,5 @@ export { default as Footer } from "./Footer/Footer";
 export { default as Box } from "./Box/Box";
 export { default as Halo } from "./Halo/Halo";
 export { default as Tooltip } from "./Tooltip/Tooltip";
+export { default as ConditionalWrapper } from "./ConditionalWrapper/ConditionalWrapper";
 export { ScrollerModal, GeneralModal } from "./Modals";

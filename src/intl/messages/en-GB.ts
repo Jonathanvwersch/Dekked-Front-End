@@ -94,6 +94,7 @@ const en_GB = {
         numOfWord: "{num} word",
         numOfWords: "{num} words",
         placeholder: "Type '/' to view block types",
+        noMatchingBlocks: "No matching blocks",
         toolbar: {
           body: "Body",
           largeHeading: "Large heading",
@@ -103,7 +104,7 @@ const en_GB = {
           numberedList: "Numbered list",
           quote: "Quote",
           divider: "Divider",
-          todo: "To-do",
+          todo: "Todo",
           toggle: "Toggle list",
         },
       },

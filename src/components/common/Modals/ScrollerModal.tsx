@@ -1,7 +1,8 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
-import { Block, Divider, Overlay, ShadowCard } from "..";
+import { Block, Divider, Overlay, ShadowCard, ConditionalWrapper } from "..";
+import { useKeyDownAndUpListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
 interface ScrollerModalProps {
@@ -12,6 +13,7 @@ interface ScrollerModalProps {
   coords?: CoordsType;
   cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
+  withOverlay?: boolean;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -22,48 +24,41 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   data,
   coords,
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
+  withOverlay = true,
 }) => {
   const theme = useContext(ThemeContext);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const eventHandler = (event: KeyboardEvent) => {
-    if (open) {
-      if (event.key === "ArrowUp") {
-        setActiveIndex((activeIndex - 1 + data.length) % data.length);
-      } else if (event.key === "ArrowDown") {
-        setActiveIndex((activeIndex + 1) % data.length);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!open) {
-      setActiveIndex(0);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    window.addEventListener("keydown", eventHandler);
-    return () => window.removeEventListener("keydown", eventHandler);
-  }, [open, activeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+  const { activeIndex } = useKeyDownAndUpListener(open, data.length);
 
   return (
-    <Overlay
-      isOpen={open}
-      handleClose={handleClose}
-      coords={coords}
-      type={type}
+    <ConditionalWrapper
+      condition={withOverlay}
+      wrapper={(children: any) => (
+        <Overlay
+          isOpen={open}
+          handleClose={handleClose}
+          coords={coords}
+          type={type}
+        >
+          {children}
+        </Overlay>
+      )}
     >
-      <StyledScrollerModal cardRef={cardRef} width={theme.sizes.modal.small}>
+      <StyledScrollerModal
+        withOverlay={withOverlay}
+        coords={coords}
+        width={theme.sizes.modal.small}
+        cardRef={cardRef}
+      >
         {data.map((item, index) => {
           return (
             <Fragment key={`ScrollerModal ${index}`}>
               <Block
                 index={index}
                 activeIndex={activeIndex}
-                icon={item.icon}
-                label={item.label}
+                icon={item?.icon}
+                label={item?.label}
                 className="focus"
+                hoverCard={item?.hoverCard}
                 handleClick={(e: MouseEvent) =>
                   clickFunctions(item?.style ? item.style : item.label, e)
                 }
@@ -73,13 +68,26 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
           );
         })}
       </StyledScrollerModal>
-    </Overlay>
+    </ConditionalWrapper>
   );
 };
 
-const StyledScrollerModal = styled(ShadowCard)`
+const StyledScrollerModal = styled(ShadowCard)<{
+  withOverlay: boolean;
+  coords: CoordsType | undefined;
+}>`
+  position: ${({ withOverlay }) => (!withOverlay ? "absolute" : undefined)};
+  left: ${({ withOverlay, coords }) =>
+    !withOverlay && coords?.left ? `${coords?.left}px` : undefined};
+  top: ${({ withOverlay, coords }) =>
+    !withOverlay && coords?.top ? `${coords?.top}px` : undefined};
+  bottom: ${({ coords, withOverlay }) =>
+    !withOverlay && coords?.bottom ? `${coords?.bottom}px` : undefined};
+  right: ${({ coords, withOverlay }) =>
+    !withOverlay && coords?.right ? `${coords?.right}px` : undefined};
   max-height: 250px;
   overflow: hidden;
+  z-index: 100;
   &:hover {
     overflow: auto;
   }

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { HFlex, IconActive, Spacer } from "../../common";
+import { HFlex, IconActive, IconWrapper, Spacer } from "../../common";
 import {
   BodyTextIcon,
   BoldIcon,
@@ -8,12 +8,11 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "../../../assets";
-import { positionModals } from "../../../helpers";
 import { StudySetToolbarModal } from ".";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
-import { CoordsType, SIZES, TEXT_STYLES } from "../../../shared";
+import { SIZES, TEXT_STYLES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";
 
 interface StudySetToolbarProps {
@@ -23,34 +22,29 @@ interface StudySetToolbarProps {
 const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   toolbarFull = true,
 }) => {
-  const [blockOptions, setBlockOptions] = useState<boolean>(false);
-  const [coords, setCoords] = useState<CoordsType>();
+  const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
   const theme: ThemeType = useContext(ThemeContext);
-
-  const handleBlockModal = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    setBlockOptions(true);
-    // I hate having to hard code the height of the modal but I'm not sure how to get the height of a component before it has been rendered
-    const blockModalHeight = 193;
-    setCoords(positionModals(e, blockModalHeight));
-  };
 
   const { toggleInlineStyle } = useContext(EditorContext);
 
   return (
     <>
       <HFlex width="auto">
-        <IconActive
-          handleMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-            handleBlockModal(e)
-          }
-        >
-          <HFlex>
-            <BodyTextIcon size={SIZES.MEDIUM} />
-            <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
-          </HFlex>
-        </IconActive>
+        <IconWrapper>
+          <IconActive handleMouseDown={() => setBlockOptionsModal(true)}>
+            <HFlex>
+              <BodyTextIcon size={SIZES.MEDIUM} />
+              <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
+            </HFlex>
+          </IconActive>
+          {blockOptionsModal && (
+            <StudySetToolbarModal
+              coords={{ top: 24, left: 4 }}
+              open={blockOptionsModal}
+              handleClose={() => setBlockOptionsModal(false)}
+            />
+          )}
+        </IconWrapper>
         <Spacer width={theme.spacers.size8} />
         <IconActive
           handleMouseDown={(e: MouseEvent) => {
@@ -111,13 +105,6 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
           </>
         ) : null} */}
       </HFlex>
-      {coords && (
-        <StudySetToolbarModal
-          open={blockOptions}
-          handleClose={() => setBlockOptions(false)}
-          coords={coords}
-        />
-      )}
     </>
   );
 };

@@ -10,6 +10,7 @@ export function isSoftNewlineEvent(e: any) {
   );
 }
 
+// Function to get data associated with current block
 export function getCurrentBlock(editorState: EditorState) {
   const selectionState = editorState.getSelection();
   const contentState = editorState.getCurrentContent();
@@ -17,6 +18,7 @@ export function getCurrentBlock(editorState: EditorState) {
   return block;
 }
 
+// Function used to add new block after a specified block (using block key to identify the block)
 export function addNewBlockAt(
   editorState: EditorState,
   pivotBlockKey: string,
@@ -108,6 +110,8 @@ export const getWordCount = (editorState: EditorState) => {
   return wordArray ? wordArray.length : 0;
 };
 
+// Function to update meta date of a block e.g. for the to-do block we can use
+// this function to save the checked state of the block
 export const updateDataOfBlock = (
   editorState: any,
   block: any,

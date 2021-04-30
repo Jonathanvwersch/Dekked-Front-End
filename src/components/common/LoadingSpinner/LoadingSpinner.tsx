@@ -6,27 +6,35 @@ import { ThemeType } from "../../../styles/theme";
 
 import IconWrapper from "../IconWrapper/IconWrapper";
 
+interface LoadingSpinnerProps {
+  size?: SIZES;
+}
+
 // Use whenever you want to add a loading spinner in place of a component
-export const ComponentLoadingSpinner: React.FC = () => {
+export const ComponentLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = SIZES.LARGE,
+}) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
     <StyledComponentSpinner>
       <IconWrapper>
-        <LogoIcon color={theme.colors.primary} size={SIZES.LARGE} />
+        <LogoIcon color={theme.colors.primary} size={size} />
       </IconWrapper>
     </StyledComponentSpinner>
   );
 };
 
 // Use whenever you want to add a full page loading spinner e.g. on initial page load
-export const FullPageLoadingSpinner: React.FC = () => {
+export const FullPageLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = SIZES.LARGE,
+}) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
     <StyledFullPageSpinner>
       <IconWrapper>
-        <LogoIcon color={theme.colors.primary} size={SIZES.LARGE} />
+        <LogoIcon color={theme.colors.primary} size={size} />
       </IconWrapper>
     </StyledFullPageSpinner>
   );

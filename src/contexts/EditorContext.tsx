@@ -7,29 +7,30 @@ import {
   SelectionState,
   ContentBlock,
 } from "draft-js";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import React from "react";
 import { usePage } from "../services/note-taking/usePage";
 import { useParams } from "react-router";
 import { useBlocks } from "../services/note-taking/useBlocks";
 import { BLOCK_TYPES, Params, TEXT_STYLES } from "../shared";
-import { getWordCount } from "../components/notetaking/Utils/editorUtils";
-import { isNull } from "lodash";
+import { debounce, isNull } from "lodash";
+import { getWordCount } from "../components/notetaking/Editor/Editor.helpers";
 
 interface EditorContextProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   toggleInlineStyle: (style: TEXT_STYLES) => void;
   toggleBlockType: (style: BLOCK_TYPES) => void;
-  onSave: () => void;
   numOfWords: number;
   toggleBlockStyle: (
     style: TEXT_STYLES,
     currentBlock: ContentBlock,
     currentKey: any
   ) => void;
-  updateDataOfBlock: (currentBlock: ContentBlock, newData: any) => EditorState;
   loading: boolean;
+  autoSave: (editorState: EditorState, page: PageInterface | undefined) => void;
+  saving: boolean;
+  page: PageInterface | undefined;
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -39,6 +40,7 @@ export const EditorContext = createContext<EditorContextProps>(
 export const EditorContextProvider: React.FC = ({ children }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [numOfWords, setNumOfWords] = useState<number>(0);
+  const [saving, setSaving] = useState<boolean>(false);
   const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
@@ -75,34 +77,38 @@ export const EditorContextProvider: React.FC = ({ children }) => {
     setEditorState(RichUtils.toggleBlockType(editorState, type));
   };
 
-  const onSave = async () => {
+  // Make call to server to save text blocks
+  const onSave = async (
+    editorState: EditorState,
+    page: PageInterface | undefined
+  ) => {
+    setSaving(true);
     const rawContent = convertToRaw(editorState.getCurrentContent());
     const keys = rawContent.blocks.map((val) => val.key);
     const blocks = rawContent.blocks.map((val) => JSON.stringify(val));
     const response = await savePage({
       draft_keys: keys,
       blocks,
+      page,
     });
-
-    console.log(response);
+    setSaving(!response.success);
   };
 
-  const updateDataOfBlock = (currentBlock: any, newData: any) => {
-    const contentState = editorState.getCurrentContent();
-    const newBlock = currentBlock.merge({
-      data: newData,
-    });
-    console.log(newData);
-    const newContentState = contentState.merge({
-      blockMap: contentState.getBlockMap().set(currentBlock.getKey(), newBlock),
-    });
-    return EditorState.push(
-      editorState,
-      newContentState as any,
-      "change-block-type"
-    );
-  };
+  // Debounce function to autosave notes
+  const debounced = debounce(
+    (editorState: EditorState, page: PageInterface | undefined) =>
+      onSave(editorState, page),
+    250
+  );
 
+  const autoSave = useCallback(
+    (editorState: EditorState, page: PageInterface | undefined) => {
+      debounced(editorState, page);
+    },
+    []
+  );
+
+  // Set editor state on mount
   useEffect(() => {
     if (blocks) {
       const parsedBlocks: RawDraftContentBlock[] = blocks.map((blocks) =>
@@ -116,6 +122,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
     }
   }, [blocks]);
 
+  // Calculate the number of words in text
   useEffect(() => {
     setNumOfWords(getWordCount(editorState));
   }, [numOfWords, editorState, setNumOfWords]);
@@ -127,11 +134,12 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         setEditorState,
         toggleInlineStyle,
         toggleBlockType,
-        onSave,
         numOfWords,
         toggleBlockStyle,
-        updateDataOfBlock,
         loading,
+        autoSave,
+        saving,
+        page,
       }}
     >
       {children}

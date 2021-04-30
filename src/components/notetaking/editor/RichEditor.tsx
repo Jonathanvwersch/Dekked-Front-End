@@ -4,8 +4,6 @@ import Draft, {
   DraftEditorCommand,
   DraftHandleValue,
   EditorState,
-  getDefaultKeyBinding,
-  KeyBindingUtil,
   Modifier,
   RichUtils,
   SelectionState,
@@ -20,13 +18,13 @@ import {
   addNewBlockAt,
   getCurrentBlock,
   isSoftNewlineEvent,
-} from "../Utils/editorUtils";
+} from "./Editor.helpers";
 
 import styled from "styled-components/macro";
 import { EditorContext } from "../../../contexts/EditorContext";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
 import PlaceholderBlock from "../custom-blocks/PlaceholderBlock";
-import { TodoBlock, DividerBlock, ToggleBlock } from "../custom-blocks";
+import { TodoBlock, DividerBlock } from "../custom-blocks";
 import { BLOCK_TYPES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
 const Immutable = require("immutable");
@@ -35,13 +33,14 @@ interface EditorProps {
   savedContent?: ContentState;
 }
 
-const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
+const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
   const {
     editorState,
     setEditorState,
-    onSave,
     toggleBlockStyle,
     loading,
+    autoSave,
+    page,
   } = useContext(EditorContext);
 
   const editorRef = useRef<any>(null);
@@ -52,17 +51,12 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
   ) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
-    if (String(command) === "myeditor-save") {
-      onSave();
-    }
-
     if (newState) {
       setEditorState(newState);
       return "handled";
     }
     return "not-handled";
   };
-  console.log(loading);
 
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
     const currentContent = editorState.getCurrentContent();
@@ -72,7 +66,7 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
       anchorKey: currentBlock.getKey(),
       anchorOffset: 0,
       focusKey: currentBlock.getKey(),
-      focusOffset: 1,
+      focusOffset: 1000,
       hasFocus: true,
     });
 
@@ -117,17 +111,6 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
           },
         };
 
-      case "toggle":
-        return {
-          component: ToggleBlock,
-          editable: true,
-          props: {
-            editorState,
-            setEditorState,
-            toggleBlockStyle,
-          },
-        };
-
       default:
         return {
           component: PlaceholderBlock,
@@ -153,8 +136,7 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
       blockType === "unstyled" ||
       blockType === "unordered-list-item" ||
       blockType === "ordered-list-item" ||
-      blockType === "to-do" ||
-      "toggle"
+      blockType === "to-do"
     ) {
       return "not-handled";
     }
@@ -163,17 +145,12 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
     return "handled";
   };
 
-  const { hasCommandModifier } = KeyBindingUtil;
-
-  const myKeyBindingFn = (e: any): string | null => {
-    if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
-      return "myeditor-save";
-    }
-    return getDefaultKeyBinding(e);
-  };
-
-  const onChange = (e: EditorState) => {
-    setEditorState(e);
+  const onChange = (newEditorState: EditorState) => {
+    // const currentState = editorState.getCurrentContent();
+    // const newState = newEditorState.getCurrentContent();
+    // const hasContentChanged = currentState !== newState;
+    autoSave(newEditorState, page);
+    setEditorState(newEditorState);
   };
 
   // see https://draftjs.org/docs/advanced-topics-block-styling
@@ -202,7 +179,6 @@ const RichEditor: React.FC<EditorProps> = ({ savedContent }) => {
             ref={(node) => (editorRef.current = node)}
             blockRendererFn={myBlockRenderer}
             handleReturn={handleReturn}
-            keyBindingFn={myKeyBindingFn}
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
           />
@@ -251,4 +227,4 @@ const EditorContainer = styled.div`
   }
 `;
 
-export default RichEditor;
+export default NoteEditor;

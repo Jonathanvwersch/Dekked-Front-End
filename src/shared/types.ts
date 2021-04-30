@@ -2,9 +2,10 @@ import { FILETREE_TYPES, STUDY_MODE_TYPES, TAB_TYPE } from ".";
 
 export type ScrollerModalData = {
   label: any;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   style?: string;
   divider?: boolean;
+  hoverCard?: boolean;
 }[];
 
 export type Params = {

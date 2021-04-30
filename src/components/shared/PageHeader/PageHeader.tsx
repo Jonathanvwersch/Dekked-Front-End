@@ -1,19 +1,17 @@
 import React, { useContext, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled from "styled-components/macro";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import { useIntl } from "react-intl";
 
 interface PageHeaderProps {
   message?: string;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
-  const intl = useIntl();
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();

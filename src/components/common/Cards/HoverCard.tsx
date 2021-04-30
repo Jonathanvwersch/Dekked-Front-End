@@ -59,6 +59,10 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   cursor: pointer;
   user-select: none;
 
+  &:hover {
+    filter: ${({ theme }) => theme.colors.hover.filter};
+  }
+
   &.active {
     filter: ${({ theme }) => theme.colors.active.filter};
   }
@@ -67,14 +71,6 @@ const StyledHoverCard = styled.div<HoverCardProps>`
     &:focus {
       filter: ${({ theme }) => theme.colors.hover.filter};
     }
-  }
-
-  &:hover {
-    filter: ${({ theme }) => theme.colors.hover.filter};
-  }
-
-  &:active {
-    filter: ${({ theme }) => theme.colors.active.filter};
   }
 `;
 

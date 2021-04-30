@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { HFlex, HoverCard } from "../../common";
+import { updateDataOfBlock } from "../Editor/Editor.helpers";
 import PlaceholderBlock from "./PlaceholderBlock";
-import { updateDataOfBlock } from "../Utils/editorUtils";
 
 const TodoBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;

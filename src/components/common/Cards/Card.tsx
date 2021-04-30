@@ -21,6 +21,7 @@ const Card: React.FC<CardProps> = ({ children, ...props }) => {
 };
 
 const StyledCard = styled.div<CardProps>`
+  user-select: none;
   padding: ${({ padding, theme }) =>
     padding ? padding : theme.spacers.size16};
   height: ${({ height }) => height};

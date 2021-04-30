@@ -26,14 +26,14 @@ const useOutsideClickListener = (
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") handler();
-      if (e.key === "Enter") handler();
+      if (withEscape && e.key === "Escape") handler();
+      if (withEnter && e.key === "Enter") handler();
     },
-    [handler]
+    [handler, withEnter, withEscape]
   );
 
   useEffect(() => {
-    if (shouldRun && withEscape) {
+    if (shouldRun) {
       document.addEventListener("keydown", handleEscape);
       return () => document.removeEventListener("keydown", handleEscape);
     }

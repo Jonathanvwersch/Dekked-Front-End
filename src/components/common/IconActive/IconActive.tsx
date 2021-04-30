@@ -49,6 +49,7 @@ const StyledIconActive = styled.button<IconActiveProps>`
   margin: 0;
   padding: 0;
   border: none;
+  position: relative;
   background: none;
   cursor: pointer;
   outline: none;

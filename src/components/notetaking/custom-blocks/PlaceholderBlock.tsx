@@ -3,8 +3,8 @@ import { memo } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
 import { usePageSetupHelpers } from "../../../hooks";
+import { getCurrentBlock } from "../Editor/Editor.helpers";
 import { placeholder } from "../TextModal/NotetakingBlocks.data";
-import { getCurrentBlock } from "../Utils/editorUtils";
 
 interface PlaceholderProps {}
 

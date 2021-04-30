@@ -10,7 +10,6 @@ export function useBlocks(page_id?: string) {
         Authorization: `Bearer ${config.authToken}`,
       },
     });
-
     if (response.ok) {
       const json = await response.json();
       if (json.success) {
@@ -21,6 +20,7 @@ export function useBlocks(page_id?: string) {
   };
 
   useEffect(() => {
+    console.log(page_id);
     if (page_id) {
       getBlocksByPageId();
     }

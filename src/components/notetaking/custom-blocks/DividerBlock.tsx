@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
-import { addNewBlockAt } from "../Utils/editorUtils";
+import { addNewBlockAt } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
   // add new block on mount after the divider

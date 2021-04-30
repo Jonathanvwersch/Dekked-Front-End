@@ -1,6 +1,7 @@
-import React from "react";
-import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
+import React, { ReactElement } from "react";
+import { Card, HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
+import ConditionalWrapper from "../ConditionalWrapper/ConditionalWrapper";
 
 interface BlockProps {
   label: string;
@@ -12,6 +13,7 @@ interface BlockProps {
   index?: number;
   fontWeight?: string;
   className?: string;
+  hoverCard?: boolean;
 }
 
 const Block: React.FC<BlockProps> = ({
@@ -24,29 +26,52 @@ const Block: React.FC<BlockProps> = ({
   backgroundColor,
   fontWeight,
   className,
+  hoverCard = true,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
 
-  return (
-    <HoverCard
-      index={index}
-      activeIndex={activeIndex}
+  const CardComponent = (children: ReactElement) => (
+    <Card
       backgroundColor={
         backgroundColor
           ? backgroundColor
           : theme.colors.backgrounds.modalBackground
       }
-      handleMouseDown={handleMouseDown && handleMouseDown}
-      handleClick={handleClick && handleClick}
       padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
-      className={className}
     >
-      <HFlex>
-        <IconWrapper>{icon}</IconWrapper>
-        <Spacer width={theme.spacers.size8} />
-        <Text fontWeight={fontWeight}>{formatMessage(label)}</Text>
-      </HFlex>
-    </HoverCard>
+      {children}
+    </Card>
+  );
+
+  const children = (
+    <HFlex>
+      <IconWrapper>{icon}</IconWrapper>
+      <Spacer width={theme.spacers.size8} />
+      <Text fontWeight={fontWeight}>{formatMessage(label)}</Text>
+    </HFlex>
+  );
+
+  return (
+    <ConditionalWrapper
+      condition={!hoverCard}
+      wrapper={() => CardComponent(children)}
+    >
+      <HoverCard
+        index={index}
+        activeIndex={activeIndex}
+        backgroundColor={
+          backgroundColor
+            ? backgroundColor
+            : theme.colors.backgrounds.modalBackground
+        }
+        handleMouseDown={handleMouseDown && handleMouseDown}
+        handleClick={handleClick && handleClick}
+        padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
+        className={className}
+      >
+        {children}
+      </HoverCard>
+    </ConditionalWrapper>
   );
 };
 

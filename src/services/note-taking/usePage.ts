@@ -14,8 +14,6 @@ export function usePage(study_pack_id: string) {
 
     if (response.ok) {
       const json = await response.json();
-      console.log(json);
-      console.log("success");
       if (json.success) {
         setPage(json.data.page);
         return;
@@ -24,18 +22,18 @@ export function usePage(study_pack_id: string) {
   };
 
   useEffect(() => {
-    if (study_pack_id) {
-      getPageByStudyPackId();
-    }
+    getPageByStudyPackId();
   }, [study_pack_id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  async function savePage({
+  const savePage = async ({
     draft_keys,
     blocks,
+    page,
   }: {
     draft_keys: string[];
     blocks: string[];
-  }) {
+    page: PageInterface | undefined;
+  }) => {
     const url = config.api + `/page/${page?.id}`;
     try {
       const response = await fetch(url, {
@@ -49,13 +47,12 @@ export function usePage(study_pack_id: string) {
           blocks,
         }),
       });
-      console.log(response.json());
       return await response.json();
     } catch (e) {
       console.log(e);
       return { success: false };
     }
-  }
+  };
 
   return {
     page,

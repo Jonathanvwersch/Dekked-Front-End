@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import { HamburgerMenuIcon } from "../../../assets";
-import { SidebarContext } from "../../../contexts";
+import { EditorContext, SidebarContext } from "../../../contexts";
 import { SIZES } from "../../../shared";
-import { IconActive, Spacer, Tooltip } from "../../common";
+import {
+  ComponentLoadingSpinner,
+  HFlex,
+  IconActive,
+  Spacer,
+  Tooltip,
+} from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
+  const { saving } = useContext(EditorContext);
 
   return (
     <StyledTopbar>
@@ -25,7 +32,15 @@ const TopBar: React.FC = () => {
           <Spacer width={theme.spacers.size16} />
         </>
       ) : null}
-      <Breadcrumbs />
+      <HFlex width="auto">
+        <Breadcrumbs />
+        {saving ? (
+          <>
+            <Spacer width={theme.spacers.size32} />
+            <ComponentLoadingSpinner size={SIZES.MEDIUM} />
+          </>
+        ) : null}
+      </HFlex>
     </StyledTopbar>
   );
 };
