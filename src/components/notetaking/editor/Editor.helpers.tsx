@@ -131,6 +131,14 @@ export function addNewBlockAt(
   return EditorState.push(editorState, newContent, "split-block");
 }
 
+export const doesBlockContainStyle = (
+  editorState: EditorState,
+  style: TEXT_STYLES
+) => {
+  const inlineStyle = editorState.getCurrentInlineStyle();
+  return inlineStyle.has(style);
+};
+
 // Function used to get position of block editor
 export const getBlockEditorPosition = (rect: DOMRect) => {
   const distanceToTop = rect.y; // Distance from mouse click to top of window

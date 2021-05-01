@@ -4,6 +4,7 @@ import {
   convertToRaw,
   RawDraftContentBlock,
   convertFromRaw,
+  ContentBlock,
 } from "draft-js";
 import { createContext, useCallback, useEffect, useState } from "react";
 import React from "react";
@@ -13,6 +14,7 @@ import { useBlocks } from "../services/note-taking/useBlocks";
 import { BLOCK_TYPES, Params, TEXT_STYLES } from "../shared";
 import { debounce, isNull } from "lodash";
 import {
+  getCurrentBlock,
   getWordCount,
   removeSpecificBlockStyle,
   returnWholeBlockEditorState,
@@ -21,7 +23,10 @@ import {
 interface EditorContextProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  toggleInlineStyle: (style: TEXT_STYLES) => void;
+  toggleInlineStyle: (
+    style: TEXT_STYLES,
+    stylesToRemove?: TEXT_STYLES[] | undefined
+  ) => void;
   toggleBlockType: (style: BLOCK_TYPES) => void;
   numOfWords: number;
   toggleBlockStyle: (
@@ -32,6 +37,7 @@ interface EditorContextProps {
   autoSave: (editorState: EditorState, page: PageInterface | undefined) => void;
   saving: boolean;
   page: PageInterface | undefined;
+  currentBlock: ContentBlock;
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -46,10 +52,18 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
   const loading = isNull(blocks);
+  const currentBlock = getCurrentBlock(editorState);
 
   // Changes style of inline text
-  const toggleInlineStyle = (style: TEXT_STYLES) => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, style));
+  const toggleInlineStyle = (
+    style: TEXT_STYLES,
+    stylesToRemove?: TEXT_STYLES[]
+  ) => {
+    let newEditorState = editorState;
+    if (stylesToRemove) {
+      newEditorState = removeSpecificBlockStyle(stylesToRemove, newEditorState);
+    }
+    setEditorState(RichUtils.toggleInlineStyle(newEditorState, style));
   };
 
   // Changes style of all text in a given block
@@ -133,6 +147,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         autoSave,
         saving,
         page,
+        currentBlock,
       }}
     >
       {children}

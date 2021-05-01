@@ -180,6 +180,14 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
     ALIGN_RIGHT: {
       textAlign: "right" as "right",
     },
+    SUPERSCRIPT: {
+      fontSize: "smaller",
+      verticalAlign: "super",
+    },
+    SUBSCRIPT: {
+      fontSize: "smaller",
+      verticalAlign: "sub",
+    },
   };
 
   return (
@@ -241,9 +249,9 @@ const EditorContainer = styled.div`
     padding-left: ${({ theme }) => theme.spacers.size16};
   }
 
-  .public-DraftStyleDefault-ltr > span {
-    display: block;
-  }
+  // .public-DraftStyleDefault-ltr > span {
+  //   display: block;
+  // }
 `;
 
 export default NoteEditor;

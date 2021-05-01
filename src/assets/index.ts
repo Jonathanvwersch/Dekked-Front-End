@@ -39,5 +39,7 @@ export { default as StudyModeIcon } from "./icons/StudyModeIcon";
 export { default as TodoIcon } from "./icons/TodoIcon";
 export { default as StrikethroughIcon } from "./icons/StrikethroughIcon";
 export { default as CheckmarkIcon } from "./icons/CheckmarkIcon";
+export { default as SuperscriptIcon } from "./icons/SuperscriptIcon";
+export { default as SubscriptIcon } from "./icons/SubscriptIcon";
 export * from "./icons/Icon.styles";
 export * from "./icons/Icon.types";

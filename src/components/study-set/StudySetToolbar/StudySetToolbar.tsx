@@ -10,6 +10,8 @@ import {
   LeftAlignIcon,
   RightAlignIcon,
   StrikethroughIcon,
+  SubscriptIcon,
+  SuperscriptIcon,
   UnderlineIcon,
 } from "../../../assets";
 import { StudySetToolbarModal } from ".";
@@ -18,6 +20,10 @@ import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
 import { SIZES, TEXT_STYLES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";
+import {
+  doesBlockContainStyle,
+  removeSpecificBlockStyle,
+} from "../../notetaking/Editor/Editor.helpers";
 
 interface StudySetToolbarProps {
   toolbarFull?: boolean;
@@ -28,17 +34,27 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
 }) => {
   const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
   const theme: ThemeType = useContext(ThemeContext);
-  const stylesToRemove = [
+  const stylesToRemoveAlignment = [
     TEXT_STYLES.ALIGN_CENTER,
     TEXT_STYLES.ALIGN_LEFT,
     TEXT_STYLES.ALIGN_RIGHT,
   ];
+  const stylesToRemoveScripts = [
+    TEXT_STYLES.SUBSCRIPT,
+    TEXT_STYLES.SUPERSCRIPT,
+  ];
 
-  const { toggleInlineStyle, toggleBlockStyle } = useContext(EditorContext);
+  const {
+    toggleInlineStyle,
+    toggleBlockStyle,
+    editorState,
+    setEditorState,
+  } = useContext(EditorContext);
 
   return (
     <>
       <HFlex width="auto">
+        {/*styling icons*/}
         <IconWrapper>
           <IconActive handleMouseDown={() => setBlockOptionsModal(true)}>
             <HFlex>
@@ -94,35 +110,75 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
         >
           <StrikethroughIcon size={SIZES.MEDIUM} />
         </IconActive>
-
+        <Spacer width={theme.spacers.size8} />
+        <IconActive
+          handleMouseDown={() => {
+            doesBlockContainStyle(editorState, TEXT_STYLES.SUBSCRIPT)
+              ? setEditorState(
+                  removeSpecificBlockStyle([TEXT_STYLES.SUBSCRIPT], editorState)
+                )
+              : toggleInlineStyle(TEXT_STYLES.SUBSCRIPT, stylesToRemoveScripts);
+          }}
+        >
+          <SubscriptIcon size={SIZES.MEDIUM} />
+        </IconActive>
+        <Spacer width={theme.spacers.size8} />
+        <IconActive
+          handleMouseDown={() => {
+            doesBlockContainStyle(editorState, TEXT_STYLES.SUPERSCRIPT)
+              ? setEditorState(
+                  removeSpecificBlockStyle(
+                    [TEXT_STYLES.SUPERSCRIPT],
+                    editorState
+                  )
+                )
+              : toggleInlineStyle(
+                  TEXT_STYLES.SUPERSCRIPT,
+                  stylesToRemoveScripts
+                );
+          }}
+        >
+          <SuperscriptIcon size={SIZES.MEDIUM} />
+        </IconActive>
+        {/*Text align icons*/}
         {toolbarFull ? (
           <>
-            <Spacer width="8px" />
+            <Spacer width={theme.spacers.size8} />
             <DividerIcon size={SIZES.MEDIUM} />
-            <Spacer width="8px" />
+            <Spacer width={theme.spacers.size8} />
             <IconActive
               handleMouseDown={() => {
-                toggleBlockStyle(TEXT_STYLES.ALIGN_LEFT, stylesToRemove);
+                toggleBlockStyle(
+                  TEXT_STYLES.ALIGN_LEFT,
+                  stylesToRemoveAlignment
+                );
               }}
             >
               <LeftAlignIcon size={SIZES.MEDIUM} />
             </IconActive>
-            <Spacer width="8px" />
+            <Spacer width={theme.spacers.size8} />
             <IconActive
               handleMouseDown={() => {
-                toggleBlockStyle(TEXT_STYLES.ALIGN_CENTER, stylesToRemove);
+                toggleBlockStyle(
+                  TEXT_STYLES.ALIGN_CENTER,
+                  stylesToRemoveAlignment
+                );
               }}
             >
               <CenterAlignIcon size={SIZES.MEDIUM} />
             </IconActive>
-            <Spacer width="8px" />
+            <Spacer width={theme.spacers.size8} />
             <IconActive
               handleMouseDown={() => {
-                toggleBlockStyle(TEXT_STYLES.ALIGN_RIGHT, stylesToRemove);
+                toggleBlockStyle(
+                  TEXT_STYLES.ALIGN_RIGHT,
+                  stylesToRemoveAlignment
+                );
               }}
             >
               <RightAlignIcon size={SIZES.MEDIUM} />
             </IconActive>
+            <Spacer width={theme.spacers.size8} />
           </>
         ) : null}
       </HFlex>
