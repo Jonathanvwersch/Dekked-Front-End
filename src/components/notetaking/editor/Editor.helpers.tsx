@@ -1,5 +1,13 @@
-import { ContentBlock, EditorState, genKey } from "draft-js";
+import {
+  ContentBlock,
+  EditorState,
+  genKey,
+  Modifier,
+  SelectionState,
+} from "draft-js";
 import { List, Map } from "immutable";
+import { reduce } from "lodash";
+import { TEXT_STYLES } from "../../../shared";
 
 export function isSoftNewlineEvent(e: any) {
   return (
@@ -17,6 +25,54 @@ export function getCurrentBlock(editorState: EditorState) {
   const block = contentState.getBlockForKey(selectionState.getStartKey());
   return block;
 }
+
+export const returnWholeBlockEditorState = (editorState: EditorState) => {
+  const currentBlock = getCurrentBlock(editorState);
+  const currentKey = currentBlock.getKey();
+  const selectionState = SelectionState.createEmpty(currentKey);
+
+  const entireBlockSelectionState = selectionState.merge({
+    anchorKey: currentKey,
+    anchorOffset: 0,
+    focusKey: currentKey,
+    focusOffset: currentBlock.getText().length,
+  });
+
+  const newEditorState = EditorState.forceSelection(
+    editorState,
+    entireBlockSelectionState
+  );
+
+  return newEditorState;
+};
+
+// function to remove a specific block style or all block styles if removeAll = true
+export const removeSpecificBlockStyle = (
+  styles: TEXT_STYLES[],
+  editorState: EditorState,
+  removeAll?: boolean
+) => {
+  let blockStyles: TEXT_STYLES[] = styles;
+  if (removeAll) {
+    blockStyles = [Object.keys(TEXT_STYLES)] as any;
+  }
+  const contentWithoutStyles = reduce(
+    blockStyles,
+    (newContentState, blockStyle) =>
+      Modifier.removeInlineStyle(
+        newContentState,
+        editorState.getSelection(),
+        blockStyle
+      ),
+    editorState.getCurrentContent()
+  );
+
+  return EditorState.push(
+    editorState,
+    contentWithoutStyles,
+    "change-inline-style"
+  );
+};
 
 // Function used to add new block after a specified block (using block key to identify the block)
 export function addNewBlockAt(

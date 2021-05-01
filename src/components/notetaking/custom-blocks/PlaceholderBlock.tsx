@@ -30,7 +30,7 @@ const PlaceholderBlock: React.FC<PlaceholderProps> = (props: any) => {
           }
         />
       ) : null}
-      <EditorBlock {...props} />
+      <EditorBlock textAlignment="center" {...props} />
     </>
   );
 };

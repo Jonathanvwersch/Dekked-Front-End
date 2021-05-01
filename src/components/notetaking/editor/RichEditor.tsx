@@ -66,7 +66,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
       anchorKey: currentBlock.getKey(),
       anchorOffset: 0,
       focusKey: currentBlock.getKey(),
-      focusOffset: 1000,
+      focusOffset: currentBlock.getText().length,
       hasFocus: true,
     });
 
@@ -154,6 +154,8 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
   };
 
   // see https://draftjs.org/docs/advanced-topics-block-styling
+  // essentially the following bit of code defines what happens
+  // when the block quote block-type is selected
   const myBlockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
     if (type === "blockquote") {
@@ -168,6 +170,18 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
     blockRenderMap
   );
 
+  const styleMap = {
+    ALIGN_CENTER: {
+      textAlign: "center" as "center",
+    },
+    ALIGN_LEFT: {
+      textAlign: "left" as "left",
+    },
+    ALIGN_RIGHT: {
+      textAlign: "right" as "right",
+    },
+  };
+
   return (
     <>
       {!loading ? (
@@ -181,6 +195,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
             handleReturn={handleReturn}
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
+            customStyleMap={styleMap}
           />
           <NotetakingBlocksModal
             onToggle={toggleBlockType}
@@ -224,6 +239,10 @@ const EditorContainer = styled.div`
     font-style: italic;
     font-size: ${({ theme }) => theme.typography.fontSizes.size18};
     padding-left: ${({ theme }) => theme.spacers.size16};
+  }
+
+  .public-DraftStyleDefault-ltr > span {
+    display: block;
   }
 `;
 

@@ -4,8 +4,6 @@ import {
   convertToRaw,
   RawDraftContentBlock,
   convertFromRaw,
-  SelectionState,
-  ContentBlock,
 } from "draft-js";
 import { createContext, useCallback, useEffect, useState } from "react";
 import React from "react";
@@ -14,7 +12,11 @@ import { useParams } from "react-router";
 import { useBlocks } from "../services/note-taking/useBlocks";
 import { BLOCK_TYPES, Params, TEXT_STYLES } from "../shared";
 import { debounce, isNull } from "lodash";
-import { getWordCount } from "../components/notetaking/Editor/Editor.helpers";
+import {
+  getWordCount,
+  removeSpecificBlockStyle,
+  returnWholeBlockEditorState,
+} from "../components/notetaking/Editor/Editor.helpers";
 
 interface EditorContextProps {
   editorState: EditorState;
@@ -24,8 +26,7 @@ interface EditorContextProps {
   numOfWords: number;
   toggleBlockStyle: (
     style: TEXT_STYLES,
-    currentBlock: ContentBlock,
-    currentKey: any
+    stylesToRemove?: TEXT_STYLES[] | undefined
   ) => void;
   loading: boolean;
   autoSave: (editorState: EditorState, page: PageInterface | undefined) => void;
@@ -52,27 +53,19 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   };
 
   // Changes style of all text in a given block
+  // Can also specify which styles to delete before style change
   const toggleBlockStyle = (
     style: TEXT_STYLES,
-    currentBlock: ContentBlock,
-    currentKey: any
+    stylesToRemove?: TEXT_STYLES[]
   ) => {
-    const selectionState = SelectionState.createEmpty(currentKey);
-
-    const entireBlockSelectionState = selectionState.merge({
-      anchorKey: currentKey,
-      anchorOffset: 0,
-      focusKey: currentKey,
-      focusOffset: currentBlock.getText().length,
-    });
-
-    const newEditorState = EditorState.forceSelection(
-      editorState,
-      entireBlockSelectionState
-    );
+    let newEditorState = returnWholeBlockEditorState(editorState);
+    if (stylesToRemove) {
+      newEditorState = removeSpecificBlockStyle(stylesToRemove, newEditorState);
+    }
     setEditorState(RichUtils.toggleInlineStyle(newEditorState, style));
   };
 
+  // changes type of block
   const toggleBlockType = (type: BLOCK_TYPES) => {
     setEditorState(RichUtils.toggleBlockType(editorState, type));
   };

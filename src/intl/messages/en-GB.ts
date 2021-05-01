@@ -95,6 +95,7 @@ const en_GB = {
         numOfWords: "{num} words",
         placeholder: "Type '/' to view block types",
         noMatchingBlocks: "No matching blocks",
+        emailUs: "Missing a block you'd like to see? Email us",
         toolbar: {
           body: "Body",
           largeHeading: "Large heading",
