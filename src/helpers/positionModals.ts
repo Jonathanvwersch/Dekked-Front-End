@@ -1,9 +1,14 @@
 // Function used to get mouse click position
-export const getMousePosition = (e: any) => {
-  const rect = e.target.getBoundingClientRect();
-  const distanceToTop = rect.y; // Distance from mouse click to top of window
-  const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
-  const distanceToLeft = rect.x + rect.width / 2; // Distance from mouse click to left of window
+export const getMousePosition = (
+  e: any,
+  ref?: React.RefObject<HTMLElement>
+) => {
+  const rect = ref
+    ? ref?.current?.getBoundingClientRect()
+    : e.target.getBoundingClientRect();
+  const distanceToTop = rect.y + rect.height + 4; // Distance from mouse click to top of window
+  const distanceToBottom = window.innerHeight - distanceToTop + rect.height + 8; // Distance from mouse click to bottom of window
+  const distanceToLeft = rect.x; // Distance from mouse click to left of window
   const distanceToRight = window.innerWidth - distanceToLeft; // Distance from mouse click to right of window
   return {
     top: distanceToTop,
@@ -16,9 +21,10 @@ export const getMousePosition = (e: any) => {
 // Function used to position modals depending on position of button click
 export const positionModals = (
   e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  componentHeight: number
+  componentHeight?: number,
+  ref?: React.RefObject<HTMLElement>
 ) => {
-  const { top, bottom, left } = getMousePosition(e);
+  const { top, bottom, left } = getMousePosition(e, ref);
   let newCoordinate;
 
   if (componentHeight && bottom - componentHeight < componentHeight) {

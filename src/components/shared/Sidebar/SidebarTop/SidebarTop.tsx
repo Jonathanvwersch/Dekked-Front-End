@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import {
   Avatar,
@@ -29,13 +29,14 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
+  const settingsRef = useRef<HTMLButtonElement>(null);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
     setOpenModal(true);
     const modalHeight = 68;
-    setCoords(positionModals(e, modalHeight));
+    setCoords(positionModals(e, modalHeight, settingsRef));
   };
 
   return (
@@ -49,6 +50,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
               <Text className="overflow">Toby Corner</Text>
               <Spacer width={theme.spacers.size4} />
               <IconActive
+                iconActiveRef={settingsRef}
                 handleClick={(
                   e: React.MouseEvent<HTMLDivElement, MouseEvent>
                 ) => handleOpenModal(e)}

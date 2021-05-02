@@ -23,10 +23,12 @@ import {
 import styled from "styled-components/macro";
 import { EditorContext } from "../../../contexts/EditorContext";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
-import PlaceholderBlock from "../custom-blocks/PlaceholderBlock";
+import TextBlock from "../custom-blocks/TextBlock";
 import { TodoBlock, DividerBlock } from "../custom-blocks";
 import { BLOCK_TYPES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
+import { formatMessage } from "../../../intl";
+import { useIntl } from "react-intl";
 const Immutable = require("immutable");
 
 interface EditorProps {
@@ -44,6 +46,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
   } = useContext(EditorContext);
 
   const editorRef = useRef<any>(null);
+  const intl = useIntl();
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -113,7 +116,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
 
       default:
         return {
-          component: PlaceholderBlock,
+          component: TextBlock,
           editable: true,
           props: {
             editorState,
@@ -188,6 +191,66 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
       fontSize: "smaller",
       verticalAlign: "sub",
     },
+    BACKGROUND_COLOR_FFFFFF: {
+      backgroundColor: "#FFFFFF",
+    },
+    BACKGROUND_COLOR_FBE4E4: {
+      backgroundColor: "#FBE4E4",
+    },
+    BACKGROUND_COLOR_FAEBDD: {
+      backgroundColor: "#FAEBDD",
+    },
+    BACKGROUND_COLOR_FBF3DB: {
+      backgroundColor: "#FBF3DB",
+    },
+    BACKGROUND_COLOR_DDEBF1: {
+      backgroundColor: "#DDEBF1",
+    },
+    BACKGROUND_COLOR_E9E5E3: {
+      backgroundColor: "#E9E5E3",
+    },
+    BACKGROUND_COLOR_DDEDEA: {
+      backgroundColor: "DDEDEA",
+    },
+    BACKGROUND_COLOR_F4DFEB: {
+      backgroundColor: "#F4DFEB",
+    },
+    BACKGROUND_COLOR_EBECED: {
+      backgroundColor: "#EBECED",
+    },
+    BACKGROUND_COLOR_EAE4F2: {
+      backgroundColor: "#EAE4F2",
+    },
+    FONT_COLOR_2C2C31: {
+      color: "#2C2C31",
+    },
+    FONT_COLOR_00B6CE: {
+      color: "#00B6CE",
+    },
+    FONT_COLOR_E81123: {
+      color: "#E81123",
+    },
+    FONT_COLOR_F7630D: {
+      color: "#F7630D",
+    },
+    FONT_COLOR_FABD14: {
+      color: "#FABD14",
+    },
+    FONT_COLOR_0F893E: {
+      color: "#0F893E",
+    },
+    FONT_COLOR_3971D1: {
+      color: "#3971D1",
+    },
+    FONT_COLOR_4B0082: {
+      color: "#4B0082",
+    },
+    FONT_COLOR_AC008C: {
+      color: "#AC008C",
+    },
+    FONT_COLOR_84939A: {
+      color: "#84939A",
+    },
   };
 
   return (
@@ -204,6 +267,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
             customStyleMap={styleMap}
+            placeholder={formatMessage(`studySet.notetaking.placeholder`, intl)}
           />
           <NotetakingBlocksModal
             onToggle={toggleBlockType}
@@ -218,12 +282,21 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
 };
 
 const EditorContainer = styled.div`
+  color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;
   }
   width: 100%;
   position: relative;
+
+  & .public-DraftEditorPlaceholder-root {
+    margin-top: ${({ theme }) => theme.spacers.size4};
+  }
+
+  & .public-DraftEditorPlaceholder-inner {
+    color: ${({ theme }) => theme.colors.grey2};
+  }
 
   h1 {
     margin-top: ${({ theme }) => theme.spacers.size16};

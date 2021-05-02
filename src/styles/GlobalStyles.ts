@@ -10,7 +10,6 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
         margin: 0;
         box-sizing: border-box;
         font-family: ${({ theme }) => theme.typography.fontFamily};
-        color: ${({ theme }) => theme.colors.fontColor};
         &:focus {
             outline: 0;
         }

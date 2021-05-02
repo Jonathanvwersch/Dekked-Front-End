@@ -43,6 +43,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
       setCoords({
         ...newCoords,
       });
+      console.log(coords);
     }
   };
 

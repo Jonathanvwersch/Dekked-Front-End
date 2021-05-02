@@ -37,7 +37,7 @@ const Overlay: React.FC<OverlayProps> = ({
   useOutsideClickListener(modalRef, handleClose, isOpen);
 
   return createPortal(
-    isOpen ? (
+    isOpen && (coords ? coords : true) ? (
       <OuterContainer>
         <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
@@ -73,9 +73,8 @@ const OuterContainer = styled.div`
 const Modal = styled.div<{
   coords?: CoordsType;
 }>`
-  top: ${({ coords }) => (coords?.top ? `${coords?.top + 15}px` : "auto")};
-  bottom: ${({ coords }) =>
-    coords?.bottom ? `${coords?.bottom + 5}px` : "auto"};
+  top: ${({ coords }) => (coords?.top ? `${coords?.top}px` : "auto")};
+  bottom: ${({ coords }) => (coords?.bottom ? `${coords?.bottom}px` : "auto")};
   left: ${({ coords }) => (coords?.left ? `${coords?.left}px` : "auto")};
   right: ${({ coords }) => (coords?.right ? `${coords?.right}px` : "auto")};
   position: fixed;

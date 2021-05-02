@@ -20,7 +20,7 @@ const DividerIcon: React.FC<IconProps & { strokeWidth?: string }> = ({
         x2="8.15"
         y2="16"
         stroke={iconColor}
-        strokeWidth={strokeWidth ? strokeWidth : "0.3"}
+        strokeWidth={strokeWidth ? strokeWidth : "0.5"}
       />
     </Svg>
   );

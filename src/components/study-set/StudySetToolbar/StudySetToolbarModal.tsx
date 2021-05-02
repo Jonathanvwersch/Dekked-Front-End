@@ -16,22 +16,17 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   open,
   coords,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
   const { toggleBlockType } = useContext(EditorContext);
   const clickFunctions = (type: BLOCK_TYPES) => {
     handleClose();
     toggleBlockType(type);
   };
 
-  useOutsideClickListener(cardRef, handleClose, open);
-
   return (
     <ScrollerModal
-      cardRef={cardRef}
       coords={coords}
       clickFunctions={clickFunctions}
       open={open}
-      withOverlay={false}
       handleClose={handleClose}
       data={NoteTakingBlocksData}
     />

@@ -13,6 +13,7 @@ interface IconActiveProps {
   handleClick?: (args: any) => void;
   fillType?: string;
   handleMouseDown?: (args: any) => void;
+  iconActiveRef?: React.RefObject<HTMLButtonElement>;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -21,10 +22,12 @@ const IconActive: React.FC<IconActiveProps> = ({
   fillType = FILL_TYPE.FILL,
   className,
   handleMouseDown,
+  iconActiveRef,
 }) => {
   return (
     <>
       <StyledIconActive
+        ref={iconActiveRef}
         onMouseDown={handleMouseDown && handleMouseDown}
         onClick={handleClick && handleClick}
         onKeyDown={(e: any) => {

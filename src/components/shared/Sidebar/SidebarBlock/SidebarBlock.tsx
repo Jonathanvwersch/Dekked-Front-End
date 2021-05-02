@@ -41,6 +41,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
   const { updateAsset } = useContext(FileTreeContext);
   const {
@@ -72,7 +73,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     e.stopPropagation();
     setBlockModal(true);
     const blockModalHeight = 128;
-    setCoords(positionModals(e, blockModalHeight));
+    setCoords(positionModals(e, blockModalHeight, menuRef));
   };
 
   // open block on click of dropdown arrow
@@ -155,6 +156,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                   <Spacer width={theme.spacers.size4} />
                   <HiddenIconsContainer>
                     <IconActive
+                      iconActiveRef={menuRef}
                       handleClick={(
                         e: React.MouseEvent<HTMLDivElement, MouseEvent>
                       ) => handleBlockModal(e)}
@@ -186,32 +188,27 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
               </Card>
             </StyledBlock>
           </HoverCard>
-          {coords && (
-            <SidebarBlockModal
-              state={blockModal}
-              handleState={() => setBlockModal(false)}
-              coords={coords}
-              handleBlockModal={() => setBlockModal(false)}
-              handleColorPicker={() => setColorPicker(true)}
-              type={type}
-              id={blockData.id}
-              handleEditableText={() => setIsEditable(true)}
-              editableTextRef={editableTextRef}
-              iconColor={iconColor}
-            />
-          )}
-          {coords && (
-            <ColorPicker
-              id={blockData.id}
-              type={type as FILETREE_TYPES}
-              isOpen={colorPicker}
-              handleClose={() => setColorPicker(false)}
-              coords={coords}
-              colorPickerRef={colorPickerRef}
-              iconColor={iconColor}
-              setIconColor={setIconColor}
-            />
-          )}
+          <SidebarBlockModal
+            state={blockModal}
+            handleState={() => setBlockModal(false)}
+            coords={coords}
+            handleBlockModal={() => setBlockModal(false)}
+            handleColorPicker={() => setColorPicker(true)}
+            type={type}
+            id={blockData.id}
+            handleEditableText={() => setIsEditable(true)}
+            editableTextRef={editableTextRef}
+            iconColor={iconColor}
+          />
+
+          <ColorPicker
+            isOpen={colorPicker}
+            handleClose={() => setColorPicker(false)}
+            coords={coords}
+            colorPickerRef={colorPickerRef}
+            iconColor={iconColor}
+            setIconColor={setIconColor}
+          />
         </NavLink>
       ) : null}
     </>

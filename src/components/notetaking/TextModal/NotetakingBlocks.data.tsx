@@ -83,34 +83,3 @@ export const noMatchingBlocksData: ScrollerModalData = [
     hoverCard: false,
   },
 ];
-
-export const placeholder = (style: string) => {
-  switch (style) {
-    case BLOCK_TYPES.UNSTYLED:
-      return "studySet.notetaking.placeholder";
-
-    case BLOCK_TYPES.HEADER_ONE:
-      return "studySet.notetaking.toolbar.largeHeading";
-
-    case BLOCK_TYPES.HEADER_TWO:
-      return "studySet.notetaking.toolbar.mediumHeading";
-
-    case BLOCK_TYPES.HEADER_THREE:
-      return "studySet.notetaking.toolbar.smallHeading";
-
-    case BLOCK_TYPES.BULLETED_LIST:
-      return "studySet.notetaking.toolbar.bulletedList";
-
-    case BLOCK_TYPES.NUMBERED_LIST:
-      return "studySet.notetaking.toolbar.numberedList";
-
-    case BLOCK_TYPES.QUOTE:
-      return "studySet.notetaking.toolbar.quote";
-
-    case BLOCK_TYPES.TODO:
-      return "studySet.notetaking.toolbar.todo";
-
-    default:
-      return "";
-  }
-};

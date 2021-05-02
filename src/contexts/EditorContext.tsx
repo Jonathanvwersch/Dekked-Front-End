@@ -25,7 +25,7 @@ interface EditorContextProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   toggleInlineStyle: (
     style: TEXT_STYLES,
-    stylesToRemove?: TEXT_STYLES[] | undefined
+    stylesToRemove?: string[] | undefined
   ) => void;
   toggleBlockType: (style: BLOCK_TYPES) => void;
   numOfWords: number;
@@ -52,16 +52,14 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
   const loading = isNull(blocks);
+
   const currentBlock = getCurrentBlock(editorState);
 
   // Changes style of inline text
-  const toggleInlineStyle = (
-    style: TEXT_STYLES,
-    stylesToRemove?: TEXT_STYLES[]
-  ) => {
+  const toggleInlineStyle = (style: TEXT_STYLES, stylesToRemove?: string[]) => {
     let newEditorState = editorState;
     if (stylesToRemove) {
-      newEditorState = removeSpecificBlockStyle(stylesToRemove, newEditorState);
+      newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
     }
     setEditorState(RichUtils.toggleInlineStyle(newEditorState, style));
   };
@@ -74,7 +72,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   ) => {
     let newEditorState = returnWholeBlockEditorState(editorState);
     if (stylesToRemove) {
-      newEditorState = removeSpecificBlockStyle(stylesToRemove, newEditorState);
+      newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
     }
     setEditorState(RichUtils.toggleInlineStyle(newEditorState, style));
   };

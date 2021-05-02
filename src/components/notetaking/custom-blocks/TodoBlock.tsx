@@ -4,7 +4,7 @@ import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { HFlex, HoverCard } from "../../common";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
-import PlaceholderBlock from "./PlaceholderBlock";
+import TextBlock from "./TextBlock";
 
 const TodoBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
@@ -34,7 +34,7 @@ const TodoBlock: React.FC = (props: any) => {
       >
         {checked ? <CheckmarkIcon color="white" /> : null}
       </Checkbox>
-      <PlaceholderBlock {...props} />
+      <TextBlock {...props} />
     </HFlex>
   );
 };

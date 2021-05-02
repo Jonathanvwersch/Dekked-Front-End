@@ -13,7 +13,6 @@ import { getChildType } from "../../../../helpers";
 interface SidebarBlockModalProps {
   state: boolean;
   handleState: () => void;
-  coords: CoordsType;
   type: string;
   id: string;
   iconColor: string;
@@ -21,6 +20,7 @@ interface SidebarBlockModalProps {
   handleColorPicker: () => void;
   handleEditableText: () => void;
   editableTextRef: React.RefObject<HTMLDivElement>;
+  coords: CoordsType | undefined;
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {

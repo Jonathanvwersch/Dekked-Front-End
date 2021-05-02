@@ -48,13 +48,13 @@ export const returnWholeBlockEditorState = (editorState: EditorState) => {
 
 // function to remove a specific block style or all block styles if removeAll = true
 export const removeSpecificBlockStyle = (
-  styles: TEXT_STYLES[],
+  styles: string[] | undefined,
   editorState: EditorState,
   removeAll?: boolean
 ) => {
-  let blockStyles: TEXT_STYLES[] = styles;
+  let blockStyles = styles;
   if (removeAll) {
-    blockStyles = [Object.keys(TEXT_STYLES)] as any;
+    blockStyles = [...Object.keys(TEXT_STYLES)];
   }
   const contentWithoutStyles = reduce(
     blockStyles,
@@ -65,6 +65,10 @@ export const removeSpecificBlockStyle = (
         blockStyle
       ),
     editorState.getCurrentContent()
+  );
+
+  console.log(
+    EditorState.push(editorState, contentWithoutStyles, "change-inline-style")
   );
 
   return EditorState.push(
@@ -141,14 +145,14 @@ export const doesBlockContainStyle = (
 
 // Function used to get position of block editor
 export const getBlockEditorPosition = (rect: DOMRect) => {
-  const distanceToTop = rect.y; // Distance from mouse click to top of window
+  const distanceToTop = rect.y + rect.height; // Distance from mouse click to top of window
   const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
   const distanceToLeft = rect.x; // Distance from mouse click to left of window
   const distanceToRight = window.innerWidth - distanceToLeft; // Distance from mouse click to right of window
   return {
     top: distanceToTop,
     right: distanceToRight,
-    bottom: distanceToBottom + 15,
+    bottom: distanceToBottom,
     left: distanceToLeft,
   };
 };
@@ -158,9 +162,9 @@ export const positionBlockEditor = (rect: DOMRect, componentHeight: number) => {
   let newCoordinate;
 
   if (componentHeight && bottom - componentHeight < componentHeight) {
-    newCoordinate = { bottom: bottom && bottom - 15 };
+    newCoordinate = { bottom: bottom && bottom };
   } else {
-    newCoordinate = { top: top && top + 15 };
+    newCoordinate = { top: top && top };
   }
   return { ...newCoordinate, left: left };
 };
