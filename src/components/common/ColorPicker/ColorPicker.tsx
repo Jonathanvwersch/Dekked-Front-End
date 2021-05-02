@@ -64,8 +64,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   };
 
   const defaultGeneralColors = [
-    "#2C2C31",
-    "#00B6CE",
+    `${theme.colors.fontColor}`,
+    `${theme.colors.primary}`,
     "#E81123",
     "#F7630D",
     "#FABD14",
@@ -118,14 +118,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
 const StyledColorPicker = styled.div`
   border-radius: ${({ theme }) =>
-    `${theme.sizes.borderRadius[SIZES.SMALL]} !important`};
+    `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
   box-shadow: ${({ theme }) => `${theme.boxShadow} !important`};
 
   & div {
     color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
     box-shadow: none !important;
     border-radius: ${({ theme }) =>
-      `${theme.sizes.borderRadius[SIZES.SMALL]} !important`};
+      `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
     user-select: none;
   }
 
@@ -137,7 +137,7 @@ const StyledColorPicker = styled.div`
     & input {
       color: ${({ theme }) => `${theme.colors.fontColor} !important`};
       border-radius: ${({ theme }) =>
-        `${theme.sizes.borderRadius[SIZES.SMALL]} !important`};
+        `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
       box-shadow: none !important;
       border: 1px solid ${({ theme }) => `${theme.colors.grey2}!important`};
 

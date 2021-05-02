@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
 import styled from "styled-components";
 import { Overlay } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
-import { MODAL_TYPE } from "../../../shared";
+import { MODAL_TYPE, SIZES } from "../../../shared";
 
 interface TooltipProps {
   text: string;
@@ -16,6 +16,7 @@ interface TooltipProps {
   backgroundColor?: string;
   type?: Type;
   children?: React.ReactNode;
+  className?: string;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -28,6 +29,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   type,
   text,
   children,
+  className,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const [tooltip, setTooltip] = useState<boolean>(false);
@@ -39,22 +41,23 @@ const Tooltip: React.FC<TooltipProps> = ({
         isOpen={tooltip}
         type={MODAL_TYPE.TOOL_TIP}
       >
-        <ReactTooltip
+        <StyledTooltip
           multiline
           type={type}
           id={id}
           place={place}
           effect={effect}
           offset={offset}
+          className={className}
           role={formatMessage(text)}
           textColor={textColor}
-          delayShow={400}
+          delayShow={500}
           backgroundColor={
-            backgroundColor ? backgroundColor : theme.colors.primary
+            backgroundColor ? backgroundColor : theme.colors.fontColor
           }
         >
           <FormattedMessage id={text} />
-        </ReactTooltip>
+        </StyledTooltip>
       </Overlay>
       <TooltipChildren
         data-tip
@@ -68,6 +71,11 @@ const Tooltip: React.FC<TooltipProps> = ({
     </>
   );
 };
+
+const StyledTooltip = styled(ReactTooltip)`
+  border-radius: ${({ theme }) =>
+    theme.sizes.borderRadius[SIZES.MEDIUM]}!important;
+`;
 
 const TooltipChildren = styled.div`
   display: flex;

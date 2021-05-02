@@ -97,7 +97,7 @@ const en_GB = {
         noMatchingBlocks: "No matching blocks",
         emailUs: "Missing a block you'd like to see? Email us",
         toolbar: {
-          body: "Body",
+          text: "Text",
           largeHeading: "Large heading",
           mediumHeading: "Medium heading",
           smallHeading: "Small heading",
@@ -141,6 +141,9 @@ const en_GB = {
         personalInformation: "Personal Information",
       },
     },
+    topbar: {
+      failedToSave: "Failed to save",
+    },
     tooltips: {
       sidebar: {
         addBinder: "Add a binder inside",
@@ -156,6 +159,18 @@ const en_GB = {
         flip: "Flip flashcard",
         editCard: "Edit flashcard",
         deleteCard: "Delete flashcard",
+      },
+      studySet: {
+        toolbar: {
+          bold: "Bold",
+          underline: "Underline",
+          highlight: "Highlight",
+          changeTextColour: "Change text colour",
+          strikethrough: "Strikethrough",
+          subscript: "Subscript",
+          superscript: "Superscript",
+          italics: "Italics",
+        },
       },
     },
     sharedModals: {

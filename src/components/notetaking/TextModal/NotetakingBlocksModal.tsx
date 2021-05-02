@@ -43,7 +43,6 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
       setCoords({
         ...newCoords,
       });
-      console.log(coords);
     }
   };
 
@@ -54,10 +53,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   };
 
   useEffect(() => {
-    if (
-      currentBlock.getText()[0] === "/" &&
-      currentBlock.getType() === "unstyled"
-    ) {
+    if (currentBlock.getText()[0] === "/") {
       updatePosition();
       setOpen(true);
     } else {

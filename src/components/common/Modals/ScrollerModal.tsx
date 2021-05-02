@@ -1,7 +1,7 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
-import { Block, Divider, Overlay, ShadowCard, ConditionalWrapper } from "..";
+import { Block, Divider, Overlay, ShadowCard } from "..";
 import { useKeyDownAndUpListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
@@ -13,7 +13,6 @@ interface ScrollerModalProps {
   coords?: CoordsType;
   cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
-  withOverlay?: boolean;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -24,27 +23,18 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   data,
   coords,
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
-  withOverlay = true,
 }) => {
   const theme = useContext(ThemeContext);
   const { activeIndex } = useKeyDownAndUpListener(open, data.length);
 
   return (
-    <ConditionalWrapper
-      condition={withOverlay}
-      wrapper={(children: any) => (
-        <Overlay
-          isOpen={open}
-          handleClose={handleClose}
-          coords={coords}
-          type={type}
-        >
-          {children}
-        </Overlay>
-      )}
+    <Overlay
+      isOpen={open}
+      handleClose={handleClose}
+      coords={coords}
+      type={type}
     >
       <StyledScrollerModal
-        withOverlay={withOverlay}
         coords={coords}
         width={theme.sizes.modal.small}
         cardRef={cardRef}
@@ -68,23 +58,13 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
           );
         })}
       </StyledScrollerModal>
-    </ConditionalWrapper>
+    </Overlay>
   );
 };
 
 const StyledScrollerModal = styled(ShadowCard)<{
-  withOverlay: boolean;
   coords: CoordsType | undefined;
 }>`
-  position: ${({ withOverlay }) => (!withOverlay ? "absolute" : undefined)};
-  left: ${({ withOverlay, coords }) =>
-    !withOverlay && coords?.left ? `${coords?.left}px` : undefined};
-  top: ${({ withOverlay, coords }) =>
-    !withOverlay && coords?.top ? `${coords?.top}px` : undefined};
-  bottom: ${({ coords, withOverlay }) =>
-    !withOverlay && coords?.bottom ? `${coords?.bottom}px` : undefined};
-  right: ${({ coords, withOverlay }) =>
-    !withOverlay && coords?.right ? `${coords?.right}px` : undefined};
   max-height: 250px;
   overflow: hidden;
   z-index: 100;

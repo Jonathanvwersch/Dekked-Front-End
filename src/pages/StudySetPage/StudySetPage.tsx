@@ -8,7 +8,6 @@ import {
   StudySetNotesContainer,
 } from "../../components/study-set";
 import { EditorContextProvider } from "../../contexts/EditorContext";
-import { TextAlignmentsContextProvider } from "../../contexts/TextAlignmentsContext";
 import { useResize } from "../../hooks/useResize";
 import CustomSwitch from "../../Router/CustomSwitch";
 import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../shared";
@@ -31,27 +30,25 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
     <EditorContextProvider>
       <MainFrame>
         <InsetPage size={SIZES.SMALL}>
-          <TextAlignmentsContextProvider>
-            <StudySetHeader headerRef={headerRef} />
-            <CustomSwitch>
-              <Route
-                path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
-                render={() => (
-                  <StudySetNotesContainer
-                    notesRef={initialRef}
-                    flashcardSize={
-                      dimensions.width ? dimensions.width : initialWidth
-                    }
-                    flashcardPosition={position.left && position.left}
-                  />
-                )}
-              />
-              <Route
-                path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
-                component={StudySetFlashcardsContainer}
-              />
-            </CustomSwitch>
-          </TextAlignmentsContextProvider>
+          <StudySetHeader headerRef={headerRef} />
+          <CustomSwitch>
+            <Route
+              path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
+              render={() => (
+                <StudySetNotesContainer
+                  notesRef={initialRef}
+                  flashcardSize={
+                    dimensions.width ? dimensions.width : initialWidth
+                  }
+                  flashcardPosition={position.left && position.left}
+                />
+              )}
+            />
+            <Route
+              path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
+              component={StudySetFlashcardsContainer}
+            />
+          </CustomSwitch>
         </InsetPage>
       </MainFrame>
     </EditorContextProvider>

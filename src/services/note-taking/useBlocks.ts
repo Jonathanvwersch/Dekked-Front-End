@@ -20,7 +20,7 @@ export function useBlocks(page_id?: string) {
   };
 
   useEffect(() => {
-    console.log(page_id);
+    setBlocks(null);
     if (page_id) {
       getBlocksByPageId();
     }

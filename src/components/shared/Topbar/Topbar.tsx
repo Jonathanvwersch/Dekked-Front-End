@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { FormattedMessage } from "react-intl";
 import styled, { ThemeContext } from "styled-components/macro";
 import { HamburgerMenuIcon } from "../../../assets";
 import { EditorContext, SidebarContext } from "../../../contexts";
@@ -9,13 +10,37 @@ import {
   IconActive,
   Spacer,
   Tooltip,
+  Text,
 } from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
-  const { saving } = useContext(EditorContext);
+  const { saving, saveError } = useContext(EditorContext);
+
+  const savingLoadingSpinner = () => {
+    if (saving && !saveError)
+      return (
+        <>
+          <Spacer width={theme.spacers.size32} />
+          <ComponentLoadingSpinner size={SIZES.MEDIUM} />
+        </>
+      );
+    else if (saveError)
+      return (
+        <HFlex>
+          <Spacer width={theme.spacers.size32} />
+          <Text
+            fontColor={theme.colors.danger}
+            fontSize={theme.typography.fontSizes.size14}
+          >
+            <FormattedMessage id="topbar.failedToSave" />
+          </Text>
+        </HFlex>
+      );
+    else return null;
+  };
 
   return (
     <StyledTopbar>
@@ -34,12 +59,7 @@ const TopBar: React.FC = () => {
       ) : null}
       <HFlex width="auto">
         <Breadcrumbs />
-        {saving ? (
-          <>
-            <Spacer width={theme.spacers.size32} />
-            <ComponentLoadingSpinner size={SIZES.MEDIUM} />
-          </>
-        ) : null}
+        {savingLoadingSpinner()}
       </HFlex>
     </StyledTopbar>
   );

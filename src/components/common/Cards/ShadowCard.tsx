@@ -25,7 +25,7 @@ const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
 const StyledShadowCard = styled.div<ShadowCardProps>`
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ theme, borderRadius }) =>
-    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.SMALL]};
+    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.MEDIUM]};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
   border: ${({ border }) => border};

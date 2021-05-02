@@ -15,7 +15,7 @@ import {
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
 export enum NOTETAKING_BLOCKS {
-  BODY = "studySet.notetaking.toolbar.body",
+  BODY = "studySet.notetaking.toolbar.text",
   LARGE_HEADING = "studySet.notetaking.toolbar.largeHeading",
   MEDIUM_HEADING = "studySet.notetaking.toolbar.mediumHeading",
   SMALL_HEADING = "studySet.notetaking.toolbar.smallHeading",

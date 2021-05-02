@@ -36,6 +36,7 @@ interface EditorContextProps {
   loading: boolean;
   autoSave: (editorState: EditorState, page: PageInterface | undefined) => void;
   saving: boolean;
+  saveError: boolean;
   page: PageInterface | undefined;
   currentBlock: ContentBlock;
 }
@@ -48,6 +49,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const [saving, setSaving] = useState<boolean>(false);
+  const [saveError, setSaveError] = useState<boolean>(false);
   const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
@@ -96,7 +98,12 @@ export const EditorContextProvider: React.FC = ({ children }) => {
       blocks,
       page,
     });
-    setSaving(!response.success);
+    if (!response.success) {
+      setSaveError(true);
+    } else {
+      setSaving(!response.success);
+      setSaveError(false);
+    }
   };
 
   // Debounce function to autosave notes
@@ -146,6 +153,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         saving,
         page,
         currentBlock,
+        saveError,
       }}
     >
       {children}

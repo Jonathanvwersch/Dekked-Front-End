@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components/macro";
+import { SIZES } from "../shared";
 import { ThemeType } from "./theme";
 
 const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
@@ -18,19 +19,22 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
     *::-webkit-scrollbar {
         width: 8px;
         cursor: auto;
+
     }
 
     /* Track */
     *::-webkit-scrollbar-track {
         background: #DEDEDE;
         cursor: auto;
+        border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
     }
 
     /* Handle */
     *::-webkit-scrollbar-thumb {
         background: #C6C5C2;
         cursor: auto;
-
+        border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
+        
         &:hover: {
             background: #B6B5B2;
             cursor: pointer!important;

@@ -1,5 +1,11 @@
 import React, { useContext, useRef, useState } from "react";
-import { ColorPicker, IconActive, IconWrapper, Spacer } from "../../common";
+import {
+  ColorPicker,
+  IconActive,
+  IconWrapper,
+  Spacer,
+  Tooltip,
+} from "../../common";
 import { ReColorIcon, TextColorIcon } from "../../../assets";
 import { ThemeContext } from "styled-components/macro";
 import { CoordsType, SIZES } from "../../../shared";
@@ -44,7 +50,12 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = () => {
             handleColorPickerFont(e);
           }}
         >
-          <TextColorIcon size={SIZES.MEDIUM} />
+          <Tooltip
+            id="ChangeTextColour"
+            text="tooltips.studySet.toolbar.changeTextColour"
+          >
+            <TextColorIcon size={SIZES.MEDIUM} />
+          </Tooltip>
         </IconActive>
       </IconWrapper>
       <Spacer width={theme.spacers.size8} />
@@ -54,7 +65,12 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = () => {
           handleColorPickerBackground(e);
         }}
       >
-        <ReColorIcon size={SIZES.MEDIUM} />
+        <Tooltip
+          id="ChangeBackgroundColour"
+          text="tooltips.studySet.toolbar.highlight"
+        >
+          <ReColorIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <ColorPicker
         isOpen={colorPickerFont}

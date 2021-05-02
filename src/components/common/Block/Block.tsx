@@ -47,7 +47,12 @@ const Block: React.FC<BlockProps> = ({
     <HFlex>
       <IconWrapper>{icon}</IconWrapper>
       <Spacer width={theme.spacers.size8} />
-      <Text fontWeight={fontWeight}>{formatMessage(label)}</Text>
+      <Text
+        fontSize={theme.typography.fontSizes.size14}
+        fontWeight={fontWeight}
+      >
+        {formatMessage(label)}
+      </Text>
     </HFlex>
   );
 

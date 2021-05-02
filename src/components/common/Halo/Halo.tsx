@@ -16,6 +16,7 @@ const DividerBlock: React.FC = ({ children }) => {
   return (
     <Halo
       onClick={() => setIsColored(true)}
+      onFocus={() => setIsColored(true)}
       isColored={isColored}
       ref={haloRef}
     >

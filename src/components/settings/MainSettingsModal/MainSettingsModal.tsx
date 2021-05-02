@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SettingsOptions, SettingsSidebar } from "..";
-import { MODAL_TYPE } from "../../../shared";
+import { MODAL_TYPE, SIZES } from "../../../shared";
+import { theme } from "../../../styles/theme";
 import { HFlex, Overlay, ShadowCard } from "../../common";
 import { StyledMainFrame } from "../../common/MainFrame/MainFrame";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
@@ -30,7 +31,11 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
       center
       type={MODAL_TYPE.MODAL_LIGHTBOX}
     >
-      <ShadowCard height="800px" width="1000px">
+      <ShadowCard
+        height="800px"
+        width="1000px"
+        borderRadius={theme.sizes.borderRadius[SIZES.LARGE]}
+      >
         <HFlex height="100%">
           <SettingsSidebar
             activeSetting={activeSetting}

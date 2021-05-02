@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
-import { HFlex, IconActive, IconWrapper, Spacer } from "../../common";
+import { HFlex, IconActive, IconWrapper, Spacer, Tooltip } from "../../common";
 import {
-  BodyTextIcon,
   BoldIcon,
   DropDownArrowIcon,
   ItalicsIcon,
@@ -21,6 +20,8 @@ import {
 import { EditorContext } from "../../../contexts";
 import { ThemeContext } from "styled-components";
 import { positionModals } from "../../../helpers";
+import { FILL_TYPE } from "../../common/IconActive/IconActive";
+import { changeBlockTypeIcon } from "./StudySetToolbar.helpers";
 
 interface ChangeTextStyleProps {}
 
@@ -34,9 +35,12 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     TEXT_STYLES.SUPERSCRIPT,
   ];
 
-  const { toggleInlineStyle, editorState, setEditorState } = useContext(
-    EditorContext
-  );
+  const {
+    toggleInlineStyle,
+    editorState,
+    setEditorState,
+    currentBlock,
+  } = useContext(EditorContext);
 
   const handleBlockOptionsModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -47,6 +51,8 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     setCoords(positionModals(e, undefined, blockOptionsRef));
   };
 
+  const currentBlockType = currentBlock.getType();
+
   return (
     <>
       <IconWrapper>
@@ -56,10 +62,15 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
             handleBlockOptionsModal(e)
           }
         >
-          <HFlex>
-            <BodyTextIcon size={SIZES.MEDIUM} />
-            <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
-          </HFlex>
+          <Tooltip
+            id={changeBlockTypeIcon(currentBlockType).id}
+            text={changeBlockTypeIcon(currentBlockType).text}
+          >
+            <HFlex>
+              {changeBlockTypeIcon(currentBlockType).icon}
+              <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
+            </HFlex>
+          </Tooltip>
         </IconActive>
       </IconWrapper>
       <Spacer width={theme.spacers.size8} />
@@ -70,7 +81,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           toggleInlineStyle(TEXT_STYLES.BOLD);
         }}
       >
-        <BoldIcon size={SIZES.MEDIUM} />
+        <Tooltip id="BoldStyle" text="tooltips.studySet.toolbar.bold">
+          <BoldIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -80,7 +93,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           toggleInlineStyle(TEXT_STYLES.ITALIC);
         }}
       >
-        <ItalicsIcon size={SIZES.MEDIUM} />
+        <Tooltip id="ItalicsStyle" text="tooltips.studySet.toolbar.italics">
+          <ItalicsIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -90,7 +105,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           toggleInlineStyle(TEXT_STYLES.UNDERLINE);
         }}
       >
-        <UnderlineIcon size={SIZES.MEDIUM} />
+        <Tooltip id="UnderlineStyle" text="tooltips.studySet.toolbar.underline">
+          <UnderlineIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -100,7 +117,12 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           toggleInlineStyle(TEXT_STYLES.STRIKETHROUGH);
         }}
       >
-        <StrikethroughIcon size={SIZES.MEDIUM} />
+        <Tooltip
+          id="StrikethroughtStyle"
+          text="tooltips.studySet.toolbar.strikethrough"
+        >
+          <StrikethroughIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -111,8 +133,11 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
               )
             : toggleInlineStyle(TEXT_STYLES.SUBSCRIPT, stylesToRemoveScripts);
         }}
+        fillType={FILL_TYPE.STROKE}
       >
-        <SubscriptIcon size={SIZES.MEDIUM} />
+        <Tooltip id="SubscriptStyle" text="tooltips.studySet.toolbar.subscript">
+          <SubscriptIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -123,8 +148,14 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
               )
             : toggleInlineStyle(TEXT_STYLES.SUPERSCRIPT, stylesToRemoveScripts);
         }}
+        fillType={FILL_TYPE.STROKE}
       >
-        <SuperscriptIcon size={SIZES.MEDIUM} />
+        <Tooltip
+          id="UnderlineStyle"
+          text="tooltips.studySet.toolbar.superscript"
+        >
+          <SuperscriptIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <StudySetToolbarModal
         coords={coords}

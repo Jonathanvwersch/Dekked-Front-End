@@ -5,40 +5,55 @@ import {
   LeftAlignIcon,
   RightAlignIcon,
 } from "../../../assets";
-import { EditorContext } from "../../../contexts/EditorContext";
 import { ThemeContext } from "styled-components/macro";
-import { SIZES } from "../../../shared";
-import { TextAlignmentsContext } from "../../../contexts";
+import { SIZES, TEXT_STYLES } from "../../../shared";
+import { EditorContext } from "../../../contexts";
 
 interface ChangeTextStyleProps {}
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
   const theme = useContext(ThemeContext);
-
-  const { currentBlock } = useContext(EditorContext);
-  const { changeTextAlignment } = useContext(TextAlignmentsContext);
+  const { toggleBlockStyle } = useContext(EditorContext);
 
   return (
     <>
       <IconActive
-        handleMouseDown={() => {
-          changeTextAlignment("left", currentBlock);
+        handleMouseDown={(e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBlockStyle(TEXT_STYLES.ALIGN_LEFT, [
+            TEXT_STYLES.ALIGN_CENTER,
+            TEXT_STYLES.ALIGN_RIGHT,
+            TEXT_STYLES.ALIGN_LEFT,
+          ]);
         }}
       >
         <LeftAlignIcon size={SIZES.MEDIUM} />
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
-        handleMouseDown={() => {
-          changeTextAlignment("center", currentBlock);
+        handleMouseDown={(e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBlockStyle(TEXT_STYLES.ALIGN_CENTER, [
+            TEXT_STYLES.ALIGN_CENTER,
+            TEXT_STYLES.ALIGN_LEFT,
+            TEXT_STYLES.ALIGN_CENTER,
+          ]);
         }}
       >
         <CenterAlignIcon size={SIZES.MEDIUM} />
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
-        handleMouseDown={() => {
-          changeTextAlignment("right", currentBlock);
+        handleMouseDown={(e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBlockStyle(TEXT_STYLES.ALIGN_RIGHT, [
+            TEXT_STYLES.ALIGN_LEFT,
+            TEXT_STYLES.ALIGN_CENTER,
+            TEXT_STYLES.ALIGN_RIGHT,
+          ]);
         }}
       >
         <RightAlignIcon size={SIZES.MEDIUM} />

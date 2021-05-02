@@ -6,7 +6,6 @@ import { ThemeType } from "../../../styles/theme";
 import { SIZES } from "../../../shared";
 
 import ChangeTextStyles from "./ChangeTextStyles";
-import ChangeTextAlignment from "./ChangeTextAlignment";
 import ChangeTextColor from "./ChangeTextColor";
 
 interface StudySetToolbarProps {
@@ -22,15 +21,11 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
     <>
       <HFlex width="auto">
         <ChangeTextStyles />
-        {toolbarFull ? (
-          <>
-            <Spacer width={theme.spacers.size8} />
-            <DividerIcon size={SIZES.MEDIUM} />
-            <Spacer width={theme.spacers.size8} />
-            <ChangeTextAlignment />
-          </>
-        ) : null}
         <Spacer width={theme.spacers.size8} />
+        {/* <DividerIcon size={SIZES.MEDIUM} />
+        <Spacer width={theme.spacers.size8} />
+        <ChangeTextAlignment />
+        <Spacer width={theme.spacers.size8} /> */}
         <DividerIcon size={SIZES.MEDIUM} />
         <Spacer width={theme.spacers.size8} />
         <ChangeTextColor />
