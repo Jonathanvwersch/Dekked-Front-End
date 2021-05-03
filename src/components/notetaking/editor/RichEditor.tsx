@@ -2,13 +2,13 @@ import Draft, {
   ContentBlock,
   ContentState,
   DraftEditorCommand,
-  DraftHandleValue,
   EditorState,
   Modifier,
   RichUtils,
   SelectionState,
   Editor,
   AtomicBlockUtils,
+  DraftHandleValue,
 } from "draft-js";
 
 import "draft-js/dist/Draft.css";
@@ -176,35 +176,6 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
     blockRenderMap
   );
 
-  // const insertImage = (url: any) => {
-  //   const contentState = editorState.getCurrentContent();
-  //   const contentStateWithEntity = contentState.createEntity(
-  //     "IMAGE",
-  //     "IMMUTABLE",
-  //     { src: url }
-  //   );
-  //   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-  //   const newEditorState = EditorState.set(editorState, {
-  //     currentContent: contentStateWithEntity,
-  //   });
-  //   return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
-  // };
-
-  // const handlePastedFiles = (files: any) => {
-  //   const formData = new FormData();
-  //   formData.append("file", files[0]);
-  //   fetch("/api/uploads", { method: "POST", body: formData })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.file) {
-  //         setEditorState(insertImage(data.file)); //created below
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   return (
     <>
       {!loading ? (
@@ -219,7 +190,6 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
             customStyleMap={styleMap}
-            // handlePastedFiles={handlePastedFiles}
             placeholder={
               getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
                 ? formatMessage(`studySet.notetaking.placeholder`, intl)

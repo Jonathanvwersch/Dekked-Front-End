@@ -2,11 +2,13 @@ import React, { ReactElement } from "react";
 import {
   BodyTextIcon,
   BulletedListIcon,
+  DividerIcon,
   H1Icon,
   H2Icon,
   H3Icon,
   NumberedListIcon,
   QuoteIcon,
+  ROTATE,
   TodoIcon,
 } from "../../../assets";
 import { BLOCK_TYPES, SIZES } from "../../../shared";
@@ -48,7 +50,7 @@ export const changeBlockTypeIcon = (
       return {
         icon: <NumberedListIcon size={SIZES.MEDIUM} />,
         id: "NumberedList",
-        text: "studySet.notetaking.toolbar.numeberedList",
+        text: "studySet.notetaking.toolbar.numberedList",
       };
 
     case BLOCK_TYPES.QUOTE:

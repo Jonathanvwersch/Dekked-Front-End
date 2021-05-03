@@ -28,7 +28,7 @@ const StyledCard = styled.div<CardProps>`
   width: ${({ width }) => (width ? width : "100%")};
   border: ${({ border }) => border};
   border-radius: ${({ theme, borderRadius }) =>
-    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.SMALL]};
+    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.MEDIUM]};
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
 `;

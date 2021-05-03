@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { IconActive, Spacer } from "../../common";
+import { IconActive, Spacer, Tooltip } from "../../common";
 import {
   CenterAlignIcon,
   LeftAlignIcon,
@@ -37,7 +37,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           updateData("left");
         }}
       >
-        <LeftAlignIcon size={SIZES.MEDIUM} />
+        <Tooltip id="LeftAlign" text="tooltips.studySet.toolbar.leftAlign">
+          <LeftAlignIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -47,7 +49,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           updateData("center");
         }}
       >
-        <CenterAlignIcon size={SIZES.MEDIUM} />
+        <Tooltip id="CenterAlign" text="tooltips.studySet.toolbar.centerAlign">
+          <CenterAlignIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
@@ -57,7 +61,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
           updateData("right");
         }}
       >
-        <RightAlignIcon size={SIZES.MEDIUM} />
+        <Tooltip id="RightAlign" text="tooltips.studySet.toolbar.rightAlign">
+          <RightAlignIcon size={SIZES.MEDIUM} />
+        </Tooltip>
       </IconActive>
     </>
   );

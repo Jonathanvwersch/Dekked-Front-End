@@ -13,6 +13,7 @@ interface ScrollerModalProps {
   coords?: CoordsType;
   cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
+  fullHeight?: boolean;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -23,6 +24,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   data,
   coords,
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
+  fullHeight,
 }) => {
   const theme = useContext(ThemeContext);
   const { activeIndex } = useKeyDownAndUpListener(open, data.length);
@@ -35,6 +37,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
       type={type}
     >
       <StyledScrollerModal
+        fullHeight={fullHeight}
         coords={coords}
         width={theme.sizes.modal.small}
         cardRef={cardRef}
@@ -64,8 +67,9 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
 
 const StyledScrollerModal = styled(ShadowCard)<{
   coords: CoordsType | undefined;
+  fullHeight?: boolean;
 }>`
-  max-height: 250px;
+  height: ${({ fullHeight }) => (fullHeight ? "100%" : "250px")};
   overflow: hidden;
   z-index: 100;
   &:hover {

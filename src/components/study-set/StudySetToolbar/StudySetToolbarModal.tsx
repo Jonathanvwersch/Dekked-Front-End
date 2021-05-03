@@ -1,9 +1,8 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { ScrollerModal } from "../../common";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { BLOCK_TYPES, CoordsType } from "../../../shared";
-import { NoteTakingBlocksData } from "../../notetaking/TextModal/NotetakingBlocks.data";
-import { useOutsideClickListener } from "../../../hooks";
+import { ConvertToBlockData } from "../../notetaking/TextModal/NotetakingBlocks.data";
 
 interface StudySetToolbarModalProps {
   open: boolean;
@@ -28,7 +27,8 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
       clickFunctions={clickFunctions}
       open={open}
       handleClose={handleClose}
-      data={NoteTakingBlocksData}
+      data={ConvertToBlockData}
+      fullHeight={true}
     />
   );
 };

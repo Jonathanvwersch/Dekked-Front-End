@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
-import { VFlex, IconActive } from "../../common";
+import { VFlex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 
 interface StudySetLinkedFlashcardProps {
@@ -22,12 +22,22 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
       flashcardSize={flashcardSize}
       flashcardPosition={flashcardPosition}
     >
-      <Tab
-        handleClick={() => setShowFlashcard((prevState) => !prevState)}
-        fillType={FILL_TYPE.STROKE}
+      <Tooltip
+        id="LinkedFlashcard"
+        text={
+          showFlashcard
+            ? "generics.clickToMinimise"
+            : "tooltips.studySet.flashcards.createLinkedFlashcard"
+        }
+        place="top"
       >
-        <LogoIcon size={SIZES.MEDIUM} />
-      </Tab>
+        <Tab
+          handleClick={() => setShowFlashcard((prevState) => !prevState)}
+          fillType={FILL_TYPE.STROKE}
+        >
+          <LogoIcon size={SIZES.MEDIUM} />
+        </Tab>
+      </Tooltip>
       {showFlashcard ? <StudySetFlashcard linked={true} /> : null}
     </LinkedCard>
   );

@@ -8,6 +8,7 @@ const en_GB = {
       untitled: "Untitled",
       saveChanges: "Save changes",
       cancel: "Cancel",
+      clickToMinimise: "Click to minimise",
     },
     notFoundPage: {
       goHome: "Go home",
@@ -170,6 +171,12 @@ const en_GB = {
           subscript: "Subscript",
           superscript: "Superscript",
           italics: "Italics",
+          leftAlign: "Left align",
+          centerAlign: "Center align",
+          rightAlign: "Right align",
+        },
+        flashcards: {
+          createLinkedFlashcard: "Create a linked flashcard",
         },
       },
     },
