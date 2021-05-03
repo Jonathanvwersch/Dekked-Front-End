@@ -26,6 +26,8 @@ export function getCurrentBlock(editorState: EditorState) {
   return block;
 }
 
+// Function to return the whole block editor state, i.e. the editor state
+// associated with all the elements in a block
 export const returnWholeBlockEditorState = (editorState: EditorState) => {
   const currentBlock = getCurrentBlock(editorState);
   const currentKey = currentBlock.getKey();
@@ -46,7 +48,7 @@ export const returnWholeBlockEditorState = (editorState: EditorState) => {
   return newEditorState;
 };
 
-// function to remove a specific block style or all block styles if removeAll = true
+// Function to remove a specific block style or all block styles if removeAll = true
 export const removeSpecificBlockStyle = (
   styles: string[] | undefined,
   editorState: EditorState,
@@ -65,10 +67,6 @@ export const removeSpecificBlockStyle = (
         blockStyle
       ),
     editorState.getCurrentContent()
-  );
-
-  console.log(
-    EditorState.push(editorState, contentWithoutStyles, "change-inline-style")
   );
 
   return EditorState.push(
@@ -135,6 +133,7 @@ export function addNewBlockAt(
   return EditorState.push(editorState, newContent, "split-block");
 }
 
+// Function that checks whether a block has a specific style
 export const doesBlockContainStyle = (
   editorState: EditorState,
   style: TEXT_STYLES
@@ -157,7 +156,10 @@ export const getBlockEditorPosition = (rect: DOMRect) => {
   };
 };
 
-export const positionBlockEditor = (rect: DOMRect, componentHeight: number) => {
+export const positionBlockEditorModal = (
+  rect: DOMRect,
+  componentHeight: number
+) => {
   const { top, left, bottom } = getBlockEditorPosition(rect);
   let newCoordinate;
 

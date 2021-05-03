@@ -12,6 +12,7 @@ interface ShadowCardProps {
   position?: string;
   padding?: string;
   cardRef?: React.RefObject<HTMLDivElement>;
+  zIndex?: string;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
@@ -31,6 +32,7 @@ const StyledShadowCard = styled.div<ShadowCardProps>`
   border: ${({ border }) => border};
   position: ${({ position }) => position};
   padding: ${({ padding }) => padding};
+  z-index: ${({ zIndex }) => zIndex};
   overflow: hidden;
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor

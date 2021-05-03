@@ -6,7 +6,10 @@ import {
 } from "./NotetakingBlocks.data";
 
 import { ScrollerModal } from "../../common";
-import { getCurrentBlock, positionBlockEditor } from "../Editor/Editor.helpers";
+import {
+  getCurrentBlock,
+  positionBlockEditorModal,
+} from "../Editor/Editor.helpers";
 import { getSelectedBlockNode } from "./NotetakingBlocksModal.helpers";
 import {
   MODAL_TYPE,
@@ -39,7 +42,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
     if (nodeSelected) {
       const selectedBox = nodeSelected.getBoundingClientRect();
       const blockHeight = 180;
-      const newCoords = positionBlockEditor(selectedBox, blockHeight);
+      const newCoords = positionBlockEditorModal(selectedBox, blockHeight);
       setCoords({
         ...newCoords,
       });

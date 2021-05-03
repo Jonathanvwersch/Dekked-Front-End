@@ -68,6 +68,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       backgroundColor={theme.colors.secondary}
       padding={theme.spacers.size16}
       borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
+      zIndex="15"
     >
       <VFlex>
         {toolbar()}

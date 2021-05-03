@@ -93,7 +93,7 @@ const en_GB = {
       notetaking: {
         numOfWord: "{num} word",
         numOfWords: "{num} words",
-        placeholder: "Type '/' to view block types",
+        placeholder: "Type '/' to view block types or just start writing",
         noMatchingBlocks: "No matching blocks",
         emailUs: "Missing a block you'd like to see? Email us",
         toolbar: {

@@ -6,14 +6,27 @@ import {
   RightAlignIcon,
 } from "../../../assets";
 import { ThemeContext } from "styled-components/macro";
-import { SIZES, TEXT_STYLES } from "../../../shared";
+import { SIZES } from "../../../shared";
 import { EditorContext } from "../../../contexts";
+import {
+  getCurrentBlock,
+  updateDataOfBlock,
+} from "../../notetaking/Editor/Editor.helpers";
 
 interface ChangeTextStyleProps {}
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
   const theme = useContext(ThemeContext);
-  const { toggleBlockStyle } = useContext(EditorContext);
+  const { editorState, setEditorState } = useContext(EditorContext);
+
+  const block = getCurrentBlock(editorState);
+  const data = block.getData();
+
+  // We need to update the meta data of the block to save the checked state
+  const updateData = (alignment: "left" | "right" | "center") => {
+    const newData = data.set("alignment", alignment);
+    setEditorState(updateDataOfBlock(editorState, block, newData));
+  };
 
   return (
     <>
@@ -21,11 +34,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleBlockStyle(TEXT_STYLES.ALIGN_LEFT, [
-            TEXT_STYLES.ALIGN_CENTER,
-            TEXT_STYLES.ALIGN_RIGHT,
-            TEXT_STYLES.ALIGN_LEFT,
-          ]);
+          updateData("left");
         }}
       >
         <LeftAlignIcon size={SIZES.MEDIUM} />
@@ -35,11 +44,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleBlockStyle(TEXT_STYLES.ALIGN_CENTER, [
-            TEXT_STYLES.ALIGN_CENTER,
-            TEXT_STYLES.ALIGN_LEFT,
-            TEXT_STYLES.ALIGN_CENTER,
-          ]);
+          updateData("center");
         }}
       >
         <CenterAlignIcon size={SIZES.MEDIUM} />
@@ -49,11 +54,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleBlockStyle(TEXT_STYLES.ALIGN_RIGHT, [
-            TEXT_STYLES.ALIGN_LEFT,
-            TEXT_STYLES.ALIGN_CENTER,
-            TEXT_STYLES.ALIGN_RIGHT,
-          ]);
+          updateData("right");
         }}
       >
         <RightAlignIcon size={SIZES.MEDIUM} />

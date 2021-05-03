@@ -51,6 +51,7 @@ const Tab = styled(IconActive)`
       theme.sizes.borderRadius[SIZES.MEDIUM]
     } 0px 0px`};
   padding: ${({ theme }) => `${theme.spacers.size8} ${theme.spacers.size64}`};
+  z-index: 10;
 `;
 
 export default React.memo(StudySetLinkedFlashcard);

@@ -24,14 +24,14 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
 
     /* Track */
     *::-webkit-scrollbar-track {
-        background: #DEDEDE;
+        background: ${({ theme }) => theme.colors.grey3};
         cursor: auto;
         border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
     }
 
     /* Handle */
     *::-webkit-scrollbar-thumb {
-        background: #C6C5C2;
+        background: ${({ theme }) => theme.colors.grey2};
         cursor: auto;
         border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
         
