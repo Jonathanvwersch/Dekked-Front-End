@@ -53,7 +53,11 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const { id } = useParams<Params>();
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
-  const loading = isNull(blocks);
+  const [loading, setLoading] = useState<boolean>(isNull(blocks));
+
+  useEffect(() => {
+    setLoading(isNull(blocks));
+  }, [id, blocks]);
 
   const currentBlock = getCurrentBlock(editorState);
 

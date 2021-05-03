@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { HFlex, HoverCard } from "../../common";
+import BlockSettings from "../BlockSettings/BlockSettings";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 import TextBlock from "./TextBlock";
 
@@ -19,17 +20,19 @@ const TodoBlock: React.FC = (props: any) => {
   };
 
   return (
-    <HFlex alignItems="flex-start">
-      <Checkbox
-        checked={checked}
-        handleClick={() => {
-          updateData();
-        }}
-      >
-        {checked ? <CheckmarkIcon color="white" /> : null}
-      </Checkbox>
-      <TextBlock {...props} />
-    </HFlex>
+    <BlockSettings>
+      <HFlex alignItems="flex-start">
+        <Checkbox
+          checked={checked}
+          handleClick={() => {
+            updateData();
+          }}
+        >
+          {checked ? <CheckmarkIcon color="white" /> : null}
+        </Checkbox>
+        <TextBlock {...props} />
+      </HFlex>
+    </BlockSettings>
   );
 };
 

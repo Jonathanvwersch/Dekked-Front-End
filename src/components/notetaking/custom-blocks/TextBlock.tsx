@@ -1,6 +1,7 @@
 import { EditorBlock } from "draft-js";
 import React, { memo } from "react";
 import styled from "styled-components";
+import BlockSettings from "../BlockSettings/BlockSettings";
 
 interface TextBlockProps {}
 
@@ -12,10 +13,13 @@ const TextBlock: React.FC<TextBlockProps> = (props: any) => {
   if (props.block.getText().length === 0) {
     alignment = "left";
   }
+
   return (
-    <AlignBlock alignment={alignment}>
-      <EditorBlock {...props} />
-    </AlignBlock>
+    <BlockSettings>
+      <AlignBlock alignment={alignment}>
+        <EditorBlock {...props} />
+      </AlignBlock>
+    </BlockSettings>
   );
 };
 

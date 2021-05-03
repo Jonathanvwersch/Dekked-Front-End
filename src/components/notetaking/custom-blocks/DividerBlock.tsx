@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
+import BlockSettings from "../BlockSettings/BlockSettings";
 import { addNewBlockAt } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
@@ -12,9 +13,11 @@ const DividerBlock: React.FC = (props: any) => {
   }, []);
 
   return (
-    <Halo>
-      <Divider />
-    </Halo>
+    <BlockSettings>
+      <Halo>
+        <Divider />
+      </Halo>
+    </BlockSettings>
   );
 };
 
