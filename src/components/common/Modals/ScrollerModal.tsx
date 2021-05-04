@@ -69,7 +69,7 @@ const StyledScrollerModal = styled(ShadowCard)<{
   coords: CoordsType | undefined;
   fullHeight?: boolean;
 }>`
-  height: ${({ fullHeight }) => (fullHeight ? "100%" : "250px")};
+  max-height: ${({ fullHeight }) => (fullHeight ? "100%" : "250px")};
   overflow: hidden;
   z-index: 100;
   &:hover {

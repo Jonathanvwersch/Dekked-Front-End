@@ -7,7 +7,6 @@ import Draft, {
   RichUtils,
   SelectionState,
   Editor,
-  AtomicBlockUtils,
   DraftHandleValue,
 } from "draft-js";
 
@@ -211,11 +210,21 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
 const EditorContainer = styled.div`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
-  div[data-editor] {
-    padding: ${({ theme }) => theme.spacers.size4} 0px;
-  }
   width: 100%;
   position: relative;
+
+  div[data-editor] {
+    padding: ${({ theme }) => theme.spacers.size4} 0px;
+    position: relative;
+  }
+
+  ol {
+    position: relative;
+  }
+
+  li {
+    position: relative;
+  }
 
   & .public-DraftEditorPlaceholder-root {
     margin-top: ${({ theme }) => theme.spacers.size4};

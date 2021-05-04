@@ -22,14 +22,10 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
     <>
       <HFlex width="auto">
         <ChangeTextStyles />
-        {toolbarFull ? (
-          <>
-            <Spacer width={theme.spacers.size8} />
-            <DividerIcon size={SIZES.MEDIUM} />
-            <Spacer width={theme.spacers.size8} />
-            <ChangeTextAlignment />
-          </>
-        ) : null}
+        <Spacer width={theme.spacers.size8} />
+        <DividerIcon size={SIZES.MEDIUM} />
+        <Spacer width={theme.spacers.size8} />
+        <ChangeTextAlignment />
         <Spacer width={theme.spacers.size8} />
         <DividerIcon size={SIZES.MEDIUM} />
         <Spacer width={theme.spacers.size8} />

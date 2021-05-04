@@ -104,6 +104,7 @@ export function addNewBlockAt(
     characterList: List(),
     depth: 0,
     data: Map({}),
+    hasFocus: true,
   });
 
   const newBlockMap = blocksBefore
@@ -127,6 +128,7 @@ export function addNewBlockAt(
       focusKey: newBlockKey,
       focusOffset: 0,
       isBackward: false,
+      hasFocus: true,
     }),
   });
 
@@ -145,7 +147,7 @@ export const doesBlockContainStyle = (
 // Function used to get position of block editor
 export const getBlockEditorPosition = (rect: DOMRect) => {
   const distanceToTop = rect.y + rect.height; // Distance from mouse click to top of window
-  const distanceToBottom = window.innerHeight - distanceToTop; // Distance from mouse click to bottom of window
+  const distanceToBottom = window.innerHeight - distanceToTop + rect.height; // Distance from mouse click to bottom of window
   const distanceToLeft = rect.x; // Distance from mouse click to left of window
   const distanceToRight = window.innerWidth - distanceToLeft; // Distance from mouse click to right of window
   return {

@@ -20,7 +20,7 @@ const TodoBlock: React.FC = (props: any) => {
   };
 
   return (
-    <BlockSettings>
+    <BlockSettings blockKey={props.block.getKey()}>
       <HFlex alignItems="flex-start">
         <Checkbox
           checked={checked}
@@ -30,7 +30,7 @@ const TodoBlock: React.FC = (props: any) => {
         >
           {checked ? <CheckmarkIcon color="white" /> : null}
         </Checkbox>
-        <TextBlock {...props} />
+        <TextBlock withSettings={false} {...props} />
       </HFlex>
     </BlockSettings>
   );

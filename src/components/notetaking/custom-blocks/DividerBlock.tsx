@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
-import BlockSettings from "../BlockSettings/BlockSettings";
 import { addNewBlockAt } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
@@ -13,11 +12,9 @@ const DividerBlock: React.FC = (props: any) => {
   }, []);
 
   return (
-    <BlockSettings>
-      <Halo>
-        <Divider />
-      </Halo>
-    </BlockSettings>
+    <Halo>
+      <Divider />
+    </Halo>
   );
 };
 
@@ -26,8 +23,8 @@ export default DividerBlock;
 const Divider = styled.hr`
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.fontColor};
-  margin-top: ${({ theme }) => theme.spacers.size16};
-  margin-bottom: ${({ theme }) => theme.spacers.size16};
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: none;
   width: 100%;
   height: 1px;

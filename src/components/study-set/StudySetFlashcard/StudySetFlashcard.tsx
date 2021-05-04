@@ -51,7 +51,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const toolbar = () => {
     return linked ? (
-      <HFlex justifyContent="flex-start">
+      <HFlex justifyContent="center">
         <StudySetToolbar toolbarFull={false} />
       </HFlex>
     ) : (

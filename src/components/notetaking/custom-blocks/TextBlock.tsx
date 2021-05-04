@@ -1,11 +1,17 @@
 import { EditorBlock } from "draft-js";
 import React, { memo } from "react";
 import styled from "styled-components";
+import { ConditionalWrapper } from "../../common";
 import BlockSettings from "../BlockSettings/BlockSettings";
 
-interface TextBlockProps {}
+interface TextBlockProps {
+  withSettings?: boolean;
+}
 
-const TextBlock: React.FC<TextBlockProps> = (props: any) => {
+const TextBlock: React.FC<TextBlockProps> = (
+  props: any,
+  { withSettings = true }
+) => {
   const data = props.block.getData();
   let alignment = data.has("alignment") && data.get("alignment");
 
@@ -14,18 +20,35 @@ const TextBlock: React.FC<TextBlockProps> = (props: any) => {
     alignment = "left";
   }
 
+  const children = (
+    <AlignBlock alignment={alignment}>
+      <EditorBlock {...props} />
+    </AlignBlock>
+  );
+
   return (
-    <BlockSettings>
-      <AlignBlock alignment={alignment}>
-        <EditorBlock {...props} />
-      </AlignBlock>
-    </BlockSettings>
+    <ConditionalWrapper
+      condition={withSettings}
+      wrapper={() => (
+        <BlockSettings
+          blockType={props.block.getType()}
+          blockKey={props.block.getKey()}
+        >
+          {children}
+        </BlockSettings>
+      )}
+    >
+      {children}
+    </ConditionalWrapper>
   );
 };
 
 const AlignBlock = styled.div<{ alignment?: string }>`
+  width: 100%;
   div {
-    text-align: ${({ alignment }) => alignment}!important;
+    width: 100%;
+    text-align: ${({ alignment }) =>
+      alignment ? `${alignment}!important` : "left"};
   }
 `;
 

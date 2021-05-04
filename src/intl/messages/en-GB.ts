@@ -177,7 +177,7 @@ const en_GB = {
         },
         blocks: {
           addBlocks: "Click to add a block below",
-          moveOrSettings: "Drag to move block. Click to open menu.",
+          moveOrSettings: "Drag to move block",
         },
         flashcards: {
           createLinkedFlashcard: "Create a linked flashcard",
