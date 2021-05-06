@@ -82,7 +82,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
         setCurrentTextLength(currentText.length);
       }
 
-      // If the data is only made up of the special no matching results block
+      // If the data is only made up of the special 'no matching results block'
       // and the length of the text is greater than 6, close the modal
       // as it is now clear that user does not want to use the modal.
       // Six is an arbitrary number.
@@ -99,16 +99,14 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
 
   return (
     <>
-      {coords ? (
-        <ScrollerModal
-          open={open}
-          handleClose={() => setOpen(false)}
-          coords={coords}
-          clickFunctions={handleToggle}
-          data={data}
-          type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-        />
-      ) : null}
+      <ScrollerModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        coords={coords}
+        clickFunctions={handleToggle}
+        data={data}
+        type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+      />
     </>
   );
 };

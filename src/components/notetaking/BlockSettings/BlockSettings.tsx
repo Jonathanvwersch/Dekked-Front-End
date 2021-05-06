@@ -75,7 +75,7 @@ const BlockHoverSettings = styled.div<{
   right: ${({ blockType }) =>
     blockType === BLOCK_TYPES.NUMBERED_LIST ||
     blockType === BLOCK_TYPES.BULLETED_LIST
-      ? "103%"
+      ? "102.5%"
       : "100%"};
 `;
 
