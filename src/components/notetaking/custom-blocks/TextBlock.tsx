@@ -15,12 +15,6 @@ const TextBlock: React.FC = (props: any) => {
     alignment = "left";
   }
 
-  const children = (
-    <AlignBlock alignment={alignment}>
-      <EditorBlock {...props} />
-    </AlignBlock>
-  );
-
   return (
     <ConditionalWrapper
       condition={withSettings == null ? true : withSettings}
