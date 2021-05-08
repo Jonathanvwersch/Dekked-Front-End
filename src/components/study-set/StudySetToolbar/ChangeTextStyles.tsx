@@ -48,7 +48,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     e.preventDefault();
     e.stopPropagation();
     setBlockOptionsModal(true);
-    setCoords(positionModals(e, undefined, blockOptionsRef));
+    setCoords(positionModals(e, 272, blockOptionsRef));
   };
 
   const currentBlockType = currentBlock.getType() || "unstyled";
