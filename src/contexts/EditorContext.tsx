@@ -39,7 +39,8 @@ export interface EditorContextProps {
   saveError: boolean;
   page: PageInterface | undefined;
   currentBlock: ContentBlock;
-  editorStateNoStyles: EditorState;
+  setDragBlockKey: React.Dispatch<React.SetStateAction<string | undefined>>;
+  dragBlockKey: string | undefined;
 }
 
 export const EditorContext = createContext<EditorContextProps>(
@@ -55,11 +56,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
   const [loading, setLoading] = useState<boolean>(isNull(blocks));
-  const editorStateNoStyles = removeSpecificBlockStyle(
-    undefined,
-    returnWholeBlockEditorState(editorState),
-    true
-  );
+  const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
 
   useEffect(() => {
     setLoading(isNull(blocks));
@@ -164,7 +161,8 @@ export const EditorContextProvider: React.FC = ({ children }) => {
         page,
         currentBlock,
         saveError,
-        editorStateNoStyles,
+        dragBlockKey,
+        setDragBlockKey,
       }}
     >
       {children}
