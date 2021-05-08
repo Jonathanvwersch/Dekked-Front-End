@@ -4,8 +4,10 @@ import { FILETREE_TYPES } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getChildType, handleIconType, handleUntitled } from "../../../helpers";
+import { getChildType, handleUntitled } from "../../../helpers";
 import { SidebarContext } from "../../../contexts";
+import { BinderIcon, StudySetIcon } from "../../../assets";
+import { ThemeContext } from "styled-components";
 
 interface FolderBinderCardProps {
   data: BinderInterface | StudyPackInterface;
@@ -15,6 +17,7 @@ interface FolderBinderCardProps {
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const intl = useIntl();
   const { studySetTabLink } = useContext(SidebarContext);
+  const theme = useContext(ThemeContext);
 
   return (
     <>
@@ -33,7 +36,15 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
             bottomText={`${formatMessage("folderBinders.created", intl)} ${
               data?.date_created
             }`}
-            icon={handleIconType(getChildType(type), data?.color)}
+            thumbnailBackgroundColor={theme.colors.secondary}
+            descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
+            backgroundIcon={
+              getChildType(type) === FILETREE_TYPES.BINDER ? (
+                <BinderIcon color={data.color} size="80px" />
+              ) : (
+                <StudySetIcon color={data.color} size="80px" />
+              )
+            }
           />
         </NavLink>
       ) : null}

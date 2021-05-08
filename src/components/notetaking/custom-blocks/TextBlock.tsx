@@ -1,18 +1,13 @@
 import { EditorBlock } from "draft-js";
-import React, { memo } from "react";
+import React, { memo, ReactElement } from "react";
 import styled from "styled-components";
 import { ConditionalWrapper } from "../../common";
 import BlockSettings from "../BlockSettings/BlockSettings";
 
-interface TextBlockProps {
-  withSettings?: boolean;
-}
-
-const TextBlock: React.FC<TextBlockProps> = (
-  props: any,
-  { withSettings = true }
-) => {
+const TextBlock: React.FC = (props: any) => {
   const data = props.block.getData();
+  const { withSettings } = props.blockProps;
+
   let alignment = data.has("alignment") && data.get("alignment");
 
   // only allow alignment to be set if block has text to prevent misplaced placeholder text
@@ -28,17 +23,20 @@ const TextBlock: React.FC<TextBlockProps> = (
 
   return (
     <ConditionalWrapper
-      condition={withSettings}
-      wrapper={() => (
+      condition={withSettings == null ? true : withSettings}
+      wrapper={(children: ReactElement) => (
         <BlockSettings
           blockType={props.block.getType()}
           blockKey={props.block.getKey()}
+          block={props.block}
         >
           {children}
         </BlockSettings>
       )}
     >
-      {children}
+      <AlignBlock alignment={alignment}>
+        <EditorBlock {...props} />
+      </AlignBlock>
     </ConditionalWrapper>
   );
 };

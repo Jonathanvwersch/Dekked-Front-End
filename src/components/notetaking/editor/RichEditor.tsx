@@ -12,7 +12,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useRef } from "react";
+import React, { memo, useContext, useRef } from "react";
 
 import {
   addNewBlockAt,
@@ -44,6 +44,7 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
     loading,
     autoSave,
     page,
+    currentBlock,
   } = useContext(EditorContext);
 
   const editorRef = useRef<any>(null);
@@ -59,12 +60,12 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
       setEditorState(newState);
       return "handled";
     }
+
     return "not-handled";
   };
 
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
     const currentContent = editorState.getCurrentContent();
-    const currentBlock = getCurrentBlock(editorState);
 
     const targetRange = new SelectionState({
       anchorKey: currentBlock.getKey(),
@@ -134,7 +135,6 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
       setEditorState(RichUtils.insertSoftNewline(editorState));
       return "handled";
     }
-
     const currentBlock = getCurrentBlock(editorState);
     const blockType = currentBlock.getType();
     if (
@@ -259,4 +259,4 @@ const EditorContainer = styled.div`
   }
 `;
 
-export default NoteEditor;
+export default memo(NoteEditor);

@@ -14,6 +14,7 @@ interface IconActiveProps {
   fillType?: string;
   handleMouseDown?: (args: any) => void;
   iconActiveRef?: React.RefObject<HTMLButtonElement>;
+  cursor?: string;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -23,6 +24,7 @@ const IconActive: React.FC<IconActiveProps> = ({
   className,
   handleMouseDown,
   iconActiveRef,
+  cursor,
 }) => {
   return (
     <>
@@ -38,6 +40,7 @@ const IconActive: React.FC<IconActiveProps> = ({
         className={className}
         fillType={fillType}
         tabIndex={0}
+        cursor={cursor}
       >
         {children}
       </StyledIconActive>
@@ -54,7 +57,7 @@ const StyledIconActive = styled.button<IconActiveProps>`
   border: none;
   position: relative;
   background: none;
-  cursor: pointer;
+  cursor: ${({ cursor }) => cursor || "pointer"};
   outline: none;
   &:hover {
     & svg {

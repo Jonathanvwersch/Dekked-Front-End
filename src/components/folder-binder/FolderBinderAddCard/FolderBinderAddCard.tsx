@@ -27,7 +27,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   };
 
   return (
-    <Card height="188px" width="170px" padding="0px" ariaLabel="Add item">
+    <Card height="180px" width="160px" padding="0px" ariaLabel="Add item">
       <StyledIconActive handleMouseDown={handleAddItem}>
         <PlusIcon size={theme.spacers.size80} />
       </StyledIconActive>

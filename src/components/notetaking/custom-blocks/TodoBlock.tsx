@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
@@ -19,8 +19,11 @@ const TodoBlock: React.FC = (props: any) => {
     setEditorState(updateDataOfBlock(editorState, block, newData));
   };
 
+  const newProps = { ...props };
+  newProps.blockProps.withSettings = false;
+
   return (
-    <BlockSettings blockKey={props.block.getKey()}>
+    <BlockSettings blockKey={props.block.getKey()} block={block}>
       <HFlex alignItems="flex-start">
         <Checkbox
           checked={checked}
@@ -55,4 +58,4 @@ const Checkbox = styled(HoverCard)<{ checked: boolean }>`
     ${({ theme, checked }) => (checked ? "none" : theme.colors.fontColor)} solid;
 `;
 
-export default TodoBlock;
+export default memo(TodoBlock);

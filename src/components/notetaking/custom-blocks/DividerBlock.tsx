@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
 import { addNewBlockAt } from "../Editor/Editor.helpers";
@@ -18,7 +18,7 @@ const DividerBlock: React.FC = (props: any) => {
   );
 };
 
-export default DividerBlock;
+export default memo(DividerBlock);
 
 const Divider = styled.hr`
   color: ${({ theme }) => theme.colors.fontColor};

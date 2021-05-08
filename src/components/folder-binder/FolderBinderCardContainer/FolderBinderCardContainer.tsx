@@ -76,7 +76,7 @@ const StyledContainer = styled.div<FolderBinderCardContainerProps>`
   display: flex;
   flex-direction: column;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 

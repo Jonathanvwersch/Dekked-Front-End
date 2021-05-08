@@ -82,6 +82,7 @@ export function addNewBlockAt(
   pivotBlockKey: string,
   newBlockType = "unstyled"
 ) {
+  console.log(pivotBlockKey);
   const content = editorState.getCurrentContent();
   const blockMap = content.getBlockMap();
   const block = blockMap.get(pivotBlockKey);
@@ -126,6 +127,73 @@ export function addNewBlockAt(
       anchorKey: newBlockKey,
       anchorOffset: 0,
       focusKey: newBlockKey,
+      focusOffset: 0,
+      isBackward: false,
+      hasFocus: true,
+    }),
+  });
+
+  return EditorState.push(editorState, newContent, "split-block");
+}
+
+export const removeBlock = (block: ContentBlock, editorState: EditorState) => {
+  const contentState = editorState.getCurrentContent();
+
+  const removeSelection = new SelectionState({
+    anchorKey: block.getKey(),
+    anchorOffset: 0,
+    focusKey: block.getKey(),
+    focusOffset: block.getText().length,
+  });
+
+  const newContentState = Modifier.removeRange(
+    contentState,
+    removeSelection,
+    "forward"
+  );
+
+  return EditorState.push(editorState, newContentState, "remove-range");
+};
+
+// Function used to change a block's position
+export function moveBlock(
+  editorState: EditorState,
+  pivotBlockKey: string,
+  currentBlock: ContentBlock
+) {
+  const content = editorState.getCurrentContent();
+  const blockMap = content.getBlockMap();
+  const block = blockMap.get(pivotBlockKey);
+  if (!block) {
+    throw new Error(
+      `The pivot key - ${pivotBlockKey} is not present in blockMap.`
+    );
+  }
+  const blocksBefore = blockMap.toSeq().takeUntil((v) => v === block);
+  const blocksAfter = blockMap
+    .toSeq()
+    .skipUntil((v) => v === block)
+    .rest();
+
+  const newBlockMap = blocksBefore
+    .concat(
+      [
+        [pivotBlockKey, block],
+        [currentBlock.getKey(), currentBlock],
+      ],
+      blocksAfter
+    )
+    .toOrderedMap();
+
+  const selection = editorState.getSelection();
+
+  const newContent: any = content.merge({
+    blockMap: newBlockMap,
+    selectionBefore: selection,
+    selectionAfter: selection.merge({
+      anchorKey: currentBlock.getKey(),
+      anchorOffset: 0,
+      focusKey: currentBlock.getKey(),
       focusOffset: 0,
       isBackward: false,
       hasFocus: true,

@@ -2,13 +2,11 @@ import React, { ReactElement } from "react";
 import {
   BodyTextIcon,
   BulletedListIcon,
-  DividerIcon,
   H1Icon,
   H2Icon,
   H3Icon,
   NumberedListIcon,
   QuoteIcon,
-  ROTATE,
   TodoIcon,
 } from "../../../assets";
 import { BLOCK_TYPES, SIZES } from "../../../shared";

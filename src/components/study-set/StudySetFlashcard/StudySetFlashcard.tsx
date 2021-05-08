@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled from "styled-components/macro";
 import {
   Card,
   HFlex,

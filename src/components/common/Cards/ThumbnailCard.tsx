@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
-import { Card, HFlex, Spacer, Text } from "../../common";
+import { Card, HFlex, Spacer, Text, VFlex } from "../../common";
 
 interface ThumbnailCardProps {
   topText: string;
   bottomText: string;
   backgroundImage?: string;
   icon?: any;
+  backgroundIcon?: any;
+  thumbnailBackgroundColor?: string;
+  descriptionBackgroundColor?: string;
 }
 
 const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
@@ -15,37 +18,49 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
   bottomText,
   icon,
   backgroundImage,
+  backgroundIcon,
+  thumbnailBackgroundColor,
+  descriptionBackgroundColor,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
     <StyledCard
-      height="188px"
-      width="170px"
+      height="180px"
+      width="160px"
       padding="0px"
       border={`1px solid ${theme.colors.grey2}`}
-      backgroundColor={theme.colors.backgrounds.pageBackground}
+      backgroundColor={
+        thumbnailBackgroundColor || theme.colors.backgrounds.pageBackground
+      }
       ariaLabel={topText}
     >
-      <Thumbnail backgroundImage={backgroundImage} />
-      <Description borderRadius="0px">
-        <Text className="overflow">{topText}</Text>
-        <Spacer height={theme.spacers.size4} />
-        <HFlex>
-          {icon ? (
-            <>
-              {icon}
-              <Spacer width={theme.spacers.size4} />
-            </>
-          ) : null}
-          <Text
-            fontColor={theme.colors.grey1}
-            fontSize={theme.typography.fontSizes.size10}
-          >
-            {bottomText}
-          </Text>
-        </HFlex>
-      </Description>
+      <VFlex height="100%">
+        <Thumbnail backgroundImage={backgroundImage}>
+          {backgroundIcon}
+        </Thumbnail>
+        <Description
+          borderRadius="0px"
+          backgroundColor={descriptionBackgroundColor || theme.colors.secondary}
+        >
+          <Text className="overflow">{topText}</Text>
+          <Spacer height="2px" />
+          <HFlex>
+            {icon ? (
+              <>
+                {icon}
+                <Spacer width={theme.spacers.size4} />
+              </>
+            ) : null}
+            <Text
+              fontColor={theme.colors.grey1}
+              fontSize={theme.typography.fontSizes.size10}
+            >
+              {bottomText}
+            </Text>
+          </HFlex>
+        </Description>
+      </VFlex>
     </StyledCard>
   );
 };
@@ -64,22 +79,23 @@ const StyledCard = styled((props) => <Card {...props} />)`
 `;
 
 const Thumbnail = styled.div<{ backgroundImage?: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  z-index: 0;
-  background-size: contain;
-  background-image: url(${({ backgroundImage }) => backgroundImage});
+  background-size: cover;
+  background-image: ${({ backgroundImage }) =>
+    backgroundImage ? `url(${backgroundImage})` : undefined};
 `;
 
 const Description = styled((props) => <Card {...props} />)`
   display: flex;
   flex-direction: column;
-  z-index: 0;
-  position: absolute;
-  bottom: 0;
-  padding: 12px 16px;
+  justify-content: space-between;
+  padding: 8px 16px;
   border-top: 1px solid ${({ theme }) => theme.colors.grey2};
-  min-height: ${({ theme }) => theme.spacers.size64};
+  min-height: 52px;
 `;
 
 export default ThumbnailCard;
