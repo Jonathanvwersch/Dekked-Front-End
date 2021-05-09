@@ -135,6 +135,7 @@ export function addNewBlockAt(
   return EditorState.push(editorState, newContent, "split-block");
 }
 
+// Function used to remove a block using its key
 export const removeBlock = (
   editorState: EditorState,
   pivotBlockKey: string

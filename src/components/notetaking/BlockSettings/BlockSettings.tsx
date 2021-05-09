@@ -96,20 +96,24 @@ const StyledDragBlock = styled(DragBlock)`
   display: flex;
   align-items: flex-start;
   width: 100%;
+  position: relative;
 `;
 
 const BlockHoverSettings = styled.div<{
   showSettings: boolean;
   blockType?: string;
 }>`
-  opacity: ${({ showSettings }) => (showSettings ? 1 : 0)};
+  opacity: ${({ showSettings }) => (showSettings ? 1 : 1)};
   display: flex;
-  height: ${({ theme }) => theme.spacers.size20};
-  align-items: center;
+  align-items: flex-start;
   position: absolute;
+  top: 0;
+  bottom: 0;
   left: ${({ blockType }) =>
-    blockType === BLOCK_TYPES.NUMBERED_LIST ||
-    blockType === BLOCK_TYPES.BULLETED_LIST
+    blockType === BLOCK_TYPES.QUOTE
+      ? "-66px"
+      : blockType === BLOCK_TYPES.NUMBERED_LIST ||
+        blockType === BLOCK_TYPES.BULLETED_LIST
       ? "-72px"
       : "-48px"};
 `;
