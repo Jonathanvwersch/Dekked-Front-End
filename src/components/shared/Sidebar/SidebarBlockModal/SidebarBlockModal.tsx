@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SidebarContext } from "../../../../contexts";
 import {
   BinderData,
@@ -9,6 +9,7 @@ import {
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES, CoordsType } from "../../../../shared";
 import { getChildType } from "../../../../helpers";
+import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
   state: boolean;
@@ -24,7 +25,8 @@ interface SidebarBlockModalProps {
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
-  const { handleAddBlock } = useContext(SidebarContext);
+  const { handleAddBlock, handleDeleteBlock } = useContext(SidebarContext);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const modalData =
     props.type === FILETREE_TYPES.FOLDER
@@ -48,6 +50,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   const handleDelete = (e: MouseEvent) => {
     e.preventDefault();
     props.handleBlockModal();
+    setIsDeleteModalOpen(true);
   };
 
   const handleClick = (type: string, e: MouseEvent) => {
@@ -61,13 +64,20 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
   };
 
   return (
-    <ScrollerModal
-      open={props.state}
-      handleClose={props.handleState}
-      coords={props.coords}
-      data={modalData}
-      clickFunctions={handleClick}
-    />
+    <>
+      <ScrollerModal
+        open={props.state}
+        handleClose={props.handleState}
+        coords={props.coords}
+        data={modalData}
+        clickFunctions={handleClick}
+      />
+      <DeleteModal
+        handleClose={() => setIsDeleteModalOpen(false)}
+        isOpen={isDeleteModalOpen}
+        handleMainButton={() => handleDeleteBlock(props.id, props.type)}
+      />
+    </>
   );
 };
 

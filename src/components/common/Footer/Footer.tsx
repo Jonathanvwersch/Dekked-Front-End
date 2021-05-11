@@ -5,7 +5,7 @@ import { BUTTON_THEME, SIZES } from "../../../shared";
 
 interface FooterProps {
   handleCancel: () => void;
-  handleMainButton?: () => void;
+  handleMainButton?: (args: any) => void;
   mainButtonStyle?: BUTTON_THEME;
   isDisabled?: boolean;
   alignment?: "flex-start" | "center";

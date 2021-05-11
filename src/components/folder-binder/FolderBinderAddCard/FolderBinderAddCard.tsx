@@ -15,15 +15,15 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   type,
   id,
 }) => {
-  const { handleAddingAsset } = useContext(FileTreeContext);
+  const { addAsset } = useContext(FileTreeContext);
   const theme: ThemeType = useContext(ThemeContext);
   const { handleOpenBlock } = useContext(SidebarContext);
 
   const handleAddItem = () => {
     handleOpenBlock(id, true);
     if (type === FILETREE_TYPES.FOLDER) {
-      handleAddingAsset(FILETREE_TYPES.BINDER, id);
-    } else handleAddingAsset(FILETREE_TYPES.STUDY_SET, id);
+      addAsset(FILETREE_TYPES.BINDER, id);
+    } else addAsset(FILETREE_TYPES.STUDY_SET, id);
   };
 
   return (

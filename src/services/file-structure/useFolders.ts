@@ -95,11 +95,38 @@ export function useFolders() {
     }
   }
 
+  async function deleteFolder(folder_id: string) {
+    try {
+      const uri = config.api + "/folder";
+      const response = await fetch(uri, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          folder_id,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        if (json.success) {
+          getFolders();
+          return;
+        }
+      }
+      throw Error("There was an error deleting the folder");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     getFolders,
     addFolder,
     folderIsError: isError,
     folders,
     updateFolder,
+    deleteFolder,
   };
 }

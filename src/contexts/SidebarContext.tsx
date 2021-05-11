@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useStorageState } from "../hooks";
 import { FILETREE_TYPES, TAB_TYPE } from "../shared";
 import { FileTreeContext } from "./FileTreeContext";
@@ -11,8 +12,9 @@ interface SidebarContextProps {
   handleOpenBlock: (id: string, isOpen?: boolean) => void;
   studySetTab: { [id: string]: TAB_TYPE };
   handleStudySetTab: (id: string, tab: TAB_TYPE) => void;
-  handleAddBlock: (id: string, type: FILETREE_TYPES) => void;
+  handleAddBlock: (id: string, type: string) => void;
   studySetTabLink: (id: string) => any;
+  handleDeleteBlock: (id: string, type: string) => void;
 }
 
 export const SidebarContext = createContext<SidebarContextProps>(
@@ -20,7 +22,15 @@ export const SidebarContext = createContext<SidebarContextProps>(
 );
 
 export const SidebarContextProvider: React.FC = ({ children }) => {
-  const { handleAddingAsset } = useContext(FileTreeContext);
+  const {
+    addAsset,
+    deleteAsset,
+    fileTree,
+    binders,
+    studyPacks,
+    folders,
+  } = useContext(FileTreeContext);
+  const history = useHistory();
 
   // handle opening and closing of sidebar
   const [sidebar, setSidebar] = useStorageState(true, "sidebar-state");
@@ -65,9 +75,34 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     setIsBlockOpen(fileCopy);
   };
 
-  const handleAddBlock = (id: string, type: FILETREE_TYPES) => {
+  // handle adding of blocks
+  const handleAddBlock = (id: string, type: string) => {
     handleOpenBlock(id, true);
-    handleAddingAsset(type, id);
+    addAsset(type, id);
+  };
+
+  // handle deleting of blocks
+  const handleDeleteBlock = (id: string, type: string) => {
+    deleteAsset(type, id);
+
+    // navigate to parent binder if deleting study pack
+    if (type === FILETREE_TYPES.STUDY_SET) {
+      const parentBinderId = binders[studyPacks[id].binder_id].id;
+      const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
+      history.push(parentBinderLink);
+    }
+    // navigate to parent folder if deleting binder
+    else if (type === FILETREE_TYPES.BINDER) {
+      const parentFolderId = folders[binders[id].folder_id].id;
+      const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
+      history.push(parentFolderLink);
+    }
+    // navigate to first folder if deleting folder
+    else {
+      const firstFolderId = Object.keys(fileTree)[0];
+      const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
+      history.push(firstFolderLink);
+    }
   };
 
   return (
@@ -82,6 +117,7 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
         handleStudySetTab,
         handleAddBlock,
         studySetTabLink,
+        handleDeleteBlock,
       }}
     >
       {children}

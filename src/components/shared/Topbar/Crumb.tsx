@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
@@ -77,4 +77,4 @@ const Crumb: React.FC<CrumbProps> = ({
   );
 };
 
-export default Crumb;
+export default memo(Crumb);

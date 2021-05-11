@@ -31,7 +31,6 @@ export function useBinders() {
   }
 
   async function addBinder(name: string, color: string, folder_id: string) {
-    console.log(folder_id);
     try {
       const uri = config.api + "/binder";
       const response = await fetch(uri, {
@@ -97,11 +96,38 @@ export function useBinders() {
     }
   }
 
+  async function deleteBinder(binder_id: string) {
+    try {
+      const uri = config.api + "/binder";
+      const response = await fetch(uri, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          binder_id,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        if (json.success) {
+          getBinders();
+          return;
+        }
+      }
+      throw Error("There was an error deleting the binder");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     getBinders,
     addBinder,
     bindersIsError: isError,
     binders,
     updateBinder,
+    deleteBinder,
   };
 }

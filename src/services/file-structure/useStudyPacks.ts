@@ -97,11 +97,39 @@ export function useStudyPacks() {
     }
   }
 
+  async function deleteStudyPack(study_pack_id: string) {
+    try {
+      const uri = config.api + "/study-pack";
+      const response = await fetch(uri, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          study_pack_id,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+        if (json.success) {
+          getStudyPacks();
+          return;
+        }
+      }
+      throw Error("There was an error deleting study packs");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     getStudyPacks,
     addStudyPack,
     studyPacksIsError: isError,
     studyPacks,
     updateStudyPack,
+    deleteStudyPack,
   };
 }

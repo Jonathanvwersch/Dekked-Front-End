@@ -6,7 +6,7 @@ import { FILETREE_TYPES } from "../shared";
 import CustomSwitch from "./CustomSwitch";
 
 const Routes = () => {
-  const { fileTree, getAsset, handleAddingAsset, isTreeEmpty } = useContext(
+  const { fileTree, getAsset, addAsset, isTreeEmpty } = useContext(
     FileTreeContext
   );
   const firstFolderId = Object.keys(fileTree)[0];
@@ -16,7 +16,7 @@ const Routes = () => {
   useEffect(() => {
     // if file tree is empty auto-add one folder
     if (isTreeEmpty) {
-      handleAddingAsset(FILETREE_TYPES.FOLDER);
+      addAsset(FILETREE_TYPES.FOLDER);
     }
   }, [isTreeEmpty]); // eslint-disable-line react-hooks/exhaustive-deps
 

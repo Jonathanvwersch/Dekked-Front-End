@@ -38,6 +38,9 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
+        handleMainButton={() => {
+          return null;
+        }}
       />
     </>
   );

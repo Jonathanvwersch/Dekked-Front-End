@@ -103,7 +103,7 @@ const BlockHoverSettings = styled.div<{
   showSettings: boolean;
   blockType?: string;
 }>`
-  opacity: ${({ showSettings }) => (showSettings ? 1 : 1)};
+  opacity: ${({ showSettings }) => (showSettings ? 1 : 0)};
   display: flex;
   align-items: flex-start;
   position: absolute;

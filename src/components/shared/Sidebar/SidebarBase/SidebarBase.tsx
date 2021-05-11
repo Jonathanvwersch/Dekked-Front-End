@@ -12,14 +12,14 @@ interface SidebarBaseProps {
 
 const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
   const theme = useContext(ThemeContext);
-  const { handleAddingAsset } = useContext(FileTreeContext);
+  const { addAsset } = useContext(FileTreeContext);
 
   return (
     <StyledSidebarBase>
       <Divider />
       <HoverCard
         handleMouseDown={() => {
-          handleAddingAsset(FILETREE_TYPES.FOLDER);
+          addAsset(FILETREE_TYPES.FOLDER);
           scrollToBottom();
         }}
         padding={theme.spacers.size16}

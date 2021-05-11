@@ -8,7 +8,7 @@ import { ThemeContext } from "styled-components/macro";
 import { FILETREE_TYPES } from "../shared";
 
 interface FileTreeContextTypes {
-  handleAddingAsset: (type: string, parent_id?: string) => void;
+  addAsset: (type: string, parent_id?: string) => void;
   getAsset: (
     type: string,
     asset_id: string
@@ -32,6 +32,7 @@ interface FileTreeContextTypes {
       name?: string;
     }
   ) => void;
+  deleteAsset: (type: string, assetId: string) => Promise<void> | undefined;
 }
 
 export const FileTreeContext = createContext<FileTreeContextTypes>(
@@ -40,20 +41,33 @@ export const FileTreeContext = createContext<FileTreeContextTypes>(
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
   const { getFileTree, fileTree, isTreeEmpty } = useFileTree();
-  const { getFolders, addFolder, folders, updateFolder } = useFolders();
+  const {
+    getFolders,
+    addFolder,
+    folders,
+    updateFolder,
+    deleteFolder,
+  } = useFolders();
   const {
     getStudyPacks,
     addStudyPack,
     studyPacks,
     updateStudyPack,
+    deleteStudyPack,
   } = useStudyPacks();
-  const { getBinders, addBinder, binders, updateBinder } = useBinders();
+  const {
+    getBinders,
+    addBinder,
+    binders,
+    updateBinder,
+    deleteBinder,
+  } = useBinders();
   const theme: ThemeType = useContext(ThemeContext);
   const folderLength = Object.keys(folders).length;
   const binderLength = Object.keys(binders).length;
   const studySetLength = Object.keys(studyPacks).length;
 
-  const handleAddingAsset = (type: string, parentId?: string) => {
+  const addAsset = (type: string, parentId?: string) => {
     const iconColor = theme.colors.iconColor;
     const itemName = "";
 
@@ -105,6 +119,19 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     }
   };
 
+  const deleteAsset = (type: string, assetId: string) => {
+    switch (type) {
+      case FILETREE_TYPES.FOLDER:
+        return deleteFolder(assetId);
+      case FILETREE_TYPES.BINDER:
+        return deleteBinder(assetId);
+      case FILETREE_TYPES.STUDY_SET:
+        return deleteStudyPack(assetId);
+      default:
+        break;
+    }
+  };
+
   const fullFileTreeUpdate = () => {
     getFileTree();
     getFolders();
@@ -123,7 +150,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   return (
     <FileTreeContext.Provider
       value={{
-        handleAddingAsset,
+        addAsset,
         fileTree,
         getAsset,
         updateAsset,
@@ -131,6 +158,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         binders,
         folders,
         studyPacks,
+        deleteAsset,
       }}
     >
       {children}
