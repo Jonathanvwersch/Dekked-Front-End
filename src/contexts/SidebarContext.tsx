@@ -62,7 +62,9 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     "blocks-state"
   );
 
-  // helper function to open blocks
+  // helper function to open blocks (i.e. click drop down arrow)
+  // if you just want to switch the open state of a block just pass the id
+  // if you want to set the block open state to something specific, pass isOpen
   const handleOpenBlock = (id: string, isOpen?: boolean) => {
     if (isOpen && isOpen === isBlockOpen[id]) return;
 

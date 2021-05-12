@@ -4,9 +4,6 @@ import styled, { FlattenInterpolation, ThemeProps } from "styled-components";
 interface DragBlockProps {
   children: ReactNode;
   isDraggable: boolean;
-  handleMouseOut?: () => void;
-  handleMouseLeave?: () => void;
-  handleMouseOver?: () => void;
   handleDragEnter?: () => void;
   handleDragLeave?: () => void;
   handleDrop?: () => void;
@@ -20,9 +17,6 @@ interface DragBlockProps {
 const DragBlock: React.FC<DragBlockProps> = ({
   children,
   handleDragEnter,
-  handleMouseOut,
-  handleMouseLeave,
-  handleMouseOver,
   handleDragLeave,
   handleDrop,
   handleDragEnd,
@@ -36,15 +30,6 @@ const DragBlock: React.FC<DragBlockProps> = ({
     <StyledDragBlock
       dragStyles={dragStyles}
       className={className}
-      onMouseOver={(e: React.DragEvent<HTMLDivElement>) => {
-        handleMouseOver && handleMouseOver();
-      }}
-      onMouseLeave={(e: React.DragEvent<HTMLDivElement>) => {
-        handleMouseLeave && handleMouseLeave();
-      }}
-      onMouseOut={(e: React.DragEvent<HTMLDivElement>) => {
-        handleMouseOut && handleMouseOut();
-      }}
       draggable={isDraggable}
       onDragEnter={(e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();

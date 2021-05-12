@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
@@ -14,11 +14,12 @@ const TodoBlock: React.FC = (props: any) => {
   const checked = data.has("checked") && data.get("checked") === true;
 
   // We need to update the meta data of the block to save the checked state
-  const updateData = () => {
+  const updateData = useCallback(() => {
     const newData = data.set("checked", !checked);
     setEditorState(updateDataOfBlock(editorState, block, newData));
-  };
+  }, [checked]);
 
+  console.log("hey");
   const newProps = { ...props };
   newProps.blockProps.withSettings = false;
 

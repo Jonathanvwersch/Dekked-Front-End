@@ -20,7 +20,6 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   blockKey,
   blockType,
 }) => {
-  const [showSettings, setShowSettings] = useState<boolean>(false);
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
 
@@ -34,9 +33,6 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   return (
     <StyledDragBlock
       isDraggable={isDraggable}
-      handleMouseOver={() => setShowSettings(true)}
-      handleMouseLeave={() => setShowSettings(false)}
-      handleMouseOut={() => setShowSettings(false)}
       dragStyles={css`
         border-bottom: solid 2px ${({ theme }) => theme.colors.primary};
       `}
@@ -51,12 +47,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
       handleDragEnter={() => setShowDragStyles(true)}
       showDragStyles={showDragStyles}
     >
-      <BlockHoverSettings
-        blockType={blockType}
-        showSettings={showSettings}
-        onMouseOver={() => setShowSettings(true)}
-        contentEditable={false}
-      >
+      <BlockHoverSettings blockType={blockType} contentEditable={false}>
         <IconActive
           handleMouseDown={() => {
             setEditorState(addNewBlockAt(editorState, blockKey));
@@ -92,19 +83,11 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   );
 };
 
-const StyledDragBlock = styled(DragBlock)`
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  position: relative;
-`;
-
 const BlockHoverSettings = styled.div<{
-  showSettings: boolean;
   blockType?: string;
 }>`
-  opacity: ${({ showSettings }) => (showSettings ? 1 : 0)};
   display: flex;
+  opacity: 0;
   align-items: flex-start;
   position: absolute;
   top: 0;
@@ -116,6 +99,18 @@ const BlockHoverSettings = styled.div<{
         blockType === BLOCK_TYPES.BULLETED_LIST
       ? "-72px"
       : "-48px"};
+`;
+
+const StyledDragBlock = styled(DragBlock)`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  &:hover {
+    ${BlockHoverSettings} {
+      opacity: 1;
+    }
+  }
 `;
 
 export default memo(BlockSettings);
