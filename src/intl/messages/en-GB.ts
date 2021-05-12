@@ -36,6 +36,11 @@ const en_GB = {
         logOut: "Log out",
         settings: "Settings",
       },
+      deleteModal: {
+        deleteStudySet: "Do you really want to delete this study set?",
+        deleteBinder: "Do you really want to delete this binder?",
+        deleteFolder: "Do you really want to delete this folder?",
+      },
     },
     studyMode: {
       chooseModal: {

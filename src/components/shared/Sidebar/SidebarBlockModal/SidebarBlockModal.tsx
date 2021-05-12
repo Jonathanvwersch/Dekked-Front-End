@@ -63,6 +63,17 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
     else if (type === SIDEBAR_BLOCK_MENU.RECOLOR) handleRecolor(e);
   };
 
+  const deleteModalBodyText = () => {
+    switch (props.type) {
+      case FILETREE_TYPES.FOLDER:
+        return "sidebar.deleteModal.deleteFolder";
+      case FILETREE_TYPES.BINDER:
+        return "sidebar.deleteModal.deleteBinder";
+      case FILETREE_TYPES.STUDY_SET:
+        return "sidebar.deleteModal.deleteStudySet";
+    }
+  };
+
   return (
     <>
       <ScrollerModal
@@ -76,6 +87,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
         handleClose={() => setIsDeleteModalOpen(false)}
         isOpen={isDeleteModalOpen}
         handleMainButton={() => handleDeleteBlock(props.id, props.type)}
+        bodyText={deleteModalBodyText()}
       />
     </>
   );
