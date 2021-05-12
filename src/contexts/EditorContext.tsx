@@ -117,7 +117,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   const debounced = debounce(
     (editorState: EditorState, page: PageInterface | undefined) =>
       onSave(editorState, page),
-    2000
+    500
   );
 
   const autoSave = useCallback(

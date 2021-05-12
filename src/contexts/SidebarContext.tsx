@@ -89,15 +89,36 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
 
     // navigate to parent binder if deleting study pack
     if (type === FILETREE_TYPES.STUDY_SET) {
-      const parentBinderId = binders[studyPacks[id].binder_id].id;
+      const parentBinder = binders[studyPacks[id].binder_id];
+      const parentBinderId = parentBinder.id;
       const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
       history.push(parentBinderLink);
+
+      // Close binder if you are deleting last study set
+      // makes for cleaner UX
+      const numberOfStudySets = Object.keys(
+        fileTree[parentBinder.folder_id].children[parentBinderId].children
+      ).length;
+
+      if (numberOfStudySets === 1) {
+        handleOpenBlock(parentBinderId, false);
+      }
     }
     // navigate to parent folder if deleting binder
     else if (type === FILETREE_TYPES.BINDER) {
-      const parentFolderId = folders[binders[id].folder_id].id;
+      const parentFolder = folders[binders[id].folder_id];
+      const parentFolderId = parentFolder.id;
       const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
       history.push(parentFolderLink);
+
+      // Close folder if you are deleting last binder
+      // makes for cleaner UX
+      const numberOfBinders = Object.keys(fileTree[parentFolder.id].children)
+        .length;
+
+      if (numberOfBinders === 1) {
+        handleOpenBlock(parentFolderId, false);
+      }
     }
     // navigate to first folder if deleting folder
     else {
