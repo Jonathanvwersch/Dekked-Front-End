@@ -26,9 +26,15 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
     } else addAsset(FILETREE_TYPES.STUDY_SET, id);
   };
 
+  const ariaText = () => {
+    if (type === FILETREE_TYPES.FOLDER) {
+      return "ariaLabels.addBinder";
+    } else return "ariaLabels.addStudySet";
+  };
+
   return (
-    <Card height="180px" width="160px" padding="0px" ariaLabel="Add item">
-      <StyledIconActive handleMouseDown={handleAddItem}>
+    <Card height="180px" width="160px" padding="0px">
+      <StyledIconActive handleMouseDown={handleAddItem} ariaLabel={ariaText()}>
         <PlusIcon size={theme.spacers.size80} />
       </StyledIconActive>
     </Card>

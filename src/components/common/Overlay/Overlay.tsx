@@ -51,7 +51,10 @@ const Overlay: React.FC<OverlayProps> = ({
             {children}
             {close ? (
               <CloseIconContainer>
-                <IconActive handleClick={handleClose}>
+                <IconActive
+                  ariaLabel="ariaLabels.closeModal"
+                  handleClick={handleClose}
+                >
                   <CloseIcon size={SIZES.LARGE} />
                 </IconActive>
               </CloseIconContainer>

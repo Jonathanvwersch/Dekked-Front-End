@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { ThemeProvider } from "styled-components/macro";
 import App from "./App";
 import { FileTreeContextProvider } from "./contexts/FileTreeContext";
-import { SidebarContextProvider } from "./contexts/SidebarContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import { theme } from "./styles/theme";
 import { IntlProvider, LOCALES } from "./intl";
@@ -13,9 +12,7 @@ ReactDOM.render(
     <IntlProvider locale={LOCALES.ENGLISH_GB}>
       <FileTreeContextProvider>
         <Router>
-          <SidebarContextProvider>
-            <App />
-          </SidebarContextProvider>
+          <App />
         </Router>
       </FileTreeContextProvider>
     </IntlProvider>

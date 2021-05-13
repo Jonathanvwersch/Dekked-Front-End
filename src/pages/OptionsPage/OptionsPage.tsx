@@ -7,6 +7,7 @@ import { FILETREE_TYPES, Params } from "../../shared";
 import CustomSwitch from "../../Router/CustomSwitch";
 import { FileTreeContext } from "../../contexts";
 import { isEmpty } from "lodash";
+import { SidebarContextProvider } from "../../contexts/SidebarContext";
 
 interface OptionsPageProps {
   firstFolderId: string;
@@ -45,25 +46,30 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
 
   return (
     <SelectedItemContextProvider>
-      <Sidebar />
-      <CustomSwitch>
-        <Route
-          exact
-          path={`/${FILETREE_TYPES.FOLDER}/:id`}
-          component={FolderPage}
-        />
-        <Route path={`/${FILETREE_TYPES.BINDER}/:id`} component={BinderPage} />
-        <Route
-          exact
-          path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-          component={StudySetPage}
-        />
-        <Route
-          exact
-          path={`/:type/:id/study/:studyModes`}
-          component={StudyModePage}
-        />
-      </CustomSwitch>
+      <SidebarContextProvider>
+        <Sidebar />
+        <CustomSwitch>
+          <Route
+            exact
+            path={`/${FILETREE_TYPES.FOLDER}/:id`}
+            component={FolderPage}
+          />
+          <Route
+            path={`/${FILETREE_TYPES.BINDER}/:id`}
+            component={BinderPage}
+          />
+          <Route
+            exact
+            path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+            component={StudySetPage}
+          />
+          <Route
+            exact
+            path={`/:type/:id/study/:studyModes`}
+            component={StudyModePage}
+          />
+        </CustomSwitch>
+      </SidebarContextProvider>
     </SelectedItemContextProvider>
   );
 };

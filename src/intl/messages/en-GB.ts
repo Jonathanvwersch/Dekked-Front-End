@@ -197,6 +197,11 @@ const en_GB = {
         delete: "Delete",
       },
     },
+    ariaLabels: {
+      closeModal: "Close modal",
+      addBinder: "Add binder",
+      addStudySet: "Add study set",
+    },
   },
 };
 export default en_GB;

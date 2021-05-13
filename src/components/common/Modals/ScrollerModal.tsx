@@ -52,9 +52,10 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 label={item?.label}
                 className="focus"
                 hoverCard={item?.hoverCard}
-                handleClick={(e: MouseEvent) =>
-                  clickFunctions(item?.style ? item.style : item.label, e)
-                }
+                handleClick={(e: MouseEvent) => {
+                  e.preventDefault();
+                  clickFunctions(item?.style ? item.style : item.label, e);
+                }}
               />
               {item?.divider ? <Divider /> : null}
             </Fragment>

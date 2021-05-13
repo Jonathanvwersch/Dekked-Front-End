@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useStorageState } from "../hooks";
-import { FILETREE_TYPES, TAB_TYPE } from "../shared";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
 import { FileTreeContext } from "./FileTreeContext";
 
 interface SidebarContextProps {
@@ -31,6 +31,8 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     folders,
   } = useContext(FileTreeContext);
   const history = useHistory();
+  const location = useLocation();
+  const { id: linkId } = useParams<Params>();
 
   // handle opening and closing of sidebar
   const [sidebar, setSidebar] = useStorageState(true, "sidebar-state");
@@ -78,9 +80,9 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
   };
 
   // handle adding of blocks
-  const handleAddBlock = (id: string, type: string) => {
+  const handleAddBlock = async (id: string, type: string) => {
+    await addAsset(type, id);
     handleOpenBlock(id, true);
-    addAsset(type, id);
   };
 
   // handle deleting of blocks
@@ -89,10 +91,15 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
 
     // navigate to parent binder if deleting study pack
     if (type === FILETREE_TYPES.STUDY_SET) {
+      // if item id !== id in URL, no need to reroute, else reroute
+      if (id !== linkId) history.push(location.pathname);
+
       const parentBinder = binders[studyPacks[id].binder_id];
       const parentBinderId = parentBinder.id;
-      const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
-      history.push(parentBinderLink);
+      if (id === linkId) {
+        const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
+        history.push(parentBinderLink);
+      }
 
       // Close binder if you are deleting last study set
       // makes for cleaner UX
@@ -106,10 +113,15 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     }
     // navigate to parent folder if deleting binder
     else if (type === FILETREE_TYPES.BINDER) {
+      // if item id !== id in URL, no need to reroute, else reroute
+      if (id !== linkId) history.push(location.pathname);
+
       const parentFolder = folders[binders[id].folder_id];
       const parentFolderId = parentFolder.id;
-      const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
-      history.push(parentFolderLink);
+      if (id === linkId) {
+        const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
+        history.push(parentFolderLink);
+      }
 
       // Close folder if you are deleting last binder
       // makes for cleaner UX
@@ -122,9 +134,13 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     }
     // navigate to first folder if deleting folder
     else {
-      const firstFolderId = Object.keys(fileTree)[0];
-      const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-      history.push(firstFolderLink);
+      // if item id !== id in URL, no need to reroute, else reroute
+      if (id !== linkId) history.push(location.pathname);
+      else {
+        const firstFolderId = Object.keys(fileTree)[0];
+        const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
+        history.push(firstFolderLink);
+      }
     }
   };
 

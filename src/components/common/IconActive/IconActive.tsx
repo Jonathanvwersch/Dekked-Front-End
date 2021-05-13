@@ -1,6 +1,8 @@
 // Wrapper component for making an icon into a button with a hover and active state
 import React from "react";
+import { useIntl } from "react-intl";
 import styled from "styled-components/macro";
+import { formatMessage } from "../../../intl";
 
 export enum FILL_TYPE {
   FILL = "fill",
@@ -15,6 +17,7 @@ interface IconActiveProps {
   handleMouseDown?: (args: any) => void;
   iconActiveRef?: React.RefObject<HTMLButtonElement>;
   cursor?: string;
+  ariaLabel?: string;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -25,7 +28,9 @@ const IconActive: React.FC<IconActiveProps> = ({
   handleMouseDown,
   iconActiveRef,
   cursor,
+  ariaLabel,
 }) => {
+  const intl = useIntl();
   return (
     <>
       <StyledIconActive
@@ -41,6 +46,7 @@ const IconActive: React.FC<IconActiveProps> = ({
         fillType={fillType}
         tabIndex={0}
         cursor={cursor}
+        aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
       >
         {children}
       </StyledIconActive>

@@ -61,9 +61,15 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
 
   // Update icon color only if new icon color is different from current icon color
   useEffect(() => {
-    if (blockData && iconColor !== blockData.color && colorPickerRef)
+    if (
+      blockData &&
+      iconColor !== blockData.color &&
+      colorPickerRef &&
+      colorPicker
+    ) {
       updateAsset(type, blockData.id, { color: iconColor });
-  }, [iconColor, blockData, colorPickerRef, type, updateAsset]);
+    }
+  }, [iconColor, blockData, colorPickerRef, type, updateAsset, colorPicker]);
 
   // open and position block modal
   const handleBlockModal = (
@@ -130,11 +136,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                 <HFlex>
                   {type === FILETREE_TYPES.FOLDER ||
                   type === FILETREE_TYPES.BINDER ? (
-                    <IconActive
-                      handleClick={(
-                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                      ) => handleExpandBlock(e)}
-                    >
+                    <IconActive handleClick={(e) => handleExpandBlock(e)}>
                       <DropDownArrowIcon
                         rotate={
                           handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO
@@ -157,9 +159,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                   <HiddenIconsContainer>
                     <IconActive
                       iconActiveRef={menuRef}
-                      handleClick={(
-                        e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                      ) => handleBlockModal(e)}
+                      handleClick={(e) => handleBlockModal(e)}
                     >
                       <Tooltip id="Menu" text="tooltips.sidebar.menu">
                         <DotsMenuIcon rotate={ROTATE.NINETY} />

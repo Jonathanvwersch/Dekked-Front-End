@@ -39,6 +39,10 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
     setCoords(positionModals(e, modalHeight, settingsRef));
   };
 
+  const ariaText = !sidebar
+    ? "tooltips.sidebar.openSidebar"
+    : "tooltips.sidebar.closeSidebar";
+
   return (
     <>
       <VFlex>
@@ -62,15 +66,8 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
           </Card>
 
           <DoubleChevronIconContainer>
-            <IconActive handleClick={handleSidebar}>
-              <Tooltip
-                id="CloseSidebar"
-                text={
-                  !sidebar
-                    ? "tooltips.sidebar.openSidebar"
-                    : "tooltips.sidebar.closeSidebar"
-                }
-              >
+            <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
+              <Tooltip id="CloseSidebar" text={ariaText}>
                 <DoubleChevronIcon
                   rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
                 />
