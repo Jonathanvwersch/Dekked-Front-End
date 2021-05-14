@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { ThemeType } from "../styles/theme";
-import { useBinders } from "../services/file-structure/useBinders";
-import { useFileTree } from "../services/file-structure/useFileTree";
-import { useFolders } from "../services/file-structure/useFolders";
-import { useStudyPacks } from "../services/file-structure/useStudyPacks";
 import { ThemeContext } from "styled-components/macro";
 import { FILETREE_TYPES } from "../shared";
+import {
+  useBinders,
+  useFileTree,
+  useFolders,
+  useStudyPacks,
+} from "../services/file-structure";
 
 interface FileTreeContextTypes {
-  addAsset: (type: string, parent_id?: string) => void;
+  addAsset: (type: string, parentId?: string | undefined) => void;
   getAsset: (
     type: string,
     asset_id: string
@@ -41,13 +43,8 @@ export const FileTreeContext = createContext<FileTreeContextTypes>(
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
   const { getFileTree, fileTree, isTreeEmpty } = useFileTree();
-  const {
-    getFolders,
-    addFolder,
-    folders,
-    updateFolder,
-    deleteFolder,
-  } = useFolders();
+  const { getFolders, addFolder, folders, updateFolder, deleteFolder } =
+    useFolders();
   const {
     getStudyPacks,
     addStudyPack,
@@ -55,13 +52,8 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     updateStudyPack,
     deleteStudyPack,
   } = useStudyPacks();
-  const {
-    getBinders,
-    addBinder,
-    binders,
-    updateBinder,
-    deleteBinder,
-  } = useBinders();
+  const { getBinders, addBinder, binders, updateBinder, deleteBinder } =
+    useBinders();
   const theme: ThemeType = useContext(ThemeContext);
   const folderLength = Object.keys(folders).length;
   const binderLength = Object.keys(binders).length;

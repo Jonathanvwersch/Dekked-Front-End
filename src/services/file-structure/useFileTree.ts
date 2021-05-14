@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { config } from "../../config";
+
 export function useFileTree() {
   const [fileTree, setFileTree] = useState<FileTreeInterface>({});
   const [isTreeEmpty, setIsTreeEmpty] = useState<boolean>(false);

@@ -42,7 +42,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       }
     >
       <VFlex justifyContent="center">
-        <Text fontSize={theme.typography.fontSizes.size16}>
+        <Text fontSize={theme.typography.fontSizes.size16} textAlign="center">
           {bodyText ? <FormattedMessage id={bodyText} /> : null}
         </Text>
         <Text fontSize={theme.typography.fontSizes.size16}>

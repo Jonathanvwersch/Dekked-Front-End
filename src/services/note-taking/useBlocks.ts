@@ -25,5 +25,6 @@ export function useBlocks(page_id?: string) {
       getBlocksByPageId();
     }
   }, [page_id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return blocks;
 }

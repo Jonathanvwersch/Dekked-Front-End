@@ -175,6 +175,8 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
     blockRenderMap
   );
 
+  console.log("rerender");
+
   return (
     <>
       {!loading ? (

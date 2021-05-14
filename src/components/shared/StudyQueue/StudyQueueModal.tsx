@@ -23,12 +23,10 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
+  const coords = { bottom: 78, right: 78 };
+
   return (
-    <Overlay
-      isOpen={isOpen}
-      handleClose={handleClose}
-      coords={{ bottom: 78, right: 78 }}
-    >
+    <Overlay isOpen={isOpen} handleClose={handleClose} coords={coords}>
       <ShadowCard
         width={theme.sizes.sidebar}
         height="300px"

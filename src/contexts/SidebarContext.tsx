@@ -22,14 +22,8 @@ export const SidebarContext = createContext<SidebarContextProps>(
 );
 
 export const SidebarContextProvider: React.FC = ({ children }) => {
-  const {
-    addAsset,
-    deleteAsset,
-    fileTree,
-    binders,
-    studyPacks,
-    folders,
-  } = useContext(FileTreeContext);
+  const { addAsset, deleteAsset, fileTree, binders, studyPacks, folders } =
+    useContext(FileTreeContext);
   const history = useHistory();
 
   // handle opening and closing of sidebar
@@ -113,8 +107,9 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
 
       // Close folder if you are deleting last binder
       // makes for cleaner UX
-      const numberOfBinders = Object.keys(fileTree[parentFolder.id].children)
-        .length;
+      const numberOfBinders = Object.keys(
+        fileTree[parentFolder.id].children
+      ).length;
 
       if (numberOfBinders === 1) {
         handleOpenBlock(parentFolderId, false);

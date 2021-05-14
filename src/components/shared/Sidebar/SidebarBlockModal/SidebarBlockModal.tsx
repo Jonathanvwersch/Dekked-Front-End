@@ -12,8 +12,8 @@ import { getChildType } from "../../../../helpers";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
-  state: boolean;
-  handleState: () => void;
+  isOpen: boolean;
+  handleClose: () => void;
   type: string;
   id: string;
   iconColor: string;
@@ -76,19 +76,23 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
 
   return (
     <>
-      <ScrollerModal
-        open={props.state}
-        handleClose={props.handleState}
-        coords={props.coords}
-        data={modalData}
-        clickFunctions={handleClick}
-      />
-      <DeleteModal
-        handleClose={() => setIsDeleteModalOpen(false)}
-        isOpen={isDeleteModalOpen}
-        handleMainButton={() => handleDeleteBlock(props.id, props.type)}
-        bodyText={deleteModalBodyText()}
-      />
+      {props.isOpen ? (
+        <ScrollerModal
+          open={props.isOpen}
+          handleClose={props.handleClose}
+          coords={props.coords}
+          data={modalData}
+          clickFunctions={handleClick}
+        />
+      ) : null}
+      {isDeleteModalOpen ? (
+        <DeleteModal
+          handleClose={() => setIsDeleteModalOpen(false)}
+          isOpen={isDeleteModalOpen}
+          handleMainButton={() => handleDeleteBlock(props.id, props.type)}
+          bodyText={deleteModalBodyText()}
+        />
+      ) : null}
     </>
   );
 };

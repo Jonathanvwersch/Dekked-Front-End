@@ -13,6 +13,7 @@ interface TextProps {
   filterActive?: boolean; // set to true if you want to apply a filter based active state
   textDecoration?: string;
   placeholder?: string;
+  textAlign?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
@@ -37,6 +38,7 @@ const StyledText = styled.div<TextProps>`
   margin: 0;
   max-width: ${({ maxWidth }) => maxWidth};
   text-decoration: ${({ textDecoration }) => textDecoration};
+  text-align: ${({ textAlign }) => textAlign};
 
   &.overflow {
     text-overflow: ellipsis;

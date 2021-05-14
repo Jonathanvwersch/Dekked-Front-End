@@ -201,6 +201,7 @@ const en_GB = {
       closeModal: "Close modal",
       addBinder: "Add binder",
       addStudySet: "Add study set",
+      studyQueue: "Study queue",
     },
   },
 };

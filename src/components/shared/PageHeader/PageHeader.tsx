@@ -6,6 +6,7 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
+import { FlashcardsContext } from "../../../contexts";
 
 interface PageHeaderProps {
   message?: string;
@@ -15,7 +16,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { selectedBlockName, id } = useContext(SelectedItemContext);
+  const { selectedBlockName, id, selectedItemData } =
+    useContext(SelectedItemContext);
+  const { addFlashcard } = useContext(FlashcardsContext);
   const { tab } = useParams<Params>();
 
   return (
@@ -31,7 +34,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
           <Text fontColor={theme.colors.grey1}>{message}</Text>
           <HFlex width="auto">
             {tab === TAB_TYPE.FLASHCARDS ? (
-              <Button buttonStyle={BUTTON_THEME.SECONDARY}>
+              <Button
+                buttonStyle={BUTTON_THEME.SECONDARY}
+                handleClick={() =>
+                  addFlashcard(selectedItemData?.owner_id, selectedItemData?.id)
+                }
+              >
                 {formatMessage("studySet.flashcards.addFlashcard")}
               </Button>
             ) : null}

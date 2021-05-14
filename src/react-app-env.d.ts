@@ -43,3 +43,14 @@ interface PageInterface {
   study_pack_id: string;
   ordering: string[];
 }
+
+interface FlashcardInterface {
+  id: string;
+  owner_id: string;
+  study_pack_id: string;
+  back_ordering: string[];
+  front_ordering: string[];
+  date_created: Date;
+  date_modified: Date;
+  block_link?: string;
+}

@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import React, { useState } from "react";
+import styled from "styled-components/macro";
 import { StudyQueueIcon } from "../../../assets";
 import { HoverCard, IconWrapper, Tooltip } from "../../common";
-import { ThemeType } from "../../../styles/theme";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
+import { usePageSetupHelpers } from "../../../hooks";
 
 const StudyQueueContainer: React.FC = () => {
-  const theme: ThemeType = useContext(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
+
+  const tooltipOffset = { top: -22 };
 
   return (
     <>
@@ -24,12 +26,12 @@ const StudyQueueContainer: React.FC = () => {
         <Tooltip
           id="StudyQueue"
           text="tooltips.studyQueue.bubble"
-          offset={{ top: -22 }}
+          offset={tooltipOffset}
         >
           <StudyQueue
             handleClick={() => setStudyQueueModal(true)}
             backgroundColor={theme.colors.primary}
-            ariaLabel="study queue"
+            ariaLabel={formatMessage("ariaLabels.studyQueue")}
           >
             <IconWrapper>
               <StudyQueueIcon

@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
+import styled from "styled-components";
 
 const ButtonStyles = {
   primary: ButtonPrimary,
@@ -49,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <span>
           <ComponentLoadingSpinner />
-          <span style={{ visibility: "hidden" }}>{children}</span>
+          <StyledSpan>{children}</StyledSpan>
         </span>
       ) : (
         children
@@ -57,5 +58,9 @@ const Button: React.FC<ButtonProps> = ({
     </Button>
   );
 };
+
+const StyledSpan = styled.span`
+  visibility: hidden;
+`;
 
 export default Button;

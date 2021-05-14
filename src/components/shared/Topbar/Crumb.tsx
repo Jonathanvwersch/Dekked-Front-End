@@ -26,14 +26,12 @@ const Crumb: React.FC<CrumbProps> = ({
   const intl = useIntl();
   const { studyModes } = useParams<Params>();
 
+  const pathName = { pathname: link };
+
   return (
     <>
       {breadCrumbData || (name && icon) ? (
-        <NavLink
-          to={{
-            pathname: link,
-          }}
-        >
+        <NavLink to={pathName}>
           <HFlex>
             {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
               <>
