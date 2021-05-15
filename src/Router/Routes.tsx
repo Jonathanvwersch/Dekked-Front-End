@@ -6,9 +6,8 @@ import { FILETREE_TYPES } from "../shared";
 import CustomSwitch from "./CustomSwitch";
 
 const Routes = () => {
-  const { fileTree, getAsset, addAsset, isTreeEmpty } = useContext(
-    FileTreeContext
-  );
+  const { fileTree, getAsset, addAsset, isTreeEmpty } =
+    useContext(FileTreeContext);
   const firstFolderId = Object.keys(fileTree)[0];
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
   const folderData = getAsset(FILETREE_TYPES.FOLDER, firstFolderId);

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { Divider, HFlex, HoverCard, Spacer, Text } from "../../../common";
 import styled, { ThemeContext } from "styled-components/macro";
 import { PlusIcon } from "../../../../assets";
@@ -13,6 +13,8 @@ interface SidebarBaseProps {
 const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
   const theme = useContext(ThemeContext);
   const { addAsset } = useContext(FileTreeContext);
+
+  console.log("base");
 
   return (
     <StyledSidebarBase>
@@ -42,4 +44,4 @@ const StyledSidebarBase = styled.div`
   width: 100%;
 `;
 
-export default SidebarBase;
+export default memo(SidebarBase);

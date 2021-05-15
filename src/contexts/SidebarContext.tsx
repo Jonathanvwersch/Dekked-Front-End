@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useCallback, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useStorageState } from "../hooks";
 import { FILETREE_TYPES, TAB_TYPE } from "../shared";
@@ -28,9 +28,9 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
 
   // handle opening and closing of sidebar
   const [sidebar, setSidebar] = useStorageState(true, "sidebar-state");
-  const handleSidebar = () => {
+  const handleSidebar = useCallback(() => {
     setSidebar(!sidebar);
-  };
+  }, [sidebar, setSidebar]);
 
   // store state of study set tabs (either flashcard or notes)
   const [studySetTab, setStudySetTab] = useStorageState(

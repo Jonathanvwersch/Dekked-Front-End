@@ -16,16 +16,20 @@ import {
   DropDownArrowIcon,
   ROTATE,
 } from "../../../../assets";
-import { SidebarContext } from "../../../../contexts";
 import { ThemeType } from "../../../../styles/theme";
 import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
 import { CoordsType } from "../../../../shared";
 
-interface SidebarTopProps {}
+interface SidebarTopProps {
+  isSidebarOpen: boolean;
+  handleSidebar?: () => void;
+}
 
-const SidebarTop: React.FC<SidebarTopProps> = () => {
-  const { handleSidebar, sidebar } = useContext(SidebarContext);
+const SidebarTop: React.FC<SidebarTopProps> = ({
+  isSidebarOpen,
+  handleSidebar,
+}) => {
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
@@ -39,9 +43,11 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
     setCoords(positionModals(e, modalHeight, settingsRef));
   };
 
-  const ariaText = !sidebar
+  const ariaText = !isSidebarOpen
     ? "tooltips.sidebar.openSidebar"
     : "tooltips.sidebar.closeSidebar";
+
+  console.log("top");
 
   return (
     <>
@@ -69,7 +75,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
             <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
               <Tooltip id="CloseSidebar" text={ariaText}>
                 <DoubleChevronIcon
-                  rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
+                  rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}
                 />
               </Tooltip>
             </IconActive>
@@ -77,7 +83,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
         </StyledSidebarTop>
         <Divider />
       </VFlex>
-      {coords ? (
+      {coords && openModal ? (
         <OpenSettingsModal
           open={openModal}
           coords={coords}
@@ -99,4 +105,4 @@ const DoubleChevronIconContainer = styled.div`
   top: ${({ theme }) => theme.spacers.size24};
 `;
 
-export default SidebarTop;
+export default React.memo(SidebarTop);

@@ -15,9 +15,8 @@ interface OptionsPageProps {
 
 const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
   const { type, id } = useParams<Params>();
-  const { getAsset, folders, binders, studyPacks } = useContext(
-    FileTreeContext
-  );
+  const { getAsset, folders, binders, studyPacks } =
+    useContext(FileTreeContext);
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
 
@@ -74,4 +73,4 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
   );
 };
 
-export default OptionsPage;
+export default React.memo(OptionsPage);

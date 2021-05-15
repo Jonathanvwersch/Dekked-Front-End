@@ -26,7 +26,6 @@ import {
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES } from "../../../../shared";
 import { FileTreeContext, SidebarContext } from "../../../../contexts";
-import { isEqual } from "lodash";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
@@ -62,6 +61,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       updateAsset(type, blockData.id, { color: iconColor });
     }
   }, [iconColor, blockData, type, updateAsset, colorPicker]);
+
+  console.log("sidebarblock");
 
   // open and position block modal
   const handleBlockModal = (
@@ -229,6 +230,4 @@ const StyledBlock = styled.div`
   }
 `;
 
-export default React.memo(SidebarBlock, (oldProps, newProps) => {
-  return isEqual(oldProps.blockData, newProps.blockData);
-});
+export default React.memo(SidebarBlock);

@@ -171,11 +171,8 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
   // see https://draftjs.org/docs/advanced-topics-custom-block-render-map
   const blockRenderMap = Immutable.Map({});
 
-  const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(
-    blockRenderMap
-  );
-
-  console.log("rerender");
+  const extendedBlockRenderMap =
+    Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext } from ".";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
@@ -37,20 +37,19 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const [binderData, setBinderData] = useState<BinderInterface>();
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedItemData, setSelectedItemData] = useState<
-    FolderInterface | BinderInterface | StudyPackInterface
-  >();
+  const [selectedItemData, setSelectedItemData] =
+    useState<FolderInterface | BinderInterface | StudyPackInterface>();
   const [selectedBlockName, setSelectedBlockName] = useState<string>("");
 
   const handleSelectedBlockName = (name: string) => {
     setSelectedBlockName(name);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     selectedItemData && handleSelectedBlockName(selectedItemData.name);
   }, [selectedItemData]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
       setSelectedItemData(getAsset(type, id) as FolderInterface);

@@ -35,12 +35,8 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     TEXT_STYLES.SUPERSCRIPT,
   ];
 
-  const {
-    toggleInlineStyle,
-    editorState,
-    setEditorState,
-    currentBlock,
-  } = useContext(EditorContext);
+  const { toggleInlineStyle, editorState, setEditorState, currentBlock } =
+    useContext(EditorContext);
 
   const handleBlockOptionsModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

@@ -18,7 +18,7 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
   return (
     <>
       <Scroller height="100%">
-        <Box p={theme.spacers.size64}>
+        <Box px={theme.spacers.size64} pt={theme.spacers.size32}>
           {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
             <SettingsAccount />
           ) : null}

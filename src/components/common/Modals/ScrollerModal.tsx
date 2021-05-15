@@ -44,7 +44,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
       >
         {data.map((item, index) => {
           return (
-            <Fragment key={`ScrollerModal ${index}`}>
+            <Fragment key={item.label}>
               <Block
                 index={index}
                 activeIndex={activeIndex}

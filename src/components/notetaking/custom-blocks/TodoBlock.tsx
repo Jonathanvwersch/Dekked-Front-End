@@ -19,7 +19,6 @@ const TodoBlock: React.FC = (props: any) => {
     setEditorState(updateDataOfBlock(editorState, block, newData));
   }, [checked]);
 
-  console.log("hey");
   const newProps = { ...props };
   newProps.blockProps.withSettings = false;
 

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import styled, { css } from "styled-components/macro";
 import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
 import { SidebarContext } from "../../../contexts";
@@ -9,30 +9,42 @@ import { ComponentLoadingSpinner } from "../../common";
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const { sidebar } = useContext(SidebarContext);
+  const { sidebar, handleSidebar } = useContext(SidebarContext);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
-  const { loading } = useContext(SelectedItemContext);
+  const { loading, numOfFolders } = useContext(SelectedItemContext);
   const bottomFolderRef = useRef<HTMLDivElement>(null);
 
   // scroll down to bottom of list as you add elements
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     if (bottomFolderRef && bottomFolderRef.current) {
       bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }, [bottomFolderRef]);
+  console.log("sidebar");
+
+  const mouseLeave = useCallback(() => {
+    !sidebar && setHoverbar(false);
+  }, [sidebar]);
+
+  const mouseEnter = useCallback(() => {
+    !sidebar && setHoverbar(true);
+  }, [sidebar]);
 
   return (
     <SidebarContainer sidebar={sidebar}>
       <InnerSidebar
         sidebar={sidebar}
         hoverbar={hoverbar}
-        onMouseLeave={() => !sidebar && setHoverbar(false)}
-        onMouseEnter={() => !sidebar && setHoverbar(true)}
+        onMouseLeave={mouseLeave}
+        onMouseEnter={mouseEnter}
       >
         {!loading ? (
           <>
-            <SidebarTop />
-            <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+            <SidebarTop isSidebarOpen={sidebar} handleSidebar={handleSidebar} />
+            <SidebarWorkspace
+              numOfFolders={numOfFolders}
+              bottomFolderRef={bottomFolderRef}
+            />
             <SidebarBase scrollToBottom={scrollToBottom} />
           </>
         ) : (
@@ -85,4 +97,4 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
       : "translateX(-230px) translateZ(0px)"};
 `;
 
-export default React.memo(Sidebar);
+export default Sidebar;

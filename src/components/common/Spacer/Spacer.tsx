@@ -20,4 +20,4 @@ const StyledSpacer = styled.div<SpacerProps>`
   flex-shrink: ${({ shrink }) => (shrink ? shrink : "0")};
 `;
 
-export default Spacer;
+export default React.memo(Spacer);

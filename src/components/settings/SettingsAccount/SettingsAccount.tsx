@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
 import { Box, Divider, H4, Text, Input, Spacer } from "../../common";
 
@@ -7,11 +8,13 @@ const SettingsAccount: React.FC = () => {
 
   return (
     <>
-      <H4>Account</H4>
+      <H4>
+        <FormattedMessage id="settings.account.header" />
+      </H4>
       <Divider />
       <Box my={theme.spacers.size32}>
         <Text fontSize={theme.typography.fontSizes.size16}>
-          {formatMessage("settings.account.personalInformation")}
+          <FormattedMessage id="settings.account.personalInformation" />
         </Text>
         <Spacer height={theme.spacers.size16} />
         <Input label={formatMessage("forms.names.firstName")}></Input>
@@ -21,7 +24,7 @@ const SettingsAccount: React.FC = () => {
       <Divider />
       <Box my={theme.spacers.size32}>
         <Text fontSize={theme.typography.fontSizes.size16}>
-          {formatMessage("forms.password.password")}
+          <FormattedMessage id="forms.password.password" />
         </Text>
         <Spacer height={theme.spacers.size16} />
         <Input
@@ -35,7 +38,7 @@ const SettingsAccount: React.FC = () => {
         />
         <Spacer height={theme.spacers.size8} />
         <Text fontColor={theme.colors.grey1}>
-          {formatMessage("forms.password.length")}
+          <FormattedMessage id="forms.password.length" />
         </Text>
       </Box>
     </>

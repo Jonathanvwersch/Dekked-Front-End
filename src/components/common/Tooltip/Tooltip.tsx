@@ -36,29 +36,31 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   return (
     <>
-      <Overlay
-        handleClose={() => setTooltip(false)}
-        isOpen={tooltip}
-        type={MODAL_TYPE.TOOL_TIP}
-      >
-        <StyledTooltip
-          multiline
-          type={type}
-          id={id}
-          place={place}
-          effect={effect}
-          offset={offset}
-          className={className}
-          role={formatMessage(text)}
-          textColor={textColor}
-          delayShow={500}
-          backgroundColor={
-            backgroundColor ? backgroundColor : theme.colors.fontColor
-          }
+      {tooltip && (
+        <Overlay
+          handleClose={() => setTooltip(false)}
+          isOpen={tooltip}
+          type={MODAL_TYPE.TOOL_TIP}
         >
-          <FormattedMessage id={text} />
-        </StyledTooltip>
-      </Overlay>
+          <StyledTooltip
+            multiline
+            type={type}
+            id={id}
+            place={place}
+            effect={effect}
+            offset={offset}
+            className={className}
+            role={formatMessage(text)}
+            textColor={textColor}
+            delayShow={500}
+            backgroundColor={
+              backgroundColor ? backgroundColor : theme.colors.fontColor
+            }
+          >
+            <FormattedMessage id={text} />
+          </StyledTooltip>
+        </Overlay>
+      )}
       <TooltipChildren
         data-tip
         data-for={id}
