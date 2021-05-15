@@ -23,12 +23,8 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
 
-  const {
-    editorState,
-    setEditorState,
-    setDragBlockKey,
-    dragBlockKey,
-  } = useContext(EditorContext);
+  const { editorState, setEditorState, setDragBlockKey, dragBlockKey } =
+    useContext(EditorContext);
 
   return (
     <StyledDragBlock

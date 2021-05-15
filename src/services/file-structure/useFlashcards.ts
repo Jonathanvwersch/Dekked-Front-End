@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { isNull } from "lodash";
+import { useEffect, useState } from "react";
 import { config } from "../../config";
 
 export function useFlashcards() {
-  const [flashcards, setFlashcards] = useState<FlashcardInterface>();
-  const [isError, setIsError] = useState(false);
+  const [flashcards, setFlashcards] =
+    useState<FlashcardInterface[] | null>(null);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function getFlashcards(studyPackId: string) {
     try {
@@ -20,7 +23,7 @@ export function useFlashcards() {
         const json = await response.json();
         if (json.success) {
           console.log(json.data);
-          setFlashcards(json.data.folders);
+          setFlashcards(json.data.flashcards);
           return;
         }
       }
@@ -46,9 +49,9 @@ export function useFlashcards() {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          owner_id,
-          study_pack_id,
-          block_link,
+          study_pack_id: study_pack_id,
+          owner_id: owner_id,
+          block_link: block_link,
         }),
       });
 
@@ -66,10 +69,15 @@ export function useFlashcards() {
     }
   }
 
+  useEffect(() => {
+    setLoading(isNull(flashcards));
+  }, [flashcards]);
+
   return {
     getFlashcards,
     addFlashcard,
     flashcardsIsError: isError,
     flashcards,
+    loading,
   };
 }

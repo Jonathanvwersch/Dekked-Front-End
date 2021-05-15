@@ -16,15 +16,17 @@ import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 
 interface StudySetFlashcardProps {
-  frontText?: string;
-  backText?: string;
+  frontText?: string[];
+  backText?: string[];
   linked?: boolean;
+  index?: number;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   frontText,
   backText,
   linked = false,
+  index,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
 
@@ -55,7 +57,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <StudySetToolbar toolbarFull={false} />
       </HFlex>
     ) : (
-      <HFlex justifyContent="flex-end">
+      <HFlex justifyContent="space-between">
+        <Text>{index}</Text>
         <IconActive>
           <DeleteIcon />
         </IconActive>

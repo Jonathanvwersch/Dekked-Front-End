@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
@@ -6,7 +6,7 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import { FlashcardsContext } from "../../../contexts";
+import { useFlashcards } from "../../../services/file-structure";
 
 interface PageHeaderProps {
   message?: string;
@@ -18,8 +18,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const { selectedBlockName, id, selectedItemData } =
     useContext(SelectedItemContext);
-  const { addFlashcard } = useContext(FlashcardsContext);
   const { tab } = useParams<Params>();
+  const { addFlashcard } = useFlashcards();
 
   return (
     <>
@@ -37,7 +37,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
               <Button
                 buttonStyle={BUTTON_THEME.SECONDARY}
                 handleClick={() =>
-                  addFlashcard(selectedItemData?.owner_id, selectedItemData?.id)
+                  selectedItemData?.owner_id &&
+                  selectedItemData?.id &&
+                  addFlashcard(selectedItemData.owner_id, selectedItemData.id)
                 }
               >
                 {formatMessage("studySet.flashcards.addFlashcard")}
