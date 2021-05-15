@@ -119,8 +119,8 @@ export const theme: ThemeType = {
     secondary: "#F5F5F4",
     danger: "#DB524B",
     success: "#0CCA4A",
-    iconColor: "#444444",
-    fontColor: "#444444",
+    iconColor: "#2C2C31",
+    fontColor: "#2C2C31",
     grey1: "#A9A9A9", // dark
     grey2: "#D3D3D3", // mid
     grey3: "#EAEAEA", // light
