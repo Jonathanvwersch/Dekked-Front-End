@@ -1,9 +1,9 @@
 // Colour picker taken from https://casesandberg.github.io/react-color/
+import { EditorState } from "draft-js";
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import styled, { ThemeContext } from "styled-components/macro";
 import { Overlay } from "..";
-import { EditorContext } from "../../../contexts";
 import {
   BACKGROUND_COLORS,
   CoordsType,
@@ -18,6 +18,8 @@ interface ColorPickerProps {
   isOpen: boolean;
   handleClose: () => void;
   coords: CoordsType | undefined;
+  editorState?: EditorState;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
   iconColor?: string;
   setIconColor?: Dispatch<SetStateAction<string>>;
   colorPickerRef?: React.RefObject<HTMLDivElement>;
@@ -29,6 +31,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   handleClose,
   coords,
   iconColor,
+  editorState,
+  setEditorState,
   setIconColor,
   colorPickerRef,
   purpose = "color-block",
@@ -39,7 +43,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     background: iconColor,
   });
   const theme = useContext(ThemeContext);
-  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleChange = (colour: any) => {
     setColour({ background: colour });
@@ -47,6 +50,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
     // Toggle font color change in study set toolbar
     purpose === "color-font" &&
+      editorState &&
+      setEditorState &&
       setEditorState(
         toggleInlineStyle(
           editorState,
@@ -59,6 +64,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
     // Toggle background color change in study set toolbar
     purpose === "color-background" &&
+      editorState &&
+      setEditorState &&
       setEditorState(
         toggleInlineStyle(
           editorState,
