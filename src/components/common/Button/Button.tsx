@@ -49,8 +49,8 @@ const Button: React.FC<ButtonProps> = ({
     >
       {isLoading ? (
         <span>
-          <ComponentLoadingSpinner />
           <StyledSpan>{children}</StyledSpan>
+          <ComponentLoadingSpinner />
         </span>
       ) : (
         children

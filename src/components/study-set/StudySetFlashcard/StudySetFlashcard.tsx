@@ -9,6 +9,7 @@ import {
   Button,
   IconActive,
   ShadowCard,
+  ComponentLoadingSpinner,
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
@@ -22,6 +23,8 @@ interface StudySetFlashcardProps {
   backText?: string[];
   linked?: boolean;
   index?: number;
+  loading?: boolean;
+  saving?: boolean;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -29,6 +32,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   backText,
   linked = false,
   index,
+  loading,
+  saving,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
@@ -55,18 +60,22 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
-          <FlashcardNoteTaker
-            editorState={
-              side === "front"
-                ? frontFlashcardEditorState
-                : backFlashcardEditorState
-            }
-            setEditorState={
-              side === "front"
-                ? setFrontFlashcardEditorState
-                : setBackFlashcardEditorState
-            }
-          />
+          {!linked && loading ? (
+            <ComponentLoadingSpinner />
+          ) : (
+            <FlashcardNoteTaker
+              editorState={
+                side === "front"
+                  ? frontFlashcardEditorState
+                  : backFlashcardEditorState
+              }
+              setEditorState={
+                side === "front"
+                  ? setFrontFlashcardEditorState
+                  : setBackFlashcardEditorState
+              }
+            />
+          )}
         </TextCard>
       </TextCardContainer>
     );
@@ -84,9 +93,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     ) : (
       <HFlex justifyContent="space-between">
         <Text>{index}</Text>
-        <IconActive>
-          <DeleteIcon />
-        </IconActive>
+        {saving ? (
+          <ComponentLoadingSpinner />
+        ) : (
+          <IconActive>
+            <DeleteIcon />
+          </IconActive>
+        )}
       </HFlex>
     );
   };
@@ -108,7 +121,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <Spacer height={theme.spacers.size8} />
         {linked ? (
           <HFlex justifyContent="flex-end">
-            <Button buttonStyle={BUTTON_THEME.PRIMARY}>
+            <Button buttonStyle={BUTTON_THEME.PRIMARY} isLoading={saving}>
               {formatMessage("generics.save")}
             </Button>
           </HFlex>

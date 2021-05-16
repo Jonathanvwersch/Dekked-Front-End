@@ -28,6 +28,7 @@ import { ComponentLoadingSpinner } from "../../common";
 import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
+import GeneralBlock from "../GeneralBlock/GeneralBlock";
 const Immutable = require("immutable");
 
 interface RichEditorProps {
@@ -96,44 +97,17 @@ const RichEditor: React.FC<RichEditorProps> = ({
   // block type selector
   const myBlockRenderer = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
-
-    switch (type) {
-      case "divider":
-        return {
-          component: DividerBlock,
-          editable: false,
-          props: {
-            editorState,
-            setEditorState,
-            dragBlockKey,
-            setDragBlockKey,
-          },
-        };
-
-      case "to-do":
-        return {
-          component: TodoBlock,
-          editable: true,
-          props: {
-            editorState,
-            setEditorState,
-            dragBlockKey,
-            setDragBlockKey,
-          },
-        };
-
-      default:
-        return {
-          component: TextBlock,
-          editable: true,
-          props: {
-            editorState,
-            setEditorState,
-            dragBlockKey,
-            setDragBlockKey,
-          },
-        };
-    }
+    return {
+      component: GeneralBlock,
+      editable: true,
+      props: {
+        editorState,
+        setEditorState,
+        dragBlockKey,
+        setDragBlockKey,
+        type,
+      },
+    };
   };
 
   // handle what happens when return key is pressed

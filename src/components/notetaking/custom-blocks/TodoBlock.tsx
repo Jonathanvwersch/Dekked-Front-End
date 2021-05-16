@@ -3,14 +3,12 @@ import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { HFlex, HoverCard } from "../../common";
-import BlockSettings from "../BlockSettings/BlockSettings";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 import TextBlock from "./TextBlock";
 
 const TodoBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
-  const { setEditorState, editorState, dragBlockKey, setDragBlockKey } =
-    blockProps;
+  const { setEditorState, editorState } = blockProps;
   const data = block.getData();
   const checked = data.has("checked") && data.get("checked") === true;
 
@@ -24,26 +22,17 @@ const TodoBlock: React.FC = (props: any) => {
   newProps.blockProps.withSettings = false;
 
   return (
-    <BlockSettings
-      editorState={editorState}
-      setEditorState={setEditorState}
-      dragBlockKey={dragBlockKey}
-      setDragBlockKey={setDragBlockKey}
-      blockKey={block.getKey()}
-      block={block}
-    >
-      <HFlex alignItems="flex-start">
-        <Checkbox
-          checked={checked}
-          handleClick={() => {
-            updateData();
-          }}
-        >
-          {checked ? <CheckmarkIcon color="white" /> : null}
-        </Checkbox>
-        <TextBlock withSettings={false} {...props} />
-      </HFlex>
-    </BlockSettings>
+    <HFlex alignItems="flex-start">
+      <Checkbox
+        checked={checked}
+        handleClick={() => {
+          updateData();
+        }}
+      >
+        {checked ? <CheckmarkIcon color="white" /> : null}
+      </Checkbox>
+      <TextBlock withSettings={false} {...props} />
+    </HFlex>
   );
 };
 

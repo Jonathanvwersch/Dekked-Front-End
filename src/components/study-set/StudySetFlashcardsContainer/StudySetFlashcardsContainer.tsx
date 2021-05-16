@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StudySetFlashcard } from "..";
 import { useFlashcards } from "../../../services/file-structure";
@@ -11,6 +11,8 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const { loading, flashcards, getFlashcards } = useFlashcards();
+    const [saving, setSaving] = useState<boolean>(false);
+
     const { id } = useParams<Params>();
 
     useEffect(() => {
@@ -27,6 +29,8 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
               <>
                 {flashcards.map((flashcard, index) => (
                   <StudySetFlashcard
+                    loading={loading}
+                    saving={saving}
                     index={index}
                     frontText={flashcard.front_ordering}
                     backText={flashcard.back_ordering}

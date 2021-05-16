@@ -1,18 +1,9 @@
 import { EditorBlock } from "draft-js";
-import React, { memo, ReactElement } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
-import { ConditionalWrapper } from "../../common";
-import BlockSettings from "../BlockSettings/BlockSettings";
 
 const TextBlock: React.FC = (props: any) => {
   const data = props.block.getData();
-  const {
-    withSettings,
-    editorState,
-    setEditorState,
-    dragBlockKey,
-    setDragBlockKey,
-  } = props.blockProps;
 
   let alignment = data.has("alignment") && data.get("alignment");
 
@@ -22,26 +13,9 @@ const TextBlock: React.FC = (props: any) => {
   }
 
   return (
-    <ConditionalWrapper
-      condition={withSettings == null ? true : withSettings}
-      wrapper={(children: ReactElement) => (
-        <BlockSettings
-          blockType={props.block.getType()}
-          blockKey={props.block.getKey()}
-          editorState={editorState}
-          setEditorState={setEditorState}
-          block={props.block}
-          dragBlockKey={dragBlockKey}
-          setDragBlockKey={setDragBlockKey}
-        >
-          {children}
-        </BlockSettings>
-      )}
-    >
-      <AlignBlock alignment={alignment}>
-        <EditorBlock {...props} />
-      </AlignBlock>
-    </ConditionalWrapper>
+    <AlignBlock alignment={alignment}>
+      <EditorBlock {...props} />
+    </AlignBlock>
   );
 };
 

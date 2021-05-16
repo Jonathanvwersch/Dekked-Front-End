@@ -1,13 +1,11 @@
 import React, { memo, useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
-import BlockSettings from "../BlockSettings/BlockSettings";
 import { addNewBlockAt } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
   // add new block on mount after the divider
-  const { editorState, setEditorState, dragBlockKey, setDragBlockKey } =
-    props.blockProps;
+  const { setEditorState } = props.blockProps;
   useEffect(() => {
     setEditorState(
       addNewBlockAt(props.blockProps.editorState, props.block.getKey())
@@ -15,18 +13,9 @@ const DividerBlock: React.FC = (props: any) => {
   }, []);
 
   return (
-    <BlockSettings
-      editorState={editorState}
-      setEditorState={setEditorState}
-      blockKey={props.block.getKey()}
-      block={props.block}
-      dragBlockKey={dragBlockKey}
-      setDragBlockKey={setDragBlockKey}
-    >
-      <Halo>
-        <Divider />
-      </Halo>
-    </BlockSettings>
+    <Halo editable={false}>
+      <Divider />
+    </Halo>
   );
 };
 

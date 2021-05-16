@@ -2,7 +2,14 @@ import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components/macro";
 import { useOutsideClickListener } from "../../../hooks";
 
-const DividerBlock: React.FC = ({ children }) => {
+interface DividerBlockProps {
+  editable: boolean;
+}
+
+const DividerBlock: React.FC<DividerBlockProps> = ({
+  children,
+  editable = true,
+}) => {
   const haloRef = useRef<HTMLDivElement>(null);
   const [isColored, setIsColored] = useState<boolean>(false);
   useOutsideClickListener(
@@ -19,6 +26,7 @@ const DividerBlock: React.FC = ({ children }) => {
       onFocus={() => setIsColored(true)}
       isColored={isColored}
       ref={haloRef}
+      contentEditable={editable}
     >
       {children}
     </Halo>

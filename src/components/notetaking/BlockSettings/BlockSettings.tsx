@@ -76,7 +76,16 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
             <MoveIcon color={theme.colors.grey1} />
           </Tooltip>
         </IconActive>
-        <Spacer width={theme.spacers.size8} />
+        <Spacer
+          width={
+            blockType === BLOCK_TYPES.QUOTE
+              ? "26px"
+              : blockType === BLOCK_TYPES.NUMBERED_LIST ||
+                blockType === BLOCK_TYPES.BULLETED_LIST
+              ? "32px"
+              : "8x"
+          }
+        />
       </BlockHoverSettings>
       {children}
     </StyledDragBlock>
@@ -88,17 +97,17 @@ const BlockHoverSettings = styled.div<{
 }>`
   display: flex;
   opacity: 0;
-  align-items: flex-start;
+  align-items: center;
   position: absolute;
   top: 0;
   bottom: 0;
   left: ${({ blockType }) =>
     blockType === BLOCK_TYPES.QUOTE
-      ? "-66px"
+      ? "-62px"
       : blockType === BLOCK_TYPES.NUMBERED_LIST ||
         blockType === BLOCK_TYPES.BULLETED_LIST
-      ? "-72px"
-      : "-48px"};
+      ? "-68px"
+      : "-44px"};
 `;
 
 const StyledDragBlock = styled(DragBlock)`
