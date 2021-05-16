@@ -8,12 +8,17 @@ import { SIZES } from "../../../shared";
 import ChangeTextStyles from "./ChangeTextStyles";
 import ChangeTextAlignment from "./ChangeTextAlignment";
 import ChangeTextColor from "./ChangeTextColor";
+import { EditorState } from "draft-js";
 
 interface StudySetToolbarProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   toolbarFull?: boolean;
 }
 
 const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
+  editorState,
+  setEditorState,
   toolbarFull = true,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
@@ -21,15 +26,24 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   return (
     <>
       <HFlex width="auto">
-        <ChangeTextStyles />
+        <ChangeTextStyles
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
         <Spacer width={theme.spacers.size8} />
         <DividerIcon size={SIZES.MEDIUM} />
         <Spacer width={theme.spacers.size8} />
-        <ChangeTextAlignment />
+        <ChangeTextAlignment
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
         <Spacer width={theme.spacers.size8} />
         <DividerIcon size={SIZES.MEDIUM} />
         <Spacer width={theme.spacers.size8} />
-        <ChangeTextColor />
+        <ChangeTextColor
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
       </HFlex>
     </>
   );

@@ -19,15 +19,22 @@ import {
   removeSpecificBlockStyle,
   toggleInlineStyle,
 } from "../../notetaking/Editor/Editor.helpers";
-import { EditorContext } from "../../../contexts";
 import { ThemeContext } from "styled-components";
 import { positionModals } from "../../../helpers";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 import { changeBlockTypeIcon } from "./StudySetToolbar.helpers";
+import { EditorState } from "draft-js";
 
-interface ChangeTextStyleProps {}
+interface ChangeTextStyleProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  headerRef?: React.RefObject<HTMLDivElement>;
+}
 
-const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
+const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
+  editorState,
+  setEditorState,
+}) => {
   const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const blockOptionsRef = useRef<HTMLButtonElement>(null);
@@ -36,7 +43,6 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     TEXT_STYLES.SUBSCRIPT,
     TEXT_STYLES.SUPERSCRIPT,
   ];
-  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleBlockOptionsModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -168,6 +174,8 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         </Tooltip>
       </IconActive>
       <StudySetToolbarModal
+        editorState={editorState}
+        setEditorState={setEditorState}
         coords={coords}
         open={blockOptionsModal}
         handleClose={() => setBlockOptionsModal(false)}

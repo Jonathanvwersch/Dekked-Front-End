@@ -7,18 +7,22 @@ import {
 } from "../../../assets";
 import { ThemeContext } from "styled-components/macro";
 import { SIZES } from "../../../shared";
-import { EditorContext } from "../../../contexts";
 import {
   getCurrentBlock,
   updateDataOfBlock,
 } from "../../notetaking/Editor/Editor.helpers";
+import { EditorState } from "draft-js";
 
-interface ChangeTextStyleProps {}
+interface ChangeTextStyleProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+}
 
-const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
+const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
+  editorState,
+  setEditorState,
+}) => {
   const theme = useContext(ThemeContext);
-  const { editorState, setEditorState } = useContext(EditorContext);
-
   const block = getCurrentBlock(editorState);
   const data = block.getData();
 

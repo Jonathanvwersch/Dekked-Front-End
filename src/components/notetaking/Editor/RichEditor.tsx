@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useContext, useRef } from "react";
+import React, { memo, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -20,7 +20,6 @@ import {
 } from "./Editor.helpers";
 
 import styled from "styled-components/macro";
-import { EditorContext } from "../../../contexts/EditorContext";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
 import TextBlock from "../custom-blocks/TextBlock";
 import { TodoBlock, DividerBlock } from "../custom-blocks";
@@ -31,18 +30,28 @@ import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 const Immutable = require("immutable");
 
-interface EditorProps {
-  // editorState: EditorState;
-  // setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+interface RichEditorProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  page?: PageInterface | undefined;
+  saveEditor?: (
+    editorState: EditorState,
+    page: PageInterface | undefined
+  ) => void;
+  loading?: boolean;
 }
 
-const NoteEditor: React.FC<EditorProps> = () => {
-  const { editorState, setEditorState, loading, autoSave, page } =
-    useContext(EditorContext);
-
+const RichEditor: React.FC<RichEditorProps> = ({
+  editorState,
+  setEditorState,
+  saveEditor,
+  loading,
+  page,
+}) => {
   const editorRef = useRef<any>(null);
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
+  const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -96,6 +105,8 @@ const NoteEditor: React.FC<EditorProps> = () => {
           props: {
             editorState,
             setEditorState,
+            dragBlockKey,
+            setDragBlockKey,
           },
         };
 
@@ -106,6 +117,8 @@ const NoteEditor: React.FC<EditorProps> = () => {
           props: {
             editorState,
             setEditorState,
+            dragBlockKey,
+            setDragBlockKey,
           },
         };
 
@@ -115,8 +128,9 @@ const NoteEditor: React.FC<EditorProps> = () => {
           editable: true,
           props: {
             editorState,
-            toggleBlockType,
             setEditorState,
+            dragBlockKey,
+            setDragBlockKey,
           },
         };
     }
@@ -147,7 +161,7 @@ const NoteEditor: React.FC<EditorProps> = () => {
     // const currentState = editorState.getCurrentContent();
     // const newState = newEditorState.getCurrentContent();
     // const hasContentChanged = currentState !== newState;
-    autoSave(newEditorState, page);
+    saveEditor && page && saveEditor(newEditorState, page);
     setEditorState(newEditorState);
   };
 
@@ -251,4 +265,4 @@ const EditorContainer = styled.div`
   }
 `;
 
-export default memo(NoteEditor);
+export default memo(RichEditor);

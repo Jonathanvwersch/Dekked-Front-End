@@ -1,8 +1,7 @@
-import { ContentBlock } from "draft-js";
-import React, { memo, ReactElement, useContext, useState } from "react";
+import { ContentBlock, EditorState } from "draft-js";
+import React, { memo, ReactElement, useState } from "react";
 import styled, { css } from "styled-components";
 import { MoveIcon, PlusIcon } from "../../../assets";
-import { EditorContext } from "../../../contexts";
 import { BLOCK_TYPES } from "../../../shared";
 import { theme } from "../../../styles/theme";
 import { DragBlock, IconActive, Spacer, Tooltip } from "../../common";
@@ -11,20 +10,25 @@ import { addNewBlockAt, moveBlock } from "../Editor/Editor.helpers";
 interface BlockSettingsProps {
   blockKey: string;
   block: ContentBlock;
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   children?: ReactElement;
   blockType?: string;
+  dragBlockKey: string | undefined;
+  setDragBlockKey: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const BlockSettings: React.FC<BlockSettingsProps> = ({
   children,
   blockKey,
   blockType,
+  editorState,
+  setEditorState,
+  dragBlockKey,
+  setDragBlockKey,
 }) => {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
-
-  const { editorState, setEditorState, setDragBlockKey, dragBlockKey } =
-    useContext(EditorContext);
 
   return (
     <StyledDragBlock
@@ -66,7 +70,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
         >
           <Tooltip
             place="left"
-            id="BlockSettingsAndMove"
+            id="MoveBlock"
             text="tooltips.studySet.blocks.moveOrSettings"
           >
             <MoveIcon color={theme.colors.grey1} />

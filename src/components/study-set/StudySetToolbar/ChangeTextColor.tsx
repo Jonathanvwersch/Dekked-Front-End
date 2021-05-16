@@ -10,15 +10,21 @@ import { ReColorIcon, TextColorIcon } from "../../../assets";
 import { ThemeContext } from "styled-components/macro";
 import { CoordsType, SIZES } from "../../../shared";
 import { positionModals } from "../../../helpers";
+import { EditorState } from "draft-js";
 
-interface ChangeTextStyleProps {}
+interface ChangeTextStyleProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+}
 
-const ChangeTextColor: React.FC<ChangeTextStyleProps> = () => {
+const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
+  editorState,
+  setEditorState,
+}) => {
   const theme = useContext(ThemeContext);
   const [colorPickerFont, setColorPickerFont] = useState<boolean>(false);
-  const [colorPickerBackground, setColorPickerBackground] = useState<boolean>(
-    false
-  );
+  const [colorPickerBackground, setColorPickerBackground] =
+    useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const fontColorRef = useRef<HTMLButtonElement>(null);
   const backgroundColorRef = useRef<HTMLButtonElement>(null);
@@ -77,12 +83,16 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = () => {
         handleClose={() => setColorPickerFont(false)}
         coords={coords}
         purpose="color-font"
+        editorState={editorState}
+        setEditorState={setEditorState}
       />
       <ColorPicker
         isOpen={colorPickerBackground}
         handleClose={() => setColorPickerBackground(false)}
         coords={coords}
         purpose="color-background"
+        editorState={editorState}
+        setEditorState={setEditorState}
       />
     </>
   );

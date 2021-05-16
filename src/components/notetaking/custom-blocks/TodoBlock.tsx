@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
@@ -9,21 +9,29 @@ import TextBlock from "./TextBlock";
 
 const TodoBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
-  const { setEditorState, editorState } = blockProps;
+  const { setEditorState, editorState, dragBlockKey, setDragBlockKey } =
+    blockProps;
   const data = block.getData();
   const checked = data.has("checked") && data.get("checked") === true;
 
   // We need to update the meta data of the block to save the checked state
-  const updateData = useCallback(() => {
+  const updateData = () => {
     const newData = data.set("checked", !checked);
     setEditorState(updateDataOfBlock(editorState, block, newData));
-  }, [checked]);
+  };
 
   const newProps = { ...props };
   newProps.blockProps.withSettings = false;
 
   return (
-    <BlockSettings blockKey={props.block.getKey()} block={block}>
+    <BlockSettings
+      editorState={editorState}
+      setEditorState={setEditorState}
+      dragBlockKey={dragBlockKey}
+      setDragBlockKey={setDragBlockKey}
+      blockKey={block.getKey()}
+      block={block}
+    >
       <HFlex alignItems="flex-start">
         <Checkbox
           checked={checked}

@@ -3,22 +3,27 @@ import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components/macro";
-import { EditorContext } from "../../../contexts";
 import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
 import { Params, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
+import { EditorState } from "draft-js";
 
 interface StudySetHeaderProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   headerRef?: React.RefObject<HTMLDivElement>;
 }
 
-const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
+const StudySetHeader: React.FC<StudySetHeaderProps> = ({
+  headerRef,
+  editorState,
+  setEditorState,
+}) => {
   const intl = useIntl();
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
-  const { editorState } = useContext(EditorContext);
   const { tab } = useParams<Params>();
 
   // Calculate the number of words in text
@@ -40,7 +45,10 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   return (
     <>
       <ToolbarAndTabs justifyContent="space-between">
-        <StudySetToolbar />
+        <StudySetToolbar
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
         <StudySetTabSwitcher />
       </ToolbarAndTabs>
       <div ref={headerRef}>

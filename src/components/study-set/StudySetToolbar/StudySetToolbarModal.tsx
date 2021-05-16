@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ScrollerModal } from "../../common";
-import { EditorContext } from "../../../contexts/EditorContext";
 import { BLOCK_TYPES, CoordsType } from "../../../shared";
 import { ConvertToBlockData } from "../../notetaking/TextModal/NotetakingBlocks.data";
-import { RichUtils } from "draft-js";
+import { EditorState, RichUtils } from "draft-js";
+import { getCurrentBlock } from "../../notetaking/Editor/Editor.helpers";
 
 interface StudySetToolbarModalProps {
   open: boolean;
   handleClose: () => void;
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   coords?: CoordsType;
 }
 
@@ -15,11 +17,16 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   handleClose,
   open,
   coords,
+  editorState,
+  setEditorState,
 }) => {
-  const { setEditorState, editorState } = useContext(EditorContext);
   const clickFunctions = (type: BLOCK_TYPES) => {
     handleClose();
-    setEditorState(RichUtils.toggleBlockType(editorState, type));
+
+    // only change block type if user chooses option other than current block type
+    if (getCurrentBlock(editorState).getType() !== type) {
+      setEditorState(RichUtils.toggleBlockType(editorState, type));
+    }
   };
 
   return (

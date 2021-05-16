@@ -6,7 +6,13 @@ import BlockSettings from "../BlockSettings/BlockSettings";
 
 const TextBlock: React.FC = (props: any) => {
   const data = props.block.getData();
-  const { withSettings } = props.blockProps;
+  const {
+    withSettings,
+    editorState,
+    setEditorState,
+    dragBlockKey,
+    setDragBlockKey,
+  } = props.blockProps;
 
   let alignment = data.has("alignment") && data.get("alignment");
 
@@ -22,7 +28,11 @@ const TextBlock: React.FC = (props: any) => {
         <BlockSettings
           blockType={props.block.getType()}
           blockKey={props.block.getKey()}
+          editorState={editorState}
+          setEditorState={setEditorState}
           block={props.block}
+          dragBlockKey={dragBlockKey}
+          setDragBlockKey={setDragBlockKey}
         >
           {children}
         </BlockSettings>

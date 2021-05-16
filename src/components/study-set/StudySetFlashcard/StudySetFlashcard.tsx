@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import {
   Card,
@@ -14,6 +14,8 @@ import { DeleteIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
+import { EditorState } from "draft-js";
+import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
 
 interface StudySetFlashcardProps {
   frontText?: string[];
@@ -29,6 +31,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   index,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
+  const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
+    useState<EditorState>(EditorState.createEmpty());
+  const [backFlashcardEditorState, setBackFlashcardEditorState] =
+    useState<EditorState>(EditorState.createEmpty());
 
   const frontAndBack = (side: string) => {
     return (
@@ -39,14 +45,29 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       >
         <CardHeader>
           <Text fontColor={theme.colors.grey1}>
-            {side === "front" ? "Front" : "Back"}
+            {side === "front"
+              ? formatMessage("studySet.flashcards.front")
+              : formatMessage("studySet.flashcards.back")}
           </Text>
         </CardHeader>
         <Spacer height={theme.spacers.size8} />
         <TextCard
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
-        ></TextCard>
+        >
+          <FlashcardNoteTaker
+            editorState={
+              side === "front"
+                ? frontFlashcardEditorState
+                : backFlashcardEditorState
+            }
+            setEditorState={
+              side === "front"
+                ? setFrontFlashcardEditorState
+                : setBackFlashcardEditorState
+            }
+          />
+        </TextCard>
       </TextCardContainer>
     );
   };
@@ -54,7 +75,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const toolbar = () => {
     return linked ? (
       <HFlex justifyContent="center">
-        <StudySetToolbar toolbarFull={false} />
+        <StudySetToolbar
+          editorState={frontFlashcardEditorState}
+          setEditorState={setFrontFlashcardEditorState}
+          toolbarFull={false}
+        />
       </HFlex>
     ) : (
       <HFlex justifyContent="space-between">
