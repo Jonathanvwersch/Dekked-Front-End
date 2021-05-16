@@ -1,6 +1,5 @@
 import Draft, {
   ContentBlock,
-  ContentState,
   DraftEditorCommand,
   EditorState,
   Modifier,
@@ -33,22 +32,17 @@ import { styleMap } from "./Editor.data";
 const Immutable = require("immutable");
 
 interface EditorProps {
-  savedContent?: ContentState;
+  // editorState: EditorState;
+  // setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
 }
 
-const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
-  const {
-    editorState,
-    setEditorState,
-    toggleBlockStyle,
-    loading,
-    autoSave,
-    page,
-    currentBlock,
-  } = useContext(EditorContext);
+const NoteEditor: React.FC<EditorProps> = () => {
+  const { editorState, setEditorState, loading, autoSave, page } =
+    useContext(EditorContext);
 
   const editorRef = useRef<any>(null);
   const intl = useIntl();
+  const currentBlock = getCurrentBlock(editorState);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -112,7 +106,6 @@ const NoteEditor: React.FC<EditorProps> = ({ savedContent }) => {
           props: {
             editorState,
             setEditorState,
-            toggleBlockStyle,
           },
         };
 

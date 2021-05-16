@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PageHeader } from "../../shared";
 import { HFlex, Spacer, VFlex } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
 import { Params, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
+import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 
 interface StudySetHeaderProps {
   headerRef?: React.RefObject<HTMLDivElement>;
@@ -15,9 +16,15 @@ interface StudySetHeaderProps {
 
 const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const intl = useIntl();
+  const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
-  const { numOfWords } = useContext(EditorContext);
+  const { editorState } = useContext(EditorContext);
   const { tab } = useParams<Params>();
+
+  // Calculate the number of words in text
+  useEffect(() => {
+    setNumOfWords(getWordCount(editorState));
+  }, [numOfWords, editorState, setNumOfWords]);
 
   const message = (tab: TAB_TYPE) => {
     if (tab === TAB_TYPE.NOTES) {

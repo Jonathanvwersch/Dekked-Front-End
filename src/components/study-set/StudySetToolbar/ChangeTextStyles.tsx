@@ -15,7 +15,9 @@ import { CoordsType, SIZES, TEXT_STYLES } from "../../../shared";
 import { ROTATE } from "../../../assets/icons/Icon.types";
 import {
   doesBlockContainStyle,
+  getCurrentBlock,
   removeSpecificBlockStyle,
+  toggleInlineStyle,
 } from "../../notetaking/Editor/Editor.helpers";
 import { EditorContext } from "../../../contexts";
 import { ThemeContext } from "styled-components";
@@ -34,9 +36,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     TEXT_STYLES.SUBSCRIPT,
     TEXT_STYLES.SUPERSCRIPT,
   ];
-
-  const { toggleInlineStyle, editorState, setEditorState, currentBlock } =
-    useContext(EditorContext);
+  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleBlockOptionsModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -47,7 +47,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
     setCoords(positionModals(e, 272, blockOptionsRef));
   };
 
-  const currentBlockType = currentBlock.getType() || "unstyled";
+  const currentBlockType = getCurrentBlock(editorState).getType() || "unstyled";
 
   return (
     <>
@@ -74,7 +74,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleInlineStyle(TEXT_STYLES.BOLD);
+          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.BOLD));
         }}
       >
         <Tooltip id="BoldStyle" text="tooltips.studySet.toolbar.bold">
@@ -86,7 +86,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleInlineStyle(TEXT_STYLES.ITALIC);
+          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.ITALIC));
         }}
       >
         <Tooltip id="ItalicsStyle" text="tooltips.studySet.toolbar.italics">
@@ -98,7 +98,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleInlineStyle(TEXT_STYLES.UNDERLINE);
+          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.UNDERLINE));
         }}
       >
         <Tooltip id="UnderlineStyle" text="tooltips.studySet.toolbar.underline">
@@ -110,7 +110,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleInlineStyle(TEXT_STYLES.STRIKETHROUGH);
+          setEditorState(
+            toggleInlineStyle(editorState, TEXT_STYLES.STRIKETHROUGH)
+          );
         }}
       >
         <Tooltip
@@ -127,7 +129,13 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
             ? setEditorState(
                 removeSpecificBlockStyle([TEXT_STYLES.SUBSCRIPT], editorState)
               )
-            : toggleInlineStyle(TEXT_STYLES.SUBSCRIPT, stylesToRemoveScripts);
+            : setEditorState(
+                toggleInlineStyle(
+                  editorState,
+                  TEXT_STYLES.SUBSCRIPT,
+                  stylesToRemoveScripts
+                )
+              );
         }}
         fillType={FILL_TYPE.STROKE}
       >
@@ -142,7 +150,13 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = () => {
             ? setEditorState(
                 removeSpecificBlockStyle([TEXT_STYLES.SUPERSCRIPT], editorState)
               )
-            : toggleInlineStyle(TEXT_STYLES.SUPERSCRIPT, stylesToRemoveScripts);
+            : setEditorState(
+                toggleInlineStyle(
+                  editorState,
+                  TEXT_STYLES.SUPERSCRIPT,
+                  stylesToRemoveScripts
+                )
+              );
         }}
         fillType={FILL_TYPE.STROKE}
       >

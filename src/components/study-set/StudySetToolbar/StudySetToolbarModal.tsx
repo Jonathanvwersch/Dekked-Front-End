@@ -3,6 +3,7 @@ import { ScrollerModal } from "../../common";
 import { EditorContext } from "../../../contexts/EditorContext";
 import { BLOCK_TYPES, CoordsType } from "../../../shared";
 import { ConvertToBlockData } from "../../notetaking/TextModal/NotetakingBlocks.data";
+import { RichUtils } from "draft-js";
 
 interface StudySetToolbarModalProps {
   open: boolean;
@@ -15,10 +16,10 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   open,
   coords,
 }) => {
-  const { toggleBlockType } = useContext(EditorContext);
+  const { setEditorState, editorState } = useContext(EditorContext);
   const clickFunctions = (type: BLOCK_TYPES) => {
     handleClose();
-    toggleBlockType(type);
+    setEditorState(RichUtils.toggleBlockType(editorState, type));
   };
 
   return (

@@ -12,6 +12,7 @@ import {
   SIZES,
   TEXT_STYLES,
 } from "../../../shared";
+import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 
 interface ColorPickerProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     background: iconColor,
   });
   const theme = useContext(ThemeContext);
-  const { toggleInlineStyle } = useContext(EditorContext);
+  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleChange = (colour: any) => {
     setColour({ background: colour });
@@ -46,20 +47,28 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
     // Toggle font color change in study set toolbar
     purpose === "color-font" &&
-      toggleInlineStyle(
-        TEXT_STYLES[
-          `FONT_COLOR_${colour.hex.slice(1).toUpperCase()}` as TEXT_STYLES
-        ],
-        [...Object.keys(FONT_COLORS)]
+      setEditorState(
+        toggleInlineStyle(
+          editorState,
+          TEXT_STYLES[
+            `FONT_COLOR_${colour.hex.slice(1).toUpperCase()}` as TEXT_STYLES
+          ],
+          [...Object.keys(FONT_COLORS)]
+        )
       );
 
     // Toggle background color change in study set toolbar
     purpose === "color-background" &&
-      toggleInlineStyle(
-        TEXT_STYLES[
-          `BACKGROUND_COLOR_${colour.hex.slice(1).toUpperCase()}` as TEXT_STYLES
-        ],
-        [...Object.keys(BACKGROUND_COLORS)]
+      setEditorState(
+        toggleInlineStyle(
+          editorState,
+          TEXT_STYLES[
+            `BACKGROUND_COLOR_${colour.hex
+              .slice(1)
+              .toUpperCase()}` as TEXT_STYLES
+          ],
+          [...Object.keys(BACKGROUND_COLORS)]
+        )
       );
   };
 

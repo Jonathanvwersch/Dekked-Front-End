@@ -3,6 +3,7 @@ import {
   EditorState,
   genKey,
   Modifier,
+  RichUtils,
   SelectionState,
 } from "draft-js";
 import { List, Map } from "immutable";
@@ -280,4 +281,31 @@ export const updateDataOfBlock = (
     blockMap: contentState.getBlockMap().set(block.getKey(), newBlock),
   });
   return EditorState.push(editorState, newContentState, "change-block-type");
+};
+
+// Changes style of all text in a given block
+// Can also specify which styles to delete before style change
+export const toggleBlockStyle = (
+  editorState: EditorState,
+  style: TEXT_STYLES,
+  stylesToRemove?: TEXT_STYLES[]
+) => {
+  let newEditorState = returnWholeBlockEditorState(editorState);
+  if (stylesToRemove) {
+    newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
+  }
+  return RichUtils.toggleInlineStyle(newEditorState, style);
+};
+
+// Changes style of inline text
+export const toggleInlineStyle = (
+  editorState: EditorState,
+  style: TEXT_STYLES,
+  stylesToRemove?: string[]
+) => {
+  let newEditorState = editorState;
+  if (stylesToRemove) {
+    newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
+  }
+  return RichUtils.toggleInlineStyle(newEditorState, style);
 };
