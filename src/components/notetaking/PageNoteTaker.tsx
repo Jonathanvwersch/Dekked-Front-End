@@ -5,7 +5,7 @@ import {
   RawDraftContentBlock,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { debounce, isNull } from "lodash";
+import { debounce, isEmpty, isNull } from "lodash";
 
 import React, {
   memo,
@@ -75,10 +75,11 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   }, [id, blocks]);
 
   // Set editor state on mount
-  useMemo(() => {
-    if (blocks) {
-      const parsedBlocks: RawDraftContentBlock[] = blocks.map((blocks) =>
-        JSON.parse(blocks)
+  useEffect(() => {
+    if (blocks && !isEmpty(blocks) && blocks[0] !== null) {
+      console.log(blocks);
+      const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
+        JSON.parse(block)
       );
       const savedState = convertFromRaw({
         blocks: parsedBlocks,

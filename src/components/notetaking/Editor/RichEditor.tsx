@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useContext, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -27,6 +27,7 @@ import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
+import { EditorContext } from "../../../contexts";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -35,7 +36,12 @@ interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
-  saveEditor: (editorState: EditorState, id: string | undefined) => void;
+  saveEditor: (
+    editorState: EditorState,
+    id: string | undefined,
+    ownerId?: string | undefined
+  ) => void;
+  ownerId?: string | undefined;
   hasFocus?: boolean;
   id: string | undefined;
   loading?: boolean;
@@ -51,6 +57,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   setHasFocus,
   hasFocus,
   editorType = "page",
+  ownerId,
 }) => {
   const editorRef = useRef<any>(null);
 
@@ -140,7 +147,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
     // const currentState = editorState.getCurrentContent();
     // const newState = newEditorState.getCurrentContent();
     // const hasContentChanged = currentState !== newState;
-    id && saveEditor(newEditorState, id);
+    editorType === "flashcard" &&
+      id &&
+      ownerId &&
+      saveEditor(newEditorState, id, ownerId);
+    editorType === "page" && id && saveEditor(newEditorState, id);
     setEditorState(newEditorState);
   };
 

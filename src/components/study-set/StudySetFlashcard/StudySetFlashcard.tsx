@@ -14,7 +14,7 @@ import {
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
-import { BUTTON_THEME, SIZES } from "../../../shared";
+import { BUTTON_THEME, Params, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   convertFromRaw,
@@ -25,23 +25,36 @@ import {
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
 import { useFlashcards } from "../../../services/file-structure";
 import { debounce, isEmpty } from "lodash";
+import { useParams } from "react-router-dom";
 
 interface StudySetFlashcardProps {
+  deleteFlashcard?: () => void;
   flashcardId?: string;
-  frontText?: string[];
-  backText?: string[];
+  frontBlocks?: string[];
+  backBlocks?: string[];
   linked?: boolean;
   index?: number;
-  loading?: boolean;
+  ownerId?: string;
+  currentBlockKey?: string;
+  studyPackId?: string;
+  addFlashcard?: (
+    owner_id: string,
+    study_pack_id: string,
+    block_link?: string | undefined
+  ) => Promise<void>;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
-  frontText,
-  backText,
+  frontBlocks,
+  backBlocks,
   linked = false,
   index,
-  loading,
+  deleteFlashcard,
   flashcardId,
+  studyPackId,
+  ownerId,
+  currentBlockKey,
+  addFlashcard,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -52,6 +65,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<"front" | "back">();
   const [saving, setSaving] = useState<boolean>(false);
+  console.log(frontBlocks);
 
   const { saveFlashcard } = useFlashcards();
 
@@ -59,7 +73,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const onSave = async (
     frontEditorState: EditorState,
     backEditorState: EditorState,
-    id: string | undefined
+    flashcardId: string | undefined,
+    ownerId: string | undefined
   ) => {
     setSaving(true);
     const rawFrontContent = convertToRaw(frontEditorState.getCurrentContent());
@@ -75,7 +90,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       front_draft_keys: frontKeys,
       back_blocks: backBlocks,
       back_draft_keys: backKeys,
-      id,
+      flash_card_id: flashcardId,
+      owner_id: ownerId,
     });
     if (response.success) {
       setSaving(!response.success);
@@ -84,21 +100,27 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState, id: string | undefined) => {
+    (
+      editorState: EditorState,
+      flashcardId: string | undefined,
+      ownerId: string | undefined
+    ) => {
       if (currentSide === "front") {
-        console.log("fornt");
-        onSave(editorState, backFlashcardEditorState, id);
+        onSave(editorState, backFlashcardEditorState, flashcardId, ownerId);
       } else {
-        console.log("in the back");
-        onSave(frontFlashcardEditorState, editorState, id);
+        onSave(frontFlashcardEditorState, editorState, flashcardId, ownerId);
       }
     },
-    750
+    1000
   );
 
   const autoSave = useCallback(
-    (editorState: EditorState, id: string | undefined) => {
-      debounced(editorState, id);
+    (
+      editorState: EditorState,
+      flashcardId: string | undefined,
+      ownerId: string | undefined
+    ) => {
+      !linked && debounced(editorState, flashcardId, ownerId);
     },
     [currentSide]
   );
@@ -110,8 +132,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (frontText && !isEmpty(frontText)) {
-      const parsedBlocks: RawDraftContentBlock[] = frontText.map((blocks) =>
+    if (frontBlocks && !isEmpty(frontBlocks)) {
+      const parsedBlocks: RawDraftContentBlock[] = frontBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
       const savedState = convertFromRaw({
@@ -120,12 +142,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       });
       setFrontFlashcardEditorState(EditorState.createWithContent(savedState));
     }
-  }, [frontText]);
+  }, [frontBlocks]);
 
   // Set editor state on mount
   useEffect(() => {
-    if (backText && !isEmpty(backText)) {
-      const parsedBlocks: RawDraftContentBlock[] = backText.map((blocks) =>
+    if (backBlocks && !isEmpty(backBlocks)) {
+      const parsedBlocks: RawDraftContentBlock[] = backBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
       const savedState = convertFromRaw({
@@ -134,7 +156,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       });
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
     }
-  }, [backText]);
+  }, [backBlocks]);
 
   const frontAndBack = (side: string) => {
     return (
@@ -155,10 +177,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
-          {!linked && loading ? (
-            <ComponentLoadingSpinner />
-          ) : (
+          {!linked && (
             <FlashcardNoteTaker
+              ownerId={ownerId}
               id={flashcardId}
               autoSave={autoSave}
               hasFocus={side === "front" ? frontHasFocus : backHasFocus}
@@ -215,7 +236,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             <ComponentLoadingSpinner size={SIZES.SMALL} />
           </IconWrapper>
         ) : (
-          <IconActive>
+          <IconActive handleClick={() => deleteFlashcard && deleteFlashcard()}>
             <DeleteIcon />
           </IconActive>
         )}
@@ -241,7 +262,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <Spacer height={theme.spacers.size8} />
         {linked ? (
           <HFlex justifyContent="flex-end">
-            <Button buttonStyle={BUTTON_THEME.PRIMARY} isLoading={saving}>
+            <Button
+              buttonStyle={BUTTON_THEME.PRIMARY}
+              handleClick={() => {
+                addFlashcard &&
+                  ownerId &&
+                  studyPackId &&
+                  currentBlockKey &&
+                  addFlashcard(ownerId, studyPackId, currentBlockKey);
+              }}
+            >
               {formatMessage("generics.save")}
             </Button>
           </HFlex>

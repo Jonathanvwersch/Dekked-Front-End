@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
+import { EditorContext } from "../../../contexts";
+import { useFlashcards } from "../../../services/file-structure";
 import { SIZES } from "../../../shared";
 import { VFlex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
@@ -16,6 +18,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   flashcardPosition,
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
+  const { currentBlockKey } = useContext(EditorContext);
 
   return (
     <LinkedCard
@@ -38,7 +41,9 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
           <LogoIcon size={SIZES.MEDIUM} />
         </Tab>
       </Tooltip>
-      {showFlashcard ? <StudySetFlashcard linked={true} /> : null}
+      {showFlashcard ? (
+        <StudySetFlashcard linked={true} currentBlockKey={currentBlockKey} />
+      ) : null}
     </LinkedCard>
   );
 };

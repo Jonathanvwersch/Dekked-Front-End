@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import React from "react";
 import { useFlashcards } from "../services/file-structure";
 import { useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ export interface FlashcardsContextProps {
     block_link?: string | undefined
   ) => Promise<void>;
   loading: boolean;
+  handleDeleteFlashcard: (flashcardId: string, ownerId: string) => void;
 }
 
 export const FlashcardsContext = createContext<FlashcardsContextProps>(
@@ -20,22 +21,29 @@ export const FlashcardsContext = createContext<FlashcardsContextProps>(
 );
 
 export const FlashcardsContextProvider: React.FC = ({ children }) => {
-  const { getFlashcards, flashcards, addFlashcard } = useFlashcards();
+  const { getFlashcards, flashcards, addFlashcard, deleteFlashcard } =
+    useFlashcards();
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
 
-  const { id } = useParams<Params>();
+  const { id, tab } = useParams<Params>();
 
   useEffect(() => {
     id && getFlashcards(id);
-  }, [id]);
+  }, [id, tab]);
+
+  console.log(loading);
 
   useEffect(() => {
     setLoading(isNull(flashcards));
   }, [flashcards, id]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLoading(true);
-  }, [id]);
+  }, [id, tab]);
+
+  const handleDeleteFlashcard = (flashcardId: string, ownerId: string) => {
+    deleteFlashcard(ownerId, flashcardId, id);
+  };
 
   return (
     <FlashcardsContext.Provider
@@ -43,6 +51,7 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
         flashcards,
         addFlashcard,
         loading,
+        handleDeleteFlashcard,
       }}
     >
       {children}

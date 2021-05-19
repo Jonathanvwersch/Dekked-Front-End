@@ -10,9 +10,8 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const { flashcards, loading } = useContext(FlashcardsContext);
-
-    console.log(flashcards);
+    const { flashcards, loading, handleDeleteFlashcard, addFlashcard } =
+      useContext(FlashcardsContext);
 
     return (
       <>
@@ -23,9 +22,19 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                 {flashcards.map((flashcard, index) => (
                   <Fragment key={flashcard.flashcard.id}>
                     <StudySetFlashcard
-                      loading={loading}
                       index={index + 1}
                       flashcardId={flashcard.flashcard.id}
+                      studyPackId={flashcard.flashcard.study_pack_id}
+                      deleteFlashcard={() =>
+                        handleDeleteFlashcard(
+                          flashcard.flashcard.id,
+                          flashcard.flashcard.owner_id
+                        )
+                      }
+                      addFlashcard={addFlashcard}
+                      frontBlocks={flashcard.front_blocks}
+                      backBlocks={flashcard.back_blocks}
+                      ownerId={flashcard.flashcard.owner_id}
                     />
                     <Spacer height={theme.spacers.size32} />
                   </Fragment>

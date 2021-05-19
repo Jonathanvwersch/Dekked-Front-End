@@ -55,4 +55,6 @@ interface FlashcardInterface {
     date_modified: Date;
     block_link?: string;
   };
+  front_blocks: string[];
+  back_blocks: string[];
 }

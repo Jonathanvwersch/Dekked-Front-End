@@ -84,6 +84,7 @@ const ToolbarAndTabs = styled(HFlex)`
   top: 0;
   padding: ${({ theme }) => theme.spacers.size16} 0px;
   background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  height: ${({ theme }) => theme.spacers.size64};
   z-index: 100;
 `;
 

@@ -18,6 +18,7 @@ export function useFlashcards() {
 
       if (response.ok) {
         const json = await response.json();
+        console.log(json.data);
         if (json.success) {
           setFlashcards(json.data.flashcards);
           return;
@@ -70,15 +71,17 @@ export function useFlashcards() {
     front_draft_keys,
     back_blocks,
     back_draft_keys,
-    id,
+    flash_card_id,
+    owner_id,
   }: {
     front_blocks: string[];
     front_draft_keys: string[];
     back_blocks: string[];
     back_draft_keys: string[];
-    id: string | undefined;
+    flash_card_id: string | undefined;
+    owner_id: string | undefined;
   }) => {
-    const url = config.api + `/flashcard/${id}`;
+    const url = config.api + `/flashcard/${flash_card_id}`;
     try {
       const response = await fetch(url, {
         method: "PUT",
@@ -87,6 +90,8 @@ export function useFlashcards() {
           Authorization: `Bearer ${config.authToken}`,
         },
         body: JSON.stringify({
+          flash_card_id,
+          owner_id,
           front_blocks,
           front_draft_keys,
           back_blocks,
@@ -100,11 +105,43 @@ export function useFlashcards() {
     }
   };
 
+  async function deleteFlashcard(
+    owner_id: string,
+    flashcard_id: string,
+    study_pack_id: string
+  ) {
+    try {
+      const uri = config.api + "/flashcard";
+      const response = await fetch(uri, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${config.authToken}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          owner_id,
+          flashcard_id,
+        }),
+      });
+      if (response.ok) {
+        const json = await response.json();
+        if (json.success) {
+          getFlashcards(study_pack_id);
+          return;
+        }
+      }
+      throw Error("There was an error deleting the flashcard");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     getFlashcards,
     addFlashcard,
     saveFlashcard,
     flashcardsIsError: isError,
     flashcards,
+    deleteFlashcard,
   };
 }
