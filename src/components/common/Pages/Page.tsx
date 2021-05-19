@@ -11,7 +11,7 @@ const Page: React.FC = ({ children }) => {
     <StyledPage>
       {children}
       {/* hide study queue on study mode page */}
-      {!studyModes ? <StudyQueueContainer /> : null}
+      {/* {!studyModes ? <StudyQueueContainer /> : null} */}
     </StyledPage>
   );
 };
