@@ -15,11 +15,15 @@ import { EditorState } from "draft-js";
 interface ChangeTextStyleProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  isDisabled?: boolean;
+  iconSize?: SIZES;
 }
 
 const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
   editorState,
   setEditorState,
+  isDisabled,
+  iconSize = SIZES.MEDIUM,
 }) => {
   const theme = useContext(ThemeContext);
   const [colorPickerFont, setColorPickerFont] = useState<boolean>(false);
@@ -55,12 +59,13 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
           handleMouseDown={(e) => {
             handleColorPickerFont(e);
           }}
+          isDisabled={isDisabled}
         >
           <Tooltip
             id="ChangeTextColour"
             text="tooltips.studySet.toolbar.changeTextColour"
           >
-            <TextColorIcon size={SIZES.MEDIUM} />
+            <TextColorIcon size={SIZES.SMALL} />
           </Tooltip>
         </IconActive>
       </IconWrapper>
@@ -70,12 +75,13 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
         handleMouseDown={(e) => {
           handleColorPickerBackground(e);
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip
           id="ChangeBackgroundColour"
           text="tooltips.studySet.toolbar.highlight"
         >
-          <ReColorIcon size={SIZES.MEDIUM} />
+          <ReColorIcon size={SIZES.SMALL} />
         </Tooltip>
       </IconActive>
       <ColorPicker

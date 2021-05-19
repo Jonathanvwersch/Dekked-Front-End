@@ -14,6 +14,9 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
         &:focus {
             outline: 0;
         }
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
    
     *::-webkit-scrollbar {

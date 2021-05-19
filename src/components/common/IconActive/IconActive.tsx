@@ -1,5 +1,6 @@
 // Wrapper component for making an icon into a button with a hover and active state
-import React from "react";
+import { isEqual } from "lodash";
+import React, { memo, ReactNode } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components/macro";
 import { formatMessage } from "../../../intl";
@@ -11,6 +12,7 @@ export enum FILL_TYPE {
 }
 
 interface IconActiveProps {
+  children: ReactNode;
   className?: string;
   handleClick?: (args: any) => void;
   fillType?: string;
@@ -18,6 +20,7 @@ interface IconActiveProps {
   iconActiveRef?: React.RefObject<HTMLButtonElement>;
   cursor?: string;
   ariaLabel?: string;
+  isDisabled?: boolean;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -29,8 +32,10 @@ const IconActive: React.FC<IconActiveProps> = ({
   iconActiveRef,
   cursor,
   ariaLabel,
+  isDisabled = false,
 }) => {
   const intl = useIntl();
+
   return (
     <>
       <StyledIconActive
@@ -47,6 +52,7 @@ const IconActive: React.FC<IconActiveProps> = ({
         tabIndex={0}
         cursor={cursor}
         aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
+        disabled={isDisabled}
       >
         {children}
       </StyledIconActive>
@@ -88,6 +94,23 @@ const StyledIconActive = styled.button<IconActiveProps>`
       }
     }
   }
+
+  &:disabled {
+    & svg {
+      & path {
+        fill: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
+            ? theme.colors.grey1
+            : "auto"};
+        stroke: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
+            ? theme.colors.grey1
+            : "auto"};
+      }
+    }
+  }
 `;
 
-export default IconActive;
+export default memo(IconActive, (oldProps, newProps) => {
+  return isEqual(oldProps, newProps);
+});

@@ -16,11 +16,15 @@ import { EditorState } from "draft-js";
 interface ChangeTextStyleProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  isDisabled?: boolean;
+  iconSize?: SIZES;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   editorState,
   setEditorState,
+  isDisabled,
+  iconSize = SIZES.MEDIUM,
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
@@ -40,9 +44,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           updateData("left");
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="LeftAlign" text="tooltips.studySet.toolbar.leftAlign">
-          <LeftAlignIcon size={SIZES.MEDIUM} />
+          <LeftAlignIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -52,9 +57,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           updateData("center");
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="CenterAlign" text="tooltips.studySet.toolbar.centerAlign">
-          <CenterAlignIcon size={SIZES.MEDIUM} />
+          <CenterAlignIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -64,9 +70,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           updateData("right");
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="RightAlign" text="tooltips.studySet.toolbar.rightAlign">
-          <RightAlignIcon size={SIZES.MEDIUM} />
+          <RightAlignIcon size={iconSize} />
         </Tooltip>
       </IconActive>
     </>

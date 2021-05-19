@@ -29,11 +29,15 @@ interface ChangeTextStyleProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   headerRef?: React.RefObject<HTMLDivElement>;
+  isDisabled?: boolean;
+  iconSize?: SIZES;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   editorState,
   setEditorState,
+  isDisabled,
+  iconSize = SIZES.MEDIUM,
 }) => {
   const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
@@ -59,6 +63,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     <>
       <IconWrapper>
         <IconActive
+          isDisabled={isDisabled}
           iconActiveRef={blockOptionsRef}
           handleMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
             handleBlockOptionsModal(e)
@@ -70,7 +75,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           >
             <HFlex>
               {changeBlockTypeIcon(currentBlockType).icon}
-              <DropDownArrowIcon size={SIZES.MEDIUM} rotate={ROTATE.NINETY} />
+              <DropDownArrowIcon size={iconSize} rotate={ROTATE.NINETY} />
             </HFlex>
           </Tooltip>
         </IconActive>
@@ -82,9 +87,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.BOLD));
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="BoldStyle" text="tooltips.studySet.toolbar.bold">
-          <BoldIcon size={SIZES.MEDIUM} />
+          <BoldIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -94,9 +100,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.ITALIC));
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="ItalicsStyle" text="tooltips.studySet.toolbar.italics">
-          <ItalicsIcon size={SIZES.MEDIUM} />
+          <ItalicsIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -106,9 +113,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           e.stopPropagation();
           setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.UNDERLINE));
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip id="UnderlineStyle" text="tooltips.studySet.toolbar.underline">
-          <UnderlineIcon size={SIZES.MEDIUM} />
+          <UnderlineIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -120,12 +128,13 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
             toggleInlineStyle(editorState, TEXT_STYLES.STRIKETHROUGH)
           );
         }}
+        isDisabled={isDisabled}
       >
         <Tooltip
           id="StrikethroughtStyle"
           text="tooltips.studySet.toolbar.strikethrough"
         >
-          <StrikethroughIcon size={SIZES.MEDIUM} />
+          <StrikethroughIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -144,9 +153,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
               );
         }}
         fillType={FILL_TYPE.STROKE}
+        isDisabled={isDisabled}
       >
         <Tooltip id="SubscriptStyle" text="tooltips.studySet.toolbar.subscript">
-          <SubscriptIcon size={SIZES.MEDIUM} />
+          <SubscriptIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <Spacer width={theme.spacers.size8} />
@@ -165,12 +175,13 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
               );
         }}
         fillType={FILL_TYPE.STROKE}
+        isDisabled={isDisabled}
       >
         <Tooltip
           id="UnderlineStyle"
           text="tooltips.studySet.toolbar.superscript"
         >
-          <SuperscriptIcon size={SIZES.MEDIUM} />
+          <SuperscriptIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <StudySetToolbarModal

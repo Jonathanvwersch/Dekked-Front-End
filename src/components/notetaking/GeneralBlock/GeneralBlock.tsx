@@ -4,8 +4,14 @@ import BlockSettings from "../BlockSettings/BlockSettings";
 import { DividerBlock, TextBlock, TodoBlock } from "../custom-blocks";
 
 const GeneralBlock: React.FC = (props: any) => {
-  const { editorState, setEditorState, dragBlockKey, setDragBlockKey, type } =
-    props.blockProps;
+  const {
+    editorState,
+    setEditorState,
+    dragBlockKey,
+    setDragBlockKey,
+    type,
+    editorType,
+  } = props.blockProps;
 
   const GeneralBlock = () => {
     switch (type) {
@@ -27,6 +33,7 @@ const GeneralBlock: React.FC = (props: any) => {
       dragBlockKey={dragBlockKey}
       setDragBlockKey={setDragBlockKey}
       blockType={type}
+      editorType={editorType}
     >
       {GeneralBlock()}
     </BlockSettings>

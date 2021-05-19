@@ -1,10 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import { config } from "../../config";
 export function useBinders() {
-  const [binders, setBinders] = React.useState<{
+  const [binders, setBinders] = useState<{
     [key: string]: BinderInterface;
   }>({});
-  const [isError, setIsError] = React.useState(false);
+  const [isError, setIsError] = useState(false);
 
   async function getBinders() {
     try {

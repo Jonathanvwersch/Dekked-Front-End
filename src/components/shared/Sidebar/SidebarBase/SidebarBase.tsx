@@ -14,8 +14,6 @@ const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
   const theme = useContext(ThemeContext);
   const { addAsset } = useContext(FileTreeContext);
 
-  console.log("base");
-
   return (
     <StyledSidebarBase>
       <Divider />

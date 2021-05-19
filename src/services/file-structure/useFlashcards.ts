@@ -1,18 +1,15 @@
-import { isNull } from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { config } from "../../config";
 
 export function useFlashcards() {
   const [flashcards, setFlashcards] =
     useState<FlashcardInterface[] | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
 
   async function getFlashcards(studyPackId: string) {
     try {
       const uri =
         config.api + `/get-flashcards-by-study-pack-id/${studyPackId}`;
-      console.log(uri);
       const response = await fetch(uri, {
         headers: {
           Authorization: `Bearer ${config.authToken}`,
@@ -22,7 +19,6 @@ export function useFlashcards() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          console.log(json.data);
           setFlashcards(json.data.flashcards);
           return;
         }
@@ -69,15 +65,46 @@ export function useFlashcards() {
     }
   }
 
-  useEffect(() => {
-    setLoading(isNull(flashcards));
-  }, [flashcards]);
+  const saveFlashcard = async ({
+    front_blocks,
+    front_draft_keys,
+    back_blocks,
+    back_draft_keys,
+    id,
+  }: {
+    front_blocks: string[];
+    front_draft_keys: string[];
+    back_blocks: string[];
+    back_draft_keys: string[];
+    id: string | undefined;
+  }) => {
+    const url = config.api + `/flashcard/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${config.authToken}`,
+        },
+        body: JSON.stringify({
+          front_blocks,
+          front_draft_keys,
+          back_blocks,
+          back_draft_keys,
+        }),
+      });
+      return await response.json();
+    } catch (e) {
+      console.log(e);
+      return { success: false };
+    }
+  };
 
   return {
     getFlashcards,
     addFlashcard,
+    saveFlashcard,
     flashcardsIsError: isError,
     flashcards,
-    loading,
   };
 }

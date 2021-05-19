@@ -28,13 +28,13 @@ export function usePage(study_pack_id: string) {
   const savePage = async ({
     draft_keys,
     blocks,
-    page,
+    id,
   }: {
     draft_keys: string[];
     blocks: string[];
-    page: PageInterface | undefined;
+    id: string | undefined;
   }) => {
-    const url = config.api + `/page/${page?.id}`;
+    const url = config.api + `/page/${id}`;
     try {
       const response = await fetch(url, {
         method: "PUT",

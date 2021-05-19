@@ -1,25 +1,18 @@
 import { isEmpty } from "lodash";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { Fragment, useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
-import { useFlashcards } from "../../../services/file-structure";
-import { Params } from "../../../shared";
-import { ComponentLoadingSpinner, VFlex } from "../../common";
+import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
+import { ComponentLoadingSpinner, Spacer, VFlex } from "../../common";
 
 interface StudySetFlashcardsContainerProps {}
 
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
-    const { loading, flashcards, getFlashcards } = useFlashcards();
-    const [saving, setSaving] = useState<boolean>(false);
+    const theme = useContext(ThemeContext);
+    const { flashcards, loading } = useContext(FlashcardsContext);
 
-    const { id } = useParams<Params>();
-
-    useEffect(() => {
-      if (id) {
-        getFlashcards(id);
-      }
-    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+    console.log(flashcards);
 
     return (
       <>
@@ -28,13 +21,14 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
             {flashcards && !isEmpty(flashcards) ? (
               <>
                 {flashcards.map((flashcard, index) => (
-                  <StudySetFlashcard
-                    loading={loading}
-                    saving={saving}
-                    index={index}
-                    frontText={flashcard.front_ordering}
-                    backText={flashcard.back_ordering}
-                  />
+                  <Fragment key={flashcard.flashcard.id}>
+                    <StudySetFlashcard
+                      loading={loading}
+                      index={index + 1}
+                      flashcardId={flashcard.flashcard.id}
+                    />
+                    <Spacer height={theme.spacers.size32} />
+                  </Fragment>
                 ))}
               </>
             ) : null}

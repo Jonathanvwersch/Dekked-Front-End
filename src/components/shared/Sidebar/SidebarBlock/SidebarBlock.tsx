@@ -62,8 +62,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     }
   }, [iconColor, blockData, type, updateAsset, colorPicker]);
 
-  console.log("sidebarblock");
-
   // open and position block modal
   const handleBlockModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

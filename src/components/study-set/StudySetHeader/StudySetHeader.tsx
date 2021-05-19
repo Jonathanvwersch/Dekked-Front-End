@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PageHeader } from "../../shared";
-import { HFlex, Spacer, VFlex } from "../../common";
+import { Button, HFlex, Spacer, VFlex } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components/macro";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
-import { Params, TAB_TYPE } from "../../../shared";
+import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
+import { SelectedItemContext } from "../../../contexts";
+import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
 
 interface StudySetHeaderProps {
   editorState: EditorState;
@@ -25,6 +27,8 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
   const { tab } = useParams<Params>();
+  const { selectedItemData } = useContext(SelectedItemContext);
+  const { addFlashcard } = useContext(FlashcardsContext);
 
   // Calculate the number of words in text
   useEffect(() => {
@@ -45,10 +49,23 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   return (
     <>
       <ToolbarAndTabs justifyContent="space-between">
-        <StudySetToolbar
-          editorState={editorState}
-          setEditorState={setEditorState}
-        />
+        {tab === TAB_TYPE.NOTES ? (
+          <StudySetToolbar
+            editorState={editorState}
+            setEditorState={setEditorState}
+          />
+        ) : (
+          <Button
+            buttonStyle={BUTTON_THEME.SECONDARY}
+            handleClick={() =>
+              selectedItemData?.owner_id &&
+              selectedItemData?.id &&
+              addFlashcard(selectedItemData.owner_id, selectedItemData.id)
+            }
+          >
+            <FormattedMessage id="studySet.flashcards.addFlashcard" />
+          </Button>
+        )}
         <StudySetTabSwitcher />
       </ToolbarAndTabs>
       <div ref={headerRef}>
@@ -63,6 +80,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
 
 const ToolbarAndTabs = styled(HFlex)`
   position: sticky;
+  width: 100%;
   top: 0;
   padding: ${({ theme }) => theme.spacers.size16} 0px;
   background: ${({ theme }) => theme.colors.backgrounds.pageBackground};

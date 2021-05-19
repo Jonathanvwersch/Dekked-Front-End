@@ -21,8 +21,6 @@ import {
 
 import styled from "styled-components/macro";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
-import TextBlock from "../custom-blocks/TextBlock";
-import { TodoBlock, DividerBlock } from "../custom-blocks";
 import { BLOCK_TYPES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
 import { formatMessage } from "../../../intl";
@@ -31,15 +29,17 @@ import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
 const Immutable = require("immutable");
 
+export type EditorType = "flashcard" | "page";
+
 interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  page?: PageInterface | undefined;
-  saveEditor?: (
-    editorState: EditorState,
-    page: PageInterface | undefined
-  ) => void;
+  setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
+  saveEditor: (editorState: EditorState, id: string | undefined) => void;
+  hasFocus?: boolean;
+  id: string | undefined;
   loading?: boolean;
+  editorType?: EditorType;
 }
 
 const RichEditor: React.FC<RichEditorProps> = ({
@@ -47,9 +47,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
   setEditorState,
   saveEditor,
   loading,
-  page,
+  id,
+  setHasFocus,
+  hasFocus,
+  editorType = "page",
 }) => {
   const editorRef = useRef<any>(null);
+
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
@@ -106,6 +110,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         dragBlockKey,
         setDragBlockKey,
         type,
+        editorType,
       },
     };
   };
@@ -135,7 +140,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
     // const currentState = editorState.getCurrentContent();
     // const newState = newEditorState.getCurrentContent();
     // const hasContentChanged = currentState !== newState;
-    saveEditor && page && saveEditor(newEditorState, page);
+    id && saveEditor(newEditorState, id);
     setEditorState(newEditorState);
   };
 
@@ -155,10 +160,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const extendedBlockRenderMap =
     Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
+  const showPlaceholder = hasFocus === undefined ? true : hasFocus;
   return (
     <>
       {!loading ? (
-        <EditorContainer>
+        <EditorContainer editorType={editorType}>
           <Editor
             editorState={editorState}
             onChange={onChange}
@@ -167,9 +173,12 @@ const RichEditor: React.FC<RichEditorProps> = ({
             blockRendererFn={myBlockRenderer}
             handleReturn={handleReturn}
             blockStyleFn={myBlockStyleFn}
+            onFocus={() => setHasFocus && setHasFocus(true)}
+            onBlur={() => setHasFocus && setHasFocus(false)}
             blockRenderMap={extendedBlockRenderMap}
             customStyleMap={styleMap}
             placeholder={
+              showPlaceholder &&
               getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
                 ? formatMessage(`studySet.notetaking.placeholder`, intl)
                 : ""
@@ -187,11 +196,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
   );
 };
 
-const EditorContainer = styled.div`
+const EditorContainer = styled.div<{ editorType: EditorType }>`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
   width: 100%;
   position: relative;
+  font-size: ${({ theme, editorType }) =>
+    editorType === "flashcard" ? theme.typography.fontSizes.size14 : "auto"};
 
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;

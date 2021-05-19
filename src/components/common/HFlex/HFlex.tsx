@@ -7,6 +7,7 @@ interface HFlexProps {
   justifyContent?: string;
   height?: string;
   width?: string;
+  minHeight?: string;
 }
 
 const HFlex: React.FC<HFlexProps> = ({ children, ...props }) => {
@@ -19,6 +20,7 @@ const StyledHFlex = styled.div<HFlexProps>`
   justify-content: ${({ justifyContent }) => justifyContent};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
+  min-height: ${({ minHeight }) => minHeight};
 `;
 
 export default HFlex;

@@ -7,7 +7,14 @@ import {
 import "draft-js/dist/Draft.css";
 import { debounce, isNull } from "lodash";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import { EditorContext } from "../../contexts";
 import { useBlocks } from "../../services/note-taking/useBlocks";
@@ -31,10 +38,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const [loading, setLoading] = useState<boolean>(isNull(blocks));
 
   // Make call to server to save text blocks
-  const onSave = async (
-    editorState: EditorState,
-    page: PageInterface | undefined
-  ) => {
+  const onSave = async (editorState: EditorState, id: string | undefined) => {
     setSaving(true);
     const rawContent = convertToRaw(editorState.getCurrentContent());
     const keys = rawContent.blocks.map((val) => val.key);
@@ -42,7 +46,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     const response = await savePage({
       draft_keys: keys,
       blocks,
-      page,
+      id,
     });
     if (!response.success) {
       setSaveError(true);
@@ -54,14 +58,14 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState, page: PageInterface | undefined) =>
-      onSave(editorState, page),
+    (editorState: EditorState, id: string | undefined) =>
+      onSave(editorState, id),
     750
   );
 
   const autoSave = useCallback(
-    (editorState: EditorState, page: PageInterface | undefined) => {
-      debounced(editorState, page);
+    (editorState: EditorState, id: string | undefined) => {
+      debounced(editorState, id);
     },
     []
   );
@@ -71,7 +75,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   }, [id, blocks]);
 
   // Set editor state on mount
-  useEffect(() => {
+  useMemo(() => {
     if (blocks) {
       const parsedBlocks: RawDraftContentBlock[] = blocks.map((blocks) =>
         JSON.parse(blocks)
@@ -90,9 +94,9 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
       editorState={editorState}
       setEditorState={setEditorState}
       saveEditor={autoSave}
-      page={page}
+      id={page?.id}
     />
   );
 };
 
-export default PageNoteTaker;
+export default memo(PageNoteTaker);

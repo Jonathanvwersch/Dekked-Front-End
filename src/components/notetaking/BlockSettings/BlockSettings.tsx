@@ -6,16 +6,18 @@ import { BLOCK_TYPES } from "../../../shared";
 import { theme } from "../../../styles/theme";
 import { DragBlock, IconActive, Spacer, Tooltip } from "../../common";
 import { addNewBlockAt, moveBlock } from "../Editor/Editor.helpers";
+import { EditorType } from "../Editor/RichEditor";
 
 interface BlockSettingsProps {
   blockKey: string;
   block: ContentBlock;
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  children?: ReactElement;
-  blockType?: string;
+  children: ReactElement;
+  blockType: string;
   dragBlockKey: string | undefined;
   setDragBlockKey: React.Dispatch<React.SetStateAction<string | undefined>>;
+  editorType: EditorType;
 }
 
 const BlockSettings: React.FC<BlockSettingsProps> = ({
@@ -26,6 +28,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   setEditorState,
   dragBlockKey,
   setDragBlockKey,
+  editorType,
 }) => {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
@@ -47,20 +50,26 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
       handleDragEnter={() => setShowDragStyles(true)}
       showDragStyles={showDragStyles}
     >
-      <BlockHoverSettings blockType={blockType} contentEditable={false}>
-        <IconActive
-          handleMouseDown={() => {
-            setEditorState(addNewBlockAt(editorState, blockKey));
-          }}
-        >
-          <Tooltip
-            id="AddNewBlock"
-            text="tooltips.studySet.blocks.addBlocks"
-            place="left"
+      <BlockHoverSettings
+        blockType={blockType}
+        contentEditable={false}
+        editorType={editorType}
+      >
+        {editorType !== "flashcard" ? (
+          <IconActive
+            handleMouseDown={() => {
+              setEditorState(addNewBlockAt(editorState, blockKey));
+            }}
           >
-            <PlusIcon color={theme.colors.grey1} />
-          </Tooltip>
-        </IconActive>
+            <Tooltip
+              id="AddNewBlock"
+              text="tooltips.studySet.blocks.addBlocks"
+              place="left"
+            >
+              <PlusIcon color={theme.colors.grey1} />
+            </Tooltip>
+          </IconActive>
+        ) : null}
         <IconActive
           cursor={isDraggable ? "grabbing" : undefined}
           handleMouseDown={() => {
@@ -83,7 +92,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
               : blockType === BLOCK_TYPES.NUMBERED_LIST ||
                 blockType === BLOCK_TYPES.BULLETED_LIST
               ? "32px"
-              : "8x"
+              : "8px"
           }
         />
       </BlockHoverSettings>
@@ -92,22 +101,42 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   );
 };
 
+const leftPosition = (blockType: string, editorType: EditorType) => {
+  if (editorType === "flashcard") {
+    if (blockType === BLOCK_TYPES.QUOTE) {
+      return "-38px";
+    } else if (
+      blockType === BLOCK_TYPES.NUMBERED_LIST ||
+      blockType === BLOCK_TYPES.BULLETED_LIST
+    ) {
+      return "-41px";
+    } else {
+      return "-20px";
+    }
+  }
+  if (blockType === BLOCK_TYPES.QUOTE) {
+    return "-62px";
+  } else if (
+    blockType === BLOCK_TYPES.NUMBERED_LIST ||
+    blockType === BLOCK_TYPES.BULLETED_LIST
+  ) {
+    return "-68px";
+  } else {
+    return "-44px";
+  }
+};
+
 const BlockHoverSettings = styled.div<{
-  blockType?: string;
+  blockType: string;
+  editorType: EditorType;
 }>`
   display: flex;
   opacity: 0;
-  align-items: center;
+  align-items: flex-start;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: ${({ blockType }) =>
-    blockType === BLOCK_TYPES.QUOTE
-      ? "-62px"
-      : blockType === BLOCK_TYPES.NUMBERED_LIST ||
-        blockType === BLOCK_TYPES.BULLETED_LIST
-      ? "-68px"
-      : "-44px"};
+  left: ${({ blockType, editorType }) => leftPosition(blockType, editorType)};
 `;
 
 const StyledDragBlock = styled(DragBlock)`

@@ -1,12 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
+import { BUTTON_THEME } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import { useFlashcards } from "../../../services/file-structure";
 
 interface PageHeaderProps {
   message?: string;
@@ -16,10 +14,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { selectedBlockName, id, selectedItemData } =
-    useContext(SelectedItemContext);
-  const { tab } = useParams<Params>();
-  const { addFlashcard } = useFlashcards();
+  const { selectedBlockName, id } = useContext(SelectedItemContext);
 
   return (
     <>
@@ -33,18 +28,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
         <HFlex justifyContent="space-between">
           <Text fontColor={theme.colors.grey1}>{message}</Text>
           <HFlex width="auto">
-            {tab === TAB_TYPE.FLASHCARDS ? (
-              <Button
-                buttonStyle={BUTTON_THEME.SECONDARY}
-                handleClick={() =>
-                  selectedItemData?.owner_id &&
-                  selectedItemData?.id &&
-                  addFlashcard(selectedItemData.owner_id, selectedItemData.id)
-                }
-              >
-                {formatMessage("studySet.flashcards.addFlashcard")}
-              </Button>
-            ) : null}
             <Spacer width={theme.spacers.size16} />
             <Button
               buttonStyle={BUTTON_THEME.PRIMARY}

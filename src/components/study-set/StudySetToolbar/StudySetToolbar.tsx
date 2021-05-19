@@ -14,12 +14,16 @@ interface StudySetToolbarProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   toolbarFull?: boolean;
+  isDisabled?: boolean;
+  iconSize?: SIZES;
 }
 
 const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   editorState,
   setEditorState,
   toolbarFull = true,
+  isDisabled = false,
+  iconSize = SIZES.MEDIUM,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
@@ -29,20 +33,26 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
         <ChangeTextStyles
           editorState={editorState}
           setEditorState={setEditorState}
+          isDisabled={isDisabled}
+          iconSize={iconSize}
         />
         <Spacer width={theme.spacers.size8} />
-        <DividerIcon size={SIZES.MEDIUM} />
+        <DividerIcon size={iconSize} />
         <Spacer width={theme.spacers.size8} />
         <ChangeTextAlignment
           editorState={editorState}
           setEditorState={setEditorState}
+          isDisabled={isDisabled}
+          iconSize={iconSize}
         />
         <Spacer width={theme.spacers.size8} />
-        <DividerIcon size={SIZES.MEDIUM} />
+        <DividerIcon size={iconSize} />
         <Spacer width={theme.spacers.size8} />
         <ChangeTextColor
           editorState={editorState}
           setEditorState={setEditorState}
+          isDisabled={isDisabled}
+          iconSize={iconSize}
         />
       </HFlex>
     </>

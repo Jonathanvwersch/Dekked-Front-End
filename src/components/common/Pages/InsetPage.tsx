@@ -21,7 +21,7 @@ const StyledInsetPage = styled.div<InsetPageProps>`
   max-width: ${({ theme, size }) =>
     size ? theme.sizes.wrappers[size] : theme.sizes.wrappers[SIZES.SMALL]};
   padding-top: ${({ theme, size }) =>
-    size === SIZES.LARGE ? theme.spacers.size32 : theme.spacers.size64};
+    size === SIZES.LARGE ? theme.spacers.size32 : theme.spacers.size32};
   padding-bottom: ${({ theme, size }) =>
     size === SIZES.LARGE ? theme.spacers.size64 : theme.spacers.size128};
 `;

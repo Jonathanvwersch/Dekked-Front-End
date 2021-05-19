@@ -16,7 +16,6 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
 }) => {
   const { fileTree } = useContext(FileTreeContext);
   const theme = useContext(ThemeContext);
-  console.log("workspace");
 
   return (
     <>

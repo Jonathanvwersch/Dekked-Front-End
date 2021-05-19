@@ -20,7 +20,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
       bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [bottomFolderRef]);
-  console.log("sidebar");
 
   const mouseLeave = useCallback(() => {
     !sidebar && setHoverbar(false);
