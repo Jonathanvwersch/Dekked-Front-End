@@ -27,16 +27,18 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
   const history = useHistory();
 
   // handle opening and closing of sidebar
-  const [sidebar, setSidebar] = useStorageState(true, "sidebar-state");
+  const { value: sidebar, setValue: setSidebar } = useStorageState<boolean>(
+    true,
+    "sidebar-state"
+  );
   const handleSidebar = useCallback(() => {
     setSidebar(!sidebar);
   }, [sidebar, setSidebar]);
 
   // store state of study set tabs (either flashcard or notes)
-  const [studySetTab, setStudySetTab] = useStorageState(
-    {} as { [id: string]: TAB_TYPE },
-    "study-set-tabs-state"
-  );
+  const { value: studySetTab, setValue: setStudySetTab } = useStorageState<{
+    [id: string]: TAB_TYPE;
+  }>({}, "study-set-tabs-state");
 
   const studySetTabLink = (id: string) => {
     return studySetTab[id] || TAB_TYPE.NOTES;
@@ -51,10 +53,9 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
   };
 
   // handle opening and closing of sidebar blocks
-  const [isBlockOpen, setIsBlockOpen] = useStorageState(
-    {} as { [id: string]: boolean },
-    "blocks-state"
-  );
+  const { value: isBlockOpen, setValue: setIsBlockOpen } = useStorageState<{
+    [id: string]: boolean;
+  }>({}, "blocks-state");
 
   // helper function to open blocks (i.e. click drop down arrow)
   // if you just want to switch the open state of a block just pass the id

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import {
   Card,
@@ -14,18 +14,16 @@ import {
 } from "../../common";
 import { DeleteIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
-import { BUTTON_THEME, Params, SIZES } from "../../../shared";
+import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
-import {
-  convertFromRaw,
-  convertToRaw,
-  EditorState,
-  RawDraftContentBlock,
-} from "draft-js";
+import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
 import { useFlashcards } from "../../../services/file-structure";
 import { debounce, isEmpty } from "lodash";
-import { useParams } from "react-router-dom";
+import {
+  createKeysAndBlocks,
+  getWordCount,
+} from "../../notetaking/Editor/Editor.helpers";
 
 interface StudySetFlashcardProps {
   deleteFlashcard?: () => void;
@@ -37,11 +35,6 @@ interface StudySetFlashcardProps {
   ownerId?: string;
   currentBlockKey?: string;
   studyPackId?: string;
-  addFlashcard?: (
-    owner_id: string,
-    study_pack_id: string,
-    block_link?: string | undefined
-  ) => Promise<void>;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -54,7 +47,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   studyPackId,
   ownerId,
   currentBlockKey,
-  addFlashcard,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -65,9 +57,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<"front" | "back">();
   const [saving, setSaving] = useState<boolean>(false);
-  console.log(frontBlocks);
-
-  const { saveFlashcard } = useFlashcards();
+  const { addFlashcard, saveFlashcard } = useFlashcards();
 
   // Make call to server to save text blocks
   const onSave = async (
@@ -77,14 +67,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     ownerId: string | undefined
   ) => {
     setSaving(true);
-    const rawFrontContent = convertToRaw(frontEditorState.getCurrentContent());
-    const rawBackContent = convertToRaw(backEditorState.getCurrentContent());
-    const frontKeys = rawFrontContent.blocks.map((val) => val.key);
-    const backKeys = rawBackContent.blocks.map((val) => val.key);
-    const frontBlocks = rawFrontContent.blocks.map((val) =>
-      JSON.stringify(val)
-    );
-    const backBlocks = rawBackContent.blocks.map((val) => JSON.stringify(val));
+    const { keys: frontKeys, blocks: frontBlocks } =
+      createKeysAndBlocks(frontEditorState);
+    const { keys: backKeys, blocks: backBlocks } =
+      createKeysAndBlocks(backEditorState);
     const response = await saveFlashcard({
       front_blocks: frontBlocks,
       front_draft_keys: frontKeys,
@@ -132,7 +118,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (frontBlocks && !isEmpty(frontBlocks)) {
+    if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks[0] !== null) {
       const parsedBlocks: RawDraftContentBlock[] = frontBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
@@ -146,7 +132,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (backBlocks && !isEmpty(backBlocks)) {
+    if (backBlocks && !isEmpty(backBlocks) && backBlocks[0] !== null) {
       const parsedBlocks: RawDraftContentBlock[] = backBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
@@ -177,27 +163,23 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
-          {!linked && (
-            <FlashcardNoteTaker
-              ownerId={ownerId}
-              id={flashcardId}
-              autoSave={autoSave}
-              hasFocus={side === "front" ? frontHasFocus : backHasFocus}
-              setHasFocus={
-                side === "front" ? setFrontHasFocus : setBackHasFocus
-              }
-              editorState={
-                side === "front"
-                  ? frontFlashcardEditorState
-                  : backFlashcardEditorState
-              }
-              setEditorState={
-                side === "front"
-                  ? setFrontFlashcardEditorState
-                  : setBackFlashcardEditorState
-              }
-            />
-          )}
+          <FlashcardNoteTaker
+            ownerId={ownerId}
+            id={flashcardId}
+            autoSave={autoSave}
+            hasFocus={side === "front" ? frontHasFocus : backHasFocus}
+            setHasFocus={side === "front" ? setFrontHasFocus : setBackHasFocus}
+            editorState={
+              side === "front"
+                ? frontFlashcardEditorState
+                : backFlashcardEditorState
+            }
+            setEditorState={
+              side === "front"
+                ? setFrontFlashcardEditorState
+                : setBackFlashcardEditorState
+            }
+          />
         </TextCard>
       </TextCardContainer>
     );
@@ -244,6 +226,29 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     );
   };
 
+  const handleSaveLinkedFlashcard = () => {
+    const { keys: frontKeys, blocks: frontBlocks } = createKeysAndBlocks(
+      frontFlashcardEditorState
+    );
+    const { keys: backKeys, blocks: backBlocks } = createKeysAndBlocks(
+      backFlashcardEditorState
+    );
+    ownerId &&
+      studyPackId &&
+      currentBlockKey &&
+      addFlashcard(
+        ownerId,
+        studyPackId,
+        currentBlockKey,
+        frontBlocks,
+        frontKeys,
+        backBlocks,
+        backKeys
+      );
+    setFrontFlashcardEditorState(EditorState.createEmpty());
+    setBackFlashcardEditorState(EditorState.createEmpty());
+  };
+
   return (
     <ShadowCard
       backgroundColor={theme.colors.secondary}
@@ -264,13 +269,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           <HFlex justifyContent="flex-end">
             <Button
               buttonStyle={BUTTON_THEME.PRIMARY}
-              handleClick={() => {
-                addFlashcard &&
-                  ownerId &&
-                  studyPackId &&
-                  currentBlockKey &&
-                  addFlashcard(ownerId, studyPackId, currentBlockKey);
-              }}
+              disabled={
+                getWordCount(frontFlashcardEditorState) === 0 &&
+                getWordCount(backFlashcardEditorState) === 0
+              }
+              handleClick={handleSaveLinkedFlashcard}
             >
               {formatMessage("generics.save")}
             </Button>

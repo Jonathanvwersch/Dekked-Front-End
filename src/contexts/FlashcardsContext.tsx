@@ -13,7 +13,7 @@ export interface FlashcardsContextProps {
     block_link?: string | undefined
   ) => Promise<void>;
   loading: boolean;
-  handleDeleteFlashcard: (flashcardId: string, ownerId: string) => void;
+  handleDeleteFlashcard: (flashcardId: string) => void;
 }
 
 export const FlashcardsContext = createContext<FlashcardsContextProps>(
@@ -25,24 +25,22 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
     useFlashcards();
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
 
-  const { id, tab } = useParams<Params>();
+  const { id: studyPackId, tab } = useParams<Params>();
 
   useEffect(() => {
-    id && getFlashcards(id);
-  }, [id, tab]);
-
-  console.log(loading);
+    studyPackId && getFlashcards(studyPackId);
+  }, [studyPackId, tab]);
 
   useEffect(() => {
     setLoading(isNull(flashcards));
-  }, [flashcards, id]);
+  }, [flashcards, studyPackId]);
 
   useLayoutEffect(() => {
     setLoading(true);
-  }, [id, tab]);
+  }, [studyPackId, tab]);
 
-  const handleDeleteFlashcard = (flashcardId: string, ownerId: string) => {
-    deleteFlashcard(ownerId, flashcardId, id);
+  const handleDeleteFlashcard = (flashcardId: string) => {
+    deleteFlashcard(flashcardId, studyPackId);
   };
 
   return (

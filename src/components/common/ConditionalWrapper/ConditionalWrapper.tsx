@@ -1,7 +1,5 @@
-import { ReactNode } from "react";
-
 interface ConditionalWrapperProps {
-  children: ReactNode;
+  children: any;
   condition: boolean;
   wrapper: any;
 }

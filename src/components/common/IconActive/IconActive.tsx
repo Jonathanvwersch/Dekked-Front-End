@@ -21,6 +21,7 @@ interface IconActiveProps {
   cursor?: string;
   ariaLabel?: string;
   isDisabled?: boolean;
+  tabIndex?: number;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -33,6 +34,7 @@ const IconActive: React.FC<IconActiveProps> = ({
   cursor,
   ariaLabel,
   isDisabled = false,
+  tabIndex = 0,
 }) => {
   const intl = useIntl();
 
@@ -49,7 +51,7 @@ const IconActive: React.FC<IconActiveProps> = ({
         }}
         className={className}
         fillType={fillType}
-        tabIndex={0}
+        tabIndex={tabIndex}
         cursor={cursor}
         aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
         disabled={isDisabled}

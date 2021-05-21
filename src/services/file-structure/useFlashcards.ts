@@ -35,7 +35,11 @@ export function useFlashcards() {
   async function addFlashcard(
     owner_id: string,
     study_pack_id: string,
-    block_link?: string
+    block_link?: string,
+    front_blocks?: string[],
+    front_draft_keys?: string[],
+    back_blocks?: string[],
+    back_draft_keys?: string[]
   ) {
     try {
       const uri = config.api + "/flashcard";
@@ -49,13 +53,18 @@ export function useFlashcards() {
           study_pack_id: study_pack_id,
           owner_id: owner_id,
           block_link: block_link,
+          front_blocks: front_blocks,
+          front_draft_keys: front_draft_keys,
+          back_blocks: back_blocks,
+          back_draft_keys: back_draft_keys,
         }),
       });
 
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getFlashcards(study_pack_id);
+          // there is no need to make a get request for linked flashcards
+          !block_link && getFlashcards(study_pack_id);
           return;
         }
       }
@@ -105,23 +114,15 @@ export function useFlashcards() {
     }
   };
 
-  async function deleteFlashcard(
-    owner_id: string,
-    flashcard_id: string,
-    study_pack_id: string
-  ) {
+  async function deleteFlashcard(flashcard_id: string, study_pack_id: string) {
     try {
-      const uri = config.api + "/flashcard";
+      const uri = config.api + `/flashcard/${flashcard_id}`;
       const response = await fetch(uri, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${config.authToken}`,
           "Content-type": "application/json",
         },
-        body: JSON.stringify({
-          owner_id,
-          flashcard_id,
-        }),
       });
       if (response.ok) {
         const json = await response.json();

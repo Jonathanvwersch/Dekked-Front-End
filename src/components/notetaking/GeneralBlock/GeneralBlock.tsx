@@ -1,5 +1,6 @@
-import React, { memo } from "react";
+import React, { memo, ReactElement } from "react";
 import { BLOCK_TYPES } from "../../../shared";
+import { ConditionalWrapper } from "../../common";
 import BlockSettings from "../BlockSettings/BlockSettings";
 import { DividerBlock, TextBlock, TodoBlock } from "../custom-blocks";
 
@@ -11,6 +12,7 @@ const GeneralBlock: React.FC = (props: any) => {
     setDragBlockKey,
     type,
     editorType,
+    isEditable,
   } = props.blockProps;
 
   const GeneralBlock = () => {
@@ -24,7 +26,7 @@ const GeneralBlock: React.FC = (props: any) => {
     }
   };
 
-  return (
+  const HoverBlocks = (children: ReactElement) => (
     <BlockSettings
       editorState={editorState}
       setEditorState={setEditorState}
@@ -35,8 +37,17 @@ const GeneralBlock: React.FC = (props: any) => {
       blockType={type}
       editorType={editorType}
     >
-      {GeneralBlock()}
+      {children}
     </BlockSettings>
+  );
+
+  return (
+    <ConditionalWrapper
+      condition={isEditable}
+      wrapper={(children: ReactElement) => HoverBlocks(children)}
+    >
+      {GeneralBlock()}
+    </ConditionalWrapper>
   );
 };
 

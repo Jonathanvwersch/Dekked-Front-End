@@ -36,6 +36,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const { page, savePage } = usePage(id);
   const blocks = useBlocks(page?.id);
   const [loading, setLoading] = useState<boolean>(isNull(blocks));
+  const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
 
   // Make call to server to save text blocks
   const onSave = async (editorState: EditorState, id: string | undefined) => {
@@ -91,6 +92,8 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   return (
     <RichEditor
+      hasFocus={editorHasFocus}
+      setHasFocus={setEditorHasFocus}
       loading={loading}
       editorState={editorState}
       setEditorState={setEditorState}

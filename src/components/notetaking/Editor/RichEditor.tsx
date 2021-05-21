@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useContext, useRef, useState } from "react";
+import React, { memo, useContext, useEffect, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -36,16 +36,17 @@ interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
-  saveEditor: (
+  saveEditor?: (
     editorState: EditorState,
     id: string | undefined,
     ownerId?: string | undefined
   ) => void;
   ownerId?: string | undefined;
   hasFocus?: boolean;
-  id: string | undefined;
+  id?: string | undefined;
   loading?: boolean;
   editorType?: EditorType;
+  isEditable?: boolean;
 }
 
 const RichEditor: React.FC<RichEditorProps> = ({
@@ -55,15 +56,25 @@ const RichEditor: React.FC<RichEditorProps> = ({
   loading,
   id,
   setHasFocus,
-  hasFocus,
+  hasFocus = true,
   editorType = "page",
   ownerId,
+  isEditable = true,
 }) => {
   const editorRef = useRef<any>(null);
 
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
+  const { setCurrentBlock } = useContext(EditorContext);
+
+  const currentKey = currentBlock.getKey();
+
+  useEffect(() => {
+    editorType === "page" &&
+      setCurrentBlock &&
+      setCurrentBlock({ key: currentBlock.getKey(), hasFocus });
+  }, [currentKey, hasFocus, editorType]);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -110,7 +121,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
     const type = contentBlock.getType();
     return {
       component: GeneralBlock,
-      editable: true,
       props: {
         editorState,
         setEditorState,
@@ -118,6 +128,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         setDragBlockKey,
         type,
         editorType,
+        isEditable,
       },
     };
   };
@@ -150,8 +161,9 @@ const RichEditor: React.FC<RichEditorProps> = ({
     editorType === "flashcard" &&
       id &&
       ownerId &&
+      saveEditor &&
       saveEditor(newEditorState, id, ownerId);
-    editorType === "page" && id && saveEditor(newEditorState, id);
+    editorType === "page" && id && saveEditor && saveEditor(newEditorState, id);
     setEditorState(newEditorState);
   };
 
@@ -171,25 +183,26 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const extendedBlockRenderMap =
     Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
-  const showPlaceholder = hasFocus === undefined ? true : hasFocus;
   return (
     <>
       {!loading ? (
-        <EditorContainer editorType={editorType}>
+        <EditorContainer isEditable={isEditable} editorType={editorType}>
           <Editor
             editorState={editorState}
             onChange={onChange}
             handleKeyCommand={handleKeyCommand}
             ref={(node) => (editorRef.current = node)}
             blockRendererFn={myBlockRenderer}
+            readOnly={!isEditable}
             handleReturn={handleReturn}
             blockStyleFn={myBlockStyleFn}
             onFocus={() => setHasFocus && setHasFocus(true)}
             onBlur={() => setHasFocus && setHasFocus(false)}
             blockRenderMap={extendedBlockRenderMap}
+            tabIndex={1}
             customStyleMap={styleMap}
             placeholder={
-              showPlaceholder &&
+              hasFocus &&
               getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
                 ? formatMessage(`studySet.notetaking.placeholder`, intl)
                 : ""
@@ -207,7 +220,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
   );
 };
 
-const EditorContainer = styled.div<{ editorType: EditorType }>`
+const EditorContainer = styled.div<{
+  editorType: EditorType;
+  isEditable: boolean;
+}>`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
   width: 100%;
@@ -217,10 +233,6 @@ const EditorContainer = styled.div<{ editorType: EditorType }>`
 
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;
-    position: relative;
-  }
-
-  ol {
     position: relative;
   }
 
@@ -234,6 +246,7 @@ const EditorContainer = styled.div<{ editorType: EditorType }>`
 
   & .public-DraftEditorPlaceholder-inner {
     color: ${({ theme }) => theme.colors.grey2};
+    display: ${({ isEditable }) => (!isEditable ? "none" : "auto")};
   }
 
   h1 {

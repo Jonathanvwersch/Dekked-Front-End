@@ -10,13 +10,19 @@ export const Svg = styled(Icon)<IconProps>`
   width: ${({ theme, size }) =>
     !size
       ? theme.sizes.icons[SIZES.SMALL]
-      : size === SIZES.MEDIUM || size === SIZES.LARGE || size === SIZES.SMALL
+      : size === SIZES.XLARGE ||
+        size === SIZES.MEDIUM ||
+        size === SIZES.LARGE ||
+        size === SIZES.SMALL
       ? theme.sizes.icons[size]
       : size};
   height: ${({ theme, size }) =>
     !size
       ? theme.sizes.icons[SIZES.SMALL]
-      : size === SIZES.MEDIUM || size === SIZES.LARGE || size === SIZES.SMALL
+      : size === SIZES.XLARGE ||
+        size === SIZES.MEDIUM ||
+        size === SIZES.LARGE ||
+        size === SIZES.SMALL
       ? theme.sizes.icons[size]
       : size};
 `;

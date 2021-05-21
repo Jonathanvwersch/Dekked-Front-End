@@ -186,6 +186,7 @@ const en_GB = {
         },
         flashcards: {
           createLinkedFlashcard: "Create a linked flashcard",
+          enableLinking: "Select a block of text to enable linking",
         },
       },
     },

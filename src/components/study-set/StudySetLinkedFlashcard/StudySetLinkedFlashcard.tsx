@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
-import { EditorContext } from "../../../contexts";
+import { EditorContext, SelectedItemContext } from "../../../contexts";
 import { useFlashcards } from "../../../services/file-structure";
 import { SIZES } from "../../../shared";
 import { VFlex, IconActive, Tooltip } from "../../common";
@@ -18,7 +18,8 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   flashcardPosition,
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
-  const { currentBlockKey } = useContext(EditorContext);
+  const { currentBlock } = useContext(EditorContext);
+  const { selectedItemData } = useContext(SelectedItemContext);
 
   return (
     <LinkedCard
@@ -30,19 +31,28 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
         text={
           showFlashcard
             ? "generics.clickToMinimise"
+            : !currentBlock?.hasFocus
+            ? "tooltips.studySet.flashcards.enableLinking"
             : "tooltips.studySet.flashcards.createLinkedFlashcard"
         }
         place="top"
       >
         <Tab
-          handleClick={() => setShowFlashcard((prevState) => !prevState)}
+          tabIndex={1}
+          isDisabled={!currentBlock?.hasFocus && !showFlashcard}
+          handleMouseDown={() => setShowFlashcard((prevState) => !prevState)}
           fillType={FILL_TYPE.STROKE}
         >
           <LogoIcon size={SIZES.MEDIUM} />
         </Tab>
       </Tooltip>
       {showFlashcard ? (
-        <StudySetFlashcard linked={true} currentBlockKey={currentBlockKey} />
+        <StudySetFlashcard
+          ownerId={selectedItemData?.owner_id}
+          studyPackId={selectedItemData?.id}
+          linked={true}
+          currentBlockKey={currentBlock?.key}
+        />
       ) : null}
     </LinkedCard>
   );

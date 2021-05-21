@@ -87,6 +87,7 @@ export type ThemeType = {
       small: string;
       medium: string;
       large: string;
+      xlarge: string;
     };
 
     wrappers: {
@@ -201,6 +202,7 @@ export const theme: ThemeType = {
       small: "18px",
       medium: "20px",
       large: "24px",
+      xlarge: "28px",
     },
 
     wrappers: {

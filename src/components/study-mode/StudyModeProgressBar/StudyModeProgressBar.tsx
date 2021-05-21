@@ -3,23 +3,41 @@ import styled, { ThemeContext } from "styled-components";
 import { theme } from "../../../styles/theme";
 import { HFlex, Spacer, Text } from "../../common";
 
-interface StudyModeToolbarProps {}
+interface StudyModeToolbarProps {
+  flashcardIndex: number;
+  flashcardTotal: number;
+}
 
-const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
+const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
+  flashcardIndex,
+  flashcardTotal,
+}) => {
   const theme = useContext(ThemeContext);
-  const flashcardIndex = "1";
-  const flashcardTotal = "3";
+
   const percentageComplete =
-    (Number(flashcardIndex) / Number(flashcardTotal)) * 100;
+    (Number(flashcardIndex + 1) / Number(flashcardTotal)) * 100;
 
   return (
     <HFlex>
-      <Text
-        fontSize={theme.typography.fontSizes.size16}
-      >{`${flashcardIndex}/${flashcardTotal}`}</Text>
-      <Spacer width={theme.spacers.size16} />
+      {flashcardIndex + 1 > flashcardTotal ? null : (
+        <>
+          <Text fontSize={theme.typography.fontSizes.size16}>{`${
+            flashcardIndex + 1
+          }/${flashcardTotal}`}</Text>
+          <Spacer width={theme.spacers.size16} />
+        </>
+      )}
       <ProgressBar>
-        <Filler percentageComplete={percentageComplete} bgColor={undefined} />
+        <Filler
+          percentageComplete={
+            percentageComplete > 100 ? 100 : percentageComplete
+          }
+          bgColor={
+            flashcardIndex + 1 > flashcardTotal
+              ? theme.colors.success
+              : undefined
+          }
+        />
       </ProgressBar>
     </HFlex>
   );

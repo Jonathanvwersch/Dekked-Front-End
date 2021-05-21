@@ -10,7 +10,7 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const { flashcards, loading, handleDeleteFlashcard, addFlashcard } =
+    const { flashcards, loading, handleDeleteFlashcard } =
       useContext(FlashcardsContext);
 
     return (
@@ -26,12 +26,8 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                       flashcardId={flashcard.flashcard.id}
                       studyPackId={flashcard.flashcard.study_pack_id}
                       deleteFlashcard={() =>
-                        handleDeleteFlashcard(
-                          flashcard.flashcard.id,
-                          flashcard.flashcard.owner_id
-                        )
+                        handleDeleteFlashcard(flashcard.flashcard.id)
                       }
-                      addFlashcard={addFlashcard}
                       frontBlocks={flashcard.front_blocks}
                       backBlocks={flashcard.back_blocks}
                       ownerId={flashcard.flashcard.owner_id}
