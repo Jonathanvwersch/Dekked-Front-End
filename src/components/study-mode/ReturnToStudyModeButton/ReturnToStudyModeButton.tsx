@@ -21,7 +21,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
       handleClose={() => {
         return null;
       }}
-      type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
+      type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
       coords={{ bottom: 64, left: window.screen.width / 2 - buttonWidth / 2 }}
     >
       <ButtonContainer buttonWidth={buttonWidth}>
