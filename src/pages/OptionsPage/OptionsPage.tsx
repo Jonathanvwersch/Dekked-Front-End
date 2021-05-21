@@ -8,6 +8,7 @@ import CustomSwitch from "../../Router/CustomSwitch";
 import { FileTreeContext } from "../../contexts";
 import { isEmpty } from "lodash";
 import { SidebarContextProvider } from "../../contexts/SidebarContext";
+import { LinkedFlashcardContextProvider } from "../../contexts/LinkedFlashcardContext";
 
 interface OptionsPageProps {
   firstFolderId: string;
@@ -45,30 +46,32 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
 
   return (
     <SelectedItemContextProvider>
-      <SidebarContextProvider>
-        <Sidebar />
-        <CustomSwitch>
-          <Route
-            exact
-            path={`/${FILETREE_TYPES.FOLDER}/:id`}
-            component={FolderPage}
-          />
-          <Route
-            path={`/${FILETREE_TYPES.BINDER}/:id`}
-            component={BinderPage}
-          />
-          <Route
-            exact
-            path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-            component={StudySetPage}
-          />
-          <Route
-            exact
-            path={`/:type/:id/study/:studyModes`}
-            component={StudyModePage}
-          />
-        </CustomSwitch>
-      </SidebarContextProvider>
+      <LinkedFlashcardContextProvider>
+        <SidebarContextProvider>
+          <Sidebar />
+          <CustomSwitch>
+            <Route
+              exact
+              path={`/${FILETREE_TYPES.FOLDER}/:id`}
+              component={FolderPage}
+            />
+            <Route
+              path={`/${FILETREE_TYPES.BINDER}/:id`}
+              component={BinderPage}
+            />
+            <Route
+              exact
+              path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+              component={StudySetPage}
+            />
+            <Route
+              exact
+              path={`/:type/:id/study/:studyModes/:flashcardIndex`}
+              component={StudyModePage}
+            />
+          </CustomSwitch>
+        </SidebarContextProvider>
+      </LinkedFlashcardContextProvider>
     </SelectedItemContextProvider>
   );
 };

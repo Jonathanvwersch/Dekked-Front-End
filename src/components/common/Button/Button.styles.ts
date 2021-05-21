@@ -5,12 +5,14 @@ interface ButtonProps {
   isLoading: boolean;
   size: SIZES;
   width: string;
+  borderRadius?: string;
 }
 
 export const StyledButton = styled.button<ButtonProps>`
   transition: opacity 0.1s ease-out, border-color 0.1s ease-out,
     background-color 0.1s ease-out;
-  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
+  border-radius: ${({ theme, borderRadius }) =>
+    borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.MEDIUM]};
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size16}`};
   font-size: ${({ theme, size }) =>
     size === SIZES.SMALL

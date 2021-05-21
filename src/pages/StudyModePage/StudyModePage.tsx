@@ -24,11 +24,12 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
       <InsetPage size={SIZES.LARGE}>
         <CustomSwitch>
           <Route
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
+            path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}/:flashcardIndex`}
             component={StudyModeSpacedRepetition}
           />
           <Route
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}`}
+            exact
+            path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}/:flashcardIndex`}
             component={StudyModeFreeStudy}
           />
         </CustomSwitch>

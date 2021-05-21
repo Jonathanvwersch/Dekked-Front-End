@@ -9,6 +9,7 @@ const en_GB = {
       saveChanges: "Save changes",
       cancel: "Cancel",
       clickToMinimise: "Click to minimise",
+      finish: "Finish",
     },
     notFoundPage: {
       goHome: "Go home",
@@ -60,6 +61,11 @@ const en_GB = {
           easilyRemembered: "Easily remembered",
           nextReview: "Next review in {time}",
         },
+      },
+      flashcard: {
+        congratulations: "Congratulations!",
+        finish: "Click finish to return to your study set",
+        returnToStudy: "Return to study mode",
       },
     },
     forms: {
@@ -165,6 +171,7 @@ const en_GB = {
         flip: "Flip flashcard",
         editCard: "Edit flashcard",
         deleteCard: "Delete flashcard",
+        linkedFlashcard: "Click to view linked block",
       },
       studySet: {
         toolbar: {

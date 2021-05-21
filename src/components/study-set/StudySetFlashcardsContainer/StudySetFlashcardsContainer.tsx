@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 import React, { Fragment, useContext } from "react";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
 import { ComponentLoadingSpinner, Spacer, VFlex } from "../../common";

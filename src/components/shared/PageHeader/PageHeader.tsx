@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components/macro";
 import { Button, HFlex, Spacer, VFlex, Text, EditableText } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { BUTTON_THEME } from "../../../shared";
+import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
 
@@ -14,8 +14,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { selectedBlockName, id } = useContext(SelectedItemContext);
-
+  const { selectedBlockName, type, id } = useContext(SelectedItemContext);
   return (
     <>
       <VFlex>
@@ -28,13 +27,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
         <HFlex justifyContent="space-between">
           <Text fontColor={theme.colors.grey1}>{message}</Text>
           <HFlex width="auto">
-            <Spacer width={theme.spacers.size16} />
-            <Button
-              buttonStyle={BUTTON_THEME.PRIMARY}
-              handleClick={() => setStudyMode(true)}
-            >
-              {formatMessage("generics.study")}
-            </Button>
+            {type === FILETREE_TYPES.STUDY_SET ? (
+              <>
+                <Spacer width={theme.spacers.size16} />
+                <Button
+                  buttonStyle={BUTTON_THEME.PRIMARY}
+                  handleClick={() => setStudyMode(true)}
+                >
+                  {formatMessage("generics.study")}
+                </Button>
+              </>
+            ) : null}
           </HFlex>
         </HFlex>
         <Spacer height={theme.spacers.size32} />

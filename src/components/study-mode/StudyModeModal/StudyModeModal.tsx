@@ -40,7 +40,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
           backgroundImage={SpacedRepetitionCard}
         />
         <Spacer width={theme.spacers.size64} />
-        <NavLink to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`}>
+        <NavLink to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1/`}>
           <ThumbnailCard
             topText={formatMessage("studyMode.chooseModal.freeStudy")}
             bottomText={formatMessage("studyMode.chooseModal.linearStudying")}

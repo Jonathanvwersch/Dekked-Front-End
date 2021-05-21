@@ -5,6 +5,9 @@ export const commonStyles = css<HeadingProps>`
   margin: 0;
   color: ${({ theme, fontColor }) =>
     fontColor ? fontColor : theme.colors.fontColor};
+  text-align: ${({ textAlign }) => textAlign};
+  font-weight: ${({ fontWeight, theme }) =>
+    fontWeight && theme.typography.fontWeights[fontWeight]};
 `;
 
 export const headingStyles = {

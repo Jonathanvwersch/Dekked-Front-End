@@ -3,7 +3,7 @@ import { FileTreeContext } from "../../../../contexts";
 import SidebarFileTree from "../SidebarFileTree/SidebarFileTree";
 import { FormattedMessage } from "react-intl";
 import { Card, Scroller, VFlex, Text } from "../../../common";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 
 interface SidebarWorkspaceProps {
   bottomFolderRef: React.RefObject<HTMLDivElement>;

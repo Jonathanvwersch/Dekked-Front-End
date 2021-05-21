@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { useIntl } from "react-intl";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../styles/theme";
 
 export const usePageSetupHelpers = () => {

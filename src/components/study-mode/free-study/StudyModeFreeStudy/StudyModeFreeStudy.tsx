@@ -10,12 +10,14 @@ import FreeStudyController from "../FreeStudyController/FreeStudyController";
 interface StudyModeFreeStudyProps {}
 
 const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
-  const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
+  const { id, flashcardIndex: index } = useParams<Params>();
+  const [flashcardIndex, setFlashcardIndex] = useState<number>(
+    Number(index) - 1
+  );
   const { getFlashcards, flashcards } = useFlashcards();
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
   const [flippedState, setFlippedState] = useState<boolean>(true);
   const maxLength = flashcards?.length;
-  const { id } = useParams<Params>();
 
   useLayoutEffect(() => {
     getFlashcards(id);

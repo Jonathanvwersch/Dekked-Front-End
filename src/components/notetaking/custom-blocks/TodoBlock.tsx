@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { HFlex, HoverCard } from "../../common";

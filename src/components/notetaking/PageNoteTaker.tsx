@@ -78,7 +78,6 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   // Set editor state on mount
   useEffect(() => {
     if (blocks && !isEmpty(blocks) && blocks[0] !== null) {
-      console.log(blocks);
       const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
         JSON.parse(block)
       );

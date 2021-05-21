@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/macro";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { IconActive, Spacer, Tooltip, VFlex } from "../../common";

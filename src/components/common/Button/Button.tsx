@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const ButtonStyles = {
   primary: ButtonPrimary,
@@ -21,6 +21,7 @@ interface ButtonProps {
   handleClick?: (args: any) => any;
   size?: SIZES;
   width?: string;
+  borderRadius?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -33,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   size = SIZES.SMALL,
   width,
+  borderRadius,
 }) => {
   const Button = ButtonStyles[buttonStyle];
   const className = fullWidth ? "fullWidth" : "";
@@ -46,6 +48,7 @@ const Button: React.FC<ButtonProps> = ({
       size={size}
       className={className}
       width={width}
+      borderRadius={borderRadius}
     >
       {isLoading ? (
         <span>

@@ -118,7 +118,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks[0] !== null) {
+    if (
+      frontBlocks &&
+      !isEmpty(frontBlocks) &&
+      frontBlocks[0] !== null &&
+      frontBlocks[0][0] === "{"
+    ) {
+      console.log(frontBlocks);
       const parsedBlocks: RawDraftContentBlock[] = frontBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
@@ -132,7 +138,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (backBlocks && !isEmpty(backBlocks) && backBlocks[0] !== null) {
+    if (
+      backBlocks &&
+      !isEmpty(backBlocks) &&
+      backBlocks[0] !== null &&
+      backBlocks[0][0] === "{"
+    ) {
+      console.log(backBlocks);
+
       const parsedBlocks: RawDraftContentBlock[] = backBlocks.map((blocks) =>
         JSON.parse(blocks)
       );

@@ -1,6 +1,6 @@
 import { ContentBlock, EditorState } from "draft-js";
 import React, { memo, ReactElement, useState } from "react";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { MoveIcon, PlusIcon } from "../../../assets";
 import { BLOCK_TYPES } from "../../../shared";
 import { theme } from "../../../styles/theme";

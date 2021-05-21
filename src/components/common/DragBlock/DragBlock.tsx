@@ -1,5 +1,8 @@
 import React, { memo, ReactNode } from "react";
-import styled, { FlattenInterpolation, ThemeProps } from "styled-components";
+import styled, {
+  FlattenInterpolation,
+  ThemeProps,
+} from "styled-components/macro";
 
 interface DragBlockProps {
   children: ReactNode;

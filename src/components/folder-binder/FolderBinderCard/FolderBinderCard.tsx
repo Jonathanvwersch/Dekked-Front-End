@@ -7,7 +7,7 @@ import { formatMessage } from "../../../intl";
 import { getChildType, handleUntitled } from "../../../helpers";
 import { SidebarContext } from "../../../contexts";
 import { BinderIcon, StudySetIcon } from "../../../assets";
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components/macro";
 
 interface FolderBinderCardProps {
   data: BinderInterface | StudyPackInterface;

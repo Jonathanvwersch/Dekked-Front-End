@@ -12,6 +12,7 @@ export type Params = {
   id: string;
   tab: TAB_TYPE;
   type: FILETREE_TYPES;
+  flashcardIndex: string;
   studyModes: STUDY_MODE_TYPES;
 };
 

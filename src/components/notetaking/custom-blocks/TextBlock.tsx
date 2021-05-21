@@ -1,6 +1,6 @@
 import { EditorBlock } from "draft-js";
 import React, { memo } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const TextBlock: React.FC = (props: any) => {
   const data = props.block.getData();

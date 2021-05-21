@@ -1,32 +1,52 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
-import { HFlex, IconActive, ShadowCard } from "../../common";
-import { SIZES } from "../../../shared";
+import {
+  Button,
+  H1,
+  H2,
+  HFlex,
+  IconActive,
+  ShadowCard,
+  Spacer,
+  Tooltip,
+  VFlex,
+} from "../../common";
+import { HashLink } from "react-router-hash-link";
+import { FILETREE_TYPES, Params, SIZES, TAB_TYPE } from "../../../shared";
 import StudyModeToolbar from "../StudyModeToolbar/StudyModeToolbar";
 import { LogoIcon } from "../../../assets";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 import { isEmpty } from "lodash";
 import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
+import { FormattedMessage } from "react-intl";
+import Confetti from "../../../assets/images/Confetti.png";
+import { useHistory, useParams } from "react-router-dom";
+import { LinkedFlashcardContext } from "../../../contexts";
 
 interface StudySetFlashcardProps {
+  isFinishedStudying?: boolean;
   flippedState: boolean;
   frontBlocks?: string[];
   backBlocks?: string[];
-  linked?: boolean;
+  blockLink?: string;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   frontBlocks,
   backBlocks,
-  linked,
+  blockLink,
   flippedState,
+  isFinishedStudying,
 }) => {
+  const history = useHistory();
   const theme = useContext(ThemeContext);
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
+  const { id } = useParams<Params>();
+  const { setIsLinked } = useContext(LinkedFlashcardContext);
 
   // Set editor state on mount
   useEffect(() => {
@@ -56,6 +76,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     }
   }, [backBlocks]);
 
+  const handleFinishButton = () => {
+    history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`);
+  };
+
   return (
     <>
       <FlashcardContainer>
@@ -63,34 +87,76 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           padding={`${theme.spacers.size48} ${theme.spacers.size48}`}
           borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
           height="600px"
+          backgroundImage={Confetti}
+          isFinishedStudying={isFinishedStudying}
         >
-          <RichEditor
-            editorState={
-              flippedState
-                ? frontFlashcardEditorState
-                : backFlashcardEditorState
-            }
-            setEditorState={
-              flippedState
-                ? setFrontFlashcardEditorState
-                : setBackFlashcardEditorState
-            }
-            isEditable={false}
-          />
+          {!isFinishedStudying ? (
+            <RichEditor
+              editorState={
+                flippedState
+                  ? frontFlashcardEditorState
+                  : backFlashcardEditorState
+              }
+              setEditorState={
+                flippedState
+                  ? setFrontFlashcardEditorState
+                  : setBackFlashcardEditorState
+              }
+              isEditable={false}
+            />
+          ) : (
+            <VFlex width="100%" height="100%" justifyContent="center">
+              <H1 textAlign="center">
+                <FormattedMessage id="studyMode.flashcard.congratulations" />
+              </H1>
+              <Spacer height={theme.spacers.size64} />
+              <H2 styledAs="h5" fontWeight="normal" textAlign="center">
+                <FormattedMessage id="studyMode.flashcard.finish" />
+              </H2>
+              <Spacer height={theme.spacers.size32} />
+              <Button
+                size={SIZES.LARGE}
+                width="200px"
+                handleClick={handleFinishButton}
+              >
+                <FormattedMessage id="generics.finish" />
+              </Button>
+            </VFlex>
+          )}
         </Flashcard>
-        {linked ? (
-          <LogoIconContainer fillType={FILL_TYPE.STROKE}>
-            <LogoIcon size={SIZES.LARGE} />
-          </LogoIconContainer>
-        ) : null}
+        <LogoIconContainer
+          handleMouseDown={() => setIsLinked(true)}
+          fillType={FILL_TYPE.STROKE}
+        >
+          <HashLink
+            smooth
+            to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#8ivk2-0-0`}
+          >
+            <Tooltip
+              id="LinkedFlashcardLink"
+              text="tooltips.studyMode.linkedFlashcard"
+              place="top"
+            >
+              <LogoIcon size={SIZES.LARGE} />
+            </Tooltip>
+          </HashLink>
+        </LogoIconContainer>
         <StudyModeToolbar />
       </FlashcardContainer>
     </>
   );
 };
 
-const Flashcard = styled(ShadowCard)`
+const Flashcard = styled(ShadowCard)<{
+  backgroundImage: string;
+  isFinishedStudying?: boolean;
+}>`
   z-index: 0;
+  background-size: contain;
+  background-image: ${({ backgroundImage, isFinishedStudying }) =>
+    isFinishedStudying && backgroundImage
+      ? `url(${backgroundImage})`
+      : undefined};
 `;
 
 const FlashcardContainer = styled(HFlex)`

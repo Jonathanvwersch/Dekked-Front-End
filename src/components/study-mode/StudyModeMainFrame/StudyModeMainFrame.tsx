@@ -32,7 +32,8 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         frontBlocks={currentFlashcard?.front_blocks}
         backBlocks={currentFlashcard?.back_blocks}
         flippedState={flippedState}
-        linked={Boolean(currentFlashcard?.flashcard.block_link)}
+        blockLink={currentFlashcard?.flashcard.block_link}
+        isFinishedStudying={maxLength === flashcardIndex}
       />
     </>
   );
