@@ -1,5 +1,5 @@
 import { isNull } from "lodash";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFlashcards } from "../../../../services/file-structure";
 import { Params } from "../../../../shared";
@@ -20,11 +20,15 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const maxLength = flashcards?.length;
 
   useLayoutEffect(() => {
-    getFlashcards(id);
+    if (!flashcards) {
+      getFlashcards(id);
+    }
   }, [id]);
 
-  useEffect(() => {
-    setLoading(isNull(flashcards));
+  useLayoutEffect(() => {
+    if (!flashcards) {
+      setLoading(isNull(flashcards));
+    }
   }, [flashcards, id]);
 
   return (

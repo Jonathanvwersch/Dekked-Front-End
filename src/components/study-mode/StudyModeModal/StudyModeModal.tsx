@@ -19,7 +19,6 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id } = useParams<Params>();
   const { type } = useContext(SelectedItemContext);
-
   const header = <H4>{formatMessage("studyMode.chooseModal.header")}</H4>;
 
   return (

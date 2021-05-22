@@ -4,3 +4,4 @@ export { SelectedItemContext } from "./SelectedItemContext";
 export { EditorContext } from "./EditorContext";
 export { LinkedFlashcardContext } from "./LinkedFlashcardContext";
 export { FlashcardsContext } from "./FlashcardsContext";
+export { NotesContext } from "./NotesContext";

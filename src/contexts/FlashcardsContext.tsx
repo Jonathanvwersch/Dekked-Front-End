@@ -25,19 +25,19 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
     useFlashcards();
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
 
-  const { id: studyPackId, tab } = useParams<Params>();
+  const { id: studyPackId } = useParams<Params>();
 
   useEffect(() => {
     studyPackId && getFlashcards(studyPackId);
-  }, [studyPackId, tab]);
+  }, [studyPackId]);
 
   useEffect(() => {
     setLoading(isNull(flashcards));
   }, [flashcards, studyPackId]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setLoading(true);
-  }, [studyPackId, tab]);
+  }, [studyPackId]);
 
   const handleDeleteFlashcard = (flashcardId: string) => {
     deleteFlashcard(flashcardId, studyPackId);

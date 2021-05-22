@@ -1,25 +1,10 @@
-import {
-  convertFromRaw,
-  convertToRaw,
-  EditorState,
-  RawDraftContentBlock,
-} from "draft-js";
+import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { debounce, isEmpty, isNull } from "lodash";
+import { debounce, isEmpty } from "lodash";
 
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { useParams } from "react-router-dom";
-import { EditorContext } from "../../contexts";
-import { useBlocks } from "../../services/note-taking/useBlocks";
-import { usePage } from "../../services/note-taking/usePage";
-import { Params } from "../../shared";
+import React, { memo, useCallback, useContext, useMemo, useState } from "react";
+import { NotesContext } from "../../contexts";
+
 import RichEditor from "./Editor/RichEditor";
 
 interface PageNoteTakerProps {
@@ -31,31 +16,8 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   editorState,
   setEditorState,
 }) => {
-  const { setSaving, setSaveError } = useContext(EditorContext);
-  const { id } = useParams<Params>();
-  const { page, savePage } = usePage(id);
-  const blocks = useBlocks(page?.id);
-  const [loading, setLoading] = useState<boolean>(isNull(blocks));
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
-
-  // Make call to server to save text blocks
-  const onSave = async (editorState: EditorState, id: string | undefined) => {
-    setSaving(true);
-    const rawContent = convertToRaw(editorState.getCurrentContent());
-    const keys = rawContent.blocks.map((val) => val.key);
-    const blocks = rawContent.blocks.map((val) => JSON.stringify(val));
-    const response = await savePage({
-      draft_keys: keys,
-      blocks,
-      id,
-    });
-    if (!response.success) {
-      setSaveError(true);
-    } else {
-      setSaving(!response.success);
-      setSaveError(false);
-    }
-  };
+  const { onSave, blocks, loading, pageId } = useContext(NotesContext);
 
   // Debounce function to autosave notes
   const debounced = debounce(
@@ -71,12 +33,8 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     []
   );
 
-  useEffect(() => {
-    setLoading(isNull(blocks));
-  }, [id, blocks]);
-
   // Set editor state on mount
-  useEffect(() => {
+  useMemo(() => {
     if (blocks && !isEmpty(blocks) && blocks[0] !== null) {
       const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
         JSON.parse(block)
@@ -97,7 +55,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
       editorState={editorState}
       setEditorState={setEditorState}
       saveEditor={autoSave}
-      id={page?.id}
+      id={pageId}
     />
   );
 };

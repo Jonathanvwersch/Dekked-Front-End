@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StudySetLinkedFlashcard } from "..";
 import PageNoteTaker from "../../notetaking/PageNoteTaker";
 import { VFlex } from "../../common";
 import { EditorState } from "draft-js";
 import ReturnToStudyModeButton from "../../study-mode/ReturnToStudyModeButton/ReturnToStudyModeButton";
-import { useLocation } from "react-router-dom";
-import { LinkedFlashcardContext } from "../../../contexts";
 
 interface StudySetNotesContainerProps {
   flashcardSize: number;
@@ -36,7 +34,10 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
           flashcardPosition={flashcardPosition}
         />
       ) : null}
-      <ReturnToStudyModeButton />
+      <ReturnToStudyModeButton
+        pageWidth={flashcardSize}
+        buttonPosition={flashcardPosition}
+      />
     </div>
   );
 };

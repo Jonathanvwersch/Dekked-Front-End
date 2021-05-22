@@ -21,7 +21,7 @@ import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";
 import Confetti from "../../../assets/images/Confetti.png";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
 
 interface StudySetFlashcardProps {
@@ -40,13 +40,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   isFinishedStudying,
 }) => {
   const history = useHistory();
+  const location = useLocation();
   const theme = useContext(ThemeContext);
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
-  const { setIsLinked } = useContext(LinkedFlashcardContext);
+  const { setIsLinked, setStudyModeUrl } = useContext(LinkedFlashcardContext);
 
   // Set editor state on mount
   useEffect(() => {
@@ -125,7 +126,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           )}
         </Flashcard>
         <LogoIconContainer
-          handleMouseDown={() => setIsLinked(true)}
+          handleMouseDown={() => {
+            setIsLinked(true);
+            setStudyModeUrl(location.pathname);
+          }}
           fillType={FILL_TYPE.STROKE}
         >
           <HashLink

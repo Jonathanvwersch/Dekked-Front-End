@@ -124,7 +124,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       frontBlocks[0] !== null &&
       frontBlocks[0][0] === "{"
     ) {
-      console.log(frontBlocks);
       const parsedBlocks: RawDraftContentBlock[] = frontBlocks.map((blocks) =>
         JSON.parse(blocks)
       );
@@ -144,8 +143,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       backBlocks[0] !== null &&
       backBlocks[0][0] === "{"
     ) {
-      console.log(backBlocks);
-
       const parsedBlocks: RawDraftContentBlock[] = backBlocks.map((blocks) =>
         JSON.parse(blocks)
       );

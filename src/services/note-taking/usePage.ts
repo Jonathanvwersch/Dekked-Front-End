@@ -21,10 +21,6 @@ export function usePage(study_pack_id: string) {
     }
   };
 
-  useEffect(() => {
-    getPageByStudyPackId();
-  }, [study_pack_id]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const savePage = async ({
     draft_keys,
     blocks,
@@ -57,5 +53,6 @@ export function usePage(study_pack_id: string) {
   return {
     page,
     savePage,
+    getPageByStudyPackId,
   };
 }

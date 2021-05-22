@@ -10,6 +10,7 @@ import {
 } from "../../components/study-set";
 import { EditorContextProvider } from "../../contexts/EditorContext";
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
+import { NotesContextProvider } from "../../contexts/NotesContext";
 import { useResize } from "../../hooks/useResize";
 import CustomSwitch from "../../Router/CustomSwitch";
 import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../shared";
@@ -34,35 +35,37 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
   return (
     <EditorContextProvider>
       <FlashcardsContextProvider>
-        <MainFrame>
-          <InsetPage size={SIZES.SMALL}>
-            <StudySetHeader
-              editorState={pageEditorState}
-              setEditorState={setPageEditorState}
-              headerRef={headerRef}
-            />
-            <CustomSwitch>
-              <Route
-                path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
-                render={() => (
-                  <StudySetNotesContainer
-                    editorState={pageEditorState}
-                    setEditorState={setPageEditorState}
-                    notesRef={initialRef}
-                    flashcardSize={
-                      dimensions.width ? dimensions.width : initialWidth
-                    }
-                    flashcardPosition={position.left && position.left}
-                  />
-                )}
+        <NotesContextProvider>
+          <MainFrame>
+            <InsetPage size={SIZES.SMALL}>
+              <StudySetHeader
+                editorState={pageEditorState}
+                setEditorState={setPageEditorState}
+                headerRef={headerRef}
               />
-              <Route
-                path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
-                component={StudySetFlashcardsContainer}
-              />
-            </CustomSwitch>
-          </InsetPage>
-        </MainFrame>
+              <CustomSwitch>
+                <Route
+                  path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
+                  render={() => (
+                    <StudySetNotesContainer
+                      editorState={pageEditorState}
+                      setEditorState={setPageEditorState}
+                      notesRef={initialRef}
+                      flashcardSize={
+                        dimensions.width ? dimensions.width : initialWidth
+                      }
+                      flashcardPosition={position.left && position.left}
+                    />
+                  )}
+                />
+                <Route
+                  path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.FLASHCARDS}`}
+                  component={StudySetFlashcardsContainer}
+                />
+              </CustomSwitch>
+            </InsetPage>
+          </MainFrame>
+        </NotesContextProvider>
       </FlashcardsContextProvider>
     </EditorContextProvider>
   );

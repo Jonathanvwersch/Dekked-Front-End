@@ -7,13 +7,22 @@ import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
 
-interface ReturnToStudyModeButtonProps {}
+interface ReturnToStudyModeButtonProps {
+  buttonPosition: number;
+  pageWidth: number;
+}
 
-const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
+const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
+  buttonPosition,
+  pageWidth,
+}) => {
   const theme = useContext(ThemeContext);
   const history = useHistory();
   const buttonWidth = 290;
-  const { isLinked, setIsLinked } = useContext(LinkedFlashcardContext);
+  const { isLinked, setIsLinked, studyModeUrl } = useContext(
+    LinkedFlashcardContext
+  );
+  const position = (pageWidth - buttonWidth) / 2 + buttonPosition;
 
   return (
     <Overlay
@@ -22,7 +31,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
         return null;
       }}
       type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-      coords={{ bottom: 64, left: window.screen.width / 2 - buttonWidth / 2 }}
+      coords={{ bottom: 64, left: position }}
     >
       <ButtonContainer buttonWidth={buttonWidth}>
         <Button
@@ -31,7 +40,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
             theme.sizes.borderRadius[SIZES.MEDIUM]
           }`}
           handleClick={() => {
-            history.goBack();
+            studyModeUrl ? history.push(studyModeUrl) : history.goBack();
             setIsLinked(false);
           }}
           width="80%"

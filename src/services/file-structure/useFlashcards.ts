@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { config } from "../../config";
+import { useStorageState } from "../../hooks";
 
 export function useFlashcards() {
-  const [flashcards, setFlashcards] =
-    useState<FlashcardInterface[] | null>(null);
+  const { value: flashcards, setValue: setFlashcards } = useStorageState<
+    FlashcardInterface[] | null
+  >(null, "flashcards");
   const [isError, setIsError] = useState<boolean>(false);
 
   async function getFlashcards(studyPackId: string) {
