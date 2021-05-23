@@ -2,8 +2,16 @@ import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { debounce, isEmpty } from "lodash";
 
-import React, { memo, useCallback, useContext, useMemo, useState } from "react";
-import { NotesContext } from "../../contexts";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { EditorContext, NotesContext } from "../../contexts";
+import { getCurrentBlock } from "./Editor/Editor.helpers";
 
 import RichEditor from "./Editor/RichEditor";
 
@@ -18,6 +26,8 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 }) => {
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
   const { onSave, blocks, loading, pageId } = useContext(NotesContext);
+  const { setCurrentBlock } = useContext(EditorContext);
+  console.log(editorHasFocus);
 
   // Debounce function to autosave notes
   const debounced = debounce(
@@ -46,6 +56,12 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
       setEditorState(EditorState.createWithContent(savedState));
     }
   }, [blocks]);
+
+  const currentBlock = getCurrentBlock(editorState);
+
+  useEffect(() => {
+    setCurrentBlock({ key: currentBlock.getKey(), hasFocus: editorHasFocus });
+  }, [editorHasFocus, currentBlock, setCurrentBlock]);
 
   return (
     <RichEditor

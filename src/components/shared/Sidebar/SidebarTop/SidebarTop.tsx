@@ -57,7 +57,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
             <HFlex>
               <Avatar>T</Avatar>
               <Spacer width={theme.spacers.size8} />
-              <Text className="overflow">Toby Corner</Text>
+              <Text className="overflow">Hi mom</Text>
               <Spacer width={theme.spacers.size4} />
               <IconActive
                 iconActiveRef={settingsRef}

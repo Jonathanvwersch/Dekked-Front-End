@@ -25,11 +25,11 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
     useFlashcards();
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
 
-  const { id: studyPackId } = useParams<Params>();
+  const { id: studyPackId, tab } = useParams<Params>();
 
   useEffect(() => {
     studyPackId && getFlashcards(studyPackId);
-  }, [studyPackId]);
+  }, [studyPackId, tab]);
 
   useEffect(() => {
     setLoading(isNull(flashcards));

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext } from ".";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
@@ -45,11 +45,11 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
     setSelectedBlockName(name);
   };
 
-  useEffect(() => {
+  useMemo(() => {
     selectedItemData && handleSelectedBlockName(selectedItemData.name);
   }, [selectedItemData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
       setSelectedItemData(getAsset(type, id) as FolderInterface);

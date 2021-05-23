@@ -46,7 +46,7 @@ const GeneralBlock: React.FC = (props: any) => {
       condition={isEditable}
       wrapper={(children: ReactElement) => HoverBlocks(children)}
     >
-      <div id={`${props.block.getKey()}-0-0`}>{GeneralBlock()}</div>
+      {GeneralBlock()}
     </ConditionalWrapper>
   );
 };

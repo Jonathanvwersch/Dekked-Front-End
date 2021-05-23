@@ -6,20 +6,15 @@ export interface EditorContextProps {
   saveError: boolean;
   setSaveError: React.Dispatch<React.SetStateAction<boolean>>;
   setSaving: React.Dispatch<React.SetStateAction<boolean>>;
-  currentBlock:
-    | {
-        key: string | undefined;
-        hasFocus: boolean | undefined;
-      }
-    | undefined;
+  currentBlock: {
+    key: string | undefined;
+    hasFocus: boolean;
+  };
   setCurrentBlock: React.Dispatch<
-    React.SetStateAction<
-      | {
-          key: string | undefined;
-          hasFocus: boolean | undefined;
-        }
-      | undefined
-    >
+    React.SetStateAction<{
+      key: string | undefined;
+      hasFocus: boolean;
+    }>
   >;
 }
 
@@ -30,11 +25,10 @@ export const EditorContext = createContext<EditorContextProps>(
 export const EditorContextProvider: React.FC = ({ children }) => {
   const [saving, setSaving] = useState<boolean>(false);
   const [saveError, setSaveError] = useState<boolean>(false);
-  const [currentBlock, setCurrentBlock] =
-    useState<{
-      key: string | undefined;
-      hasFocus: boolean | undefined;
-    }>();
+  const [currentBlock, setCurrentBlock] = useState<{
+    key: string | undefined;
+    hasFocus: boolean;
+  }>({ key: "", hasFocus: false });
 
   return (
     <EditorContext.Provider

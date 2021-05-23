@@ -22,7 +22,7 @@ const TodoBlock: React.FC = (props: any) => {
   newProps.blockProps.withSettings = false;
 
   return (
-    <HFlex alignItems="flex-start">
+    <HFlex id={`${props.block.getKey()}-0-0`} alignItems="flex-start">
       <Checkbox
         checked={checked}
         handleClick={() => {

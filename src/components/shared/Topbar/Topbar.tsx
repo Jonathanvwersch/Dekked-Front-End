@@ -35,7 +35,7 @@ const TopBar: React.FC = () => {
             fontColor={theme.colors.danger}
             fontSize={theme.typography.fontSizes.size14}
           >
-            <FormattedMessage id="topbar.failedToSave" />
+            {/* <FormattedMessage id="topbar.failedToSave" /> */}
           </Text>
         </HFlex>
       );

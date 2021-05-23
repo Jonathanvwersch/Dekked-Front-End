@@ -134,7 +134,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         >
           <HashLink
             smooth
-            to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#c5htf-0-0`}
+            to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#48vnc-0-0`}
           >
             <Tooltip
               id="LinkedFlashcardLink"

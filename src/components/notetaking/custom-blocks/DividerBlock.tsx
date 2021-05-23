@@ -14,7 +14,7 @@ const DividerBlock: React.FC = (props: any) => {
 
   return (
     <Halo editable={false}>
-      <Divider />
+      <Divider id={`${props.block.getKey()}-0-0`} />
     </Halo>
   );
 };

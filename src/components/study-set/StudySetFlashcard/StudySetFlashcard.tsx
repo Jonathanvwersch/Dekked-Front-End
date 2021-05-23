@@ -58,6 +58,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [currentSide, setCurrentSide] = useState<"front" | "back">();
   const [saving, setSaving] = useState<boolean>(false);
   const { addFlashcard, saveFlashcard } = useFlashcards();
+  console.log(backHasFocus);
 
   // Make call to server to save text blocks
   const onSave = async (

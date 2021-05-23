@@ -13,7 +13,7 @@ const TextBlock: React.FC = (props: any) => {
   }
 
   return (
-    <AlignBlock alignment={alignment}>
+    <AlignBlock id={`${props.block.getKey()}-0-0`} alignment={alignment}>
       <EditorBlock {...props} />
     </AlignBlock>
   );

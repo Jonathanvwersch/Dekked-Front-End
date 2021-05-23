@@ -66,15 +66,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
-  const { setCurrentBlock } = useContext(EditorContext);
-
-  const currentKey = currentBlock.getKey();
-
-  useEffect(() => {
-    editorType === "page" &&
-      setCurrentBlock &&
-      setCurrentBlock({ key: currentBlock.getKey(), hasFocus });
-  }, [currentKey, hasFocus, editorType]);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,

@@ -9,10 +9,15 @@ interface HFlexProps {
   width?: string;
   minHeight?: string;
   minWidth?: string;
+  id?: string;
 }
 
 const HFlex: React.FC<HFlexProps> = ({ children, ...props }) => {
-  return <StyledHFlex {...props}>{children}</StyledHFlex>;
+  return (
+    <StyledHFlex id={props.id} {...props}>
+      {children}
+    </StyledHFlex>
+  );
 };
 
 const StyledHFlex = styled.div<HFlexProps>`
