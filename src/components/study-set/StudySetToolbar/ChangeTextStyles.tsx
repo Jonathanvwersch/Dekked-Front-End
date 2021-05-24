@@ -4,6 +4,7 @@ import {
   BoldIcon,
   DropDownArrowIcon,
   ItalicsIcon,
+  RemoveFormattingIcon,
   StrikethroughIcon,
   SubscriptIcon,
   SuperscriptIcon,
@@ -131,7 +132,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
         isDisabled={isDisabled}
       >
         <Tooltip
-          id="StrikethroughtStyle"
+          id="StrikethroughStyle"
           text="tooltips.studySet.toolbar.strikethrough"
         >
           <StrikethroughIcon size={iconSize} />
@@ -182,6 +183,24 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           text="tooltips.studySet.toolbar.superscript"
         >
           <SuperscriptIcon size={iconSize} />
+        </Tooltip>
+      </IconActive>
+      <Spacer width={theme.spacers.size8} />
+      <IconActive
+        handleMouseDown={(e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setEditorState(
+            removeSpecificBlockStyle(undefined, editorState, true)
+          );
+        }}
+        isDisabled={isDisabled}
+      >
+        <Tooltip
+          id="RemoveFormatting"
+          text="tooltips.studySet.toolbar.removeStyles"
+        >
+          <RemoveFormattingIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       <StudySetToolbarModal

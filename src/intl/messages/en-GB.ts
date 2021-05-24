@@ -185,6 +185,7 @@ const en_GB = {
           highlight: "Highlight",
           changeTextColour: "Change text colour",
           strikethrough: "Strikethrough",
+          removeStyles: "Remove all styles",
           subscript: "Subscript",
           superscript: "Superscript",
           italics: "Italics",

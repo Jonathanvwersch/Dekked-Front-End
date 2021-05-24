@@ -42,5 +42,6 @@ export { default as StrikethroughIcon } from "./icons/StrikethroughIcon";
 export { default as CheckmarkIcon } from "./icons/CheckmarkIcon";
 export { default as SuperscriptIcon } from "./icons/SuperscriptIcon";
 export { default as SubscriptIcon } from "./icons/SubscriptIcon";
+export { default as RemoveFormattingIcon } from "./icons/RemoveFormattingIcon";
 export * from "./icons/Icon.styles";
 export * from "./icons/Icon.types";
