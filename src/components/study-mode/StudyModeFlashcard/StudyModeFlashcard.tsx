@@ -46,6 +46,7 @@ interface StudySetFlashcardProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   isEditable: boolean;
 }
+const logoIconSize = SIZES.XLARGE;
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   frontBlocks,
@@ -159,29 +160,29 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         ) : (
           FinalCard
         )}
-      </Flashcard>
-      {blockLink ? (
-        <LogoIconContainer
-          handleMouseDown={() => {
-            setIsLinked(true);
-            setStudyModeUrl(location.pathname);
-          }}
-          fillType={FILL_TYPE.STROKE}
-        >
-          <HashLink
-            smooth
-            to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#${blockLink}-0-0`}
+        {blockLink ? (
+          <LogoIconContainer
+            handleMouseDown={() => {
+              setIsLinked(true);
+              setStudyModeUrl(location.pathname);
+            }}
+            fillType={FILL_TYPE.STROKE}
           >
-            <Tooltip
-              id="LinkedFlashcardLink"
-              text="tooltips.studyMode.linkedFlashcard"
-              place="top"
+            <HashLink
+              smooth
+              to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#${blockLink}-0-0`}
             >
-              <LogoIcon size={SIZES.LARGE} />
-            </Tooltip>
-          </HashLink>
-        </LogoIconContainer>
-      ) : null}
+              <Tooltip
+                id="LinkedFlashcardLink"
+                text="tooltips.studyMode.linkedFlashcard"
+                place="top"
+              >
+                <LogoIcon size={logoIconSize} />
+              </Tooltip>
+            </HashLink>
+          </LogoIconContainer>
+        ) : null}
+      </Flashcard>
       {!isFinishedStudying ? (
         <StudyModeToolbar
           flashcardId={flashcardId}
@@ -198,6 +199,7 @@ const Flashcard = styled(ShadowCard)<{
   isFinishedStudying?: boolean;
 }>`
   overflow-y: auto;
+  position: relative;
   z-index: 0;
   background-size: contain;
   background-image: ${({ backgroundImage, isFinishedStudying }) =>
@@ -210,6 +212,8 @@ const LogoIconContainer = styled(IconActive)`
   position: absolute;
   bottom: 16px;
   z-index: 1;
+  left: ${({ theme }) =>
+    `calc(50% - ${parseInt(theme.sizes.icons[logoIconSize]) / 2}px)`};
 `;
 
 export default StudySetFlashcard;

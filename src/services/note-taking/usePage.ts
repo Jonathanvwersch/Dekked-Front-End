@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { config } from "../../config";
 
 export function usePage(study_pack_id: string) {

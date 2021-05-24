@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import React from "react";
 
-export interface EditorContextProps {
+export interface CurrentBlockContextProps {
   saving: boolean;
   saveError: boolean;
   setSaveError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,11 +18,11 @@ export interface EditorContextProps {
   >;
 }
 
-export const EditorContext = createContext<EditorContextProps>(
-  {} as EditorContextProps
+export const CurrentBlockContext = createContext<CurrentBlockContextProps>(
+  {} as CurrentBlockContextProps
 );
 
-export const EditorContextProvider: React.FC = ({ children }) => {
+export const CurrentBlockContextProvider: React.FC = ({ children }) => {
   const [saving, setSaving] = useState<boolean>(false);
   const [saveError, setSaveError] = useState<boolean>(false);
   const [currentBlock, setCurrentBlock] = useState<{
@@ -31,7 +31,7 @@ export const EditorContextProvider: React.FC = ({ children }) => {
   }>({ key: "", hasFocus: false });
 
   return (
-    <EditorContext.Provider
+    <CurrentBlockContext.Provider
       value={{
         saving,
         saveError,
@@ -42,6 +42,6 @@ export const EditorContextProvider: React.FC = ({ children }) => {
       }}
     >
       {children}
-    </EditorContext.Provider>
+    </CurrentBlockContext.Provider>
   );
 };

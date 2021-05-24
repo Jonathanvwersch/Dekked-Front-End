@@ -15,15 +15,21 @@ import { DeleteIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
-import { convertFromRaw, EditorState, RawDraftContentBlock } from "draft-js";
+import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
 import { useFlashcards } from "../../../services/file-structure";
 import { debounce, isEmpty } from "lodash";
 import {
+  convertBlocksToContent,
   createKeysAndBlocks,
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
+import { DeleteModal } from "../../shared";
 
+enum FLASHCARD_SIDE {
+  FRONT = "front",
+  BACK = "back",
+}
 interface StudySetFlashcardProps {
   deleteFlashcard?: () => void;
   flashcardId?: string;
@@ -49,12 +55,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
-  const [currentSide, setCurrentSide] = useState<"front" | "back">();
+  const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
   const [saving, setSaving] = useState<boolean>(false);
   const { addFlashcard, saveFlashcard } = useFlashcards();
 
@@ -90,7 +97,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       flashcardId: string | undefined,
       ownerId: string | undefined
     ) => {
-      if (currentSide === "front") {
+      if (currentSide === FLASHCARD_SIDE.FRONT) {
         onSave(editorState, backFlashcardEditorState, flashcardId, ownerId);
       } else {
         onSave(frontFlashcardEditorState, editorState, flashcardId, ownerId);
@@ -100,58 +107,32 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   const autoSave = useCallback(
-    (
-      editorState: EditorState,
-      flashcardId: string | undefined,
-      ownerId: string | undefined
-    ) => {
+    (editorState: EditorState) => {
       !linked && debounced(editorState, flashcardId, ownerId);
     },
-    [currentSide]
+    [currentSide, flashcardId, ownerId]
   );
 
   useEffect(() => {
-    frontHasFocus && setCurrentSide("front");
-    backHasFocus && setCurrentSide("back");
+    frontHasFocus && setCurrentSide(FLASHCARD_SIDE.FRONT);
+    backHasFocus && setCurrentSide(FLASHCARD_SIDE.BACK);
   }, [frontHasFocus, backHasFocus]);
 
   // Set editor state on mount
   useEffect(() => {
-    if (
-      frontBlocks &&
-      !isEmpty(frontBlocks) &&
-      frontBlocks[0] !== null &&
-      frontBlocks[0][0] === "{"
-    ) {
-      const parsedBlocks: RawDraftContentBlock[] = frontBlocks.map((blocks) =>
-        JSON.parse(blocks)
-      );
-      const savedState = convertFromRaw({
-        blocks: parsedBlocks,
-        entityMap: {},
-      });
+    if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks[0][0] === "{") {
+      const savedState = convertBlocksToContent(frontBlocks);
       setFrontFlashcardEditorState(EditorState.createWithContent(savedState));
     }
   }, [frontBlocks]);
 
   // Set editor state on mount
   useEffect(() => {
-    if (
-      backBlocks &&
-      !isEmpty(backBlocks) &&
-      backBlocks[0] !== null &&
-      backBlocks[0][0] === "{"
-    ) {
-      const parsedBlocks: RawDraftContentBlock[] = backBlocks.map((blocks) =>
-        JSON.parse(blocks)
-      );
-      const savedState = convertFromRaw({
-        blocks: parsedBlocks,
-        entityMap: {},
-      });
+    if (backBlocks && !isEmpty(backBlocks) && backBlocks[0][0] === "{") {
+      const savedState = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
     }
-  }, [backBlocks]);
+  }, [backBlocks, frontBlocks]);
 
   const frontAndBack = (side: string) => {
     return (
@@ -162,7 +143,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       >
         <CardHeader>
           <Text fontColor={theme.colors.grey1}>
-            {side === "front"
+            {side === FLASHCARD_SIDE.FRONT
               ? formatMessage("studySet.flashcards.front")
               : formatMessage("studySet.flashcards.back")}
           </Text>
@@ -173,18 +154,20 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
           <FlashcardNoteTaker
-            ownerId={ownerId}
-            id={flashcardId}
             autoSave={autoSave}
-            hasFocus={side === "front" ? frontHasFocus : backHasFocus}
-            setHasFocus={side === "front" ? setFrontHasFocus : setBackHasFocus}
+            hasFocus={
+              side === FLASHCARD_SIDE.FRONT ? frontHasFocus : backHasFocus
+            }
+            setHasFocus={
+              side === FLASHCARD_SIDE.FRONT ? setFrontHasFocus : setBackHasFocus
+            }
             editorState={
-              side === "front"
+              side === FLASHCARD_SIDE.FRONT
                 ? frontFlashcardEditorState
                 : backFlashcardEditorState
             }
             setEditorState={
-              side === "front"
+              side === FLASHCARD_SIDE.FRONT
                 ? setFrontFlashcardEditorState
                 : setBackFlashcardEditorState
             }
@@ -195,12 +178,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   const editorState =
-    currentSide === "front"
+    currentSide === FLASHCARD_SIDE.FRONT
       ? frontFlashcardEditorState
       : backFlashcardEditorState;
 
   const setEditorState =
-    currentSide === "front"
+    currentSide === FLASHCARD_SIDE.FRONT
       ? setFrontFlashcardEditorState
       : setBackFlashcardEditorState;
 
@@ -229,7 +212,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         ) : (
           <IconActive
             dangerHover
-            handleClick={() => deleteFlashcard && deleteFlashcard()}
+            handleClick={() => setIsDeleteModalOpen(true)}
           >
             <DeleteIcon />
           </IconActive>
@@ -262,37 +245,45 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   return (
-    <ShadowCard
-      backgroundColor={theme.colors.secondary}
-      padding={theme.spacers.size16}
-      borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
-      zIndex="15"
-      width="99%"
-    >
-      <Flex flexDirection="column">
-        {topbar()}
-        <Spacer height={theme.spacers.size8} />
-        <Flex justifyContent="space-between" alignItems="stretch">
-          {frontAndBack("front")}
-          {frontAndBack("back")}
-        </Flex>
-        <Spacer height={theme.spacers.size8} />
-        {linked ? (
-          <Flex justifyContent="flex-end">
-            <Button
-              buttonStyle={BUTTON_THEME.PRIMARY}
-              disabled={
-                getWordCount(frontFlashcardEditorState) === 0 &&
-                getWordCount(backFlashcardEditorState) === 0
-              }
-              handleClick={handleSaveLinkedFlashcard}
-            >
-              {formatMessage("generics.save")}
-            </Button>
+    <>
+      <ShadowCard
+        backgroundColor={theme.colors.secondary}
+        padding={theme.spacers.size16}
+        borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
+        zIndex="15"
+        width="99%"
+      >
+        <Flex flexDirection="column">
+          {topbar()}
+          <Spacer height={theme.spacers.size8} />
+          <Flex justifyContent="space-between" alignItems="stretch">
+            {frontAndBack(FLASHCARD_SIDE.FRONT)}
+            {frontAndBack("back")}
           </Flex>
-        ) : null}
-      </Flex>
-    </ShadowCard>
+          <Spacer height={theme.spacers.size8} />
+          {linked ? (
+            <Flex justifyContent="flex-end">
+              <Button
+                buttonStyle={BUTTON_THEME.PRIMARY}
+                disabled={
+                  getWordCount(frontFlashcardEditorState) === 0 &&
+                  getWordCount(backFlashcardEditorState) === 0
+                }
+                handleClick={handleSaveLinkedFlashcard}
+              >
+                {formatMessage("generics.save")}
+              </Button>
+            </Flex>
+          ) : null}
+        </Flex>
+      </ShadowCard>
+      <DeleteModal
+        handleMainButton={() => deleteFlashcard && deleteFlashcard()}
+        bodyText="studyMode.deleteModal.deleteCard"
+        isOpen={isDeleteModalOpen}
+        handleClose={() => setIsDeleteModalOpen(false)}
+      />
+    </>
   );
 };
 

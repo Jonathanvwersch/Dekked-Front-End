@@ -1,11 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { config } from "../../config";
-import { useStorageState } from "../../hooks";
 
 export function useBlocks(page_id?: string) {
-  const { value: blocks, setValue: setBlocks } = useStorageState<
-    string[] | null
-  >(null, "page-blocks");
+  const [blocks, setBlocks] = useState<string[] | null>(null);
   const getBlocksByPageId = async () => {
     const uri = config.api + `/get-blocks-by-page/${page_id}`;
 

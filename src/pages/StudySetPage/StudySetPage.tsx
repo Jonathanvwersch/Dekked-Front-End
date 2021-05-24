@@ -1,6 +1,6 @@
 import { EditorState } from "draft-js";
-import React, { useCallback, useRef, useState } from "react";
-import { Route } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Route, useParams } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
 import {
@@ -8,12 +8,12 @@ import {
   StudySetHeader,
   StudySetNotesContainer,
 } from "../../components/study-set";
-import { EditorContextProvider } from "../../contexts/EditorContext";
+import { CurrentBlockContextProvider } from "../../contexts/CurrentBlockContext";
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
-import { NotesContextProvider } from "../../contexts/NotesContext";
+import { SavingEditorContextProvider } from "../../contexts/SavingEditorContext";
 import { useResize } from "../../hooks/useResize";
 import CustomSwitch from "../../Router/CustomSwitch";
-import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../shared";
+import { FILETREE_TYPES, Params, SIZES, TAB_TYPE } from "../../shared";
 
 interface StudySetPageProps {}
 
@@ -23,6 +23,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
   const [pageEditorState, setPageEditorState] = useState<EditorState>(
     EditorState.createEmpty()
   );
+
   const { dimensions, position } = useResize(headerRef);
 
   // This ref is used to get the initial width of the flashcard as the headerRef is undefined on mount
@@ -32,10 +33,16 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
     }
   }, []);
 
+  const { id } = useParams<Params>();
+
+  useEffect(() => {
+    localStorage.removeItem("page-editor");
+  }, []);
+
   return (
-    <EditorContextProvider>
-      <FlashcardsContextProvider>
-        <NotesContextProvider>
+    <CurrentBlockContextProvider>
+      <SavingEditorContextProvider>
+        <FlashcardsContextProvider>
           <MainFrame>
             <InsetPage size={SIZES.SMALL}>
               <StudySetHeader
@@ -65,9 +72,9 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
               </CustomSwitch>
             </InsetPage>
           </MainFrame>
-        </NotesContextProvider>
-      </FlashcardsContextProvider>
-    </EditorContextProvider>
+        </FlashcardsContextProvider>
+      </SavingEditorContextProvider>
+    </CurrentBlockContextProvider>
   );
 };
 

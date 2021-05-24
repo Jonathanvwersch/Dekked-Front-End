@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FormattedMessage } from "react-intl";
 import styled, { ThemeContext } from "styled-components/macro";
 import { HamburgerMenuIcon } from "../../../assets";
-import { EditorContext, SidebarContext } from "../../../contexts";
+import { SavingEditorContext, SidebarContext } from "../../../contexts";
 import { SIZES } from "../../../shared";
 import {
   ComponentLoadingSpinner,
@@ -17,7 +17,7 @@ import Breadcrumbs from "./Breadcrumbs";
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
-  const { saving, saveError } = useContext(EditorContext);
+  const { saving, saveError } = useContext(SavingEditorContext);
 
   // Show a loading spinner when the notes page is auto saving
   // If the page fails to save, show a message saying Failed to save

@@ -10,13 +10,7 @@ interface FlashcardNoteTakerProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
   hasFocus: boolean;
-  autoSave: (
-    editorState: EditorState,
-    flashcardId: string | undefined,
-    ownerId: string | undefined
-  ) => void;
-  id: string | undefined;
-  ownerId: string | undefined;
+  autoSave: (editorState: EditorState) => void;
 }
 
 const FlashcardNoteTaker: React.FC<FlashcardNoteTakerProps> = ({
@@ -25,8 +19,6 @@ const FlashcardNoteTaker: React.FC<FlashcardNoteTakerProps> = ({
   setHasFocus,
   hasFocus,
   autoSave,
-  id,
-  ownerId,
 }) => {
   return (
     <RichEditor
@@ -36,8 +28,6 @@ const FlashcardNoteTaker: React.FC<FlashcardNoteTakerProps> = ({
       setHasFocus={setHasFocus}
       hasFocus={hasFocus}
       saveEditor={autoSave}
-      id={id}
-      ownerId={ownerId}
     />
   );
 };

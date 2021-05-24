@@ -2,7 +2,7 @@ import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import React from "react";
 import { useFlashcards } from "../services/file-structure";
 import { useParams } from "react-router-dom";
-import { Params } from "../shared";
+import { Params, TAB_TYPE } from "../shared";
 import { isNull } from "lodash";
 
 export interface FlashcardsContextProps {
@@ -28,7 +28,7 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
   const { id: studyPackId, tab } = useParams<Params>();
 
   useEffect(() => {
-    studyPackId && getFlashcards(studyPackId);
+    tab === TAB_TYPE.FLASHCARDS && studyPackId && getFlashcards(studyPackId);
   }, [studyPackId, tab]);
 
   useEffect(() => {

@@ -8,7 +8,6 @@ const DividerBlock: React.FC = (props: any) => {
   const { setEditorState, editorState } = blockProps;
   const data = block.getData();
   const newBlock = data.has("created") && data.get("created") === true;
-  console.log("data", data.get("created"));
 
   const updateData = () => {
     const newData = data.set("created", true);

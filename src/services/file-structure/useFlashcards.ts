@@ -20,7 +20,6 @@ export function useFlashcards() {
 
       if (response.ok) {
         const json = await response.json();
-        console.log(json.data);
         if (json.success) {
           setFlashcards(json.data.flashcards);
           return;

@@ -35,14 +35,8 @@ interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
-  saveEditor?: (
-    editorState: EditorState,
-    id: string | undefined,
-    ownerId?: string | undefined
-  ) => void;
-  ownerId?: string | undefined;
+  saveEditor?: (editorState: EditorState) => void;
   hasFocus?: boolean;
-  id?: string | undefined;
   loading?: boolean;
   editorType?: EditorType;
   isEditable?: boolean;
@@ -53,12 +47,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
   setEditorState,
   saveEditor,
   loading,
-  id,
   setHasFocus,
   hasFocus = true,
-  editorType = "page",
-  ownerId,
   isEditable = true,
+  editorType = "page",
 }) => {
   const editorRef = useRef<any>(null);
 
@@ -148,12 +140,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
     // const currentState = editorState.getCurrentContent();
     // const newState = newEditorState.getCurrentContent();
     // const hasContentChanged = currentState !== newState;
-    editorType === "flashcard" &&
-      id &&
-      ownerId &&
-      saveEditor &&
-      saveEditor(newEditorState, id, ownerId);
-    editorType === "page" && id && saveEditor && saveEditor(newEditorState, id);
+    saveEditor && saveEditor(newEditorState);
     setEditorState(newEditorState);
   };
 

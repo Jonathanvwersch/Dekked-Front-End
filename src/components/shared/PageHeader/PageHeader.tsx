@@ -81,6 +81,7 @@ const StyledEditableText = styled((props) => <EditableText {...props} />)`
   font-size: ${({ theme }) => theme.typography.fontSizes.size48};
   font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
   line-height: ${({ theme }) => theme.typography.lineHeightSmall};
+  color: ${({ theme }) => theme.colors.fontColor};
   &:empty:before {
     color: ${({ theme }) => theme.colors.grey2};
     z-index: 1000;
