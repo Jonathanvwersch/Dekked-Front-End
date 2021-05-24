@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import styled from "styled-components/macro";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
-import { HFlex, HoverCard } from "../../common";
+import { Flex, HoverCard } from "../../common";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 import TextBlock from "./TextBlock";
 
@@ -18,11 +18,8 @@ const TodoBlock: React.FC = (props: any) => {
     setEditorState(updateDataOfBlock(editorState, block, newData));
   };
 
-  const newProps = { ...props };
-  newProps.blockProps.withSettings = false;
-
   return (
-    <HFlex id={`${props.block.getKey()}-0-0`} alignItems="flex-start">
+    <Flex id={`${props.block.getKey()}-0-0`} alignItems="flex-start">
       <Checkbox
         checked={checked}
         handleClick={() => {
@@ -31,8 +28,8 @@ const TodoBlock: React.FC = (props: any) => {
       >
         {checked ? <CheckmarkIcon color="white" /> : null}
       </Checkbox>
-      <TextBlock withSettings={false} {...props} />
-    </HFlex>
+      <TextBlock {...props} />
+    </Flex>
   );
 };
 

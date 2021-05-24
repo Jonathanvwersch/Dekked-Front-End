@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FocusEvent } from "react";
-import { HFlex } from "..";
+import { Flex } from "..";
 import { SIZES } from "../../../shared";
 import { Label, LabelAndInputWrapper, StyledInput } from "./Input.styles";
 
@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <LabelAndInputWrapper>
       {label && <Label htmlFor={id}>{label}</Label>}
-      <HFlex width="100%">
+      <Flex width="100%">
         <StyledInput
           height={size}
           type={type}
@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={placeholder}
           id={id}
         />
-      </HFlex>
+      </Flex>
     </LabelAndInputWrapper>
   );
 };

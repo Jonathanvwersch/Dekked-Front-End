@@ -2,9 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import {
   Card,
-  HFlex,
+  Flex,
   Spacer,
-  VFlex,
   Text,
   Button,
   IconActive,
@@ -58,7 +57,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [currentSide, setCurrentSide] = useState<"front" | "back">();
   const [saving, setSaving] = useState<boolean>(false);
   const { addFlashcard, saveFlashcard } = useFlashcards();
-  console.log(backHasFocus);
 
   // Make call to server to save text blocks
   const onSave = async (
@@ -217,11 +215,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const topbar = () => {
     return linked ? (
-      <HFlex justifyContent="center" minHeight={theme.spacers.size24}>
+      <Flex justifyContent="center" minHeight={theme.spacers.size24}>
         {toolbar}
-      </HFlex>
+      </Flex>
     ) : (
-      <HFlex justifyContent="space-between" minHeight={theme.spacers.size24}>
+      <Flex justifyContent="space-between" minHeight={theme.spacers.size24}>
         <Text>{index}</Text>
         {toolbar}
         {saving ? (
@@ -229,11 +227,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             <ComponentLoadingSpinner size={SIZES.SMALL} />
           </IconWrapper>
         ) : (
-          <IconActive handleClick={() => deleteFlashcard && deleteFlashcard()}>
+          <IconActive
+            dangerHover
+            handleClick={() => deleteFlashcard && deleteFlashcard()}
+          >
             <DeleteIcon />
           </IconActive>
         )}
-      </HFlex>
+      </Flex>
     );
   };
 
@@ -268,16 +269,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       zIndex="15"
       width="99%"
     >
-      <VFlex>
+      <Flex flexDirection="column">
         {topbar()}
         <Spacer height={theme.spacers.size8} />
-        <HFlex justifyContent="space-between" alignItems="stretch">
+        <Flex justifyContent="space-between" alignItems="stretch">
           {frontAndBack("front")}
           {frontAndBack("back")}
-        </HFlex>
+        </Flex>
         <Spacer height={theme.spacers.size8} />
         {linked ? (
-          <HFlex justifyContent="flex-end">
+          <Flex justifyContent="flex-end">
             <Button
               buttonStyle={BUTTON_THEME.PRIMARY}
               disabled={
@@ -288,9 +289,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             >
               {formatMessage("generics.save")}
             </Button>
-          </HFlex>
+          </Flex>
         ) : null}
-      </VFlex>
+      </Flex>
     </ShadowCard>
   );
 };

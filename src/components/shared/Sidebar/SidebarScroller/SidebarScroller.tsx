@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components/macro";
-import { VFlex, Text, Card, Scroller } from "../../../common";
+import { Flex, Text, Card, Scroller } from "../../../common";
 
 interface SidebarScrollerProps {
   heading: string;
@@ -23,7 +23,7 @@ const SidebarScroller: React.FC<SidebarScrollerProps> = ({
         </Text>
       </Card>
       <Scroller>
-        <VFlex>{children}</VFlex>
+        <Flex flexDirection="column">{children}</Flex>
       </Scroller>
     </>
   );

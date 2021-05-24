@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Divider, HFlex, Spacer } from "..";
+import { Box, Button, Divider, Flex, Spacer } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 
@@ -9,9 +9,11 @@ interface FooterProps {
   mainButtonStyle?: BUTTON_THEME;
   isDisabled?: boolean;
   alignment?: "flex-start" | "center";
-  mainButtonText: string;
+  mainButtonText?: string;
   padding?: string;
   divider?: boolean;
+  buttonSize?: SIZES;
+  buttonWidth?: SIZES | string;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -20,9 +22,11 @@ const Footer: React.FC<FooterProps> = ({
   isDisabled,
   mainButtonStyle = BUTTON_THEME.PRIMARY,
   alignment = "center",
-  mainButtonText,
+  mainButtonText = "generics.save",
   padding,
   divider,
+  buttonSize,
+  buttonWidth,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
 
@@ -30,9 +34,10 @@ const Footer: React.FC<FooterProps> = ({
     <>
       {divider ? <Divider /> : null}
       <Box p={padding ? padding : theme.spacers.size16}>
-        <HFlex justifyContent={alignment}>
+        <Flex justifyContent={alignment}>
           <Button
-            size={SIZES.SMALL}
+            width={buttonWidth}
+            size={buttonSize || SIZES.SMALL}
             handleClick={handleCancel}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
@@ -40,14 +45,15 @@ const Footer: React.FC<FooterProps> = ({
           </Button>
           <Spacer width={theme.spacers.size32} />
           <Button
-            size={SIZES.SMALL}
+            width={buttonWidth}
+            size={buttonSize || SIZES.SMALL}
             handleClick={handleMainButton}
             buttonStyle={mainButtonStyle}
             disabled={isDisabled}
           >
             {formatMessage(mainButtonText)}
           </Button>
-        </HFlex>
+        </Flex>
       </Box>
     </>
   );

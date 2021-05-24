@@ -3,7 +3,7 @@ import React, { Fragment, useContext } from "react";
 import { ThemeContext } from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
-import { ComponentLoadingSpinner, Spacer, VFlex } from "../../common";
+import { ComponentLoadingSpinner, Spacer, Flex } from "../../common";
 
 interface StudySetFlashcardsContainerProps {}
 
@@ -16,7 +16,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     return (
       <>
         {!loading ? (
-          <VFlex>
+          <Flex flexDirection="column">
             {flashcards && !isEmpty(flashcards) ? (
               <>
                 {flashcards.map((flashcard, index) => (
@@ -37,7 +37,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                 ))}
               </>
             ) : null}
-          </VFlex>
+          </Flex>
         ) : (
           <ComponentLoadingSpinner />
         )}

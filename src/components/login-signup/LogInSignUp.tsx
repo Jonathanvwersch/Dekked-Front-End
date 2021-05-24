@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components/macro";
 import { SignUpForm, LogInForm } from ".";
-import { Spacer, VFlex, ShadowCard, H2, Text } from "../../components/common";
+import { Spacer, Flex, ShadowCard, H2, Text } from "../../components/common";
 import { SIZES } from "../../shared";
 import { usePageSetupHelpers } from "../../hooks";
 
@@ -19,13 +19,13 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   const slug = login ? "/sign-up" : "/login";
 
   return (
-    <VFlex>
-      <VFlex>
+    <Flex flexDirection="column">
+      <Flex flexDirection="column">
         <H2> {formatMessage(header)}</H2>
         <Text fontSize={theme.typography.fontSizes.size20}>
           {formatMessage(subHeader)}
         </Text>
-      </VFlex>
+      </Flex>
       <Spacer height={theme.spacers.size32} />
       <ShadowCard
         width={theme.sizes.modal[SIZES.LARGE]}
@@ -38,7 +38,7 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
         {formatMessage(linkText)}
         <StyledLink to={`${slug}`}> {formatMessage(link)}</StyledLink>
       </Text>
-    </VFlex>
+    </Flex>
   );
 };
 

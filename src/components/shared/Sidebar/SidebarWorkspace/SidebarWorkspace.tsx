@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FileTreeContext } from "../../../../contexts";
 import SidebarFileTree from "../SidebarFileTree/SidebarFileTree";
 import { FormattedMessage } from "react-intl";
-import { Card, Scroller, VFlex, Text } from "../../../common";
+import { Card, Scroller, Flex, Text } from "../../../common";
 import { ThemeContext } from "styled-components/macro";
 
 interface SidebarWorkspaceProps {
@@ -33,7 +33,7 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
         </Text>
       </Card>
       <Scroller>
-        <VFlex>
+        <Flex flexDirection="column">
           {fileTree
             ? Object.entries(fileTree).map((file) => {
                 return (
@@ -45,7 +45,7 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
               })
             : null}
           <div ref={bottomFolderRef} />
-        </VFlex>
+        </Flex>
       </Scroller>
     </>
   );

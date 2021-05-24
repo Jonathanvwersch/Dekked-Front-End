@@ -52,7 +52,7 @@ const en_GB = {
         linearStudying: "Linear studying",
       },
       deleteModal: {
-        deleteCard: "Do you really want to delete this card?",
+        deleteCard: "Do you really want to delete this flashcard?",
       },
       spacedRepetition: {
         controller: {
@@ -157,6 +157,9 @@ const en_GB = {
       failedToSave: "Failed to save",
     },
     tooltips: {
+      generics: {
+        close: "Close",
+      },
       sidebar: {
         addBinder: "Add a binder inside",
         addStudySet: "Add a study set inside",
@@ -170,8 +173,10 @@ const en_GB = {
       studyMode: {
         flip: "Flip flashcard",
         editCard: "Edit flashcard",
+        cardNowEditable: "Flashcard is now editable",
         deleteCard: "Delete flashcard",
         linkedFlashcard: "Click to view linked block",
+        disabledStudyButton: "Add a flashcard to enable study mode",
       },
       studySet: {
         toolbar: {

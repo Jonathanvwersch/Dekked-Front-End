@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { HFlex, IconActive, IconWrapper, Spacer, Tooltip } from "../../common";
+import { Flex, IconActive, IconWrapper, Spacer, Tooltip } from "../../common";
 import {
   BoldIcon,
   DropDownArrowIcon,
@@ -73,10 +73,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
             id={changeBlockTypeIcon(currentBlockType).id}
             text={changeBlockTypeIcon(currentBlockType).text}
           >
-            <HFlex>
+            <Flex>
               {changeBlockTypeIcon(currentBlockType).icon}
               <DropDownArrowIcon size={iconSize} rotate={ROTATE.NINETY} />
-            </HFlex>
+            </Flex>
           </Tooltip>
         </IconActive>
       </IconWrapper>

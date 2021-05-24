@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, GeneralModal, H4, VFlex, Text } from "../../common";
+import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
 import { BUTTON_THEME } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";
@@ -41,14 +41,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         />
       }
     >
-      <VFlex justifyContent="center">
+      <Flex flexDirection="column" justifyContent="center">
         <Text fontSize={theme.typography.fontSizes.size16} textAlign="center">
           {bodyText ? <FormattedMessage id={bodyText} /> : null}
         </Text>
         <Text fontSize={theme.typography.fontSizes.size16}>
           <FormattedMessage id="sharedModals.deleteModal.body" />
         </Text>
-      </VFlex>
+      </Flex>
     </GeneralModal>
   );
 };

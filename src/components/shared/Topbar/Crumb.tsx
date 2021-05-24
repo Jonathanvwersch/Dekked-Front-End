@@ -1,7 +1,7 @@
 import React, { memo, useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
-import { HFlex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
+import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components/macro";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { useIntl } from "react-intl";
@@ -32,7 +32,7 @@ const Crumb: React.FC<CrumbProps> = ({
     <>
       {breadCrumbData || (name && icon) ? (
         <NavLink to={pathName}>
-          <HFlex>
+          <Flex>
             {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
               <>
                 <Spacer width={theme.spacers.size4} />
@@ -54,7 +54,7 @@ const Crumb: React.FC<CrumbProps> = ({
               }
               padding={`0px ${theme.spacers.size4}`}
             >
-              <HFlex>
+              <Flex>
                 <IconWrapper>
                   {breadCrumbType && breadCrumbData
                     ? handleIconType(breadCrumbType, breadCrumbData.color)
@@ -66,9 +66,9 @@ const Crumb: React.FC<CrumbProps> = ({
                     ? handleUntitled(breadCrumbData.name, intl)
                     : name}
                 </Text>
-              </HFlex>
+              </Flex>
             </HoverCard>
-          </HFlex>
+          </Flex>
         </NavLink>
       ) : null}
     </>

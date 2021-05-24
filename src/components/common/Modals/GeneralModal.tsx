@@ -1,7 +1,7 @@
 // Modal used whenever you are centering information on the screen
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components/macro";
-import { VFlex, Overlay, ShadowCard } from "..";
+import { Flex, Overlay, ShadowCard } from "..";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import Spacer from "../Spacer/Spacer";
 
@@ -38,13 +38,13 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
         width={theme.sizes.modal[size]}
         padding={theme.spacers.size16}
       >
-        <VFlex>
+        <Flex flexDirection="column">
           {header ? header : null}
           <Spacer height={theme.spacers.size20} />
           {children}
           <Spacer height={theme.spacers.size20} />
           {footer ? footer : null}
-        </VFlex>
+        </Flex>
       </ShadowCard>
     </Overlay>
   );

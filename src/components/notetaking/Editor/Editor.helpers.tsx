@@ -1,9 +1,11 @@
 import {
   ContentBlock,
+  convertFromRaw,
   convertToRaw,
   EditorState,
   genKey,
   Modifier,
+  RawDraftContentBlock,
   RichUtils,
   SelectionState,
 } from "draft-js";
@@ -316,4 +318,15 @@ export const createKeysAndBlocks = (editorState: EditorState) => {
   const keys = rawContent.blocks.map((val) => val.key);
   const blocks = rawContent.blocks.map((val) => JSON.stringify(val));
   return { rawContent, keys, blocks };
+};
+
+export const convertBlocksToContent = (blocks: string[]) => {
+  const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
+    JSON.parse(block)
+  );
+  const content = convertFromRaw({
+    blocks: parsedBlocks,
+    entityMap: {},
+  });
+  return content;
 };

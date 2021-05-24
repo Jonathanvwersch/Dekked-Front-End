@@ -4,12 +4,11 @@ import {
   Avatar,
   Card,
   Divider,
-  HFlex,
   IconActive,
   Spacer,
   Text,
   Tooltip,
-  VFlex,
+  Flex,
 } from "../../../common";
 import {
   DoubleChevronIcon,
@@ -47,62 +46,54 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
     ? "tooltips.sidebar.openSidebar"
     : "tooltips.sidebar.closeSidebar";
 
-  console.log("top");
-
   return (
     <>
-      <VFlex>
-        <StyledSidebarTop>
-          <Card padding="0px">
-            <HFlex>
-              <Avatar>T</Avatar>
-              <Spacer width={theme.spacers.size8} />
-              <Text className="overflow">Hi mom</Text>
-              <Spacer width={theme.spacers.size4} />
-              <IconActive
-                iconActiveRef={settingsRef}
-                handleClick={(
-                  e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                ) => handleOpenModal(e)}
-              >
-                <DropDownArrowIcon rotate={ROTATE.NINETY} />
-              </IconActive>
-              <Spacer width={theme.spacers.size32} />
-            </HFlex>
-          </Card>
-
-          <DoubleChevronIconContainer>
-            <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
-              <Tooltip id="CloseSidebar" text={ariaText}>
-                <DoubleChevronIcon
-                  rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}
-                />
-              </Tooltip>
+      <StyledSidebarTop p={theme.spacers.size16}>
+        <Card padding="0px">
+          <Flex>
+            <Avatar>T</Avatar>
+            <Spacer width={theme.spacers.size8} />
+            <Text className="overflow">Hi mom</Text>
+            <Spacer width={theme.spacers.size4} />
+            <IconActive
+              iconActiveRef={settingsRef}
+              handleClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                handleOpenModal(e)
+              }
+            >
+              <DropDownArrowIcon rotate={ROTATE.NINETY} />
             </IconActive>
-          </DoubleChevronIconContainer>
-        </StyledSidebarTop>
-        <Divider />
-      </VFlex>
-      {coords && openModal ? (
-        <OpenSettingsModal
-          open={openModal}
-          coords={coords}
-          handleClose={() => setOpenModal(false)}
-        />
-      ) : null}
+            <Spacer width={theme.spacers.size32} />
+          </Flex>
+        </Card>
+
+        <DoubleChevronIconContainer>
+          <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
+            <Tooltip id="CloseSidebar" text={ariaText}>
+              <DoubleChevronIcon
+                rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}
+              />
+            </Tooltip>
+          </IconActive>
+        </DoubleChevronIconContainer>
+      </StyledSidebarTop>
+      <OpenSettingsModal
+        open={openModal}
+        coords={coords}
+        handleClose={() => setOpenModal(false)}
+      />
     </>
   );
 };
 
-const StyledSidebarTop = styled(VFlex)`
+const StyledSidebarTop = styled(Flex)`
   position: relative;
-  padding: ${({ theme }) => theme.spacers.size16};
+  border-bottom: solid ${({ theme }) => theme.colors.grey3} 1px;
 `;
 
 const DoubleChevronIconContainer = styled.div`
   position: absolute;
   right: ${({ theme }) => theme.spacers.size16};
-  top: ${({ theme }) => theme.spacers.size24};
 `;
 
 export default React.memo(SidebarTop);

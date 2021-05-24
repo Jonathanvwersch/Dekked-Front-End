@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PageHeader } from "../../shared";
-import { Button, HFlex, Spacer, VFlex } from "../../common";
+import { Button, Flex, Spacer } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components/macro";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -69,16 +69,16 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
         <StudySetTabSwitcher />
       </ToolbarAndTabs>
       <div ref={headerRef}>
-        <VFlex>
+        <Flex flexDirection="column">
           <Spacer height={theme.spacers.size16} />
           <PageHeader message={message(tab)} />
-        </VFlex>
+        </Flex>
       </div>
     </>
   );
 };
 
-const ToolbarAndTabs = styled(HFlex)`
+const ToolbarAndTabs = styled(Flex)`
   position: sticky;
   width: 100%;
   top: 0;

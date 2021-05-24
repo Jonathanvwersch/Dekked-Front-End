@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Card, HFlex, HoverCard, IconWrapper, Spacer, Text } from "..";
+import { Card, Flex, HoverCard, IconWrapper, Spacer, Text } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
 import ConditionalWrapper from "../ConditionalWrapper/ConditionalWrapper";
 
@@ -44,7 +44,7 @@ const Block: React.FC<BlockProps> = ({
   );
 
   const children = (
-    <HFlex>
+    <Flex>
       <IconWrapper>{icon}</IconWrapper>
       <Spacer width={theme.spacers.size8} />
       <Text
@@ -53,7 +53,7 @@ const Block: React.FC<BlockProps> = ({
       >
         {formatMessage(label)}
       </Text>
-    </HFlex>
+    </Flex>
   );
 
   return (

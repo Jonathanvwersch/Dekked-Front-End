@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import { theme } from "../../../styles/theme";
-import { HFlex, Spacer, Text } from "../../common";
+import { Box, Flex, Spacer, Text } from "../../common";
 
 interface StudyModeToolbarProps {
   flashcardIndex: number;
@@ -13,12 +13,11 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   flashcardTotal,
 }) => {
   const theme = useContext(ThemeContext);
-
   const percentageComplete =
     (Number(flashcardIndex + 1) / Number(flashcardTotal)) * 100;
 
   return (
-    <HFlex>
+    <Flex mb={theme.spacers.size32}>
       {flashcardIndex + 1 > flashcardTotal ? null : (
         <>
           <Text fontSize={theme.typography.fontSizes.size16}>{`${
@@ -39,7 +38,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           }
         />
       </ProgressBar>
-    </HFlex>
+    </Flex>
   );
 };
 

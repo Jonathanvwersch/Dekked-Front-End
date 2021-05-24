@@ -22,6 +22,7 @@ interface IconActiveProps {
   ariaLabel?: string;
   isDisabled?: boolean;
   tabIndex?: number;
+  dangerHover?: boolean;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -35,30 +36,30 @@ const IconActive: React.FC<IconActiveProps> = ({
   ariaLabel,
   isDisabled = false,
   tabIndex = 0,
+  dangerHover,
 }) => {
   const intl = useIntl();
 
   return (
-    <>
-      <StyledIconActive
-        ref={iconActiveRef}
-        onMouseDown={handleMouseDown && handleMouseDown}
-        onClick={handleClick && handleClick}
-        onKeyDown={(e: any) => {
-          if (e.key === "Enter")
-            (handleClick && handleClick(e)) ||
-              (handleMouseDown && handleMouseDown(e));
-        }}
-        className={className}
-        fillType={fillType}
-        tabIndex={tabIndex}
-        cursor={cursor}
-        aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
-        disabled={isDisabled}
-      >
-        {children}
-      </StyledIconActive>
-    </>
+    <StyledIconActive
+      ref={iconActiveRef}
+      onMouseDown={handleMouseDown && handleMouseDown}
+      onClick={handleClick && handleClick}
+      onKeyDown={(e: any) => {
+        if (e.key === "Enter")
+          (handleClick && handleClick(e)) ||
+            (handleMouseDown && handleMouseDown(e));
+      }}
+      className={className}
+      fillType={fillType}
+      tabIndex={tabIndex}
+      cursor={cursor}
+      aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
+      disabled={isDisabled}
+      dangerHover={dangerHover}
+    >
+      {children}
+    </StyledIconActive>
   );
 };
 
@@ -73,7 +74,8 @@ const StyledIconActive = styled.button<IconActiveProps>`
   background: none;
   cursor: ${({ cursor }) => cursor || "pointer"};
   outline: none;
-  &:hover {
+
+  &.active {
     & svg {
       & path {
         fill: ${({ theme, fillType }) =>
@@ -83,6 +85,21 @@ const StyledIconActive = styled.button<IconActiveProps>`
         stroke: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
             ? theme.colors.primary
+            : "auto"};
+      }
+    }
+  }
+
+  &:hover {
+    & svg {
+      & path {
+        fill: ${({ theme, fillType, dangerHover }) =>
+          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
+            ? (dangerHover && theme.colors.danger) || theme.colors.primary
+            : "auto"};
+        stroke: ${({ theme, fillType, dangerHover }) =>
+          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
+            ? (dangerHover && theme.colors.danger) || theme.colors.primary
             : "auto"};
       }
     }

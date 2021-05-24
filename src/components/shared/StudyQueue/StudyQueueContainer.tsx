@@ -72,7 +72,7 @@ const StudyQueue = styled(HoverCard)`
   box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
-// const Notifications = styled(HFlex)<StudyQueueProps>`
+// const Notifications = styled(Flex)<StudyQueueProps>`
 //   justify-content: center;
 //   height: ${({ theme }) => theme.spacers.size16};
 //   width: ${({ theme }) => theme.spacers.size16};

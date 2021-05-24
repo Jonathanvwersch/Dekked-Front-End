@@ -2,15 +2,16 @@ import { isNull } from "lodash";
 import React, { useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFlashcards } from "../../../../services/file-structure";
-import { Params } from "../../../../shared";
-import { FullPageLoadingSpinner, VFlex } from "../../../common";
+import { Params, STUDY_MODE_TYPES } from "../../../../shared";
+import { FullPageLoadingSpinner } from "../../../common";
+import StudyModeController from "../../StudyModeController/StudyModeController";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
-import FreeStudyController from "../FreeStudyController/FreeStudyController";
 
 interface StudyModeFreeStudyProps {}
 
 const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const { id, flashcardIndex: index } = useParams<Params>();
+  const [isEditable, setIsEditable] = useState<boolean>(false);
   const [flashcardIndex, setFlashcardIndex] = useState<number>(
     Number(index) - 1
   );
@@ -32,7 +33,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   }, [flashcards, id]);
 
   return (
-    <VFlex height="100%" justifyContent="space-between">
+    <>
       {!loading && typeof maxLength !== "undefined" ? (
         <>
           <StudyModeMainFrame
@@ -40,18 +41,24 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
             flashcards={flashcards}
             maxLength={maxLength}
             flippedState={flippedState}
+            studyMode={STUDY_MODE_TYPES.FREE_STUDY}
+            isEditable={isEditable}
+            setIsEditable={setIsEditable}
           />
-          <FreeStudyController
+          <StudyModeController
+            isEditable={isEditable}
+            setIsEditable={setIsEditable}
             maxLength={maxLength}
             flashcardIndex={flashcardIndex}
             setFlashcardIndex={setFlashcardIndex}
             setFlippedState={setFlippedState}
+            type={STUDY_MODE_TYPES.FREE_STUDY}
           />
         </>
       ) : (
         <FullPageLoadingSpinner />
       )}
-    </VFlex>
+    </>
   );
 };
 

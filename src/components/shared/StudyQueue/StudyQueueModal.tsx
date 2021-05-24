@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components/macro";
 import {
   Divider,
-  HFlex,
+  Flex,
   Scroller,
   ShadowCard,
-  VFlex,
   Button,
   Overlay,
 } from "../../common";
@@ -32,25 +31,20 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
         height="300px"
         position="relative"
       >
-        <VFlex height="100%" width="100%">
-          <HFlex width="100%" height="100%">
+        <Flex flexDirection="column" height="100%" width="100%">
+          <Flex width="100%" height="100%">
             <Scroller></Scroller>
-          </HFlex>
+          </Flex>
           <Divider />
-          <Base>
+          <Flex justifyContent="flex-end" p={theme.spacers.size8}>
             <Button buttonStyle={BUTTON_THEME.PRIMARY} disabled={true}>
               Study
             </Button>
-          </Base>
-        </VFlex>
+          </Flex>
+        </Flex>
       </ShadowCard>
     </Overlay>
   );
 };
-
-const Base = styled(HFlex)`
-  padding: 8px;
-  justify-content: flex-end;
-`;
 
 export default StudyQueueModal;

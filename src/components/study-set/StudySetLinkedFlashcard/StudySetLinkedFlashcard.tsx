@@ -3,9 +3,8 @@ import styled from "styled-components/macro";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
 import { EditorContext, SelectedItemContext } from "../../../contexts";
-import { useFlashcards } from "../../../services/file-structure";
 import { SIZES } from "../../../shared";
-import { VFlex, IconActive, Tooltip } from "../../common";
+import { Flex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 
 interface StudySetLinkedFlashcardProps {
@@ -23,6 +22,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
 
   return (
     <LinkedCard
+      flexDirection="column"
       flashcardSize={flashcardSize}
       flashcardPosition={flashcardPosition}
     >
@@ -58,7 +58,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   );
 };
 
-const LinkedCard = styled(VFlex)<StudySetLinkedFlashcardProps>`
+const LinkedCard = styled(Flex)<StudySetLinkedFlashcardProps>`
   z-index: 998;
   position: fixed;
   bottom: 0;

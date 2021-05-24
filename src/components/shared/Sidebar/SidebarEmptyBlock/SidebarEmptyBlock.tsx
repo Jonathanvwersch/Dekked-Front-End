@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, HFlex, Text } from "../../../common";
+import { Card, Flex, Text } from "../../../common";
 import { usePageSetupHelpers } from "../../../../hooks";
 import { FILETREE_TYPES } from "../../../../shared";
 
@@ -26,9 +26,9 @@ const SidebarEmptyBlock: React.FC<SidebarEmptyBlockProps> = ({ type }) => {
         theme.spacers.size8
       } ${paddingLeft()}`}
     >
-      <HFlex>
+      <Flex>
         <Text fontColor={theme.colors.grey1}>{formatMessage(message())}</Text>
-      </HFlex>
+      </Flex>
     </Card>
   );
 };

@@ -27,7 +27,6 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
   const { onSave, blocks, loading, pageId } = useContext(NotesContext);
   const { setCurrentBlock } = useContext(EditorContext);
-  console.log(editorHasFocus);
 
   // Debounce function to autosave notes
   const debounced = debounce(

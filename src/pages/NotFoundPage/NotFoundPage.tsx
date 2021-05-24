@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { HFlex, Spacer, Text, VFlex, Button } from "../../components/common";
+import { Flex, Spacer, Text, Button } from "../../components/common";
 import { usePageSetupHelpers } from "../../hooks";
 import { BUTTON_THEME } from "../../shared";
 
@@ -13,8 +13,8 @@ const NotFoundPage: React.FC = () => {
   }, [history]);
 
   return (
-    <HFlex width="100%" height="100%" justifyContent="center">
-      <VFlex>
+    <Flex width="100%" height="100%" justifyContent="center">
+      <Flex flexDirection="column">
         <Text fontSize={theme.typography.fontSizes.size16}>
           {formatMessage("notFoundPage.mainMessage")}
         </Text>
@@ -24,8 +24,8 @@ const NotFoundPage: React.FC = () => {
             {formatMessage("notFoundPage.goHome")}
           </Button>
         </Link>
-      </VFlex>
-    </HFlex>
+      </Flex>
+    </Flex>
   );
 };
 

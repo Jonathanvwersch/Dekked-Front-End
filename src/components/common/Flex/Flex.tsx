@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { BoxProps, marginAndPadding } from "../Box/Box";
 
-interface HFlexProps {
+interface FlexProps {
   backgroundcolor?: string;
   alignItems?: string;
   justifyContent?: string;
@@ -10,24 +11,30 @@ interface HFlexProps {
   minHeight?: string;
   minWidth?: string;
   id?: string;
+  flexDirection?: "row" | "column";
+  className?: string;
 }
 
-const HFlex: React.FC<HFlexProps> = ({ children, ...props }) => {
+type FlexPropsUnion = FlexProps & BoxProps;
+
+const Flex: React.FC<FlexPropsUnion> = ({ children, ...props }) => {
   return (
-    <StyledHFlex id={props.id} {...props}>
+    <StyledFlex className={props.className} id={props.id} {...props}>
       {children}
-    </StyledHFlex>
+    </StyledFlex>
   );
 };
 
-const StyledHFlex = styled.div<HFlexProps>`
+const StyledFlex = styled.div<FlexProps>`
   display: flex;
+  flex-direction: ${({ flexDirection }) => flexDirection};
   align-items: ${({ alignItems }) => (alignItems ? alignItems : "center")};
   justify-content: ${({ justifyContent }) => justifyContent};
   height: ${({ height }) => height};
   width: ${({ width }) => (width ? width : "100%")};
   min-height: ${({ minHeight }) => minHeight};
-  min-height: ${({ minWidth }) => minWidth};
+  min-width: ${({ minWidth }) => minWidth};
+  ${() => marginAndPadding}
 `;
 
-export default HFlex;
+export default Flex;

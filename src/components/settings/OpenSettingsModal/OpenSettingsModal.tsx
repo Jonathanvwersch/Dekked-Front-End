@@ -10,7 +10,7 @@ import { MainSettingsModal } from "..";
 interface OpenSettingsModalProps {
   open: boolean;
   handleClose: () => void;
-  coords: CoordsType;
+  coords?: CoordsType;
 }
 
 const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
@@ -18,12 +18,10 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   open,
   coords,
 }) => {
-  const [openMainSettingsModal, setOpenMainSettingsModal] = useState<boolean>(
-    false
-  );
+  const [openMainSettingsModal, setOpenMainSettingsModal] =
+    useState<boolean>(false);
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
-
     if (option === OPEN_SETTINGS_DATA.SETTINGS) {
       setOpenMainSettingsModal(true);
     }

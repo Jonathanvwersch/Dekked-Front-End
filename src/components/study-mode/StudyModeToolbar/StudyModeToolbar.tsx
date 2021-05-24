@@ -1,25 +1,49 @@
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components/macro";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
-import { SIZES } from "../../../shared";
-import { IconActive, Spacer, Tooltip, VFlex } from "../../common";
+import { useFlashcards } from "../../../services/file-structure";
+import { Params, SIZES } from "../../../shared";
+import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 
-interface StudyModeToolbarProps {}
+interface StudyModeToolbarProps {
+  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
+  flashcardId?: string;
+  isEditable: boolean;
+}
 
-const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
+const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
+  setIsEditable,
+  flashcardId,
+  isEditable,
+}) => {
   const theme = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { deleteFlashcard } = useFlashcards();
+  const { id } = useParams<Params>();
 
   return (
     <>
-      <StudyToolbar width="auto" height="100%" justifyContent="flex-start">
+      <StudyToolbar
+        flexDirection="column"
+        width="auto"
+        height="100%"
+        justifyContent="flex-start"
+      >
         <Tooltip
           id="EditFlashcard"
-          text="tooltips.studyMode.editCard"
+          text={
+            isEditable
+              ? "tooltips.studyMode.cardNowEditable"
+              : "tooltips.studyMode.editCard"
+          }
           place="left"
         >
-          <IconActive>
+          <IconActive
+            className={isEditable ? "active" : undefined}
+            handleClick={() => setIsEditable((prevState) => !prevState)}
+          >
             <EditIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
@@ -29,7 +53,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
           text="tooltips.studyMode.deleteCard"
           place="left"
         >
-          <IconActive handleClick={() => setIsOpen(true)}>
+          <IconActive dangerHover handleClick={() => setIsOpen(true)}>
             <DeleteForeverIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
@@ -39,16 +63,17 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = () => {
         handleClose={() => setIsOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
-          return null;
+          flashcardId && deleteFlashcard(flashcardId, id);
         }}
       />
     </>
   );
 };
 
-const StudyToolbar = styled(VFlex)`
+const StudyToolbar = styled(Flex)`
   position: absolute;
-  right: -${({ theme }) => theme.spacers.size48};
+  right: ${({ theme }) => theme.spacers.size48};
+  top: 88px;
 `;
 
 export default StudyModeToolbar;

@@ -1,5 +1,5 @@
 import React, { memo, useContext } from "react";
-import { Divider, HFlex, HoverCard, Spacer, Text } from "../../../common";
+import { Divider, Flex, HoverCard, Spacer, Text } from "../../../common";
 import styled, { ThemeContext } from "styled-components/macro";
 import { PlusIcon } from "../../../../assets";
 import { FileTreeContext } from "../../../../contexts";
@@ -24,13 +24,13 @@ const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
         }}
         padding={theme.spacers.size16}
       >
-        <HFlex>
+        <Flex>
           <PlusIcon size={SIZES.MEDIUM} />
           <Spacer width={theme.spacers.size8} />
           <Text fontSize={theme.typography.fontSizes.size16}>
             <FormattedMessage id="sidebar.base.addFolder" />
           </Text>
-        </HFlex>
+        </Flex>
       </HoverCard>
     </StyledSidebarBase>
   );

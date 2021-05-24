@@ -4,7 +4,7 @@ import { ThemeContext } from "styled-components/macro";
 import { ROTATE, SingleChevronIcon } from "../../../../assets";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../../shared";
-import { HFlex, IconActive, Spacer, Tooltip } from "../../../common";
+import { Flex, IconActive, Spacer, Tooltip } from "../../../common";
 
 interface FreeStudyControllerProps {
   maxLength: number;
@@ -31,7 +31,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
   };
 
   return (
-    <HFlex justifyContent="center">
+    <Flex justifyContent="center" mt={theme.spacers.size48}>
       <IconActive
         isDisabled={flashcardIndex === 0}
         handleClick={() => {
@@ -61,7 +61,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
       >
         <SingleChevronIcon size={SIZES.XLARGE} />
       </IconActive>
-    </HFlex>
+    </Flex>
   );
 };
 

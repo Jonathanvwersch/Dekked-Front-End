@@ -13,6 +13,7 @@ interface ShadowCardProps {
   padding?: string;
   cardRef?: React.RefObject<HTMLDivElement>;
   zIndex?: string;
+  maxHeight?: string;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
@@ -25,6 +26,7 @@ const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
 
 const StyledShadowCard = styled.div<ShadowCardProps>`
   box-shadow: ${({ theme }) => theme.boxShadow};
+  max-height: ${({ maxHeight }) => maxHeight};
   border-radius: ${({ theme, borderRadius }) =>
     borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.MEDIUM]};
   height: ${({ height }) => height};

@@ -1,9 +1,9 @@
 // Component to apply margin and padding around another element
 
 import React from "react";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
-interface BoxProps {
+export interface BoxProps {
   mt?: string; // margin top (e.g. '10px')
   mr?: string; // margin right (e.g. '10px')
   mb?: string; // margin bottom (e.g. '10px')
@@ -19,6 +19,7 @@ interface BoxProps {
   py?: string; // padding top, padding bottom (e.g. '10px 11px' or '10px' if you want the same value for left and right
   p?: string; // padding top, padding right, padding bottom, padding left (e.g. '10px 11px 12px 13px' or '10px' (same padding on all 4 sides) or '10px 11px' (first number refers to top and bottom padding and second number refers to left and right padding))
   width?: string;
+  height?: string;
 }
 
 const getXAndYValues = (value: string, afterSpace?: boolean) => {
@@ -32,8 +33,7 @@ const Box: React.FC<BoxProps> = ({ children, ...props }) => {
   return <StyledBox {...props}>{children}</StyledBox>;
 };
 
-const StyledBox = styled.div<BoxProps>`
-  width: ${({ width }) => width};
+export const marginAndPadding = css<BoxProps>`
   margin-top: ${({ mt }) => mt};
   margin-right: ${({ mr }) => mr};
   margin-bottom: ${({ mb }) => mb};
@@ -53,6 +53,13 @@ const StyledBox = styled.div<BoxProps>`
   padding-top: ${({ py }) => py && getXAndYValues(py)};
   padding-bottom: ${({ py }) => py && getXAndYValues(py, true)};
   padding: ${({ p }) => p};
+`;
+
+const StyledBox = styled.div<BoxProps>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+
+  ${() => marginAndPadding}
 `;
 
 export default Box;

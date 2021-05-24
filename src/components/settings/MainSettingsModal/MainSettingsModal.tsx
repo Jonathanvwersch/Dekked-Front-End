@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SettingsOptions, SettingsSidebar } from "..";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import { theme } from "../../../styles/theme";
-import { HFlex, Overlay, ShadowCard } from "../../common";
+import { Flex, Overlay, ShadowCard } from "../../common";
 import { StyledMainFrame } from "../../common/MainFrame/MainFrame";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 
@@ -36,7 +36,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
         width="1000px"
         borderRadius={theme.sizes.borderRadius[SIZES.LARGE]}
       >
-        <HFlex height="100%">
+        <Flex height="100%">
           <SettingsSidebar
             activeSetting={activeSetting}
             handleBlockClick={handleActiveSetting}
@@ -47,7 +47,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
               activeSetting={activeSetting}
             />
           </StyledMainFrame>
-        </HFlex>
+        </Flex>
       </ShadowCard>
     </Overlay>
   );

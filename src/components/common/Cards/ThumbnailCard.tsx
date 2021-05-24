@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
-import { Card, HFlex, Spacer, Text, VFlex } from "../../common";
+import { Card, Spacer, Text, Flex } from "../../common";
 
 interface ThumbnailCardProps {
   topText: string;
@@ -35,7 +35,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       }
       ariaLabel={topText}
     >
-      <VFlex height="100%">
+      <Flex flexDirection="column" height="100%">
         <Thumbnail backgroundImage={backgroundImage}>
           {backgroundIcon}
         </Thumbnail>
@@ -45,7 +45,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
         >
           <Text className="overflow">{topText}</Text>
           <Spacer height="2px" />
-          <HFlex>
+          <Flex>
             {icon ? (
               <>
                 {icon}
@@ -58,9 +58,9 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
             >
               {bottomText}
             </Text>
-          </HFlex>
+          </Flex>
         </Description>
-      </VFlex>
+      </Flex>
     </StyledCard>
   );
 };

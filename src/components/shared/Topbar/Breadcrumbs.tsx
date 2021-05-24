@@ -3,23 +3,22 @@ import { useParams, useRouteMatch } from "react-router-dom";
 import { StudyModeIcon } from "../../../assets";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { FILETREE_TYPES, Params } from "../../../shared";
-import { HFlex } from "../../common";
+import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
 import { SidebarContext } from "../../../contexts";
 
 const Breadcrumbs: React.FC = () => {
-  const { folderData, binderData, studySetData, type, loading } = useContext(
-    SelectedItemContext
-  );
+  const { folderData, binderData, studySetData, type, loading } =
+    useContext(SelectedItemContext);
   const { studyModes } = useParams<Params>();
   const { url } = useRouteMatch();
   const intl = useIntl();
   const { studySetTabLink } = useContext(SidebarContext);
 
   return !loading ? (
-    <HFlex>
+    <Flex>
       {folderData && (
         <Crumb
           breadCrumbData={folderData}
@@ -50,7 +49,7 @@ const Breadcrumbs: React.FC = () => {
           link={url}
         />
       ) : null}
-    </HFlex>
+    </Flex>
   ) : null;
 };
 

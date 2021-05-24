@@ -1,5 +1,5 @@
 export { default as Avatar } from "./Avatar/Avatar";
-export { default as HFlex } from "./HFlex/HFlex";
+export { default as Flex } from "./Flex/Flex";
 export * from "./Cards";
 export { default as IconActive } from "./IconActive/IconActive";
 export { default as IconWrapper } from "./IconWrapper/IconWrapper";
@@ -7,7 +7,6 @@ export { ComponentLoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export { FullPageLoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export { default as Spacer } from "./Spacer/Spacer";
 export { default as Text } from "./Text/Text";
-export { default as VFlex } from "./VFlex/VFlex";
 export { default as Overlay } from "./Overlay/Overlay";
 export { default as ColorPicker } from "./ColorPicker/ColorPicker";
 export { default as Page } from "./Pages/Page";

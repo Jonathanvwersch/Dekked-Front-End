@@ -6,7 +6,7 @@ import { EditorContext, SidebarContext } from "../../../contexts";
 import { SIZES } from "../../../shared";
 import {
   ComponentLoadingSpinner,
-  HFlex,
+  Flex,
   IconActive,
   Spacer,
   Tooltip,
@@ -19,6 +19,8 @@ const TopBar: React.FC = () => {
   const theme = useContext(ThemeContext);
   const { saving, saveError } = useContext(EditorContext);
 
+  // Show a loading spinner when the notes page is auto saving
+  // If the page fails to save, show a message saying Failed to save
   const savingLoadingSpinner = () => {
     if (saving && !saveError)
       return (
@@ -29,15 +31,15 @@ const TopBar: React.FC = () => {
       );
     else if (saveError)
       return (
-        <HFlex>
+        <Flex>
           <Spacer width={theme.spacers.size32} />
           <Text
             fontColor={theme.colors.danger}
             fontSize={theme.typography.fontSizes.size14}
           >
-            {/* <FormattedMessage id="topbar.failedToSave" /> */}
+            <FormattedMessage id="topbar.failedToSave" />
           </Text>
-        </HFlex>
+        </Flex>
       );
     else return null;
   };
@@ -57,10 +59,10 @@ const TopBar: React.FC = () => {
           <Spacer width={theme.spacers.size16} />
         </>
       ) : null}
-      <HFlex width="auto">
+      <Flex width="auto">
         <Breadcrumbs />
         {savingLoadingSpinner()}
-      </HFlex>
+      </Flex>
     </StyledTopbar>
   );
 };

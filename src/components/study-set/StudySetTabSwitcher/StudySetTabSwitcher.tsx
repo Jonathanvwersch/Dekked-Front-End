@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { HFlex, Spacer, Text } from "../../common";
+import { Flex, Spacer, Text } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -35,11 +35,11 @@ const StudySetTabSwitcher: React.FC = () => {
   };
 
   return (
-    <HFlex width="auto">
+    <Flex width="auto">
       {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes"))}
       <Spacer width={theme.spacers.size16} />
       {tabLink(TAB_TYPE.FLASHCARDS, formatMessage("studySet.tabs.flashcards"))}
-    </HFlex>
+    </Flex>
   );
 };
 

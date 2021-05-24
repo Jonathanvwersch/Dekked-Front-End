@@ -72,9 +72,16 @@ export type ThemeType = {
     };
 
     button: {
-      small: string;
-      medium: string;
-      large: string;
+      height: {
+        small: string;
+        medium: string;
+        large: string;
+      };
+      width: {
+        small: string;
+        medium: string;
+        large: string;
+      };
     };
 
     borderRadius: {
@@ -193,9 +200,16 @@ export const theme: ThemeType = {
     },
 
     button: {
-      small: "32px",
-      medium: "40px",
-      large: "48px;",
+      height: {
+        small: "32px",
+        medium: "40px",
+        large: "48px;",
+      },
+      width: {
+        small: "150px",
+        medium: "200px",
+        large: "250px;",
+      },
     },
 
     icons: {

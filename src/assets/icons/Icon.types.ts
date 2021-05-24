@@ -13,4 +13,5 @@ export interface IconProps {
   rotate?: ROTATE;
   height?: string;
   width?: string;
+  ariaLabel?: string;
 }

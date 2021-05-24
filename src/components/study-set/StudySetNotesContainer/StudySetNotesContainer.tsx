@@ -1,7 +1,7 @@
 import React from "react";
 import { StudySetLinkedFlashcard } from "..";
 import PageNoteTaker from "../../notetaking/PageNoteTaker";
-import { VFlex } from "../../common";
+import { Flex } from "../../common";
 import { EditorState } from "draft-js";
 import ReturnToStudyModeButton from "../../study-mode/ReturnToStudyModeButton/ReturnToStudyModeButton";
 
@@ -22,12 +22,12 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
 }) => {
   return (
     <div ref={notesRef}>
-      <VFlex height="auto">
+      <Flex flexDirection="column" height="auto">
         <PageNoteTaker
           editorState={editorState}
           setEditorState={setEditorState}
         />
-      </VFlex>
+      </Flex>
       {flashcardSize ? (
         <StudySetLinkedFlashcard
           flashcardSize={flashcardSize}

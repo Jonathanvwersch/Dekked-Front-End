@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { GeneralModal, H4, HFlex, Spacer, ThumbnailCard } from "../../common";
+import { GeneralModal, H4, Flex, Spacer, ThumbnailCard } from "../../common";
 import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
 import { Params, STUDY_MODE_TYPES } from "../../../shared";
@@ -23,7 +23,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
 
   return (
     <GeneralModal isOpen={isOpen} header={header} handleClose={handleClose}>
-      <HFlex justifyContent="center">
+      <Flex justifyContent="center">
         {/* <NavLink
           to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
         >
@@ -46,7 +46,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
             backgroundImage={FreeStudyCard}
           />
         </NavLink>
-      </HFlex>
+      </Flex>
     </GeneralModal>
   );
 };

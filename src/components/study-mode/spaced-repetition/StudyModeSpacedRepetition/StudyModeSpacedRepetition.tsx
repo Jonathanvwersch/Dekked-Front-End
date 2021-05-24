@@ -1,5 +1,5 @@
 import React from "react";
-import { VFlex } from "../../../common";
+import { Flex } from "../../../common";
 // import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 // import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 
@@ -8,10 +8,10 @@ interface StudyModeSpacedRepetitionProps {}
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
     return (
-      <VFlex justifyContent="space-between" height="100%">
+      <Flex flexDirection="column" justifyContent="space-between" height="100%">
         {/* <StudyModeMainFrame />
       <SpacedRepetitionController /> */}
-      </VFlex>
+      </Flex>
     );
   };
 

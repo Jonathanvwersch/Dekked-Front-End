@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { Button, Divider, Overlay, Spacer } from "../../common";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import { FormattedMessage } from "react-intl";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled from "styled-components/macro";
 import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
+import { usePageSetupHelpers } from "../../../hooks";
 
 interface ReturnToStudyModeButtonProps {
   buttonPosition: number;
@@ -16,7 +17,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
   buttonPosition,
   pageWidth,
 }) => {
-  const theme = useContext(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const history = useHistory();
   const buttonWidth = 290;
   const { isLinked, setIsLinked, studyModeUrl } = useContext(
@@ -57,6 +58,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
           } 0px`}
           width="20%"
           handleClick={() => setIsLinked(false)}
+          ariaLabel={formatMessage("tooltips.generics.close")}
         >
           <CloseIcon size={SIZES.LARGE} color="white" />
         </Button>

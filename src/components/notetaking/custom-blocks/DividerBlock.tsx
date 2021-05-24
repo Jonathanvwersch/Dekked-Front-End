@@ -1,20 +1,36 @@
 import React, { memo, useEffect } from "react";
 import styled from "styled-components/macro";
 import { Halo } from "../../common";
-import { addNewBlockAt } from "../Editor/Editor.helpers";
+import { addNewBlockAt, updateDataOfBlock } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
-  // add new block on mount after the divider
-  const { setEditorState } = props.blockProps;
-  useEffect(() => {
+  const { block, blockProps } = props;
+  const { setEditorState, editorState } = blockProps;
+  const data = block.getData();
+  const newBlock = data.has("created") && data.get("created") === true;
+  console.log("data", data.get("created"));
+
+  const updateData = () => {
+    const newData = data.set("created", true);
     setEditorState(
-      addNewBlockAt(props.blockProps.editorState, props.block.getKey())
+      updateDataOfBlock(
+        addNewBlockAt(editorState, block.getKey()),
+        block,
+        newData
+      )
     );
+  };
+
+  // Add new block after divider, if the block has been created for the first time
+  useEffect(() => {
+    if (!newBlock) {
+      updateData();
+    }
   }, []);
 
   return (
     <Halo editable={false}>
-      <Divider id={`${props.block.getKey()}-0-0`} />
+      <Divider id={`${block.getKey()}-0-0`} />
     </Halo>
   );
 };

@@ -17,7 +17,7 @@ const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
       {!loading ? (
         <StyledMainFrame backgroundColor={backgroundColor}>
           <TopBar />
-          <Page>{children}</Page>
+          {<Page>{children}</Page>}
         </StyledMainFrame>
       ) : (
         <ComponentLoadingSpinner />

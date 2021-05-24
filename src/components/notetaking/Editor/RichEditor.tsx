@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useContext, useEffect, useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -27,7 +27,6 @@ import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
-import { EditorContext } from "../../../contexts";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -174,6 +173,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const extendedBlockRenderMap =
     Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
+  const showPlaceholder = editorType === "flashcard" ? hasFocus : true;
+
   return (
     <>
       {!loading ? (
@@ -193,7 +194,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             tabIndex={1}
             customStyleMap={styleMap}
             placeholder={
-              hasFocus &&
+              showPlaceholder &&
               getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
                 ? formatMessage(`studySet.notetaking.placeholder`, intl)
                 : ""
@@ -220,7 +221,7 @@ const EditorContainer = styled.div<{
   width: 100%;
   position: relative;
   font-size: ${({ theme, editorType }) =>
-    editorType === "flashcard" ? theme.typography.fontSizes.size14 : "auto"};
+    editorType === "flashcard" && theme.typography.fontSizes.size14};
 
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;

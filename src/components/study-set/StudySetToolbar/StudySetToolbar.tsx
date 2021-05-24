@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { HFlex, Spacer } from "../../common";
+import { Flex, Spacer } from "../../common";
 import { DividerIcon } from "../../../assets";
 import { ThemeContext } from "styled-components/macro";
 import { ThemeType } from "../../../styles/theme";
@@ -29,7 +29,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
 
   return (
     <>
-      <HFlex width="auto">
+      <Flex width="auto">
         <ChangeTextStyles
           editorState={editorState}
           setEditorState={setEditorState}
@@ -54,7 +54,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
           isDisabled={isDisabled}
           iconSize={iconSize}
         />
-      </HFlex>
+      </Flex>
     </>
   );
 };

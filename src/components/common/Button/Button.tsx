@@ -20,8 +20,9 @@ interface ButtonProps {
   buttonStyle?: BUTTON_THEME;
   handleClick?: (args: any) => any;
   size?: SIZES;
-  width?: string;
+  width?: SIZES | string;
   borderRadius?: string;
+  ariaLabel?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -35,6 +36,7 @@ const Button: React.FC<ButtonProps> = ({
   size = SIZES.SMALL,
   width,
   borderRadius,
+  ariaLabel,
 }) => {
   const Button = ButtonStyles[buttonStyle];
   const className = fullWidth ? "fullWidth" : "";
@@ -49,6 +51,7 @@ const Button: React.FC<ButtonProps> = ({
       className={className}
       width={width}
       borderRadius={borderRadius}
+      aria-label={ariaLabel}
     >
       {isLoading ? (
         <span>

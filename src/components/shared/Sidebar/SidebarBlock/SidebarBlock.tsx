@@ -16,7 +16,7 @@ import {
 import {
   Card,
   ColorPicker,
-  HFlex,
+  Flex,
   HoverCard,
   IconActive,
   IconWrapper,
@@ -129,7 +129,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
               <Card
                 padding={`${theme.spacers.size8} ${theme.spacers.size12} ${theme.spacers.size8} ${paddingLeft}`}
               >
-                <HFlex>
+                <Flex>
                   {type === FILETREE_TYPES.FOLDER ||
                   type === FILETREE_TYPES.BINDER ? (
                     <IconActive handleClick={(e) => handleExpandBlock(e)}>
@@ -180,7 +180,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                       </IconActive>
                     ) : null}
                   </HiddenIconsContainer>
-                </HFlex>
+                </Flex>
               </Card>
             </StyledBlock>
           </HoverCard>
