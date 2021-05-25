@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { ButtonDanger, ButtonPrimary, ButtonSecondary } from "./Button.styles";
 import { ComponentLoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 const ButtonStyles = {
   primary: ButtonPrimary,

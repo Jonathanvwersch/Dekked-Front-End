@@ -1,6 +1,6 @@
 // Wrapper component that supplies a scroll bar on hover
 import React from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 interface ScrollerProps {
   width?: string;

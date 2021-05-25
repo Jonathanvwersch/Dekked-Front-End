@@ -19,7 +19,7 @@ import {
   isSoftNewlineEvent,
 } from "./Editor.helpers";
 
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
 import { BLOCK_TYPES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";

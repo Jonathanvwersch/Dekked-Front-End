@@ -28,7 +28,6 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
   useLayoutEffect(() => {
     flashcards && setCurrentFlashcard(flashcards[flashcardIndex]);
   }, [flashcardIndex]);
-  console.log(currentFlashcard?.flashcard.block_link);
 
   return (
     <>

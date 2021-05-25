@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import { theme } from "../../../styles/theme";
 import { Box, Flex, Spacer, Text } from "../../common";
 

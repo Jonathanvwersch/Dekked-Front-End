@@ -5,7 +5,7 @@ import {
   LeftAlignIcon,
   RightAlignIcon,
 } from "../../../assets";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { SIZES } from "../../../shared";
 import {
   getCurrentBlock,

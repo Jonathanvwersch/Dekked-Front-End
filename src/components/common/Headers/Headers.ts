@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { ThemeType } from "../../../styles/theme";
 import { commonStyles, headingStyles } from "./Headers.styles";
 

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { ROTATE, SingleChevronIcon } from "../../../../assets";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../../shared";

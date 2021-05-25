@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import {
   Button,
   H1,

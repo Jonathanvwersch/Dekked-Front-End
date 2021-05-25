@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Svg, IconProps } from "..";
 
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../styles/theme";
 
 const SupersciptIcon: React.FC<IconProps> = ({ color, size }) => {

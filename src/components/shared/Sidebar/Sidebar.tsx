@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
 import { SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";

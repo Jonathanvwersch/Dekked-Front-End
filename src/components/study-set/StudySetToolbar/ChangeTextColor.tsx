@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "../../common";
 import { ReColorIcon, TextColorIcon } from "../../../assets";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { CoordsType, SIZES } from "../../../shared";
 import { positionModals } from "../../../helpers";
 import { EditorState } from "draft-js";

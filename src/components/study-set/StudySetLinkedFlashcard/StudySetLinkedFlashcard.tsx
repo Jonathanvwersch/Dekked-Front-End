@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
 import { CurrentBlockContext, SelectedItemContext } from "../../../contexts";

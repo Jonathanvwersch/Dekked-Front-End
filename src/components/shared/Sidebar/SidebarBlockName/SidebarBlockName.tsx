@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";

@@ -1,6 +1,6 @@
 import { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { debounce } from "lodash";
+import { debounce, isEmpty } from "lodash";
 
 import React, {
   memo,
@@ -9,63 +9,60 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { CurrentBlockContext, SavingEditorContext } from "../../contexts";
-import { usePage } from "../../services/note-taking/usePage";
+import { CurrentBlockContext } from "../../contexts";
+import {
+  getBlocksByPageId,
+  savePage,
+} from "../../services/note-taking/blocks-api";
 import { Params } from "../../shared";
-import { createKeysAndBlocks, getCurrentBlock } from "./Editor/Editor.helpers";
+import {
+  convertBlocksToContent,
+  getCurrentBlock,
+} from "./Editor/Editor.helpers";
 import RichEditor from "./Editor/RichEditor";
 
 interface PageNoteTakerProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  pageId?: string;
-  loading?: boolean;
 }
 
 const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   editorState,
   setEditorState,
-  pageId,
-  loading,
 }) => {
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
   const { setCurrentBlock } = useContext(CurrentBlockContext);
-  const { setSaving, setSaveError } = useContext(SavingEditorContext);
   const { id: studyPackId } = useParams<Params>();
-  const { savePage } = usePage(studyPackId);
   const currentBlock = editorState && getCurrentBlock(editorState);
+  const { data: blocks, isLoading } = useQuery(studyPackId, () =>
+    getBlocksByPageId(studyPackId)
+  );
+  const pageId = blocks?.pageId;
 
-  // Make call to server to save text blocks
-  const onSave = async (
-    editorState: EditorState,
-    pageId: string | undefined
-  ) => {
-    setSaving(true);
-    const { keys, blocks } = createKeysAndBlocks(editorState);
-    const response = await savePage({
-      draft_keys: keys,
-      blocks,
-      id: pageId,
-    });
-    if (!response.success) {
-      setSaveError(true);
-    } else {
-      setSaving(!response.success);
-      setSaveError(false);
+  const { mutate } = useMutation(
+    `${studyPackId}-notes-saving`,
+    (editorState: EditorState) => savePage(editorState, pageId)
+  );
+
+  // Set editor state on mount with the blocks
+  useEffect(() => {
+    if (blocks?.data && !isEmpty(blocks?.data)) {
+      const savedState = convertBlocksToContent(blocks?.data);
+      setEditorState(EditorState.createWithContent(savedState));
     }
-  };
+  }, [blocks]);
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState, pageId: string | undefined) =>
-      onSave(editorState, pageId),
+    (editorState: EditorState) => mutate(editorState),
     750
   );
 
   const autoSave = useCallback(
     (editorState: EditorState) => {
-      debounced(editorState, pageId);
+      debounced(editorState);
     },
     [pageId]
   );
@@ -78,7 +75,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     <RichEditor
       hasFocus={editorHasFocus}
       setHasFocus={setEditorHasFocus}
-      loading={loading}
+      loading={isLoading}
       editorState={editorState}
       setEditorState={setEditorState}
       saveEditor={autoSave}

@@ -2,7 +2,7 @@ import React, { memo, useContext } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { useIntl } from "react-intl";
 import { handleIconType, handleUntitled } from "../../../helpers";

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { useOutsideClickListener } from "../../../hooks";
 
 interface DividerBlockProps {

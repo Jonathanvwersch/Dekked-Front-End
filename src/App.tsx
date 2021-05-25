@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
 import { withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -15,10 +18,12 @@ export const App: React.FC = () => {
   });
 
   return (
-    <StyledApp className="app">
-      <GlobalStyle />
-      <Routes />
-    </StyledApp>
+    <QueryClientProvider client={queryClient}>
+      <StyledApp className="app">
+        <GlobalStyle />
+        <Routes />
+      </StyledApp>
+    </QueryClientProvider>
   );
 };
 

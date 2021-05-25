@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { FILETREE_TYPES } from "../../../shared";
 import { FileTreeContext, SelectedItemContext } from "../../../contexts";
 import { FolderBinderAddCard, FolderBinderCard } from "..";

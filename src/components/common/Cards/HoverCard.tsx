@@ -1,6 +1,6 @@
 // Wrapper component for whenever you want to add a hover and active state to another component
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 interface HoverCardProps {
   width?: string;

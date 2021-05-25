@@ -11,8 +11,6 @@ interface StudySetNotesContainerProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   notesRef?: (node: any) => void;
-  pageId?: string;
-  loading?: boolean;
 }
 
 const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
@@ -21,8 +19,6 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
   editorState,
   setEditorState,
   notesRef,
-  pageId,
-  loading,
 }) => {
   return (
     <div ref={notesRef}>
@@ -30,8 +26,6 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
         <PageNoteTaker
           editorState={editorState}
           setEditorState={setEditorState}
-          pageId={pageId}
-          loading={loading}
         />
       </Flex>
       {flashcardSize ? (

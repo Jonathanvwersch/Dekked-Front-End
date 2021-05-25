@@ -1,7 +1,7 @@
 // Component to apply margin and padding around another element
 
 import React from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 
 export interface BoxProps {
   mt?: string; // margin top (e.g. '10px')

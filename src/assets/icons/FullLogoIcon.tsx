@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { IconProps, SvgVaried } from "..";
 
 const FullLogoIcon: React.FC<IconProps> = ({ color, height, width }) => {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PageHeader } from "../../shared";
 import { Button, Flex, Spacer } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
 import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";

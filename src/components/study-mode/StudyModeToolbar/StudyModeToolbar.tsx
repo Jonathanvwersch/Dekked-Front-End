@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { useFlashcards } from "../../../services/file-structure";
 import { Params, SIZES } from "../../../shared";

@@ -2,7 +2,7 @@
 import { EditorState } from "draft-js";
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import { Overlay } from "..";
 import {
   BACKGROUND_COLORS,

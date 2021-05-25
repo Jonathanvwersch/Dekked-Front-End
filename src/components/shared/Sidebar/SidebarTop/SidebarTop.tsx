@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import {
   Avatar,
   Card,

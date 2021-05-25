@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Flex, Spacer } from "../../common";
 import { DividerIcon } from "../../../assets";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { ThemeType } from "../../../styles/theme";
 import { SIZES } from "../../../shared";
 

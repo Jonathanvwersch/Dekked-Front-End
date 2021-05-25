@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { Overlay } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
 import { MODAL_TYPE, SIZES } from "../../../shared";

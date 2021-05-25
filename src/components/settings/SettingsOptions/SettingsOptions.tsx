@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { SettingsAccount } from "..";
 import { Box, Footer, Scroller } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";

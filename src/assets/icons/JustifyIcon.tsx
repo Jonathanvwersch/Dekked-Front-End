@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
 import { Svg, IconProps } from "..";
 
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 
 const JustifyIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import styled from "styled-components/macro";
-import { ThemeContext } from "styled-components/macro";
+import styled from "styled-components";
+import { ThemeContext } from "styled-components";
 import FullLogoIcon from "../../assets/icons/FullLogoIcon";
 import { Card, Flex } from "../../components/common";
 import { ThemeType } from "../../styles/theme";

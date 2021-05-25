@@ -1,6 +1,6 @@
 // Modal used whenever you are centering information on the screen
 import React, { useContext } from "react";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { Flex, Overlay, ShadowCard } from "..";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import Spacer from "../Spacer/Spacer";

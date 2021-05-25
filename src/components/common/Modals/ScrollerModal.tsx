@@ -1,6 +1,6 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, useContext } from "react";
-import styled, { ThemeContext } from "styled-components/macro";
+import styled, { ThemeContext } from "styled-components";
 import { Block, Divider, Overlay, ShadowCard } from "..";
 import { useKeyDownAndUpListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";

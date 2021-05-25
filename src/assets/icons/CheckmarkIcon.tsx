@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeType } from "../../styles/theme";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { Svg, IconProps } from "..";
 
 const CheckmarkIcon: React.FC<IconProps> = ({ color, size }) => {

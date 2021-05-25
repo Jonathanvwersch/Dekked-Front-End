@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { ThemeType } from "../styles/theme";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES } from "../shared";
 import {
   useBinders,

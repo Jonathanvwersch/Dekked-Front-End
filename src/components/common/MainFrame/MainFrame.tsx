@@ -1,6 +1,6 @@
 // The main frame is a wrapper component around the topbar and the page
 import React, { useContext } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { ComponentLoadingSpinner, Page } from "..";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import TopBar from "../../shared/Topbar/Topbar";

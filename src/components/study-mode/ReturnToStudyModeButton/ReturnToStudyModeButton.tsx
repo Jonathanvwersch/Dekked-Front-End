@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Button, Divider, Overlay, Spacer } from "../../common";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import { FormattedMessage } from "react-intl";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";

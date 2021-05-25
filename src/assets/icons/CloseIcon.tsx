@@ -1,6 +1,6 @@
 import { ThemeType } from "../../styles/theme";
 import { useContext } from "react";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { Svg, IconProps } from "..";
 
 const CloseIcon: React.FC<IconProps> = ({ color, size }) => {

@@ -2,7 +2,7 @@
 import { isEqual } from "lodash";
 import React, { memo, ReactNode } from "react";
 import { useIntl } from "react-intl";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { formatMessage } from "../../../intl";
 
 export enum FILL_TYPE {

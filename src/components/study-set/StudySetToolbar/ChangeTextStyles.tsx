@@ -20,7 +20,7 @@ import {
   removeSpecificBlockStyle,
   toggleInlineStyle,
 } from "../../notetaking/Editor/Editor.helpers";
-import { ThemeContext } from "styled-components/macro";
+import { ThemeContext } from "styled-components";
 import { positionModals } from "../../../helpers";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 import { changeBlockTypeIcon } from "./StudySetToolbar.helpers";

@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { Halo } from "../../common";
 import { addNewBlockAt, updateDataOfBlock } from "../Editor/Editor.helpers";
 
