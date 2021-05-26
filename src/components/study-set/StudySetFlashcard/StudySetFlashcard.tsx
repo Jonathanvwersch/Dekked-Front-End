@@ -17,21 +17,24 @@ import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
-import { useFlashcards } from "../../../services/file-structure";
 import { debounce, isEmpty } from "lodash";
 import {
   convertBlocksToContent,
-  createKeysAndBlocks,
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal } from "../../shared";
+import { useMutation } from "react-query";
+import {
+  addFlashcard,
+  deleteFlashcard,
+  saveFlashcard,
+} from "../../../services/flashcards/flashcards-api";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
   BACK = "back",
 }
 interface StudySetFlashcardProps {
-  deleteFlashcard?: () => void;
   flashcardId?: string;
   frontBlocks?: string[];
   backBlocks?: string[];
@@ -47,7 +50,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   backBlocks,
   linked = false,
   index,
-  deleteFlashcard,
   flashcardId,
   studyPackId,
   ownerId,
@@ -62,33 +64,21 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
-  const [saving, setSaving] = useState<boolean>(false);
-  const { addFlashcard, saveFlashcard } = useFlashcards();
 
-  // Make call to server to save text blocks
-  const onSave = async (
-    frontEditorState: EditorState,
-    backEditorState: EditorState,
-    flashcardId: string | undefined,
-    ownerId: string | undefined
-  ) => {
-    setSaving(true);
-    const { keys: frontKeys, blocks: frontBlocks } =
-      createKeysAndBlocks(frontEditorState);
-    const { keys: backKeys, blocks: backBlocks } =
-      createKeysAndBlocks(backEditorState);
-    const response = await saveFlashcard({
-      front_blocks: frontBlocks,
-      front_draft_keys: frontKeys,
-      back_blocks: backBlocks,
-      back_draft_keys: backKeys,
-      flash_card_id: flashcardId,
-      owner_id: ownerId,
-    });
-    if (response.success) {
-      setSaving(!response.success);
-    }
-  };
+  const { mutate: addLinkedFlashcard } = useMutation(
+    `${studyPackId}-add-linked-flashcard`,
+    addFlashcard
+  );
+
+  const { mutate: deleteCard } = useMutation(
+    `${studyPackId}-delete-flashcard`,
+    deleteFlashcard
+  );
+
+  const { mutate: saveCard, isLoading: isSaving } = useMutation(
+    `${studyPackId}-save-flashcard`,
+    saveFlashcard
+  );
 
   // Debounce function to autosave notes
   const debounced = debounce(
@@ -98,9 +88,19 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       ownerId: string | undefined
     ) => {
       if (currentSide === FLASHCARD_SIDE.FRONT) {
-        onSave(editorState, backFlashcardEditorState, flashcardId, ownerId);
+        saveCard({
+          frontEditorState: editorState,
+          backEditorState: backFlashcardEditorState,
+          flash_card_id: flashcardId,
+          owner_id: ownerId,
+        });
       } else {
-        onSave(frontFlashcardEditorState, editorState, flashcardId, ownerId);
+        saveCard({
+          frontEditorState: frontFlashcardEditorState,
+          backEditorState: editorState,
+          flash_card_id: flashcardId,
+          owner_id: ownerId,
+        });
       }
     },
     1000
@@ -110,7 +110,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     (editorState: EditorState) => {
       !linked && debounced(editorState, flashcardId, ownerId);
     },
-    [currentSide, flashcardId, ownerId]
+    [studyPackId]
   );
 
   useEffect(() => {
@@ -205,7 +205,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       <Flex justifyContent="space-between" minHeight={theme.spacers.size24}>
         <Text>{index}</Text>
         {toolbar}
-        {saving ? (
+        {isSaving ? (
           <IconWrapper>
             <ComponentLoadingSpinner size={SIZES.SMALL} />
           </IconWrapper>
@@ -222,24 +222,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   const handleSaveLinkedFlashcard = () => {
-    const { keys: frontKeys, blocks: frontBlocks } = createKeysAndBlocks(
-      frontFlashcardEditorState
-    );
-    const { keys: backKeys, blocks: backBlocks } = createKeysAndBlocks(
-      backFlashcardEditorState
-    );
     ownerId &&
       studyPackId &&
       currentBlockKey &&
-      addFlashcard(
-        ownerId,
-        studyPackId,
-        currentBlockKey,
-        frontBlocks,
-        frontKeys,
-        backBlocks,
-        backKeys
-      );
+      addLinkedFlashcard({
+        owner_id: ownerId,
+        study_pack_id: studyPackId,
+        block_link: currentBlockKey,
+        frontFlashcardEditorState,
+        backFlashcardEditorState,
+      });
     setFrontFlashcardEditorState(EditorState.createEmpty());
     setBackFlashcardEditorState(EditorState.createEmpty());
   };
@@ -278,7 +270,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         </Flex>
       </ShadowCard>
       <DeleteModal
-        handleMainButton={() => deleteFlashcard && deleteFlashcard()}
+        handleMainButton={() =>
+          deleteCard({ study_pack_id: studyPackId, flashcard_id: flashcardId })
+        }
         bodyText="studyMode.deleteModal.deleteCard"
         isOpen={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}

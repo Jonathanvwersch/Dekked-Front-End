@@ -36,13 +36,13 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const { setCurrentBlock } = useContext(CurrentBlockContext);
   const { id: studyPackId } = useParams<Params>();
   const currentBlock = editorState && getCurrentBlock(editorState);
-  const { data: blocks, isLoading } = useQuery(studyPackId, () =>
+  const { data: blocks, isLoading } = useQuery(`${studyPackId}-notes`, () =>
     getBlocksByPageId(studyPackId)
   );
   const pageId = blocks?.pageId;
 
   const { mutate } = useMutation(
-    `${studyPackId}-notes-saving`,
+    `${studyPackId}-save-notes`,
     (editorState: EditorState) => savePage(editorState, pageId)
   );
 

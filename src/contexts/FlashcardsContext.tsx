@@ -1,4 +1,4 @@
-import { createContext, useEffect, useLayoutEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import React from "react";
 import { useFlashcards } from "../services/file-structure";
 import { useParams } from "react-router-dom";
@@ -26,10 +26,6 @@ export const FlashcardsContextProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(isNull(flashcards));
 
   const { id: studyPackId, tab } = useParams<Params>();
-
-  useEffect(() => {
-    tab === TAB_TYPE.FLASHCARDS && studyPackId && getFlashcards(studyPackId);
-  }, [studyPackId, tab]);
 
   useEffect(() => {
     setLoading(isNull(flashcards));

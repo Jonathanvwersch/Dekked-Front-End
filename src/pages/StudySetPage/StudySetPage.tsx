@@ -1,11 +1,8 @@
 import { EditorState } from "draft-js";
-import { isEmpty } from "lodash";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { Route, useParams } from "react-router-dom";
+import React, { useCallback, useRef, useState } from "react";
+import { Route } from "react-router-dom";
 import { InsetPage } from "../../components/common";
 import MainFrame from "../../components/common/MainFrame/MainFrame";
-import { convertBlocksToContent } from "../../components/notetaking/Editor/Editor.helpers";
 import {
   StudySetFlashcardsContainer,
   StudySetHeader,
@@ -16,7 +13,7 @@ import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
 import { SavingEditorContextProvider } from "../../contexts/SavingEditorContext";
 import { useResize } from "../../hooks/useResize";
 import CustomSwitch from "../../Router/CustomSwitch";
-import { FILETREE_TYPES, Params, SIZES, TAB_TYPE } from "../../shared";
+import { FILETREE_TYPES, SIZES, TAB_TYPE } from "../../shared";
 
 interface StudySetPageProps {}
 

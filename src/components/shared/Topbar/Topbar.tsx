@@ -18,7 +18,7 @@ const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
   const { id } = useParams<Params>();
-  const isSaving = useIsMutating({ mutationKey: `${id}-notes-saving` });
+  const isSaving = useIsMutating({ mutationKey: `${id}-save-notes` });
 
   // Show a loading spinner when the notes page is auto saving
   // If the page fails to save, show a message saying Failed to save

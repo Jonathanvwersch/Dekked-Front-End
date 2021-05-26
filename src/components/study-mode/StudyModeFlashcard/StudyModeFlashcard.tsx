@@ -21,7 +21,7 @@ import {
 import StudyModeToolbar from "../StudyModeToolbar/StudyModeToolbar";
 import { LogoIcon } from "../../../assets";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
-import { debounce, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import { EditorState } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";

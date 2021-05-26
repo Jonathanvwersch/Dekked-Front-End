@@ -11,6 +11,8 @@ import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
 import { SelectedItemContext } from "../../../contexts";
 import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
+import { useMutation } from "react-query";
+import { addFlashcard } from "../../../services/flashcards/flashcards-api";
 
 interface StudySetHeaderProps {
   editorState: EditorState;
@@ -26,9 +28,12 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const intl = useIntl();
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
-  const { tab } = useParams<Params>();
+  const { tab, id: studyPackId } = useParams<Params>();
   const { selectedItemData } = useContext(SelectedItemContext);
-  const { addFlashcard } = useContext(FlashcardsContext);
+  const { mutate: addCard } = useMutation(
+    `${studyPackId}-add-flashcard`,
+    addFlashcard
+  );
 
   // Calculate the number of words in text
   useEffect(() => {
@@ -60,7 +65,10 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
             handleClick={() =>
               selectedItemData?.owner_id &&
               selectedItemData?.id &&
-              addFlashcard(selectedItemData.owner_id, selectedItemData.id)
+              addCard({
+                owner_id: selectedItemData.owner_id,
+                study_pack_id: selectedItemData.id,
+              })
             }
           >
             <FormattedMessage id="studySet.flashcards.addFlashcard" />

@@ -13,7 +13,6 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import { useFlashcards } from "../../../services/file-structure";
 import { FlashcardsContext } from "../../../contexts";
 
 interface PageHeaderProps {
