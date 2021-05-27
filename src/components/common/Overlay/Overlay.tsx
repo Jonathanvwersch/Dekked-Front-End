@@ -15,6 +15,8 @@ interface OverlayProps {
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
   coords?: CoordsType; // pass down top, left, bottom, right coordinates to position div relative to viewport
+  modalWidth?: string;
+  modalHeight?: string;
 }
 
 const Overlay: React.FC<OverlayProps> = ({
@@ -25,6 +27,8 @@ const Overlay: React.FC<OverlayProps> = ({
   center,
   close,
   coords,
+  modalWidth,
+  modalHeight,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const centeredOverlayClassname =
@@ -47,6 +51,8 @@ const Overlay: React.FC<OverlayProps> = ({
             coords={coords}
             className={close ? "close" : undefined}
             ref={modalRef}
+            modalWidth={modalWidth}
+            modalHeight={modalHeight}
           >
             {children}
             {close ? (
@@ -75,11 +81,15 @@ const OuterContainer = styled.div`
 
 const Modal = styled.div<{
   coords?: CoordsType;
+  modalWidth?: string;
+  modalHeight?: string;
 }>`
   top: ${({ coords }) => (coords?.top ? `${coords?.top}px` : "auto")};
   bottom: ${({ coords }) => (coords?.bottom ? `${coords?.bottom}px` : "auto")};
   left: ${({ coords }) => (coords?.left ? `${coords?.left}px` : "auto")};
   right: ${({ coords }) => (coords?.right ? `${coords?.right}px` : "auto")};
+  width: ${({ modalWidth }) => modalWidth};
+  height: ${({ modalHeight }) => modalHeight};
   position: fixed;
   z-index: 100;
 `;

@@ -10,8 +10,7 @@ import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
 import { SelectedItemContext } from "../../../contexts";
-import { FlashcardsContext } from "../../../contexts/FlashcardsContext";
-import { useMutation } from "react-query";
+import { useIsMutating, useMutation } from "react-query";
 import { addFlashcard } from "../../../services/flashcards/flashcards-api";
 
 interface StudySetHeaderProps {
@@ -30,7 +29,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const theme = useContext(ThemeContext);
   const { tab, id: studyPackId } = useParams<Params>();
   const { selectedItemData } = useContext(SelectedItemContext);
-  const { mutate: addCard } = useMutation(
+  const { mutate: addCard, isLoading } = useMutation(
     `${studyPackId}-add-flashcard`,
     addFlashcard
   );
@@ -62,6 +61,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
         ) : (
           <Button
             buttonStyle={BUTTON_THEME.SECONDARY}
+            isLoading={isLoading}
             handleClick={() =>
               selectedItemData?.owner_id &&
               selectedItemData?.id &&

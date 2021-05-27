@@ -3,5 +3,3 @@ export { SidebarContext } from "./SidebarContext";
 export { SelectedItemContext } from "./SelectedItemContext";
 export { CurrentBlockContext } from "./CurrentBlockContext";
 export { LinkedFlashcardContext } from "./LinkedFlashcardContext";
-export { FlashcardsContext } from "./FlashcardsContext";
-export { SavingEditorContext } from "./SavingEditorContext";

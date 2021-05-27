@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
-import { useFlashcards } from "../../../services/file-structure";
+import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
 import { Params, SIZES } from "../../../shared";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
@@ -20,8 +21,12 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { deleteFlashcard } = useFlashcards();
-  const { id } = useParams<Params>();
+  const { id: studyPackId } = useParams<Params>();
+
+  const { mutate: deleteCard } = useMutation(
+    `${studyPackId}-delete-flashcard`,
+    deleteFlashcard
+  );
 
   return (
     <>
@@ -63,7 +68,10 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         handleClose={() => setIsOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
-          flashcardId && deleteFlashcard(flashcardId, id);
+          deleteCard({
+            flashcard_id: flashcardId,
+            study_pack_id: studyPackId,
+          });
         }}
       />
     </>

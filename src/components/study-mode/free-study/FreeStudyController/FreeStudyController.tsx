@@ -3,6 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { ROTATE, SingleChevronIcon } from "../../../../assets";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
+import useKeyPress from "../../../../hooks/useKeyPress";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../../shared";
 import { Flex, IconActive, Spacer, Tooltip } from "../../../common";
 
@@ -30,15 +31,34 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
     );
   };
 
+  const arrowLeft = () => {
+    if (flashcardIndex !== 0) {
+      setFlashcardIndex((prevState) => prevState - 1);
+      navigateTo(currentIndex - 1);
+    }
+  };
+
+  const arrowRight = () => {
+    if (flashcardIndex !== maxLength) {
+      setFlippedState(true);
+      setFlashcardIndex((prevState) => prevState + 1);
+      navigateTo(currentIndex + 1);
+    }
+  };
+
+  const space = () => {
+    if (flashcardIndex !== maxLength) {
+      setFlippedState((prevState) => !prevState);
+    }
+  };
+
+  useKeyPress("Space", space);
+  useKeyPress("ArrowRight", arrowRight);
+  useKeyPress("ArrowLeft", arrowLeft);
+
   return (
     <Flex justifyContent="center" mt={theme.spacers.size48}>
-      <IconActive
-        isDisabled={flashcardIndex === 0}
-        handleClick={() => {
-          setFlashcardIndex((prevState) => prevState - 1);
-          navigateTo(currentIndex - 1);
-        }}
-      >
+      <IconActive isDisabled={flashcardIndex === 0} handleClick={arrowLeft}>
         <SingleChevronIcon size={SIZES.XLARGE} rotate={ROTATE.ONEEIGHTY} />
       </IconActive>
 
@@ -46,7 +66,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
       <Tooltip id="FlipFlashcard" text="tooltips.studyMode.flip" place="top">
         <IconActive
           isDisabled={flashcardIndex === maxLength}
-          handleClick={() => setFlippedState((prevState) => !prevState)}
+          handleClick={space}
         >
           <FlipIcon size={SIZES.XLARGE} />
         </IconActive>
@@ -54,10 +74,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
       <Spacer width={theme.spacers.size64} />
       <IconActive
         isDisabled={flashcardIndex === maxLength}
-        handleClick={() => {
-          setFlashcardIndex((prevState) => prevState + 1);
-          navigateTo(currentIndex + 1);
-        }}
+        handleClick={arrowRight}
       >
         <SingleChevronIcon size={SIZES.XLARGE} />
       </IconActive>

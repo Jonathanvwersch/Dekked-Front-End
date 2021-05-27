@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import {
   Button,
   H1,
@@ -9,10 +9,13 @@ import {
   ShadowCard,
   Spacer,
   Tooltip,
+  Text,
+  Overlay,
 } from "../../common";
 import { HashLink } from "react-router-hash-link";
 import {
   FILETREE_TYPES,
+  MODAL_TYPE,
   Params,
   SIZES,
   STUDY_MODE_TYPES,
@@ -28,13 +31,11 @@ import { FormattedMessage } from "react-intl";
 import Confetti from "../../../assets/images/Confetti.png";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
-import {
-  convertBlocksToContent,
-  createKeysAndBlocks,
-} from "../../notetaking/Editor/Editor.helpers";
-import { useFlashcards } from "../../../services/file-structure";
+import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
+import { usePageSetupHelpers } from "../../../hooks";
+import { StudySetFlashcard } from "../../study-set";
 
-interface StudySetFlashcardProps {
+interface StudyModeFlashcardProps {
   isFinishedStudying?: boolean;
   flippedState: boolean;
   frontBlocks?: string[];
@@ -48,7 +49,7 @@ interface StudySetFlashcardProps {
 }
 const logoIconSize = SIZES.XLARGE;
 
-const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
+const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   frontBlocks,
   backBlocks,
   blockLink,
@@ -61,36 +62,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
-  const theme = useContext(ThemeContext);
+  const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
-
   const { id } = useParams<Params>();
-  const { saveFlashcard } = useFlashcards();
-
-  // Make call to server to save text blocks
-  const handleSave = async (
-    frontEditorState: EditorState,
-    backEditorState: EditorState,
-    flashcardId: string | undefined,
-    ownerId: string | undefined
-  ) => {
-    const { keys: frontKeys, blocks: frontBlocks } =
-      createKeysAndBlocks(frontEditorState);
-    const { keys: backKeys, blocks: backBlocks } =
-      createKeysAndBlocks(backEditorState);
-    await saveFlashcard({
-      front_blocks: frontBlocks,
-      front_draft_keys: frontKeys,
-      back_blocks: backBlocks,
-      back_draft_keys: backKeys,
-      flash_card_id: flashcardId,
-      owner_id: ownerId,
-    });
-  };
-
   const { setIsLinked, setStudyModeUrl } = useContext(LinkedFlashcardContext);
 
   // Set front editor state on mount
@@ -144,6 +121,18 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         isFinishedStudying={isFinishedStudying}
       >
         {!isFinishedStudying ? (
+          <CardHeader>
+            <Text
+              fontColor={theme.colors.grey1}
+              fontSize={theme.typography.fontSizes.size16}
+            >
+              {flippedState
+                ? formatMessage("studySet.flashcards.front")
+                : formatMessage("studySet.flashcards.back")}
+            </Text>
+          </CardHeader>
+        ) : null}
+        {!isFinishedStudying ? (
           <RichEditor
             editorState={
               flippedState
@@ -190,6 +179,27 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           isEditable={isEditable}
         />
       ) : null}
+      <Overlay
+        isOpen={isEditable}
+        handleClose={() => setIsEditable(false)}
+        center
+        type={MODAL_TYPE.MODAL_LIGHTBOX}
+        modalWidth="80%"
+        close
+      >
+        <StudySetFlashcard
+          ownerId={ownerId}
+          studyPackId={id}
+          linked={true}
+          flashcardId={flashcardId}
+          currentBlockKey={blockLink}
+          frontBlocks={frontBlocks}
+          backBlocks={backBlocks}
+          vertical
+          withSave
+          toolbarSize={SIZES.MEDIUM}
+        />
+      </Overlay>
     </>
   );
 };
@@ -216,4 +226,10 @@ const LogoIconContainer = styled(IconActive)`
     `calc(50% - ${parseInt(theme.sizes.icons[logoIconSize]) / 2}px)`};
 `;
 
-export default StudySetFlashcard;
+const CardHeader = styled.div`
+  top: ${({ theme }) => theme.spacers.size16};
+  left: ${({ theme }) => theme.spacers.size16};
+  position: absolute;
+`;
+
+export default StudyModeFlashcard;

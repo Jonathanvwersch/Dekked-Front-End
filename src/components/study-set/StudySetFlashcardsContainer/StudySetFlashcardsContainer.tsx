@@ -1,12 +1,11 @@
 import { isEmpty } from "lodash";
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { useIsMutating, useQuery } from "react-query";
+import React, { Fragment, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
-import { getFlashcards } from "../../../services/flashcards/flashcards-api";
-
+import useFlashcards from "../../../services/flashcards/useFlashcards";
 import { Params } from "../../../shared";
+
 import { ComponentLoadingSpinner, Spacer, Flex } from "../../common";
 
 interface StudySetFlashcardsContainerProps {}
@@ -14,29 +13,8 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const [isAddingOrDeleting, setIsAddingOrDeleting] = useState<number>(0);
-    const { id: studyPackId } = useParams<Params>();
-    const isAdding = useIsMutating({
-      mutationKey: `${studyPackId}-add-flashcard`,
-    });
-
-    const isDeleting = useIsMutating({
-      mutationKey: `${studyPackId}-delete-flashcard`,
-    });
-
-    useEffect(() => {
-      setIsAddingOrDeleting(isAdding);
-    }, [isAdding]);
-
-    useEffect(() => {
-      setIsAddingOrDeleting(isDeleting);
-    }, [isDeleting]);
-
-    const { data: flashcards, isLoading } = useQuery(
-      `${studyPackId}-get-flashcards`,
-      () => getFlashcards(studyPackId),
-      { enabled: isAddingOrDeleting === 0 }
-    );
+    const { id } = useParams<Params>();
+    const { data: flashcards, isLoading } = useFlashcards(id);
 
     return (
       <>

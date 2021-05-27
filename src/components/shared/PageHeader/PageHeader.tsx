@@ -13,7 +13,8 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import { FlashcardsContext } from "../../../contexts";
+import useFlashcards from "../../../services/flashcards/useFlashcards";
+import { useIsMutating } from "react-query";
 
 interface PageHeaderProps {
   message?: string;
@@ -24,7 +25,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
   const { selectedBlockName, type, id } = useContext(SelectedItemContext);
-  const { flashcards } = useContext(FlashcardsContext);
+  const { data: flashcards } = useFlashcards(id);
+  const isSavingFlashcard = useIsMutating({
+    mutationKey: `${id}-save-flashcard`,
+  });
 
   return (
     <>
@@ -58,6 +62,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                     buttonStyle={BUTTON_THEME.PRIMARY}
                     handleClick={() => setStudyMode(true)}
                     disabled={flashcards?.length === 0}
+                    isLoading={Boolean(isSavingFlashcard)}
                   >
                     {formatMessage("generics.study")}
                   </Button>

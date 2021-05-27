@@ -8,16 +8,18 @@ import IconWrapper from "../IconWrapper/IconWrapper";
 
 interface LoadingSpinnerProps {
   size?: SIZES;
+  className?: string;
 }
 
 // Use whenever you want to add a loading spinner in place of a component
 export const ComponentLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = SIZES.LARGE,
+  className,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <StyledComponentSpinner>
+    <StyledComponentSpinner className={className}>
       <IconWrapper>
         <LogoIcon color={theme.colors.primary} size={size} />
       </IconWrapper>
@@ -28,11 +30,12 @@ export const ComponentLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 // Use whenever you want to add a full page loading spinner e.g. on initial page load
 export const FullPageLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = SIZES.LARGE,
+  className,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <StyledFullPageSpinner>
+    <StyledFullPageSpinner className={className}>
       <IconWrapper>
         <LogoIcon color={theme.colors.primary} size={size} />
       </IconWrapper>

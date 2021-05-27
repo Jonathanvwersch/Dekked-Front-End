@@ -43,6 +43,10 @@ interface StudySetFlashcardProps {
   ownerId?: string;
   currentBlockKey?: string;
   studyPackId?: string;
+  vertical?: boolean;
+  width?: string;
+  toolbarSize?: SIZES;
+  withSave?: boolean;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -54,6 +58,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   studyPackId,
   ownerId,
   currentBlockKey,
+  vertical,
+  width,
+  toolbarSize = SIZES.SMALL,
+  withSave,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -110,7 +118,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     (editorState: EditorState) => {
       !linked && debounced(editorState, flashcardId, ownerId);
     },
-    [studyPackId]
+    [currentSide, flashcardId, ownerId]
   );
 
   useEffect(() => {
@@ -137,6 +145,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const frontAndBack = (side: string) => {
     return (
       <TextCardContainer
+        vertical={vertical}
         padding="0px"
         backgroundColor={theme.colors.backgrounds.pageBackground}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
@@ -189,7 +198,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const toolbar = (
     <StudySetToolbar
-      iconSize={SIZES.SMALL}
+      iconSize={toolbarSize}
       editorState={editorState}
       setEditorState={setEditorState}
       isDisabled={!frontHasFocus && !backHasFocus}
@@ -222,18 +231,27 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   const handleSaveLinkedFlashcard = () => {
-    ownerId &&
-      studyPackId &&
-      currentBlockKey &&
-      addLinkedFlashcard({
+    if (!withSave) {
+      ownerId &&
+        studyPackId &&
+        currentBlockKey &&
+        addLinkedFlashcard({
+          owner_id: ownerId,
+          study_pack_id: studyPackId,
+          block_link: currentBlockKey,
+          frontFlashcardEditorState,
+          backFlashcardEditorState,
+        });
+      setFrontFlashcardEditorState(EditorState.createEmpty());
+      setBackFlashcardEditorState(EditorState.createEmpty());
+    } else {
+      saveCard({
+        frontEditorState: frontFlashcardEditorState,
+        backEditorState: backFlashcardEditorState,
+        flash_card_id: flashcardId,
         owner_id: ownerId,
-        study_pack_id: studyPackId,
-        block_link: currentBlockKey,
-        frontFlashcardEditorState,
-        backFlashcardEditorState,
       });
-    setFrontFlashcardEditorState(EditorState.createEmpty());
-    setBackFlashcardEditorState(EditorState.createEmpty());
+    }
   };
 
   return (
@@ -243,13 +261,18 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         padding={theme.spacers.size16}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         zIndex="15"
-        width="99%"
+        width={width || "99%"}
       >
         <Flex flexDirection="column">
           {topbar()}
           <Spacer height={theme.spacers.size8} />
-          <Flex justifyContent="space-between" alignItems="stretch">
+          <Flex
+            justifyContent="space-between"
+            alignItems="stretch"
+            flexDirection={vertical ? "column" : "row"}
+          >
             {frontAndBack(FLASHCARD_SIDE.FRONT)}
+            {vertical ? <Spacer height={theme.spacers.size8} /> : null}
             {frontAndBack("back")}
           </Flex>
           <Spacer height={theme.spacers.size8} />
@@ -281,9 +304,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 };
 
-const TextCardContainer = styled(Card)`
-  max-width: 49%;
-  width: 49%;
+const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
+  max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};
+  width: ${({ vertical }) => (vertical ? "100%" : "49%")};
   position: relative;
 `;
 

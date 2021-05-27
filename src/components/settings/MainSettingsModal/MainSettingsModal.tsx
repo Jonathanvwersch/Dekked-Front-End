@@ -30,10 +30,12 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
       close
       center
       type={MODAL_TYPE.MODAL_LIGHTBOX}
+      modalWidth="80%"
+      modalHeight="800px"
     >
       <ShadowCard
-        height="800px"
-        width="1000px"
+        width="auto"
+        height="100%"
         borderRadius={theme.sizes.borderRadius[SIZES.LARGE]}
       >
         <Flex height="100%">

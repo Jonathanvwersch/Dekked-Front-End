@@ -54,10 +54,10 @@ const Button: React.FC<ButtonProps> = ({
       aria-label={ariaLabel}
     >
       {isLoading ? (
-        <span>
+        <>
           <StyledSpan>{children}</StyledSpan>
-          <ComponentLoadingSpinner />
-        </span>
+          <StyledSpinner />
+        </>
       ) : (
         children
       )}
@@ -65,8 +65,14 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
+const StyledSpinner = styled(ComponentLoadingSpinner)`
+  position: absolute;
+  width: 100%;
+`;
+
 const StyledSpan = styled.span`
   visibility: hidden;
+  z-index: 0;
 `;
 
 export default Button;
