@@ -285,6 +285,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                   getWordCount(backFlashcardEditorState) === 0
                 }
                 handleClick={handleSaveLinkedFlashcard}
+                isLoading={withSave ? isSaving : false}
               >
                 {formatMessage("generics.save")}
               </Button>

@@ -197,6 +197,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           backBlocks={backBlocks}
           vertical
           withSave
+          width="100%"
           toolbarSize={SIZES.MEDIUM}
         />
       </Overlay>
