@@ -3,7 +3,6 @@ import styled, { ThemeContext } from "styled-components";
 import {
   Avatar,
   Card,
-  Divider,
   IconActive,
   Spacer,
   Text,

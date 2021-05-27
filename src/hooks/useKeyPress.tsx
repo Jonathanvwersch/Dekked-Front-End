@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useKeyPress = (targetKey: string, onKeyPress?: () => void) => {
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
   // If pressed key is our target key then set to true
-  const downHandler = ({ key }: any) => {
-    if (key === targetKey) {
-      onKeyPress && onKeyPress();
-      setKeyPressed(true);
-    }
-  };
+  const downHandler = useCallback(
+    ({ key }: any) => {
+      if (key === targetKey) {
+        onKeyPress && onKeyPress();
+        setKeyPressed(true);
+      }
+    },
+    [onKeyPress, targetKey]
+  );
   // If released key is our target key then set to false
-  const upHandler = ({ key }: any) => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  };
+  const upHandler = useCallback(
+    ({ key }: any) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    },
+    [targetKey]
+  );
   // Add event listeners
   useEffect(() => {
     window.addEventListener("keydown", downHandler);
@@ -25,7 +31,7 @@ const useKeyPress = (targetKey: string, onKeyPress?: () => void) => {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [downHandler, upHandler]); // Empty array ensures that effect is only run on mount and unmount
   return keyPressed;
 };
 

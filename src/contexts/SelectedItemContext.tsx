@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileTreeContext } from ".";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";

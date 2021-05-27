@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import { SignUpForm, LogInForm } from ".";
 import { Spacer, Flex, ShadowCard, H2, Text } from "../../components/common";
 import { SIZES } from "../../shared";
