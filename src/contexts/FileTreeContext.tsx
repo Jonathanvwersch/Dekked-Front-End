@@ -10,7 +10,7 @@ import {
 } from "../services/file-structure";
 
 interface FileTreeContextTypes {
-  addAsset: (type: string, parentId?: string | undefined) => void;
+  addAsset: (type: string, parentId?: string | undefined) => boolean;
   getAsset: (
     type: string,
     asset_id: string
@@ -35,6 +35,22 @@ interface FileTreeContextTypes {
     }
   ) => void;
   deleteAsset: (type: string, assetId: string) => Promise<void> | undefined;
+  setFolders: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: FolderInterface;
+    }>
+  >;
+  setStudyPacks: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: StudyPackInterface;
+    }>
+  >;
+  setBinders: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: BinderInterface;
+    }>
+  >;
+  setFileTree: React.Dispatch<React.SetStateAction<FileTreeInterface>>;
 }
 
 export const FileTreeContext = createContext<FileTreeContextTypes>(
@@ -42,18 +58,31 @@ export const FileTreeContext = createContext<FileTreeContextTypes>(
 );
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
-  const { getFileTree, fileTree, isTreeEmpty } = useFileTree();
-  const { getFolders, addFolder, folders, updateFolder, deleteFolder } =
-    useFolders();
+  const { getFileTree, fileTree, isTreeEmpty, setFileTree } = useFileTree();
   const {
+    getFolders,
+    addFolder,
+    folders,
+    updateFolder,
+    deleteFolder,
+    setFolders,
+  } = useFolders();
+  const {
+    setStudyPacks,
     getStudyPacks,
     addStudyPack,
     studyPacks,
     updateStudyPack,
     deleteStudyPack,
   } = useStudyPacks();
-  const { getBinders, addBinder, binders, updateBinder, deleteBinder } =
-    useBinders();
+  const {
+    getBinders,
+    addBinder,
+    binders,
+    updateBinder,
+    deleteBinder,
+    setBinders,
+  } = useBinders();
   const theme: ThemeType = useContext(ThemeContext);
   const folderLength = Object.keys(folders).length;
   const binderLength = Object.keys(binders).length;
@@ -76,6 +105,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
       default:
         break;
     }
+    return true;
   };
 
   const getAsset = (type: string, assetId: string) => {
@@ -151,6 +181,10 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         folders,
         studyPacks,
         deleteAsset,
+        setBinders,
+        setStudyPacks,
+        setFolders,
+        setFileTree,
       }}
     >
       {children}

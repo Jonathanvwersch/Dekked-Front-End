@@ -131,5 +131,6 @@ export function useStudyPacks() {
     studyPacks,
     updateStudyPack,
     deleteStudyPack,
+    setStudyPacks,
   };
 }

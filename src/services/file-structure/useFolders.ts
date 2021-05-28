@@ -128,5 +128,6 @@ export function useFolders() {
     folders,
     updateFolder,
     deleteFolder,
+    setFolders,
   };
 }

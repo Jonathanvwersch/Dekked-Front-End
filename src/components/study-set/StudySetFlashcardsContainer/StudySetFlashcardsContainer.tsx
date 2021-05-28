@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
@@ -14,7 +14,13 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
     const { id } = useParams<Params>();
-    const { data: flashcards, isLoading } = useFlashcards(id);
+    const { data, isLoading } = useFlashcards(id);
+
+    const [flashcards, setFlashcards] = useState<FlashcardInterface[]>(data);
+
+    useEffect(() => {
+      setFlashcards(data);
+    }, [data]);
 
     return (
       <>
@@ -27,6 +33,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                     <Fragment key={flashcard.flashcard.id}>
                       <StudySetFlashcard
                         index={index + 1}
+                        setFlashcards={setFlashcards}
                         flashcardId={flashcard.flashcard.id}
                         studyPackId={flashcard.flashcard.study_pack_id}
                         frontBlocks={flashcard.front_blocks}

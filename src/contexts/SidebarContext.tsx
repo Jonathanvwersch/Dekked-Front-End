@@ -22,8 +22,18 @@ export const SidebarContext = createContext<SidebarContextProps>(
 );
 
 export const SidebarContextProvider: React.FC = ({ children }) => {
-  const { addAsset, deleteAsset, fileTree, binders, studyPacks, folders } =
-    useContext(FileTreeContext);
+  const {
+    addAsset,
+    deleteAsset,
+    fileTree,
+    binders,
+    studyPacks,
+    folders,
+    setBinders,
+    setStudyPacks,
+    setFileTree,
+    setFolders,
+  } = useContext(FileTreeContext);
   const history = useHistory();
 
   // handle opening and closing of sidebar
@@ -73,19 +83,18 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
   };
 
   // handle adding of blocks
-  const handleAddBlock = async (id: string, type: string) => {
-    await addAsset(type, id);
+  const handleAddBlock = (id: string, type: string) => {
+    addAsset(type, id);
     handleOpenBlock(id, true);
   };
 
   // handle deleting of blocks
   const handleDeleteBlock = (id: string, type: string) => {
-    deleteAsset(type, id);
-
-    // navigate to parent binder if deleting study pack
     if (type === FILETREE_TYPES.STUDY_SET) {
-      const parentBinder = binders[studyPacks[id].binder_id];
-      const parentBinderId = parentBinder.id;
+      // navigate to parent binder after deleting a study pack
+      const parentBinder = binders[studyPacks?.[id]?.binder_id];
+      const parentBinderId = parentBinder?.id;
+
       const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
       history.push(parentBinderLink);
 
@@ -95,33 +104,52 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
         fileTree[parentBinder.folder_id].children[parentBinderId].children
       ).length;
 
+      // delete study pack on client side
+      setStudyPacks((delete studyPacks[id], studyPacks));
+      setFileTree(
+        (delete fileTree[parentBinder?.folder_id]?.children[parentBinderId]
+          .children[id],
+        fileTree)
+      );
+
       if (numberOfStudySets === 1) {
         handleOpenBlock(parentBinderId, false);
       }
-    }
-    // navigate to parent folder if deleting binder
-    else if (type === FILETREE_TYPES.BINDER) {
-      const parentFolder = folders[binders[id].folder_id];
-      const parentFolderId = parentFolder.id;
+    } else if (type === FILETREE_TYPES.BINDER) {
+      // navigate to parent folder after deleting a binder
+      const parentFolder = folders[binders?.[id]?.folder_id];
+      const parentFolderId = parentFolder?.id;
       const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
       history.push(parentFolderLink);
 
       // Close folder if you are deleting last binder
       // makes for cleaner UX
       const numberOfBinders = Object.keys(
-        fileTree[parentFolder.id].children
+        fileTree[parentFolder?.id].children
       ).length;
+
+      // delete binder on client side
+      setBinders((delete binders[id], binders));
+      setFileTree((delete fileTree[parentFolder?.id].children[id], fileTree));
 
       if (numberOfBinders === 1) {
         handleOpenBlock(parentFolderId, false);
       }
-    }
-    // navigate to first folder if deleting folder
-    else {
+    } else {
+      // delete folder on client side
+      // not deleting if last folder item
+      if (Object.keys(fileTree)?.length > 1) {
+        setFolders((delete folders[id], folders));
+      }
+
+      // navigate to first folder after deleting a folder
       const firstFolderId = Object.keys(fileTree)[0];
       const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
       history.push(firstFolderLink);
     }
+
+    // delete study pack on back end
+    deleteAsset(type, id);
   };
 
   return (

@@ -10,12 +10,10 @@ import {
   Spacer,
   Tooltip,
   Text,
-  Overlay,
 } from "../../common";
 import { HashLink } from "react-router-hash-link";
 import {
   FILETREE_TYPES,
-  MODAL_TYPE,
   Params,
   SIZES,
   STUDY_MODE_TYPES,
@@ -33,19 +31,19 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
 import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
 import { usePageSetupHelpers } from "../../../hooks";
-import { StudySetFlashcard } from "../../study-set";
 
 interface StudyModeFlashcardProps {
-  isFinishedStudying?: boolean;
   flippedState: boolean;
+  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditable: boolean;
+  setFlashcards: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
+  isFinishedStudying?: boolean;
   frontBlocks?: string[];
   backBlocks?: string[];
   blockLink?: string;
   studyMode?: STUDY_MODE_TYPES;
   flashcardId?: string;
   ownerId?: string;
-  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditable: boolean;
 }
 const logoIconSize = SIZES.XLARGE;
 
@@ -59,6 +57,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   ownerId,
   isEditable,
   setIsEditable,
+  setFlashcards,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -177,30 +176,13 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           flashcardId={flashcardId}
           setIsEditable={setIsEditable}
           isEditable={isEditable}
-        />
-      ) : null}
-      <Overlay
-        isOpen={isEditable}
-        handleClose={() => setIsEditable(false)}
-        center
-        type={MODAL_TYPE.MODAL_LIGHTBOX}
-        modalWidth="80%"
-        close
-      >
-        <StudySetFlashcard
           ownerId={ownerId}
-          studyPackId={id}
-          linked={true}
-          flashcardId={flashcardId}
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
           backBlocks={backBlocks}
-          vertical
-          withSave
-          width="100%"
-          toolbarSize={SIZES.MEDIUM}
+          setFlashcards={setFlashcards}
         />
-      </Overlay>
+      ) : null}
     </>
   );
 };

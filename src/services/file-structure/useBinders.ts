@@ -129,5 +129,6 @@ export function useBinders() {
     binders,
     updateBinder,
     deleteBinder,
+    setBinders,
   };
 }

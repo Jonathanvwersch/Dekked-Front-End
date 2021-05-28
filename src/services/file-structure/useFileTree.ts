@@ -26,5 +26,5 @@ export function useFileTree() {
     }
   };
 
-  return { getFileTree, fileTree, isTreeEmpty };
+  return { getFileTree, fileTree, isTreeEmpty, setFileTree };
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useMutation } from "react-query";
+import { useIsMutating, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
@@ -7,17 +7,28 @@ import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
 import { Params, SIZES } from "../../../shared";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
+import EditStudyModeFlashcard from "./EditStudyModeFlashcard";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  flashcardId?: string;
+  setFlashcards: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
   isEditable: boolean;
+  flashcardId?: string;
+  frontBlocks?: string[];
+  backBlocks?: string[];
+  ownerId?: string;
+  currentBlockKey?: string;
 }
 
 const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   setIsEditable,
   flashcardId,
   isEditable,
+  frontBlocks,
+  backBlocks,
+  ownerId,
+  currentBlockKey,
+  setFlashcards,
 }) => {
   const theme = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -68,11 +79,25 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         handleClose={() => setIsOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
+          setFlashcards((prevState) =>
+            prevState.filter(
+              (flashcard) => flashcard.flashcard.id !== flashcardId
+            )
+          );
           deleteCard({
             flashcard_id: flashcardId,
             study_pack_id: studyPackId,
           });
         }}
+      />
+      <EditStudyModeFlashcard
+        frontBlocks={frontBlocks}
+        backBlocks={backBlocks}
+        blockLink={currentBlockKey}
+        ownerId={ownerId}
+        flashcardId={flashcardId}
+        isEditable={isEditable}
+        setIsEditable={setIsEditable}
       />
     </>
   );

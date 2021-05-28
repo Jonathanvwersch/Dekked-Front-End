@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
 import { SelectedItemContext } from "../../../contexts";
-import { useIsMutating, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { addFlashcard } from "../../../services/flashcards/flashcards-api";
 
 interface StudySetHeaderProps {

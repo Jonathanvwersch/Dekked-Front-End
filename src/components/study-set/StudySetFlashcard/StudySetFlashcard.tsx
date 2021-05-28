@@ -47,6 +47,7 @@ interface StudySetFlashcardProps {
   width?: string;
   toolbarSize?: SIZES;
   withSave?: boolean;
+  setFlashcards?: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -62,6 +63,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   width,
   toolbarSize = SIZES.SMALL,
   withSave,
+  setFlashcards,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -128,7 +130,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks[0][0] === "{") {
+    if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(frontBlocks);
       setFrontFlashcardEditorState(EditorState.createWithContent(savedState));
     }
@@ -136,7 +138,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   // Set editor state on mount
   useEffect(() => {
-    if (backBlocks && !isEmpty(backBlocks) && backBlocks[0][0] === "{") {
+    if (backBlocks && !isEmpty(backBlocks) && backBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
     }
@@ -294,9 +296,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         </Flex>
       </ShadowCard>
       <DeleteModal
-        handleMainButton={() =>
-          deleteCard({ study_pack_id: studyPackId, flashcard_id: flashcardId })
-        }
+        handleMainButton={() => {
+          setFlashcards &&
+            setFlashcards((prevState) =>
+              prevState.filter(
+                (flashcard) => flashcard.flashcard.id !== flashcardId
+              )
+            );
+          deleteCard({ study_pack_id: studyPackId, flashcard_id: flashcardId });
+        }}
         bodyText="studyMode.deleteModal.deleteCard"
         isOpen={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
