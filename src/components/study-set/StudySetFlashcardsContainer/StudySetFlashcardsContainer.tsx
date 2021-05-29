@@ -14,7 +14,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
     const { id } = useParams<Params>();
-    const { data, isLoading } = useFlashcards(id);
+    const { data, isLoading } = useFlashcards(id, true);
 
     const [flashcards, setFlashcards] = useState<FlashcardInterface[]>(data);
 

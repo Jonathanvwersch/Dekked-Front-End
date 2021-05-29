@@ -34,7 +34,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   });
 
   useEffect(() => {
-    if (isSaving) {
+    if (!isSaving) {
       setIsOpen(false);
     }
   }, [isSaving]);

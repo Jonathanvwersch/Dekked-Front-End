@@ -21,8 +21,8 @@ import {
   convertBlocksToContent,
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
-import { DeleteModal } from "../../shared";
-import { useMutation } from "react-query";
+import { DeleteModal, FlashcardModal } from "../../shared";
+import { useIsMutating, useMutation } from "react-query";
 import {
   addFlashcard,
   deleteFlashcard,
@@ -75,6 +75,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
+  const [editFlashcard, setEditFlashcard] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
@@ -102,7 +103,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     deleteFlashcard
   );
 
-  const { mutate: saveCard } = useMutation(
+  const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
     `${studyPackId}-save-flashcard`,
     saveFlashcard
   );
@@ -205,10 +206,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             text={"tooltips.studyMode.editCard"}
             place="bottom"
           >
-            <IconActive
-              className={isEditable ? "active" : undefined}
-              handleClick={() => setIsEditable(true)}
-            >
+            <IconActive handleClick={() => setEditFlashcard(true)}>
               <EditIcon />
             </IconActive>
           </Tooltip>
@@ -286,6 +284,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                   getWordCount(backFlashcardEditorState) === 0
                 }
                 handleClick={handleSaveFlashcard}
+                isLoading={type === "edit" ? isSaveLoading : false}
               >
                 {formatMessage(
                   type === "edit" ? "generics.save" : "generics.add"
@@ -309,6 +308,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         isOpen={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
       />
+      <FlashcardModal
+        isOpen={editFlashcard}
+        setIsOpen={setEditFlashcard}
+        ownerId={ownerId}
+        frontBlocks={frontBlocks}
+        backBlocks={backBlocks}
+        type="edit"
+        flashcardId={flashcardId}
+      />
     </>
   );
 };
@@ -327,7 +335,8 @@ const TextCard = styled(Card)<{ linked: boolean; fullHeight?: boolean }>`
   }
   padding: ${({ theme }) =>
     `${theme.spacers.size24} ${theme.spacers.size24} ${theme.spacers.size16} ${theme.spacers.size24}`};
-  max-height: ${({ fullHeight }) => (fullHeight ? "100%" : "100px")};
+  max-height: ${({ fullHeight, linked }) =>
+    fullHeight ? "100%" : linked ? "200px" : "100px"};
 `;
 
 const CardHeader = styled.div`

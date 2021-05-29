@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -39,7 +40,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const { data: blocks } = useQuery(`${studyPackId}-notes`, () =>
     getBlocksByPageId(studyPackId)
   );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const pageId = blocks?.pageId;
 
   const { mutate } = useMutation(
@@ -48,8 +49,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   );
 
   // Set editor state on mount with the blocks
-  useEffect(() => {
-    setIsLoading(true);
+  useLayoutEffect(() => {
     if (blocks?.data && !isEmpty(blocks?.data)) {
       const savedState = convertBlocksToContent(blocks?.data);
       setEditorState(EditorState.createWithContent(savedState));
