@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { Flex, Spacer, Text } from "../../common";
+import { Flex, Spacer } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { TAB_TYPE } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { SidebarContext } from "../../../contexts";
+import styled from "styled-components";
 
 const StudySetTabSwitcher: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
@@ -18,19 +19,13 @@ const StudySetTabSwitcher: React.FC = () => {
 
   const tabLink = (slug: TAB_TYPE, text: string) => {
     return (
-      <NavLink
+      <StyledNavLink
         to={`/${type}/${id}/${slug}`}
         activeStyle={activeTabStyle}
         onClick={() => handleStudySetTab(id, slug)}
       >
-        <Text
-          hover={theme.colors.primary}
-          filterActive
-          fontSize={theme.typography.fontSizes.size16}
-        >
-          {text}
-        </Text>
-      </NavLink>
+        {text}
+      </StyledNavLink>
     );
   };
 
@@ -42,5 +37,12 @@ const StudySetTabSwitcher: React.FC = () => {
     </Flex>
   );
 };
+
+const StyledNavLink = styled(NavLink)`
+  color: ${({ theme }) => theme.colors.fontColor};
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
 
 export default StudySetTabSwitcher;

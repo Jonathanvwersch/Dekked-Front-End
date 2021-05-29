@@ -60,6 +60,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
             handleMouseDown={() => {
               setEditorState(addNewBlockAt(editorState, blockKey));
             }}
+            tabIndex={-1}
           >
             <Tooltip
               id="AddNewBlock"
@@ -76,6 +77,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
             setIsDraggable(true);
             setDragBlockKey(blockKey);
           }}
+          tabIndex={-1}
         >
           <Tooltip
             place="left"

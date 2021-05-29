@@ -14,6 +14,7 @@ interface TextProps {
   textDecoration?: string;
   placeholder?: string;
   textAlign?: string;
+  userSelect?: string;
 }
 
 const Text: React.FC<TextProps> = ({ children, ...props }) => {
@@ -39,6 +40,7 @@ const StyledText = styled.div<TextProps>`
   max-width: ${({ maxWidth }) => maxWidth};
   text-decoration: ${({ textDecoration }) => textDecoration};
   text-align: ${({ textAlign }) => textAlign};
+  user-select: ${({ userSelect }) => userSelect};
 
   &.overflow {
     text-overflow: ellipsis;

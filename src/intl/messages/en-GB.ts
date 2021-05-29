@@ -11,6 +11,7 @@ const en_GB = {
       clickToMinimise: "Click to minimise",
       finish: "Finish",
       add: "Add",
+      saving: "Saving",
     },
     notFoundPage: {
       goHome: "Go home",

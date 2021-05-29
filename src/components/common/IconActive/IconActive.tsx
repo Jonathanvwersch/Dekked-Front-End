@@ -35,7 +35,7 @@ const IconActive: React.FC<IconActiveProps> = ({
   cursor,
   ariaLabel,
   isDisabled = false,
-  tabIndex = 0,
+  tabIndex,
   dangerHover,
 }) => {
   const intl = useIntl();
@@ -46,9 +46,10 @@ const IconActive: React.FC<IconActiveProps> = ({
       onMouseDown={handleMouseDown && handleMouseDown}
       onClick={handleClick && handleClick}
       onKeyDown={(e: any) => {
-        if (e.key === "Enter")
+        if (e.key === "Enter") {
           (handleClick && handleClick(e)) ||
             (handleMouseDown && handleMouseDown(e));
+        }
       }}
       className={className}
       fillType={fillType}
@@ -89,7 +90,7 @@ const StyledIconActive = styled.button<IconActiveProps>`
       }
     }
   }
-
+  &:focus,
   &:hover {
     & svg {
       & path {
@@ -105,7 +106,6 @@ const StyledIconActive = styled.button<IconActiveProps>`
     }
   }
 
-  &:focus,
   &:active {
     & svg {
       & path {

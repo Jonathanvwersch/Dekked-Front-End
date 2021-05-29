@@ -5,6 +5,9 @@ import { ThemeType } from "./theme";
 const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
     a {
         text-decoration: none;
+        &:focus {
+            color: ${({ theme }) => theme.colors.primary}!important;
+        }
     }
 
     * {

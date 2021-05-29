@@ -64,6 +64,7 @@ const Overlay: React.FC<OverlayProps> = ({
                 <IconActive
                   ariaLabel="ariaLabels.closeModal"
                   handleClick={handleClose}
+                  tabIndex={1}
                 >
                   <CloseIcon size={SIZES.LARGE} />
                 </IconActive>

@@ -10,11 +10,16 @@ interface CardProps {
   border?: string;
   borderRadius?: string;
   ariaLabel?: string;
+  tabIndex?: number;
 }
 
 const Card: React.FC<CardProps> = ({ children, ...props }) => {
   return (
-    <StyledCard aria-label={props.ariaLabel} tabIndex={0} {...props}>
+    <StyledCard
+      aria-label={props.ariaLabel}
+      tabIndex={props.tabIndex}
+      {...props}
+    >
       {children}
     </StyledCard>
   );

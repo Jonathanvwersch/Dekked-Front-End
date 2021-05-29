@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { FormattedMessage } from "react-intl";
 import { useIsMutating } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
@@ -11,6 +12,7 @@ import {
   IconActive,
   Spacer,
   Tooltip,
+  Text,
 } from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -27,7 +29,12 @@ const TopBar: React.FC = () => {
       return (
         <>
           <Spacer width={theme.spacers.size32} />
-          <ComponentLoadingSpinner size={SIZES.MEDIUM} />
+          <ComponentLoadingSpinner size={SIZES.SMALL} />
+          <Spacer width={theme.spacers.size8} />
+          <Text fontColor={theme.colors.grey1}>
+            <FormattedMessage id="generics.saving" />
+            ...
+          </Text>
         </>
       );
 

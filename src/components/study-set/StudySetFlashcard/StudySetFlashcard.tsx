@@ -199,7 +199,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       </Flex>
     ) : (
       <Flex justifyContent="space-between" minHeight={theme.spacers.size24}>
-        <Text>{index}</Text>
+        <Text userSelect="none">{index}</Text>
         <Flex width="auto">
           <Tooltip
             id="EditFlashcard"
@@ -242,6 +242,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         });
       setFrontFlashcardEditorState(EditorState.createEmpty());
       setBackFlashcardEditorState(EditorState.createEmpty());
+      frontEditorRef?.current?.focus();
     } else {
       saveCard({
         frontEditorState: frontFlashcardEditorState,
@@ -261,6 +262,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         zIndex="15"
         width={width || "99%"}
         height={fullHeight ? "100%" : "auto"}
+        ondblclick={() => {
+          console.log("yeahboy");
+          setEditFlashcard(true);
+        }}
       >
         <Flex flexDirection="column" height={fullHeight ? "100%" : "auto"}>
           {topbar()}
@@ -340,7 +345,8 @@ const TextCard = styled(Card)<{ linked: boolean; fullHeight?: boolean }>`
 `;
 
 const CardHeader = styled.div`
-  width: 98%;
+  user-select: none;
+  width: 95%;
   z-index: 10;
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
   position: absolute;

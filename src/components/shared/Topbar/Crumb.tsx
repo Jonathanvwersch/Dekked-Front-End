@@ -1,5 +1,5 @@
 import React, { memo, useContext } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components";
@@ -24,6 +24,7 @@ const Crumb: React.FC<CrumbProps> = ({
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const intl = useIntl();
+  const history = useHistory();
   const { studyModes } = useParams<Params>();
 
   const pathName = { pathname: link };
@@ -31,45 +32,45 @@ const Crumb: React.FC<CrumbProps> = ({
   return (
     <>
       {breadCrumbData || (name && icon) ? (
-        <NavLink to={pathName}>
-          <Flex>
-            {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
-              <>
-                <Spacer width={theme.spacers.size4} />
-                <Text
-                  fontSize={theme.typography.fontSizes.size14}
-                  fontColor={theme.colors.grey1}
-                >
-                  {">"}
-                </Text>
-                <Spacer width={theme.spacers.size4} />
-              </>
-            ) : null}
-            <HoverCard
-              width="auto"
-              backgroundColor={
-                studyModes
-                  ? theme.colors.backgrounds.studyModeBackground
-                  : theme.colors.backgrounds.pageBackground
-              }
-              padding={`0px ${theme.spacers.size4}`}
-            >
-              <Flex>
-                <IconWrapper>
-                  {breadCrumbType && breadCrumbData
-                    ? handleIconType(breadCrumbType, breadCrumbData.color)
-                    : icon}
-                </IconWrapper>
-                <Spacer width={theme.spacers.size4} />
-                <Text maxWidth="120px" className="overflow">
-                  {breadCrumbData
-                    ? handleUntitled(breadCrumbData.name, intl)
-                    : name}
-                </Text>
-              </Flex>
-            </HoverCard>
-          </Flex>
-        </NavLink>
+        <Flex>
+          {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
+            <>
+              <Spacer width={theme.spacers.size4} />
+              <Text
+                fontSize={theme.typography.fontSizes.size14}
+                fontColor={theme.colors.grey1}
+              >
+                {">"}
+              </Text>
+              <Spacer width={theme.spacers.size4} />
+            </>
+          ) : null}
+          <HoverCard
+            className="focus"
+            handleClick={() => history.push(pathName)}
+            width="auto"
+            backgroundColor={
+              studyModes
+                ? theme.colors.backgrounds.studyModeBackground
+                : theme.colors.backgrounds.pageBackground
+            }
+            padding={`0px ${theme.spacers.size4}`}
+          >
+            <Flex>
+              <IconWrapper>
+                {breadCrumbType && breadCrumbData
+                  ? handleIconType(breadCrumbType, breadCrumbData.color)
+                  : icon}
+              </IconWrapper>
+              <Spacer width={theme.spacers.size4} />
+              <Text maxWidth="120px" className="overflow">
+                {breadCrumbData
+                  ? handleUntitled(breadCrumbData.name, intl)
+                  : name}
+              </Text>
+            </Flex>
+          </HoverCard>
+        </Flex>
       ) : null}
     </>
   );

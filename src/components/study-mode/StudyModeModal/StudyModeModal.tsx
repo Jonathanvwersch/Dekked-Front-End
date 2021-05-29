@@ -6,6 +6,7 @@ import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.pn
 import { Params, STUDY_MODE_TYPES } from "../../../shared";
 import { SelectedItemContext } from "../../../contexts";
 import { usePageSetupHelpers } from "../../../hooks";
+import styled from "styled-components";
 
 interface StudyModeModalProps {
   isOpen: boolean;
@@ -39,16 +40,27 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
           backgroundImage={SpacedRepetitionCard}
         />
         <Spacer width={theme.spacers.size64} />
-        <NavLink to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1/`}>
+        <StyledNavLink
+          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1/`}
+        >
           <ThumbnailCard
             topText={formatMessage("studyMode.chooseModal.freeStudy")}
             bottomText={formatMessage("studyMode.chooseModal.linearStudying")}
             backgroundImage={FreeStudyCard}
           />
-        </NavLink>
+        </StyledNavLink>
       </Flex>
     </GeneralModal>
   );
 };
+
+const StyledNavLink = styled(NavLink)`
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow};
+  }
+  &:active {
+    box-shadow: none;
+  }
+`;
 
 export default StudyModeModal;

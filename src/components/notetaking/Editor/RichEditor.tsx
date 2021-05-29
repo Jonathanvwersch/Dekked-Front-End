@@ -165,7 +165,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   return (
     <>
       {!isLoading ? (
-        <EditorContainer isEditable={isEditable} editorType={editorType}>
+        <EditorContainer isEditable={isEditable}>
           <Editor
             editorState={editorState}
             onChange={onChange}
@@ -178,7 +178,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
             onFocus={() => setHasFocus && setHasFocus(true)}
             onBlur={() => setHasFocus && setHasFocus(false)}
             blockRenderMap={extendedBlockRenderMap}
-            tabIndex={1}
             customStyleMap={styleMap}
             placeholder={
               showPlaceholder &&
@@ -200,15 +199,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
 };
 
 const EditorContainer = styled.div<{
-  editorType: EditorType;
   isEditable: boolean;
 }>`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
   width: 100%;
   position: relative;
-  font-size: ${({ theme, editorType }) =>
-    editorType === "flashcard" && theme.typography.fontSizes.size14};
+  font-size: ${({ theme }) => theme.typography.fontSizes.size14};
 
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;
