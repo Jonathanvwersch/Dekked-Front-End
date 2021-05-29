@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useIsMutating, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
@@ -7,7 +7,7 @@ import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
 import { Params, SIZES } from "../../../shared";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
-import EditStudyModeFlashcard from "./EditStudyModeFlashcard";
+import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,11 +49,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
       >
         <Tooltip
           id="EditFlashcard"
-          text={
-            isEditable
-              ? "tooltips.studyMode.cardNowEditable"
-              : "tooltips.studyMode.editCard"
-          }
+          text={"tooltips.studyMode.editCard"}
           place="left"
         >
           <IconActive
@@ -90,14 +86,15 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           });
         }}
       />
-      <EditStudyModeFlashcard
+      <FlashcardModal
+        type="edit"
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
         blockLink={currentBlockKey}
         ownerId={ownerId}
         flashcardId={flashcardId}
-        isEditable={isEditable}
-        setIsEditable={setIsEditable}
+        isOpen={isEditable}
+        setIsOpen={setIsEditable}
       />
     </>
   );

@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -37,23 +37,23 @@ interface RichEditorProps {
   setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
   saveEditor?: (editorState: EditorState) => void;
   hasFocus?: boolean;
-  loading?: boolean;
+  isLoading?: boolean;
   editorType?: EditorType;
   isEditable?: boolean;
+  editorRef?: React.MutableRefObject<any>;
 }
 
 const RichEditor: React.FC<RichEditorProps> = ({
   editorState,
   setEditorState,
   saveEditor,
-  loading,
+  isLoading,
   setHasFocus,
   hasFocus = true,
   isEditable = true,
   editorType = "page",
+  editorRef,
 }) => {
-  const editorRef = useRef<any>(null);
-
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
@@ -164,13 +164,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   return (
     <>
-      {!loading ? (
+      {!isLoading ? (
         <EditorContainer isEditable={isEditable} editorType={editorType}>
           <Editor
             editorState={editorState}
             onChange={onChange}
             handleKeyCommand={handleKeyCommand}
-            ref={(node) => (editorRef.current = node)}
+            ref={editorRef}
             blockRendererFn={myBlockRenderer}
             readOnly={!isEditable}
             handleReturn={handleReturn}

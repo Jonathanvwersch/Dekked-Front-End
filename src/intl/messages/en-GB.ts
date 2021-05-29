@@ -10,6 +10,7 @@ const en_GB = {
       cancel: "Cancel",
       clickToMinimise: "Click to minimise",
       finish: "Finish",
+      add: "Add",
     },
     notFoundPage: {
       goHome: "Go home",

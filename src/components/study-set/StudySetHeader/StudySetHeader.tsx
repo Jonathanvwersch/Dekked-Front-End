@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PageHeader } from "../../shared";
+import { FlashcardModal, PageHeader } from "../../shared";
 import { Button, Flex, Spacer } from "../../common";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components";
@@ -10,8 +10,6 @@ import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
 import { SelectedItemContext } from "../../../contexts";
-import { useMutation } from "react-query";
-import { addFlashcard } from "../../../services/flashcards/flashcards-api";
 
 interface StudySetHeaderProps {
   editorState: EditorState;
@@ -27,12 +25,9 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const intl = useIntl();
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
-  const { tab, id: studyPackId } = useParams<Params>();
+  const { tab } = useParams<Params>();
   const { selectedItemData } = useContext(SelectedItemContext);
-  const { mutate: addCard, isLoading } = useMutation(
-    `${studyPackId}-add-flashcard`,
-    addFlashcard
-  );
+  const [addFlashcard, setAddFlashcard] = useState<boolean>(false);
 
   // Calculate the number of words in text
   useEffect(() => {
@@ -61,15 +56,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
         ) : (
           <Button
             buttonStyle={BUTTON_THEME.SECONDARY}
-            isLoading={isLoading}
-            handleClick={() =>
-              selectedItemData?.owner_id &&
-              selectedItemData?.id &&
-              addCard({
-                owner_id: selectedItemData.owner_id,
-                study_pack_id: selectedItemData.id,
-              })
-            }
+            handleClick={() => setAddFlashcard(true)}
           >
             <FormattedMessage id="studySet.flashcards.addFlashcard" />
           </Button>
@@ -82,6 +69,11 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
           <PageHeader message={message(tab)} />
         </Flex>
       </div>
+      <FlashcardModal
+        isOpen={addFlashcard}
+        setIsOpen={setAddFlashcard}
+        ownerId={selectedItemData?.owner_id}
+      />
     </>
   );
 };

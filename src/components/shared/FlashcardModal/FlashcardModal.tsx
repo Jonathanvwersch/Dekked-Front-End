@@ -7,24 +7,26 @@ import { useParams } from "react-router-dom";
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
 
-interface EditStudyModeFlashcardProps {
+interface FlashcardModalProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  type?: "edit" | "add";
   frontBlocks?: string[];
   backBlocks?: string[];
   blockLink?: string;
   flashcardId?: string;
   ownerId?: string;
-  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditable: boolean;
 }
 
-const EditStudyModeFlashcard: React.FC<EditStudyModeFlashcardProps> = ({
+const FlashcardModal: React.FC<FlashcardModalProps> = ({
   frontBlocks,
   backBlocks,
   blockLink,
   flashcardId,
   ownerId,
-  isEditable,
-  setIsEditable,
+  isOpen,
+  setIsOpen,
+  type = "add",
 }) => {
   const { id } = useParams<Params>();
   const isSaving = useIsMutating({
@@ -33,17 +35,18 @@ const EditStudyModeFlashcard: React.FC<EditStudyModeFlashcardProps> = ({
 
   useEffect(() => {
     if (isSaving) {
-      setIsEditable(false);
+      setIsOpen(false);
     }
   }, [isSaving]);
 
   return (
     <Overlay
-      isOpen={isEditable}
-      handleClose={() => setIsEditable(false)}
+      isOpen={isOpen}
+      handleClose={() => setIsOpen(false)}
       center
       type={MODAL_TYPE.MODAL_LIGHTBOX}
       modalWidth="80%"
+      modalHeight="60%"
       close
     >
       <StudySetFlashcard
@@ -54,13 +57,14 @@ const EditStudyModeFlashcard: React.FC<EditStudyModeFlashcardProps> = ({
         currentBlockKey={blockLink}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
-        vertical
-        withSave
+        type={type}
         width="100%"
+        vertical
         toolbarSize={SIZES.MEDIUM}
+        fullHeight
       />
     </Overlay>
   );
 };
 
-export default EditStudyModeFlashcard;
+export default FlashcardModal;

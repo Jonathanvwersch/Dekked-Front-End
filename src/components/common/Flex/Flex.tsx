@@ -13,6 +13,7 @@ interface FlexProps {
   id?: string;
   flexDirection?: "row" | "column";
   className?: string;
+  overflow?: string;
 }
 
 type FlexPropsUnion = FlexProps & BoxProps;
@@ -34,6 +35,7 @@ const StyledFlex = styled.div<FlexProps>`
   width: ${({ width }) => (width ? width : "100%")};
   min-height: ${({ minHeight }) => minHeight};
   min-width: ${({ minWidth }) => minWidth};
+  overflow: ${({ overflow }) => overflow};
   ${() => marginAndPadding}
 `;
 

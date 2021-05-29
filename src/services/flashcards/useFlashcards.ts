@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useIsMutating, useQuery } from "react-query";
-import { FILETREE_TYPES } from "../../shared";
 import { getFlashcards } from "./flashcards-api";
 
 export default function useFlashcards(

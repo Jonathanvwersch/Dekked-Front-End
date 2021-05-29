@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Card,
@@ -8,16 +8,15 @@ import {
   Button,
   IconActive,
   ShadowCard,
-  ComponentLoadingSpinner,
-  IconWrapper,
+  Tooltip,
 } from "../../common";
-import { DeleteIcon } from "../../../assets";
+import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
-import { debounce, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import {
   convertBlocksToContent,
   getWordCount,
@@ -43,10 +42,11 @@ interface StudySetFlashcardProps {
   ownerId?: string;
   currentBlockKey?: string;
   studyPackId?: string;
-  vertical?: boolean;
+  vertical?: boolean; // if true, flashcard text containers will be stacked vertically
   width?: string;
   toolbarSize?: SIZES;
-  withSave?: boolean;
+  fullHeight?: boolean;
+  type?: "edit" | "add";
   setFlashcards?: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
 }
 
@@ -59,10 +59,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   studyPackId,
   ownerId,
   currentBlockKey,
-  vertical,
+  vertical = false,
   width,
+  fullHeight = false,
   toolbarSize = SIZES.SMALL,
-  withSave,
+  type = "add",
   setFlashcards,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
@@ -74,9 +75,25 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const frontEditorRef = useRef<any>();
+  const backEditorRef = useRef<any>();
 
-  const { mutate: addLinkedFlashcard } = useMutation(
-    `${studyPackId}-add-linked-flashcard`,
+  useEffect(() => {
+    if (linked) {
+      setIsEditable(true);
+
+      // adding a near instantaneous delay to allow linked flashcard to appear on screen before focusing
+      setTimeout(() => {
+        frontEditorRef &&
+          frontEditorRef.current &&
+          frontEditorRef.current.focus();
+      }, 50);
+    }
+  }, [linked, backEditorRef]);
+
+  const { mutate: addCard } = useMutation(
+    `${studyPackId}-add-flashcard`,
     addFlashcard
   );
 
@@ -85,44 +102,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     deleteFlashcard
   );
 
-  const { mutate: saveCard, isLoading: isSaving } = useMutation(
+  const { mutate: saveCard } = useMutation(
     `${studyPackId}-save-flashcard`,
     saveFlashcard
   );
 
-  // Debounce function to autosave notes
-  const debounced = debounce(
-    (
-      editorState: EditorState,
-      flashcardId: string | undefined,
-      ownerId: string | undefined
-    ) => {
-      if (currentSide === FLASHCARD_SIDE.FRONT) {
-        saveCard({
-          frontEditorState: editorState,
-          backEditorState: backFlashcardEditorState,
-          flash_card_id: flashcardId,
-          owner_id: ownerId,
-        });
-      } else {
-        saveCard({
-          frontEditorState: frontFlashcardEditorState,
-          backEditorState: editorState,
-          flash_card_id: flashcardId,
-          owner_id: ownerId,
-        });
-      }
-    },
-    1000
-  );
-
-  const autoSave = useCallback(
-    (editorState: EditorState) => {
-      !linked && debounced(editorState, flashcardId, ownerId);
-    },
-    [currentSide, flashcardId, ownerId]
-  );
-
+  // Switch up current side depending on focus
   useEffect(() => {
     frontHasFocus && setCurrentSide(FLASHCARD_SIDE.FRONT);
     backHasFocus && setCurrentSide(FLASHCARD_SIDE.BACK);
@@ -151,6 +136,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         padding="0px"
         backgroundColor={theme.colors.backgrounds.pageBackground}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
+        height={fullHeight ? "100%" : "auto"}
       >
         <CardHeader>
           <Text fontColor={theme.colors.grey1}>
@@ -159,13 +145,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
               : formatMessage("studySet.flashcards.back")}
           </Text>
         </CardHeader>
-        <Spacer height={theme.spacers.size8} />
         <TextCard
+          fullHeight={fullHeight}
           linked={linked}
           backgroundColor={theme.colors.backgrounds.pageBackground}
         >
           <FlashcardNoteTaker
-            autoSave={autoSave}
+            isEditable={isEditable}
             hasFocus={
               side === FLASHCARD_SIDE.FRONT ? frontHasFocus : backHasFocus
             }
@@ -181,6 +167,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
               side === FLASHCARD_SIDE.FRONT
                 ? setFrontFlashcardEditorState
                 : setBackFlashcardEditorState
+            }
+            editorRef={
+              side === FLASHCARD_SIDE.FRONT ? frontEditorRef : backEditorRef
             }
           />
         </TextCard>
@@ -198,46 +187,55 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       ? setFrontFlashcardEditorState
       : setBackFlashcardEditorState;
 
-  const toolbar = (
-    <StudySetToolbar
-      iconSize={toolbarSize}
-      editorState={editorState}
-      setEditorState={setEditorState}
-      isDisabled={!frontHasFocus && !backHasFocus}
-    />
-  );
-
   const topbar = () => {
     return linked ? (
       <Flex justifyContent="center" minHeight={theme.spacers.size24}>
-        {toolbar}
+        <StudySetToolbar
+          iconSize={toolbarSize}
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
       </Flex>
     ) : (
       <Flex justifyContent="space-between" minHeight={theme.spacers.size24}>
         <Text>{index}</Text>
-        {toolbar}
-        {isSaving ? (
-          <IconWrapper>
-            <ComponentLoadingSpinner size={SIZES.SMALL} />
-          </IconWrapper>
-        ) : (
-          <IconActive
-            dangerHover
-            handleClick={() => setIsDeleteModalOpen(true)}
+        <Flex width="auto">
+          <Tooltip
+            id="EditFlashcard"
+            text={"tooltips.studyMode.editCard"}
+            place="bottom"
           >
-            <DeleteIcon />
-          </IconActive>
-        )}
+            <IconActive
+              className={isEditable ? "active" : undefined}
+              handleClick={() => setIsEditable(true)}
+            >
+              <EditIcon />
+            </IconActive>
+          </Tooltip>
+          <Spacer width={theme.spacers.size8} />
+
+          <Tooltip
+            id="DeleteFlashcard"
+            text="tooltips.studyMode.deleteCard"
+            place="bottom"
+          >
+            <IconActive
+              dangerHover
+              handleClick={() => setIsDeleteModalOpen(true)}
+            >
+              <DeleteForeverIcon />
+            </IconActive>
+          </Tooltip>
+        </Flex>
       </Flex>
     );
   };
 
-  const handleSaveLinkedFlashcard = () => {
-    if (!withSave) {
+  const handleSaveFlashcard = () => {
+    if (type === "add") {
       ownerId &&
         studyPackId &&
-        currentBlockKey &&
-        addLinkedFlashcard({
+        addCard({
           owner_id: ownerId,
           study_pack_id: studyPackId,
           block_link: currentBlockKey,
@@ -264,32 +262,34 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         zIndex="15"
         width={width || "99%"}
+        height={fullHeight ? "100%" : "auto"}
       >
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" height={fullHeight ? "100%" : "auto"}>
           {topbar()}
           <Spacer height={theme.spacers.size8} />
           <Flex
             justifyContent="space-between"
             alignItems="stretch"
             flexDirection={vertical ? "column" : "row"}
+            height={fullHeight ? "100%" : "auto"}
+            overflow="hidden"
           >
             {frontAndBack(FLASHCARD_SIDE.FRONT)}
-            {vertical ? <Spacer height={theme.spacers.size8} /> : null}
             {frontAndBack("back")}
           </Flex>
-          <Spacer height={theme.spacers.size8} />
           {linked ? (
-            <Flex justifyContent="flex-end">
+            <Flex justifyContent="flex-end" mt={theme.spacers.size8}>
               <Button
                 buttonStyle={BUTTON_THEME.PRIMARY}
                 disabled={
                   getWordCount(frontFlashcardEditorState) === 0 &&
                   getWordCount(backFlashcardEditorState) === 0
                 }
-                handleClick={handleSaveLinkedFlashcard}
-                isLoading={withSave ? isSaving : false}
+                handleClick={handleSaveFlashcard}
               >
-                {formatMessage("generics.save")}
+                {formatMessage(
+                  type === "edit" ? "generics.save" : "generics.add"
+                )}
               </Button>
             </Flex>
           ) : null}
@@ -316,21 +316,22 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
   max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};
   width: ${({ vertical }) => (vertical ? "100%" : "49%")};
+  max-height: ${({ vertical }) => (vertical ? "48%" : "auto")};
   position: relative;
 `;
 
-const TextCard = styled(Card)<{ linked: boolean }>`
+const TextCard = styled(Card)<{ linked: boolean; fullHeight?: boolean }>`
   overflow: hidden;
   &:hover {
     overflow: auto;
   }
-  padding: ${({ theme }) => `${theme.spacers.size16} ${theme.spacers.size24}`};
-  min-height: ${({ linked }) => (linked ? "150px" : "96px")};
-  max-height: 200px;
+  padding: ${({ theme }) =>
+    `${theme.spacers.size24} ${theme.spacers.size24} ${theme.spacers.size16} ${theme.spacers.size24}`};
+  max-height: ${({ fullHeight }) => (fullHeight ? "100%" : "100px")};
 `;
 
 const CardHeader = styled.div`
-  width: 100%;
+  width: 98%;
   z-index: 10;
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
   position: absolute;

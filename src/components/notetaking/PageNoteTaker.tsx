@@ -36,9 +36,10 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const { setCurrentBlock } = useContext(CurrentBlockContext);
   const { id: studyPackId } = useParams<Params>();
   const currentBlock = editorState && getCurrentBlock(editorState);
-  const { data: blocks, isLoading } = useQuery(`${studyPackId}-notes`, () =>
+  const { data: blocks } = useQuery(`${studyPackId}-notes`, () =>
     getBlocksByPageId(studyPackId)
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const pageId = blocks?.pageId;
 
   const { mutate } = useMutation(
@@ -48,10 +49,12 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   // Set editor state on mount with the blocks
   useEffect(() => {
+    setIsLoading(true);
     if (blocks?.data && !isEmpty(blocks?.data)) {
       const savedState = convertBlocksToContent(blocks?.data);
       setEditorState(EditorState.createWithContent(savedState));
     }
+    setIsLoading(false);
   }, [blocks]);
 
   // Debounce function to autosave notes
@@ -75,7 +78,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     <RichEditor
       hasFocus={editorHasFocus}
       setHasFocus={setEditorHasFocus}
-      loading={isLoading}
+      isLoading={isLoading}
       editorState={editorState}
       setEditorState={setEditorState}
       saveEditor={autoSave}
