@@ -1,10 +1,8 @@
 import { isEmpty } from "lodash";
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { Fragment, useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
-import useFlashcards from "../../../services/flashcards/useFlashcards";
-import { Params } from "../../../shared";
+import { FlashcardsContext } from "../../../contexts";
 
 import { ComponentLoadingSpinner, Spacer, Flex } from "../../common";
 
@@ -13,14 +11,8 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const { id } = useParams<Params>();
-    const { data, isLoading } = useFlashcards(id, true);
-
-    const [flashcards, setFlashcards] = useState<FlashcardInterface[]>(data);
-
-    useEffect(() => {
-      setFlashcards(data);
-    }, [data]);
+    const { flashcards, isLoading, setFlashcards } =
+      useContext(FlashcardsContext);
 
     return (
       <>

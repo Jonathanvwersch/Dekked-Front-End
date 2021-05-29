@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useIsMutating, useQuery } from "react-query";
 import { getFlashcards } from "./flashcards-api";
 
-export default function useFlashcards(
-  studyPackId: string,
-  includeSaving?: boolean,
-  type?: string
-) {
+export default function useFlashcards(studyPackId: string) {
   const [isMutating, setIsMutating] = useState<number>(0);
   const isAdding = useIsMutating({
     mutationKey: `${studyPackId}-add-flashcard`,
@@ -29,8 +25,8 @@ export default function useFlashcards(
   }, [isDeleting]);
 
   useEffect(() => {
-    includeSaving && setIsMutating(isSaving);
-  }, [isSaving, includeSaving]);
+    setIsMutating(isSaving);
+  }, [isSaving]);
 
   return useQuery(
     `${studyPackId}-get-flashcards`,
