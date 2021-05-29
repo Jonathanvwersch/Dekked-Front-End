@@ -23,6 +23,7 @@ interface ButtonProps {
   width?: SIZES | string;
   borderRadius?: string;
   ariaLabel?: string;
+  id?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -37,12 +38,14 @@ const Button: React.FC<ButtonProps> = ({
   width,
   borderRadius,
   ariaLabel,
+  id,
 }) => {
   const Button = ButtonStyles[buttonStyle];
   const className = fullWidth ? "fullWidth" : "";
 
   return (
     <Button
+      id={id}
       type={type}
       disabled={disabled || isLoading}
       isLoading={isLoading}

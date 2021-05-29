@@ -10,6 +10,7 @@ import { isEmpty } from "lodash";
 import { SidebarContextProvider } from "../../contexts/SidebarContext";
 import { LinkedFlashcardContextProvider } from "../../contexts/LinkedFlashcardContext";
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
+import { LayeredModalContextProvider } from "../../contexts/LayeredModalContext";
 
 interface OptionsPageProps {
   firstFolderId: string;
@@ -50,28 +51,30 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
       <FlashcardsContextProvider>
         <LinkedFlashcardContextProvider>
           <SidebarContextProvider>
-            <Sidebar />
-            <CustomSwitch>
-              <Route
-                exact
-                path={`/${FILETREE_TYPES.FOLDER}/:id`}
-                component={FolderPage}
-              />
-              <Route
-                path={`/${FILETREE_TYPES.BINDER}/:id`}
-                component={BinderPage}
-              />
-              <Route
-                exact
-                path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-                component={StudySetPage}
-              />
-              <Route
-                exact
-                path={`/:type/:id/study/:studyModes/:flashcardIndex`}
-                component={StudyModePage}
-              />
-            </CustomSwitch>
+            <LayeredModalContextProvider>
+              <Sidebar />
+              <CustomSwitch>
+                <Route
+                  exact
+                  path={`/${FILETREE_TYPES.FOLDER}/:id`}
+                  component={FolderPage}
+                />
+                <Route
+                  path={`/${FILETREE_TYPES.BINDER}/:id`}
+                  component={BinderPage}
+                />
+                <Route
+                  exact
+                  path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+                  component={StudySetPage}
+                />
+                <Route
+                  exact
+                  path={`/:type/:id/study/:studyModes/:flashcardIndex`}
+                  component={StudyModePage}
+                />
+              </CustomSwitch>
+            </LayeredModalContextProvider>
           </SidebarContextProvider>
         </LinkedFlashcardContextProvider>
       </FlashcardsContextProvider>

@@ -26,10 +26,10 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
       </Scroller>
       <Footer
         padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
-        handleCancel={handleCloseModal}
-        mainButtonText={"generics.saveChanges"}
+        secondaryButton={{ onClick: handleCloseModal }}
+        primaryButton={{ text: "generics.saveChanges" }}
         alignment="flex-start"
-        divider={true}
+        divider
       />
     </>
   );

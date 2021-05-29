@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Overlay } from "../../common";
 import { MODAL_TYPE, Params, SIZES } from "../../../shared";
 
@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
+import { LayeredModalContext } from "../../../contexts";
 
 interface FlashcardModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +33,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   const isSaving = useIsMutating({
     mutationKey: `${id}-save-flashcard`,
   });
+  const { isLayeredModalOpen } = useContext(LayeredModalContext);
 
   useEffect(() => {
     if (!isSaving) {
@@ -48,6 +50,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
       modalWidth="80%"
       modalHeight="60%"
       close
+      withOutsideClick={!isLayeredModalOpen}
     >
       <StudySetFlashcard
         ownerId={ownerId}
@@ -67,4 +70,4 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   );
 };
 
-export default FlashcardModal;
+export default React.memo(FlashcardModal);

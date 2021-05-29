@@ -211,6 +211,10 @@ const en_GB = {
         cancel: "Cancel",
         delete: "Delete",
       },
+      unsavedChangesModal: {
+        header: "Review changes?",
+        unsavedChanges: "You have unsaved changes. Do you want to save them?",
+      },
     },
     ariaLabels: {
       closeModal: "Close modal",

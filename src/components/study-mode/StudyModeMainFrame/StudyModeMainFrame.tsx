@@ -29,7 +29,7 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
 
   useLayoutEffect(() => {
     flashcards && setCurrentFlashcard(flashcards[flashcardIndex]);
-  }, [flashcardIndex]);
+  }, [flashcardIndex, flashcards]);
 
   return (
     <>

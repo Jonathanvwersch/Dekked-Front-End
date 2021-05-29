@@ -1,9 +1,16 @@
 // Colour picker taken from https://casesandberg.github.io/react-color/
 import { EditorState } from "draft-js";
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import styled, { ThemeContext } from "styled-components";
 import { Overlay } from "..";
+import { LayeredModalContext } from "../../../contexts";
 import {
   BACKGROUND_COLORS,
   CoordsType,
@@ -42,6 +49,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   }>({
     background: iconColor,
   });
+  const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
+
+  useEffect(() => {
+    setIsLayeredModalOpen(true);
+    !isOpen && setIsLayeredModalOpen(false);
+  }, [isOpen]);
+
   const theme = useContext(ThemeContext);
 
   const handleChange = (colour: any) => {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
-import { BUTTON_THEME } from "../../../shared";
+import { GeneralModal, H4, Flex, Text, Footer } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";
+import { BUTTON_THEME } from "../../../shared";
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -18,8 +18,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   handleMainButton,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-
-  const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
+  const header = (
+    <H4>{formatMessage("sharedModals.unsavedChangesModal.header")}</H4>
+  );
 
   const handleButtonClick = async () => {
     await handleClose();
@@ -37,8 +38,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           secondaryButton={{ onClick: handleClose }}
           primaryButton={{
             onClick: handleButtonClick,
-            style: BUTTON_THEME.DANGER,
-            text: "sharedModals.deleteModal.delete",
+            style: BUTTON_THEME.PRIMARY,
+            text: "sharedModals.unsavedChangesModal.unsavedChanges",
           }}
         />
       }

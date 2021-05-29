@@ -17,6 +17,8 @@ interface OverlayProps {
   coords?: CoordsType; // pass down top, left, bottom, right coordinates to position div relative to viewport
   modalWidth?: string;
   modalHeight?: string;
+  withOutsideClick?: boolean;
+  closeWarning?: boolean;
 }
 
 const Overlay: React.FC<OverlayProps> = ({
@@ -29,8 +31,10 @@ const Overlay: React.FC<OverlayProps> = ({
   coords,
   modalWidth,
   modalHeight,
+  withOutsideClick,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+
   const centeredOverlayClassname =
     center && type === MODAL_TYPE.NON_MODAL_LIGHTBOX
       ? "centered non-modal-lightbox"
@@ -38,7 +42,7 @@ const Overlay: React.FC<OverlayProps> = ({
       ? "centered"
       : undefined;
 
-  useOutsideClickListener(modalRef, handleClose, isOpen);
+  useOutsideClickListener(modalRef, handleClose, withOutsideClick && isOpen);
 
   return createPortal(
     isOpen && (coords ? coords : true) ? (

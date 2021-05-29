@@ -1,60 +1,75 @@
-import React from "react";
-import { Box, Button, Divider, Flex, Spacer } from "..";
-import { usePageSetupHelpers } from "../../../hooks";
-import { BUTTON_THEME, SIZES } from "../../../shared";
+import React, { useContext } from "react";
+import { FormattedMessage } from "react-intl";
+import { ThemeContext } from "styled-components";
+import { Box, Button, Divider, Flex } from "..";
+import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 
-interface FooterProps {
-  handleCancel: () => void;
-  handleMainButton?: (args: any) => void;
-  mainButtonStyle?: BUTTON_THEME;
+type ButtonProps = {
+  onClick?: (args: any) => any;
   isDisabled?: boolean;
-  alignment?: "flex-start" | "center";
-  mainButtonText?: string;
+  isLoading?: boolean;
+  style?: BUTTON_THEME;
+  id?: string;
+  text?: string;
+};
+
+type Props = {
+  secondaryButton?: ButtonProps;
+  primaryButton?: ButtonProps;
   padding?: string;
   divider?: boolean;
   buttonSize?: SIZES;
   buttonWidth?: SIZES | string;
-}
+  alignment?: "flex-start" | "center";
+};
 
-const Footer: React.FC<FooterProps> = ({
-  handleCancel,
-  handleMainButton,
-  isDisabled,
-  mainButtonStyle = BUTTON_THEME.PRIMARY,
+const Footer = ({
+  secondaryButton,
+  primaryButton,
   alignment = "center",
-  mainButtonText = "generics.save",
   padding,
   divider,
-  buttonSize,
   buttonWidth,
-}) => {
-  const { theme, formatMessage } = usePageSetupHelpers();
+  buttonSize,
+}: Props) => {
+  const theme = useContext(ThemeContext);
 
   return (
     <>
-      {divider ? <Divider /> : null}
-      <Box p={padding ? padding : theme.spacers.size16}>
-        <Flex justifyContent={alignment}>
+      {divider && <Divider />}
+      <Flex width="100%" justifyContent={alignment} p={padding}>
+        <>
+          <Box mr={theme.spacers.size32}>
+            <Button
+              width={buttonWidth}
+              size={buttonSize}
+              id={secondaryButton?.id}
+              buttonStyle={secondaryButton?.style || BUTTON_THEME.SECONDARY}
+              type={BUTTON_TYPES.BUTTON}
+              disabled={secondaryButton?.isDisabled}
+              handleClick={secondaryButton?.onClick}
+            >
+              <FormattedMessage
+                id={secondaryButton?.text || "generics.cancel"}
+              />
+            </Button>
+          </Box>
           <Button
             width={buttonWidth}
-            size={buttonSize || SIZES.SMALL}
-            handleClick={handleCancel}
-            buttonStyle={BUTTON_THEME.SECONDARY}
+            size={buttonSize}
+            id={primaryButton?.id}
+            buttonStyle={primaryButton?.style || BUTTON_THEME.PRIMARY}
+            type={BUTTON_TYPES.BUTTON}
+            isLoading={primaryButton?.isLoading}
+            handleClick={primaryButton?.onClick}
+            disabled={primaryButton?.isDisabled}
           >
-            {formatMessage("generics.cancel")}
+            <FormattedMessage
+              id={primaryButton?.text || "generics.saveAndClose"}
+            />
           </Button>
-          <Spacer width={theme.spacers.size32} />
-          <Button
-            width={buttonWidth}
-            size={buttonSize || SIZES.SMALL}
-            handleClick={handleMainButton}
-            buttonStyle={mainButtonStyle}
-            disabled={isDisabled}
-          >
-            {formatMessage(mainButtonText)}
-          </Button>
-        </Flex>
-      </Box>
+        </>
+      </Flex>
     </>
   );
 };

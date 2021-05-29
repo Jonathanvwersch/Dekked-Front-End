@@ -86,6 +86,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           });
         }}
       />
+
       <FlashcardModal
         type="edit"
         frontBlocks={frontBlocks}

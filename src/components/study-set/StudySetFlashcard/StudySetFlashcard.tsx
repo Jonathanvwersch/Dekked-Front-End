@@ -22,7 +22,7 @@ import {
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
-import { useIsMutating, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import {
   addFlashcard,
   deleteFlashcard,

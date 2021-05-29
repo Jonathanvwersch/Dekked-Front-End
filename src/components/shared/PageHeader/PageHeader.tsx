@@ -13,7 +13,7 @@ import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { usePageSetupHelpers } from "../../../hooks";
-import useFlashcards from "../../../services/flashcards/useFlashcards";
+import { FlashcardsContext } from "../../../contexts";
 
 interface PageHeaderProps {
   message?: string;
@@ -24,7 +24,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
   const { selectedBlockName, type, id } = useContext(SelectedItemContext);
-  const { data: flashcards } = useFlashcards(id);
+  const { flashcards } = useContext(FlashcardsContext);
 
   return (
     <>

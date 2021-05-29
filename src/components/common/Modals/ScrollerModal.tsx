@@ -1,7 +1,14 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
-import React, { Fragment, useContext } from "react";
+import React, {
+  Fragment,
+  MutableRefObject,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Block, Divider, Overlay, ShadowCard } from "..";
+import { LayeredModalContext } from "../../../contexts";
 import { useKeyDownAndUpListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 
@@ -11,7 +18,7 @@ interface ScrollerModalProps {
   clickFunctions: any;
   data: ScrollerModalData;
   coords?: CoordsType;
-  cardRef?: React.RefObject<HTMLDivElement>;
+  cardRef?: MutableRefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
   fullHeight?: boolean;
 }
@@ -27,7 +34,14 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   fullHeight,
 }) => {
   const theme = useContext(ThemeContext);
+  const modalRef = useRef<HTMLDivElement>(null);
   const { activeIndex } = useKeyDownAndUpListener(open, data.length);
+  const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
+
+  useEffect(() => {
+    setIsLayeredModalOpen(true);
+    !open && setIsLayeredModalOpen(false);
+  }, [open]);
 
   return (
     <Overlay
@@ -35,12 +49,13 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
       handleClose={handleClose}
       coords={coords}
       type={type}
+      withOutsideClick
     >
       <StyledScrollerModal
         fullHeight={fullHeight}
         coords={coords}
         width={theme.sizes.modal.small}
-        cardRef={cardRef}
+        cardRef={cardRef || modalRef}
       >
         {data.map((item, index) => {
           return (

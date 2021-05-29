@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useEffect } from "react";
 
 const useOutsideClickListener = (
-  element: MutableRefObject<any>,
+  element: MutableRefObject<any> | undefined,
   handler: () => void,
   shouldRun: boolean = true,
   withEscape: boolean = true,

@@ -5,3 +5,4 @@ export * from "./Topbar";
 export * from "./Sidebar";
 export { default as DeleteModal } from "./DeleteModal/DeleteModal";
 export { default as FlashcardModal } from "./FlashcardModal/FlashcardModal";
+export { default as UnsavedChangesModal } from "./UnsavedChangesModal/UnsavedChangesModal";

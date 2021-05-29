@@ -19,8 +19,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
     useContext(FlashcardsContext);
 
   const maxLength = flashcards?.length;
-  console.log(maxLength);
-
+  console.log(flashcards);
   return (
     <>
       {!isLoading && typeof maxLength !== "undefined" ? (
