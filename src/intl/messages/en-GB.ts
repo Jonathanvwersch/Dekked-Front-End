@@ -75,11 +75,11 @@ const en_GB = {
         password: "Password",
         newPassword: "New password",
         currentPassword: "Current password",
-        repeatPassword: "Repeat new password",
+        repeatPassword: "Repeat password",
         length: "Your password must be atleast eight characters long.",
       },
       email: {
-        email: "Email address",
+        emailAddress: "Email address",
         placeholder: "Example@dekked.com",
       },
       names: {
@@ -101,6 +101,10 @@ const en_GB = {
         signUp: "Sign up",
         logIn: "Log in",
         haveAccount: "Already have an account? ",
+      },
+      validation: {
+        invalidEmail: "Invalid email address",
+        passwordsNoMatch: "Your passwords do not match",
       },
     },
     studySet: {
@@ -204,6 +208,9 @@ const en_GB = {
           enableLinking: "Select a block of text to enable linking",
         },
       },
+      forms: {
+        disabledButton: "Fill out all fields marked with an * to submit form",
+      },
     },
     sharedModals: {
       deleteModal: {
@@ -222,6 +229,8 @@ const en_GB = {
       addBinder: "Add binder",
       addStudySet: "Add study set",
       studyQueue: "Study queue",
+      studySetFlashcard:
+        "Press enter or double click on flashcard to edit front and back content",
     },
   },
 };

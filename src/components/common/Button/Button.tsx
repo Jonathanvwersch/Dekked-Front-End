@@ -16,7 +16,7 @@ interface ButtonProps {
   className?: string;
   fullWidth?: boolean;
   isLoading?: boolean;
-  disabled?: boolean;
+  isDisabled?: boolean;
   buttonStyle?: BUTTON_THEME;
   handleClick?: (args: any) => any;
   size?: SIZES;
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   handleClick,
   children,
-  disabled = false,
+  isDisabled = false,
   buttonStyle = BUTTON_THEME.PRIMARY,
   fullWidth = false,
   size = SIZES.SMALL,
@@ -47,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({
     <Button
       id={id}
       type={type}
-      disabled={disabled || isLoading}
+      disabled={isDisabled || isLoading}
       isLoading={isLoading}
       onClick={handleClick}
       size={size}

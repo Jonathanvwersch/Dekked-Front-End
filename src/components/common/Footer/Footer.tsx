@@ -46,7 +46,7 @@ const Footer = ({
               id={secondaryButton?.id}
               buttonStyle={secondaryButton?.style || BUTTON_THEME.SECONDARY}
               type={BUTTON_TYPES.BUTTON}
-              disabled={secondaryButton?.isDisabled}
+              isDisabled={secondaryButton?.isDisabled}
               handleClick={secondaryButton?.onClick}
             >
               <FormattedMessage
@@ -62,7 +62,7 @@ const Footer = ({
             type={BUTTON_TYPES.BUTTON}
             isLoading={primaryButton?.isLoading}
             handleClick={primaryButton?.onClick}
-            disabled={primaryButton?.isDisabled}
+            isDisabled={primaryButton?.isDisabled}
           >
             <FormattedMessage
               id={primaryButton?.text || "generics.saveAndClose"}

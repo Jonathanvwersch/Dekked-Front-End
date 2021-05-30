@@ -1,7 +1,10 @@
-import React, { ChangeEvent, FocusEvent } from "react";
-import { Flex } from "..";
+import React, { ChangeEvent, useContext, useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { Flex, Spacer } from "..";
 import { SIZES } from "../../../shared";
 import { Label, LabelAndInputWrapper, StyledInput } from "./Input.styles";
+import { Text } from "../../common";
+import { ThemeContext } from "styled-components";
 
 export interface InputProps {
   id?: string;
@@ -9,12 +12,14 @@ export interface InputProps {
   type?: string;
   value?: string | number | null;
   name?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   ariaLabel?: string;
   placeholder?: string;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   size?: SIZES;
+  validate?: () => boolean;
+  errorMessage?: string;
+  required?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,30 +28,44 @@ const Input: React.FC<InputProps> = ({
   type = "text",
   value,
   name,
-  disabled,
+  isDisabled,
   ariaLabel,
   placeholder,
-  onBlur,
   onChange,
   size = SIZES.SMALL,
+  validate,
+  errorMessage,
+  required,
 }) => {
+  const theme = useContext(ThemeContext);
+  const [validation, setValidation] = useState<boolean>(true);
+  const asterisks = !required ? "" : "*";
+
   return (
     <LabelAndInputWrapper>
-      {label && <Label htmlFor={id}>{label}</Label>}
-      <Flex width="100%">
+      {label && <Label htmlFor={id}>{`${label} ${asterisks}`}</Label>}
+      <Flex width="100%" flexDirection="column" alignItems="flex-start">
         <StyledInput
           height={size}
           type={type}
           value={value === null ? undefined : value}
           name={name}
-          disabled={disabled}
+          disabled={isDisabled}
           autoComplete="off"
-          onBlur={onBlur}
+          onBlur={() =>
+            typeof validate !== "undefined" && setValidation(validate())
+          }
           onChange={onChange}
           aria-label={ariaLabel}
           placeholder={placeholder}
           id={id}
         />
+        <Spacer height={theme.spacers.size4} />
+        {validate && !validation && errorMessage && (
+          <Text fontColor={theme.colors.danger}>
+            <FormattedMessage id={errorMessage} />
+          </Text>
+        )}
       </Flex>
     </LabelAndInputWrapper>
   );

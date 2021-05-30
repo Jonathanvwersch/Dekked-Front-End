@@ -58,19 +58,13 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: pointer;
   user-select: none;
-
+  &:focus,
   &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
   &.active {
     filter: ${({ theme }) => theme.colors.active.filter};
-  }
-
-  &.focus {
-    &:focus {
-      filter: ${({ theme }) => theme.colors.hover.filter};
-    }
   }
 `;
 

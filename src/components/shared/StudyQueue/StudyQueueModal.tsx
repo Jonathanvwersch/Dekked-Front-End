@@ -37,7 +37,7 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
           </Flex>
           <Divider />
           <Flex justifyContent="flex-end" p={theme.spacers.size8}>
-            <Button buttonStyle={BUTTON_THEME.PRIMARY} disabled={true}>
+            <Button buttonStyle={BUTTON_THEME.PRIMARY} isDisabled={true}>
               Study
             </Button>
           </Flex>

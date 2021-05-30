@@ -57,7 +57,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                   <Button
                     buttonStyle={BUTTON_THEME.PRIMARY}
                     handleClick={() => setStudyMode(true)}
-                    disabled={flashcards?.length === 0}
+                    isDisabled={flashcards?.length === 0}
                   >
                     {formatMessage("generics.study")}
                   </Button>

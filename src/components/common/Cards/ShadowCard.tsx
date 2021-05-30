@@ -14,13 +14,19 @@ interface ShadowCardProps {
   cardRef?: React.RefObject<HTMLDivElement>;
   zIndex?: string;
   maxHeight?: string;
-  ondblclick?: ((this: Window, ev: MouseEvent) => any) | null;
+  id?: string;
+  tabIndex?: number;
+  ariaLabel?: string;
+  role?: string;
 }
 
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
   return (
     <StyledShadowCard
-      ondblclick={() => console.log("hi")}
+      tabIndex={props.tabIndex}
+      aria-label={props.ariaLabel}
+      role={props.role}
+      id={props.id}
       ref={props.cardRef}
       {...props}
     >

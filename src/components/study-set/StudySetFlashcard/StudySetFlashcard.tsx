@@ -83,12 +83,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   useEffect(() => {
     if (linked) {
       setIsEditable(true);
-
       // adding a near instantaneous delay to allow linked flashcard to appear on screen before focusing
       setTimeout(() => {
-        frontEditorRef &&
-          frontEditorRef.current &&
-          frontEditorRef.current.focus();
+        frontEditorRef?.current?.focus();
       }, 50);
     }
   }, [linked, backEditorRef]);
@@ -242,7 +239,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         });
       setFrontFlashcardEditorState(EditorState.createEmpty());
       setBackFlashcardEditorState(EditorState.createEmpty());
-      frontEditorRef?.current?.focus();
+      setTimeout(() => {
+        frontEditorRef?.current?.focus();
+      }, 50);
     } else {
       saveCard({
         frontEditorState: frontFlashcardEditorState,
@@ -253,19 +252,30 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     }
   };
 
+  const studySetFlashcard = document.getElementById(
+    `StudySetFlashcard-${index}`
+  );
+
+  studySetFlashcard?.addEventListener("dblclick", function (e) {
+    setEditFlashcard(true);
+  });
+
+  studySetFlashcard?.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") setEditFlashcard(true);
+  });
   return (
     <>
-      <ShadowCard
+      <StyledShadowCard
+        id={`StudySetFlashcard-${index}`}
         backgroundColor={theme.colors.secondary}
         padding={theme.spacers.size16}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         zIndex="15"
         width={width || "99%"}
         height={fullHeight ? "100%" : "auto"}
-        ondblclick={() => {
-          console.log("yeahboy");
-          setEditFlashcard(true);
-        }}
+        tabIndex={0}
+        ariaLabel={formatMessage("ariaLabels.studySetFlashcard")}
+        role="button"
       >
         <Flex flexDirection="column" height={fullHeight ? "100%" : "auto"}>
           {topbar()}
@@ -284,7 +294,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             <Flex justifyContent="flex-end" mt={theme.spacers.size8}>
               <Button
                 buttonStyle={BUTTON_THEME.PRIMARY}
-                disabled={
+                isDisabled={
                   getWordCount(frontFlashcardEditorState) === 0 &&
                   getWordCount(backFlashcardEditorState) === 0
                 }
@@ -298,7 +308,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             </Flex>
           ) : null}
         </Flex>
-      </ShadowCard>
+      </StyledShadowCard>
       <DeleteModal
         handleMainButton={() => {
           setFlashcards &&
@@ -325,6 +335,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     </>
   );
 };
+
+const StyledShadowCard = styled(ShadowCard)`
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.colors.primary};
+  }
+`;
 
 const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
   max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};

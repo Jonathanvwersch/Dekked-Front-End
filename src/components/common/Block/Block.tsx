@@ -43,23 +43,10 @@ const Block: React.FC<BlockProps> = ({
     </Card>
   );
 
-  const children = (
-    <Flex>
-      <IconWrapper>{icon}</IconWrapper>
-      <Spacer width={theme.spacers.size8} />
-      <Text
-        fontSize={theme.typography.fontSizes.size14}
-        fontWeight={fontWeight}
-      >
-        {formatMessage(label)}
-      </Text>
-    </Flex>
-  );
-
   return (
     <ConditionalWrapper
       condition={!hoverCard}
-      wrapper={() => CardComponent(children)}
+      wrapper={(children: ReactElement) => CardComponent(children)}
     >
       <HoverCard
         index={index}
@@ -74,7 +61,16 @@ const Block: React.FC<BlockProps> = ({
         padding={`${theme.spacers.size8} ${theme.spacers.size16}`}
         className={className}
       >
-        {children}
+        <Flex>
+          <IconWrapper>{icon}</IconWrapper>
+          <Spacer width={theme.spacers.size8} />
+          <Text
+            fontSize={theme.typography.fontSizes.size14}
+            fontWeight={fontWeight}
+          >
+            {formatMessage(label)}
+          </Text>
+        </Flex>
       </HoverCard>
     </ConditionalWrapper>
   );

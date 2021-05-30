@@ -46,7 +46,6 @@ const Crumb: React.FC<CrumbProps> = ({
             </>
           ) : null}
           <HoverCard
-            className="focus"
             handleClick={() => history.push(pathName)}
             width="auto"
             backgroundColor={

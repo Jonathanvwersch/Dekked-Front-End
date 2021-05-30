@@ -65,7 +65,6 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 activeIndex={activeIndex}
                 icon={item?.icon}
                 label={item?.label}
-                className="focus"
                 hoverCard={item?.hoverCard}
                 handleClick={(e: MouseEvent) => {
                   e.preventDefault();
