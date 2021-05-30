@@ -11,7 +11,7 @@ interface GeneralModalProps {
   header?: JSX.Element;
   size?: SIZES;
   type?: MODAL_TYPE;
-  footer?: JSX.Element;
+  footer?: JSX.Element | string;
   children: React.ReactNode;
 }
 

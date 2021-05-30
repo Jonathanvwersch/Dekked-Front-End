@@ -1,5 +1,5 @@
 import React, { memo, useContext } from "react";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components";

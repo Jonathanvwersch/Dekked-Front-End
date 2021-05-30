@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -6,7 +6,6 @@ import {
   Spacer,
   Text,
   EditableText,
-  ConditionalWrapper,
   Tooltip,
 } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
@@ -41,18 +40,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
             {type === FILETREE_TYPES.STUDY_SET ? (
               <>
                 <Spacer width={theme.spacers.size16} />
-                <ConditionalWrapper
-                  condition={flashcards?.length === 0}
-                  wrapper={(children: ReactElement) => (
-                    <Tooltip
-                      id="DisabledStudyButton"
-                      text={formatMessage(
-                        "tooltips.studyMode.disabledStudyButton"
-                      )}
-                    >
-                      {children}
-                    </Tooltip>
-                  )}
+                <Tooltip
+                  id="DisabledStudyButton"
+                  text={formatMessage("tooltips.studyMode.disabledStudyButton")}
+                  isActive={flashcards?.length === 0}
                 >
                   <Button
                     buttonStyle={BUTTON_THEME.PRIMARY}
@@ -61,7 +52,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                   >
                     {formatMessage("generics.study")}
                   </Button>
-                </ConditionalWrapper>
+                </Tooltip>
               </>
             ) : null}
           </Flex>

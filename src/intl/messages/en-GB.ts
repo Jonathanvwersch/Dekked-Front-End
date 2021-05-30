@@ -12,6 +12,7 @@ const en_GB = {
       finish: "Finish",
       add: "Add",
       saving: "Saving",
+      okay: "Okay",
     },
     notFoundPage: {
       goHome: "Go home",
@@ -101,6 +102,8 @@ const en_GB = {
         signUp: "Sign up",
         logIn: "Log in",
         haveAccount: "Already have an account? ",
+        accountExists: "Email address already in use",
+        loginOrNewEmail: "Please login or use another email address.",
       },
       validation: {
         invalidEmail: "Invalid email address",

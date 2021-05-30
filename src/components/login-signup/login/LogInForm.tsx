@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import { Spacer, Input, Button, Tooltip } from "../../common";
+import { Spacer, Input, Button } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
 import { isAnyRequiredFieldPristine, validateEmail } from "../../../helpers";
 
@@ -26,7 +26,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         validate={() => validateEmail(emailAddress)}
         onChange={(e) => setEmailAddress(e.target.value)}
         errorMessage="forms.validation.invalidEmail"
-        required
       />
       <Spacer height={theme.spacers.size16} />
       <Input
@@ -35,20 +34,19 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         type="password"
         label={formatMessage("forms.password.password")}
         onChange={(e) => setPassword(e.target.value)}
-        required
+        showPassword
+        clearButton={false}
       />
       <Spacer height={theme.spacers.size48} />
-      <Tooltip id="DisabledSubmitButton" text="tooltips.forms.disabledButton">
-        <Button
-          size={SIZES.LARGE}
-          fullWidth
-          buttonStyle={BUTTON_THEME.PRIMARY}
-          isDisabled={isSubmitButtonDisabled()}
-          type={BUTTON_TYPES.SUBMIT}
-        >
-          {formatMessage("forms.logIn.logIn")}
-        </Button>
-      </Tooltip>
+      <Button
+        size={SIZES.LARGE}
+        fullWidth
+        buttonStyle={BUTTON_THEME.PRIMARY}
+        isDisabled={isSubmitButtonDisabled()}
+        type={BUTTON_TYPES.SUBMIT}
+      >
+        {formatMessage("forms.logIn.logIn")}
+      </Button>
     </>
   );
 };

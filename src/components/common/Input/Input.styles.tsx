@@ -5,16 +5,16 @@ interface InputProps {
   height: SIZES;
 }
 
-export const StyledInput = styled.input<InputProps>`
-  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
-  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
-  padding: 10px 6px;
-  border: 1px solid ${({ theme }) => theme.colors.grey2};
+export const StyledInput = styled.input`
   transition: all 0.1s ease-in-out;
   font-size: ${({ theme }) => theme.typography.fontSizes.size14};
   width: 100%;
   min-width: 0;
-  height: ${({ theme, height }) => theme.sizes.input[height]};
+  background: none;
+  border: none;
+  height: 100%;
+  padding: 0 ${({ theme }) => theme.spacers.size8};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
 
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -25,9 +25,23 @@ export const StyledInput = styled.input<InputProps>`
   ::-ms-input-placeholder {
     color: ${({ theme }) => theme.colors.grey2};
   }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px yellow inset;
+  }
+`;
 
-  &:focus,
-  &:active:not(:disabled):not(.error) {
+export const InputWrapper = styled.div<InputProps>`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  cursor: text;
+  border: 1px solid ${({ theme }) => theme.colors.grey2};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
+  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  height: ${({ theme, height }) => theme.sizes.input[height]};
+
+  &:focus-within {
     border: 2px solid ${({ theme }) => theme.colors.primary};
     outline: none;
   }
@@ -51,4 +65,12 @@ export const LabelAndInputWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+`;
+
+export const InputIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: ${({ theme }) => theme.spacers.size4};
 `;

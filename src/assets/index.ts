@@ -43,5 +43,7 @@ export { default as CheckmarkIcon } from "./icons/CheckmarkIcon";
 export { default as SuperscriptIcon } from "./icons/SuperscriptIcon";
 export { default as SubscriptIcon } from "./icons/SubscriptIcon";
 export { default as RemoveFormattingIcon } from "./icons/RemoveFormattingIcon";
+export { default as EyeIcon } from "./icons/EyeIcon";
+export { default as ClearIcon } from "./icons/ClearIcon";
 export * from "./icons/Icon.styles";
 export * from "./icons/Icon.types";

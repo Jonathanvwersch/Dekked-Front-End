@@ -11,6 +11,7 @@ type ButtonProps = {
   style?: BUTTON_THEME;
   id?: string;
   text?: string;
+  fullWidth?: boolean;
 };
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
   buttonSize?: SIZES;
   buttonWidth?: SIZES | string;
   alignment?: "flex-start" | "center";
+  noSecondaryButton?: boolean;
 };
 
 const Footer = ({
@@ -31,6 +33,7 @@ const Footer = ({
   divider,
   buttonWidth,
   buttonSize,
+  noSecondaryButton,
 }: Props) => {
   const theme = useContext(ThemeContext);
 
@@ -39,21 +42,24 @@ const Footer = ({
       {divider && <Divider />}
       <Flex width="100%" justifyContent={alignment} p={padding}>
         <>
-          <Box mr={theme.spacers.size32}>
-            <Button
-              width={buttonWidth}
-              size={buttonSize}
-              id={secondaryButton?.id}
-              buttonStyle={secondaryButton?.style || BUTTON_THEME.SECONDARY}
-              type={BUTTON_TYPES.BUTTON}
-              isDisabled={secondaryButton?.isDisabled}
-              handleClick={secondaryButton?.onClick}
-            >
-              <FormattedMessage
-                id={secondaryButton?.text || "generics.cancel"}
-              />
-            </Button>
-          </Box>
+          {!noSecondaryButton ? (
+            <Box mr={theme.spacers.size32}>
+              <Button
+                width={buttonWidth}
+                size={buttonSize}
+                id={secondaryButton?.id}
+                buttonStyle={secondaryButton?.style || BUTTON_THEME.SECONDARY}
+                type={BUTTON_TYPES.BUTTON}
+                isDisabled={secondaryButton?.isDisabled}
+                handleClick={secondaryButton?.onClick}
+                fullWidth={secondaryButton?.fullWidth}
+              >
+                <FormattedMessage
+                  id={secondaryButton?.text || "generics.cancel"}
+                />
+              </Button>
+            </Box>
+          ) : null}
           <Button
             width={buttonWidth}
             size={buttonSize}
@@ -63,6 +69,7 @@ const Footer = ({
             isLoading={primaryButton?.isLoading}
             handleClick={primaryButton?.onClick}
             isDisabled={primaryButton?.isDisabled}
+            fullWidth={primaryButton?.fullWidth}
           >
             <FormattedMessage
               id={primaryButton?.text || "generics.saveAndClose"}
