@@ -16,6 +16,7 @@ const StyledAvatar = styled.div<AvatarProps>`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
   height: ${({ diameter, theme }) =>
     diameter ? diameter : theme.spacers.size32};
   width: ${({ diameter, theme }) =>

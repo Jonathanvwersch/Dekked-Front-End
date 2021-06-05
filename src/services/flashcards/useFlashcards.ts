@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useIsMutating, useQuery } from "react-query";
 import { getFlashcards } from "./flashcards-api";
-import { getSessionCookie } from "../../helpers";
+import { useParams } from "react-router-dom";
+import { FILETREE_TYPES, Params } from "../../shared";
 
 export default function useFlashcards(studyPackId: string) {
   const [isMutating, setIsMutating] = useState<number>(0);
-  const token = getSessionCookie();
+  const { type } = useParams<Params>();
   const isAdding = useIsMutating({
     mutationKey: `${studyPackId}-add-flashcard`,
   });
@@ -32,9 +33,9 @@ export default function useFlashcards(studyPackId: string) {
 
   return useQuery(
     `${studyPackId}-get-flashcards`,
-    () => token && getFlashcards({ studyPackId }),
+    () => getFlashcards({ studyPackId }),
     {
-      enabled: isMutating === 0,
+      enabled: type === FILETREE_TYPES.STUDY_SET && isMutating === 0,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
     }

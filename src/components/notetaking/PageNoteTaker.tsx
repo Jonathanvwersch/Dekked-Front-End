@@ -43,8 +43,10 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      refetchOnMount: false,
     }
   );
+
   const pageId = blocks?.pageId;
 
   const { mutate } = useMutation(
@@ -65,7 +67,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   // Debounce function to autosave notes
   const debounced = debounce(
     (editorState: EditorState) => mutate(editorState),
-    750
+    1000
   );
 
   const autoSave = useCallback(

@@ -10,6 +10,8 @@ interface LoadingSpinnerProps {
   size?: SIZES;
   className?: string;
   text?: string;
+  height?: string;
+  width?: string;
 }
 
 // Use whenever you want to add a loading spinner in place of a component
@@ -17,11 +19,13 @@ export const ComponentLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = SIZES.LARGE,
   className,
   text,
+  height,
+  width,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <StyledComponentSpinner className={className}>
+    <StyledComponentSpinner height={height} width={width} className={className}>
       <IconWrapper>
         <SpinningLogo color={theme.colors.primary} size={size} />
         <Spacer width={theme.spacers.size8} />
@@ -75,10 +79,10 @@ const StyledFullPageSpinner = styled.div`
   align-items: center;
 `;
 
-const StyledComponentSpinner = styled.div`
+const StyledComponentSpinner = styled.div<{ height?: string; width?: string }>`
   flex-grow: 1;
-  height: 100%;
-  width: 100%;
+  height: ${({ height }) => height}
+  width: ${({ width }) => width}
   z-index: 10;
   display: flex;
   justify-content: center;

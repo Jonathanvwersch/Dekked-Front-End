@@ -30,7 +30,7 @@ const TopBar: React.FC = () => {
         <>
           <Spacer width={theme.spacers.size32} />
           <ComponentLoadingSpinner size={SIZES.SMALL} />
-          <Spacer width={theme.spacers.size8} />
+          <Spacer width={theme.spacers.size4} />
           <Text fontColor={theme.colors.grey1}>
             <FormattedMessage id="generics.saving" />
             ...

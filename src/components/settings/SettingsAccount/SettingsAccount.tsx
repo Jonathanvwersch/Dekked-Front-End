@@ -64,7 +64,7 @@ const SettingsAccount: React.FC<SettingsAccountProps> = ({
           </Box>
         </>
       ) : (
-        <ComponentLoadingSpinner />
+        <ComponentLoadingSpinner height="100%" width="100%" />
       )}
     </>
   );
