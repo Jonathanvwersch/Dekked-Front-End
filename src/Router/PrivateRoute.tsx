@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
@@ -31,15 +31,14 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   );
 
   // If there is no user, redirect to login
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLoggedIn) {
       history.push("/login");
-    }
-    if (path === "/") {
+    } else if (path === "/" && firstFolderId) {
       history.push(firstFolderLink);
     }
     setIsLoggedIn(getSessionCookie());
-  }, [history, user, firstFolderLink, path, isLoggedIn]);
+  }, [history, user, firstFolderLink, path, isLoggedIn, firstFolderId]);
 
   return (
     <>

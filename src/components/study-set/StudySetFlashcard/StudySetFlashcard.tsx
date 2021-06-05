@@ -265,8 +265,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       setEditFlashcard(true);
   });
 
-  console.log(editFlashcard);
-
   return (
     <>
       <StyledShadowCard
