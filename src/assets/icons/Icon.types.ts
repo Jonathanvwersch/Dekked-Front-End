@@ -14,4 +14,5 @@ export interface IconProps {
   height?: string;
   width?: string;
   ariaLabel?: string;
+  className?: string;
 }

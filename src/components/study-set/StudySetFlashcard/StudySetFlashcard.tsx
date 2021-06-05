@@ -63,7 +63,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   width,
   fullHeight = false,
   toolbarSize = SIZES.SMALL,
-  type = "add",
+  type,
   setFlashcards,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
@@ -257,12 +257,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   studySetFlashcard?.addEventListener("dblclick", function (e) {
-    setEditFlashcard(true);
+    type !== "add" && type !== "edit" && setEditFlashcard(true);
   });
 
   studySetFlashcard?.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") setEditFlashcard(true);
+    if (e.key === "Enter" && type !== "add" && type !== "edit")
+      setEditFlashcard(true);
   });
+
+  console.log(editFlashcard);
+
   return (
     <>
       <StyledShadowCard
@@ -276,6 +280,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         tabIndex={0}
         ariaLabel={formatMessage("ariaLabels.studySetFlashcard")}
         role="button"
+        type={type}
       >
         <Flex flexDirection="column" height={fullHeight ? "100%" : "auto"}>
           {topbar()}
@@ -317,7 +322,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                 (flashcard) => flashcard.flashcard.id !== flashcardId
               )
             );
-          deleteCard({ study_pack_id: studyPackId, flashcard_id: flashcardId });
+          deleteCard({
+            flashcard_id: flashcardId,
+          });
         }}
         bodyText="studyMode.deleteModal.deleteCard"
         isOpen={isDeleteModalOpen}
@@ -336,9 +343,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 };
 
-const StyledShadowCard = styled(ShadowCard)`
+const StyledShadowCard = styled(ShadowCard)<{ type?: "edit" | "add" }>`
   &:focus {
-    border: 1px solid ${({ theme }) => theme.colors.primary};
+    border: ${({ theme, type }) =>
+      type !== "edit" && type !== "add" && `1px solid ${theme.colors.primary}`};
   }
 `;
 

@@ -72,5 +72,5 @@ export const InputIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-right: ${({ theme }) => theme.spacers.size4};
+  margin-right: ${({ theme }) => theme.spacers.size8};
 `;

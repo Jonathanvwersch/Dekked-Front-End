@@ -39,7 +39,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
     if (!isSaving) {
       setIsOpen(false);
     }
-  }, [isSaving]);
+  }, [isSaving, setIsOpen]);
 
   return (
     <Overlay

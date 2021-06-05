@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from "react";
-import { Route, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import { Sidebar } from "../../components/shared/Sidebar";
@@ -11,20 +11,18 @@ import { SidebarContextProvider } from "../../contexts/SidebarContext";
 import { LinkedFlashcardContextProvider } from "../../contexts/LinkedFlashcardContext";
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
 import { LayeredModalContextProvider } from "../../contexts/LayeredModalContext";
+import PrivateRoute from "../../Router/PrivateRoute";
 
-interface OptionsPageProps {
-  firstFolderId: string;
-}
-
-const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
+const OptionsPage: React.FC = () => {
   const { type, id } = useParams<Params>();
-  const { getAsset, folders, binders, studyPacks } =
+  const { getAsset, folders, binders, studyPacks, fileTree } =
     useContext(FileTreeContext);
+  const firstFolderId = Object.keys(fileTree)[0];
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
 
   // before checking if the id exists by using the getAsset function, we first need to make sure that
-  // the file files (folders, binders, and study sets) have been successfully fetched
+  // the files (folders, binders, and study sets) have been successfully fetched
   const doFilesExist = useCallback(() => {
     if (type === FILETREE_TYPES.FOLDER) return !isEmpty(folders);
     else if (type === FILETREE_TYPES.BINDER)
@@ -54,21 +52,21 @@ const OptionsPage: React.FC<OptionsPageProps> = ({ firstFolderId }) => {
             <LayeredModalContextProvider>
               <Sidebar />
               <CustomSwitch>
-                <Route
+                <PrivateRoute
                   exact
                   path={`/${FILETREE_TYPES.FOLDER}/:id`}
                   component={FolderPage}
                 />
-                <Route
+                <PrivateRoute
                   path={`/${FILETREE_TYPES.BINDER}/:id`}
                   component={BinderPage}
                 />
-                <Route
+                <PrivateRoute
                   exact
                   path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
                   component={StudySetPage}
                 />
-                <Route
+                <PrivateRoute
                   exact
                   path={`/:type/:id/study/:studyModes/:flashcardIndex`}
                   component={StudyModePage}

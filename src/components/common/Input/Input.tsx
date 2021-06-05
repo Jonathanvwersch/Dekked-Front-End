@@ -29,6 +29,7 @@ export interface InputProps {
   required?: boolean;
   showPassword?: boolean;
   clearButton?: boolean;
+  defaultValue?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -47,6 +48,7 @@ const Input: React.FC<InputProps> = ({
   required,
   showPassword,
   clearButton = false,
+  defaultValue,
 }) => {
   const theme = useContext(ThemeContext);
   const [validation, setValidation] = useState<boolean>(true);
@@ -60,6 +62,7 @@ const Input: React.FC<InputProps> = ({
       <Flex width="100%" flexDirection="column" alignItems="flex-start">
         <InputWrapper height={size}>
           <StyledInput
+            defaultValue={defaultValue}
             type={type === "password" ? inputType : type}
             value={value === null ? undefined : value}
             name={name}

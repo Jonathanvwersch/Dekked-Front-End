@@ -6,6 +6,7 @@ import {
 } from "./OpenSettingsModal.data";
 import { CoordsType } from "../../../shared";
 import { MainSettingsModal } from "..";
+import { useHistory } from "react-router-dom";
 
 interface OpenSettingsModalProps {
   open: boolean;
@@ -20,10 +21,16 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
 }) => {
   const [openMainSettingsModal, setOpenMainSettingsModal] =
     useState<boolean>(false);
+
+  const history = useHistory();
+
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
     if (option === OPEN_SETTINGS_DATA.SETTINGS) {
       setOpenMainSettingsModal(true);
+    }
+    if (option === OPEN_SETTINGS_DATA.LOGOUT) {
+      history.push("/logout");
     }
   };
 

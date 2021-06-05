@@ -35,10 +35,11 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
   const { setCurrentBlock } = useContext(CurrentBlockContext);
   const { id: studyPackId } = useParams<Params>();
+
   const currentBlock = editorState && getCurrentBlock(editorState);
   const { data: blocks, isLoading } = useQuery(
     `${studyPackId}-notes`,
-    () => getBlocksByPageId(studyPackId),
+    () => getBlocksByPageId({ studyPackId }),
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -48,7 +49,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   const { mutate } = useMutation(
     `${studyPackId}-save-notes`,
-    (editorState: EditorState) => savePage(editorState, pageId)
+    (editorState: EditorState) => savePage({ editorState, pageId })
   );
 
   // Set editor state on mount with the blocks

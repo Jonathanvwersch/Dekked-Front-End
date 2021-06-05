@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { config } from "../../config";
+import { getSessionCookie } from "../../helpers";
 export function useFolders() {
   const [folders, setFolders] = useState<{
     [key: string]: FolderInterface;
@@ -11,7 +12,7 @@ export function useFolders() {
       const uri = config.api + "/folders";
       const response = await fetch(uri, {
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
         },
       });
 
@@ -36,7 +37,7 @@ export function useFolders() {
       const response = await fetch(uri, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({
@@ -73,7 +74,7 @@ export function useFolders() {
       const response = await fetch(uri, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({
@@ -101,7 +102,7 @@ export function useFolders() {
       const response = await fetch(uri, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({

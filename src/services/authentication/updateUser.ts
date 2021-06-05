@@ -1,21 +1,26 @@
 import { config } from "../../config";
+import { getSessionCookie } from "../../helpers";
 
-export const login = async ({
+export const updateUser = async ({
+  first_name,
+  last_name,
   email_address,
-  password,
 }: {
-  email_address: string;
-  password: string;
+  first_name?: string;
+  last_name?: string;
+  email_address?: string;
 }) => {
-  const uri = config.api + `/login`;
+  const uri = config.api + `/user`;
   const response = await fetch(uri, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${getSessionCookie()}`,
     },
     body: JSON.stringify({
+      first_name,
+      last_name,
       email_address,
-      password,
     }),
   });
 

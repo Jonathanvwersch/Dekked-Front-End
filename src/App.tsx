@@ -3,25 +3,33 @@ import styled from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
-import { withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
+import { FileTreeContextProvider } from "./contexts/FileTreeContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient();
+import { LogInSignUpPage, LogOutPage } from "./pages";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
+  const queryClient = new QueryClient();
 
   // Google analytics user tracking
   useEffect(() => {
     ReactGa.pageview(window.location.pathname + window.location.search);
-  });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <StyledApp className="app">
         <GlobalStyle />
-        <Routes />
+        <Switch>
+          <Route path="/login" render={() => <LogInSignUpPage login />} />
+          <Route path="/sign-up" component={LogInSignUpPage} />
+          <Route path="/logout" component={LogOutPage} />
+          <FileTreeContextProvider>
+            <Routes />
+          </FileTreeContextProvider>
+        </Switch>
       </StyledApp>
     </QueryClientProvider>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { config } from "../../config";
+import { getSessionCookie } from "../../helpers";
 export function useBinders() {
   const [binders, setBinders] = useState<{
     [key: string]: BinderInterface;
@@ -11,7 +12,7 @@ export function useBinders() {
       const uri = config.api + "/binders";
       const response = await fetch(uri, {
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
         },
       });
 
@@ -36,7 +37,7 @@ export function useBinders() {
       const response = await fetch(uri, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({
@@ -61,6 +62,7 @@ export function useBinders() {
 
   async function updateBinder(
     binder_id: string,
+
     {
       name,
       color,
@@ -74,7 +76,7 @@ export function useBinders() {
       const response = await fetch(uri, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({
@@ -102,7 +104,7 @@ export function useBinders() {
       const response = await fetch(uri, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${config.authToken}`,
+          Authorization: `Bearer ${getSessionCookie()}`,
           "Content-type": "application/json",
         },
         body: JSON.stringify({

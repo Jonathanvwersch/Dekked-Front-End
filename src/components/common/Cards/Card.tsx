@@ -11,6 +11,7 @@ interface CardProps {
   borderRadius?: string;
   ariaLabel?: string;
   tabIndex?: number;
+  opacity?: string;
 }
 
 const Card: React.FC<CardProps> = ({ children, ...props }) => {
@@ -26,6 +27,7 @@ const Card: React.FC<CardProps> = ({ children, ...props }) => {
 };
 
 const StyledCard = styled.div<CardProps>`
+  opacity: ${({ opacity }) => opacity};
   user-select: none;
   padding: ${({ padding, theme }) =>
     padding ? padding : theme.spacers.size16};

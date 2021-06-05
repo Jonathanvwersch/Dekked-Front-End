@@ -5,3 +5,4 @@ export { default as NotFoundPage } from "./NotFoundPage/NotFoundPage";
 export { default as StudyModePage } from "./StudyModePage/StudyModePage";
 export { default as OptionsPage } from "./OptionsPage/OptionsPage";
 export { default as LogInSignUpPage } from "./LogInSignUpPage/LogInSignUpPage";
+export { default as LogOutPage } from "./LogOutPage/LogOutPage";

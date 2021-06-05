@@ -1,9 +1,15 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled, { css } from "styled-components";
 import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
-import { SidebarContext } from "../../../contexts";
+import { FileTreeContext, SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { SIZES } from "../../../shared";
+import { FILETREE_TYPES, SIZES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
 
 interface SidebarProps {}
@@ -28,6 +34,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
   const mouseEnter = useCallback(() => {
     !sidebar && setHoverbar(true);
   }, [sidebar]);
+
+  const { addAsset, isTreeEmpty } = useContext(FileTreeContext);
+
+  useEffect(() => {
+    // if file tree is empty auto-add one folder
+    if (isTreeEmpty) {
+      addAsset(FILETREE_TYPES.FOLDER);
+    }
+  }, [isTreeEmpty]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SidebarContainer sidebar={sidebar}>

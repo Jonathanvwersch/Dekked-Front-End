@@ -66,7 +66,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
 };
 const StyledCard = styled((props) => <Card {...props} />)`
   position: relative;
-
+  overflow: hidden;
   &:focus,
   &:hover {
     box-shadow: ${({ theme }) => theme.boxShadow};

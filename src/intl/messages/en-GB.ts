@@ -13,6 +13,7 @@ const en_GB = {
       add: "Add",
       saving: "Saving",
       okay: "Okay",
+      loggingOut: "Logging out...",
     },
     notFoundPage: {
       goHome: "Go home",
@@ -95,6 +96,7 @@ const en_GB = {
         logIn: "Log in",
         signUp: "Sign up",
         noAccount: "Don't have an account yet? ",
+        noUserExists: "Incorrect username or password",
       },
       signUp: {
         header: "Get started with Dekked",

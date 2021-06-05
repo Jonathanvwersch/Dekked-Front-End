@@ -22,3 +22,10 @@ export type CoordsType = {
   bottom?: number;
   left?: number;
 };
+
+export type UserType = {
+  id: string;
+  email_address: string;
+  first_name: string;
+  last_name: string;
+};

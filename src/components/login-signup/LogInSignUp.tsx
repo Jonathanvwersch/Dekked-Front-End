@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { SignUpForm, LogInForm } from ".";
-import { Spacer, Flex, ShadowCard, H2, Text } from "../../components/common";
+import { Spacer, Flex, ShadowCard, Text, H1 } from "../../components/common";
 import { SIZES } from "../../shared";
 import { usePageSetupHelpers } from "../../hooks";
 
@@ -21,15 +21,15 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   return (
     <Flex flexDirection="column">
       <Flex flexDirection="column">
-        <H2> {formatMessage(header)}</H2>
-        <Text fontSize={theme.typography.fontSizes.size20}>
+        <H1 styledAs="h3"> {formatMessage(header)}</H1>
+        <Text fontSize={theme.typography.fontSizes.size18}>
           {formatMessage(subHeader)}
         </Text>
       </Flex>
       <Spacer height={theme.spacers.size32} />
       <ShadowCard
         width={theme.sizes.modal[SIZES.LARGE]}
-        padding={`${theme.spacers.size48} ${theme.spacers.size48}`}
+        padding={`${theme.spacers.size32} ${theme.spacers.size32}`}
       >
         {login ? <LogInForm /> : <SignUpForm />}
       </ShadowCard>

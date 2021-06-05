@@ -2,12 +2,17 @@ import { EditorState } from "draft-js";
 
 import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.helpers";
 import { config } from "../../config";
+import { getSessionCookie } from "../../helpers";
 
-export const getFlashcards = async (studyPackId: string) => {
+export const getFlashcards = async ({
+  studyPackId,
+}: {
+  studyPackId: string;
+}) => {
   const uri = config.api + `/get-flashcards-by-study-pack-id/${studyPackId}`;
   const response = await fetch(uri, {
     headers: {
-      Authorization: `Bearer ${config.authToken}`,
+      Authorization: `Bearer ${getSessionCookie()}`,
     },
   });
 
@@ -37,7 +42,7 @@ export const saveFlashcard = async ({
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${config.authToken}`,
+      Authorization: `Bearer ${getSessionCookie()}`,
     },
     body: JSON.stringify({
       flash_card_id,
@@ -91,7 +96,7 @@ export const addFlashcard = async ({
   const response = await fetch(uri, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${config.authToken}`,
+      Authorization: `Bearer ${getSessionCookie()}`,
       "Content-type": "application/json",
     },
     body: JSON.stringify(body),
@@ -103,16 +108,14 @@ export const addFlashcard = async ({
 
 export const deleteFlashcard = async ({
   flashcard_id,
-  study_pack_id,
 }: {
   flashcard_id?: string;
-  study_pack_id?: string;
 }) => {
   const uri = config.api + `/flashcard/${flashcard_id}`;
   const response = await fetch(uri, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${config.authToken}`,
+      Authorization: `Bearer ${getSessionCookie()}`,
       "Content-type": "application/json",
     },
   });

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { BUTTON_THEME, SIZES } from "../../../shared";
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 import {
   Spacer,
   Input,
   Button,
   Tooltip,
-  GeneralModal,
-  H1,
-  Footer,
+  Text,
+  Card,
+  Flex,
+  IconWrapper,
 } from "../../common";
 import { FormattedMessage, useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -19,6 +20,7 @@ import {
 import { register } from "../../../services/authentication/register";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
+import { ClearIcon } from "../../../assets";
 
 interface SignUpFormProps {}
 
@@ -46,7 +48,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     ]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
     emailAddress &&
       firstName &&
       lastName &&
@@ -57,122 +60,116 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         last_name: lastName,
         password: password,
       });
-    if (!data?.success) {
-      setAccountExists(true);
-    } else {
-      history.push("/login");
-    }
   };
 
-  const header = (
-    <H1 styledAs="h5">
-      <FormattedMessage id="forms.signUp.accountExists" />
-    </H1>
-  );
-
-  const footer = (
-    <Footer
-      padding="0px"
-      primaryButton={{
-        onClick: () => setAccountExists(false),
-        style: BUTTON_THEME.PRIMARY,
-        text: "generics.okay",
-        fullWidth: true,
-      }}
-      noSecondaryButton
-      buttonSize={SIZES.MEDIUM}
-    />
-  );
+  useEffect(() => {
+    data && setAccountExists(!data?.success);
+    if (data?.success) {
+      history.push("/login");
+    }
+  }, [data, history]);
 
   return (
     <>
-      <Input
-        size={SIZES.LARGE}
-        placeholder="Example@dekked.com"
-        label={formatMessage("forms.email.emailAddress")}
-        type="email"
-        id="EmailAddress"
-        onChange={(e) => setEmailAddress(e.target.value)}
-        validate={() => validateEmail(emailAddress)}
-        errorMessage="forms.validation.invalidEmail"
-        required
-      />
-      <Spacer height={theme.spacers.size16} />
-      <Input
-        size={SIZES.LARGE}
-        placeholder={formatMessage("forms.names.firstNamePlaceholder", intl)}
-        label={formatMessage("forms.names.firstName", intl)}
-        id="FirstName"
-        onChange={(e) => setFirstName(e.target.value)}
-        required
-      />
-      <Spacer height={theme.spacers.size16} />
-      <Input
-        size={SIZES.LARGE}
-        placeholder={formatMessage("forms.names.lastNamePlaceholder", intl)}
-        label={formatMessage("forms.names.lastName", intl)}
-        id="LastName"
-        onChange={(e) => setLastName(e.target.value)}
-        required
-      />
-      <Spacer height={theme.spacers.size16} />
-      <Input
-        size={SIZES.LARGE}
-        placeholder={formatMessage("forms.password.password", intl)}
-        type="password"
-        label={formatMessage("forms.password.password", intl)}
-        id="Password"
-        validate={() => validatePassword(password)}
-        onChange={(e) => setPassword(e.target.value)}
-        errorMessage="forms.password.length"
-        required
-        showPassword
-        clearButton={false}
-      />
-      <Spacer height={theme.spacers.size16} />
-      <Input
-        size={SIZES.LARGE}
-        placeholder={formatMessage("forms.password.repeatPassword", intl)}
-        type="password"
-        label={formatMessage("forms.password.repeatPassword", intl)}
-        id="RepeatPassword"
-        onChange={(e) => setRepeatPassword(e.target.value)}
-        validate={() => password === repeatPassword}
-        errorMessage={
-          password === repeatPassword ? "" : "forms.validation.passwordsNoMatch"
-        }
-        required
-        showPassword
-        clearButton={false}
-      />
-      <Spacer height={theme.spacers.size48} />
-      <Tooltip
-        id="DisabledSubmitButton"
-        text="tooltips.forms.disabledButton"
-        isActive={isSubmitButtonDisabled()}
-      >
-        <Button
-          size={SIZES.LARGE}
-          fullWidth
-          buttonStyle={BUTTON_THEME.PRIMARY}
-          isDisabled={isSubmitButtonDisabled()}
-          handleClick={() => handleSubmit()}
-          isLoading={data?.success && isLoading}
-        >
-          {formatMessage("forms.signUp.signUp", intl)}
-        </Button>
-      </Tooltip>
-      <GeneralModal
-        isOpen={accountExists}
-        handleClose={() => setAccountExists(false)}
-        header={header}
-        footer={footer}
-      >
-        <FormattedMessage
-          id="forms.signUp.loginOrNewEmail"
-          values={{ email: emailAddress }}
+      {accountExists && (
+        <>
+          <Card backgroundColor={theme.colors.danger} opacity="75%">
+            <Flex justifyContent="space-between">
+              <Text
+                textAlign="center"
+                fontColor="white"
+                fontSize={theme.typography.fontSizes.size14}
+              >
+                <FormattedMessage id="forms.signUp.accountExists" />
+              </Text>
+              <IconWrapper handleClick={() => setAccountExists(false)}>
+                <ClearIcon color="white" />
+              </IconWrapper>
+            </Flex>
+          </Card>
+          <Spacer height={theme.spacers.size32} />
+        </>
+      )}
+      <form onSubmit={handleSubmit}>
+        <Input
+          size={SIZES.MEDIUM}
+          placeholder="Example@dekked.com"
+          label={formatMessage("forms.email.emailAddress")}
+          type="email"
+          id="EmailAddress"
+          onChange={(e) => setEmailAddress(e.target.value)}
+          validate={() => validateEmail(emailAddress)}
+          errorMessage="forms.validation.invalidEmail"
+          required
         />
-      </GeneralModal>
+        <Spacer height={theme.spacers.size16} />
+        <Input
+          size={SIZES.MEDIUM}
+          placeholder={formatMessage("forms.names.firstNamePlaceholder", intl)}
+          label={formatMessage("forms.names.firstName", intl)}
+          id="FirstName"
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+        <Spacer height={theme.spacers.size16} />
+        <Input
+          size={SIZES.MEDIUM}
+          placeholder={formatMessage("forms.names.lastNamePlaceholder", intl)}
+          label={formatMessage("forms.names.lastName", intl)}
+          id="LastName"
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+        <Spacer height={theme.spacers.size16} />
+        <Input
+          size={SIZES.MEDIUM}
+          placeholder={formatMessage("forms.password.password", intl)}
+          type="password"
+          label={formatMessage("forms.password.password", intl)}
+          id="Password"
+          validate={() => validatePassword(password)}
+          onChange={(e) => setPassword(e.target.value)}
+          errorMessage="forms.password.length"
+          required
+          showPassword
+          clearButton={false}
+        />
+        <Spacer height={theme.spacers.size16} />
+        <Input
+          size={SIZES.MEDIUM}
+          placeholder={formatMessage("forms.password.repeatPassword", intl)}
+          type="password"
+          label={formatMessage("forms.password.repeatPassword", intl)}
+          id="RepeatPassword"
+          onChange={(e) => setRepeatPassword(e.target.value)}
+          validate={() => password === repeatPassword}
+          errorMessage={
+            password === repeatPassword
+              ? ""
+              : "forms.validation.passwordsNoMatch"
+          }
+          required
+          showPassword
+          clearButton={false}
+        />
+        <Spacer height={theme.spacers.size48} />
+        <Tooltip
+          id="DisabledSubmitButton"
+          text="tooltips.forms.disabledButton"
+          isActive={isSubmitButtonDisabled()}
+        >
+          <Button
+            size={SIZES.LARGE}
+            fullWidth
+            buttonStyle={BUTTON_THEME.PRIMARY}
+            isDisabled={isSubmitButtonDisabled()}
+            isLoading={data?.success && isLoading}
+            type={BUTTON_TYPES.SUBMIT}
+          >
+            {formatMessage("forms.signUp.signUp", intl)}
+          </Button>
+        </Tooltip>
+      </form>
     </>
   );
 };

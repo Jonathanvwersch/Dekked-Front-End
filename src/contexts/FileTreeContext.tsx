@@ -8,7 +8,6 @@ import {
   useFolders,
   useStudyPacks,
 } from "../services/file-structure";
-
 interface FileTreeContextTypes {
   addAsset: (type: string, parentId?: string | undefined) => boolean;
   getAsset: (

@@ -17,7 +17,10 @@ import {
 import { ThemeType } from "../../../../styles/theme";
 import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
-import { CoordsType } from "../../../../shared";
+import { CoordsType, UserType } from "../../../../shared";
+import { useQuery } from "react-query";
+import { getUser } from "../../../../services/authentication/getUser";
+import { AuthenticationContext } from "../../../../contexts";
 
 interface SidebarTopProps {
   isSidebarOpen: boolean;
@@ -32,6 +35,17 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
+  const { user } = useContext(AuthenticationContext);
+  const { data } = useQuery<UserType>(user.id, getUser, {
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
+  const firstName = data?.first_name || "";
+  const lastName = data?.last_name || "";
+  const fullName = `${firstName} ${lastName}`;
+  const firstLetterOfFirstName = firstName?.[0] || "";
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -50,9 +64,9 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
       <StyledSidebarTop p={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            <Avatar>T</Avatar>
+            <Avatar>{firstLetterOfFirstName}</Avatar>
             <Spacer width={theme.spacers.size8} />
-            <Text className="overflow">Hi mom</Text>
+            <Text className="overflow">{fullName}</Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
               iconActiveRef={settingsRef}

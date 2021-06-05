@@ -82,7 +82,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           );
           deleteCard({
             flashcard_id: flashcardId,
-            study_pack_id: studyPackId,
           });
         }}
       />

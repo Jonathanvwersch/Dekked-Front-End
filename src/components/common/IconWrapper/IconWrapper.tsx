@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const IconWrapper: React.FC = ({ children }) => {
-  return <StyledIconWrapper>{children}</StyledIconWrapper>;
+interface IconWrapperProps {
+  handleClick?: () => void;
+}
+
+const IconWrapper: React.FC<IconWrapperProps> = ({ children, handleClick }) => {
+  return (
+    <StyledIconWrapper onClick={handleClick}>{children}</StyledIconWrapper>
+  );
 };
 
 const StyledIconWrapper = styled.div`
@@ -10,6 +16,7 @@ const StyledIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
 `;
 
 export default IconWrapper;

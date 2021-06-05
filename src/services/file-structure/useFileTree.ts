@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { config } from "../../config";
+import { getSessionCookie } from "../../helpers";
 
 export function useFileTree() {
   const [fileTree, setFileTree] = useState<FileTreeInterface>({});
   const [isTreeEmpty, setIsTreeEmpty] = useState<boolean>(false);
   const getFileTree = async () => {
     const uri = config.api + "/file-tree";
+
     const response = await fetch(uri, {
       headers: {
-        Authorization: `Bearer ${config.authToken}`,
+        Authorization: `Bearer ${getSessionCookie()}`,
       },
     });
     if (response.ok) {

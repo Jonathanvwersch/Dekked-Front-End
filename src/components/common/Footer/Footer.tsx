@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FormattedMessage } from "react-intl";
-import { ThemeContext } from "styled-components";
-import { Box, Button, Divider, Flex } from "..";
+import styled, { ThemeContext } from "styled-components";
+import { Box, Button, Flex } from "..";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 
 type ButtonProps = {
@@ -12,6 +12,7 @@ type ButtonProps = {
   id?: string;
   text?: string;
   fullWidth?: boolean;
+  buttonType?: BUTTON_TYPES;
 };
 
 type Props = {
@@ -21,7 +22,7 @@ type Props = {
   divider?: boolean;
   buttonSize?: SIZES;
   buttonWidth?: SIZES | string;
-  alignment?: "flex-start" | "center";
+  alignment?: "flex-start" | "center" | "flex-end";
   noSecondaryButton?: boolean;
 };
 
@@ -39,8 +40,7 @@ const Footer = ({
 
   return (
     <>
-      {divider && <Divider />}
-      <Flex width="100%" justifyContent={alignment} p={padding}>
+      <StyledFlex width="100%" justifyContent={alignment} p={padding} divider>
         <>
           {!noSecondaryButton ? (
             <Box mr={theme.spacers.size32}>
@@ -49,7 +49,7 @@ const Footer = ({
                 size={buttonSize}
                 id={secondaryButton?.id}
                 buttonStyle={secondaryButton?.style || BUTTON_THEME.SECONDARY}
-                type={BUTTON_TYPES.BUTTON}
+                type={secondaryButton?.buttonType}
                 isDisabled={secondaryButton?.isDisabled}
                 handleClick={secondaryButton?.onClick}
                 fullWidth={secondaryButton?.fullWidth}
@@ -65,7 +65,7 @@ const Footer = ({
             size={buttonSize}
             id={primaryButton?.id}
             buttonStyle={primaryButton?.style || BUTTON_THEME.PRIMARY}
-            type={BUTTON_TYPES.BUTTON}
+            type={primaryButton?.buttonType}
             isLoading={primaryButton?.isLoading}
             handleClick={primaryButton?.onClick}
             isDisabled={primaryButton?.isDisabled}
@@ -76,9 +76,14 @@ const Footer = ({
             />
           </Button>
         </>
-      </Flex>
+      </StyledFlex>
     </>
   );
 };
+
+const StyledFlex = styled(Flex)<{ divider: boolean }>`
+  border-top: ${({ theme, divider }) =>
+    divider && `solid ${theme.colors.grey2} 1px`};
+`;
 
 export default Footer;

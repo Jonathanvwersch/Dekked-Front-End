@@ -1,5 +1,4 @@
 import React, { useContext, useLayoutEffect } from "react";
-import { Route } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { InsetPage, MainFrame } from "../../components/common";
 import {
@@ -8,6 +7,7 @@ import {
 } from "../../components/study-mode";
 import { SidebarContext } from "../../contexts";
 import CustomSwitch from "../../Router/CustomSwitch";
+import PrivateRoute from "../../Router/PrivateRoute";
 import { SIZES, STUDY_MODE_TYPES } from "../../shared";
 interface StudyModePageProps {}
 
@@ -23,11 +23,11 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
     <MainFrame backgroundColor={theme.colors.backgrounds.studyModeBackground}>
       <StyledInsetPage size={SIZES.LARGE} overflow="hidden">
         <CustomSwitch>
-          <Route
+          <PrivateRoute
             path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}/:flashcardIndex`}
             component={StudyModeSpacedRepetition}
           />
-          <Route
+          <PrivateRoute
             exact
             path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}/:flashcardIndex`}
             component={StudyModeFreeStudy}
