@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount } from "..";
-import { AuthenticationContext } from "../../../contexts";
+import { UserContext } from "../../../contexts";
 import { updateUser } from "../../../services/authentication/updateUser";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
 import { Box, Footer, Scroller } from "../../common";
@@ -18,7 +18,7 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
   handleCloseModal,
 }) => {
   const theme = useContext(ThemeContext);
-  const { user } = useContext(AuthenticationContext);
+  const { user } = useContext(UserContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

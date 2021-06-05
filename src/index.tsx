@@ -5,15 +5,15 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { theme } from "./styles/theme";
 import { IntlProvider, LOCALES } from "./intl";
-import { AuthenticationContextProvider } from "./contexts/AuthenticationContext";
+import { UserContextProvider } from "./contexts/UserContext";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <IntlProvider locale={LOCALES.ENGLISH_GB}>
       <Router>
-        <AuthenticationContextProvider>
+        <UserContextProvider>
           <App />
-        </AuthenticationContextProvider>
+        </UserContextProvider>
       </Router>
     </IntlProvider>
   </ThemeProvider>,

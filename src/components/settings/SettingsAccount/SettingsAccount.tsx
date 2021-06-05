@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useQuery } from "react-query";
-import { AuthenticationContext } from "../../../contexts";
+import { UserContext } from "../../../contexts";
 import { usePageSetupHelpers } from "../../../hooks";
 import { getUser } from "../../../services/authentication/getUser";
 import { UserType } from "../../../shared";
@@ -25,7 +25,7 @@ const SettingsAccount: React.FC<SettingsAccountProps> = ({
   setLastName,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { user } = useContext(AuthenticationContext);
+  const { user } = useContext(UserContext);
   const { data, isLoading } = useQuery<UserType>(user.id, getUser, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,

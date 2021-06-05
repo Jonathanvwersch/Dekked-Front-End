@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { FullPageLoadingSpinner } from "../../components/common";
-import { AuthenticationContext } from "../../contexts";
+import { UserContext } from "../../contexts";
 import { getSessionCookie, removeCookie } from "../../helpers";
 
 const LogOutPage: React.FC = () => {
   const history = useHistory();
-  const { setUser } = useContext(AuthenticationContext);
+  const { setUser } = useContext(UserContext);
   const [token, setToken] = useState(getSessionCookie());
 
   const logoutInterval = setInterval(() => {

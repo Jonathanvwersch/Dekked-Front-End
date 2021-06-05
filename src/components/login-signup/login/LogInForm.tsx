@@ -20,7 +20,7 @@ import { FormattedMessage } from "react-intl";
 import { ClearIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { login } from "../../../services/authentication/login";
-import { AuthenticationContext } from "../../../contexts";
+import { UserContext } from "../../../contexts";
 
 interface LogInFormProps {}
 
@@ -30,7 +30,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const [password, setPassword] = useState<string>();
   const [wrongEmailOrPassword, setWrongEmailOrPassword] =
     useState<boolean>(false);
-  const { setUser } = useContext(AuthenticationContext);
+  const { setUser } = useContext(UserContext);
 
   const isSubmitButtonDisabled = () => {
     if (!validateEmail(emailAddress)) return true;

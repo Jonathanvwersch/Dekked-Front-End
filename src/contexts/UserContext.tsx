@@ -2,7 +2,7 @@ import { createContext } from "react";
 import React from "react";
 import { useStorageState } from "../hooks";
 
-export interface AuthenticationContextProps {
+export interface UserContextProps {
   user: {
     id: string;
     firstName: string;
@@ -18,11 +18,11 @@ export interface AuthenticationContextProps {
   >;
 }
 
-export const AuthenticationContext = createContext<AuthenticationContextProps>(
-  {} as AuthenticationContextProps
+export const UserContext = createContext<UserContextProps>(
+  {} as UserContextProps
 );
 
-export const AuthenticationContextProvider: React.FC = ({ children }) => {
+export const UserContextProvider: React.FC = ({ children }) => {
   const { value: user, setValue: setUser } = useStorageState<{
     id: string;
     firstName: string;
@@ -31,8 +31,8 @@ export const AuthenticationContextProvider: React.FC = ({ children }) => {
   }>({ id: "", firstName: "", lastName: "", emailAddress: "" }, "user");
 
   return (
-    <AuthenticationContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
-    </AuthenticationContext.Provider>
+    </UserContext.Provider>
   );
 };

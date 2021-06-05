@@ -20,7 +20,7 @@ import { OpenSettingsModal } from "../../../settings";
 import { CoordsType, UserType } from "../../../../shared";
 import { useQuery } from "react-query";
 import { getUser } from "../../../../services/authentication/getUser";
-import { AuthenticationContext } from "../../../../contexts";
+import { UserContext } from "../../../../contexts";
 
 interface SidebarTopProps {
   isSidebarOpen: boolean;
@@ -35,7 +35,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
-  const { user } = useContext(AuthenticationContext);
+  const { user } = useContext(UserContext);
   const { data } = useQuery<UserType>(user.id, getUser, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
