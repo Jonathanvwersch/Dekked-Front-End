@@ -49,6 +49,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   const handleSubmit = (event: SyntheticEvent) => {
+    setAccountExists(false);
     event.preventDefault();
     emailAddress &&
       firstName &&
@@ -163,7 +164,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
             fullWidth
             buttonStyle={BUTTON_THEME.PRIMARY}
             isDisabled={isSubmitButtonDisabled()}
-            isLoading={data?.success && isLoading}
+            isLoading={isLoading}
             type={BUTTON_TYPES.SUBMIT}
           >
             {formatMessage("forms.signUp.signUp", intl)}
