@@ -1,4 +1,3 @@
-import { isEmpty } from "lodash";
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -18,7 +17,7 @@ const LogOutPage: React.FC = () => {
 
   if (!token) {
     clearInterval(logoutInterval);
-    console.log(token);
+    console.log("eafdsbo");
     setUser({ firstName: "", lastName: "", id: "", emailAddress: "" });
     history.push("/login");
   }

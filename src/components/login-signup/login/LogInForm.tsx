@@ -60,6 +60,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
       if (getSessionCookie()) {
         clearInterval(logInInterval);
+        console.log(getSessionCookie());
         history.push("/");
       }
     } else {
