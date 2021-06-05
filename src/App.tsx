@@ -9,6 +9,7 @@ import { FileTreeContextProvider } from "./contexts/FileTreeContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LogInSignUpPage, LogOutPage } from "./pages";
 import { getSessionCookie } from "./helpers";
+import CustomSwitch from "./Router/CustomSwitch";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -23,18 +24,18 @@ export const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <StyledApp className="app">
         <GlobalStyle />
-        <Switch>
-          <Route path="/login" render={() => <LogInSignUpPage login />}>
+        <CustomSwitch>
+          <Route exact path="/login" render={() => <LogInSignUpPage login />}>
             {getSessionCookie() && <Redirect to="/" />}
           </Route>
-          <Route path="/sign-up" component={LogInSignUpPage}>
+          <Route exact path="/sign-up" component={LogInSignUpPage}>
             {getSessionCookie() && <Redirect to="/" />}
           </Route>
-          <Route path="/logout" component={LogOutPage} />
+          <Route exact path="/logout" component={LogOutPage} />
           <FileTreeContextProvider>
             <Routes />
           </FileTreeContextProvider>
-        </Switch>
+        </CustomSwitch>
       </StyledApp>
     </QueryClientProvider>
   );

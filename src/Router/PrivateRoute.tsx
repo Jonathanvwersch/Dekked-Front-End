@@ -26,19 +26,31 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const { fileTree } = useContext(FileTreeContext);
   const firstFolderId = Object.keys(fileTree)[0];
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    getSessionCookie(user.id)
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(getSessionCookie());
+  const { addAsset, isTreeEmpty } = useContext(FileTreeContext);
 
   // If there is no user, redirect to login
+  // If path === '/', redirect to first folder
   useLayoutEffect(() => {
+    if (isTreeEmpty) {
+      addAsset(FILETREE_TYPES.FOLDER);
+    }
     if (!isLoggedIn) {
       history.push("/login");
     } else if (path === "/" && firstFolderId) {
       history.push(firstFolderLink);
     }
     setIsLoggedIn(getSessionCookie());
-  }, [history, user, firstFolderLink, path, isLoggedIn, firstFolderId]);
+  }, [
+    history,
+    user,
+    firstFolderLink,
+    path,
+    isLoggedIn,
+    firstFolderId,
+    isTreeEmpty,
+    addAsset,
+  ]);
 
   return (
     <>
