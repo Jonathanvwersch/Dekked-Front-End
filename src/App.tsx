@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
 import { FileTreeContextProvider } from "./contexts/FileTreeContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LogInSignUpPage, LogOutPage } from "./pages";
+import { getSessionCookie } from "./helpers";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -23,8 +24,12 @@ export const App: React.FC = () => {
       <StyledApp className="app">
         <GlobalStyle />
         <Switch>
-          <Route path="/login" render={() => <LogInSignUpPage login />} />
-          <Route path="/sign-up" component={LogInSignUpPage} />
+          <Route path="/login" render={() => <LogInSignUpPage login />}>
+            {getSessionCookie() && <Redirect to="/" />}
+          </Route>
+          <Route path="/sign-up" component={LogInSignUpPage}>
+            {getSessionCookie() && <Redirect to="/" />}
+          </Route>
           <Route path="/logout" component={LogOutPage} />
           <FileTreeContextProvider>
             <Routes />
