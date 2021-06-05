@@ -1,8 +1,11 @@
 import { isEmpty } from "lodash";
 import React, { Fragment, useContext } from "react";
+import { useIsMutating } from "react-query";
+import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import { FlashcardsContext } from "../../../contexts";
+import { Params } from "../../../shared";
 
 import { ComponentLoadingSpinner, Spacer, Flex } from "../../common";
 
@@ -11,12 +14,16 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
+    const { id: studyPackId } = useParams<Params>();
     const { flashcards, isLoading, setFlashcards } =
       useContext(FlashcardsContext);
+    const isAdding = useIsMutating({
+      mutationKey: `${studyPackId}-add-flashcard`,
+    });
 
     return (
       <>
-        {!isLoading ? (
+        {!isAdding && !isLoading ? (
           <Flex flexDirection="column">
             {flashcards && !isEmpty(flashcards) ? (
               <>

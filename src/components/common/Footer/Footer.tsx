@@ -40,7 +40,12 @@ const Footer = ({
 
   return (
     <>
-      <StyledFlex width="100%" justifyContent={alignment} p={padding} divider>
+      <StyledFlex
+        width="100%"
+        justifyContent={alignment}
+        p={padding}
+        divider={divider}
+      >
         <>
           {!noSecondaryButton ? (
             <Box mr={theme.spacers.size32}>
@@ -81,7 +86,7 @@ const Footer = ({
   );
 };
 
-const StyledFlex = styled(Flex)<{ divider: boolean }>`
+const StyledFlex = styled(Flex)<{ divider?: boolean }>`
   border-top: ${({ theme, divider }) =>
     divider && `solid ${theme.colors.grey2} 1px`};
 `;
