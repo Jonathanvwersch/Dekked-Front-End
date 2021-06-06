@@ -81,8 +81,8 @@ const StyledFullPageSpinner = styled.div`
 
 const StyledComponentSpinner = styled.div<{ height?: string; width?: string }>`
   flex-grow: 1;
-  height: ${({ height }) => height}
-  width: ${({ width }) => width}
+  height: ${({ height }) => height};
+  width: ${({ width }) => width};
   z-index: 10;
   display: flex;
   justify-content: center;

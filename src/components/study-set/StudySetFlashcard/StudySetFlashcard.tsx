@@ -105,9 +105,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     saveFlashcard
   );
 
-  console.log("backHasFocus", backHasFocus);
-  console.log("frontHasFocus", frontHasFocus);
-
   // Switch up current side depending on focus
   useEffect(() => {
     if (frontHasFocus) {

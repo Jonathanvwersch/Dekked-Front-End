@@ -11,7 +11,7 @@ import {
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
-import { usePageSetupHelpers } from "../../../hooks";
+import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { FlashcardsContext } from "../../../contexts";
 
 interface PageHeaderProps {
@@ -24,6 +24,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const { selectedBlockName, type, id } = useContext(SelectedItemContext);
   const { flashcards } = useContext(FlashcardsContext);
+  const flashcardsDoNotExist = flashcards?.length === 0;
+  useMultiKeyPress(
+    ["Control", "2"],
+    () => !flashcardsDoNotExist && setStudyMode(true)
+  );
 
   return (
     <>
@@ -43,12 +48,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                 <Tooltip
                   id="DisabledStudyButton"
                   text={formatMessage("tooltips.studyMode.disabledStudyButton")}
-                  isActive={flashcards?.length === 0}
+                  isActive={flashcardsDoNotExist}
                 >
                   <Button
                     buttonStyle={BUTTON_THEME.PRIMARY}
                     handleClick={() => setStudyMode(true)}
-                    isDisabled={flashcards?.length === 0}
+                    isDisabled={flashcardsDoNotExist}
                   >
                     {formatMessage("generics.study")}
                   </Button>

@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
+import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
 import { Params, SIZES } from "../../../shared";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
@@ -31,13 +32,16 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   setFlashcards,
 }) => {
   const theme = useContext(ThemeContext);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { id: studyPackId } = useParams<Params>();
 
   const { mutate: deleteCard } = useMutation(
     `${studyPackId}-delete-flashcard`,
     deleteFlashcard
   );
+
+  useKeyPress(["e", "E"], () => setIsEditable(true));
+  useKeyPress(["d", "D"], () => setIsDeleteModalOpen(true));
 
   return (
     <>
@@ -65,14 +69,17 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           text="tooltips.studyMode.deleteCard"
           place="left"
         >
-          <IconActive dangerHover handleClick={() => setIsOpen(true)}>
+          <IconActive
+            dangerHover
+            handleClick={() => setIsDeleteModalOpen(true)}
+          >
             <DeleteForeverIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
       </StudyToolbar>
       <DeleteModal
-        isOpen={isOpen}
-        handleClose={() => setIsOpen(false)}
+        isOpen={isDeleteModalOpen}
+        handleClose={() => setIsDeleteModalOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
           setFlashcards((prevState) =>

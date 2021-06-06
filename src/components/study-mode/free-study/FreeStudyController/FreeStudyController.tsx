@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { ThemeContext } from "styled-components";
+import styled, { keyframes, ThemeContext } from "styled-components";
 import { ROTATE, SingleChevronIcon } from "../../../../assets";
 import FlipIcon from "../../../../assets/icons/FlipIcon";
 import useKeyPress from "../../../../hooks/useKeyPress";
@@ -46,15 +46,15 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
     }
   };
 
-  const space = () => {
+  const flipCard = () => {
     if (flashcardIndex !== maxLength) {
       setFlippedState((prevState) => !prevState);
     }
   };
 
-  useKeyPress(" " || "Spacebar", space);
-  useKeyPress("ArrowRight", arrowRight);
-  useKeyPress("ArrowLeft", arrowLeft);
+  useKeyPress([" ", "Spacebar"], flipCard);
+  useKeyPress(["ArrowRight"], arrowRight);
+  useKeyPress(["ArrowLeft"], arrowLeft);
 
   return (
     <Flex justifyContent="center" mt={theme.spacers.size48}>
@@ -66,7 +66,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
       <Tooltip id="FlipFlashcard" text="tooltips.studyMode.flip" place="top">
         <IconActive
           isDisabled={flashcardIndex === maxLength}
-          handleClick={space}
+          handleClick={flipCard}
         >
           <FlipIcon size={SIZES.XLARGE} />
         </IconActive>

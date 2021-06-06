@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
-import { usePageSetupHelpers } from "../../../hooks";
+import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
 
 interface ReturnToStudyModeButtonProps {
   buttonPosition: number;
@@ -24,6 +24,8 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
     LinkedFlashcardContext
   );
   const position = (pageWidth - buttonWidth) / 2 + buttonPosition;
+
+  useKeyPress(["Escape"], () => setIsLinked(false));
 
   return (
     <Overlay
