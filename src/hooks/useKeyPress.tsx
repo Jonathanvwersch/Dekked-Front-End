@@ -7,6 +7,7 @@ const useKeyPress = (targetKey: string, onKeyPress?: () => void) => {
   const downHandler = useCallback(
     ({ key }: any) => {
       if (key === targetKey) {
+        console.log();
         onKeyPress && onKeyPress();
         setKeyPressed(true);
       }

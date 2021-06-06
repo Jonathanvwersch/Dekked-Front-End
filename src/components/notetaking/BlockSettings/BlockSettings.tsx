@@ -37,6 +37,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
     <StyledDragBlock
       isDraggable={isDraggable}
       dragStyles={css`
+        padding-bottom: 4px;
         border-bottom: solid 2px ${({ theme }) => theme.colors.primary};
       `}
       handleDrop={() => {

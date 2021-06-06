@@ -52,7 +52,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
     }
   };
 
-  useKeyPress("Space", space);
+  useKeyPress(" " || "Spacebar", space);
   useKeyPress("ArrowRight", arrowRight);
   useKeyPress("ArrowLeft", arrowLeft);
 
