@@ -1,21 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider } from "styled-components";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
-import { theme } from "./styles/theme";
 import { IntlProvider, LOCALES } from "./intl";
 import { UserContextProvider } from "./contexts/UserContext";
+import { DarkThemeContextProvider } from "./contexts/DarkThemeContext";
 
 ReactDOM.render(
-  <ThemeProvider theme={theme()}>
-    <IntlProvider locale={LOCALES.ENGLISH_GB}>
-      <Router>
-        <UserContextProvider>
+  <IntlProvider locale={LOCALES.ENGLISH_GB}>
+    <Router>
+      <UserContextProvider>
+        <DarkThemeContextProvider>
           <App />
-        </UserContextProvider>
-      </Router>
-    </IntlProvider>
-  </ThemeProvider>,
+        </DarkThemeContextProvider>
+      </UserContextProvider>
+    </Router>
+  </IntlProvider>,
   document.getElementById("dekked-app")
 );
