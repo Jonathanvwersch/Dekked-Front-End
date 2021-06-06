@@ -68,6 +68,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
   const { setIsLinked, setStudyModeUrl } = useContext(LinkedFlashcardContext);
+  const [hasFocus, setHasFocus] = useState<boolean>(false);
 
   // Set front editor state on mount
   useEffect(() => {
@@ -133,6 +134,8 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         ) : null}
         {!isFinishedStudying ? (
           <RichEditor
+            hasFocus={hasFocus}
+            setHasFocus={setHasFocus}
             editorState={
               flippedState
                 ? frontFlashcardEditorState

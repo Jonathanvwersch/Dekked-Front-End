@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ThemeType } from "../styles/theme";
 import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES } from "../shared";
@@ -50,6 +56,7 @@ interface FileTreeContextTypes {
     }>
   >;
   setFileTree: React.Dispatch<React.SetStateAction<FileTreeInterface>>;
+  isLoading: boolean;
 }
 
 export const FileTreeContext = createContext<FileTreeContextTypes>(
@@ -82,6 +89,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
     deleteBinder,
     setBinders,
   } = useBinders();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const theme: ThemeType = useContext(ThemeContext);
   const folderLength = Object.keys(folders).length;
   const binderLength = Object.keys(binders).length;
@@ -161,7 +169,9 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fullFileTreeUpdate();
+    setIsLoading(false);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useMemo(() => {
@@ -184,6 +194,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         setStudyPacks,
         setFolders,
         setFileTree,
+        isLoading,
       }}
     >
       {children}

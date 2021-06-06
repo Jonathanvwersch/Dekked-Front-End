@@ -34,13 +34,13 @@ export type EditorType = "flashcard" | "page";
 interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
-  setHasFocus?: React.Dispatch<React.SetStateAction<boolean>>;
+  setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
   saveEditor?: (editorState: EditorState) => void;
   hasFocus?: boolean;
   isLoading?: boolean;
   editorType?: EditorType;
   isEditable?: boolean;
-  editorRef?: React.MutableRefObject<any>;
+  editorRef?: React.RefObject<any>;
 }
 
 const RichEditor: React.FC<RichEditorProps> = ({
@@ -165,7 +165,14 @@ const RichEditor: React.FC<RichEditorProps> = ({
   return (
     <>
       {!isLoading ? (
-        <EditorContainer isEditable={isEditable}>
+        <EditorContainer
+          isEditable={isEditable}
+          onFocus={() => {
+            setHasFocus(true);
+            editorRef?.current.focus();
+          }}
+          onBlur={() => setHasFocus(false)}
+        >
           <Editor
             editorState={editorState}
             onChange={onChange}
@@ -175,8 +182,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
             readOnly={!isEditable}
             handleReturn={handleReturn}
             blockStyleFn={myBlockStyleFn}
-            onFocus={() => setHasFocus && setHasFocus(true)}
-            onBlur={() => setHasFocus && setHasFocus(false)}
             blockRenderMap={extendedBlockRenderMap}
             customStyleMap={styleMap}
             placeholder={

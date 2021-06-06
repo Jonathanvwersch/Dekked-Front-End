@@ -11,7 +11,7 @@ interface FlashcardNoteTakerProps {
   setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
   hasFocus: boolean;
   isEditable: boolean;
-  editorRef: React.MutableRefObject<any>;
+  editorRef?: React.MutableRefObject<any>;
 }
 
 const FlashcardNoteTaker: React.FC<FlashcardNoteTakerProps> = ({

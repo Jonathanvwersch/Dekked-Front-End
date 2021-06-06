@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { Redirect, Route, withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
 import { FileTreeContextProvider } from "./contexts/FileTreeContext";
 import { QueryClient, QueryClientProvider } from "react-query";

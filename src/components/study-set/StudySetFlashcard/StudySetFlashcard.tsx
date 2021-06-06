@@ -88,7 +88,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         frontEditorRef?.current?.focus();
       }, 50);
     }
-  }, [linked, backEditorRef]);
+  }, [linked]);
 
   const { mutate: addCard } = useMutation(
     `${studyPackId}-add-flashcard`,
@@ -105,10 +105,18 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     saveFlashcard
   );
 
+  console.log("backHasFocus", backHasFocus);
+  console.log("frontHasFocus", frontHasFocus);
+
   // Switch up current side depending on focus
   useEffect(() => {
-    frontHasFocus && setCurrentSide(FLASHCARD_SIDE.FRONT);
-    backHasFocus && setCurrentSide(FLASHCARD_SIDE.BACK);
+    if (frontHasFocus) {
+      setCurrentSide(FLASHCARD_SIDE.FRONT);
+      frontEditorRef?.current?.focus();
+    } else if (backHasFocus) {
+      setCurrentSide(FLASHCARD_SIDE.BACK);
+      backEditorRef?.current?.focus();
+    }
   }, [frontHasFocus, backHasFocus]);
 
   // Set editor state on mount
@@ -167,7 +175,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                 : setBackFlashcardEditorState
             }
             editorRef={
-              side === FLASHCARD_SIDE.FRONT ? frontEditorRef : backEditorRef
+              side === FLASHCARD_SIDE.FRONT
+                ? frontEditorRef
+                : side === FLASHCARD_SIDE.BACK
+                ? backEditorRef
+                : undefined
             }
           />
         </TextCard>
