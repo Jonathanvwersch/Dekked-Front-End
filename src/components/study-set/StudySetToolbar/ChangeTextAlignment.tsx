@@ -28,6 +28,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
+  console.log(block.getKey());
   const data = block.getData();
 
   // We need to update the meta data of the block to save the checked state

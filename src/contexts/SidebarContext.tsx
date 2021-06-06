@@ -50,7 +50,7 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
     [id: string]: TAB_TYPE;
   }>({}, "study-set-tabs-state");
 
-  const studySetTabLink = (id: string) => {
+  const studySetTabLink = (id: string, opposite?: boolean) => {
     return studySetTab[id] || TAB_TYPE.NOTES;
   };
 

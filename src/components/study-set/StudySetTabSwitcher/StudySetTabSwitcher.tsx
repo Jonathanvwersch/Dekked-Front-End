@@ -1,26 +1,34 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import { Flex, Spacer } from "../../common";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { TAB_TYPE } from "../../../shared";
-import { usePageSetupHelpers } from "../../../hooks";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
+import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { SidebarContext } from "../../../contexts";
 import styled from "styled-components";
 
 const StudySetTabSwitcher: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { type, id } = useContext(SelectedItemContext);
+  const { id, tab } = useParams<Params>();
   const { handleStudySetTab } = useContext(SidebarContext);
-
+  const history = useHistory();
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
     borderBottom: `2px solid ${theme.colors.primary}`,
   };
 
+  // switch tabs on multi key press
+  useMultiKeyPress(["Control", "3"], () =>
+    history.push(
+      `/${FILETREE_TYPES.STUDY_SET}/${id}/${
+        tab === TAB_TYPE.NOTES ? TAB_TYPE.FLASHCARDS : TAB_TYPE.NOTES
+      }`
+    )
+  );
+
   const tabLink = (slug: TAB_TYPE, text: string) => {
     return (
       <StyledNavLink
-        to={`/${type}/${id}/${slug}`}
+        to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${slug}`}
         activeStyle={activeTabStyle}
         onClick={() => handleStudySetTab(id, slug)}
       >
