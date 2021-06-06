@@ -1,3 +1,53 @@
+const lightThemeColors = {
+  primary: "#00B6CE",
+  secondary: "#F5F5F4",
+  danger: "#DB524B",
+  success: "#0CCA4A",
+  iconColor: "#2C2C31",
+  fontColor: "#2C2C31",
+  grey1: "#A9A9A9", // dark
+  grey2: "#D3D3D3", // mid
+  grey3: "#EAEAEA", // light
+  selection: "#B1FAFF",
+  backgrounds: {
+    studyModeBackground: "#F7F8FA",
+    modalBackground: "#FFF",
+    lightbox: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+    pageBackground: "#FFF",
+  },
+  hover: {
+    filter: "brightness(95%)",
+  },
+  active: {
+    filter: "brightness(90%)",
+  },
+};
+
+const darkThemeColors = {
+  primary: "#00B6CE",
+  secondary: "#474C50",
+  danger: "#DB524B",
+  success: "#0CCA4A",
+  iconColor: "#FFFFFFE6",
+  fontColor: "#FFFFFFE6",
+  grey1: "#FFFFFF99", // light
+  grey2: "#303030", // mid
+  grey3: "#303030", // dark
+  selection: "#474C50",
+  backgrounds: {
+    studyModeBackground: "#2C2C31",
+    modalBackground: "#2F3437",
+    lightbox: "#0F0F0F99",
+    pageBackground: "#2F3437",
+  },
+  hover: {
+    filter: "brightness(125%)",
+  },
+  active: {
+    filter: "brightness(150%)",
+  },
+};
+
 export type ThemeType = {
   boxShadow: string;
 
@@ -120,124 +170,105 @@ export type ThemeType = {
   };
 };
 
-export const theme: ThemeType = {
-  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  colors: {
-    primary: "#00B6CE",
-    secondary: "#F5F5F4",
-    danger: "#DB524B",
-    success: "#0CCA4A",
-    iconColor: "#2C2C31",
-    fontColor: "#2C2C31",
-    grey1: "#A9A9A9", // dark
-    grey2: "#D3D3D3", // mid
-    grey3: "#EAEAEA", // light
-    selection: "#B1FAFF",
-    backgrounds: {
-      studyModeBackground: "#F7F8FA",
-      modalBackground: "#FFF",
-      lightbox: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
-      pageBackground: "#FFF",
-    },
-    hover: {
-      filter: "brightness(95%)",
-    },
-    active: {
-      filter: "brightness(90%)",
-    },
-  },
-
-  icons: {
-    size: "16px",
-  },
-
-  typography: {
-    fontSizes: {
-      size10: "10px",
-      size12: "12px",
-      size14: "14px",
-      size16: "16px",
-      size18: "18px",
-      size20: "20px",
-      size22: "22px",
-      size26: "26px",
-      size32: "32px",
-      size42: "42px",
-      size48: "48px",
+export const theme = (darkTheme?: boolean): ThemeType => {
+  return {
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    colors: {
+      ...(darkTheme ? darkThemeColors : lightThemeColors),
     },
 
-    lineHeight: "1.6",
-    lineHeightSmall: "1.4",
-
-    fontFamily: "DM Sans, sans-serif",
-
-    fontWeights: {
-      light: "300",
-      normal: "400",
-      bold: "700",
-    },
-  },
-
-  sizes: {
-    modal: {
-      small: "220px",
-      medium: "380px",
-      large: "500px",
+    icons: {
+      size: "16px",
     },
 
-    sidebar: "250px",
+    typography: {
+      fontSizes: {
+        size10: "10px",
+        size12: "12px",
+        size14: "14px",
+        size16: "16px",
+        size18: "18px",
+        size20: "20px",
+        size22: "22px",
+        size26: "26px",
+        size32: "32px",
+        size42: "42px",
+        size48: "48px",
+      },
 
-    input: {
-      small: "32px",
-      medium: "40px",
-      large: "48px;",
+      lineHeight: "1.6",
+      lineHeightSmall: "1.4",
+
+      fontFamily: "DM Sans, sans-serif",
+
+      fontWeights: {
+        light: "300",
+        normal: "400",
+        bold: "700",
+      },
     },
 
-    borderRadius: {
-      small: "2px",
-      medium: "5px",
-      large: "8px",
-    },
+    sizes: {
+      modal: {
+        small: "220px",
+        medium: "380px",
+        large: "500px",
+      },
 
-    button: {
-      height: {
+      sidebar: "250px",
+
+      input: {
         small: "32px",
         medium: "40px",
         large: "48px;",
       },
-      width: {
-        small: "150px",
-        medium: "200px",
-        large: "250px;",
+
+      borderRadius: {
+        small: "2px",
+        medium: "5px",
+        large: "8px",
+      },
+
+      button: {
+        height: {
+          small: "32px",
+          medium: "40px",
+          large: "48px;",
+        },
+        width: {
+          small: "150px",
+          medium: "200px",
+          large: "250px;",
+        },
+      },
+
+      icons: {
+        small: "18px",
+        medium: "20px",
+        large: "24px",
+        xlarge: "28px",
+      },
+
+      wrappers: {
+        small: "1200px",
+        medium: "1400px",
+        large: "1600px",
       },
     },
 
-    icons: {
-      small: "18px",
-      medium: "20px",
-      large: "24px",
-      xlarge: "28px",
+    spacers: {
+      size4: "4px",
+      size8: "8px",
+      size12: "12px",
+      size16: "16px",
+      size20: "20px",
+      size24: "24px",
+      size32: "32px",
+      size40: "40px",
+      size48: "48px",
+      size64: "64px",
+      size80: "80px",
+      size128: "128px",
     },
-
-    wrappers: {
-      small: "1200px",
-      medium: "1400px",
-      large: "1600px",
-    },
-  },
-
-  spacers: {
-    size4: "4px",
-    size8: "8px",
-    size12: "12px",
-    size16: "16px",
-    size20: "20px",
-    size24: "24px",
-    size32: "32px",
-    size40: "40px",
-    size48: "48px",
-    size64: "64px",
-    size80: "80px",
-    size128: "128px",
-  },
+  };
 };

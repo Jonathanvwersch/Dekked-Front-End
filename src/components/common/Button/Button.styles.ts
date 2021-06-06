@@ -66,17 +66,18 @@ export const StyledButton = styled.button<ButtonProps>`
 `;
 
 export const ButtonPrimary = styled<any>(StyledButton)`
-  color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  color: white;
   background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const ButtonSecondary = styled<any>(StyledButton)`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  color: ${({ theme }) => theme.colors.fontColor};
   border-color: ${({ theme }) => theme.colors.grey1};
 `;
 
 export const ButtonDanger = styled<any>(StyledButton)`
   background-color: ${({ theme }) => theme.colors.danger};
   border-color: ${({ theme }) => theme.colors.danger};
-  color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  color: ${({ theme }) => theme.colors.fontColor};
 `;

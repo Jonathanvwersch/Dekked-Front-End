@@ -75,6 +75,7 @@ const StyledFullPageSpinner = styled.div`
   position: fixed;
   zindex: 10;
   display: flex;
+  background-color:${({ theme }) => theme.colors.backgrounds.pageBackground}
   justify-content: center;
   align-items: center;
 `;

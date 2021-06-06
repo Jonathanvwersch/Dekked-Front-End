@@ -56,7 +56,7 @@ const Tooltip: React.FC<TooltipProps> = ({
             textColor={textColor}
             delayShow={500}
             backgroundColor={
-              backgroundColor ? backgroundColor : theme.colors.fontColor
+              backgroundColor ? backgroundColor : theme.colors.iconColor
             }
           >
             <FormattedMessage id={text} />

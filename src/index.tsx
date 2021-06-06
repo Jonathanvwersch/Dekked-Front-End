@@ -8,7 +8,7 @@ import { IntlProvider, LOCALES } from "./intl";
 import { UserContextProvider } from "./contexts/UserContext";
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme()}>
     <IntlProvider locale={LOCALES.ENGLISH_GB}>
       <Router>
         <UserContextProvider>

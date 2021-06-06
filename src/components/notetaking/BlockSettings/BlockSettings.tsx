@@ -1,9 +1,8 @@
 import { ContentBlock, EditorState } from "draft-js";
-import React, { memo, ReactElement, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { memo, ReactElement, useContext, useState } from "react";
+import styled, { css, ThemeContext } from "styled-components";
 import { MoveIcon, PlusIcon } from "../../../assets";
 import { BLOCK_TYPES } from "../../../shared";
-import { theme } from "../../../styles/theme";
 import { DragBlock, IconActive, Spacer, Tooltip } from "../../common";
 import { addNewBlockAt, moveBlock } from "../Editor/Editor.helpers";
 import { EditorType } from "../Editor/RichEditor";
@@ -32,6 +31,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
 }) => {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
+  const theme = useContext(ThemeContext);
 
   return (
     <StyledDragBlock

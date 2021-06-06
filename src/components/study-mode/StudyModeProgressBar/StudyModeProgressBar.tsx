@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { theme } from "../../../styles/theme";
 import { Flex, Spacer, Text } from "../../common";
 
 interface StudyModeToolbarProps {
@@ -52,7 +51,7 @@ const ProgressBar = styled.div`
 const Filler = styled.div<{ percentageComplete: number; bgColor?: string }>`
   width: ${({ percentageComplete }) => percentageComplete}%;
   height: 100%;
-  background-color: ${({ bgColor }) =>
+  background-color: ${({ bgColor, theme }) =>
     bgColor ? bgColor : theme.colors.primary};
   border-radius: inherit;
 `;

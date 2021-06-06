@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
 import { ThemeContext } from "styled-components";
-import { FILETREE_TYPES, Params } from "../../../shared";
+import { FILETREE_TYPES, Params, SIZES } from "../../../shared";
 import { useIntl } from "react-intl";
 import { handleIconType, handleUntitled } from "../../../helpers";
 
@@ -46,6 +46,7 @@ const Crumb: React.FC<CrumbProps> = ({
             </>
           ) : null}
           <HoverCard
+            borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
             handleClick={() => history.push(pathName)}
             width="auto"
             backgroundColor={
@@ -53,7 +54,7 @@ const Crumb: React.FC<CrumbProps> = ({
                 ? theme.colors.backgrounds.studyModeBackground
                 : theme.colors.backgrounds.pageBackground
             }
-            padding={`0px ${theme.spacers.size4}`}
+            padding={theme.spacers.size4}
           >
             <Flex>
               <IconWrapper>
@@ -62,7 +63,11 @@ const Crumb: React.FC<CrumbProps> = ({
                   : icon}
               </IconWrapper>
               <Spacer width={theme.spacers.size4} />
-              <Text maxWidth="120px" className="overflow">
+              <Text
+                maxWidth="120px"
+                className="overflow"
+                fontSize={theme.typography.fontSizes.size14}
+              >
                 {breadCrumbData
                   ? handleUntitled(breadCrumbData.name, intl)
                   : name}

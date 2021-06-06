@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
-import { UserContext, FileTreeContext } from "../contexts";
+import { FileTreeContext } from "../contexts";
 import { getSessionCookie } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
 
@@ -22,7 +22,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
   const { addAsset, isTreeEmpty, isLoading, fileTree } =
     useContext(FileTreeContext);
   const firstFolderId = Object.keys(fileTree)[0];
@@ -44,7 +43,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     setIsLoggedIn(getSessionCookie());
   }, [
     history,
-    user,
     firstFolderLink,
     path,
     isLoggedIn,

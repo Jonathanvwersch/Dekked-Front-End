@@ -96,7 +96,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   const studySetLength = Object.keys(studyPacks).length;
 
   const addAsset = (type: string, parentId?: string) => {
-    const iconColor = theme.colors.iconColor;
+    const iconColor = theme.colors.primary;
     const itemName = "";
 
     switch (type) {

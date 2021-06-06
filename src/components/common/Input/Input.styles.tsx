@@ -13,6 +13,7 @@ export const StyledInput = styled.input`
   background: none;
   border: none;
   height: 100%;
+  color: ${({ theme }) => theme.colors.fontColor};
   padding: 0 ${({ theme }) => theme.spacers.size8};
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
 
