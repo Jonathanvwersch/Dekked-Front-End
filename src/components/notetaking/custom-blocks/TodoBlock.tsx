@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { Flex, HoverCard } from "../../common";
-import { updateDataOfBlock } from "../Editor/Editor.helpers";
+import {
+  removeSpecificBlockStyle,
+  updateDataOfBlock,
+} from "../Editor/Editor.helpers";
 import TextBlock from "./TextBlock";
 
 const TodoBlock: React.FC = (props: any) => {
@@ -15,7 +18,18 @@ const TodoBlock: React.FC = (props: any) => {
   // We need to update the meta data of the block to save the checked state
   const updateData = () => {
     const newData = data.set("checked", !checked);
-    setEditorState(updateDataOfBlock(editorState, block, newData));
+    // for some reason, if I just pass in the editorState as the first argument of updateDataOfBlock,
+    // the block loses focus every time the data is updated, which causes a lot of problems.
+    // And then for some other reason I don't quite understand, if I use the editor state return from
+    // the removeSpecificBlockStyle function, everything works as expected--the block maintains focus
+    // AND no block styles are moved. Very weird behaviour but I am not bothered enough to look into more at the moment.
+    setEditorState(
+      updateDataOfBlock(
+        removeSpecificBlockStyle(undefined, editorState, true),
+        block,
+        newData
+      )
+    );
   };
 
   return (

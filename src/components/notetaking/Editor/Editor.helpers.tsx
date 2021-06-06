@@ -283,7 +283,7 @@ export const updateDataOfBlock = (
   const newContentState = contentState.merge({
     blockMap: contentState.getBlockMap().set(block.getKey(), newBlock),
   });
-  return EditorState.push(editorState, newContentState, "change-block-type");
+  return EditorState.push(editorState, newContentState, "change-block-data");
 };
 
 // Changes style of all text in a given block

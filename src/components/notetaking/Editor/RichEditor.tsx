@@ -171,6 +171,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
             setHasFocus(true);
             editorRef?.current.focus();
           }}
+          onClick={() => {
+            setHasFocus(true);
+            editorRef?.current.focus();
+          }}
           onBlur={() => setHasFocus(false)}
         >
           <Editor

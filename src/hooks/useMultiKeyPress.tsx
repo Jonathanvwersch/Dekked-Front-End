@@ -6,7 +6,6 @@ const useMultiKeyPress = (targetKeys: string[], onKeyPress?: () => void) => {
 
   const downHandler = useCallback(
     ({ key }: any) => {
-      console.log([...keysPressed]);
       setKeyPressed(keysPressed.add(key));
       if (isEqual([...keysPressed], targetKeys)) {
         onKeyPress && onKeyPress();

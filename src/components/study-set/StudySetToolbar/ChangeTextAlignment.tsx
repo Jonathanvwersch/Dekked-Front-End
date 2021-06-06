@@ -9,6 +9,7 @@ import { ThemeContext } from "styled-components";
 import { SIZES } from "../../../shared";
 import {
   getCurrentBlock,
+  removeSpecificBlockStyle,
   updateDataOfBlock,
 } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
@@ -34,7 +35,14 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   // We need to update the meta data of the block to save the checked state
   const updateData = (alignment: "left" | "right" | "center") => {
     const newData = data.set("alignment", alignment);
-    setEditorState(updateDataOfBlock(editorState, block, newData));
+    //
+    setEditorState(
+      updateDataOfBlock(
+        removeSpecificBlockStyle(undefined, editorState, true),
+        block,
+        newData
+      )
+    );
   };
 
   return (
