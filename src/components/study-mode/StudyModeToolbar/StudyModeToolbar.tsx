@@ -57,6 +57,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           place="left"
         >
           <IconActive
+            backgroundColor={theme.colors.backgrounds.studyModeBackground}
             className={isEditable ? "active" : undefined}
             handleClick={() => setIsEditable((prevState) => !prevState)}
           >
@@ -70,6 +71,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           place="left"
         >
           <IconActive
+            backgroundColor={theme.colors.backgrounds.studyModeBackground}
             dangerHover
             handleClick={() => setIsDeleteModalOpen(true)}
           >

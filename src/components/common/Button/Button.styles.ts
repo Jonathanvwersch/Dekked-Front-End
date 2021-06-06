@@ -79,5 +79,5 @@ export const ButtonSecondary = styled<any>(StyledButton)`
 export const ButtonDanger = styled<any>(StyledButton)`
   background-color: ${({ theme }) => theme.colors.danger};
   border-color: ${({ theme }) => theme.colors.danger};
-  color: ${({ theme }) => theme.colors.fontColor};
+  color: white;
 `;

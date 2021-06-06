@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
 import { LayeredModalContext } from "../../../contexts";
+import { ThemeContext } from "styled-components";
 
 interface FlashcardModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   type = "add",
 }) => {
   const { id } = useParams<Params>();
+  const theme = useContext(ThemeContext);
   const isSaving = useIsMutating({
     mutationKey: `${id}-save-flashcard`,
   });
@@ -51,6 +53,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
       modalHeight="60%"
       close
       withOutsideClick={!isLayeredModalOpen}
+      closeButtonBackgroundColor={theme.colors.secondary}
     >
       <StudySetFlashcard
         ownerId={ownerId}

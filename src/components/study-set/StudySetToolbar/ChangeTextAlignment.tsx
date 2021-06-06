@@ -19,6 +19,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
+  backgroundColor?: string;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -26,10 +27,10 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
+  backgroundColor,
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
-  console.log(block.getKey());
   const data = block.getData();
 
   // We need to update the meta data of the block to save the checked state
@@ -48,6 +49,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   return (
     <>
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -61,6 +65,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -74,6 +81,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();

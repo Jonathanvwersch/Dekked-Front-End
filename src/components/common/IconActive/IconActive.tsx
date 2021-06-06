@@ -4,6 +4,7 @@ import React, { memo, ReactNode } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
 import { formatMessage } from "../../../intl";
+import { SIZES } from "../../../shared";
 
 export enum FILL_TYPE {
   FILL = "fill",
@@ -13,6 +14,7 @@ export enum FILL_TYPE {
 
 interface IconActiveProps {
   children: ReactNode;
+  backgroundColor?: string;
   className?: string;
   handleClick?: (args: any) => void;
   fillType?: string;
@@ -28,6 +30,7 @@ interface IconActiveProps {
 const IconActive: React.FC<IconActiveProps> = ({
   children,
   handleClick,
+  backgroundColor,
   fillType = FILL_TYPE.FILL,
   className,
   handleMouseDown,
@@ -43,6 +46,7 @@ const IconActive: React.FC<IconActiveProps> = ({
   return (
     <StyledIconActive
       ref={iconActiveRef}
+      backgroundColor={backgroundColor}
       onMouseDown={handleMouseDown && handleMouseDown}
       onClick={handleClick && handleClick}
       onKeyDown={(e: any) => {
@@ -72,9 +76,11 @@ const StyledIconActive = styled.button<IconActiveProps>`
   padding: 0;
   border: none;
   position: relative;
-  background: none;
   cursor: ${({ cursor }) => cursor || "pointer"};
   outline: none;
+  background-color: ${({ backgroundColor, theme }) =>
+    backgroundColor || theme.colors.backgrounds.pageBackground};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
 
   &.active {
     & svg {
@@ -90,28 +96,14 @@ const StyledIconActive = styled.button<IconActiveProps>`
       }
     }
   }
+
   &:focus,
   &:hover {
-    & svg {
-      & path {
-        fill: ${({ theme, fillType, dangerHover }) =>
-          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
-            ? (dangerHover && theme.colors.danger) || theme.colors.primary
-            : "auto"};
-        stroke: ${({ theme, fillType, dangerHover }) =>
-          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
-            ? (dangerHover && theme.colors.danger) || theme.colors.primary
-            : "auto"};
-      }
-    }
+    filter: ${({ theme }) => theme.colors.hover.filter};
   }
 
   &:active {
-    & svg {
-      & path {
-        filter: ${({ theme }) => theme.colors.hover.filter};
-      }
-    }
+    filter: ${({ theme }) => theme.colors.active.filter};
   }
 
   &:disabled {

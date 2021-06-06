@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../assets";
 import { FileTreeContext, SidebarContext } from "../../../contexts";
-import { FILETREE_TYPES } from "../../../shared";
+import { FILETREE_TYPES, SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
-import { Card, IconActive } from "../../common";
+import { IconActive } from "../../common";
 
 interface FolderBinderAddCardProps {
   type: FILETREE_TYPES;
@@ -33,17 +33,21 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   };
 
   return (
-    <Card height="180px" width="160px" padding="0px">
-      <StyledIconActive handleMouseDown={handleAddItem} ariaLabel={ariaText()}>
-        <PlusIcon size={theme.spacers.size80} />
-      </StyledIconActive>
-    </Card>
+    <StyledIconActive
+      handleMouseDown={handleAddItem}
+      ariaLabel={ariaText()}
+      backgroundColor="none"
+    >
+      <PlusIcon size={theme.spacers.size80} />
+    </StyledIconActive>
   );
 };
 
 const StyledIconActive = styled(IconActive)`
-  width: 100%;
-  height: 100%;
+  width: 160px;
+  height: 180px;
+  border-radius: ${({ theme }) =>
+    theme.sizes.borderRadius[SIZES.MEDIUM]}!important;
 
   &:focus,
   &:hover {

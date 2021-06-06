@@ -19,7 +19,7 @@ import Breadcrumbs from "./Breadcrumbs";
 const TopBar: React.FC = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
-  const { id } = useParams<Params>();
+  const { id, studyModes } = useParams<Params>();
   const isSaving = useIsMutating({ mutationKey: `${id}-save-notes` });
 
   // Show a loading spinner when the notes page is auto saving
@@ -45,7 +45,12 @@ const TopBar: React.FC = () => {
     <StyledTopbar>
       {!sidebar ? (
         <>
-          <IconActive handleClick={handleSidebar}>
+          <IconActive
+            handleClick={handleSidebar}
+            backgroundColor={
+              studyModes && theme.colors.backgrounds.studyModeBackground
+            }
+          >
             <Tooltip
               id="OpenSidebarHamburgerMenu"
               text="tooltips.sidebar.openSidebar"
@@ -66,7 +71,6 @@ const TopBar: React.FC = () => {
 
 const StyledTopbar = styled.div`
   display: flex;
-  min-height: 65px;
   z-index: 998;
   position: sticky;
   top: 0;

@@ -215,7 +215,7 @@ export const theme = (darkTheme?: boolean): ThemeType => {
         large: "500px",
       },
 
-      sidebar: "250px",
+      sidebar: "230px",
 
       input: {
         small: "32px",

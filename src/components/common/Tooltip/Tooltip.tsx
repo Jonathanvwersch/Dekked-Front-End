@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
 import styled from "styled-components";
@@ -16,7 +16,6 @@ interface TooltipProps {
   backgroundColor?: string;
   type?: Type;
   children?: React.ReactNode;
-  className?: string;
   isActive?: boolean;
 }
 
@@ -30,49 +29,35 @@ const Tooltip: React.FC<TooltipProps> = ({
   type,
   text,
   children,
-  className,
   isActive = true,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const [tooltip, setTooltip] = useState<boolean>(false);
 
   return (
     <>
-      {tooltip && (
-        <Overlay
-          handleClose={() => setTooltip(false)}
-          isOpen={tooltip}
-          type={MODAL_TYPE.TOOL_TIP}
+      <Overlay isOpen type={MODAL_TYPE.TOOL_TIP}>
+        <StyledTooltip
+          multiline
+          type={type}
+          id={id}
+          place={place}
+          effect={effect}
+          offset={offset}
+          role={formatMessage(text)}
+          textColor={textColor}
+          delayShow={500}
+          backgroundColor={
+            backgroundColor ? backgroundColor : theme.colors.iconColor
+          }
         >
-          <StyledTooltip
-            multiline
-            type={type}
-            id={id}
-            place={place}
-            effect={effect}
-            offset={offset}
-            className={className}
-            role={formatMessage(text)}
-            textColor={textColor}
-            delayShow={500}
-            backgroundColor={
-              backgroundColor ? backgroundColor : theme.colors.iconColor
-            }
-          >
-            <FormattedMessage id={text} />
-          </StyledTooltip>
-        </Overlay>
-      )}
+          <FormattedMessage id={text} />
+        </StyledTooltip>
+      </Overlay>
+
       <ConditionalWrapper
         condition={isActive}
         wrapper={(children: ReactElement) => (
-          <TooltipChildren
-            data-tip
-            data-for={id}
-            onMouseEnter={() => setTooltip(true)}
-            onMouseLeave={() => setTooltip(false)}
-            onClick={() => setTooltip(false)}
-          >
+          <TooltipChildren data-tip data-for={id}>
             {children}
           </TooltipChildren>
         )}
@@ -83,9 +68,14 @@ const Tooltip: React.FC<TooltipProps> = ({
   );
 };
 
-const StyledTooltip = styled(ReactTooltip)`
-  border-radius: ${({ theme }) =>
-    theme.sizes.borderRadius[SIZES.MEDIUM]}!important;
+const StyledTooltip = styled(ReactTooltip).attrs({
+  className: "dekkedTooltip",
+})`
+  &.dekkedTooltip {
+    padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
+    font-size: ${({ theme }) => theme.typography.fontSizes.size12};
+    border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
+  }
 `;
 
 const TooltipChildren = styled.div`

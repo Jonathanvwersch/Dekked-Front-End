@@ -201,6 +201,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           iconSize={toolbarSize}
           editorState={editorState}
           setEditorState={setEditorState}
+          backgroundColor={theme.colors.secondary}
         />
       </Flex>
     ) : (
@@ -212,7 +213,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             text={"tooltips.studyMode.editCard"}
             place="bottom"
           >
-            <IconActive handleClick={() => setEditFlashcard(true)}>
+            <IconActive
+              handleClick={() => setEditFlashcard(true)}
+              backgroundColor={theme.colors.secondary}
+            >
               <EditIcon />
             </IconActive>
           </Tooltip>
@@ -224,6 +228,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             place="bottom"
           >
             <IconActive
+              backgroundColor={theme.colors.secondary}
               dangerHover
               handleClick={() => setIsDeleteModalOpen(true)}
             >

@@ -10,7 +10,7 @@ import IconActive from "../IconActive/IconActive";
 interface OverlayProps {
   children: JSX.Element;
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose?: () => void;
   type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal
@@ -19,12 +19,15 @@ interface OverlayProps {
   modalHeight?: string;
   withOutsideClick?: boolean;
   closeWarning?: boolean;
+  closeButtonBackgroundColor?: string;
 }
 
 const Overlay: React.FC<OverlayProps> = ({
   children,
   isOpen,
-  handleClose,
+  handleClose = () => {
+    return null;
+  },
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
   center,
   close,
@@ -32,6 +35,7 @@ const Overlay: React.FC<OverlayProps> = ({
   modalWidth,
   modalHeight,
   withOutsideClick,
+  closeButtonBackgroundColor,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -62,6 +66,7 @@ const Overlay: React.FC<OverlayProps> = ({
             {close ? (
               <CloseIconContainer>
                 <IconActive
+                  backgroundColor={closeButtonBackgroundColor}
                   ariaLabel="ariaLabels.closeModal"
                   handleClick={handleClose}
                   tabIndex={1}

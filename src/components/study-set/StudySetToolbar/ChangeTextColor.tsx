@@ -17,6 +17,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
+  backgroundColor?: string;
 }
 
 const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
@@ -24,6 +25,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
+  backgroundColor,
 }) => {
   const theme = useContext(ThemeContext);
   const [colorPickerFont, setColorPickerFont] = useState<boolean>(false);
@@ -55,6 +57,9 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
     <>
       <IconWrapper>
         <IconActive
+          backgroundColor={
+            backgroundColor || theme.colors.backgrounds.pageBackground
+          }
           iconActiveRef={fontColorRef}
           handleMouseDown={(e) => {
             handleColorPickerFont(e);
@@ -71,6 +76,9 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
       </IconWrapper>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         iconActiveRef={backgroundColorRef}
         handleMouseDown={(e) => {
           handleColorPickerBackground(e);

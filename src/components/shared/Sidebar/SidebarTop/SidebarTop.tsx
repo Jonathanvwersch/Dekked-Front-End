@@ -61,7 +61,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
 
   return (
     <>
-      <StyledSidebarTop p={theme.spacers.size16}>
+      <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
             <Avatar>{firstLetterOfFirstName}</Avatar>
@@ -69,6 +69,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
             <Text className="overflow">{fullName}</Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
+              backgroundColor={theme.colors.secondary}
               iconActiveRef={settingsRef}
               handleClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
                 handleOpenModal(e)
@@ -81,7 +82,11 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
         </Card>
 
         <DoubleChevronIconContainer>
-          <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
+          <IconActive
+            handleClick={handleSidebar}
+            ariaLabel={ariaText}
+            backgroundColor={theme.colors.secondary}
+          >
             <Tooltip id="CloseSidebar" text={ariaText}>
               <DoubleChevronIcon
                 rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}

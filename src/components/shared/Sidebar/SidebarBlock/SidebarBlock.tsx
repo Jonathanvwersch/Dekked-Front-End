@@ -132,7 +132,10 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                 <Flex>
                   {type === FILETREE_TYPES.FOLDER ||
                   type === FILETREE_TYPES.BINDER ? (
-                    <IconActive handleClick={(e) => handleExpandBlock(e)}>
+                    <IconActive
+                      handleClick={(e) => handleExpandBlock(e)}
+                      backgroundColor={theme.colors.secondary}
+                    >
                       <DropDownArrowIcon
                         rotate={
                           handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO
@@ -154,6 +157,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                   <Spacer width={theme.spacers.size4} />
                   <HiddenIconsContainer>
                     <IconActive
+                      backgroundColor={theme.colors.secondary}
                       iconActiveRef={menuRef}
                       handleClick={(e) => handleBlockModal(e)}
                     >
@@ -163,6 +167,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                     </IconActive>
                     {type !== FILETREE_TYPES.STUDY_SET ? (
                       <IconActive
+                        backgroundColor={theme.colors.secondary}
                         handleClick={(
                           e: React.MouseEvent<HTMLDivElement, MouseEvent>
                         ) => handleAddItem(e)}

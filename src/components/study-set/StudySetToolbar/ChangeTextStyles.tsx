@@ -32,6 +32,7 @@ interface ChangeTextStyleProps {
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
   iconSize?: SIZES;
+  backgroundColor?: string;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -39,6 +40,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
+  backgroundColor,
 }) => {
   const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
@@ -64,6 +66,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     <>
       <IconWrapper>
         <IconActive
+          backgroundColor={
+            backgroundColor || theme.colors.backgrounds.pageBackground
+          }
           isDisabled={isDisabled}
           iconActiveRef={blockOptionsRef}
           handleMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
@@ -83,6 +88,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconWrapper>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -96,6 +104,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -109,6 +120,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -122,6 +136,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
@@ -140,6 +157,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={() => {
           doesBlockContainStyle(editorState, TEXT_STYLES.SUBSCRIPT)
             ? setEditorState(
@@ -162,6 +182,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={() => {
           doesBlockContainStyle(editorState, TEXT_STYLES.SUPERSCRIPT)
             ? setEditorState(
@@ -187,6 +210,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       </IconActive>
       <Spacer width={theme.spacers.size8} />
       <IconActive
+        backgroundColor={
+          backgroundColor || theme.colors.backgrounds.pageBackground
+        }
         handleMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
