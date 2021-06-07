@@ -56,7 +56,8 @@ const Checkbox = styled(HoverCard)<{ checked: boolean }>`
   justify-content: center;
   flex-grow: 0;
   user-select: none;
-  margin-top: 2px;
+  margin-bottom: 1px;
+  margin-top: 1px;
   flex-shrink: 0;
   background: ${({ theme, checked }) =>
     checked ? theme.colors.primary : theme.colors.secondary};

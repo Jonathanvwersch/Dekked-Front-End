@@ -35,6 +35,7 @@ export const StyledButton = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: none;
 
   &.fullWidth {
     width: 100%;
@@ -46,7 +47,7 @@ export const StyledButton = styled.button<ButtonProps>`
   }
 
   &:active {
-    filter: ${({ theme }) => theme.colors.active.filter};
+    transform: scale(0.96);
   }
 
   &:disabled {

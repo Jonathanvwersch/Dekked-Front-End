@@ -47,7 +47,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                 <Spacer width={theme.spacers.size16} />
                 <Tooltip
                   id="DisabledStudyButton"
-                  text={formatMessage("tooltips.studyMode.disabledStudyButton")}
+                  text="tooltips.studyMode.disabledStudyButton"
                   isActive={flashcardsDoNotExist}
                 >
                   <Button

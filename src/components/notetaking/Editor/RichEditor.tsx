@@ -162,6 +162,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   const showPlaceholder = editorType === "flashcard" ? hasFocus : true;
 
+  const onTab = (event: React.KeyboardEvent<{}>) => {
+    setEditorState(RichUtils.onTab(event, editorState, 4));
+  };
+
   return (
     <>
       {!isLoading ? (
@@ -182,6 +186,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             onChange={onChange}
             handleKeyCommand={handleKeyCommand}
             ref={editorRef}
+            onTab={onTab}
             blockRendererFn={myBlockRenderer}
             readOnly={!isEditable}
             handleReturn={handleReturn}

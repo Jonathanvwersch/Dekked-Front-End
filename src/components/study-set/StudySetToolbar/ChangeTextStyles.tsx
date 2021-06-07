@@ -202,7 +202,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
         isDisabled={isDisabled}
       >
         <Tooltip
-          id="UnderlineStyle"
+          id="SuperscriptStyle"
           text="tooltips.studySet.toolbar.superscript"
         >
           <SuperscriptIcon size={iconSize} />

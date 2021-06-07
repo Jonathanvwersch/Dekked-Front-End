@@ -163,7 +163,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           colors={
             purpose === "color-block" || purpose === "color-font"
               ? defaultGeneralColors
-              : darkThemeBackgroundColors
+              : defaultBackgroundColors
           }
           className="colors"
         />

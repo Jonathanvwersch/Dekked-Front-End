@@ -103,7 +103,7 @@ const StyledIconActive = styled.button<IconActiveProps>`
   }
 
   &:active {
-    filter: ${({ theme }) => theme.colors.active.filter};
+    background-color: transparent;
   }
 
   &:disabled {
