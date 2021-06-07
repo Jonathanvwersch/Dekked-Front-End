@@ -94,7 +94,20 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   };
 
   const defaultGeneralColors = [
-    `${theme.colors.fontColor}`,
+    `${theme.colors.iconColor}`,
+    `${theme.colors.primary}`,
+    "#E81123",
+    "#F7630D",
+    "#FABD14",
+    "#0F893E",
+    "#3971D1",
+    "#4B0082",
+    "#AC008C",
+    "#84939A",
+  ];
+
+  const darkThemeGeneralColors = [
+    `${theme.colors.iconColor}`,
     `${theme.colors.primary}`,
     "#E81123",
     "#F7630D",
@@ -107,7 +120,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ];
 
   const defaultBackgroundColors = [
-    `${theme.colors.backgrounds.pageBackground}`,
+    theme.colors.backgrounds.pageBackground,
     "#FBE4E4",
     "#FAEBDD",
     "#FBF3DB",
@@ -117,6 +130,19 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     "#F4DFEB",
     "#EBECED",
     "#EAE4F2",
+  ];
+
+  const darkThemeBackgroundColors = [
+    theme.colors.backgrounds.pageBackground,
+    "#434040",
+    "#59563B",
+    "#524217",
+    "#28456D",
+    "#523271",
+    "#67371A",
+    "#195028",
+    "#5A2F51",
+    "#666666",
   ];
 
   return (
@@ -137,7 +163,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           colors={
             purpose === "color-block" || purpose === "color-font"
               ? defaultGeneralColors
-              : defaultBackgroundColors
+              : darkThemeBackgroundColors
           }
           className="colors"
         />
@@ -147,30 +173,35 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 };
 
 const StyledColorPicker = styled.div`
-  border-radius: ${({ theme }) =>
-    `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
-  box-shadow: ${({ theme }) => `${theme.boxShadow} !important`};
+  border-radius: ${({ theme }) => `${theme.sizes.borderRadius[SIZES.MEDIUM]}`};
+  box-shadow: ${({ theme }) => `${theme.boxShadow}`};
 
   & div {
     color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
     box-shadow: none !important;
     border-radius: ${({ theme }) =>
-      `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
+      `0 0 ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
+        theme.sizes.borderRadius[SIZES.MEDIUM]
+      }`};
     user-select: none;
+    background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   }
 
   & div:nth-child(1) {
     color: transparent !important;
+    background-color: transparent;
   }
 
   & div:nth-child(2) {
     & input {
       color: ${({ theme }) => `${theme.colors.fontColor} !important`};
+      background-color: ${({ theme }) =>
+        theme.colors.backgrounds.pageBackground};
+
       border-radius: ${({ theme }) =>
         `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
       box-shadow: none !important;
       border: 1px solid ${({ theme }) => `${theme.colors.grey2}!important`};
-
       &:focus {
         border: 1px solid ${({ theme }) => theme.colors.primary}!important;
       }

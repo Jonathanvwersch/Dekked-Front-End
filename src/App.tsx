@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme(true)}>
+    <ThemeProvider theme={theme(isDarkTheme)}>
       <QueryClientProvider client={queryClient}>
         <StyledApp className="app">
           <GlobalStyle />

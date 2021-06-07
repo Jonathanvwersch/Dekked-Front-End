@@ -14,7 +14,7 @@ const LogInPage: React.FC<LogInPageProps> = ({ login }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <Card backgroundColor={theme.colors.secondary}>
+    <Card backgroundColor={theme.colors.secondary} borderRadius="0px">
       <StyledLink href="https://www.dekked.com">
         <FullLogoIcon color={theme.colors.primary} />
       </StyledLink>

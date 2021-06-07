@@ -29,8 +29,8 @@ const darkThemeColors = {
   secondary: "#474C50",
   danger: "#DB524B",
   success: "#0CCA4A",
-  iconColor: "#FFFFFFE6",
-  fontColor: "#FFFFFFE6",
+  iconColor: "#FFFFE6",
+  fontColor: "#FFFFE6",
   oppositeFontColor: "#2C2C31",
   grey1: "#E0E0E0", // light
   grey2: "#9E9E9E", // mid
