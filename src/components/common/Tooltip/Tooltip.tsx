@@ -44,7 +44,7 @@ const Tooltip: React.FC<TooltipProps> = ({
           effect={effect}
           offset={offset}
           role={formatMessage(text)}
-          textColor={textColor}
+          textColor={textColor || theme.colors.oppositeFontColor}
           delayShow={500}
           backgroundColor={
             backgroundColor ? backgroundColor : theme.colors.iconColor

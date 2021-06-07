@@ -28,8 +28,12 @@ export const ComponentLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     <StyledComponentSpinner height={height} width={width} className={className}>
       <IconWrapper>
         <SpinningLogo color={theme.colors.primary} size={size} />
-        <Spacer width={theme.spacers.size8} />
-        {text ? <FormattedMessage id={text} /> : null}
+        {text ? (
+          <>
+            <Spacer width={theme.spacers.size8} />
+            <FormattedMessage id={text} />
+          </>
+        ) : null}
       </IconWrapper>
     </StyledComponentSpinner>
   );
@@ -47,8 +51,12 @@ export const FullPageLoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     <StyledFullPageSpinner className={className}>
       <IconWrapper>
         <SpinningLogo color={theme.colors.primary} size={size} />
-        <Spacer width={theme.spacers.size8} />
-        {text ? <FormattedMessage id={text} /> : null}
+        {text ? (
+          <>
+            <Spacer width={theme.spacers.size8} />
+            <FormattedMessage id={text} />
+          </>
+        ) : null}
       </IconWrapper>
     </StyledFullPageSpinner>
   );

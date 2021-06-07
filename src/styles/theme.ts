@@ -5,6 +5,7 @@ const lightThemeColors = {
   success: "#0CCA4A",
   iconColor: "#2C2C31",
   fontColor: "#2C2C31",
+  oppositeFontColor: "#FFFFFFE6",
   grey1: "#A9A9A9", // dark
   grey2: "#D3D3D3", // mid
   grey3: "#EAEAEA", // light
@@ -30,9 +31,10 @@ const darkThemeColors = {
   success: "#0CCA4A",
   iconColor: "#FFFFFFE6",
   fontColor: "#FFFFFFE6",
-  grey1: "#FFFFFF99", // light
-  grey2: "#303030", // mid
-  grey3: "#303030", // dark
+  oppositeFontColor: "#2C2C31",
+  grey1: "#E0E0E0", // light
+  grey2: "#9E9E9E", // mid
+  grey3: "#616161", // dark
   selection: "#474C50",
   backgrounds: {
     studyModeBackground: "#2C2C31",
@@ -61,6 +63,7 @@ export type ThemeType = {
     grey3: string; // light
     iconColor: string;
     fontColor: string;
+    oppositeFontColor: string;
     selection: string;
     backgrounds: {
       studyModeBackground: string;

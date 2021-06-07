@@ -36,7 +36,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
     <StyledIconActive
       handleMouseDown={handleAddItem}
       ariaLabel={ariaText()}
-      backgroundColor="none"
+      backgroundColor={theme.colors.secondary}
     >
       <PlusIcon size={theme.spacers.size80} />
     </StyledIconActive>

@@ -14,14 +14,16 @@ const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
 
   return (
     <>
-      {!loading ? (
-        <StyledMainFrame backgroundColor={backgroundColor}>
-          <TopBar />
-          {<Page>{children}</Page>}
-        </StyledMainFrame>
-      ) : (
-        <ComponentLoadingSpinner />
-      )}
+      <StyledMainFrame backgroundColor={backgroundColor}>
+        {!loading ? (
+          <>
+            <TopBar />
+            {<Page>{children}</Page>}
+          </>
+        ) : (
+          <ComponentLoadingSpinner />
+        )}
+      </StyledMainFrame>
     </>
   );
 };
