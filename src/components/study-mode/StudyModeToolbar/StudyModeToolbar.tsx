@@ -40,8 +40,8 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
     deleteFlashcard
   );
 
-  useKeyPress(["e", "E"], () => setIsEditable(true));
-  useKeyPress(["d", "D"], () => setIsDeleteModalOpen(true));
+  useKeyPress(["e", "E"], () => !isDeleteModalOpen && setIsEditable(true));
+  useKeyPress(["d", "D"], () => !isEditable && setIsDeleteModalOpen(true));
 
   return (
     <>
