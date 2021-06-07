@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
@@ -31,7 +31,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   // If file tree is empty, auto add 1 folder
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isTreeEmpty) {
       addAsset(FILETREE_TYPES.FOLDER);
     }
@@ -41,15 +41,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
       history.push(firstFolderLink);
     }
     setIsLoggedIn(getSessionCookie());
-  }, [
-    history,
-    firstFolderLink,
-    path,
-    isLoggedIn,
-    firstFolderId,
-    isTreeEmpty,
-    addAsset,
-  ]);
+  }, [history, firstFolderLink, path, isLoggedIn, firstFolderId, isTreeEmpty]);
 
   return (
     <>

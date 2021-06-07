@@ -15,8 +15,15 @@ import PrivateRoute from "../../Router/PrivateRoute";
 
 const OptionsPage: React.FC = () => {
   const { type, id } = useParams<Params>();
-  const { getAsset, folders, binders, studyPacks, fileTree } =
-    useContext(FileTreeContext);
+  const {
+    getAsset,
+    folders,
+    binders,
+    studyPacks,
+    fileTree,
+    isTreeEmpty,
+    addAsset,
+  } = useContext(FileTreeContext);
   const firstFolderId = Object.keys(fileTree)[0];
   const history = useHistory();
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
@@ -43,6 +50,12 @@ const OptionsPage: React.FC = () => {
     id,
     firstFolderLink,
   ]);
+
+  useEffect(() => {
+    if (isTreeEmpty) {
+      addAsset(FILETREE_TYPES.FOLDER);
+    }
+  }, [isTreeEmpty]);
 
   return (
     <SelectedItemContextProvider>
