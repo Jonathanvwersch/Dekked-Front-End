@@ -11,7 +11,7 @@ import {
 } from "./Input.styles";
 import { Text } from "../../common";
 import { ThemeContext } from "styled-components";
-import { ClearIcon, EyeIcon } from "../../../assets";
+import { ClearIcon, ErrorIcon, EyeIcon } from "../../../assets";
 
 export interface InputProps {
   id?: string;
@@ -60,7 +60,7 @@ const Input: React.FC<InputProps> = ({
     <LabelAndInputWrapper>
       {label && <Label htmlFor={id}>{`${label} ${asterisks}`}</Label>}
       <Flex width="100%" flexDirection="column" alignItems="flex-start">
-        <InputWrapper height={size}>
+        <InputWrapper height={size} error={validate && !validation}>
           <StyledInput
             defaultValue={defaultValue}
             type={type === "password" ? inputType : type}
@@ -97,9 +97,13 @@ const Input: React.FC<InputProps> = ({
         </InputWrapper>
         <Spacer height={theme.spacers.size4} />
         {validate && !validation && errorMessage && (
-          <Text fontColor={theme.colors.danger}>
-            <FormattedMessage id={errorMessage} />
-          </Text>
+          <Flex>
+            <ErrorIcon color={theme.colors.danger} />
+            <Spacer width={theme.spacers.size8} />
+            <Text fontColor={theme.colors.danger}>
+              <FormattedMessage id={errorMessage} />
+            </Text>
+          </Flex>
         )}
       </Flex>
     </LabelAndInputWrapper>

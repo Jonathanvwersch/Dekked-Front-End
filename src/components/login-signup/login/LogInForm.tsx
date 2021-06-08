@@ -17,7 +17,7 @@ import {
   validateEmail,
 } from "../../../helpers";
 import { FormattedMessage } from "react-intl";
-import { ClearIcon } from "../../../assets";
+import { ClearIcon, ErrorIcon } from "../../../assets";
 import { useHistory } from "react-router-dom";
 import { login } from "../../../services/authentication/login";
 import { UserContext } from "../../../contexts";
@@ -83,13 +83,17 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         <>
           <Card backgroundColor={theme.colors.danger} opacity="75%">
             <Flex justifyContent="space-between">
-              <Text
-                textAlign="center"
-                fontColor="white"
-                fontSize={theme.typography.fontSizes.size14}
-              >
-                <FormattedMessage id="forms.logIn.noUserExists" />
-              </Text>
+              <Flex>
+                <ErrorIcon color="white" />
+                <Spacer width={theme.spacers.size8} />
+                <Text
+                  textAlign="center"
+                  fontColor="white"
+                  fontSize={theme.typography.fontSizes.size14}
+                >
+                  <FormattedMessage id="forms.logIn.noUserExists" />
+                </Text>
+              </Flex>
               <IconWrapper handleClick={() => setWrongEmailOrPassword(false)}>
                 <ClearIcon color="white" />
               </IconWrapper>
