@@ -105,12 +105,12 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
       ).length;
 
       // delete study pack on client side
-      setStudyPacks((delete studyPacks[id], studyPacks));
-      setFileTree(
-        (delete fileTree[parentBinder?.folder_id]?.children[parentBinderId]
-          .children[id],
-        fileTree)
-      );
+      // setStudyPacks((delete studyPacks[id], studyPacks));
+      // setFileTree(
+      //   (delete fileTree[parentBinder?.folder_id]?.children[parentBinderId]
+      //     .children[id],
+      //   fileTree)
+      // );
 
       if (numberOfStudySets === 1) {
         handleOpenBlock(parentBinderId, false);
@@ -129,8 +129,8 @@ export const SidebarContextProvider: React.FC = ({ children }) => {
       ).length;
 
       // delete binder on client side
-      setBinders((delete binders[id], binders));
-      setFileTree((delete fileTree[parentFolder?.id].children[id], fileTree));
+      // setBinders((delete binders[id], binders));
+      // setFileTree((delete fileTree[parentFolder?.id].children[id], fileTree));
 
       if (numberOfBinders === 1) {
         handleOpenBlock(parentFolderId, false);

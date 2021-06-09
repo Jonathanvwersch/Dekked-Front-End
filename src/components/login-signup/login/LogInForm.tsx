@@ -26,7 +26,8 @@ interface LogInFormProps {}
 
 const LogInForm: React.FC<LogInFormProps> = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const [emailAddress, setEmailAddress] = useState<string>();
+  const emailFromSignUp = window.localStorage.getItem("user-email") || "";
+  const [emailAddress, setEmailAddress] = useState<string>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
   const [wrongEmailOrPassword, setWrongEmailOrPassword] =
     useState<boolean>(false);
@@ -42,6 +43,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const history = useHistory();
 
   const loginUser = async (emailAddress: string, password: string) => {
+    window.localStorage.setItem("user-email", "");
     setIsLoggingIn(true);
     const response = await login({ email_address: emailAddress, password });
     setErrorCode(response?.status);
@@ -60,7 +62,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
       if (getSessionCookie()) {
         clearInterval(logInInterval);
-        console.log(getSessionCookie());
         history.push("/");
       }
     } else {
@@ -75,7 +76,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   useEffect(() => {
     setWrongEmailOrPassword(Boolean(errorCode === 401 || errorCode === 404));
-  }, [errorCode]);
+  }, [errorCode, isLoggingIn]);
 
   return (
     <>
@@ -105,6 +106,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
       <form onSubmit={handleSubmit}>
         <Input
           size={SIZES.MEDIUM}
+          defaultValue={emailFromSignUp}
           placeholder={formatMessage("forms.email.placeholder")}
           label={formatMessage("forms.email.emailAddress")}
           type="email"

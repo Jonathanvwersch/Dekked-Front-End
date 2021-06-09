@@ -1,3 +1,4 @@
+import { values } from "lodash";
 import React, { ReactElement } from "react";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
@@ -17,6 +18,7 @@ interface TooltipProps {
   type?: Type;
   children?: React.ReactNode;
   isActive?: boolean;
+  values?: {};
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -30,6 +32,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   text,
   children,
   isActive = true,
+  values,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
 
@@ -50,7 +53,7 @@ const Tooltip: React.FC<TooltipProps> = ({
             backgroundColor ? backgroundColor : theme.colors.iconColor
           }
         >
-          <FormattedMessage id={text} />
+          <FormattedMessage id={text} values={values} />
         </StyledTooltip>
       </Overlay>
 

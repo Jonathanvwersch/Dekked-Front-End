@@ -172,8 +172,7 @@ const en_GB = {
         close: "Close",
       },
       sidebar: {
-        addBinder: "Add a binder inside",
-        addStudySet: "Add a study set inside",
+        addItem: "Add an item inside",
         closeSidebar: "Close sidebar",
         openSidebar: "Lock open sidebar",
         menu: "Recolour icon and delete",

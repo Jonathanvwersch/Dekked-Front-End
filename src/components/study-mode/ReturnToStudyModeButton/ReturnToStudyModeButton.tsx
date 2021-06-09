@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
 import { Button, Divider, Overlay, Spacer } from "../../common";
-import { MODAL_TYPE, SIZES } from "../../../shared";
+import {
+  FILETREE_TYPES,
+  MODAL_TYPE,
+  Params,
+  SIZES,
+  TAB_TYPE,
+} from "../../../shared";
 import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 import { CloseIcon, ReturnIcon } from "../../../assets";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { LinkedFlashcardContext } from "../../../contexts";
 import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
 
@@ -19,6 +25,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const history = useHistory();
+  const { id } = useParams<Params>();
   const buttonWidth = 290;
   const { isLinked, setIsLinked, studyModeUrl } = useContext(
     LinkedFlashcardContext
@@ -59,7 +66,12 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
             theme.sizes.borderRadius[SIZES.MEDIUM]
           } 0px`}
           width="20%"
-          handleClick={() => setIsLinked(false)}
+          handleClick={() => {
+            setIsLinked(false);
+            history.push(
+              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`
+            );
+          }}
           ariaLabel={formatMessage("tooltips.generics.close")}
         >
           <CloseIcon size={SIZES.LARGE} color="white" />

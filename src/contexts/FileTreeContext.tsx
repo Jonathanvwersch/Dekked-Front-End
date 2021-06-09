@@ -30,7 +30,6 @@ interface FileTreeContextTypes {
   studyPacks: {
     [key: string]: StudyPackInterface;
   };
-  isTreeEmpty: boolean;
   updateAsset: (
     type: string,
     asset_id: string,
@@ -64,7 +63,7 @@ export const FileTreeContext = createContext<FileTreeContextTypes>(
 );
 
 export const FileTreeContextProvider: React.FC = ({ children }) => {
-  const { getFileTree, fileTree, isTreeEmpty, setFileTree } = useFileTree();
+  const { getFileTree, fileTree, setFileTree } = useFileTree();
   const {
     getFolders,
     addFolder,
@@ -95,10 +94,10 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   const binderLength = Object.keys(binders).length;
   const studySetLength = Object.keys(studyPacks).length;
 
-  const addAsset = (type: string, parentId?: string) => {
-    const iconColor = theme.colors.primary;
-    const itemName = "";
+  const iconColor = theme.colors.primary;
+  const itemName = "";
 
+  const addAsset = (type: string, parentId?: string) => {
     switch (type) {
       case FILETREE_TYPES.FOLDER:
         addFolder(itemName, iconColor);
@@ -151,7 +150,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   const deleteAsset = (type: string, assetId: string) => {
     switch (type) {
       case FILETREE_TYPES.FOLDER:
-        return deleteFolder(assetId);
+        return deleteFolder(assetId, itemName, iconColor);
       case FILETREE_TYPES.BINDER:
         return deleteBinder(assetId);
       case FILETREE_TYPES.STUDY_SET:
@@ -163,7 +162,7 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
 
   const fullFileTreeUpdate = () => {
     getFileTree();
-    getFolders();
+    getFolders(itemName, iconColor);
     getBinders();
     getStudyPacks();
   };
@@ -185,7 +184,6 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
         fileTree,
         getAsset,
         updateAsset,
-        isTreeEmpty,
         binders,
         folders,
         studyPacks,

@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";
@@ -27,6 +27,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
   const { id, selectedBlockName } = useContext(SelectedItemContext);
   const [name, setName] = useState(props.blockName);
   const intl = useIntl();
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     if (props.blockId === id) {
@@ -38,6 +39,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
     <StyledText
       placeholder={formatMessage("generics.untitled", intl)}
       className="overflow"
+      fontSize={theme.typography.fontSizes.size14}
     >
       {name}
     </StyledText>

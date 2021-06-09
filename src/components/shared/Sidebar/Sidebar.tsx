@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
-import { SidebarContext } from "../../../contexts";
+import { FileTreeContext, SidebarContext } from "../../../contexts";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { SIZES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
@@ -11,8 +11,9 @@ interface SidebarProps {}
 const Sidebar: React.FC<SidebarProps> = () => {
   const { sidebar, handleSidebar } = useContext(SidebarContext);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
-  const { loading, numOfFolders } = useContext(SelectedItemContext);
+  const { loading } = useContext(SelectedItemContext);
   const bottomFolderRef = useRef<HTMLDivElement>(null);
+  const { folders } = useContext(FileTreeContext);
 
   // scroll down to bottom of list as you add elements
   const scrollToBottom = useCallback(() => {
@@ -41,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <>
             <SidebarTop isSidebarOpen={sidebar} handleSidebar={handleSidebar} />
             <SidebarWorkspace
-              numOfFolders={numOfFolders}
+              numOfFolders={Object.keys(folders).length}
               bottomFolderRef={bottomFolderRef}
             />
             <SidebarBase scrollToBottom={scrollToBottom} />
@@ -93,7 +94,7 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
   transform: ${({ hoverbar }) =>
     hoverbar
       ? "transform: translateX(0px) translateZ(0px);"
-      : "translateX(-230px) translateZ(0px)"};
+      : "translateX(-210px) translateZ(0px)"};
 `;
 
 export default Sidebar;

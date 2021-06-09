@@ -61,6 +61,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         last_name: lastName,
         password: password,
       });
+
+    emailAddress && window.localStorage.setItem("user-email", emailAddress);
   };
 
   useEffect(() => {

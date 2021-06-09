@@ -7,7 +7,7 @@ export function useFolders() {
   }>({});
   const [isError, setIsError] = useState(false);
 
-  async function getFolders() {
+  async function getFolders(name: string, color: string) {
     try {
       const uri = config.api + "/folders";
       const response = await fetch(uri, {
@@ -20,14 +20,18 @@ export function useFolders() {
         const json = await response.json();
         if (json.success) {
           setFolders(json.data.folders);
+          // if there are no folders, auto add one folder
+          if (Object.keys(json.data.folders).length === 0) {
+            addFolder(name, color);
+          }
           return;
         }
       }
-
       throw Error("There was an error getting folders");
     } catch (error) {
       console.log(error);
       setIsError(true);
+      return false;
     }
   }
 
@@ -49,7 +53,7 @@ export function useFolders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getFolders();
+          getFolders(name, color);
           return;
         }
       }
@@ -86,7 +90,7 @@ export function useFolders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getFolders();
+          name && color && getFolders(name, color);
           return;
         }
       }
@@ -96,7 +100,7 @@ export function useFolders() {
     }
   }
 
-  async function deleteFolder(folder_id: string) {
+  async function deleteFolder(folder_id: string, name: string, color: string) {
     try {
       const uri = config.api + "/folder";
       const response = await fetch(uri, {
@@ -112,7 +116,7 @@ export function useFolders() {
       if (response.ok) {
         const json = await response.json();
         if (json.success) {
-          getFolders();
+          getFolders(name, color);
           return;
         }
       }

@@ -62,9 +62,8 @@ const StyledHoverCard = styled.div<HoverCardProps>`
   &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
   }
-
-  &.active {
-    filter: ${({ theme }) => theme.colors.active.filter};
+  &:active {
+    background-color: transparent;
   }
 `;
 

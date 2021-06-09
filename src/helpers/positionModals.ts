@@ -27,7 +27,7 @@ export const positionModals = (
   const { top, bottom, left } = getMousePosition(e, ref);
   let newCoordinate;
 
-  if (componentHeight && bottom - componentHeight < componentHeight) {
+  if (componentHeight && bottom < componentHeight) {
     newCoordinate = { bottom: bottom };
   } else {
     newCoordinate = { top: top };

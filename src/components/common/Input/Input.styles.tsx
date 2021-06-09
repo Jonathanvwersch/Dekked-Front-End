@@ -42,10 +42,10 @@ export const InputWrapper = styled.div<InputProps>`
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   height: ${({ theme, height }) => theme.sizes.input[height]};
-  border: ${({ theme, error }) => error && `2px solid ${theme.colors.danger}`};
+  border: ${({ theme, error }) => error && `1px solid ${theme.colors.danger}`};
 
   &:focus-within {
-    border: 2px solid
+    border: 1px solid
       ${({ theme, error }) =>
         error ? theme.colors.danger : theme.colors.primary};
     outline: none;

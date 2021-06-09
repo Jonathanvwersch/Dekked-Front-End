@@ -172,14 +172,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                           e: React.MouseEvent<HTMLDivElement, MouseEvent>
                         ) => handleAddItem(e)}
                       >
-                        <Tooltip
-                          id="AddItem"
-                          text={
-                            type === FILETREE_TYPES.FOLDER
-                              ? "tooltips.sidebar.addBinder"
-                              : "tooltips.sidebar.addStudySet"
-                          }
-                        >
+                        <Tooltip id="AddItem" text="tooltips.sidebar.addItem">
                           <PlusIcon />
                         </Tooltip>
                       </IconActive>

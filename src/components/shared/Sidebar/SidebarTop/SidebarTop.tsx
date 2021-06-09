@@ -66,7 +66,12 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
           <Flex>
             <Avatar>{firstLetterOfFirstName}</Avatar>
             <Spacer width={theme.spacers.size8} />
-            <Text className="overflow">{fullName}</Text>
+            <Text
+              fontSize={theme.typography.fontSizes.size14}
+              className="overflow"
+            >
+              {fullName}
+            </Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
               backgroundColor={theme.colors.secondary}

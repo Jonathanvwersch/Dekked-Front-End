@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { FormattedMessage } from "react-intl";
 import { useIsMutating } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
@@ -12,7 +11,6 @@ import {
   IconActive,
   Spacer,
   Tooltip,
-  Text,
 } from "../../common";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -73,6 +71,7 @@ const StyledTopbar = styled.div`
   display: flex;
   z-index: 998;
   position: sticky;
+  min-height: 58px;
   top: 0;
   user-select: none;
   justify-content: flex-start;

@@ -119,6 +119,9 @@ const StyledIconActive = styled.button<IconActiveProps>`
             : "auto"};
       }
     }
+    &:hover {
+      filter: none;
+    }
   }
 `;
 
