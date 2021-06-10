@@ -1,5 +1,4 @@
-import { values } from "lodash";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
 import styled from "styled-components";
@@ -35,10 +34,11 @@ const Tooltip: React.FC<TooltipProps> = ({
   values,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
+  const [tooltip, setTooltip] = useState<boolean>(false);
 
   return (
     <>
-      <Overlay isOpen type={MODAL_TYPE.TOOL_TIP}>
+      <Overlay isOpen={tooltip} type={MODAL_TYPE.TOOL_TIP}>
         <StyledTooltip
           multiline
           type={type}
@@ -60,7 +60,13 @@ const Tooltip: React.FC<TooltipProps> = ({
       <ConditionalWrapper
         condition={isActive}
         wrapper={(children: ReactElement) => (
-          <TooltipChildren data-tip data-for={id}>
+          <TooltipChildren
+            data-tip
+            data-for={id}
+            onMouseEnter={() => setTooltip(true)}
+            onMouseLeave={() => setTooltip(false)}
+            onClick={() => setTooltip(false)}
+          >
             {children}
           </TooltipChildren>
         )}

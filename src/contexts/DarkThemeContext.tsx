@@ -14,6 +14,7 @@ export const DarkThemeContext = createContext<DarkThemeContextProps>(
 export const DarkThemeContextProvider: React.FC = ({ children }) => {
   const { value: isDarkTheme, setValue: setIsDarkTheme } =
     useStorageState<boolean>(false, "color-theme");
+
   return (
     <DarkThemeContext.Provider
       value={{

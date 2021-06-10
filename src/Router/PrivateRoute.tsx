@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
@@ -35,8 +35,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     } else if (path === "/" && firstFolderId) {
       history.push(firstFolderLink);
     }
-    setIsLoggedIn(getSessionCookie());
   }, [history, firstFolderLink, path, isLoggedIn, firstFolderId]);
+
+  useEffect(() => {
+    setIsLoggedIn(getSessionCookie());
+  }, []);
 
   return (
     <>

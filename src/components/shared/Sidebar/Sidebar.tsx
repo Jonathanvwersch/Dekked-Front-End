@@ -91,10 +91,10 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
   opacity: ${({ hoverbar }) => (hoverbar ? 1 : 0)};
-  transform: ${({ hoverbar }) =>
+  transform: ${({ hoverbar, theme }) =>
     hoverbar
       ? "transform: translateX(0px) translateZ(0px);"
-      : "translateX(-210px) translateZ(0px)"};
+      : `translateX(20px - ${theme.sizes.sidebar}) translateZ(0px)`};
 `;
 
 export default Sidebar;

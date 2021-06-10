@@ -1,11 +1,11 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
-import { SettingsAccount } from "..";
+import { SettingsAccount, SettingsAppearance } from "..";
 import { UserContext } from "../../../contexts";
 import { updateUser } from "../../../services/authentication/updateUser";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
-import { Box, Footer, Scroller } from "../../common";
+import { Box, Footer } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 
 interface SettingsOptionsProps {
@@ -39,32 +39,35 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
       onSubmit={handleAccountSubmit}
       style={{ display: "flex", flexDirection: "column", height: "100%" }}
     >
-      <Scroller height="100%">
-        <Box
-          px={theme.spacers.size64}
-          pt={theme.spacers.size32}
-          width="100%"
-          height="100%"
-        >
-          {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
-            <SettingsAccount
-              setFirstName={setFirstName}
-              setLastName={setLastName}
-            />
-          ) : null}
-        </Box>
-      </Scroller>
-      <Footer
-        padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
-        secondaryButton={{ onClick: handleCloseModal }}
-        primaryButton={{
-          text: "generics.saveChanges",
-          buttonType: BUTTON_TYPES.SUBMIT,
-        }}
-        alignment="flex-start"
-        divider
-        buttonSize={SIZES.MEDIUM}
-      />
+      <Box
+        px={theme.spacers.size64}
+        pt={theme.spacers.size32}
+        width="100%"
+        height="100%"
+      >
+        {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
+          <SettingsAccount
+            setFirstName={setFirstName}
+            setLastName={setLastName}
+          />
+        ) : null}
+        {activeSetting === SETTINGS_SIDEBAR_DATA.APPEARANCE ? (
+          <SettingsAppearance />
+        ) : null}
+      </Box>
+      {activeSetting === SETTINGS_SIDEBAR_DATA.ACCOUNT ? (
+        <Footer
+          padding={`${theme.spacers.size16} ${theme.spacers.size64}`}
+          secondaryButton={{ onClick: handleCloseModal }}
+          primaryButton={{
+            text: "generics.saveChanges",
+            buttonType: BUTTON_TYPES.SUBMIT,
+          }}
+          alignment="flex-start"
+          divider
+          buttonSize={SIZES.MEDIUM}
+        />
+      ) : null}
     </form>
   );
 };

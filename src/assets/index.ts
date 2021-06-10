@@ -1,4 +1,5 @@
 export { default as BinderIcon } from "./icons/BinderIcon";
+export { default as AppearanceIcon } from "./icons/AppearanceIcon";
 export { default as FolderIcon } from "./icons/FolderIcon";
 export { default as StudySetIcon } from "./icons/StudySetIcon";
 export { default as StudyQueueIcon } from "./icons/StudyQueueIcon";

@@ -93,66 +93,46 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       );
   };
 
-  const defaultGeneralColors = [
-    `${theme.colors.iconColor}`,
-    `${theme.colors.primary}`,
-    "#E81123",
-    "#F7630D",
-    "#FABD14",
-    "#0F893E",
-    "#3971D1",
-    "#4B0082",
-    "#AC008C",
-    "#84939A",
+  const backgroundColors = [
+    theme.colors.colorPicker.background.default,
+    theme.colors.colorPicker.background.red,
+    theme.colors.colorPicker.background.orange,
+    theme.colors.colorPicker.background.yellow,
+    theme.colors.colorPicker.background.green,
+    theme.colors.colorPicker.background.blue,
+    theme.colors.colorPicker.background.indigo,
+    theme.colors.colorPicker.background.violet,
+    theme.colors.colorPicker.background.grey,
+    theme.colors.colorPicker.background.brown,
   ];
 
-  const darkThemeGeneralColors = [
-    `${theme.colors.iconColor}`,
-    `${theme.colors.primary}`,
-    "#E81123",
-    "#F7630D",
-    "#FABD14",
-    "#0F893E",
-    "#3971D1",
-    "#4B0082",
-    "#AC008C",
-    "#84939A",
+  const textAndIconColors = [
+    theme.colors.colorPicker.text.default,
+    theme.colors.colorPicker.text.primary,
+    theme.colors.colorPicker.text.red,
+    theme.colors.colorPicker.text.orange,
+    theme.colors.colorPicker.text.yellow,
+    theme.colors.colorPicker.text.green,
+    theme.colors.colorPicker.text.blue,
+    theme.colors.colorPicker.text.indigo,
+    theme.colors.colorPicker.text.violet,
+    theme.colors.colorPicker.text.grey,
   ];
 
-  const defaultBackgroundColors = [
-    theme.colors.backgrounds.pageBackground,
-    "#FBE4E4",
-    "#FAEBDD",
-    "#FBF3DB",
-    "#DDEBF1",
-    "#E9E5E3",
-    "#DDEDEA",
-    "#F4DFEB",
-    "#EBECED",
-    "#EAE4F2",
-  ];
-
-  const darkThemeBackgroundColors = [
-    theme.colors.backgrounds.pageBackground,
-    "#434040",
-    "#59563B",
-    "#524217",
-    "#28456D",
-    "#523271",
-    "#67371A",
-    "#195028",
-    "#5A2F51",
-    "#666666",
-  ];
+  const defaultColor =
+    purpose === "color-block" || purpose === "color-font"
+      ? theme.colors.colorPicker.text.default
+      : theme.colors.colorPicker.background.default;
 
   return (
     <Overlay
       isOpen={isOpen}
       handleClose={handleClose}
       coords={coords}
-      type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
+      type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
     >
       <StyledColorPicker
+        defaultColor={defaultColor}
         onClick={(e: any) => e.preventDefault()}
         ref={colorPickerRef}
       >
@@ -162,8 +142,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           triangle="hide"
           colors={
             purpose === "color-block" || purpose === "color-font"
-              ? defaultGeneralColors
-              : defaultBackgroundColors
+              ? textAndIconColors
+              : backgroundColors
           }
           className="colors"
         />
@@ -172,7 +152,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   );
 };
 
-const StyledColorPicker = styled.div`
+const StyledColorPicker = styled.div<{ defaultColor: string }>`
   border-radius: ${({ theme }) => `${theme.sizes.borderRadius[SIZES.MEDIUM]}`};
   box-shadow: ${({ theme }) => `${theme.boxShadow}`};
 
@@ -193,6 +173,15 @@ const StyledColorPicker = styled.div`
   }
 
   & div:nth-child(2) {
+    background-color: ${({ defaultColor }) => defaultColor} !important;
+  }
+
+  & div:nth-child(3) {
+    & div:nth-child(2) {
+      background-color: ${({ theme }) =>
+        theme.colors.backgrounds.pageBackground}!important;
+    }
+
     & input {
       color: ${({ theme }) => `${theme.colors.fontColor} !important`};
       background-color: ${({ theme }) =>

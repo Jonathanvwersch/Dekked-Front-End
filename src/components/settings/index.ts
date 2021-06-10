@@ -3,3 +3,4 @@ export { default as MainSettingsModal } from "./MainSettingsModal/MainSettingsMo
 export { default as SettingsSidebar } from "./SettingsSidebar/SettingsSidebar";
 export { default as SettingsOptions } from "./SettingsOptions/SettingsOptions";
 export { default as SettingsAccount } from "./SettingsAccount/SettingsAccount";
+export { default as SettingsAppearance } from "./SettingsAppearance/SettingsAppearance";

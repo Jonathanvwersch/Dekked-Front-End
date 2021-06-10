@@ -158,10 +158,17 @@ const en_GB = {
     settings: {
       sidebar: {
         account: "Account",
+        appearance: "Appearance",
       },
       account: {
         header: "Account",
         personalInformation: "Personal Information",
+      },
+      appearance: {
+        header: "Appearance",
+        theme: "Theme",
+        light: "Light",
+        dark: "Dark",
       },
     },
     topbar: {

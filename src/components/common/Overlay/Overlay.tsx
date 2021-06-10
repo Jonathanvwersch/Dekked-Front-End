@@ -100,7 +100,7 @@ const Modal = styled.div<{
   right: ${({ coords }) => (coords?.right ? `${coords?.right}px` : "auto")};
   width: ${({ modalWidth }) => modalWidth};
   max-width: ${({ modalWidth, theme }) =>
-    modalWidth && theme.sizes.wrappers[SIZES.LARGE]};
+    modalWidth && theme.sizes.wrappers[SIZES.SMALL]};
   height: ${({ modalHeight }) => modalHeight};
   position: fixed;
   z-index: 100;

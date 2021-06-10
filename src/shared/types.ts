@@ -29,3 +29,8 @@ export type UserType = {
   first_name: string;
   last_name: string;
 };
+
+export type DropDownType = {
+  label: string;
+  value: string;
+};

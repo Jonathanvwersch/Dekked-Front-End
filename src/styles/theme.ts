@@ -22,15 +22,41 @@ const lightThemeColors = {
   active: {
     filter: "brightness(90%)",
   },
+  colorPicker: {
+    background: {
+      default: "#FFFFFF",
+      red: "#FBE4E4",
+      orange: "#FAEBDD",
+      yellow: "#FBF3DB",
+      green: "#DDEDEA",
+      blue: "#DDEBF1",
+      indigo: "#EAE4F2",
+      violet: "#F4DFEB",
+      grey: "#EBECED",
+      brown: "#E9E5E3",
+    },
+    text: {
+      default: "#2C2C31",
+      primary: "#00B6CE",
+      red: "#E81123",
+      orange: "#F7630D",
+      yellow: "#FABD14",
+      green: "#0F893E",
+      blue: "#3971D1",
+      indigo: "#4B0082",
+      violet: "#AC008C",
+      grey: "#84939A",
+    },
+  },
 };
 
 const darkThemeColors = {
-  primary: "#00B6CE",
+  primary: "#0094ce",
   secondary: "#474C50",
   danger: "#DB524B",
   success: "#0CCA4A",
-  iconColor: "#FFFFE6",
-  fontColor: "#FFFFE6",
+  iconColor: "#F0F0F0",
+  fontColor: "#F0F0F0",
   oppositeFontColor: "#2C2C31",
   grey1: "#E0E0E0", // light
   grey2: "#9E9E9E", // mid
@@ -43,10 +69,36 @@ const darkThemeColors = {
     pageBackground: "#2F3437",
   },
   hover: {
-    filter: "brightness(125%)",
+    filter: "brightness(115%)",
   },
   active: {
-    filter: "brightness(150%)",
+    filter: "brightness(125%)",
+  },
+  colorPicker: {
+    background: {
+      default: "#2F3437",
+      red: "#67371A",
+      orange: "#594A3A",
+      yellow: "#59563B",
+      green: "#195028",
+      blue: "#28456D",
+      indigo: "#523271",
+      violet: "#5A2F51",
+      grey: "#666666",
+      brown: "#434040",
+    },
+    text: {
+      default: "#F0F0F0",
+      primary: "#0094CE",
+      red: "#FB7575",
+      orange: "#FF9B60",
+      yellow: "#FFD45C",
+      green: "#74E092",
+      blue: "#87C25B",
+      indigo: "#CA8BF7",
+      violet: "#FF81DB",
+      grey: "#C1C1C1",
+    },
   },
 };
 
@@ -218,7 +270,7 @@ export const theme = (darkTheme?: boolean): ThemeType => {
         large: "500px",
       },
 
-      sidebar: "230px",
+      sidebar: "250px",
 
       input: {
         small: "32px",
