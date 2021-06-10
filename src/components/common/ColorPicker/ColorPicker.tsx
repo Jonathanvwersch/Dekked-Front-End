@@ -10,14 +10,16 @@ import React, {
 import { BlockPicker, HSLColor, RGBColor } from "react-color";
 import styled, { ThemeContext } from "styled-components";
 import { Overlay } from "..";
-import { LayeredModalContext } from "../../../contexts";
+import { DarkThemeContext, LayeredModalContext } from "../../../contexts";
 import {
-  BACKGROUND_COLORS,
+  LIGHT_THEME_BACKGROUND_COLORS,
   CoordsType,
-  FONT_COLORS,
+  LIGHT_THEME_FONT_COLORS,
   MODAL_TYPE,
   SIZES,
   TEXT_STYLES,
+  DARK_THEME_FONT_COLORS,
+  DARK_THEME_BACKGROUND_COLORS,
 } from "../../../shared";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 
@@ -50,6 +52,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     background: iconColor,
   });
   const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
+  const { isDarkTheme } = useContext(DarkThemeContext);
 
   useEffect(() => {
     setIsLayeredModalOpen(true);
@@ -72,7 +75,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           TEXT_STYLES[
             `FONT_COLOR_${colour.hex.slice(1).toUpperCase()}` as TEXT_STYLES
           ],
-          [...Object.keys(FONT_COLORS)]
+          [
+            ...Object.keys(
+              isDarkTheme ? DARK_THEME_FONT_COLORS : LIGHT_THEME_FONT_COLORS
+            ),
+          ]
         )
       );
 
@@ -88,7 +95,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
               .slice(1)
               .toUpperCase()}` as TEXT_STYLES
           ],
-          [...Object.keys(BACKGROUND_COLORS)]
+          [
+            ...Object.keys(
+              isDarkTheme
+                ? DARK_THEME_BACKGROUND_COLORS
+                : LIGHT_THEME_BACKGROUND_COLORS
+            ),
+          ]
         )
       );
   };
