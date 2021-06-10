@@ -180,6 +180,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             editorRef?.current.focus();
           }}
           onBlur={() => setHasFocus(false)}
+          editorType={editorType}
         >
           <Editor
             editorState={editorState}
@@ -214,12 +215,16 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
 const EditorContainer = styled.div<{
   isEditable: boolean;
+  editorType: EditorType;
 }>`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;
   width: 100%;
   position: relative;
-  font-size: ${({ theme }) => theme.typography.fontSizes.size14};
+  font-size: ${({ theme, editorType }) =>
+    editorType === "page"
+      ? theme.typography.fontSizes.size16
+      : theme.typography.fontSizes.size14};
 
   div[data-editor] {
     padding: ${({ theme }) => theme.spacers.size4} 0px;

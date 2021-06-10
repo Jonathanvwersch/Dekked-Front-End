@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { SettingsOptions, SettingsSidebar } from "..";
+import { useStorageState } from "../../../hooks";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import { Flex, Overlay, ShadowCard } from "../../common";
 import { StyledMainFrame } from "../../common/MainFrame/MainFrame";
@@ -16,9 +17,11 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
   handleCloseModal,
 }) => {
   const theme = useContext(ThemeContext);
-  const [activeSetting, setActiveSetting] = useState<SETTINGS_SIDEBAR_DATA>(
-    SETTINGS_SIDEBAR_DATA.ACCOUNT
-  );
+  const { value: activeSetting, setValue: setActiveSetting } =
+    useStorageState<SETTINGS_SIDEBAR_DATA>(
+      SETTINGS_SIDEBAR_DATA.ACCOUNT,
+      "settings"
+    );
 
   const handleActiveSetting = (activeSetting: SETTINGS_SIDEBAR_DATA) => {
     setActiveSetting(activeSetting);

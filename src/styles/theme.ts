@@ -229,7 +229,9 @@ export type ThemeType = {
 
 export const theme = (darkTheme?: boolean): ThemeType => {
   return {
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    boxShadow:
+      "rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 15%) 0px 2px 4px, rgb(15 15 15 / 30%) 0px 6px 9px",
+
     colors: {
       ...(darkTheme ? darkThemeColors : lightThemeColors),
     },
