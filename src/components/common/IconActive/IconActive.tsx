@@ -111,11 +111,11 @@ const StyledIconActive = styled.button<IconActiveProps>`
       & path {
         fill: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
-            ? theme.colors.grey1
+            ? theme.colors.disabled
             : "auto"};
         stroke: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
-            ? theme.colors.grey1
+            ? theme.colors.disabled
             : "auto"};
       }
     }

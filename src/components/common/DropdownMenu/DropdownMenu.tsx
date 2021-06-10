@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import Select, { ActionMeta, OptionTypeBase } from "react-select";
+import { ThemeContext } from "styled-components";
 import { DropDownType } from "../../../shared";
+import { customStyles } from "./DropdownMenu.styles";
 
 export interface DropdownMenuProps {
   options: DropDownType[];
@@ -28,6 +30,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   isLoading,
   defaultValue,
 }) => {
+  const theme = useContext(ThemeContext);
   return (
     <Select
       onChange={onChange}
@@ -35,6 +38,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       isLoading={isLoading}
       value={value}
       defaultValue={defaultValue}
+      styles={customStyles(theme)}
     />
   );
 };

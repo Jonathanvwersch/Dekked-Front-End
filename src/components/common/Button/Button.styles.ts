@@ -56,8 +56,8 @@ export const StyledButton = styled.button<ButtonProps>`
     }
     cursor: ${({ isLoading }: { isLoading: boolean }) =>
       isLoading ? "progress" : "not-allowed"};
-    background-color: ${({ theme }) => theme.colors.grey2};
-    border: 1px solid ${({ theme }) => theme.colors.grey2};
+    background-color: ${({ theme }) => theme.colors.disabled};
+    border: none;
     color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
     &:active,
     &:hover {

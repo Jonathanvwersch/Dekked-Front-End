@@ -81,9 +81,9 @@ const StyledFullPageSpinner = styled.div`
   right: 0px;
   bottom: 0px;
   position: fixed;
-  zindex: 10;
+  z-index: 1000;
   display: flex;
-  background-color:${({ theme }) => theme.colors.backgrounds.pageBackground}
+  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   justify-content: center;
   align-items: center;
 `;
@@ -92,7 +92,7 @@ const StyledComponentSpinner = styled.div<{ height?: string; width?: string }>`
   flex-grow: 1;
   height: ${({ height }) => height};
   width: ${({ width }) => width};
-  z-index: 10;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;

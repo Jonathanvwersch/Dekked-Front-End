@@ -9,6 +9,7 @@ const lightThemeColors = {
   grey1: "#A9A9A9", // dark
   grey2: "#D3D3D3", // mid
   grey3: "#EAEAEA", // light
+  disabled: "#A9A9A9",
   selection: "#B1FAFF",
   backgrounds: {
     studyModeBackground: "#F7F8FA",
@@ -61,6 +62,7 @@ const darkThemeColors = {
   grey1: "#E0E0E0", // light
   grey2: "#9E9E9E", // mid
   grey3: "#616161", // dark
+  disabled: "#616161",
   selection: "#474C50",
   backgrounds: {
     studyModeBackground: "#2C2C31",
