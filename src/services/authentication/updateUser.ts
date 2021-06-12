@@ -1,5 +1,6 @@
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
+import { getUser } from "./getUser";
 
 export const updateUser = async ({
   first_name,
@@ -26,5 +27,6 @@ export const updateUser = async ({
 
   const status = response?.status;
   const json = await response.json();
+  await getUser();
   return { json, status };
 };

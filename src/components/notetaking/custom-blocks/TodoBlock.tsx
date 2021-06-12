@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-import styled from "styled-components";
+import React, { memo, useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { Flex, HoverCard } from "../../common";
@@ -14,6 +14,7 @@ const TodoBlock: React.FC = (props: any) => {
   const { setEditorState, editorState } = blockProps;
   const data = block.getData();
   const checked = data.has("checked") && data.get("checked") === true;
+  const theme = useContext(ThemeContext);
 
   // We need to update the meta data of the block to save the checked state
   const updateData = () => {
@@ -39,6 +40,12 @@ const TodoBlock: React.FC = (props: any) => {
         handleClick={() => {
           updateData();
         }}
+        width={theme.spacers.size16}
+        height={theme.spacers.size16}
+        borderRadius={theme.sizes.borderRadius[SIZES.SMALL]}
+        backgroundColor={
+          checked ? theme.colors.primary : theme.colors.secondary
+        }
       >
         {checked ? <CheckmarkIcon color="white" /> : null}
       </Checkbox>
@@ -49,7 +56,6 @@ const TodoBlock: React.FC = (props: any) => {
 
 const Checkbox = styled(HoverCard)<{ checked: boolean }>`
   cursor: pointer;
-  width: ${({ theme }) => theme.spacers.size16};
   display: flex;
   margin-right: ${({ theme }) => theme.spacers.size16};
   align-items: center;
@@ -59,10 +65,6 @@ const Checkbox = styled(HoverCard)<{ checked: boolean }>`
   margin-bottom: 1px;
   margin-top: 1px;
   flex-shrink: 0;
-  background: ${({ theme, checked }) =>
-    checked ? theme.colors.primary : theme.colors.secondary};
-  height: ${({ theme }) => theme.spacers.size16};
-  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
   border: 1px
     ${({ theme, checked }) => (checked ? "none" : theme.colors.fontColor)} solid;
 `;

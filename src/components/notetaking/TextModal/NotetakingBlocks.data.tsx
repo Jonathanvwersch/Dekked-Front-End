@@ -125,6 +125,6 @@ export const noMatchingBlocksData: ScrollerModalData = [
   {
     label: NOTETAKING_BLOCKS.NO_DATA,
     icon: <CloseIcon />,
-    hoverCard: false,
+    turnOffHover: true,
   },
 ];

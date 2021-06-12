@@ -61,6 +61,13 @@ const EditableText: React.FC<EditableTextProps> = ({
     }
   }, [isEditable, editableTextRef, itemId]);
 
+  // only allow plain text (or emojis) on paste
+  const handlePaste = (e: any) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text/plain");
+    window.document.execCommand("insertText", false, text);
+  };
+
   return (
     <StyledContentEditable
       placeholder={formatMessage("generics.untitled", intl)}
@@ -76,7 +83,7 @@ const EditableText: React.FC<EditableTextProps> = ({
         }
       }}
       onPaste={(e: any) => {
-        e.preventDefault();
+        handlePaste(e);
       }}
       onDragOver={(e: any) => {
         e.preventDefault();

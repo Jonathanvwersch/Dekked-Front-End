@@ -18,7 +18,7 @@ const lightThemeColors = {
     pageBackground: "#FFF",
   },
   hover: {
-    filter: "brightness(95%)",
+    filter: "brightness(92%)",
   },
   active: {
     filter: "brightness(90%)",
@@ -229,8 +229,9 @@ export type ThemeType = {
 
 export const theme = (darkTheme?: boolean): ThemeType => {
   return {
-    boxShadow:
-      "rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 15%) 0px 2px 4px, rgb(15 15 15 / 30%) 0px 6px 9px",
+    boxShadow: darkTheme
+      ? "rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 20%) 0px 3px 6px, rgb(15 15 15 / 40%) 0px 9px 24px"
+      : "rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 3px 6px, rgb(15 15 15 / 20%) 0px 9px 12px",
 
     colors: {
       ...(darkTheme ? darkThemeColors : lightThemeColors),

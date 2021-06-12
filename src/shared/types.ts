@@ -5,7 +5,7 @@ export type ScrollerModalData = {
   icon?: React.ReactNode;
   style?: string;
   divider?: boolean;
-  hoverCard?: boolean;
+  turnOffHover?: boolean;
 }[];
 
 export type Params = {

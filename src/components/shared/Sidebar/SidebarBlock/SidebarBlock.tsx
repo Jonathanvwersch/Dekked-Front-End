@@ -182,18 +182,20 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
               </Card>
             </StyledBlock>
           </HoverCard>
-          <SidebarBlockModal
-            isOpen={blockModal}
-            handleClose={() => setBlockModal(false)}
-            coords={coords}
-            handleBlockModal={() => setBlockModal(false)}
-            handleColorPicker={() => setColorPicker(true)}
-            type={type}
-            id={blockData.id}
-            handleEditableText={() => setIsEditable(true)}
-            editableTextRef={editableTextRef}
-            iconColor={iconColor}
-          />
+          {blockModal ? (
+            <SidebarBlockModal
+              isOpen={blockModal}
+              handleClose={() => setBlockModal(false)}
+              coords={coords}
+              handleBlockModal={() => setBlockModal(false)}
+              handleColorPicker={() => setColorPicker(true)}
+              type={type}
+              id={blockData.id}
+              handleEditableText={() => setIsEditable(true)}
+              editableTextRef={editableTextRef}
+              iconColor={iconColor}
+            />
+          ) : null}
           {colorPicker ? (
             <ColorPicker
               isOpen={colorPicker}

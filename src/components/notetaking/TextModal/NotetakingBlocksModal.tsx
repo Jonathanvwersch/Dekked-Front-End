@@ -36,6 +36,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   const [coords, setCoords] = useState<CoordsType>();
   const currentBlock = getCurrentBlock(editorState);
   const currentText = currentBlock.getText().slice(1).toLowerCase();
+  const editorHasFocus = editorState.getSelection().getHasFocus();
 
   const updatePosition = () => {
     const nodeSelected = getSelectedBlockNode(window);
@@ -49,20 +50,18 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
     }
   };
 
-  const handleToggle = (style: BLOCK_TYPES, e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const toggleBlockStyle = (style: BLOCK_TYPES) => {
     onToggle(style);
   };
 
   useEffect(() => {
-    if (currentBlock.getText()[0] === "/") {
+    if (currentBlock.getText()[0] === "/" && editorHasFocus) {
       updatePosition();
       setOpen(true);
     } else {
       setOpen(false);
     }
-  }, [currentBlock]);
+  }, [currentBlock, editorHasFocus]);
 
   useEffect(() => {
     if (open) {
@@ -99,14 +98,18 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
 
   return (
     <>
-      <ScrollerModal
-        open={open}
-        handleClose={() => setOpen(false)}
-        coords={coords}
-        clickFunctions={handleToggle}
-        data={data}
-        type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-      />
+      {open ? (
+        <ScrollerModal
+          open={open}
+          handleClose={() => setOpen(false)}
+          coords={coords}
+          clickFunctions={toggleBlockStyle}
+          data={data}
+          type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+          fakeFocus
+          preventDefault
+        />
+      ) : null}
     </>
   );
 };

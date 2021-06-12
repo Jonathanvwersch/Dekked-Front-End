@@ -3,7 +3,10 @@ import { ScrollerModal } from "../../common";
 import { BLOCK_TYPES, CoordsType } from "../../../shared";
 import { ConvertToBlockData } from "../../notetaking/TextModal/NotetakingBlocks.data";
 import { EditorState, RichUtils } from "draft-js";
-import { getCurrentBlock } from "../../notetaking/Editor/Editor.helpers";
+import {
+  focusEndOfBlock,
+  getCurrentBlock,
+} from "../../notetaking/Editor/Editor.helpers";
 
 interface StudySetToolbarModalProps {
   open: boolean;
@@ -23,9 +26,12 @@ const StudySetToolbarModal: React.FC<StudySetToolbarModalProps> = ({
   const clickFunctions = (type: BLOCK_TYPES) => {
     handleClose();
 
+    // focus on end of block after switching styles
+    const newEditorState = focusEndOfBlock(editorState);
+
     // only change block type if user chooses option other than current block type
     if (getCurrentBlock(editorState).getType() !== type) {
-      setEditorState(RichUtils.toggleBlockType(editorState, type));
+      setEditorState(RichUtils.toggleBlockType(newEditorState, type));
     }
   };
 

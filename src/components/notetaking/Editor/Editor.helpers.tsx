@@ -2,6 +2,7 @@ import {
   ContentBlock,
   convertFromRaw,
   convertToRaw,
+  Editor,
   EditorState,
   genKey,
   Modifier,
@@ -286,6 +287,30 @@ export const updateDataOfBlock = (
   return EditorState.push(editorState, newContentState, "change-block-data");
 };
 
+// focus end of block when you are changing block types
+export const focusEndOfBlock = (editorState: EditorState) => {
+  const currentBlock = getCurrentBlock(editorState);
+  const currentContent = editorState.getCurrentContent();
+
+  const targetRange = new SelectionState({
+    anchorKey: currentBlock.getKey(),
+    anchorOffset: currentBlock.getText().length,
+    focusKey: currentBlock.getKey(),
+    focusOffset: currentBlock.getText().length,
+    hasFocus: true,
+  });
+
+  const newContent = Modifier.applyInlineStyle(currentContent, targetRange, "");
+
+  const newEditorState = EditorState.push(
+    editorState,
+    newContent,
+    "change-block-type"
+  );
+
+  return newEditorState;
+};
+
 // Changes style of all text in a given block
 // Can also specify which styles to delete before style change
 export const toggleBlockStyle = (
@@ -297,7 +322,9 @@ export const toggleBlockStyle = (
   if (stylesToRemove) {
     newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
   }
-  return RichUtils.toggleInlineStyle(newEditorState, style);
+
+  const finalEditorState = focusEndOfBlock(newEditorState);
+  return RichUtils.toggleInlineStyle(finalEditorState, style);
 };
 
 // Changes style of inline text
@@ -310,6 +337,7 @@ export const toggleInlineStyle = (
   if (stylesToRemove) {
     newEditorState = removeSpecificBlockStyle(stylesToRemove, editorState);
   }
+
   return RichUtils.toggleInlineStyle(newEditorState, style);
 };
 

@@ -35,32 +35,29 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
       ? BinderData
       : StudySetData;
 
-  const handleAddItem = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleAddItem = () => {
     props.handleBlockModal();
     handleAddBlock(props.id, getChildType(props.type as FILETREE_TYPES));
   };
 
-  const handleRecolor = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleRecolor = () => {
     props.handleBlockModal();
     props.handleColorPicker();
   };
 
-  const handleDelete = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleDelete = () => {
     props.handleBlockModal();
     setIsDeleteModalOpen(true);
   };
 
-  const handleClick = (type: string, e: MouseEvent) => {
-    if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete(e);
+  const handleClick = (type: string) => {
+    if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete();
     else if (
       type === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
       type === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     )
-      handleAddItem(e);
-    else if (type === SIDEBAR_BLOCK_MENU.RECOLOR) handleRecolor(e);
+      handleAddItem();
+    else if (type === SIDEBAR_BLOCK_MENU.RECOLOR) handleRecolor();
   };
 
   const deleteModalBodyText = () => {

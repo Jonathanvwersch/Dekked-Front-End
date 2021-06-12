@@ -1,4 +1,3 @@
-import { Styles } from "react-select";
 import { SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 

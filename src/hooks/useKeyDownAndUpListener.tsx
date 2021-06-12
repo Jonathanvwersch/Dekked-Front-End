@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 
-const useKeyDownAndUpListener = (shouldRun: boolean = true, length: number) => {
-  const [activeIndex, setActiveIndex] = useState(-1);
+const useKeyDownAndUpListener = (
+  shouldRun: boolean = true,
+  length: number,
+  preventDefault?: boolean
+) => {
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const eventHandler = (event: KeyboardEvent) => {
     if (shouldRun) {
       if (event.key === "ArrowUp") {
+        preventDefault && event.preventDefault();
         setActiveIndex((activeIndex - 1 + length) % length);
       } else if (event.key === "ArrowDown") {
+        event.preventDefault();
         setActiveIndex((activeIndex + 1) % length);
       }
     }
@@ -17,6 +23,7 @@ const useKeyDownAndUpListener = (shouldRun: boolean = true, length: number) => {
     if (!shouldRun) {
       setActiveIndex(-1);
     }
+    setActiveIndex(0);
   }, [shouldRun]);
 
   useEffect(() => {

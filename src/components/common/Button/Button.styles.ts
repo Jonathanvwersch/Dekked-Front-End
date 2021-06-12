@@ -26,16 +26,14 @@ export const StyledButton = styled.button<ButtonProps>`
     width === SIZES.LARGE
       ? theme.sizes.button.width[width]
       : width};
-  border-width: 1px;
   cursor: pointer;
-  border-style: solid;
-  border-color: ${({ theme }) => theme.colors.primary};
   white-space: nowrap;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   transform: none;
+  border: none;
 
   &.fullWidth {
     width: 100%;
@@ -57,7 +55,6 @@ export const StyledButton = styled.button<ButtonProps>`
     cursor: ${({ isLoading }: { isLoading: boolean }) =>
       isLoading ? "progress" : "not-allowed"};
     background-color: ${({ theme }) => theme.colors.disabled};
-    border: none;
     color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
     &:active,
     &:hover {
@@ -75,10 +72,11 @@ export const ButtonSecondary = styled<any>(StyledButton)`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   color: ${({ theme }) => theme.colors.fontColor};
   border-color: ${({ theme }) => theme.colors.grey1};
+  border-width: 1px;
+  border-style: solid;
 `;
 
 export const ButtonDanger = styled<any>(StyledButton)`
   background-color: ${({ theme }) => theme.colors.danger};
-  border-color: ${({ theme }) => theme.colors.danger};
   color: white;
 `;

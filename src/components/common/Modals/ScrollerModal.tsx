@@ -1,4 +1,5 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
+import { isEqual } from "lodash";
 import React, {
   Fragment,
   MutableRefObject,
@@ -21,6 +22,8 @@ interface ScrollerModalProps {
   cardRef?: MutableRefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
   fullHeight?: boolean;
+  fakeFocus?: boolean;
+  preventDefault?: boolean;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -32,16 +35,23 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   coords,
   type = MODAL_TYPE.MODAL_NON_LIGHTBOX,
   fullHeight,
+  fakeFocus,
+  preventDefault,
 }) => {
   const theme = useContext(ThemeContext);
   const modalRef = useRef<HTMLDivElement>(null);
-  const { activeIndex } = useKeyDownAndUpListener(open, data.length);
+
+  const { activeIndex } = useKeyDownAndUpListener(
+    open,
+    data.length,
+    preventDefault
+  );
   const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
 
   useEffect(() => {
     setIsLayeredModalOpen(true);
     !open && setIsLayeredModalOpen(false);
-  }, [open]);
+  }, [open, setIsLayeredModalOpen]);
 
   return (
     <Overlay
@@ -64,11 +74,11 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 index={index}
                 activeIndex={activeIndex}
                 icon={item?.icon}
+                fakeFocus={fakeFocus}
                 label={item?.label}
-                hoverCard={item?.hoverCard}
-                handleClick={(e: MouseEvent) => {
-                  e.preventDefault();
-                  clickFunctions(item?.style ? item.style : item.label, e);
+                turnOffHover={item?.turnOffHover}
+                handleClick={() => {
+                  clickFunctions(item?.style ? item.style : item.label);
                 }}
               />
               {item?.divider ? <Divider /> : null}

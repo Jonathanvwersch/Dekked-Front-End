@@ -229,13 +229,15 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           <RemoveFormattingIcon size={iconSize} />
         </Tooltip>
       </IconActive>
-      <StudySetToolbarModal
-        editorState={editorState}
-        setEditorState={setEditorState}
-        coords={coords}
-        open={blockOptionsModal}
-        handleClose={() => setBlockOptionsModal(false)}
-      />
+      {blockOptionsModal ? (
+        <StudySetToolbarModal
+          editorState={editorState}
+          setEditorState={setEditorState}
+          coords={coords}
+          open={blockOptionsModal}
+          handleClose={() => setBlockOptionsModal(false)}
+        />
+      ) : null}
     </>
   );
 };

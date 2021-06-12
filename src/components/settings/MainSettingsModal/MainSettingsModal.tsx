@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { SettingsOptions, SettingsSidebar } from "..";
 import { useStorageState } from "../../../hooks";
