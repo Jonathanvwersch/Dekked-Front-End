@@ -32,41 +32,41 @@ export const ConvertToBlockData: ScrollerModalData = [
   {
     label: NOTETAKING_BLOCKS.BODY,
     icon: <BodyTextIcon />,
-    style: BLOCK_TYPES.UNSTYLED,
+    value: BLOCK_TYPES.UNSTYLED,
   },
   {
     label: NOTETAKING_BLOCKS.LARGE_HEADING,
-    style: BLOCK_TYPES.HEADER_ONE,
+    value: BLOCK_TYPES.HEADER_ONE,
     icon: <H1Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.MEDIUM_HEADING,
-    style: BLOCK_TYPES.HEADER_TWO,
+    value: BLOCK_TYPES.HEADER_TWO,
     icon: <H2Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.SMALL_HEADING,
-    style: BLOCK_TYPES.HEADER_THREE,
+    value: BLOCK_TYPES.HEADER_THREE,
     icon: <H3Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.BULLETED_LIST,
-    style: BLOCK_TYPES.BULLETED_LIST,
+    value: BLOCK_TYPES.BULLETED_LIST,
     icon: <BulletedListIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.NUMBERED_LIST,
-    style: BLOCK_TYPES.NUMBERED_LIST,
+    value: BLOCK_TYPES.NUMBERED_LIST,
     icon: <NumberedListIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.QUOTE,
-    style: BLOCK_TYPES.QUOTE,
+    value: BLOCK_TYPES.QUOTE,
     icon: <QuoteIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.TODO,
-    style: BLOCK_TYPES.TODO,
+    value: BLOCK_TYPES.TODO,
     icon: <TodoIcon />,
   },
 ];
@@ -75,46 +75,46 @@ export const TextBlocksData: ScrollerModalData = [
   {
     label: NOTETAKING_BLOCKS.BODY,
     icon: <BodyTextIcon />,
-    style: BLOCK_TYPES.UNSTYLED,
+    value: BLOCK_TYPES.UNSTYLED,
   },
   {
     label: NOTETAKING_BLOCKS.LARGE_HEADING,
-    style: BLOCK_TYPES.HEADER_ONE,
+    value: BLOCK_TYPES.HEADER_ONE,
     icon: <H1Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.MEDIUM_HEADING,
-    style: BLOCK_TYPES.HEADER_TWO,
+    value: BLOCK_TYPES.HEADER_TWO,
     icon: <H2Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.SMALL_HEADING,
-    style: BLOCK_TYPES.HEADER_THREE,
+    value: BLOCK_TYPES.HEADER_THREE,
     icon: <H3Icon />,
   },
   {
     label: NOTETAKING_BLOCKS.BULLETED_LIST,
-    style: BLOCK_TYPES.BULLETED_LIST,
+    value: BLOCK_TYPES.BULLETED_LIST,
     icon: <BulletedListIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.NUMBERED_LIST,
-    style: BLOCK_TYPES.NUMBERED_LIST,
+    value: BLOCK_TYPES.NUMBERED_LIST,
     icon: <NumberedListIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.QUOTE,
-    style: BLOCK_TYPES.QUOTE,
+    value: BLOCK_TYPES.QUOTE,
     icon: <QuoteIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.TODO,
-    style: BLOCK_TYPES.TODO,
+    value: BLOCK_TYPES.TODO,
     icon: <TodoIcon />,
   },
   {
     label: NOTETAKING_BLOCKS.DIVIDER,
-    style: BLOCK_TYPES.DIVIDER,
+    value: BLOCK_TYPES.DIVIDER,
     icon: <DividerIcon rotate={ROTATE.NINETY} strokeWidth="1px" />,
   },
 ];
@@ -125,6 +125,7 @@ export const noMatchingBlocksData: ScrollerModalData = [
   {
     label: NOTETAKING_BLOCKS.NO_DATA,
     icon: <CloseIcon />,
+    value: "",
     turnOffHover: true,
   },
 ];

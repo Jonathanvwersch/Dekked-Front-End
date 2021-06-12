@@ -57,7 +57,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           place="left"
         >
           <IconActive
-            backgroundColor={theme.colors.backgrounds.studyModeBackground}
             handleClick={() => setIsEditable((prevState) => !prevState)}
           >
             <EditIcon size={SIZES.LARGE} />
@@ -69,10 +68,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           text="tooltips.studyMode.deleteCard"
           place="left"
         >
-          <IconActive
-            backgroundColor={theme.colors.backgrounds.studyModeBackground}
-            handleClick={() => setIsDeleteModalOpen(true)}
-          >
+          <IconActive handleClick={() => setIsDeleteModalOpen(true)}>
             <DeleteForeverIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>

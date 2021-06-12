@@ -58,17 +58,12 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
 
   return (
     <Flex justifyContent="center" mt={theme.spacers.size48}>
-      <IconActive
-        backgroundColor={theme.colors.backgrounds.studyModeBackground}
-        isDisabled={flashcardIndex === 0}
-        handleClick={arrowLeft}
-      >
+      <IconActive isDisabled={flashcardIndex === 0} handleClick={arrowLeft}>
         <SingleChevronIcon size={SIZES.XLARGE} rotate={ROTATE.ONEEIGHTY} />
       </IconActive>
       <Spacer width={theme.spacers.size64} />
       <Tooltip id="FlipFlashcard" text="tooltips.studyMode.flip" place="top">
         <IconActive
-          backgroundColor={theme.colors.backgrounds.studyModeBackground}
           isDisabled={flashcardIndex === maxLength}
           handleClick={flipCard}
         >
@@ -77,7 +72,6 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
       </Tooltip>
       <Spacer width={theme.spacers.size64} />
       <IconActive
-        backgroundColor={theme.colors.backgrounds.studyModeBackground}
         isDisabled={flashcardIndex === maxLength}
         handleClick={arrowRight}
       >

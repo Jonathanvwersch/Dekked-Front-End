@@ -44,9 +44,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> =
     return (
       <Flex>
         <Tooltip id="FlipFlashcard" text="tooltips.studyMode.flip" place="top">
-          <IconActive
-            backgroundColor={theme.colors.backgrounds.studyModeBackground}
-          >
+          <IconActive>
             <FlipIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>

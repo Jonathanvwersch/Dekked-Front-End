@@ -5,6 +5,7 @@ import { LogoIcon } from "../../../assets";
 import { CurrentBlockContext, SelectedItemContext } from "../../../contexts";
 import { useMultiKeyPress } from "../../../hooks";
 import { SIZES } from "../../../shared";
+import { theme } from "../../../styles/theme";
 import { Flex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 

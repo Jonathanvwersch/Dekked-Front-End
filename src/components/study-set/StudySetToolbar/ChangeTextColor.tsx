@@ -17,7 +17,6 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
-  backgroundColor?: string;
 }
 
 const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
@@ -25,7 +24,6 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
-  backgroundColor,
 }) => {
   const theme = useContext(ThemeContext);
   const [colorPickerFont, setColorPickerFont] = useState<boolean>(false);
@@ -57,9 +55,6 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
     <>
       <IconWrapper>
         <IconActive
-          backgroundColor={
-            backgroundColor || theme.colors.backgrounds.pageBackground
-          }
           iconActiveRef={fontColorRef}
           handleMouseDown={(e) => {
             handleColorPickerFont(e);
@@ -70,15 +65,12 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
             id="ChangeTextColour"
             text="tooltips.studySet.toolbar.changeTextColour"
           >
-            <TextColorIcon size={SIZES.SMALL} />
+            <TextColorIcon size={iconSize} />
           </Tooltip>
         </IconActive>
       </IconWrapper>
-      <Spacer width={theme.spacers.size8} />
+      <Spacer width={theme.spacers.size4} />
       <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
         iconActiveRef={backgroundColorRef}
         handleMouseDown={(e) => {
           handleColorPickerBackground(e);
@@ -89,7 +81,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
           id="ChangeBackgroundColour"
           text="tooltips.studySet.toolbar.highlight"
         >
-          <ReColorIcon size={SIZES.SMALL} />
+          <ReColorIcon size={iconSize} />
         </Tooltip>
       </IconActive>
       {colorPickerFont ? (

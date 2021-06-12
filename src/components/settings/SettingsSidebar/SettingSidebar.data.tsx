@@ -3,17 +3,19 @@ import { AccountIcon, AppearanceIcon } from "../../../assets";
 import { ScrollerModalData } from "../../../shared";
 
 export enum SETTINGS_SIDEBAR_DATA {
-  ACCOUNT = "settings.sidebar.account",
-  APPEARANCE = "settings.sidebar.appearance",
+  ACCOUNT = "ACCOUNT",
+  APPEARANCE = "APPEARANCE",
 }
 
 export const SettingsSidebarData: ScrollerModalData = [
   {
-    label: SETTINGS_SIDEBAR_DATA.ACCOUNT,
+    value: SETTINGS_SIDEBAR_DATA.ACCOUNT,
+    label: "settings.sidebar.account",
     icon: <AccountIcon />,
   },
   {
-    label: SETTINGS_SIDEBAR_DATA.APPEARANCE,
+    value: SETTINGS_SIDEBAR_DATA.APPEARANCE,
+    label: "settings.sidebar.appearance",
     icon: <AppearanceIcon />,
   },
 ];

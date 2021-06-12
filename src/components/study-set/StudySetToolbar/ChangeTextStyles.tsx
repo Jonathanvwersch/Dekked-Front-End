@@ -1,30 +1,25 @@
-import React, { useContext, useRef, useState } from "react";
-import { Flex, IconActive, IconWrapper, Spacer, Tooltip } from "../../common";
-import {
-  BoldIcon,
-  DropDownArrowIcon,
-  ItalicsIcon,
-  RemoveFormattingIcon,
-  StrikethroughIcon,
-  SubscriptIcon,
-  SuperscriptIcon,
-  UnderlineIcon,
-} from "../../../assets";
-import { StudySetToolbarModal } from ".";
+import React, { useContext } from "react";
+import { ButtonDropdown, IconActive, Spacer, Tooltip } from "../../common";
+import { BoldIcon } from "../../../assets";
 
-import { CoordsType, SIZES, TEXT_STYLES } from "../../../shared";
-import { ROTATE } from "../../../assets/icons/Icon.types";
+import { BLOCK_TYPES, SIZES, TEXT_STYLES } from "../../../shared";
 import {
   doesBlockContainStyle,
+  focusEndOfBlock,
   getCurrentBlock,
   removeSpecificBlockStyle,
   toggleInlineStyle,
 } from "../../notetaking/Editor/Editor.helpers";
 import { ThemeContext } from "styled-components";
-import { positionModals } from "../../../helpers";
-import { FILL_TYPE } from "../../common/IconActive/IconActive";
-import { changeBlockTypeIcon } from "./StudySetToolbar.helpers";
-import { EditorState } from "draft-js";
+
+import {
+  changeBlockTypeIcons,
+  changeTextStylesData,
+} from "./StudySetToolbar.helpers";
+import { EditorState, RichUtils } from "draft-js";
+import { ConvertToBlockData } from "../../notetaking/TextModal/NotetakingBlocks.data";
+import { useResponsiveLayout } from "../../../hooks";
+import { LAYOUT_HORIZONTAL } from "../../../hooks/useResponsiveLayout";
 
 interface ChangeTextStyleProps {
   editorState: EditorState;
@@ -32,7 +27,6 @@ interface ChangeTextStyleProps {
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
   iconSize?: SIZES;
-  backgroundColor?: string;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -40,204 +34,104 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
-  backgroundColor,
 }) => {
-  const [blockOptionsModal, setBlockOptionsModal] = useState<boolean>(false);
-  const [coords, setCoords] = useState<CoordsType>();
-  const blockOptionsRef = useRef<HTMLButtonElement>(null);
   const theme = useContext(ThemeContext);
   const stylesToRemoveScripts = [
     TEXT_STYLES.SUBSCRIPT,
     TEXT_STYLES.SUPERSCRIPT,
   ];
 
-  const handleBlockOptionsModal = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setBlockOptionsModal(true);
-    setCoords(positionModals(e, 272, blockOptionsRef));
-  };
+  const layout = useResponsiveLayout();
 
   const currentBlockType = getCurrentBlock(editorState).getType() || "unstyled";
 
+  const changeBlockTypes = (type: BLOCK_TYPES) => {
+    // focus on end of block after switching styles
+    const newEditorState = focusEndOfBlock(editorState);
+
+    // only change block type if user chooses option other than current block type
+    if (getCurrentBlock(editorState).getType() !== type) {
+      setEditorState(RichUtils.toggleBlockType(newEditorState, type));
+    }
+  };
+
+  const changeTextStyles = (textStyle: TEXT_STYLES) => {
+    if (
+      textStyle === TEXT_STYLES.SUBSCRIPT ||
+      textStyle === TEXT_STYLES.SUPERSCRIPT
+    ) {
+      doesBlockContainStyle(editorState, TEXT_STYLES.SUBSCRIPT)
+        ? setEditorState(
+            removeSpecificBlockStyle([TEXT_STYLES.SUBSCRIPT], editorState)
+          )
+        : setEditorState(
+            toggleInlineStyle(
+              editorState,
+              TEXT_STYLES.SUBSCRIPT,
+              stylesToRemoveScripts
+            )
+          );
+    } else if (textStyle === TEXT_STYLES.REMOVE_FORMATTING) {
+      setEditorState(removeSpecificBlockStyle(undefined, editorState, true));
+    } else {
+      setEditorState(toggleInlineStyle(editorState, textStyle));
+    }
+  };
+
   return (
     <>
-      <IconWrapper>
-        <IconActive
-          backgroundColor={
-            backgroundColor || theme.colors.backgrounds.pageBackground
-          }
-          isDisabled={isDisabled}
-          iconActiveRef={blockOptionsRef}
-          handleMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-            handleBlockOptionsModal(e)
-          }
-        >
-          <Tooltip
-            id={changeBlockTypeIcon(currentBlockType).id}
-            text={changeBlockTypeIcon(currentBlockType).text}
-          >
-            <Flex>
-              {changeBlockTypeIcon(currentBlockType).icon}
-              <DropDownArrowIcon size={iconSize} rotate={ROTATE.NINETY} />
-            </Flex>
-          </Tooltip>
-        </IconActive>
-      </IconWrapper>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.BOLD));
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="BoldStyle" text="tooltips.studySet.toolbar.bold">
-          <BoldIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.ITALIC));
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="ItalicsStyle" text="tooltips.studySet.toolbar.italics">
-          <ItalicsIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditorState(toggleInlineStyle(editorState, TEXT_STYLES.UNDERLINE));
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="UnderlineStyle" text="tooltips.studySet.toolbar.underline">
-          <UnderlineIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditorState(
-            toggleInlineStyle(editorState, TEXT_STYLES.STRIKETHROUGH)
-          );
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip
-          id="StrikethroughStyle"
-          text="tooltips.studySet.toolbar.strikethrough"
-        >
-          <StrikethroughIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={() => {
-          doesBlockContainStyle(editorState, TEXT_STYLES.SUBSCRIPT)
-            ? setEditorState(
-                removeSpecificBlockStyle([TEXT_STYLES.SUBSCRIPT], editorState)
-              )
-            : setEditorState(
-                toggleInlineStyle(
-                  editorState,
-                  TEXT_STYLES.SUBSCRIPT,
-                  stylesToRemoveScripts
-                )
-              );
-        }}
-        fillType={FILL_TYPE.STROKE}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="SubscriptStyle" text="tooltips.studySet.toolbar.subscript">
-          <SubscriptIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={() => {
-          doesBlockContainStyle(editorState, TEXT_STYLES.SUPERSCRIPT)
-            ? setEditorState(
-                removeSpecificBlockStyle([TEXT_STYLES.SUPERSCRIPT], editorState)
-              )
-            : setEditorState(
-                toggleInlineStyle(
-                  editorState,
-                  TEXT_STYLES.SUPERSCRIPT,
-                  stylesToRemoveScripts
-                )
-              );
-        }}
-        fillType={FILL_TYPE.STROKE}
-        isDisabled={isDisabled}
-      >
-        <Tooltip
-          id="SuperscriptStyle"
-          text="tooltips.studySet.toolbar.superscript"
-        >
-          <SuperscriptIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditorState(
-            removeSpecificBlockStyle(undefined, editorState, true)
-          );
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip
-          id="RemoveFormatting"
-          text="tooltips.studySet.toolbar.removeStyles"
-        >
-          <RemoveFormattingIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      {blockOptionsModal ? (
-        <StudySetToolbarModal
-          editorState={editorState}
-          setEditorState={setEditorState}
-          coords={coords}
-          open={blockOptionsModal}
-          handleClose={() => setBlockOptionsModal(false)}
+      {layout === LAYOUT_HORIZONTAL ? (
+        <>
+          <ButtonDropdown
+            tooltip={{
+              id: changeBlockTypeIcons(currentBlockType).id,
+              text: changeBlockTypeIcons(currentBlockType).text,
+            }}
+            modal={{
+              height: theme.sizes.scrollerModal,
+              data: ConvertToBlockData,
+              clickFunctions: changeBlockTypes,
+            }}
+            icon={{
+              icon: changeBlockTypeIcons(currentBlockType).icon,
+              size: SIZES.MEDIUM,
+            }}
+          />
+          <Spacer width={theme.spacers.size4} />
+          {changeTextStylesData.map((textStyleData) => (
+            <>
+              <IconActive
+                handleMouseDown={(e: MouseEvent) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  changeTextStyles(textStyleData.value);
+                }}
+                isDisabled={isDisabled}
+              >
+                <Tooltip id={textStyleData.id || ""} text={textStyleData.label}>
+                  {textStyleData.icon}
+                </Tooltip>
+              </IconActive>
+              <Spacer width={theme.spacers.size4} />
+            </>
+          ))}
+        </>
+      ) : (
+        <ButtonDropdown
+          tooltip={{
+            id: "ChangeTextStyle",
+            text: "tooltips.studySet.toolbar.changeTextStyles",
+          }}
+          modal={{
+            height: theme.sizes.scrollerModal,
+            data: changeTextStylesData,
+            clickFunctions: changeTextStyles,
+          }}
+          icon={{
+            icon: <BoldIcon size={SIZES.MEDIUM} />,
+          }}
         />
-      ) : null}
+      )}
     </>
   );
 };

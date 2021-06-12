@@ -5,6 +5,7 @@ const lightThemeColors = {
   success: "#0CCA4A",
   iconColor: "#2C2C31",
   fontColor: "#2C2C31",
+  iconHover: "rgba(60, 45, 40, 0.1)",
   oppositeFontColor: "#FFFFFFE6",
   grey1: "#A9A9A9", // dark
   grey2: "#D3D3D3", // mid
@@ -58,6 +59,7 @@ const darkThemeColors = {
   success: "#0CCA4A",
   iconColor: "#F0F0F0",
   fontColor: "#F0F0F0",
+  iconHover: "#5C5C5C",
   oppositeFontColor: "#2C2C31",
   grey1: "#E0E0E0", // light
   grey2: "#9E9E9E", // mid
@@ -170,6 +172,8 @@ export type ThemeType = {
       large: string;
     };
 
+    scrollerModal: string;
+
     sidebar: string;
 
     input: {
@@ -274,8 +278,9 @@ export const theme = (darkTheme?: boolean): ThemeType => {
         medium: "380px",
         large: "500px",
       },
+      scrollerModal: "272px",
 
-      sidebar: "250px",
+      sidebar: "230px",
 
       input: {
         small: "32px",

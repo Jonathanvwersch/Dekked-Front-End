@@ -185,10 +185,6 @@ const StyledColorPicker = styled.div<{ defaultColor: string }>`
     background-color: transparent;
   }
 
-  & div:nth-child(2) {
-    background-color: ${({ defaultColor }) => defaultColor} !important;
-  }
-
   & div:nth-child(3) {
     & div:nth-child(2) {
       background-color: ${({ theme }) =>

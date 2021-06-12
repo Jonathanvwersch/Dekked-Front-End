@@ -35,7 +35,6 @@ const Overlay: React.FC<OverlayProps> = ({
   modalWidth,
   modalHeight,
   withOutsideClick,
-  closeButtonBackgroundColor,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +65,6 @@ const Overlay: React.FC<OverlayProps> = ({
             {close ? (
               <CloseIconContainer>
                 <IconActive
-                  backgroundColor={closeButtonBackgroundColor}
                   ariaLabel="ariaLabels.closeModal"
                   handleClick={handleClose}
                   tabIndex={1}

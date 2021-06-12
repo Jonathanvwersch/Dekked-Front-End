@@ -3,17 +3,19 @@ import { LogOutIcon, SettingsIcon } from "../../../assets";
 import { ScrollerModalData } from "../../../shared";
 
 export enum OPEN_SETTINGS_DATA {
-  SETTINGS = "sidebar.settingsModal.settings",
-  LOGOUT = "sidebar.settingsModal.logOut",
+  SETTINGS = "SETTINGS",
+  LOGOUT = "LOGOUT",
 }
 
 export const OpenSettingsModalData: ScrollerModalData = [
   {
-    label: OPEN_SETTINGS_DATA.SETTINGS,
+    label: "sidebar.settingsModal.settings",
+    value: OPEN_SETTINGS_DATA.SETTINGS,
     icon: <SettingsIcon />,
   },
   {
-    label: OPEN_SETTINGS_DATA.LOGOUT,
+    label: "sidebar.settingsModal.logOut",
+    value: OPEN_SETTINGS_DATA.LOGOUT,
     icon: <LogOutIcon />,
   },
 ];

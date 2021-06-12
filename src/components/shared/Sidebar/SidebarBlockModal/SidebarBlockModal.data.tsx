@@ -8,7 +8,7 @@ import {
 import { ScrollerModalData } from "../../../../shared";
 
 export enum SIDEBAR_BLOCK_MENU {
-  ADD_BINDER = "sidebar.blockModal.addBinder",
+  ADD_BINDER = "ADD_BINDER",
   ADD_STUDYSET = "sidebar.blockModal.addStudySet",
   RECOLOR = "sidebar.blockModal.iconColour",
   DELETE = "sidebar.blockModal.delete",
@@ -16,41 +16,49 @@ export enum SIDEBAR_BLOCK_MENU {
 
 export const FolderData: ScrollerModalData = [
   {
-    label: SIDEBAR_BLOCK_MENU.ADD_BINDER,
+    value: SIDEBAR_BLOCK_MENU.ADD_BINDER,
+    label: "sidebar.blockModal.addBinder",
     icon: <BinderIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.RECOLOR,
+    value: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: "sidebar.blockModal.iconColour",
     icon: <ReColorIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.DELETE,
+    value: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
+    label: "sidebar.blockModal.delete",
   },
 ];
 
 export const BinderData: ScrollerModalData = [
   {
-    label: SIDEBAR_BLOCK_MENU.ADD_STUDYSET,
+    value: SIDEBAR_BLOCK_MENU.ADD_STUDYSET,
     icon: <StudySetIcon />,
+    label: "sidebar.blockModal.addStudySet",
   },
   {
-    label: SIDEBAR_BLOCK_MENU.RECOLOR,
+    value: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: "sidebar.blockModal.iconColour",
     icon: <ReColorIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.DELETE,
+    value: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
+    label: "sidebar.blockModal.delete",
   },
 ];
 
 export const StudySetData: ScrollerModalData = [
   {
-    label: SIDEBAR_BLOCK_MENU.RECOLOR,
+    value: SIDEBAR_BLOCK_MENU.RECOLOR,
+    label: "sidebar.blockModal.iconColour",
     icon: <ReColorIcon />,
   },
   {
-    label: SIDEBAR_BLOCK_MENU.DELETE,
+    value: SIDEBAR_BLOCK_MENU.DELETE,
     icon: <DeleteIcon />,
+    label: "sidebar.blockModal.delete",
   },
 ];

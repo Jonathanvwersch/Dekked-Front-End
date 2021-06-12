@@ -31,7 +31,7 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
               backgroundColor={theme.colors.secondary}
               icon={block.icon}
               label={block.label}
-              handleClick={() => handleBlockClick(block.label)}
+              handleClick={() => handleBlockClick(block.value)}
               fontWeight={
                 activeSetting === block.label
                   ? theme.typography.fontWeights.bold

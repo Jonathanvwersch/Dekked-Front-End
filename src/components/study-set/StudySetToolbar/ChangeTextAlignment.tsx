@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { IconActive, Spacer, Tooltip } from "../../common";
+import { ButtonDropdown, IconActive, Spacer, Tooltip } from "../../common";
 import {
   CenterAlignIcon,
   LeftAlignIcon,
@@ -13,13 +13,15 @@ import {
   updateDataOfBlock,
 } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
+import { AlignmentTypes, changeAlignmentData } from "./StudySetToolbar.helpers";
+import { useResponsiveLayout } from "../../../hooks";
+import { LAYOUT_HORIZONTAL } from "../../../hooks/useResponsiveLayout";
 
 interface ChangeTextStyleProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
-  backgroundColor?: string;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -27,16 +29,15 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
-  backgroundColor,
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
   const data = block.getData();
+  const layout = useResponsiveLayout();
 
-  // We need to update the meta data of the block to save the checked state
-  const updateData = (alignment: "left" | "right" | "center") => {
+  // change alignment of block by updating meta state
+  const updateData = (alignment: AlignmentTypes) => {
     const newData = data.set("alignment", alignment);
-    //
     setEditorState(
       updateDataOfBlock(
         removeSpecificBlockStyle(undefined, editorState, true),
@@ -48,53 +49,69 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 
   return (
     <>
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          updateData("left");
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="LeftAlign" text="tooltips.studySet.toolbar.leftAlign">
-          <LeftAlignIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          updateData("center");
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="CenterAlign" text="tooltips.studySet.toolbar.centerAlign">
-          <CenterAlignIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
-      <Spacer width={theme.spacers.size8} />
-      <IconActive
-        backgroundColor={
-          backgroundColor || theme.colors.backgrounds.pageBackground
-        }
-        handleMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
-          e.stopPropagation();
-          updateData("right");
-        }}
-        isDisabled={isDisabled}
-      >
-        <Tooltip id="RightAlign" text="tooltips.studySet.toolbar.rightAlign">
-          <RightAlignIcon size={iconSize} />
-        </Tooltip>
-      </IconActive>
+      {layout === LAYOUT_HORIZONTAL ? (
+        <>
+          <IconActive
+            handleMouseDown={(e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              updateData(AlignmentTypes.LEFT_ALIGN);
+            }}
+            isDisabled={isDisabled}
+          >
+            <Tooltip id="LeftAlign" text="tooltips.studySet.toolbar.leftAlign">
+              <LeftAlignIcon size={iconSize} />
+            </Tooltip>
+          </IconActive>
+          <Spacer width={theme.spacers.size4} />
+          <IconActive
+            handleMouseDown={(e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              updateData(AlignmentTypes.CENTER_ALIGN);
+            }}
+            isDisabled={isDisabled}
+          >
+            <Tooltip
+              id="CenterAlign"
+              text="tooltips.studySet.toolbar.centerAlign"
+            >
+              <CenterAlignIcon size={iconSize} />
+            </Tooltip>
+          </IconActive>
+          <Spacer width={theme.spacers.size4} />
+          <IconActive
+            handleMouseDown={(e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              updateData(AlignmentTypes.RIGHT_ALIGN);
+            }}
+            isDisabled={isDisabled}
+          >
+            <Tooltip
+              id="RightAlign"
+              text="tooltips.studySet.toolbar.rightAlign"
+            >
+              <RightAlignIcon size={iconSize} />
+            </Tooltip>
+          </IconActive>
+        </>
+      ) : (
+        <ButtonDropdown
+          tooltip={{
+            id: "ChangeTextAlignment",
+            text: "tooltips.studySet.toolbar.changeTextAlignment",
+          }}
+          modal={{
+            height: theme.sizes.scrollerModal,
+            data: changeAlignmentData,
+            clickFunctions: updateData,
+          }}
+          icon={{
+            icon: <LeftAlignIcon size={SIZES.MEDIUM} />,
+          }}
+        />
+      )}
     </>
   );
 };

@@ -25,7 +25,7 @@ import {
   Tooltip,
 } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
-import { CoordsType, FILETREE_TYPES } from "../../../../shared";
+import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
 import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
 
 interface SidebarBlockProps {
@@ -113,10 +113,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
           to={pathName}
           isActive={() => {
             if (
-              pathname ===
-                `/${type}/${blockData.id}/${getStudySetTabLink(
-                  blockData?.id
-                )}` ||
+              pathname === `/${type}/${blockData.id}/${TAB_TYPE.FLASHCARDS}` ||
+              pathname === `/${type}/${blockData.id}/${TAB_TYPE.NOTES}` ||
               pathname === `/${type}/${blockData.id}`
             )
               return true;
@@ -125,60 +123,47 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
           style={navLinkStyle}
           activeStyle={navLinkActiveStyle}
         >
-          <HoverCard>
-            <StyledBlock>
-              <Card
-                padding={`${theme.spacers.size8} ${theme.spacers.size12} ${theme.spacers.size8} ${paddingLeft}`}
-              >
-                <Flex>
-                  {type === FILETREE_TYPES.FOLDER ||
-                  type === FILETREE_TYPES.BINDER ? (
-                    <IconActive
-                      handleClick={(e) => handleExpandBlock(e)}
-                      backgroundColor={theme.colors.secondary}
-                    >
-                      <DropDownArrowIcon
-                        rotate={
-                          handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO
-                        }
-                      />
-                    </IconActive>
-                  ) : null}
-                  <Spacer width={theme.spacers.size8} />
-                  <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
-                  <Spacer width={theme.spacers.size8} />
-                  <SidebarBlockName
-                    blockId={blockData.id}
-                    blockName={blockData.name}
+          <StyledBlock padding={`0 ${theme.spacers.size12} 0 ${paddingLeft}`}>
+            <Flex>
+              {type === FILETREE_TYPES.FOLDER ||
+              type === FILETREE_TYPES.BINDER ? (
+                <IconActive handleClick={(e) => handleExpandBlock(e)}>
+                  <DropDownArrowIcon
+                    rotate={handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO}
                   />
-                  <Spacer width={theme.spacers.size4} />
-                  <HiddenIconsContainer>
-                    <IconActive
-                      backgroundColor={theme.colors.secondary}
-                      iconActiveRef={menuRef}
-                      handleClick={(e) => handleBlockModal(e)}
-                    >
-                      <Tooltip id="Menu" text="tooltips.sidebar.menu">
-                        <DotsMenuIcon rotate={ROTATE.NINETY} />
-                      </Tooltip>
-                    </IconActive>
-                    {type !== FILETREE_TYPES.STUDY_SET ? (
-                      <IconActive
-                        backgroundColor={theme.colors.secondary}
-                        handleClick={(
-                          e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                        ) => handleAddItem(e)}
-                      >
-                        <Tooltip id="AddItem" text="tooltips.sidebar.addItem">
-                          <PlusIcon />
-                        </Tooltip>
-                      </IconActive>
-                    ) : null}
-                  </HiddenIconsContainer>
-                </Flex>
-              </Card>
-            </StyledBlock>
-          </HoverCard>
+                </IconActive>
+              ) : null}
+              <Spacer width={theme.spacers.size8} />
+              <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
+              <Spacer width={theme.spacers.size8} />
+              <SidebarBlockName
+                blockId={blockData.id}
+                blockName={blockData.name}
+              />
+              <Spacer width={theme.spacers.size4} />
+              <HiddenIconsContainer>
+                <IconActive
+                  iconActiveRef={menuRef}
+                  handleClick={(e) => handleBlockModal(e)}
+                >
+                  <Tooltip id="Menu" text="tooltips.sidebar.menu">
+                    <DotsMenuIcon rotate={ROTATE.NINETY} />
+                  </Tooltip>
+                </IconActive>
+                {type !== FILETREE_TYPES.STUDY_SET ? (
+                  <IconActive
+                    handleClick={(
+                      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                    ) => handleAddItem(e)}
+                  >
+                    <Tooltip id="AddItem" text="tooltips.sidebar.addItem">
+                      <PlusIcon />
+                    </Tooltip>
+                  </IconActive>
+                ) : null}
+              </HiddenIconsContainer>
+            </Flex>
+          </StyledBlock>
 
           <SidebarBlockModal
             isOpen={blockModal}
@@ -205,11 +190,15 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
 
 const HiddenIconsContainer = styled.div`
   visibility: hidden;
+  display: flex;
   opacity: 0;
   display: none;
 `;
 
-const StyledBlock = styled.div`
+const StyledBlock = styled(HoverCard)`
+  display: flex;
+  align-items: center;
+  min-height: ${({ theme }) => theme.spacers.size32};
   &:hover {
     ${HiddenIconsContainer} {
       opacity: 1;

@@ -1,5 +1,4 @@
 // Wrapper component for making an icon into a button with a hover and active state
-import { isEqual } from "lodash";
 import React, { memo, ReactNode } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
@@ -25,6 +24,7 @@ interface IconActiveProps {
   isDisabled?: boolean;
   tabIndex?: number;
   dangerHover?: boolean;
+  id?: string;
 }
 
 const IconActive: React.FC<IconActiveProps> = ({
@@ -40,6 +40,7 @@ const IconActive: React.FC<IconActiveProps> = ({
   isDisabled = false,
   tabIndex,
   dangerHover,
+  id,
 }) => {
   const intl = useIntl();
 
@@ -62,6 +63,7 @@ const IconActive: React.FC<IconActiveProps> = ({
       aria-label={ariaLabel && formatMessage(ariaLabel, intl)}
       disabled={isDisabled}
       dangerHover={dangerHover}
+      id={id}
     >
       {children}
     </StyledIconActive>
@@ -73,14 +75,39 @@ const StyledIconActive = styled.button<IconActiveProps>`
   justify-content: center;
   align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 2px;
   border: none;
   position: relative;
   cursor: ${({ cursor }) => cursor || "pointer"};
   outline: none;
-  background-color: ${({ backgroundColor, theme }) =>
-    backgroundColor || theme.colors.backgrounds.pageBackground};
+  background-color: ${({ backgroundColor }) => backgroundColor || "inherit"};
   border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
+
+  &:focus,
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.iconHover};
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    & svg {
+      & path {
+        fill: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
+            ? theme.colors.disabled
+            : "auto"};
+        stroke: ${({ theme, fillType }) =>
+          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
+            ? theme.colors.disabled
+            : "auto"};
+      }
+    }
+    background-color: ${({ backgroundColor }) => backgroundColor || "inherit"};
+  }
 
   &.active {
     & svg {
@@ -96,35 +123,6 @@ const StyledIconActive = styled.button<IconActiveProps>`
       }
     }
   }
-
-  &:focus,
-  &:hover {
-    filter: ${({ theme }) => theme.colors.hover.filter};
-  }
-
-  &:active {
-    background-color: transparent;
-  }
-
-  &:disabled {
-    & svg {
-      & path {
-        fill: ${({ theme, fillType }) =>
-          fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
-            ? theme.colors.disabled
-            : "auto"};
-        stroke: ${({ theme, fillType }) =>
-          fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
-            ? theme.colors.disabled
-            : "auto"};
-      }
-    }
-    &:hover {
-      filter: none;
-    }
-  }
 `;
 
-export default memo(IconActive, (oldProps, newProps) => {
-  return isEqual(oldProps, newProps);
-});
+export default memo(IconActive);

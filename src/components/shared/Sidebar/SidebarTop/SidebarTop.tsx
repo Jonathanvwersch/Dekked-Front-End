@@ -81,7 +81,6 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
             </Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
-              backgroundColor={theme.colors.secondary}
               iconActiveRef={settingsRef}
               handleClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
                 handleOpenModal(e)
@@ -94,11 +93,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
         </Card>
 
         <DoubleChevronIconContainer>
-          <IconActive
-            handleClick={handleSidebar}
-            ariaLabel={ariaText}
-            backgroundColor={theme.colors.secondary}
-          >
+          <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
             <Tooltip id="CloseSidebar" text={ariaText}>
               <DoubleChevronIcon
                 rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}

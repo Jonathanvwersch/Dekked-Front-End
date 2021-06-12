@@ -15,7 +15,7 @@ import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
 interface ScrollerModalProps {
   open: boolean;
   handleClose: () => void;
-  clickFunctions: any;
+  clickFunctions: (args?: any) => void;
   data: ScrollerModalData;
   coords?: CoordsType;
   cardRef?: MutableRefObject<HTMLDivElement>;
@@ -77,7 +77,8 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
                 label={item?.label}
                 turnOffHover={item?.turnOffHover}
                 handleClick={() => {
-                  clickFunctions(item?.style ? item.style : item.label);
+                  handleClose();
+                  clickFunctions(item?.value);
                 }}
               />
               {item?.divider ? <Divider /> : null}
