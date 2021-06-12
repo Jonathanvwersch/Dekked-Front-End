@@ -39,14 +39,19 @@ const Sidebar: React.FC<SidebarProps> = () => {
         onMouseEnter={mouseEnter}
       >
         {!loading ? (
-          <>
-            <SidebarTop isSidebarOpen={sidebar} handleSidebar={handleSidebar} />
-            <SidebarWorkspace
-              numOfFolders={Object.keys(folders).length}
-              bottomFolderRef={bottomFolderRef}
-            />
-            <SidebarBase scrollToBottom={scrollToBottom} />
-          </>
+          sidebar || hoverbar ? (
+            <>
+              <SidebarTop
+                isSidebarOpen={sidebar}
+                handleSidebar={handleSidebar}
+              />
+              <SidebarWorkspace
+                numOfFolders={Object.keys(folders).length}
+                bottomFolderRef={bottomFolderRef}
+              />
+              <SidebarBase scrollToBottom={scrollToBottom} />
+            </>
+          ) : null
         ) : (
           <ComponentLoadingSpinner />
         )}

@@ -4,8 +4,11 @@ import { FILETREE_TYPES } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getChildType, handleUntitled } from "../../../helpers";
-import { SidebarContext } from "../../../contexts";
+import {
+  getChildType,
+  getStudySetTabLink,
+  handleUntitled,
+} from "../../../helpers";
 import { BinderIcon, StudySetIcon } from "../../../assets";
 import { ThemeContext } from "styled-components";
 
@@ -16,7 +19,6 @@ interface FolderBinderCardProps {
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const intl = useIntl();
-  const { studySetTabLink } = useContext(SidebarContext);
   const theme = useContext(ThemeContext);
 
   return (
@@ -26,7 +28,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
           to={
             getChildType(type) === FILETREE_TYPES.BINDER
               ? `/${FILETREE_TYPES.BINDER}/${data?.id}`
-              : `/${FILETREE_TYPES.STUDY_SET}/${data?.id}/${studySetTabLink(
+              : `/${FILETREE_TYPES.STUDY_SET}/${data?.id}/${getStudySetTabLink(
                   data?.id
                 )}`
           }

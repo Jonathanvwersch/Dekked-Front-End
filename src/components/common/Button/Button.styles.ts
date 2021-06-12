@@ -45,7 +45,7 @@ export const StyledButton = styled.button<ButtonProps>`
   }
 
   &:active {
-    transform: scale(0.96);
+    transform: scale(0.9);
   }
 
   &:disabled {

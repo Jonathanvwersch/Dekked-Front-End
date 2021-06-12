@@ -7,7 +7,7 @@ import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { SidebarContext } from "../../../contexts";
+import { getStudySetTabLink } from "../../../helpers";
 
 const Breadcrumbs: React.FC = () => {
   const { folderData, binderData, studySetData, type, loading } =
@@ -15,7 +15,6 @@ const Breadcrumbs: React.FC = () => {
   const { studyModes } = useParams<Params>();
   const { url } = useRouteMatch();
   const intl = useIntl();
-  const { studySetTabLink } = useContext(SidebarContext);
 
   return !loading ? (
     <Flex>
@@ -39,7 +38,7 @@ const Breadcrumbs: React.FC = () => {
           breadCrumbType={FILETREE_TYPES.STUDY_SET}
           link={`/${FILETREE_TYPES.STUDY_SET}/${
             studySetData.id
-          }/${studySetTabLink(studySetData.id)}`}
+          }/${getStudySetTabLink(studySetData?.id)}`}
         />
       ) : null}
       {studyModes ? (

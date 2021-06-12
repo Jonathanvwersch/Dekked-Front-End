@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
 import SidebarBlock from "../SidebarBlock/SidebarBlock";
-import { FileTreeContext, SidebarContext } from "../../../../contexts";
+import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
 import { isEqual } from "lodash";
 
 interface SidebarFileTreeProps {
@@ -10,7 +10,7 @@ interface SidebarFileTreeProps {
 
 const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const { getAsset } = useContext(FileTreeContext);
-  const { isBlockOpen } = useContext(SidebarContext);
+  const { isBlockOpen } = useContext(SidebarBlocksContext);
   const fileId = Object.keys(file)[0];
   const folderData = getAsset(file[fileId].type, fileId) as FolderInterface;
 

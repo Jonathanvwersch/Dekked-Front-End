@@ -2,7 +2,6 @@ import {
   ContentBlock,
   convertFromRaw,
   convertToRaw,
-  Editor,
   EditorState,
   genKey,
   Modifier,

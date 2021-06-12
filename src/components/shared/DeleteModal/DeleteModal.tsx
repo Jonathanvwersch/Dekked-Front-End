@@ -21,11 +21,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
 
   const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
 
-  const handleButtonClick = async () => {
-    await handleClose();
-    handleMainButton();
-  };
-
   return (
     <GeneralModal
       isOpen={isOpen}
@@ -36,7 +31,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           padding="0px"
           secondaryButton={{ onClick: handleClose }}
           primaryButton={{
-            onClick: handleButtonClick,
+            onClick: handleMainButton,
             style: BUTTON_THEME.DANGER,
             text: "sharedModals.deleteModal.delete",
           }}

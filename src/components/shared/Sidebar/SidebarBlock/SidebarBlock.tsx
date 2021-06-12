@@ -12,6 +12,7 @@ import {
   getChildType,
   positionModals,
   handleIconType,
+  getStudySetTabLink,
 } from "../../../../helpers";
 import {
   Card,
@@ -25,7 +26,7 @@ import {
 } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES } from "../../../../shared";
-import { FileTreeContext, SidebarContext } from "../../../../contexts";
+import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
@@ -37,15 +38,13 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const { pathname } = useLocation();
   const theme: ThemeType = useContext(ThemeContext);
   const [coords, setCoords] = useState<CoordsType>();
-  const editableTextRef = useRef<HTMLDivElement>(null);
-  const [isEditable, setIsEditable] = useState<boolean>(false);
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
   const { updateAsset } = useContext(FileTreeContext);
-  const { isBlockOpen, handleOpenBlock, studySetTabLink, handleAddBlock } =
-    useContext(SidebarContext);
+  const { isBlockOpen, handleOpenBlock, handleAddBlock } =
+    useContext(SidebarBlocksContext);
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16
@@ -98,7 +97,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     pathname:
       type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
         ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${studySetTabLink(blockData.id)}`,
+        : `/${type}/${blockData.id}/${getStudySetTabLink(blockData.id)}`,
   };
 
   const navLinkStyle = { width: "100%" };
@@ -115,7 +114,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
           isActive={() => {
             if (
               pathname ===
-                `/${type}/${blockData.id}/${studySetTabLink(blockData.id)}` ||
+                `/${type}/${blockData.id}/${getStudySetTabLink(
+                  blockData?.id
+                )}` ||
               pathname === `/${type}/${blockData.id}`
             )
               return true;
@@ -147,11 +148,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                   <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
                   <Spacer width={theme.spacers.size8} />
                   <SidebarBlockName
-                    isEditable={isEditable}
-                    setIsEditable={setIsEditable}
-                    editableTextRef={editableTextRef}
                     blockId={blockData.id}
-                    blockType={type}
                     blockName={blockData.name}
                   />
                   <Spacer width={theme.spacers.size4} />
@@ -182,30 +179,24 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
               </Card>
             </StyledBlock>
           </HoverCard>
-          {blockModal ? (
-            <SidebarBlockModal
-              isOpen={blockModal}
-              handleClose={() => setBlockModal(false)}
-              coords={coords}
-              handleBlockModal={() => setBlockModal(false)}
-              handleColorPicker={() => setColorPicker(true)}
-              type={type}
-              id={blockData.id}
-              handleEditableText={() => setIsEditable(true)}
-              editableTextRef={editableTextRef}
-              iconColor={iconColor}
-            />
-          ) : null}
-          {colorPicker ? (
-            <ColorPicker
-              isOpen={colorPicker}
-              handleClose={() => setColorPicker(false)}
-              coords={coords}
-              colorPickerRef={colorPickerRef}
-              iconColor={iconColor}
-              setIconColor={setIconColor}
-            />
-          ) : null}
+
+          <SidebarBlockModal
+            isOpen={blockModal}
+            handleClose={() => setBlockModal(false)}
+            coords={coords}
+            handleColorPicker={() => setColorPicker(true)}
+            type={type}
+            id={blockData.id}
+          />
+
+          <ColorPicker
+            isOpen={colorPicker}
+            handleClose={() => setColorPicker(false)}
+            coords={coords}
+            colorPickerRef={colorPickerRef}
+            iconColor={iconColor}
+            setIconColor={setIconColor}
+          />
         </NavLink>
       ) : null}
     </>

@@ -12,6 +12,8 @@ import { LinkedFlashcardContextProvider } from "../../contexts/LinkedFlashcardCo
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
 import { LayeredModalContextProvider } from "../../contexts/LayeredModalContext";
 import PrivateRoute from "../../Router/PrivateRoute";
+import { SidebarBlocksContextProvider } from "../../contexts/SidebarBlocksContext";
+import { StudySetTabProvider } from "../../contexts/StudySetTabContext";
 
 const OptionsPage: React.FC = () => {
   const { type, id } = useParams<Params>();
@@ -48,32 +50,36 @@ const OptionsPage: React.FC = () => {
     <SelectedItemContextProvider>
       <FlashcardsContextProvider>
         <LinkedFlashcardContextProvider>
-          <SidebarContextProvider>
-            <LayeredModalContextProvider>
-              <Sidebar />
-              <CustomSwitch>
-                <PrivateRoute
-                  exact
-                  path={`/${FILETREE_TYPES.FOLDER}/:id`}
-                  component={FolderPage}
-                />
-                <PrivateRoute
-                  path={`/${FILETREE_TYPES.BINDER}/:id`}
-                  component={BinderPage}
-                />
-                <PrivateRoute
-                  exact
-                  path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-                  component={StudySetPage}
-                />
-                <PrivateRoute
-                  exact
-                  path={`/:type/:id/study/:studyModes/:flashcardIndex`}
-                  component={StudyModePage}
-                />
-              </CustomSwitch>
-            </LayeredModalContextProvider>
-          </SidebarContextProvider>
+          <SidebarBlocksContextProvider>
+            <StudySetTabProvider>
+              <SidebarContextProvider>
+                <LayeredModalContextProvider>
+                  <Sidebar />
+                  <CustomSwitch>
+                    <PrivateRoute
+                      exact
+                      path={`/${FILETREE_TYPES.FOLDER}/:id`}
+                      component={FolderPage}
+                    />
+                    <PrivateRoute
+                      path={`/${FILETREE_TYPES.BINDER}/:id`}
+                      component={BinderPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+                      component={StudySetPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path={`/:type/:id/study/:studyModes/:flashcardIndex`}
+                      component={StudyModePage}
+                    />
+                  </CustomSwitch>
+                </LayeredModalContextProvider>
+              </SidebarContextProvider>
+            </StudySetTabProvider>
+          </SidebarBlocksContextProvider>
         </LinkedFlashcardContextProvider>
       </FlashcardsContextProvider>
     </SelectedItemContextProvider>

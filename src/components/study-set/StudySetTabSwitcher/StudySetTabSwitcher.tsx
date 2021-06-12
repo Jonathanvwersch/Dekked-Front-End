@@ -1,19 +1,34 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink, useHistory, useParams } from "react-router-dom";
 import { Flex, Spacer } from "../../common";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
-import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
-import { SidebarContext } from "../../../contexts";
+import {
+  useMultiKeyPress,
+  usePageSetupHelpers,
+  useStorageState,
+} from "../../../hooks";
 import styled from "styled-components";
+import { StudySetTabKey } from "../../../helpers/getStudySetTabLink";
 
 const StudySetTabSwitcher: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id, tab } = useParams<Params>();
-  const { handleStudySetTab } = useContext(SidebarContext);
+  // store state of study set tabs (either flashcard or notes)
+  const { value: studySetTab, setValue: setStudySetTab } = useStorageState<{
+    [id: string]: TAB_TYPE;
+  }>({}, StudySetTabKey);
   const history = useHistory();
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
     borderBottom: `2px solid ${theme.colors.primary}`,
+  };
+
+  // helper function to set state of study set tabs per block
+  const handleStudySetTab = (id: string, tab: TAB_TYPE) => {
+    if (tab === studySetTab[id]) return;
+    let studySetTabsCopy = { ...studySetTab };
+    studySetTabsCopy[id] = tab;
+    setStudySetTab(studySetTabsCopy);
   };
 
   // switch tabs on multi key press

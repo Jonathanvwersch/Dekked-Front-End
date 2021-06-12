@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { SidebarContext } from "../../../../contexts";
+import { SidebarBlocksContext } from "../../../../contexts";
 import {
   BinderData,
   FolderData,
@@ -16,52 +16,47 @@ interface SidebarBlockModalProps {
   handleClose: () => void;
   type: string;
   id: string;
-  iconColor: string;
-  handleBlockModal: () => void;
   handleColorPicker: () => void;
-  handleEditableText: () => void;
-  editableTextRef: React.RefObject<HTMLDivElement>;
   coords: CoordsType | undefined;
 }
 
-const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
-  const { handleAddBlock, handleDeleteBlock } = useContext(SidebarContext);
+const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
+  isOpen,
+  handleClose,
+  handleColorPicker,
+  coords,
+  id,
+  type,
+}) => {
+  const { handleAddBlock, handleDeleteBlock } =
+    useContext(SidebarBlocksContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const modalData =
-    props.type === FILETREE_TYPES.FOLDER
+    type === FILETREE_TYPES.FOLDER
       ? FolderData
-      : props.type === FILETREE_TYPES.BINDER
+      : type === FILETREE_TYPES.BINDER
       ? BinderData
       : StudySetData;
 
-  const handleAddItem = () => {
-    props.handleBlockModal();
-    handleAddBlock(props.id, getChildType(props.type as FILETREE_TYPES));
-  };
-
-  const handleRecolor = () => {
-    props.handleBlockModal();
-    props.handleColorPicker();
-  };
-
-  const handleDelete = () => {
-    props.handleBlockModal();
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleClick = (type: string) => {
-    if (type === SIDEBAR_BLOCK_MENU.DELETE) handleDelete();
-    else if (
-      type === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
-      type === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
-    )
-      handleAddItem();
-    else if (type === SIDEBAR_BLOCK_MENU.RECOLOR) handleRecolor();
+  const handleClick = (blockAction: string) => {
+    if (blockAction === SIDEBAR_BLOCK_MENU.DELETE) {
+      setIsDeleteModalOpen(true);
+      handleClose();
+    } else if (
+      blockAction === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
+      blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
+    ) {
+      handleClose();
+      handleAddBlock(id, getChildType(type as FILETREE_TYPES));
+    } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
+      handleClose();
+      handleColorPicker();
+    }
   };
 
   const deleteModalBodyText = () => {
-    switch (props.type) {
+    switch (type) {
       case FILETREE_TYPES.FOLDER:
         return "sidebar.deleteModal.deleteFolder";
       case FILETREE_TYPES.BINDER:
@@ -73,11 +68,11 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
 
   return (
     <>
-      {props.isOpen ? (
+      {isOpen ? (
         <ScrollerModal
-          open={props.isOpen}
-          handleClose={props.handleClose}
-          coords={props.coords}
+          open={isOpen}
+          handleClose={handleClose}
+          coords={coords}
           data={modalData}
           clickFunctions={handleClick}
         />
@@ -86,7 +81,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({ ...props }) => {
         <DeleteModal
           handleClose={() => setIsDeleteModalOpen(false)}
           isOpen={isDeleteModalOpen}
-          handleMainButton={() => handleDeleteBlock(props.id, props.type)}
+          handleMainButton={() => handleDeleteBlock(id, type)}
           bodyText={deleteModalBodyText()}
         />
       ) : null}

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../assets";
-import { FileTreeContext, SidebarContext } from "../../../contexts";
+import { FileTreeContext, SidebarBlocksContext } from "../../../contexts";
 import { FILETREE_TYPES, SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 import { IconActive } from "../../common";
@@ -17,7 +17,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
 }) => {
   const { addAsset } = useContext(FileTreeContext);
   const theme: ThemeType = useContext(ThemeContext);
-  const { handleOpenBlock } = useContext(SidebarContext);
+  const { handleOpenBlock } = useContext(SidebarBlocksContext);
 
   const handleAddItem = () => {
     handleOpenBlock(id, true);

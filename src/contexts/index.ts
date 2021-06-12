@@ -7,3 +7,5 @@ export { FlashcardsContext } from "./FlashcardsContext";
 export { LayeredModalContext } from "./LayeredModalContext";
 export { UserContext } from "./UserContext";
 export { DarkThemeContext } from "./DarkThemeContext";
+export { StudySetTabContext } from "./StudySetTabContext";
+export { SidebarBlocksContext } from "./SidebarBlocksContext";

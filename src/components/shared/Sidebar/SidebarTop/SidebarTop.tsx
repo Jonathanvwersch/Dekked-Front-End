@@ -12,6 +12,7 @@ import {
 import {
   DoubleChevronIcon,
   DropDownArrowIcon,
+  LogoIcon,
   ROTATE,
 } from "../../../../assets";
 import { ThemeType } from "../../../../styles/theme";
@@ -64,7 +65,13 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
       <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            <Avatar>{firstLetterOfFirstName}</Avatar>
+            <Avatar>
+              {firstLetterOfFirstName ? (
+                firstLetterOfFirstName
+              ) : (
+                <LogoIcon color="white" />
+              )}
+            </Avatar>
             <Spacer width={theme.spacers.size8} />
             <Text
               fontSize={theme.typography.fontSizes.size14}

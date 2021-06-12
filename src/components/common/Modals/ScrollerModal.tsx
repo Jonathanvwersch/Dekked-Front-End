@@ -1,5 +1,4 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
-import { isEqual } from "lodash";
 import React, {
   Fragment,
   MutableRefObject,
