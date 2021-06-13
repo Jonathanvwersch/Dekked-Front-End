@@ -107,25 +107,25 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
 const leftPosition = (blockType: string, editorType: EditorType) => {
   if (editorType === "flashcard") {
     if (blockType === BLOCK_TYPES.QUOTE) {
-      return "-38px";
+      return "-42px";
     } else if (
       blockType === BLOCK_TYPES.NUMBERED_LIST ||
       blockType === BLOCK_TYPES.BULLETED_LIST
     ) {
-      return "-41px";
+      return "-45px";
     } else {
-      return "-20px";
+      return "-24px";
     }
   }
   if (blockType === BLOCK_TYPES.QUOTE) {
-    return "-62px";
+    return "-66px";
   } else if (
     blockType === BLOCK_TYPES.NUMBERED_LIST ||
     blockType === BLOCK_TYPES.BULLETED_LIST
   ) {
-    return "-68px";
+    return "-72px";
   } else {
-    return "-44px";
+    return "-48px";
   }
 };
 
