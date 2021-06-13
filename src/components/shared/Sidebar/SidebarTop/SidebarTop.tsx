@@ -67,7 +67,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
           <Flex>
             <Avatar>
               {firstLetterOfFirstName ? (
-                firstLetterOfFirstName
+                firstLetterOfFirstName.toUpperCase()
               ) : (
                 <LogoIcon color="white" />
               )}
@@ -88,7 +88,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
             >
               <DropDownArrowIcon rotate={ROTATE.NINETY} />
             </IconActive>
-            <Spacer width={theme.spacers.size32} />
+            <Spacer width={theme.spacers.size24} />
           </Flex>
         </Card>
 

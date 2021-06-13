@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount, SettingsAppearance } from "..";
 import { UserContext } from "../../../contexts";
@@ -19,11 +19,16 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const { user } = useContext(UserContext);
+  const queryClient = useQueryClient();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const { mutate: updateUserData } = useMutation(user.id, updateUser);
+  const { mutate: updateUserData } = useMutation(user.id, updateUser, {
+    onSuccess: (data) => {
+      queryClient.setQueryData([user.id], data.json);
+    },
+  });
 
   const handleAccountSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

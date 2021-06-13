@@ -115,7 +115,7 @@ const StyledHoverCard = styled.div<HoverCardProps & { active?: boolean }>`
   }
   &.active {
     filter: ${({ theme, turnOffHover }) =>
-      !turnOffHover && theme.colors.hover.filter};
+      !turnOffHover && theme.colors.active.filter};
   }
   filter: ${({ theme, turnOffHover, active }) =>
     !turnOffHover && active && theme.colors.hover.filter};

@@ -24,23 +24,21 @@ const MainSettingsModal: React.FC<MainSettingsModalProps> = ({
       <SidebarScroller
         heading={formatMessage("sidebar.settingsModal.settings")}
       >
-        {SettingsSidebarData.map((block) => {
-          return (
-            <Block
-              key={block.label}
-              backgroundColor={theme.colors.secondary}
-              icon={block.icon}
-              label={block.label}
-              handleClick={() => handleBlockClick(block.value)}
-              fontWeight={
-                activeSetting === block.label
-                  ? theme.typography.fontWeights.bold
-                  : theme.typography.fontWeights.normal
-              }
-              className={activeSetting === block.label ? "active" : undefined}
-            />
-          );
-        })}
+        {SettingsSidebarData.map((block) => (
+          <Block
+            key={block.value}
+            backgroundColor={theme.colors.secondary}
+            icon={block.icon}
+            label={block.label}
+            handleClick={() => handleBlockClick(block.value)}
+            fontWeight={
+              activeSetting === block.value
+                ? theme.typography.fontWeights.bold
+                : theme.typography.fontWeights.normal
+            }
+            className={activeSetting === block.value ? "active" : undefined}
+          />
+        ))}
       </SidebarScroller>
     </StyledSidebar>
   );
