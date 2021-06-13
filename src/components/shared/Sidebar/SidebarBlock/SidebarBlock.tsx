@@ -113,9 +113,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   };
 
   const isActive =
-    pathname === `/${type}/${blockData.id}/${TAB_TYPE.FLASHCARDS}` ||
-    pathname === `/${type}/${blockData.id}/${TAB_TYPE.NOTES}` ||
-    pathname === `/${type}/${blockData.id}`;
+    pathname === `/${type}/${blockData?.id}/${TAB_TYPE.FLASHCARDS}` ||
+    pathname === `/${type}/${blockData?.id}/${TAB_TYPE.NOTES}` ||
+    pathname === `/${type}/${blockData?.id}`;
 
   let isParentOfActiveBlock = false;
 
