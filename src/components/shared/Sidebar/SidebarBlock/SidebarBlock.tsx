@@ -112,11 +112,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     borderRight: `solid 2px ${theme.colors.primary}`,
   };
 
-  const isActive =
-    pathname === `/${type}/${blockData?.id}/${TAB_TYPE.FLASHCARDS}` ||
-    pathname === `/${type}/${blockData?.id}/${TAB_TYPE.NOTES}` ||
-    pathname === `/${type}/${blockData?.id}`;
-
   let isParentOfActiveBlock = false;
 
   if (
@@ -139,7 +134,12 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
         <NavLink
           to={pathName}
           isActive={() => {
-            if (isActive) return true;
+            if (
+              pathname === `/${type}/${blockData?.id}/${TAB_TYPE.FLASHCARDS}` ||
+              pathname === `/${type}/${blockData?.id}/${TAB_TYPE.NOTES}` ||
+              pathname === `/${type}/${blockData?.id}`
+            )
+              return true;
             return false;
           }}
           style={navLinkStyle}
