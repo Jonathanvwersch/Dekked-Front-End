@@ -35,9 +35,10 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
         >
           <ThumbnailCard
             topText={handleUntitled(data?.name, intl)}
-            bottomText={`${formatMessage("folderBinders.created", intl)} ${
-              data?.date_created
-            }`}
+            bottomText={`${formatMessage(
+              "folderBinders.created",
+              intl
+            )} June 13th, 2021`}
             thumbnailBackgroundColor={theme.colors.secondary}
             descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
             backgroundIcon={
