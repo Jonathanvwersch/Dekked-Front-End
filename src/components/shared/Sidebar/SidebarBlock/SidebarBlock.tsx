@@ -5,7 +5,7 @@ import {
   PlusIcon,
   ROTATE,
 } from "../../../../assets";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
 import styled, { ThemeContext } from "styled-components";
 import {
@@ -15,7 +15,6 @@ import {
   getStudySetTabLink,
 } from "../../../../helpers";
 import {
-  Card,
   ColorPicker,
   Flex,
   HoverCard,
@@ -25,7 +24,12 @@ import {
   Tooltip,
 } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
-import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
+import {
+  CoordsType,
+  FILETREE_TYPES,
+  Params,
+  TAB_TYPE,
+} from "../../../../shared";
 import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
 
 interface SidebarBlockProps {
@@ -36,13 +40,14 @@ interface SidebarBlockProps {
 const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const { pathname } = useLocation();
+  const { id, type: slugType } = useParams<Params>();
   const theme: ThemeType = useContext(ThemeContext);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
-  const { updateAsset } = useContext(FileTreeContext);
+  const { updateAsset, binders, studyPacks } = useContext(FileTreeContext);
   const { isBlockOpen, handleOpenBlock, handleAddBlock } =
     useContext(SidebarBlocksContext);
   const paddingLeft =
@@ -104,7 +109,29 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const navLinkActiveStyle = {
     filter: `${theme.colors.active.filter}`,
     fontWeight: theme.typography.fontWeights.bold as "bold",
+    borderRight: `solid 2px ${theme.colors.primary}`,
   };
+
+  const isActive =
+    pathname === `/${type}/${blockData.id}/${TAB_TYPE.FLASHCARDS}` ||
+    pathname === `/${type}/${blockData.id}/${TAB_TYPE.NOTES}` ||
+    pathname === `/${type}/${blockData.id}`;
+
+  let isParentOfActiveBlock = false;
+
+  if (
+    (slugType === FILETREE_TYPES.STUDY_SET &&
+      studyPacks?.[id]?.binder_id === blockData?.id) ||
+    binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id
+  ) {
+    isParentOfActiveBlock = true;
+  } else if (
+    slugType === FILETREE_TYPES.BINDER &&
+    (studyPacks?.[blockData?.id]?.binder_id === id ||
+      binders?.[id]?.folder_id === blockData?.id)
+  ) {
+    isParentOfActiveBlock = true;
+  }
 
   return (
     <>
@@ -112,18 +139,16 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
         <NavLink
           to={pathName}
           isActive={() => {
-            if (
-              pathname === `/${type}/${blockData.id}/${TAB_TYPE.FLASHCARDS}` ||
-              pathname === `/${type}/${blockData.id}/${TAB_TYPE.NOTES}` ||
-              pathname === `/${type}/${blockData.id}`
-            )
-              return true;
+            if (isActive) return true;
             return false;
           }}
           style={navLinkStyle}
           activeStyle={navLinkActiveStyle}
         >
-          <StyledBlock padding={`0 ${theme.spacers.size12} 0 ${paddingLeft}`}>
+          <StyledBlock
+            padding={`0 ${theme.spacers.size12} 0 ${paddingLeft}`}
+            isParentOfActiveBlock={isParentOfActiveBlock}
+          >
             <Flex>
               {type === FILETREE_TYPES.FOLDER ||
               type === FILETREE_TYPES.BINDER ? (
@@ -195,10 +220,12 @@ const HiddenIconsContainer = styled.div`
   display: none;
 `;
 
-const StyledBlock = styled(HoverCard)`
+const StyledBlock = styled(HoverCard)<{ isParentOfActiveBlock?: boolean }>`
   display: flex;
   align-items: center;
   min-height: ${({ theme }) => theme.spacers.size32};
+  border-right: ${({ theme, isParentOfActiveBlock }) =>
+    isParentOfActiveBlock && `solid 2px ${theme.colors.primary}`};
   &:hover {
     ${HiddenIconsContainer} {
       opacity: 1;
