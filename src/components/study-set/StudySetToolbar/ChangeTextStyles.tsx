@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ButtonDropdown, IconActive, Spacer, Tooltip } from "../../common";
+import { IconDropdown, IconActive, Spacer, Tooltip } from "../../common";
 import { BoldIcon } from "../../../assets";
 
 import { BLOCK_TYPES, SIZES, TEXT_STYLES } from "../../../shared";
@@ -60,14 +60,16 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
       textStyle === TEXT_STYLES.SUBSCRIPT ||
       textStyle === TEXT_STYLES.SUPERSCRIPT
     ) {
-      doesBlockContainStyle(editorState, TEXT_STYLES.SUBSCRIPT)
-        ? setEditorState(
-            removeSpecificBlockStyle([TEXT_STYLES.SUBSCRIPT], editorState)
-          )
+      const oppositeStyle =
+        textStyle === TEXT_STYLES.SUBSCRIPT
+          ? TEXT_STYLES.SUPERSCRIPT
+          : TEXT_STYLES.SUBSCRIPT;
+      doesBlockContainStyle(editorState, textStyle)
+        ? setEditorState(removeSpecificBlockStyle([textStyle], editorState))
         : setEditorState(
             toggleInlineStyle(
-              editorState,
-              TEXT_STYLES.SUBSCRIPT,
+              removeSpecificBlockStyle([oppositeStyle], editorState),
+              textStyle,
               stylesToRemoveScripts
             )
           );
@@ -82,7 +84,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     <>
       {layout === LAYOUT_HORIZONTAL ? (
         <>
-          <ButtonDropdown
+          <IconDropdown
             tooltip={{
               id: changeBlockTypeIcons(currentBlockType).id,
               text: changeBlockTypeIcons(currentBlockType).text,
@@ -117,7 +119,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           ))}
         </>
       ) : (
-        <ButtonDropdown
+        <IconDropdown
           tooltip={{
             id: "ChangeTextStyle",
             text: "tooltips.studySet.toolbar.changeTextStyles",

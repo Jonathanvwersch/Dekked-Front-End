@@ -25,6 +25,6 @@ export { default as Box } from "./Box/Box";
 export { default as Halo } from "./Halo/Halo";
 export { default as Tooltip } from "./Tooltip/Tooltip";
 export { default as DragBlock } from "./DragBlock/DragBlock";
-export { default as ButtonDropdown } from "./ButtonDropdown/ButtonDropdown";
+export { default as IconDropdown } from "./IconDropdown/IconDropdown";
 export { default as ConditionalWrapper } from "./ConditionalWrapper/ConditionalWrapper";
 export { ScrollerModal, GeneralModal } from "./Modals";

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ButtonDropdown, IconActive, Spacer, Tooltip } from "../../common";
+import { IconDropdown, IconActive, Spacer, Tooltip } from "../../common";
 import {
   CenterAlignIcon,
   LeftAlignIcon,
@@ -97,7 +97,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           </IconActive>
         </>
       ) : (
-        <ButtonDropdown
+        <IconDropdown
           tooltip={{
             id: "ChangeTextAlignment",
             text: "tooltips.studySet.toolbar.changeTextAlignment",

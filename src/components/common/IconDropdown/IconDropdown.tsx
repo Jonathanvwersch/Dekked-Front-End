@@ -1,11 +1,5 @@
 import React, { ReactElement, useRef, useState } from "react";
-import {
-  Flex,
-  IconActive,
-  IconWrapper,
-  ScrollerModal,
-  Tooltip,
-} from "../../common";
+import { Flex, IconActive, IconWrapper, ScrollerModal, Tooltip } from "..";
 import { DropDownArrowIcon } from "../../../assets";
 
 import { CoordsType, ScrollerModalData, SIZES } from "../../../shared";
@@ -30,7 +24,7 @@ interface ChangeTextStyleProps {
   };
 }
 
-const ButtonDropdown: React.FC<ChangeTextStyleProps> = ({
+const IconDropdown: React.FC<ChangeTextStyleProps> = ({
   tooltip,
   icon,
   modal,
@@ -79,4 +73,4 @@ const ButtonDropdown: React.FC<ChangeTextStyleProps> = ({
   );
 };
 
-export default React.memo(ButtonDropdown);
+export default React.memo(IconDropdown);

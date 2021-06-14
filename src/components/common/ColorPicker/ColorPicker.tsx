@@ -142,7 +142,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       isOpen={isOpen}
       handleClose={handleClose}
       coords={coords}
-      type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+      type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
     >
       <StyledColorPicker
         defaultColor={defaultColor}
