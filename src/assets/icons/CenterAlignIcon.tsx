@@ -3,7 +3,7 @@ import { ThemeType } from "../../styles/theme";
 import { ThemeContext } from "styled-components";
 import { Svg, IconProps } from "..";
 
-const LeftAlignIcon: React.FC<IconProps> = ({ color, size }) => {
+const CenterAlignIcon: React.FC<IconProps> = ({ color, size }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const iconColor = color ? color : theme.colors.iconColor;
 
@@ -17,4 +17,4 @@ const LeftAlignIcon: React.FC<IconProps> = ({ color, size }) => {
   );
 };
 
-export default LeftAlignIcon;
+export default CenterAlignIcon;

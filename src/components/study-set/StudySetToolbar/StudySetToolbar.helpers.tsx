@@ -4,6 +4,7 @@ import {
   BoldIcon,
   BulletedListIcon,
   CenterAlignIcon,
+  LeftAlignIcon,
   H1Icon,
   H2Icon,
   H3Icon,
@@ -18,7 +19,6 @@ import {
   TodoIcon,
   UnderlineIcon,
 } from "../../../assets";
-import LeftAlignIcon from "../../../assets/icons/CenterAlignIcon";
 import {
   BLOCK_TYPES,
   ScrollerModalData,
