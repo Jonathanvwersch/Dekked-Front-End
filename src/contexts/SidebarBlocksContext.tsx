@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useStorageState } from "../hooks";
-import { FILETREE_TYPES } from "../shared";
+import { FILETREE_TYPES, Params } from "../shared";
 import { FileTreeContext } from "./FileTreeContext";
 
 interface SidebarBlocksContextProps {
@@ -26,6 +26,7 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
     setFolders,
   } = useContext(FileTreeContext);
   const history = useHistory();
+  const { id: urlId } = useParams<Params>();
 
   // handle opening and closing of sidebar blocks
   const { value: isBlockOpen, setValue: setIsBlockOpen } = useStorageState<{
@@ -55,7 +56,7 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
 
   // handle deleting of blocks
   const handleDeleteBlock = (id: string, type: string) => {
-    console.log(type);
+    console.log(urlId);
     if (type === FILETREE_TYPES.STUDY_SET) {
       // navigate to parent binder after deleting a study pack
       const parentBinder = binders[studyPacks?.[id]?.binder_id];
@@ -63,6 +64,7 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
 
       const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
       history.push(parentBinderLink);
+      console.log(parentBinderLink);
 
       // Close binder if you are deleting last study set
       // makes for cleaner UX

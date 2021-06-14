@@ -93,7 +93,6 @@ export const FileTreeContextProvider: React.FC = ({ children }) => {
   const folderLength = Object.keys(folders).length;
   const binderLength = Object.keys(binders).length;
   const studySetLength = Object.keys(studyPacks).length;
-  console.log(binders);
   const iconColor = theme.colors.primary;
   const itemName = "";
 

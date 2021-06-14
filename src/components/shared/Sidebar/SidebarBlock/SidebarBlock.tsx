@@ -158,7 +158,9 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
                 </IconActive>
               ) : null}
               <Spacer width={theme.spacers.size8} />
-              <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
+              <IconWrapper>
+                {handleIconType(type, iconColor || theme.colors.primary)}
+              </IconWrapper>
               <Spacer width={theme.spacers.size8} />
               <SidebarBlockName
                 blockId={blockData.id}
