@@ -122,8 +122,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     isParentOfActiveBlock = true;
   } else if (
     slugType === FILETREE_TYPES.BINDER &&
-    (studyPacks?.[blockData?.id]?.binder_id === id ||
-      binders?.[id]?.folder_id === blockData?.id)
+    binders?.[id]?.folder_id === blockData?.id
   ) {
     isParentOfActiveBlock = true;
   }
