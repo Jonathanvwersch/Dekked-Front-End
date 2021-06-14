@@ -26,5 +26,7 @@ export const register = async ({
     }),
   });
   const json = await response.json();
-  return json;
+  const status = response?.status;
+
+  return { userData: json, errorCode: status };
 };

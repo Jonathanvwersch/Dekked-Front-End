@@ -56,15 +56,15 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
 
   // handle deleting of blocks
   const handleDeleteBlock = (id: string, type: string) => {
-    console.log(urlId);
+    const shouldRedirect = urlId === id;
+
     if (type === FILETREE_TYPES.STUDY_SET) {
       // navigate to parent binder after deleting a study pack
       const parentBinder = binders[studyPacks?.[id]?.binder_id];
       const parentBinderId = parentBinder?.id;
 
       const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;
-      history.push(parentBinderLink);
-      console.log(parentBinderLink);
+      shouldRedirect && history.push(parentBinderLink);
 
       // Close binder if you are deleting last study set
       // makes for cleaner UX
@@ -88,7 +88,9 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
       const parentFolder = folders[binders?.[id]?.folder_id];
       const parentFolderId = parentFolder?.id;
       const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
-      history.push(parentFolderLink);
+
+      shouldRedirect && history.push(parentFolderLink);
+      studyPacks?.[urlId]?.binder_id === id && history.push(parentFolderLink);
 
       // Close folder if you are deleting last binder
       // makes for cleaner UX
@@ -113,7 +115,11 @@ export const SidebarBlocksContextProvider: React.FC = ({ children }) => {
       // navigate to first folder after deleting a folder
       const firstFolderId = Object.keys(fileTree)[0];
       const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-      history.push(firstFolderLink);
+
+      shouldRedirect ||
+        ((binders[studyPacks?.[urlId]?.binder_id].folder_id === id ||
+          binders?.[urlId]?.folder_id === id) &&
+          history.push(firstFolderLink));
     }
     // delete study pack on back end
     deleteAsset(type, id);

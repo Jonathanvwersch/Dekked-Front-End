@@ -1,14 +1,6 @@
-import React, { SyntheticEvent, useContext, useEffect, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import {
-  Spacer,
-  Input,
-  Button,
-  Text,
-  Card,
-  Flex,
-  IconWrapper,
-} from "../../common";
+import { Spacer, Input, Button } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   getSessionCookie,
@@ -16,11 +8,12 @@ import {
   setSessionCookie,
   validateEmail,
 } from "../../../helpers";
-import { FormattedMessage } from "react-intl";
-import { ClearIcon, ErrorIcon } from "../../../assets";
+
 import { useHistory } from "react-router-dom";
 import { login } from "../../../services/authentication/login";
 import { UserContext } from "../../../contexts";
+import ErrorMessage from "../ErrorMessage";
+import { useMutation } from "react-query";
 
 interface LogInFormProps {}
 
@@ -29,30 +22,31 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const emailFromSignUp = window.localStorage.getItem("user-email") || "";
   const [emailAddress, setEmailAddress] = useState<string>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
-  const [wrongEmailOrPassword, setWrongEmailOrPassword] =
-    useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<boolean>(false);
   const { setUser } = useContext(UserContext);
+  const { mutate: logIn, data, isLoading } = useMutation("log-in", login);
 
   const isSubmitButtonDisabled = () => {
     if (!validateEmail(emailAddress)) return true;
     return isAnyRequiredFieldPristine([emailAddress, password]);
   };
 
-  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number>();
   const history = useHistory();
 
   const loginUser = async (emailAddress: string, password: string) => {
+    setErrorMessage(false);
     window.localStorage.setItem("user-email", "");
-    setIsLoggingIn(true);
-    const response = await login({ email_address: emailAddress, password });
-    setErrorCode(response?.status);
-    if (response.json?.success) {
-      const token = response?.json?.data?.token;
-      const userId = response?.json?.data?.id;
-      const firstName = response?.json?.data?.first_name;
-      const lastName = response?.json?.data?.last_name;
-      const emailAddress = response?.json?.data?.email_address;
+    logIn({ email_address: emailAddress, password });
+    setErrorMessage(!data?.userData?.success);
+    setErrorCode(data?.errorCode);
+
+    if (data?.userData?.success) {
+      const token = data?.userData?.data?.token;
+      const userId = data?.userData?.data?.id;
+      const firstName = data?.userData?.data?.first_name;
+      const lastName = data?.userData?.data?.last_name;
+      const emailAddress = data?.userData?.data?.email_address;
       setUser({ id: userId, firstName, lastName, emailAddress });
       setSessionCookie(token);
 
@@ -65,7 +59,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         history.push("/");
       }
     } else {
-      setIsLoggingIn(false);
     }
   };
 
@@ -74,34 +67,10 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     emailAddress && password && loginUser(emailAddress, password);
   };
 
-  useEffect(() => {
-    setWrongEmailOrPassword(Boolean(errorCode === 401 || errorCode === 404));
-  }, [errorCode, isLoggingIn]);
-
   return (
     <>
-      {wrongEmailOrPassword && (
-        <>
-          <Card backgroundColor={theme.colors.danger} opacity="75%">
-            <Flex justifyContent="space-between">
-              <Flex>
-                <ErrorIcon color="white" />
-                <Spacer width={theme.spacers.size8} />
-                <Text
-                  textAlign="center"
-                  fontColor="white"
-                  fontSize={theme.typography.fontSizes.size14}
-                >
-                  <FormattedMessage id="forms.logIn.noUserExists" />
-                </Text>
-              </Flex>
-              <IconWrapper handleClick={() => setWrongEmailOrPassword(false)}>
-                <ClearIcon color="white" />
-              </IconWrapper>
-            </Flex>
-          </Card>
-          <Spacer height={theme.spacers.size32} />
-        </>
+      {errorMessage && (
+        <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>
         <Input
@@ -131,7 +100,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           buttonStyle={BUTTON_THEME.PRIMARY}
           isDisabled={isSubmitButtonDisabled()}
           type={BUTTON_TYPES.SUBMIT}
-          isLoading={isLoggingIn}
+          isLoading={isLoading}
         >
           {formatMessage("forms.logIn.logIn")}
         </Button>

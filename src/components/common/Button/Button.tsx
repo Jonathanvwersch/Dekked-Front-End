@@ -18,7 +18,7 @@ interface ButtonProps {
   isLoading?: boolean;
   isDisabled?: boolean;
   buttonStyle?: BUTTON_THEME;
-  handleClick?: (args: any) => any;
+  handleClick?: (args?: any) => any;
   size?: SIZES;
   width?: SIZES | string;
   borderRadius?: string;

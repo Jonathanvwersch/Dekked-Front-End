@@ -14,6 +14,7 @@ const en_GB = {
       saving: "Saving",
       okay: "Okay",
       loggingOut: "Logging out...",
+      somethingWentWrong: "Something went wrong. Please try again.",
     },
     notFoundPage: {
       goHome: "Go home",

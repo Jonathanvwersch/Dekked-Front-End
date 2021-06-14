@@ -21,5 +21,5 @@ export const login = async ({
 
   const status = response?.status;
   const json = await response.json();
-  return { json, status };
+  return { userData: json, errorCode: status };
 };

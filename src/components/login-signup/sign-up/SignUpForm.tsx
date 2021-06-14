@@ -1,16 +1,7 @@
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import {
-  Spacer,
-  Input,
-  Button,
-  Tooltip,
-  Text,
-  Card,
-  Flex,
-  IconWrapper,
-} from "../../common";
-import { FormattedMessage, useIntl } from "react-intl";
+import { Spacer, Input, Button, Tooltip } from "../../common";
+import { useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   isAnyRequiredFieldPristine,
@@ -20,7 +11,7 @@ import {
 import { register } from "../../../services/authentication/register";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
-import { ClearIcon } from "../../../assets";
+import ErrorMessage from "../ErrorMessage";
 
 interface SignUpFormProps {}
 
@@ -33,7 +24,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [lastName, setLastName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repeatPassword, setRepeatPassword] = useState<string>();
-  const [accountExists, setAccountExists] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<boolean>(false);
+  const [errorCode, setErrorCode] = useState<number>();
   const { mutate: signUp, data, isLoading } = useMutation("register", register);
 
   const isSubmitButtonDisabled = () => {
@@ -49,7 +41,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   const handleSubmit = (event: SyntheticEvent) => {
-    setAccountExists(false);
+    setErrorMessage(false);
     event.preventDefault();
     emailAddress &&
       firstName &&
@@ -62,36 +54,27 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         password: password,
       });
 
+    setErrorMessage(!data?.userData?.success);
+    console.log(data?.errorCode);
+    setErrorCode(data?.errorCode);
+
     emailAddress && window.localStorage.setItem("user-email", emailAddress);
   };
 
   useEffect(() => {
-    data && setAccountExists(!data?.success);
-    if (data?.success) {
+    setErrorMessage(data?.userData?.success === false ? true : false);
+    console.log(data);
+    setErrorCode(data?.errorCode);
+
+    if (data?.userData?.success) {
       history.push("/login");
     }
   }, [data, history]);
 
   return (
     <>
-      {accountExists && (
-        <>
-          <Card backgroundColor={theme.colors.danger} opacity="75%">
-            <Flex justifyContent="space-between">
-              <Text
-                textAlign="center"
-                fontColor="white"
-                fontSize={theme.typography.fontSizes.size14}
-              >
-                <FormattedMessage id="forms.signUp.accountExists" />
-              </Text>
-              <IconWrapper handleClick={() => setAccountExists(false)}>
-                <ClearIcon color="white" />
-              </IconWrapper>
-            </Flex>
-          </Card>
-          <Spacer height={theme.spacers.size32} />
-        </>
+      {errorMessage && (
+        <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>
         <Input

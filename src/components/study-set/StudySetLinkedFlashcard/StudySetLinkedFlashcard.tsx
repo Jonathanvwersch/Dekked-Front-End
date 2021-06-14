@@ -58,6 +58,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
           linked={showFlashcard}
           currentBlockKey={currentBlock?.key}
           type="add"
+          width="100%"
         />
       ) : null}
     </LinkedCard>

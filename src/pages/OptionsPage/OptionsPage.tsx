@@ -34,17 +34,10 @@ const OptionsPage: React.FC = () => {
 
   // if id doesn't exist, just push to first folder
   useEffect(() => {
-    if (firstFolderId && doFilesExist() && !getAsset(type, id))
+    if (firstFolderId && doFilesExist() && !getAsset(type, id)) {
       history.push(firstFolderLink);
-  }, [
-    firstFolderId,
-    doFilesExist,
-    getAsset,
-    history,
-    type,
-    id,
-    firstFolderLink,
-  ]);
+    }
+  }, [id, firstFolderLink, doFilesExist]);
 
   return (
     <SelectedItemContextProvider>

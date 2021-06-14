@@ -19,7 +19,7 @@ import { ThemeType } from "../../../../styles/theme";
 import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
 import { CoordsType, UserType } from "../../../../shared";
-import { useQuery } from "react-query";
+import { useIsMutating, useQuery } from "react-query";
 import { getUser } from "../../../../services/authentication/getUser";
 import { UserContext } from "../../../../contexts";
 
@@ -38,9 +38,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
   const settingsRef = useRef<HTMLButtonElement>(null);
   const { user } = useContext(UserContext);
   const { data } = useQuery<UserType>(user.id, getUser, {
-    refetchOnReconnect: false,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
   const firstName = data?.first_name || "";

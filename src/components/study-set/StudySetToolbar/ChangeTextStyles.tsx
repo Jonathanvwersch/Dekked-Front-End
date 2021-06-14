@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { IconDropdown, IconActive, Spacer, Tooltip } from "../../common";
 import { BoldIcon } from "../../../assets";
 
@@ -101,7 +101,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           />
           <Spacer width={theme.spacers.size4} />
           {changeTextStylesData.map((textStyleData) => (
-            <>
+            <Fragment key={textStyleData.id}>
               <IconActive
                 handleMouseDown={(e: MouseEvent) => {
                   e.preventDefault();
@@ -115,7 +115,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
                 </Tooltip>
               </IconActive>
               <Spacer width={theme.spacers.size4} />
-            </>
+            </Fragment>
           ))}
         </>
       ) : (

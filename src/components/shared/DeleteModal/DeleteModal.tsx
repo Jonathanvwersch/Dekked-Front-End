@@ -6,8 +6,8 @@ import { FormattedMessage } from "react-intl";
 
 interface DeleteModalProps {
   isOpen: boolean;
-  handleClose: () => void;
-  handleMainButton: () => void;
+  handleClose: (args?: any) => void;
+  handleMainButton: (args?: any) => void;
   bodyText?: string;
 }
 

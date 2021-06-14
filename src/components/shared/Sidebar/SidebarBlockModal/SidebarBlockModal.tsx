@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 import { SidebarBlocksContext } from "../../../../contexts";
 import {
   BinderData,
@@ -79,9 +79,15 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       ) : null}
       {isDeleteModalOpen ? (
         <DeleteModal
-          handleClose={() => setIsDeleteModalOpen(false)}
+          handleClose={(e: SyntheticEvent) => {
+            e?.preventDefault();
+            setIsDeleteModalOpen(false);
+          }}
           isOpen={isDeleteModalOpen}
-          handleMainButton={() => handleDeleteBlock(id, type)}
+          handleMainButton={(e: SyntheticEvent) => {
+            e.preventDefault();
+            handleDeleteBlock(id, type);
+          }}
           bodyText={deleteModalBodyText()}
         />
       ) : null}
