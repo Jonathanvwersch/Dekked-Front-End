@@ -207,6 +207,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
             colorPickerRef={colorPickerRef}
             iconColor={iconColor}
             setIconColor={setIconColor}
+            type={type}
           />
         </NavLink>
       ) : null}

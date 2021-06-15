@@ -1,16 +1,18 @@
-// Colour picker taken from https://casesandberg.github.io/react-color/
 import { EditorState } from "draft-js";
 import React, {
   Dispatch,
   SetStateAction,
+  SyntheticEvent,
   useContext,
   useEffect,
-  useState,
 } from "react";
-import { BlockPicker, HSLColor, RGBColor } from "react-color";
+import { useIntl } from "react-intl";
 import styled, { ThemeContext } from "styled-components";
-import { Overlay } from "..";
+import { Card, Flex, Overlay, ShadowCard } from "..";
+import { TextColorIcon } from "../../../assets";
 import { DarkThemeContext, LayeredModalContext } from "../../../contexts";
+import { handleIconType, lightenOrDarkenHexColour } from "../../../helpers";
+import { formatMessage } from "../../../intl";
 import {
   LIGHT_THEME_BACKGROUND_COLORS,
   CoordsType,
@@ -22,6 +24,7 @@ import {
   DARK_THEME_BACKGROUND_COLORS,
 } from "../../../shared";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
+import Tooltip from "../Tooltip/Tooltip";
 
 interface ColorPickerProps {
   isOpen: boolean;
@@ -33,109 +36,153 @@ interface ColorPickerProps {
   setIconColor?: Dispatch<SetStateAction<string>>;
   colorPickerRef?: React.RefObject<HTMLDivElement>;
   purpose?: "color-background" | "color-block" | "color-font";
+  type?: string;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
   isOpen,
   handleClose,
   coords,
-  iconColor,
   editorState,
   setEditorState,
   setIconColor,
   colorPickerRef,
   purpose = "color-block",
+  type,
 }) => {
-  const [colour, setColour] = useState<{
-    background: string | HSLColor | RGBColor | undefined;
-  }>({
-    background: iconColor,
-  });
+  const theme = useContext(ThemeContext);
   const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
   const { isDarkTheme } = useContext(DarkThemeContext);
+  const intl = useIntl();
 
   useEffect(() => {
     setIsLayeredModalOpen(true);
     !isOpen && setIsLayeredModalOpen(false);
   }, [isOpen]);
 
-  const theme = useContext(ThemeContext);
+  const handleClick = (colour: string) => {
+    setIconColor && setIconColor(colour);
 
-  const handleChange = (colour: any) => {
-    setColour({ background: colour });
-    setIconColor && setIconColor(colour.hex);
-
-    // Toggle font color change in study set toolbar
-    purpose === "color-font" &&
-      editorState &&
-      setEditorState &&
-      setEditorState(
-        toggleInlineStyle(
-          editorState,
-          TEXT_STYLES[
-            `FONT_COLOR_${colour.hex.slice(1).toUpperCase()}` as TEXT_STYLES
-          ],
-          [
-            ...Object.keys(
-              isDarkTheme ? DARK_THEME_FONT_COLORS : LIGHT_THEME_FONT_COLORS
-            ),
-          ]
-        )
-      );
-
-    // Toggle background color change in study set toolbar
-    purpose === "color-background" &&
-      editorState &&
-      setEditorState &&
-      setEditorState(
-        toggleInlineStyle(
-          editorState,
-          TEXT_STYLES[
-            `BACKGROUND_COLOR_${colour.hex
-              .slice(1)
-              .toUpperCase()}` as TEXT_STYLES
-          ],
-          [
-            ...Object.keys(
-              isDarkTheme
-                ? DARK_THEME_BACKGROUND_COLORS
-                : LIGHT_THEME_BACKGROUND_COLORS
-            ),
-          ]
-        )
-      );
+    if (editorState && setEditorState) {
+      // Toggle font color change in study set toolbar
+      if (purpose === "color-font") {
+        setEditorState(
+          toggleInlineStyle(
+            editorState,
+            TEXT_STYLES[
+              `FONT_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
+            ],
+            [
+              ...Object.keys(
+                isDarkTheme ? DARK_THEME_FONT_COLORS : LIGHT_THEME_FONT_COLORS
+              ),
+            ]
+          )
+        );
+      }
+      // Toggle background color change in study set toolbar
+      else if (purpose === "color-background") {
+        setEditorState(
+          toggleInlineStyle(
+            editorState,
+            TEXT_STYLES[
+              `BACKGROUND_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
+            ],
+            [
+              ...Object.keys(
+                isDarkTheme
+                  ? DARK_THEME_BACKGROUND_COLORS
+                  : LIGHT_THEME_BACKGROUND_COLORS
+              ),
+            ]
+          )
+        );
+      }
+    }
   };
 
   const backgroundColors = [
-    theme.colors.colorPicker.background.default,
-    theme.colors.colorPicker.background.red,
-    theme.colors.colorPicker.background.orange,
-    theme.colors.colorPicker.background.yellow,
-    theme.colors.colorPicker.background.green,
-    theme.colors.colorPicker.background.blue,
-    theme.colors.colorPicker.background.indigo,
-    theme.colors.colorPicker.background.violet,
-    theme.colors.colorPicker.background.grey,
-    theme.colors.colorPicker.background.brown,
+    {
+      color: theme.colors.colorPicker.background.default,
+      tooltip: "tooltips.colorPicker.default",
+    },
+    {
+      color: theme.colors.colorPicker.background.red,
+      tooltip: "tooltips.colorPicker.red",
+    },
+    {
+      color: theme.colors.colorPicker.background.orange,
+      tooltip: "tooltips.colorPicker.orange",
+    },
+    {
+      color: theme.colors.colorPicker.background.yellow,
+      tooltip: "tooltips.colorPicker.yellow",
+    },
+    {
+      color: theme.colors.colorPicker.background.green,
+      tooltip: "tooltips.colorPicker.green",
+    },
+    {
+      color: theme.colors.colorPicker.background.blue,
+      tooltip: "tooltips.colorPicker.blue",
+    },
+    {
+      color: theme.colors.colorPicker.background.indigo,
+      tooltip: "tooltips.colorPicker.indigo",
+    },
+    {
+      color: theme.colors.colorPicker.background.violet,
+      tooltip: "tooltips.colorPicker.violet",
+    },
+    {
+      color: theme.colors.colorPicker.background.grey,
+      tooltip: "tooltips.colorPicker.grey",
+    },
   ];
 
   const textAndIconColors = [
-    theme.colors.colorPicker.text.default,
-    theme.colors.colorPicker.text.primary,
-    theme.colors.colorPicker.text.red,
-    theme.colors.colorPicker.text.orange,
-    theme.colors.colorPicker.text.yellow,
-    theme.colors.colorPicker.text.green,
-    theme.colors.colorPicker.text.blue,
-    theme.colors.colorPicker.text.indigo,
-    theme.colors.colorPicker.text.violet,
-    theme.colors.colorPicker.text.grey,
+    {
+      color: theme.colors.colorPicker.text.default,
+      tooltip: "tooltips.colorPicker.default",
+    },
+    {
+      color: theme.colors.colorPicker.text.primary,
+      tooltip: "tooltips.colorPicker.dekkedBlue",
+    },
+    {
+      color: theme.colors.colorPicker.text.red,
+      tooltip: "tooltips.colorPicker.red",
+    },
+    {
+      color: theme.colors.colorPicker.text.orange,
+      tooltip: "tooltips.colorPicker.orange",
+    },
+    {
+      color: theme.colors.colorPicker.text.yellow,
+      tooltip: "tooltips.colorPicker.yellow",
+    },
+    {
+      color: theme.colors.colorPicker.text.green,
+      tooltip: "tooltips.colorPicker.green",
+    },
+    {
+      color: theme.colors.colorPicker.text.blue,
+      tooltip: "tooltips.colorPicker.blue",
+    },
+    {
+      color: theme.colors.colorPicker.text.indigo,
+      tooltip: "tooltips.colorPicker.indigo",
+    },
+    {
+      color: theme.colors.colorPicker.text.violet,
+      tooltip: "tooltips.colorPicker.violet",
+    },
+
+    // theme.colors.colorPicker.text.grey,
   ];
 
-  const defaultColor =
-    purpose === "color-block" || purpose === "color-font"
-      ? theme.colors.colorPicker.text.default
-      : theme.colors.colorPicker.background.default;
+  const colorArray =
+    purpose === "color-background" ? backgroundColors : textAndIconColors;
 
   return (
     <Overlay
@@ -144,67 +191,58 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       coords={coords}
       type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
     >
-      <StyledColorPicker
-        defaultColor={defaultColor}
-        onClick={(e: any) => e.preventDefault()}
-        ref={colorPickerRef}
-      >
-        <BlockPicker
-          color={colour.background}
-          onChange={handleChange}
-          triangle="hide"
-          colors={
-            purpose === "color-block" || purpose === "color-font"
-              ? textAndIconColors
-              : backgroundColors
-          }
-          className="colors"
-        />
-      </StyledColorPicker>
+      <ShadowCard width="132px" cardRef={colorPickerRef}>
+        <Flex flexWrap="wrap" width="100%" justifyContent="center">
+          {colorArray.map((color) => (
+            <Tooltip
+              id={formatMessage(color.tooltip, intl)}
+              text={color.tooltip}
+            >
+              <ColorBlock
+                backgroundColor={
+                  purpose === "color-background"
+                    ? color.color
+                    : theme.colors.backgrounds.pageBackground
+                }
+                m="8px"
+                p="0"
+                width="28px"
+                height="28px"
+                border={`solid 1px ${lightenOrDarkenHexColour(
+                  color.color,
+                  isDarkTheme ? 40 : -40
+                )}`}
+                handleClick={(e: SyntheticEvent) => {
+                  e.preventDefault();
+                  handleClick(color.color);
+                }}
+              >
+                {purpose !== "color-block" ? (
+                  <TextColorIcon
+                    size={SIZES.MEDIUM}
+                    color={
+                      purpose === "color-background"
+                        ? theme.colors.fontColor
+                        : color.color
+                    }
+                  />
+                ) : (
+                  type && handleIconType(type, color.color)
+                )}
+              </ColorBlock>
+            </Tooltip>
+          ))}
+        </Flex>
+      </ShadowCard>
     </Overlay>
   );
 };
 
-const StyledColorPicker = styled.div<{ defaultColor: string }>`
-  border-radius: ${({ theme }) => `${theme.sizes.borderRadius[SIZES.MEDIUM]}`};
-  box-shadow: ${({ theme }) => `${theme.boxShadow}`};
-
-  & div {
-    color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
-    box-shadow: none !important;
-    border-radius: ${({ theme }) =>
-      `0 0 ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
-        theme.sizes.borderRadius[SIZES.MEDIUM]
-      }`};
-    user-select: none;
-    background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
-  }
-
-  & div:nth-child(1) {
-    color: transparent !important;
-    background-color: transparent;
-  }
-
-  & div:nth-child(3) {
-    & div:nth-child(2) {
-      background-color: ${({ theme }) =>
-        theme.colors.backgrounds.pageBackground}!important;
-    }
-
-    & input {
-      color: ${({ theme }) => `${theme.colors.fontColor} !important`};
-      background-color: ${({ theme }) =>
-        theme.colors.backgrounds.pageBackground};
-
-      border-radius: ${({ theme }) =>
-        `${theme.sizes.borderRadius[SIZES.MEDIUM]} !important`};
-      box-shadow: none !important;
-      border: 1px solid ${({ theme }) => `${theme.colors.grey2}!important`};
-      &:focus {
-        border: 1px solid ${({ theme }) => theme.colors.primary}!important;
-      }
-    }
-  }
+const ColorBlock = styled(Card)`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default React.memo(ColorPicker);

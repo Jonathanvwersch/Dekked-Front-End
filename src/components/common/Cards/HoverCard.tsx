@@ -4,7 +4,7 @@ import React, { ReactNode, SyntheticEvent, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 interface HoverCardProps {
-  children: ReactNode;
+  children?: ReactNode;
   width?: string;
   height?: string;
   className?: string;

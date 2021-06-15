@@ -14,6 +14,7 @@ interface FlexProps {
   flexDirection?: "row" | "column";
   className?: string;
   overflow?: string;
+  flexWrap?: string;
 }
 
 type FlexPropsUnion = FlexProps & BoxProps;
@@ -29,6 +30,7 @@ const Flex: React.FC<FlexPropsUnion> = ({ children, ...props }) => {
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: ${({ flexDirection }) => flexDirection};
+  flex-wrap: ${({ flexWrap }) => flexWrap};
   align-items: ${({ alignItems }) => (alignItems ? alignItems : "center")};
   justify-content: ${({ justifyContent }) => justifyContent};
   height: ${({ height }) => height};

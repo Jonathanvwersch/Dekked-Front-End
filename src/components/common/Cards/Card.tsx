@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { SIZES } from "../../../shared";
+import { BoxProps, marginAndPadding } from "../Box/Box";
 
 interface CardProps {
   padding?: string;
@@ -12,13 +13,19 @@ interface CardProps {
   ariaLabel?: string;
   tabIndex?: number;
   opacity?: string;
+  className?: string;
+  handleClick?: (args?: any) => void;
 }
 
-const Card: React.FC<CardProps> = ({ children, ...props }) => {
+type CardPropsUnion = CardProps & BoxProps;
+
+const Card: React.FC<CardPropsUnion> = ({ children, ...props }) => {
   return (
     <StyledCard
+      className={props.className}
       aria-label={props.ariaLabel}
       tabIndex={props.tabIndex}
+      onClick={props.handleClick}
       {...props}
     >
       {children}
@@ -26,7 +33,7 @@ const Card: React.FC<CardProps> = ({ children, ...props }) => {
   );
 };
 
-const StyledCard = styled.div<CardProps>`
+const StyledCard = styled.div<CardPropsUnion>`
   opacity: ${({ opacity }) => opacity};
   user-select: none;
   padding: ${({ padding, theme }) =>
@@ -38,6 +45,7 @@ const StyledCard = styled.div<CardProps>`
     borderRadius ? borderRadius : theme.sizes.borderRadius[SIZES.MEDIUM]};
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
+  ${() => marginAndPadding}
 `;
 
 export default Card;

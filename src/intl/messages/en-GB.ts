@@ -199,6 +199,18 @@ const en_GB = {
         openSidebar: "Lock open sidebar",
         menu: "Recolour icon and delete",
       },
+      colorPicker: {
+        default: "Default",
+        red: "Red",
+        orange: "Orange",
+        yellow: "Yellow",
+        green: "Green",
+        blue: "Blue",
+        indigo: "Indigo",
+        violet: "Violet",
+        grey: "grey",
+        dekkedBlue: "Dekked blue",
+      },
       studyQueue: {
         bubble: "View which decks are ready to study",
       },
