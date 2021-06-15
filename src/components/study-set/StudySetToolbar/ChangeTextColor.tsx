@@ -89,7 +89,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
           isOpen={colorPickerFont}
           handleClose={() => setColorPickerFont(false)}
           coords={coords}
-          purpose="color-font"
+          variant="color-font"
           editorState={editorState}
           setEditorState={setEditorState}
         />
@@ -99,7 +99,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
           isOpen={colorPickerBackground}
           handleClose={() => setColorPickerBackground(false)}
           coords={coords}
-          purpose="color-background"
+          variant="color-background"
           editorState={editorState}
           setEditorState={setEditorState}
         />

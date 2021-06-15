@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -19,7 +19,7 @@ import {
   isSoftNewlineEvent,
 } from "./Editor.helpers";
 
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
 import { BLOCK_TYPES } from "../../../shared";
 import { ComponentLoadingSpinner } from "../../common";
@@ -27,6 +27,7 @@ import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
+import { CurrentBlockContext, LinkedFlashcardContext } from "../../../contexts";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -57,6 +58,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
+  const theme = useContext(ThemeContext);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -166,6 +168,18 @@ const RichEditor: React.FC<RichEditorProps> = ({
     setEditorState(RichUtils.onTab(event, editorState, 4));
   };
 
+  const { blockLink, isLinked } = useContext(LinkedFlashcardContext);
+  const div = document.getElementById(`${blockLink}-0-0`);
+
+  useEffect(() => {
+    // style block if is linked
+    if (isLinked) {
+      if (div) div.style.borderRight = `solid 4px ${theme.colors.primary}`;
+    } else if (div) {
+      div.style.borderRight = "none";
+    }
+  }, [isLinked, div, blockLink, theme]);
+
   return (
     <>
       {!isLoading ? (
@@ -181,6 +195,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           }}
           onBlur={() => setHasFocus(false)}
           editorType={editorType}
+          isLinked={isLinked}
         >
           <Editor
             editorState={editorState}
@@ -216,6 +231,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
 const EditorContainer = styled.div<{
   isEditable: boolean;
   editorType: EditorType;
+  isLinked?: boolean;
 }>`
   color: ${({ theme }) => theme.colors.fontColor};
   padding-bottom: 100px;

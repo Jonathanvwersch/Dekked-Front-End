@@ -67,7 +67,9 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
-  const { setIsLinked, setStudyModeUrl } = useContext(LinkedFlashcardContext);
+  const { setIsLinked, setStudyModeUrl, setBlockLink } = useContext(
+    LinkedFlashcardContext
+  );
   const [hasFocus, setHasFocus] = useState<boolean>(false);
 
   // Set front editor state on mount
@@ -156,6 +158,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             handleMouseDown={() => {
               setIsLinked(true);
               setStudyModeUrl(location.pathname);
+              setBlockLink(blockLink);
             }}
             fillType={FILL_TYPE.STROKE}
           >
