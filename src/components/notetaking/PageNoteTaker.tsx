@@ -16,7 +16,7 @@ import {
   getBlocksByPageId,
   savePage,
 } from "../../services/note-taking/blocks-api";
-import { Params } from "../../shared";
+import { FILETREE_TYPES, Params } from "../../shared";
 import {
   convertBlocksToContent,
   getCurrentBlock,

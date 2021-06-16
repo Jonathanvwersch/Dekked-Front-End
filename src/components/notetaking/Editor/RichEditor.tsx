@@ -174,9 +174,9 @@ const RichEditor: React.FC<RichEditorProps> = ({
   useEffect(() => {
     // style block if is linked
     if (isLinked) {
-      if (div) div.style.borderRight = `solid 2px ${theme.colors.primary}`;
+      if (div) div.style.boxShadow = theme.boxShadow;
     } else if (div) {
-      div.style.borderRight = "none";
+      div.style.boxShadow = "none";
     }
   }, [isLinked, div, blockLink, theme]);
 

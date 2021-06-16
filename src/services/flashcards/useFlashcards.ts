@@ -38,6 +38,7 @@ export default function useFlashcards(studyPackId: string) {
       enabled: type === FILETREE_TYPES.STUDY_SET && isMutating === 0,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }
   );
 }

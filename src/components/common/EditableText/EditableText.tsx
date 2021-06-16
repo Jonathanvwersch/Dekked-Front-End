@@ -33,13 +33,13 @@ const EditableText: React.FC<EditableTextProps> = ({
   const handleChange = (e: any) => {
     setHtml(e.target.value);
     // save every 500 milliseconds as you type
-    autoSave();
+    autoSave(e.target.value);
   };
 
   const autoSave = useCallback(
-    debounce(() => {
+    debounce((name: string) => {
       updateAsset(type, itemId, {
-        name: editableTextRef.current?.innerText,
+        name: name.replace("&nbsp;", " "),
       });
     }, 500),
     [itemId, editableTextRef, type]
