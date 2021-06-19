@@ -19,25 +19,21 @@ import { ThemeType } from "../../../../styles/theme";
 import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
 import { CoordsType, UserType } from "../../../../shared";
-import { useIsMutating, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { getUser } from "../../../../services/authentication/getUser";
-import { UserContext } from "../../../../contexts";
+import { useAtom } from "jotai";
+import { sidebarAtom } from "../../../../store";
 
 interface SidebarTopProps {
   isSidebarOpen: boolean;
-  handleSidebar?: () => void;
 }
 
-const SidebarTop: React.FC<SidebarTopProps> = ({
-  isSidebarOpen,
-  handleSidebar,
-}) => {
+const SidebarTop: React.FC<SidebarTopProps> = ({ isSidebarOpen }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
-  const { user } = useContext(UserContext);
-  const { data } = useQuery<UserType>(user.id, getUser, {
+  const { data } = useQuery<UserType>("get-user", getUser, {
     refetchOnWindowFocus: false,
   });
 
@@ -45,6 +41,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
   const lastName = data?.last_name || "";
   const fullName = `${firstName} ${lastName}`;
   const firstLetterOfFirstName = firstName?.[0] || "";
+  const [, setSidebar] = useAtom(sidebarAtom);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -91,7 +88,10 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
         </Card>
 
         <DoubleChevronIconContainer>
-          <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
+          <IconActive
+            handleClick={() => setSidebar((prevState) => !prevState)}
+            ariaLabel={ariaText}
+          >
             <Tooltip id="CloseSidebar" text={ariaText}>
               <DoubleChevronIcon
                 rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}

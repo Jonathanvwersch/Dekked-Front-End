@@ -1,4 +1,5 @@
 import { EditorState } from "draft-js";
+import { useAtom } from "jotai";
 import React, {
   Dispatch,
   SetStateAction,
@@ -10,7 +11,7 @@ import { useIntl } from "react-intl";
 import styled, { ThemeContext } from "styled-components";
 import { Card, Flex, Overlay, ShadowCard } from "..";
 import { TextColorIcon } from "../../../assets";
-import { DarkThemeContext, LayeredModalContext } from "../../../contexts";
+import { LayeredModalContext } from "../../../contexts";
 import { handleIconType, lightenOrDarkenHexColour } from "../../../helpers";
 import { formatMessage } from "../../../intl";
 import {
@@ -23,6 +24,7 @@ import {
   DARK_THEME_FONT_COLORS,
   DARK_THEME_BACKGROUND_COLORS,
 } from "../../../shared";
+import { darkModeAtom } from "../../../store";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 import Tooltip from "../Tooltip/Tooltip";
 import { backgroundColors, textAndIconColors } from "./ColorPicker.data";
@@ -53,7 +55,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
-  const { isDarkTheme } = useContext(DarkThemeContext);
+  const [isDarkTheme] = useAtom(darkModeAtom);
   const intl = useIntl();
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   }, [isOpen]);
 
   const handleClick = (colour: string) => {
-    setIconColor && setIconColor(colour);
+    variant === "color-block" && setIconColor && setIconColor(colour);
 
     if (editorState && setEditorState) {
       // Toggle font color change in study set toolbar
@@ -120,6 +122,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             <Tooltip
               id={formatMessage(color.tooltip, intl)}
               text={color.tooltip}
+              key={color.tooltip}
             >
               <ColorBlock
                 backgroundColor={

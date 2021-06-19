@@ -1,8 +1,9 @@
 // The main frame is a wrapper component around the topbar and the page
-import React, { useContext } from "react";
+import { useAtom } from "jotai";
+import React from "react";
 import styled from "styled-components";
 import { ComponentLoadingSpinner, Page } from "..";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
+import { isAppLoadingAtom } from "../../../store";
 import TopBar from "../../shared/Topbar/Topbar";
 
 interface MainFrameProps {
@@ -10,12 +11,12 @@ interface MainFrameProps {
 }
 
 const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
-  const { loading } = useContext(SelectedItemContext);
+  const [isLoading] = useAtom(isAppLoadingAtom);
 
   return (
     <>
       <StyledMainFrame backgroundColor={backgroundColor}>
-        {!loading ? (
+        {!isLoading ? (
           <>
             <TopBar />
             {<Page>{children}</Page>}

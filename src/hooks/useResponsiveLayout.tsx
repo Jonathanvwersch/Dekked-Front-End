@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { SidebarContext } from "../contexts";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { sidebarAtom } from "../store";
 
 export type Layout = "vertical" | "horizontal";
 export const DEFAULT_BREAKPOINT_SIDEBAR_OPEN = 1000;
@@ -8,7 +9,7 @@ export const LAYOUT_VERTICAL = "vertical";
 export const LAYOUT_HORIZONTAL = "horizontal";
 
 const useResponsiveLayout = (breakpoint?: number): Layout => {
-  const { sidebar } = useContext(SidebarContext);
+  const [sidebar] = useAtom(sidebarAtom);
   const appBreakpoint = breakpoint
     ? breakpoint
     : !sidebar

@@ -2,17 +2,20 @@ import React, { useContext } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { StudyModeIcon } from "../../../assets";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { FILETREE_TYPES, Params } from "../../../shared";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getStudySetTabLink } from "../../../helpers";
+import { isAppLoadingAtom, studySetTabAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 const Breadcrumbs: React.FC = () => {
-  const { folderData, binderData, studySetData, type, loading } =
+  const { folderData, binderData, studySetData, type } =
     useContext(SelectedItemContext);
+  const [loading] = useAtom(isAppLoadingAtom);
   const { studyModes } = useParams<Params>();
+  const [studySetTab] = useAtom(studySetTabAtom);
   const { url } = useRouteMatch();
   const intl = useIntl();
 
@@ -36,9 +39,9 @@ const Breadcrumbs: React.FC = () => {
         <Crumb
           breadCrumbData={studySetData}
           breadCrumbType={FILETREE_TYPES.STUDY_SET}
-          link={`/${FILETREE_TYPES.STUDY_SET}/${
-            studySetData.id
-          }/${getStudySetTabLink(studySetData?.id)}`}
+          link={`/${FILETREE_TYPES.STUDY_SET}/${studySetData.id}/${
+            studySetTab[studySetData?.id] || TAB_TYPE.NOTES
+          }`}
         />
       ) : null}
       {studyModes ? (

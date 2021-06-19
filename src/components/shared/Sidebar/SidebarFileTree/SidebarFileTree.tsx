@@ -1,16 +1,18 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
 import SidebarBlock from "../SidebarBlock/SidebarBlock";
-import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
-import { isEqual } from "lodash";
+import { useAtom } from "jotai";
+import { isBlockOpenAtom } from "../../../../store";
+import { useAsset } from "../../../../helpers";
 
 interface SidebarFileTreeProps {
   file: FileTreeInterface;
 }
 
 const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
-  const { getAsset } = useContext(FileTreeContext);
-  const { isBlockOpen } = useContext(SidebarBlocksContext);
+  const [isBlockOpen] = useAtom(isBlockOpenAtom);
+  const { getAsset } = useAsset();
+
   const fileId = Object.keys(file)[0];
   const folderData = getAsset(file[fileId].type, fileId) as FolderInterface;
 
@@ -64,6 +66,4 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   );
 };
 
-export default React.memo(SidebarFileTree, (prevProps, newProps) => {
-  return isEqual(prevProps.file, newProps.file);
-});
+export default React.memo(SidebarFileTree);

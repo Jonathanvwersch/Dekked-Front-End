@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React, { useContext, useLayoutEffect } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { InsetPage, MainFrame } from "../../components/common";
@@ -5,14 +6,14 @@ import {
   StudyModeFreeStudy,
   StudyModeSpacedRepetition,
 } from "../../components/study-mode";
-import { SidebarContext } from "../../contexts";
 import CustomSwitch from "../../Router/CustomSwitch";
 import PrivateRoute from "../../Router/PrivateRoute";
 import { SIZES, STUDY_MODE_TYPES } from "../../shared";
+import { sidebarAtom } from "../../store";
 interface StudyModePageProps {}
 
 const StudyModePage: React.FC<StudyModePageProps> = () => {
-  const { setSidebar } = useContext(SidebarContext);
+  const [, setSidebar] = useAtom(sidebarAtom);
   const theme = useContext(ThemeContext);
 
   useLayoutEffect(() => {

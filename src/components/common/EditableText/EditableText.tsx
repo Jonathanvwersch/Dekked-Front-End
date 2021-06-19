@@ -1,12 +1,12 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
-import { FileTreeContext } from "../../../contexts";
 import { debounce } from "lodash";
 import { useIntl } from "react-intl";
 
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { formatMessage } from "../../../intl";
+import { useAsset } from "../../../helpers";
 
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
@@ -27,7 +27,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 }) => {
   const { handleSelectedBlockName, type } = useContext(SelectedItemContext);
   const intl = useIntl();
-  const { updateAsset } = useContext(FileTreeContext);
+  const { updateAsset } = useAsset();
   const [html, setHtml] = useState<string>(name);
 
   const handleChange = (e: any) => {

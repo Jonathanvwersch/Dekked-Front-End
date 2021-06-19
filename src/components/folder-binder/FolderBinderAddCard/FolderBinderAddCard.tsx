@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../assets";
-import { FileTreeContext, SidebarBlocksContext } from "../../../contexts";
+import { useAsset } from "../../../helpers";
 import { FILETREE_TYPES, SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
-import { IconActive } from "../../common";
 
 interface FolderBinderAddCardProps {
   type: FILETREE_TYPES;
@@ -15,12 +14,11 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   type,
   id,
 }) => {
-  const { addAsset } = useContext(FileTreeContext);
+  const { addAsset, openAsset } = useAsset();
   const theme: ThemeType = useContext(ThemeContext);
-  const { handleOpenBlock } = useContext(SidebarBlocksContext);
 
   const handleAddItem = () => {
-    handleOpenBlock(id, true);
+    openAsset(id, true);
     if (type === FILETREE_TYPES.FOLDER) {
       addAsset(FILETREE_TYPES.BINDER, id);
     } else addAsset(FILETREE_TYPES.STUDY_SET, id);
@@ -34,26 +32,30 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
 
   return (
     <StyledIconActive
-      handleMouseDown={handleAddItem}
-      ariaLabel={ariaText()}
-      backgroundColor={theme.colors.secondary}
+      onMouseDown={handleAddItem}
+      aria-label={ariaText()}
+      role="button"
     >
       <PlusIcon size={theme.spacers.size80} />
     </StyledIconActive>
   );
 };
 
-const StyledIconActive = styled(IconActive)`
+const StyledIconActive = styled.div`
   width: 160px;
   height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.secondary};
+  cursor: pointer;
   border-radius: ${({ theme }) =>
     theme.sizes.borderRadius[SIZES.MEDIUM]}!important;
 
-  &:focus,
   &:hover {
     box-shadow: ${({ theme }) => theme.boxShadow};
   }
-
+  &:focus,
   &:active {
     box-shadow: none;
   }

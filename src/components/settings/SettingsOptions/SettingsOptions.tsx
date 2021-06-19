@@ -2,7 +2,6 @@ import React, { SyntheticEvent, useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount, SettingsAppearance } from "..";
-import { UserContext } from "../../../contexts";
 import { updateUser } from "../../../services/authentication/updateUser";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
 import { Box, Footer } from "../../common";
@@ -18,15 +17,14 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
   handleCloseModal,
 }) => {
   const theme = useContext(ThemeContext);
-  const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const { mutate: updateUserData } = useMutation(user.id, updateUser, {
+  const { mutate: updateUserData } = useMutation("update-user", updateUser, {
     onSuccess: (data) => {
-      queryClient.setQueryData([user.id], data.json);
+      queryClient.setQueryData(["get-user"], data.json);
     },
   });
 

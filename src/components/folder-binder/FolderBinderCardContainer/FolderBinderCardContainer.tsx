@@ -1,16 +1,23 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { FILETREE_TYPES } from "../../../shared";
-import { FileTreeContext, SelectedItemContext } from "../../../contexts";
+import { SelectedItemContext } from "../../../contexts";
 import { FolderBinderAddCard, FolderBinderCard } from "..";
+import { bindersAtom, fileTreeAtom, studySetsAtom } from "../../../store";
+import { useAtom } from "jotai";
+import { useAsset } from "../../../helpers";
 
 interface FolderBinderCardContainerProps {}
 
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
   () => {
-    const { getAsset, fileTree } = useContext(FileTreeContext);
-    const { folderData, type, id, numOfStudySets, numOfBinders } =
-      useContext(SelectedItemContext);
+    const [fileTree] = useAtom(fileTreeAtom);
+    const [binders] = useAtom(bindersAtom);
+    const [studySets] = useAtom(studySetsAtom);
+    const numOfBinders = binders ? Object.keys(binders).length : 0;
+    const numOfStudySets = studySets ? Object.keys(studySets).length : 0;
+    const { getAsset } = useAsset();
+    const { folderData, type, id } = useContext(SelectedItemContext);
 
     const Cards = (type: FILETREE_TYPES) => {
       // if type = folders, create cards using binder data
@@ -18,6 +25,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
         return numOfBinders &&
           numOfBinders > 0 &&
           folderData &&
+          fileTree &&
           fileTree[folderData?.id]?.children
           ? Object.entries(fileTree[folderData?.id]?.children).map((binder) => {
               const binderDetails = getAsset(
@@ -40,6 +48,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
         return numOfStudySets &&
           numOfStudySets > 0 &&
           folderData &&
+          fileTree &&
           fileTree[folderData?.id]?.children[id]?.children
           ? Object.entries(
               fileTree[folderData?.id]?.children[id]?.children

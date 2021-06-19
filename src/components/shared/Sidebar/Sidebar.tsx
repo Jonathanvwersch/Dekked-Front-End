@@ -1,26 +1,17 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import { useAtom } from "jotai";
+import React, { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
-import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
-import { FileTreeContext, SidebarContext } from "../../../contexts";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
+import { SidebarTop, SidebarWorkspaceAndBase } from ".";
 import { SIZES } from "../../../shared";
+import { isAppLoadingAtom, sidebarAtom } from "../../../store";
 import { ComponentLoadingSpinner } from "../../common";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const { sidebar, handleSidebar } = useContext(SidebarContext);
+  const [sidebar] = useAtom(sidebarAtom);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
-  const { loading } = useContext(SelectedItemContext);
-  const bottomFolderRef = useRef<HTMLDivElement>(null);
-  const { folders } = useContext(FileTreeContext);
-
-  // scroll down to bottom of list as you add elements
-  const scrollToBottom = useCallback(() => {
-    if (bottomFolderRef && bottomFolderRef.current) {
-      bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [bottomFolderRef]);
+  const [isLoading] = useAtom(isAppLoadingAtom);
 
   const mouseLeave = useCallback(() => {
     !sidebar && setHoverbar(false);
@@ -38,18 +29,11 @@ const Sidebar: React.FC<SidebarProps> = () => {
         onMouseLeave={mouseLeave}
         onMouseEnter={mouseEnter}
       >
-        {!loading ? (
+        {!isLoading ? (
           sidebar || hoverbar ? (
             <>
-              <SidebarTop
-                isSidebarOpen={sidebar}
-                handleSidebar={handleSidebar}
-              />
-              <SidebarWorkspace
-                numOfFolders={Object.keys(folders).length}
-                bottomFolderRef={bottomFolderRef}
-              />
-              <SidebarBase scrollToBottom={scrollToBottom} />
+              <SidebarTop isSidebarOpen={sidebar} />
+              <SidebarWorkspaceAndBase />
             </>
           ) : null
         ) : (

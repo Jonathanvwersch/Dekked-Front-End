@@ -1,5 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
-import { SidebarBlocksContext } from "../../../../contexts";
+import React, { SyntheticEvent, useState } from "react";
 import {
   BinderData,
   FolderData,
@@ -8,7 +7,7 @@ import {
 } from "./SidebarBlockModal.data";
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES, CoordsType } from "../../../../shared";
-import { getChildType } from "../../../../helpers";
+import { getChildType, useAsset } from "../../../../helpers";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
@@ -28,9 +27,8 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   id,
   type,
 }) => {
-  const { handleAddBlock, handleDeleteBlock } =
-    useContext(SidebarBlocksContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const { addAsset, deleteAsset } = useAsset();
 
   const modalData =
     type === FILETREE_TYPES.FOLDER
@@ -48,7 +46,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     ) {
       handleClose();
-      handleAddBlock(id, getChildType(type as FILETREE_TYPES));
+      addAsset(id, getChildType(type as FILETREE_TYPES));
     } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
       handleClose();
       handleColorPicker();
@@ -86,7 +84,8 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
           isOpen={isDeleteModalOpen}
           handleMainButton={(e: SyntheticEvent) => {
             e.preventDefault();
-            handleDeleteBlock(id, type);
+            deleteAsset(type, id);
+            setIsDeleteModalOpen(false);
           }}
           bodyText={deleteModalBodyText()}
         />

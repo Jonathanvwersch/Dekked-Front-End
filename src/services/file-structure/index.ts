@@ -1,4 +1,4 @@
-export { useBinders } from "./useBinders";
-export { useFolders } from "./useFolders";
-export { useStudyPacks } from "./useStudyPacks";
-export { useFileTree } from "./useFileTree";
+export { getFileTree } from "./fileTree-api";
+export { getFolders } from "./folders-api";
+export { getBinders } from "./binders-api";
+export { getStudySets } from "./studySets-api";

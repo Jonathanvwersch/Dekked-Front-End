@@ -16,7 +16,7 @@ import {
   getBlocksByPageId,
   savePage,
 } from "../../services/note-taking/blocks-api";
-import { FILETREE_TYPES, Params } from "../../shared";
+import { Params } from "../../shared";
 import {
   convertBlocksToContent,
   getCurrentBlock,
@@ -49,7 +49,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   const pageId = blocks?.pageId;
 
-  const { mutate } = useMutation(
+  const { mutate: _savePage } = useMutation(
     `${studyPackId}-save-notes`,
     (editorState: EditorState) => savePage({ editorState, pageId })
   );
@@ -66,7 +66,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState) => mutate(editorState),
+    (editorState: EditorState) => _savePage(editorState),
     1000
   );
 

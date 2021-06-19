@@ -1,10 +1,11 @@
+import { useAtom } from "jotai";
 import React, { useContext } from "react";
 import { useIsMutating } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { HamburgerMenuIcon } from "../../../assets";
-import { SidebarContext } from "../../../contexts";
 import { Params, SIZES } from "../../../shared";
+import { sidebarAtom } from "../../../store";
 import {
   ComponentLoadingSpinner,
   Flex,
@@ -15,7 +16,7 @@ import {
 import Breadcrumbs from "./Breadcrumbs";
 
 const TopBar: React.FC = () => {
-  const { sidebar, handleSidebar } = useContext(SidebarContext);
+  const [sidebar, setSidebar] = useAtom(sidebarAtom);
   const theme = useContext(ThemeContext);
   const { id } = useParams<Params>();
   const isSaving = useIsMutating({ mutationKey: `${id}-save-notes` });
@@ -43,7 +44,7 @@ const TopBar: React.FC = () => {
     <StyledTopbar>
       {!sidebar ? (
         <>
-          <IconActive handleClick={handleSidebar}>
+          <IconActive handleClick={() => setSidebar((prevState) => !prevState)}>
             <Tooltip
               id="OpenSidebarHamburgerMenu"
               text="tooltips.sidebar.openSidebar"

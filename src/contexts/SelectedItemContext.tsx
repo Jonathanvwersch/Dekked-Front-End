@@ -1,7 +1,9 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { useAtom } from "jotai";
+import { createContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FileTreeContext } from ".";
+import { useAsset } from "../helpers";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
+import { fileTreeAtom, isAppLoadingAtom } from "../store";
 
 interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
@@ -14,12 +16,8 @@ interface SelectedItemContextProps {
     | undefined;
   type: FILETREE_TYPES;
   id: string;
-  numOfFolders: number;
-  numOfBinders: number;
-  numOfStudySets: number;
   selectedBlockName: string;
   handleSelectedBlockName: (name: string) => void;
-  loading: boolean;
   tab: TAB_TYPE;
 }
 
@@ -29,17 +27,15 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>(
 
 export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const { type, id, tab } = useParams<Params>();
-  const { getAsset, fileTree } = useContext(FileTreeContext);
-  const [numOfFolders, setNumOfFolders] = useState<number>(0);
-  const [numOfBinders, setNumOfBinders] = useState<number>(0);
-  const [numOfStudySets, setNumOfStudySets] = useState<number>(0);
+  const [fileTree] = useAtom(fileTreeAtom);
   const [folderData, setFolderData] = useState<FolderInterface>();
   const [binderData, setBinderData] = useState<BinderInterface>();
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLoading] = useAtom(isAppLoadingAtom);
   const [selectedItemData, setSelectedItemData] =
     useState<FolderInterface | BinderInterface | StudyPackInterface>();
   const [selectedBlockName, setSelectedBlockName] = useState<string>("");
+  const { getAsset } = useAsset();
 
   const handleSelectedBlockName = (name: string) => {
     setSelectedBlockName(name);
@@ -53,16 +49,10 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
       setSelectedItemData(getAsset(type, id) as FolderInterface);
-      setNumOfFolders(Object.keys(fileTree).length);
-      folderData &&
-        fileTree[folderData?.id]?.children &&
-        setNumOfBinders(Object.keys(fileTree[folderData?.id]?.children).length);
-      setNumOfStudySets(0);
       if (folderData) setLoading(false);
     } else if (type === FILETREE_TYPES.BINDER) {
       setBinderData(getAsset(type, id) as BinderInterface);
       setSelectedItemData(getAsset(type, id) as BinderInterface);
-      setNumOfFolders(Object.keys(fileTree).length);
       binderData &&
         setFolderData(
           getAsset(
@@ -71,17 +61,10 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
           ) as FolderInterface
         );
 
-      folderData &&
-        fileTree[folderData?.id]?.children[id]?.children &&
-        setNumOfStudySets(
-          Object.keys(fileTree[folderData?.id]?.children[id]?.children).length
-        );
-      setNumOfBinders(0);
       if (binderData) setLoading(false);
     } else if (type === FILETREE_TYPES.STUDY_SET) {
       setSelectedItemData(getAsset(type, id) as StudyPackInterface);
       setStudySetData(getAsset(type, id) as StudyPackInterface);
-      setNumOfFolders(Object.keys(fileTree).length);
       studySetData &&
         setBinderData(
           getAsset(
@@ -98,7 +81,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         );
       if (studySetData && binderData) setLoading(false);
     }
-  }, [id, binderData, studySetData, folderData, getAsset, type, fileTree]);
+  }, [id, binderData, studySetData, folderData, type, getAsset, setLoading]);
 
   return (
     <SelectedItemContext.Provider
@@ -109,12 +92,8 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         studySetData,
         type,
         id,
-        numOfFolders,
-        numOfBinders,
-        numOfStudySets,
         selectedBlockName,
         handleSelectedBlockName,
-        loading,
         tab,
       }}
     >

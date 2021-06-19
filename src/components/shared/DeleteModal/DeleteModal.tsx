@@ -18,7 +18,6 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   handleMainButton,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-
   const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
 
   return (

@@ -1,78 +1,65 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import { Sidebar } from "../../components/shared/Sidebar";
 import { FILETREE_TYPES, Params } from "../../shared";
 import CustomSwitch from "../../Router/CustomSwitch";
-import { FileTreeContext } from "../../contexts";
-import { isEmpty } from "lodash";
-import { SidebarContextProvider } from "../../contexts/SidebarContext";
 import { LinkedFlashcardContextProvider } from "../../contexts/LinkedFlashcardContext";
 import { FlashcardsContextProvider } from "../../contexts/FlashcardsContext";
 import { LayeredModalContextProvider } from "../../contexts/LayeredModalContext";
 import PrivateRoute from "../../Router/PrivateRoute";
-import { SidebarBlocksContextProvider } from "../../contexts/SidebarBlocksContext";
-import { StudySetTabProvider } from "../../contexts/StudySetTabContext";
+import { useAtom } from "jotai";
+
+import { fileTreeAtom, typeAtom } from "../../store";
+import { useAsset } from "../../helpers";
 
 const OptionsPage: React.FC = () => {
   const { type, id } = useParams<Params>();
-  const { getAsset, folders, binders, studyPacks, fileTree } =
-    useContext(FileTreeContext);
-  const firstFolderId = Object.keys(fileTree)[0];
+  const [, setType] = useAtom(typeAtom);
+  const [fileTree] = useAtom(fileTreeAtom);
+  const { getAsset } = useAsset();
   const history = useHistory();
-  const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
 
-  // before checking if the id exists by using the getAsset function, we first need to make sure that
-  // the files (folders, binders, and study sets) have been successfully fetched
-  const doFilesExist = useCallback(() => {
-    if (type === FILETREE_TYPES.FOLDER) return !isEmpty(folders);
-    else if (type === FILETREE_TYPES.BINDER)
-      return !isEmpty(folders) && !isEmpty(binders);
-    else return !isEmpty(folders) && !isEmpty(binders) && !isEmpty(studyPacks);
-  }, [type, folders, binders, studyPacks]);
+  useEffect(() => {
+    setType(type);
+  }, [type, setType]);
 
   // if id doesn't exist, just push to first folder
-  useEffect(() => {
-    if (firstFolderId && doFilesExist() && !getAsset(type, id)) {
-      history.push(firstFolderLink);
+  useLayoutEffect(() => {
+    if (fileTree && Object.keys(fileTree)[0] && !getAsset(type, id)) {
+      history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [id, firstFolderLink, doFilesExist]);
+  }, [id, fileTree, getAsset, history, type]);
 
   return (
     <SelectedItemContextProvider>
       <FlashcardsContextProvider>
         <LinkedFlashcardContextProvider>
-          <SidebarBlocksContextProvider>
-            <StudySetTabProvider>
-              <SidebarContextProvider>
-                <LayeredModalContextProvider>
-                  <Sidebar />
-                  <CustomSwitch>
-                    <PrivateRoute
-                      exact
-                      path={`/${FILETREE_TYPES.FOLDER}/:id`}
-                      component={FolderPage}
-                    />
-                    <PrivateRoute
-                      path={`/${FILETREE_TYPES.BINDER}/:id`}
-                      component={BinderPage}
-                    />
-                    <PrivateRoute
-                      exact
-                      path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-                      component={StudySetPage}
-                    />
-                    <PrivateRoute
-                      exact
-                      path={`/:type/:id/study/:studyModes/:flashcardIndex`}
-                      component={StudyModePage}
-                    />
-                  </CustomSwitch>
-                </LayeredModalContextProvider>
-              </SidebarContextProvider>
-            </StudySetTabProvider>
-          </SidebarBlocksContextProvider>
+          <LayeredModalContextProvider>
+            <Sidebar />
+            <CustomSwitch>
+              <PrivateRoute
+                exact
+                path={`/${FILETREE_TYPES.FOLDER}/:id`}
+                component={FolderPage}
+              />
+              <PrivateRoute
+                path={`/${FILETREE_TYPES.BINDER}/:id`}
+                component={BinderPage}
+              />
+              <PrivateRoute
+                exact
+                path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+                component={StudySetPage}
+              />
+              <PrivateRoute
+                exact
+                path={`/:type/:id/study/:studyModes/:flashcardIndex`}
+                component={StudyModePage}
+              />
+            </CustomSwitch>
+          </LayeredModalContextProvider>
         </LinkedFlashcardContextProvider>
       </FlashcardsContextProvider>
     </SelectedItemContextProvider>

@@ -1,16 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { PageHeader } from "../../shared";
 import { Flex } from "../../common";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { FILETREE_TYPES } from "../../../shared";
 import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
+import { bindersAtom, studySetsAtom, typeAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 const FolderBinderHeader: React.FC = () => {
   const intl = useIntl();
-
-  const { type, numOfBinders, numOfStudySets } =
-    useContext(SelectedItemContext);
+  const [type] = useAtom(typeAtom);
+  const [binders] = useAtom(bindersAtom);
+  const [studySets] = useAtom(studySetsAtom);
+  const numOfBinders = binders ? Object.keys(binders).length : 0;
+  const numOfStudySets = studySets ? Object.keys(studySets).length : 0;
 
   // Use plural form of item (either binder or study set) if the number of items does not equal 1
   const numberOfItems = (type: FILETREE_TYPES) => {

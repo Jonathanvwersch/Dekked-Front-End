@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -11,7 +11,6 @@ import {
 
 import { useHistory } from "react-router-dom";
 import { login } from "../../../services/authentication/login";
-import { UserContext } from "../../../contexts";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 
@@ -23,7 +22,8 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const [emailAddress, setEmailAddress] = useState<string>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
-  const { setUser } = useContext(UserContext);
+  const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
+
   const { mutate: logIn, data, isLoading } = useMutation("log-in", login);
 
   const isSubmitButtonDisabled = () => {
@@ -31,11 +31,11 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     return isAnyRequiredFieldPristine([emailAddress, password]);
   };
 
-  const [errorCode, setErrorCode] = useState<number>();
   const history = useHistory();
 
   const loginUser = async (emailAddress: string, password: string) => {
     setErrorMessage(false);
+    setErrorCode(undefined);
     window.localStorage.setItem("user-email", "");
     logIn({ email_address: emailAddress, password });
     setErrorMessage(!data?.userData?.success);
@@ -43,11 +43,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
     if (data?.userData?.success) {
       const token = data?.userData?.data?.token;
-      const userId = data?.userData?.data?.id;
-      const firstName = data?.userData?.data?.first_name;
-      const lastName = data?.userData?.data?.last_name;
-      const emailAddress = data?.userData?.data?.email_address;
-      setUser({ id: userId, firstName, lastName, emailAddress });
       setSessionCookie(token);
 
       const logInInterval = setInterval(() => {
@@ -69,7 +64,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   return (
     <>
-      {errorMessage && (
+      {errorMessage && errorCode && (
         <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>

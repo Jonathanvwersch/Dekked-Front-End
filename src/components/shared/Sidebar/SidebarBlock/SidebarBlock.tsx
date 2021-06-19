@@ -12,7 +12,7 @@ import {
   getChildType,
   positionModals,
   handleIconType,
-  getStudySetTabLink,
+  useAsset,
 } from "../../../../helpers";
 import {
   ColorPicker,
@@ -30,7 +30,13 @@ import {
   Params,
   TAB_TYPE,
 } from "../../../../shared";
-import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
+import { useAtom } from "jotai";
+import {
+  bindersAtom,
+  isBlockOpenAtom,
+  studySetsAtom,
+  studySetTabAtom,
+} from "../../../../store";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
@@ -47,9 +53,12 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [iconColor, setIconColor] = useState<string>(blockData?.color);
-  const { updateAsset, binders, studyPacks } = useContext(FileTreeContext);
-  const { isBlockOpen, handleOpenBlock, handleAddBlock } =
-    useContext(SidebarBlocksContext);
+  const [binders] = useAtom(bindersAtom);
+  const [studyPacks] = useAtom(studySetsAtom);
+  const [isBlockOpen] = useAtom(isBlockOpenAtom);
+  const [studySetTab] = useAtom(studySetTabAtom);
+  const { updateAsset, addAsset, openAsset } = useAsset();
+
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16
@@ -64,7 +73,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     if (blockData && iconColor !== blockData.color && colorPicker) {
       updateAsset(type, blockData.id, { color: iconColor });
     }
-  }, [iconColor, blockData, type, updateAsset, colorPicker]);
+  }, [iconColor, blockData, type, colorPicker]);
 
   // open and position block modal
   const handleBlockModal = (
@@ -83,7 +92,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    handleOpenBlock(blockData.id);
+    openAsset(blockData.id);
   };
 
   // rotate dropdown arrow on click
@@ -95,14 +104,16 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const handleAddItem = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    handleAddBlock(blockData.id, getChildType(type as FILETREE_TYPES));
+    addAsset(getChildType(type as FILETREE_TYPES), blockData.id);
   };
 
   const pathName = blockData && {
     pathname:
       type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
         ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${getStudySetTabLink(blockData.id)}`,
+        : `/${type}/${blockData.id}/${
+            studySetTab[blockData.id] || TAB_TYPE.NOTES
+          }`,
   };
 
   const navLinkStyle = { width: "100%" };
@@ -116,8 +127,10 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
 
   if (
     (slugType === FILETREE_TYPES.STUDY_SET &&
+      studyPacks &&
       studyPacks?.[id]?.binder_id === blockData?.id) ||
-    binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id
+    (studyPacks &&
+      binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id)
   ) {
     isParentOfActiveBlock = true;
   } else if (

@@ -1,10 +1,11 @@
+import { useAtom } from "jotai";
 import React, { useContext, useEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
-import { FileTreeContext } from "../contexts";
 import { getSessionCookie } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
+import { fileTreeAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -22,8 +23,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const { isLoading, fileTree } = useContext(FileTreeContext);
-  const firstFolderId = Object.keys(fileTree)[0];
+  const isLoading = false;
+  const [fileTree] = useAtom(fileTreeAtom);
+  const firstFolderId = fileTree ? Object.keys(fileTree)[0] : "/login";
   const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(getSessionCookie());
 
