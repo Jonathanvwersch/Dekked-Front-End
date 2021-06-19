@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
-import { CurrentBlockContext, SelectedItemContext } from "../../../contexts";
+import { CurrentBlockContext } from "../../../contexts";
 import { useMultiKeyPress } from "../../../hooks";
-import { SIZES } from "../../../shared";
-import { theme } from "../../../styles/theme";
+import { Params, SIZES } from "../../../shared";
 import { Flex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
 
@@ -20,7 +20,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
   const { currentBlock } = useContext(CurrentBlockContext);
-  const { selectedItemData } = useContext(SelectedItemContext);
+  const { id } = useParams<Params>();
   useMultiKeyPress(["Control", "1"], () =>
     setShowFlashcard((prevState) => !prevState)
   );
@@ -53,8 +53,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
       </Tooltip>
       {showFlashcard ? (
         <StudySetFlashcard
-          ownerId={selectedItemData?.owner_id}
-          studyPackId={selectedItemData?.id}
+          studyPackId={id}
           linked={showFlashcard}
           currentBlockKey={currentBlock?.key}
           type="add"

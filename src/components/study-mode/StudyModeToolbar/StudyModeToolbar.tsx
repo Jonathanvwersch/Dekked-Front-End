@@ -94,7 +94,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
         blockLink={currentBlockKey}
-        ownerId={ownerId}
         flashcardId={flashcardId}
         isOpen={isEditable}
         setIsOpen={setIsEditable}

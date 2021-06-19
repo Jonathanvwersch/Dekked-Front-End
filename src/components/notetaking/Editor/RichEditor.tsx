@@ -27,7 +27,8 @@ import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
-import { CurrentBlockContext, LinkedFlashcardContext } from "../../../contexts";
+import { blockLinkAtom, isFlashcardLinkedAtom } from "../../../store";
+import { useAtom } from "jotai";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -168,7 +169,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
     setEditorState(RichUtils.onTab(event, editorState, 4));
   };
 
-  const { blockLink, isLinked } = useContext(LinkedFlashcardContext);
+  const [isLinked] = useAtom(isFlashcardLinkedAtom);
+  const [blockLink] = useAtom(blockLinkAtom);
   const div = document.getElementById(`${blockLink}-0-0`);
 
   useEffect(() => {

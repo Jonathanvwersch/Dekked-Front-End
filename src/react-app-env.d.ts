@@ -6,7 +6,6 @@ interface FileTreeInterface {
     children: FileTreeInterface;
   };
 }
-
 interface BinderInterface {
   id: string;
   owner_id: string;
@@ -16,7 +15,6 @@ interface BinderInterface {
   name: string;
   color: string;
 }
-
 interface FolderInterface {
   id: string;
   owner_id: string;
@@ -25,7 +23,6 @@ interface FolderInterface {
   date_modified: Date;
   color: string;
 }
-
 interface StudyPackInterface {
   id: string;
   owner_id: string;
@@ -35,7 +32,6 @@ interface StudyPackInterface {
   name: string;
   color: string;
 }
-
 interface PageInterface {
   id?: string;
   owner_id: string;
@@ -43,7 +39,6 @@ interface PageInterface {
   study_pack_id: string;
   ordering: string[];
 }
-
 interface FlashcardInterface {
   flashcard: {
     id: string;

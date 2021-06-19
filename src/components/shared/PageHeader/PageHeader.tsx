@@ -9,10 +9,13 @@ import {
   Tooltip,
 } from "../../common";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
+import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { FlashcardsContext } from "../../../contexts";
+import { useParams } from "react-router-dom";
+import { typeAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface PageHeaderProps {
   message?: string;
@@ -22,9 +25,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { selectedBlockName, type, id } = useContext(SelectedItemContext);
+  const { id } = useParams<Params>();
+  const [type] = useAtom(typeAtom);
+  const { selectedBlockName } = useContext(SelectedItemContext);
   const { flashcards } = useContext(FlashcardsContext);
   const flashcardsDoNotExist = flashcards?.length === 0;
+
   useMultiKeyPress(
     ["Control", "2"],
     () => !flashcardsDoNotExist && setStudyMode(true)

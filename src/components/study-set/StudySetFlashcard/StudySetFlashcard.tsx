@@ -28,6 +28,8 @@ import {
   deleteFlashcard,
   saveFlashcard,
 } from "../../../services/flashcards/flashcards-api";
+import { userAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -39,7 +41,6 @@ interface StudySetFlashcardProps {
   backBlocks?: string[];
   linked?: boolean;
   index?: number;
-  ownerId?: string;
   currentBlockKey?: string;
   studyPackId?: string;
   vertical?: boolean; // if true, flashcard text containers will be stacked vertically
@@ -57,7 +58,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   index,
   flashcardId,
   studyPackId,
-  ownerId,
   currentBlockKey,
   vertical = false,
   width,
@@ -77,6 +77,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
   const [editFlashcard, setEditFlashcard] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [user] = useAtom(userAtom);
+  const { id: ownerId } = user;
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
 
@@ -237,8 +239,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const handleSaveFlashcard = () => {
     if (type === "add") {
-      ownerId &&
-        studyPackId &&
+      studyPackId &&
         addCard({
           owner_id: ownerId,
           study_pack_id: studyPackId,
@@ -340,7 +341,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       <FlashcardModal
         isOpen={editFlashcard}
         setIsOpen={setEditFlashcard}
-        ownerId={ownerId}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
         type="edit"

@@ -2,8 +2,8 @@ import { useAtom } from "jotai";
 import { createContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAsset } from "../helpers";
-import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
-import { fileTreeAtom, isAppLoadingAtom } from "../store";
+import { FILETREE_TYPES, Params } from "../shared";
+import { isAppLoadingAtom } from "../store";
 
 interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
@@ -14,11 +14,8 @@ interface SelectedItemContextProps {
     | BinderInterface
     | StudyPackInterface
     | undefined;
-  type: FILETREE_TYPES;
-  id: string;
   selectedBlockName: string;
   handleSelectedBlockName: (name: string) => void;
-  tab: TAB_TYPE;
 }
 
 export const SelectedItemContext = createContext<SelectedItemContextProps>(
@@ -26,8 +23,7 @@ export const SelectedItemContext = createContext<SelectedItemContextProps>(
 );
 
 export const SelectedItemContextProvider: React.FC = ({ children }) => {
-  const { type, id, tab } = useParams<Params>();
-  const [fileTree] = useAtom(fileTreeAtom);
+  const { type, id } = useParams<Params>();
   const [folderData, setFolderData] = useState<FolderInterface>();
   const [binderData, setBinderData] = useState<BinderInterface>();
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
@@ -90,11 +86,8 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         folderData,
         binderData,
         studySetData,
-        type,
-        id,
         selectedBlockName,
         handleSelectedBlockName,
-        tab,
       }}
     >
       {children}

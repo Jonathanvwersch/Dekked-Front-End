@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -28,9 +28,14 @@ import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";
 import Confetti from "../../../assets/images/Confetti.png";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { LinkedFlashcardContext } from "../../../contexts";
 import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
 import { usePageSetupHelpers } from "../../../hooks";
+import {
+  blockLinkAtom,
+  isFlashcardLinkedAtom,
+  studyModeUrlAtom,
+} from "../../../store";
+import { useAtom } from "jotai";
 
 interface StudyModeFlashcardProps {
   flippedState: boolean;
@@ -67,9 +72,10 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
-  const { setIsLinked, setStudyModeUrl, setBlockLink } = useContext(
-    LinkedFlashcardContext
-  );
+  const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
+  const [, setStudyModeUrl] = useAtom(studyModeUrlAtom);
+  const [, setBlockLink] = useAtom(blockLinkAtom);
+
   const [hasFocus, setHasFocus] = useState<boolean>(false);
 
   // Set front editor state on mount

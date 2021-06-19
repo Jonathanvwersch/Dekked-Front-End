@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { FILETREE_TYPES } from "../../../shared";
+import { FILETREE_TYPES, Params } from "../../../shared";
 import { SelectedItemContext } from "../../../contexts";
 import { FolderBinderAddCard, FolderBinderCard } from "..";
-import { bindersAtom, fileTreeAtom, studySetsAtom } from "../../../store";
+import {
+  bindersAtom,
+  fileTreeAtom,
+  studySetsAtom,
+  typeAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 import { useAsset } from "../../../helpers";
+import { useParams } from "react-router-dom";
 
 interface FolderBinderCardContainerProps {}
 
@@ -17,7 +23,9 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
     const numOfBinders = binders ? Object.keys(binders).length : 0;
     const numOfStudySets = studySets ? Object.keys(studySets).length : 0;
     const { getAsset } = useAsset();
-    const { folderData, type, id } = useContext(SelectedItemContext);
+    const [type] = useAtom(typeAtom);
+    const { id } = useParams<Params>();
+    const { folderData } = useContext(SelectedItemContext);
 
     const Cards = (type: FILETREE_TYPES) => {
       // if type = folders, create cards using binder data

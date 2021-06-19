@@ -17,7 +17,6 @@ interface FlashcardModalProps {
   backBlocks?: string[];
   blockLink?: string;
   flashcardId?: string;
-  ownerId?: string;
 }
 
 const FlashcardModal: React.FC<FlashcardModalProps> = ({
@@ -25,7 +24,6 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   backBlocks,
   blockLink,
   flashcardId,
-  ownerId,
   isOpen,
   setIsOpen,
   type = "add",
@@ -56,7 +54,6 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
       closeButtonBackgroundColor={theme.colors.secondary}
     >
       <StudySetFlashcard
-        ownerId={ownerId}
         studyPackId={id}
         linked={true}
         flashcardId={flashcardId}

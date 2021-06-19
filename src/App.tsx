@@ -99,7 +99,7 @@ export const App: React.FC = () => {
   ]);
 
   useEffect(() => {
-    if (!user) _setUser(user);
+    if (user) _setUser(user);
   }, [user, _setUser]);
 
   // Google analytics user tracking

@@ -4,6 +4,8 @@ import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";
 import { useIntl } from "react-intl";
+import { useParams } from "react-router-dom";
+import { Params } from "../../../../shared";
 
 interface SidebarBlockNameProps {
   blockId: string;
@@ -14,7 +16,8 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
   blockId,
   blockName,
 }) => {
-  const { id, selectedBlockName } = useContext(SelectedItemContext);
+  const { id } = useParams<Params>();
+  const { selectedBlockName } = useContext(SelectedItemContext);
   const [name, setName] = useState(blockName);
   const intl = useIntl();
   const theme = useContext(ThemeContext);

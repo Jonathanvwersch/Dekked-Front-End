@@ -267,52 +267,55 @@ export const useAsset = () => {
     }
   };
 
-  const updateAsset = (
-    type: string,
-    assetId: string,
-    updateData: {
-      color?: string;
-      name?: string;
-    }
-  ) => {
-    const now = new Date();
+  const updateAsset = useCallback(
+    (
+      type: string,
+      assetId: string,
+      updateData: {
+        color?: string;
+        name?: string;
+      }
+    ) => {
+      const now = new Date();
 
-    switch (type) {
-      case FILETREE_TYPES.FOLDER:
-        if (folders) {
-          folders[assetId] = {
-            ...folders[assetId],
-            ...updateData,
-            date_modified: now,
-          };
-          _updateFolder({ folderId: assetId, updateData });
-        }
-        break;
+      switch (type) {
+        case FILETREE_TYPES.FOLDER:
+          if (folders) {
+            folders[assetId] = {
+              ...folders[assetId],
+              ...updateData,
+              date_modified: now,
+            };
+            _updateFolder({ folderId: assetId, updateData });
+          }
+          break;
 
-      case FILETREE_TYPES.BINDER:
-        if (binders) {
-          binders[assetId] = {
-            ...binders[assetId],
-            ...updateData,
-          };
-          _updateBinder({ binderId: assetId, updateData });
-        }
-        break;
+        case FILETREE_TYPES.BINDER:
+          if (binders) {
+            binders[assetId] = {
+              ...binders[assetId],
+              ...updateData,
+            };
+            _updateBinder({ binderId: assetId, updateData });
+          }
+          break;
 
-      case FILETREE_TYPES.STUDY_SET:
-        if (studySets) {
-          studySets[assetId] = {
-            ...studySets[assetId],
-            ...updateData,
-          };
-          _updateStudySet({ studySetId: assetId, updateData });
-        }
-        break;
+        case FILETREE_TYPES.STUDY_SET:
+          if (studySets) {
+            studySets[assetId] = {
+              ...studySets[assetId],
+              ...updateData,
+            };
+            _updateStudySet({ studySetId: assetId, updateData });
+          }
+          break;
 
-      default:
-        break;
-    }
-  };
+        default:
+          break;
+      }
+    },
+    [_updateBinder, _updateFolder, _updateStudySet, binders, folders, studySets]
+  );
 
   const deleteAsset = (type: string, assetId: string) => {
     const shouldRedirect = urlId === assetId;

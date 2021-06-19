@@ -37,7 +37,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                         studyPackId={flashcard.flashcard.study_pack_id}
                         frontBlocks={flashcard.front_blocks}
                         backBlocks={flashcard.back_blocks}
-                        ownerId={flashcard.flashcard.owner_id}
                       />
                       <Spacer height={theme.spacers.size32} />
                     </Fragment>

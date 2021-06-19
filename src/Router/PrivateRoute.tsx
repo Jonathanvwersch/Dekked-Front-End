@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";

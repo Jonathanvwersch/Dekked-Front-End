@@ -9,7 +9,6 @@ import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
-import { SelectedItemContext } from "../../../contexts";
 
 interface StudySetHeaderProps {
   editorState: EditorState;
@@ -26,7 +25,6 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const [numOfWords, setNumOfWords] = useState<number>(0);
   const theme = useContext(ThemeContext);
   const { tab } = useParams<Params>();
-  const { selectedItemData } = useContext(SelectedItemContext);
   const [addFlashcard, setAddFlashcard] = useState<boolean>(false);
 
   // Calculate the number of words in text
@@ -69,11 +67,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
           <PageHeader message={message(tab)} />
         </Flex>
       </div>
-      <FlashcardModal
-        isOpen={addFlashcard}
-        setIsOpen={setAddFlashcard}
-        ownerId={selectedItemData?.owner_id}
-      />
+      <FlashcardModal isOpen={addFlashcard} setIsOpen={setAddFlashcard} />
     </>
   );
 };

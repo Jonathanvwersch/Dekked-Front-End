@@ -7,11 +7,12 @@ import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { isAppLoadingAtom, studySetTabAtom } from "../../../store";
+import { isAppLoadingAtom, studySetTabAtom, typeAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 const Breadcrumbs: React.FC = () => {
-  const { folderData, binderData, studySetData, type } =
+  const [type] = useAtom(typeAtom);
+  const { folderData, binderData, studySetData } =
     useContext(SelectedItemContext);
   const [loading] = useAtom(isAppLoadingAtom);
   const { studyModes } = useParams<Params>();

@@ -73,7 +73,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     if (blockData && iconColor !== blockData.color && colorPicker) {
       updateAsset(type, blockData.id, { color: iconColor });
     }
-  }, [iconColor, blockData, type, colorPicker]);
+  }, [iconColor, blockData, type, colorPicker, updateAsset]);
 
   // open and position block modal
   const handleBlockModal = (

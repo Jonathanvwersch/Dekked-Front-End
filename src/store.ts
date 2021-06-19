@@ -20,7 +20,12 @@ export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 export const darkModeAtom = atomWithStorage<boolean>("dark-mode", false);
 
 // User
-export const userAtom = atom<UserType | undefined>(undefined);
+export const userAtom = atom<UserType>({
+  id: "",
+  email_address: "",
+  first_name: "",
+  last_name: "",
+});
 
 // Sidebar
 export const sidebarAtom = atomWithStorage("sidebar-state", true);
@@ -35,3 +40,11 @@ export const studySetTabAtom = atomWithStorage<{
 
 // Loading
 export const isAppLoadingAtom = atom<boolean>(true);
+
+// Linked flashcards
+export const isFlashcardLinkedAtom = atom<boolean>(false);
+export const studyModeUrlAtom = atom<string>("/");
+export const blockLinkAtom = atom<string>("");
+
+// Flashcard
+export const flashcardsAtom = atom<FlashcardInterface[] | undefined>([]);

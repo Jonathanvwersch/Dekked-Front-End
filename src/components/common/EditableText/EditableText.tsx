@@ -7,6 +7,8 @@ import { useIntl } from "react-intl";
 import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { formatMessage } from "../../../intl";
 import { useAsset } from "../../../helpers";
+import { typeAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
@@ -25,7 +27,8 @@ const EditableText: React.FC<EditableTextProps> = ({
   className,
   itemId,
 }) => {
-  const { handleSelectedBlockName, type } = useContext(SelectedItemContext);
+  const [type] = useAtom(typeAtom);
+  const { handleSelectedBlockName } = useContext(SelectedItemContext);
   const intl = useIntl();
   const { updateAsset } = useAsset();
   const [html, setHtml] = useState<string>(name);
