@@ -1,9 +1,7 @@
 // The main frame is a wrapper component around the topbar and the page
-import { useAtom } from "jotai";
 import React from "react";
 import styled from "styled-components";
-import { ComponentLoadingSpinner, Page } from "..";
-import { isAppLoadingAtom } from "../../../store";
+import { Page } from "..";
 import TopBar from "../../shared/Topbar/Topbar";
 
 interface MainFrameProps {
@@ -11,19 +9,13 @@ interface MainFrameProps {
 }
 
 const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
-  const [isLoading] = useAtom(isAppLoadingAtom);
-
   return (
     <>
       <StyledMainFrame backgroundColor={backgroundColor}>
-        {!isLoading ? (
-          <>
-            <TopBar />
-            {<Page>{children}</Page>}
-          </>
-        ) : (
-          <ComponentLoadingSpinner />
-        )}
+        <>
+          <TopBar />
+          {<Page>{children}</Page>}
+        </>
       </StyledMainFrame>
     </>
   );

@@ -7,7 +7,7 @@ import {
 } from "./SidebarBlockModal.data";
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES, CoordsType } from "../../../../shared";
-import { getChildType, useAsset } from "../../../../helpers";
+import { getChildType, useAsset, useDeleteAsset } from "../../../../helpers";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
@@ -28,7 +28,8 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   type,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const { addAsset, deleteAsset } = useAsset();
+  const { addAsset } = useAsset();
+  const { deleteAsset } = useDeleteAsset();
 
   const modalData =
     type === FILETREE_TYPES.FOLDER
@@ -46,7 +47,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     ) {
       handleClose();
-      addAsset(id, getChildType(type as FILETREE_TYPES));
+      addAsset(getChildType(type as FILETREE_TYPES), id);
     } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
       handleClose();
       handleColorPicker();

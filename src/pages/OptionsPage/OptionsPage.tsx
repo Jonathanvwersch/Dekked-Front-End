@@ -11,16 +11,17 @@ import PrivateRoute from "../../Router/PrivateRoute";
 import { useAtom } from "jotai";
 
 import { fileTreeAtom, typeAtom } from "../../store";
-import { useAsset } from "../../helpers";
+import { differenceInObjects, useGetAsset } from "../../helpers";
+import { isEmpty } from "lodash";
 
 const OptionsPage: React.FC = () => {
   const { type, id } = useParams<Params>();
   const [, setType] = useAtom(typeAtom);
   const [fileTree] = useAtom(fileTreeAtom);
-  const { getAsset } = useAsset();
+  const { getAsset } = useGetAsset();
   const history = useHistory();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setType(type);
   }, [type, setType]);
 
@@ -63,4 +64,6 @@ const OptionsPage: React.FC = () => {
   );
 };
 
-export default React.memo(OptionsPage);
+export default React.memo(OptionsPage, (prevProps, newProps) => {
+  return isEmpty(differenceInObjects(newProps, prevProps));
+});

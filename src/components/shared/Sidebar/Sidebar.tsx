@@ -1,17 +1,18 @@
 import { useAtom } from "jotai";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { SidebarTop, SidebarWorkspaceAndBase } from ".";
+import { SidebarTop, SidebarWorkspace } from ".";
 import { SIZES } from "../../../shared";
-import { isAppLoadingAtom, sidebarAtom } from "../../../store";
-import { ComponentLoadingSpinner } from "../../common";
+import { sidebarAtom } from "../../../store";
+import SidebarBase from "./SidebarBase/SidebarBase";
+import SidebarWorkspaceHeader from "./SidebarWorkspace/SidebarWorkspaceHeader";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const [sidebar] = useAtom(sidebarAtom);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
-  const [isLoading] = useAtom(isAppLoadingAtom);
+  const bottomFolderRef = useRef<HTMLDivElement>(null);
 
   const mouseLeave = useCallback(() => {
     !sidebar && setHoverbar(false);
@@ -26,19 +27,29 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <InnerSidebar
         sidebar={sidebar}
         hoverbar={hoverbar}
-        onMouseLeave={mouseLeave}
-        onMouseEnter={mouseEnter}
+        onMouseLeave={
+          !sidebar
+            ? mouseLeave
+            : (e) => {
+                return null;
+              }
+        }
+        onMouseEnter={
+          !sidebar
+            ? mouseEnter
+            : (e) => {
+                return null;
+              }
+        }
       >
-        {!isLoading ? (
-          sidebar || hoverbar ? (
-            <>
-              <SidebarTop isSidebarOpen={sidebar} />
-              <SidebarWorkspaceAndBase />
-            </>
-          ) : null
-        ) : (
-          <ComponentLoadingSpinner />
-        )}
+        {sidebar || hoverbar ? (
+          <>
+            <SidebarTop />
+            <SidebarWorkspaceHeader />
+            <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+            <SidebarBase bottomFolderRef={bottomFolderRef} />
+          </>
+        ) : null}
       </InnerSidebar>
     </SidebarContainer>
   );
@@ -86,4 +97,4 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
       : `translateX(calc(20px - ${theme.sizes.sidebar})) translateZ(0px)`};
 `;
 
-export default Sidebar;
+export default React.memo(Sidebar);

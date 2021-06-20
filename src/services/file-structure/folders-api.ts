@@ -1,13 +1,7 @@
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
-export const getFolders = async ({
-  name,
-  color,
-}: {
-  name: string;
-  color: string;
-}) => {
+export const getFolders = async () => {
   try {
     const uri = config.api + "/folders";
     const response = await fetch(uri, {
@@ -19,10 +13,6 @@ export const getFolders = async ({
     if (response.ok) {
       const json = await response.json();
       if (json.success) {
-        // if there are no folders, auto add one folder
-        if (Object.keys(json.data.folders).length === 0) {
-          addFolder({ name, color });
-        }
         return json.data.folders;
       }
     }

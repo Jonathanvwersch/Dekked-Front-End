@@ -3,35 +3,29 @@ import styled from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { SelectedItemContext } from "../../../contexts";
 import { FolderBinderAddCard, FolderBinderCard } from "..";
-import {
-  bindersAtom,
-  fileTreeAtom,
-  studySetsAtom,
-  typeAtom,
-} from "../../../store";
+import { fileTreeAtom, isAppLoadingAtom, typeAtom } from "../../../store";
 import { useAtom } from "jotai";
-import { useAsset } from "../../../helpers";
+import { useGetAsset } from "../../../helpers";
 import { useParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 interface FolderBinderCardContainerProps {}
 
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
   () => {
     const [fileTree] = useAtom(fileTreeAtom);
-    const [binders] = useAtom(bindersAtom);
-    const [studySets] = useAtom(studySetsAtom);
-    const numOfBinders = binders ? Object.keys(binders).length : 0;
-    const numOfStudySets = studySets ? Object.keys(studySets).length : 0;
-    const { getAsset } = useAsset();
+    const { getAsset, getNumberOfChildAssets } = useGetAsset();
     const [type] = useAtom(typeAtom);
     const { id } = useParams<Params>();
     const { folderData } = useContext(SelectedItemContext);
+    const numOfItems = getNumberOfChildAssets(type, id);
+    const [isLoading] = useAtom(isAppLoadingAtom);
 
     const Cards = (type: FILETREE_TYPES) => {
       // if type = folders, create cards using binder data
       if (type === FILETREE_TYPES.FOLDER) {
-        return numOfBinders &&
-          numOfBinders > 0 &&
+        return numOfItems &&
+          numOfItems > 0 &&
           folderData &&
           fileTree &&
           fileTree[folderData?.id]?.children
@@ -53,8 +47,8 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
           : null;
       } else {
         // if type = binders, create cards with study set data
-        return numOfStudySets &&
-          numOfStudySets > 0 &&
+        return numOfItems &&
+          numOfItems > 0 &&
           folderData &&
           fileTree &&
           fileTree[folderData?.id]?.children[id]?.children
@@ -80,14 +74,22 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
     };
 
     return (
-      <StyledContainer>
-        <>
-          <FolderBinderAddCard id={id} type={type} />
-          {Cards(type)}
-        </>
-      </StyledContainer>
+      <>
+        {!isLoading ? (
+          <StyledContainer>
+            <FolderBinderAddCard id={id} type={type} />
+            {Cards(type)}
+          </StyledContainer>
+        ) : (
+          <StyledSkeleton width="160px" height="180px" count={3} />
+        )}
+      </>
     );
   };
+
+const StyledSkeleton = styled(Skeleton)`
+  margin-right: ${({ theme }) => theme.spacers.size32};
+`;
 
 const StyledContainer = styled.div<FolderBinderCardContainerProps>`
   flex-shrink: 0;
@@ -95,7 +97,7 @@ const StyledContainer = styled.div<FolderBinderCardContainerProps>`
   display: flex;
   flex-direction: column;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 0.5fr));
   grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 

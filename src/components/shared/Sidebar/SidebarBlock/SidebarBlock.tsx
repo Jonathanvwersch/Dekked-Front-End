@@ -1,42 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import {
   DotsMenuIcon,
   DropDownArrowIcon,
   PlusIcon,
   ROTATE,
 } from "../../../../assets";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ThemeType } from "../../../../styles/theme";
 import styled, { ThemeContext } from "styled-components";
+
 import {
-  getChildType,
   positionModals,
   handleIconType,
   useAsset,
+  getChildType,
+  differenceInObjects,
 } from "../../../../helpers";
 import {
   ColorPicker,
   Flex,
-  HoverCard,
   IconActive,
   IconWrapper,
   Spacer,
   Tooltip,
 } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
-import {
-  CoordsType,
-  FILETREE_TYPES,
-  Params,
-  TAB_TYPE,
-} from "../../../../shared";
+import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
+import { isBlockOpenAtom } from "../../../../store";
 import { useAtom } from "jotai";
-import {
-  bindersAtom,
-  isBlockOpenAtom,
-  studySetsAtom,
-  studySetTabAtom,
-} from "../../../../store";
+import { isEmpty } from "lodash";
 
 interface SidebarBlockProps {
   blockData: FolderInterface | BinderInterface | StudyPackInterface;
@@ -45,19 +37,12 @@ interface SidebarBlockProps {
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
-  const { pathname } = useLocation();
-  const { id, type: slugType } = useParams<Params>();
   const theme: ThemeType = useContext(ThemeContext);
+  const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
-  const colorPickerRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLButtonElement>(null);
-  const [iconColor, setIconColor] = useState<string>(blockData?.color);
-  const [binders] = useAtom(bindersAtom);
-  const [studyPacks] = useAtom(studySetsAtom);
   const [isBlockOpen] = useAtom(isBlockOpenAtom);
-  const [studySetTab] = useAtom(studySetTabAtom);
-  const { updateAsset, addAsset, openAsset } = useAsset();
+  const { openAsset, addAsset } = useAsset();
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
@@ -68,23 +53,17 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       ? theme.spacers.size48
       : null;
 
-  // Update icon color only if new icon color is different from current icon color
-  useEffect(() => {
-    if (blockData && iconColor !== blockData.color && colorPicker) {
-      updateAsset(type, blockData.id, { color: iconColor });
-    }
-  }, [iconColor, blockData, type, colorPicker, updateAsset]);
-
   // open and position block modal
-  const handleBlockModal = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setBlockModal(true);
-    const blockModalHeight = 128;
-    setCoords(positionModals(e, blockModalHeight, menuRef));
-  };
+  const handleBlockModal = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setBlockModal(true);
+      const blockModalHeight = 128;
+      setCoords(positionModals(e, blockModalHeight, menuRef));
+    },
+    []
+  );
 
   // open block on click of dropdown arrow
   const handleExpandBlock = (
@@ -93,11 +72,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     e.preventDefault();
     e.stopPropagation();
     openAsset(blockData.id);
-  };
-
-  // rotate dropdown arrow on click
-  const handleDropDownArrow = () => {
-    return isBlockOpen ? isBlockOpen[blockData.id] : false;
   };
 
   // add item on click of plus icon
@@ -111,73 +85,45 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
     pathname:
       type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
         ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${
-            studySetTab[blockData.id] || TAB_TYPE.NOTES
-          }`,
+        : `/${type}/${blockData.id}/${TAB_TYPE.NOTES}`,
   };
 
   const navLinkStyle = { width: "100%" };
   const navLinkActiveStyle = {
     filter: `${theme.colors.active.filter}`,
     fontWeight: theme.typography.fontWeights.bold as "bold",
-    borderRight: `solid 2px ${theme.colors.primary}`,
   };
 
-  let isParentOfActiveBlock = false;
-
-  if (
-    (slugType === FILETREE_TYPES.STUDY_SET &&
-      studyPacks &&
-      studyPacks?.[id]?.binder_id === blockData?.id) ||
-    (studyPacks &&
-      binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id)
-  ) {
-    isParentOfActiveBlock = true;
-  } else if (
-    slugType === FILETREE_TYPES.BINDER &&
-    binders?.[id]?.folder_id === blockData?.id
-  ) {
-    isParentOfActiveBlock = true;
-  }
+  console.log("block");
 
   return (
     <>
       {blockData ? (
         <NavLink
           to={pathName}
-          isActive={() => {
-            if (
-              pathname === `/${type}/${blockData?.id}/${TAB_TYPE.FLASHCARDS}` ||
-              pathname === `/${type}/${blockData?.id}/${TAB_TYPE.NOTES}` ||
-              pathname === `/${type}/${blockData?.id}`
-            )
-              return true;
-            return false;
-          }}
           style={navLinkStyle}
           activeStyle={navLinkActiveStyle}
         >
-          <StyledBlock
-            padding={`0 ${theme.spacers.size12} 0 ${paddingLeft}`}
-            isParentOfActiveBlock={isParentOfActiveBlock}
-          >
+          <StyledBlock paddingLeft={paddingLeft}>
             <Flex>
               {type === FILETREE_TYPES.FOLDER ||
               type === FILETREE_TYPES.BINDER ? (
                 <IconActive handleClick={(e) => handleExpandBlock(e)}>
                   <DropDownArrowIcon
-                    rotate={handleDropDownArrow() ? ROTATE.NINETY : ROTATE.ZERO}
+                    rotate={
+                      isBlockOpen?.[blockData?.id] ? ROTATE.NINETY : ROTATE.ZERO
+                    }
                   />
                 </IconActive>
               ) : null}
               <Spacer width={theme.spacers.size8} />
               <IconWrapper>
-                {handleIconType(type, iconColor || theme.colors.primary)}
+                {handleIconType(type, blockData?.color)}
               </IconWrapper>
               <Spacer width={theme.spacers.size8} />
               <SidebarBlockName
-                blockId={blockData.id}
-                blockName={blockData.name}
+                blockId={blockData?.id}
+                blockName={blockData?.name}
               />
               <Spacer width={theme.spacers.size4} />
               <HiddenIconsContainer>
@@ -210,17 +156,16 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
             coords={coords}
             handleColorPicker={() => setColorPicker(true)}
             type={type}
-            id={blockData.id}
+            id={blockData?.id}
           />
 
           <ColorPicker
             isOpen={colorPicker}
             handleClose={() => setColorPicker(false)}
             coords={coords}
-            colorPickerRef={colorPickerRef}
-            iconColor={iconColor}
-            setIconColor={setIconColor}
+            iconColor={blockData?.color}
             type={type}
+            id={blockData?.id}
           />
         </NavLink>
       ) : null}
@@ -235,13 +180,21 @@ const HiddenIconsContainer = styled.div`
   display: none;
 `;
 
-const StyledBlock = styled(HoverCard)<{ isParentOfActiveBlock?: boolean }>`
+const StyledBlock = styled.div<{
+  paddingLeft?: string | null;
+}>`
   display: flex;
   align-items: center;
+  padding: ${({ theme, paddingLeft }) =>
+    `0 ${theme.spacers.size12} 0 ${paddingLeft}`};
   min-height: ${({ theme }) => theme.spacers.size32};
-  border-right: ${({ theme, isParentOfActiveBlock }) =>
-    isParentOfActiveBlock && `solid 2px ${theme.colors.primary}`};
+  background-color: ${({ theme }) => theme.colors.secondary};
+  &:active {
+    background-color: transparent;
+  }
+  &:focus,
   &:hover {
+    filter: ${({ theme }) => theme.colors.hover.filter};
     ${HiddenIconsContainer} {
       opacity: 1;
       visibility: visible;
@@ -250,4 +203,21 @@ const StyledBlock = styled(HoverCard)<{ isParentOfActiveBlock?: boolean }>`
   }
 `;
 
-export default React.memo(SidebarBlock);
+export default React.memo(SidebarBlock, (prevProps, newProps) => {
+  return isEmpty(differenceInObjects(newProps, prevProps));
+});
+
+// if (
+//   (slugType === FILETREE_TYPES.STUDY_SET &&
+//     studyPacks &&
+//     studyPacks?.[id]?.binder_id === blockData?.id) ||
+//   (studyPacks &&
+//     binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id)
+// ) {
+//   isParentOfActiveBlock = true;
+// } else if (
+//   slugType === FILETREE_TYPES.BINDER &&
+//   binders?.[id]?.folder_id === blockData?.id
+// ) {
+//   isParentOfActiveBlock = true;
+// }

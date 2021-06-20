@@ -1,9 +1,7 @@
-import { useAtom } from "jotai";
 import { createContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAsset } from "../helpers";
+import { useGetAsset } from "../helpers";
 import { FILETREE_TYPES, Params } from "../shared";
-import { isAppLoadingAtom } from "../store";
 
 interface SelectedItemContextProps {
   folderData: FolderInterface | undefined;
@@ -14,8 +12,6 @@ interface SelectedItemContextProps {
     | BinderInterface
     | StudyPackInterface
     | undefined;
-  selectedBlockName: string;
-  handleSelectedBlockName: (name: string) => void;
 }
 
 export const SelectedItemContext = createContext<SelectedItemContextProps>(
@@ -27,25 +23,14 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const [folderData, setFolderData] = useState<FolderInterface>();
   const [binderData, setBinderData] = useState<BinderInterface>();
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
-  const [, setLoading] = useAtom(isAppLoadingAtom);
   const [selectedItemData, setSelectedItemData] =
     useState<FolderInterface | BinderInterface | StudyPackInterface>();
-  const [selectedBlockName, setSelectedBlockName] = useState<string>("");
-  const { getAsset } = useAsset();
-
-  const handleSelectedBlockName = (name: string) => {
-    setSelectedBlockName(name);
-  };
-
-  useMemo(() => {
-    selectedItemData && handleSelectedBlockName(selectedItemData.name);
-  }, [selectedItemData]);
+  const { getAsset } = useGetAsset();
 
   useMemo(() => {
     if (type === FILETREE_TYPES.FOLDER) {
       setFolderData(getAsset(type, id) as FolderInterface);
       setSelectedItemData(getAsset(type, id) as FolderInterface);
-      if (folderData) setLoading(false);
     } else if (type === FILETREE_TYPES.BINDER) {
       setBinderData(getAsset(type, id) as BinderInterface);
       setSelectedItemData(getAsset(type, id) as BinderInterface);
@@ -56,8 +41,6 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
             binderData?.folder_id
           ) as FolderInterface
         );
-
-      if (binderData) setLoading(false);
     } else if (type === FILETREE_TYPES.STUDY_SET) {
       setSelectedItemData(getAsset(type, id) as StudyPackInterface);
       setStudySetData(getAsset(type, id) as StudyPackInterface);
@@ -75,9 +58,8 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
             binderData?.folder_id
           ) as FolderInterface
         );
-      if (studySetData && binderData) setLoading(false);
     }
-  }, [id, binderData, studySetData, folderData, type, getAsset, setLoading]);
+  }, [id, binderData, studySetData, type, getAsset]);
 
   return (
     <SelectedItemContext.Provider
@@ -86,8 +68,6 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
         folderData,
         binderData,
         studySetData,
-        selectedBlockName,
-        handleSelectedBlockName,
       }}
     >
       {children}

@@ -1,22 +1,17 @@
 import { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
+import { useAtom } from "jotai";
 import { debounce, isEmpty } from "lodash";
 
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { CurrentBlockContext } from "../../contexts";
 import {
   getBlocksByPageId,
   savePage,
 } from "../../services/note-taking/blocks-api";
 import { Params } from "../../shared";
+import { currentBlockAtom } from "../../store";
 import {
   convertBlocksToContent,
   getCurrentBlock,
@@ -33,7 +28,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
   setEditorState,
 }) => {
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
-  const { setCurrentBlock } = useContext(CurrentBlockContext);
+  const [, setCurrentBlock] = useAtom(currentBlockAtom);
   const { id: studyPackId } = useParams<Params>();
 
   const currentBlock = editorState && getCurrentBlock(editorState);

@@ -1,12 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import { debounce } from "lodash";
 import { useIntl } from "react-intl";
 
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { formatMessage } from "../../../intl";
-import { useAsset } from "../../../helpers";
+import { useUpdateAsset } from "../../../helpers";
 import { typeAtom } from "../../../store";
 import { useAtom } from "jotai";
 
@@ -28,9 +27,8 @@ const EditableText: React.FC<EditableTextProps> = ({
   itemId,
 }) => {
   const [type] = useAtom(typeAtom);
-  const { handleSelectedBlockName } = useContext(SelectedItemContext);
   const intl = useIntl();
-  const { updateAsset } = useAsset();
+  const { updateAsset } = useUpdateAsset();
   const [html, setHtml] = useState<string>(name);
 
   const handleChange = (e: any) => {
@@ -41,10 +39,15 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const autoSave = useCallback(
     debounce((name: string) => {
-      updateAsset(type, itemId, {
-        name: name.replace("&nbsp;", " "),
-      });
-    }, 500),
+      updateAsset(
+        type,
+        itemId,
+        {
+          name: name.replace("&nbsp;", " "),
+        },
+        true
+      );
+    }, 1000),
     [itemId, editableTextRef, type]
   );
 
@@ -98,11 +101,18 @@ const EditableText: React.FC<EditableTextProps> = ({
       onKeyUp={() => {
         editableTextRef &&
           editableTextRef.current &&
-          handleSelectedBlockName(editableTextRef.current?.innerText);
+          updateAsset(
+            type,
+            itemId,
+            {
+              name: editableTextRef.current?.innerText,
+            },
+            false
+          );
       }}
       className={className}
       onChange={handleChange}
-      html={html}
+      html={html || ""}
     />
   );
 };

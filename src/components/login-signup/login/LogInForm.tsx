@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -38,13 +38,15 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     setErrorCode(undefined);
     window.localStorage.setItem("user-email", "");
     logIn({ email_address: emailAddress, password });
-    setErrorMessage(!data?.userData?.success);
-    setErrorCode(data?.errorCode);
+  };
 
-    if (data?.userData?.success) {
+  useEffect(() => {
+    if (!data?.userData?.success) {
+      setErrorMessage(!data?.userData?.success);
+      setErrorCode(data?.errorCode);
+    } else if (data?.userData?.success) {
       const token = data?.userData?.data?.token;
       setSessionCookie(token);
-
       const logInInterval = setInterval(() => {
         setSessionCookie(token);
       }, 1000);
@@ -53,9 +55,8 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         clearInterval(logInInterval);
         history.push("/");
       }
-    } else {
     }
-  };
+  }, [data, history]);
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();

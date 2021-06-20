@@ -12,7 +12,11 @@ import styled, { ThemeContext } from "styled-components";
 import { Card, Flex, Overlay, ShadowCard } from "..";
 import { TextColorIcon } from "../../../assets";
 import { LayeredModalContext } from "../../../contexts";
-import { handleIconType, lightenOrDarkenHexColour } from "../../../helpers";
+import {
+  handleIconType,
+  lightenOrDarkenHexColour,
+  useUpdateAsset,
+} from "../../../helpers";
 import { formatMessage } from "../../../intl";
 import {
   LIGHT_THEME_BACKGROUND_COLORS,
@@ -37,9 +41,9 @@ interface ColorPickerProps {
   setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
   iconColor?: string;
   setIconColor?: Dispatch<SetStateAction<string>>;
-  colorPickerRef?: React.RefObject<HTMLDivElement>;
   variant?: "color-background" | "color-block" | "color-font";
   type?: string;
+  id?: string;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -49,22 +53,25 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   editorState,
   setEditorState,
   setIconColor,
-  colorPickerRef,
   variant = "color-block",
   type,
+  id,
 }) => {
   const theme = useContext(ThemeContext);
   const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
   const [isDarkTheme] = useAtom(darkModeAtom);
   const intl = useIntl();
+  const { updateAsset } = useUpdateAsset();
 
   useEffect(() => {
     setIsLayeredModalOpen(true);
     !isOpen && setIsLayeredModalOpen(false);
-  }, [isOpen]);
+  }, [isOpen, setIsLayeredModalOpen]);
 
   const handleClick = (colour: string) => {
-    variant === "color-block" && setIconColor && setIconColor(colour);
+    if (variant === "color-block" && type && id) {
+      updateAsset(type, id, { color: colour });
+    }
 
     if (editorState && setEditorState) {
       // Toggle font color change in study set toolbar
@@ -116,7 +123,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       coords={coords}
       type={MODAL_TYPE.MODAL_NON_LIGHTBOX}
     >
-      <ShadowCard width="132px" cardRef={colorPickerRef}>
+      <ShadowCard width="132px">
         <Flex flexWrap="wrap" width="100%" justifyContent="center">
           {colorArray.map((color) => (
             <Tooltip

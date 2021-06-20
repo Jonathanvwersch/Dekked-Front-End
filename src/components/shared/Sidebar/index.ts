@@ -5,4 +5,5 @@ export { default as SidebarBlockName } from "./SidebarBlockName/SidebarBlockName
 export { default as SidebarEmptyBlock } from "./SidebarEmptyBlock/SidebarEmptyBlock";
 export { default as SidebarFileTree } from "./SidebarFileTree/SidebarFileTree";
 export { default as SidebarTop } from "./SidebarTop/SidebarTop";
-export { default as SidebarWorkspaceAndBase } from "./SidebarWorkspaceAndBase/SidebarWorkspaceAndBase";
+export { default as SidebarWorkspace } from "./SidebarWorkspace/SidebarWorkspace";
+export { default as SidebarBase } from "./SidebarBase/SidebarBase";

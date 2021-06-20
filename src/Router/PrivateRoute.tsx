@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
 import { getSessionCookie } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
-import { fileTreeAtom } from "../store";
+import { fileTreeAtom, loadingErrorAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -25,27 +25,23 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const history = useHistory();
   const isLoading = false;
   const [fileTree] = useAtom(fileTreeAtom);
-  const firstFolderId = fileTree ? Object.keys(fileTree)[0] : "/login";
-  const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(getSessionCookie());
+  const [loadingError] = useAtom(loadingErrorAtom);
 
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (loadingError) {
+      history.push("/error");
+    } else if (!getSessionCookie()) {
       history.push("/login");
-    } else if (path === "/" && firstFolderId) {
-      history.push(firstFolderLink);
+    } else if (path === "/" && fileTree && Object.keys(fileTree)[0]) {
+      history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [history, firstFolderLink, path, isLoggedIn, firstFolderId]);
-
-  useEffect(() => {
-    setIsLoggedIn(getSessionCookie());
-  }, []);
+  }, [history, fileTree, path, loadingError]);
 
   return (
     <>
-      {!isLoading && isLoggedIn ? (
+      {!isLoading && getSessionCookie() ? (
         <Route path={path} exact={exact} strict={strict} component={Component}>
           {children}
         </Route>

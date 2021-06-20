@@ -1,32 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";
 import { useIntl } from "react-intl";
-import { useParams } from "react-router-dom";
-import { Params } from "../../../../shared";
 
 interface SidebarBlockNameProps {
   blockId: string;
   blockName: string;
 }
 
-const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
-  blockId,
-  blockName,
-}) => {
-  const { id } = useParams<Params>();
-  const { selectedBlockName } = useContext(SelectedItemContext);
-  const [name, setName] = useState(blockName);
+const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({ blockName }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
-
-  useEffect(() => {
-    if (blockId === id) {
-      setName(selectedBlockName);
-    }
-  }, [id, blockId, selectedBlockName]);
 
   return (
     <StyledText
@@ -34,7 +19,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
       className="overflow"
       fontSize={theme.typography.fontSizes.size14}
     >
-      {name}
+      {blockName}
     </StyledText>
   );
 };

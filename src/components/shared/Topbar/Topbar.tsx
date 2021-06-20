@@ -5,7 +5,9 @@ import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { HamburgerMenuIcon } from "../../../assets";
 import { Params, SIZES } from "../../../shared";
-import { sidebarAtom } from "../../../store";
+import { isAppLoadingAtom, sidebarAtom } from "../../../store";
+import Skeleton from "react-loading-skeleton";
+
 import {
   ComponentLoadingSpinner,
   Flex,
@@ -20,6 +22,7 @@ const TopBar: React.FC = () => {
   const theme = useContext(ThemeContext);
   const { id } = useParams<Params>();
   const isSaving = useIsMutating({ mutationKey: `${id}-save-notes` });
+  const [isLoading] = useAtom(isAppLoadingAtom);
 
   // Show a loading spinner when the notes page is auto saving
   // If the page fails to save, show a message saying Failed to save
@@ -55,13 +58,21 @@ const TopBar: React.FC = () => {
           <Spacer width={theme.spacers.size16} />
         </>
       ) : null}
-      <Flex width="auto">
-        <Breadcrumbs />
+      <Flex width="auto" justifyContent="center">
+        {!isLoading ? (
+          <Breadcrumbs />
+        ) : (
+          <StyledSkeleton count={3} width="50px" height="20px" />
+        )}
         {savingLoadingSpinner()}
       </Flex>
     </StyledTopbar>
   );
 };
+
+const StyledSkeleton = styled(Skeleton)`
+  margin-right: ${({ theme }) => theme.spacers.size8};
+`;
 
 const StyledTopbar = styled.div`
   display: flex;

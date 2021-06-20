@@ -14,11 +14,10 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   type,
   id,
 }) => {
-  const { addAsset, openAsset } = useAsset();
+  const { addAsset } = useAsset();
   const theme: ThemeType = useContext(ThemeContext);
 
   const handleAddItem = () => {
-    openAsset(id, true);
     if (type === FILETREE_TYPES.FOLDER) {
       addAsset(FILETREE_TYPES.BINDER, id);
     } else addAsset(FILETREE_TYPES.STUDY_SET, id);

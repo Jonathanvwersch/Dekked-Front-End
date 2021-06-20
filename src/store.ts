@@ -7,6 +7,10 @@ export const fileTreeAtom = atom<FileTreeInterface | undefined>({});
 export const foldersAtom = atom<{ [key: string]: FolderInterface } | undefined>(
   {}
 );
+export const numberOfFoldersAtom = atom(
+  (get) => Object.keys(get(foldersAtom) || {}).length
+);
+
 export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
   {}
 );
@@ -40,6 +44,7 @@ export const studySetTabAtom = atomWithStorage<{
 
 // Loading
 export const isAppLoadingAtom = atom<boolean>(true);
+export const loadingErrorAtom = atom<boolean>(false);
 
 // Linked flashcards
 export const isFlashcardLinkedAtom = atom<boolean>(false);
@@ -48,3 +53,10 @@ export const blockLinkAtom = atom<string>("");
 
 // Flashcard
 export const flashcardsAtom = atom<FlashcardInterface[] | undefined>([]);
+
+// Current Block
+export const savingNotesAtom = atom<boolean>(false);
+export const currentBlockAtom = atom<{
+  key: string | undefined;
+  hasFocus: boolean;
+}>({ key: "", hasFocus: false });

@@ -10,6 +10,7 @@ export type ThemeColors = {
   grey1: string;
   grey2: string;
   grey3: string;
+  loadingBlocks: string;
   disabled: string;
   selection: string;
   backgrounds: {
@@ -165,6 +166,7 @@ const lightThemeColors: ThemeColors = {
   grey1: "#A9A9A9", // dark
   grey2: "#D3D3D3", // mid
   grey3: "#EAEAEA", // light
+  loadingBlocks: "#EAEAEA",
   disabled: "#A9A9A9",
   selection: "#B1FAFF",
   backgrounds: {
@@ -219,6 +221,7 @@ const darkThemeColors: ThemeColors = {
   grey1: "#E0E0E0", // light
   grey2: "#9E9E9E", // mid
   grey3: "#616161", // dark
+  loadingBlocks: "#5C5C5C",
   disabled: "#616161",
   selection: "#474C50",
   backgrounds: {

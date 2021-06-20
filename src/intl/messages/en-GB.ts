@@ -20,6 +20,11 @@ const en_GB = {
       goHome: "Go home",
       mainMessage: "That link does not exist",
     },
+    errorPage: {
+      reload: "Reload",
+      mainMessage: "Uh oh. Something went wrong. Please reload the page.",
+      subMessage: "If problem persists, contact ",
+    },
     sidebar: {
       workspace: {
         header: "Folders ({num})",

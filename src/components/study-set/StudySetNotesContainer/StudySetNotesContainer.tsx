@@ -28,12 +28,12 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
           setEditorState={setEditorState}
         />
       </Flex>
-      {flashcardSize ? (
+      {flashcardSize && (
         <StudySetLinkedFlashcard
           flashcardSize={flashcardSize}
           flashcardPosition={flashcardPosition}
         />
-      ) : null}
+      )}
       <ReturnToStudyModeButton
         pageWidth={flashcardSize}
         buttonPosition={flashcardPosition}
