@@ -4,18 +4,9 @@ import { useCallback, useContext } from "react";
 import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import {
-  addBinder,
-  updateBinder,
-} from "../services/file-structure/binders-api";
-import {
-  addFolder,
-  updateFolder,
-} from "../services/file-structure/folders-api";
-import {
-  addStudySet,
-  updateStudySet,
-} from "../services/file-structure/studySets-api";
+import { addBinder } from "../services/file-structure/binders-api";
+import { addFolder } from "../services/file-structure/folders-api";
+import { addStudySet } from "../services/file-structure/studySets-api";
 import { FILETREE_TYPES } from "../shared";
 import {
   bindersAtom,

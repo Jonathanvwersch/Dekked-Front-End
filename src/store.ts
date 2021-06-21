@@ -36,11 +36,28 @@ export const sidebarAtom = atomWithStorage("sidebar-state", true);
 export const isBlockOpenAtom = atomWithStorage<{
   [id: string]: boolean;
 }>("blocks-toggle", {});
+export const selectBlockOpenState = (id: string) => {
+  const selectValue = atom((get) => get(isBlockOpenAtom)?.[id]);
+  return selectValue;
+};
+
+export const setBlockOpenStateAtom = atom(
+  (get) => get(isBlockOpenAtom),
+  (get, set, _arg: { id: string; isOpen?: boolean }) =>
+    set(isBlockOpenAtom, {
+      [_arg.id]: _arg.isOpen || false,
+      ...get(isBlockOpenAtom),
+    })
+);
 
 // Study set
 export const studySetTabAtom = atomWithStorage<{
   [id: string]: TAB_TYPE;
 }>("study-set-tabs", {});
+export const selectStudySetTab = (id: string) => {
+  const selectValue = atom((get) => get(studySetTabAtom)?.[id]);
+  return selectValue;
+};
 
 // Loading
 export const isAppLoadingAtom = atom<boolean>(true);

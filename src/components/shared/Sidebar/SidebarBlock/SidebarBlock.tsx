@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   DotsMenuIcon,
   DropDownArrowIcon,
@@ -26,7 +33,12 @@ import {
 } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
-import { isBlockOpenAtom } from "../../../../store";
+import {
+  isBlockOpenAtom,
+  selectBlockOpenState,
+  selectStudySetTab,
+  setBlockOpenStateAtom,
+} from "../../../../store";
 import { useAtom } from "jotai";
 import { isEmpty } from "lodash";
 
@@ -41,8 +53,15 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
-  const [isBlockOpen] = useAtom(isBlockOpenAtom);
-  const { openAsset, addAsset } = useAsset();
+  // const { openAsset, addAsset } = useAsset();
+  const [studySetTab] = useAtom(
+    useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
+  );
+  const [isBlockOpen] = useAtom(
+    useMemo(() => selectBlockOpenState(blockData?.id), [blockData?.id])
+  );
+
+  const [, setIsBlockOpen] = useAtom(setBlockOpenStateAtom);
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
@@ -71,21 +90,22 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    openAsset(blockData.id);
+    const id = blockData.id;
+    setIsBlockOpen({ id, isOpen: !isBlockOpen });
   };
 
   // add item on click of plus icon
   const handleAddItem = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    addAsset(getChildType(type as FILETREE_TYPES), blockData.id);
+    // addAsset(getChildType(type as FILETREE_TYPES), blockData.id);
   };
 
   const pathName = blockData && {
     pathname:
       type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
         ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${TAB_TYPE.NOTES}`,
+        : `/${type}/${blockData.id}/${studySetTab}`,
   };
 
   const navLinkStyle = { width: "100%" };
@@ -110,9 +130,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
               type === FILETREE_TYPES.BINDER ? (
                 <IconActive handleClick={(e) => handleExpandBlock(e)}>
                   <DropDownArrowIcon
-                    rotate={
-                      isBlockOpen?.[blockData?.id] ? ROTATE.NINETY : ROTATE.ZERO
-                    }
+                    rotate={isBlockOpen ? ROTATE.NINETY : ROTATE.ZERO}
                   />
                 </IconActive>
               ) : null}
