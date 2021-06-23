@@ -38,7 +38,6 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = ({
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      refetchOnMount: false,
     }
   );
 

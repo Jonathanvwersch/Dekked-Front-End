@@ -11,7 +11,7 @@ import { studySetsAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface FolderBinderCardProps {
-  data: BinderInterface | StudyPackInterface;
+  data: FileInterface;
   type: FILETREE_TYPES;
 }
 

@@ -15,7 +15,7 @@ interface SidebarBaseProps {
 
 const SidebarBase: React.FC<SidebarBaseProps> = ({ bottomFolderRef }) => {
   const theme = useContext(ThemeContext);
-  const { addAsset } = useAsset();
+  const { addAsset } = useAsset("sidebarbar");
   const [isLoading] = useAtom(isAppLoadingAtom);
   console.log("base");
 

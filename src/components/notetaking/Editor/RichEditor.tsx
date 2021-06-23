@@ -225,7 +225,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         </EditorContainer>
       ) : (
         <SkeletonContainer>
-          <StyledSkeleton count={5} width="100%" height="32px" />
+          <StyledSkeleton count={5} width='"100%"' height="32px" />
         </SkeletonContainer>
       )}
     </>

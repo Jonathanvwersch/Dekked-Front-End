@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -34,34 +33,42 @@ import {
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
 import {
-  isBlockOpenAtom,
-  selectBlockOpenState,
+  selectBlockOpenStateItem,
   selectStudySetTab,
-  setBlockOpenStateAtom,
+  updateBlockOpenStateAtom,
 } from "../../../../store";
 import { useAtom } from "jotai";
 import { isEmpty } from "lodash";
 
 interface SidebarBlockProps {
-  blockData: FolderInterface | BinderInterface | StudyPackInterface;
+  blockData: FileInterface;
   type: string;
+  fileTreeId: string;
 }
 
-const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
+const SidebarBlock: React.FC<SidebarBlockProps> = ({
+  blockData,
+  type,
+  fileTreeId,
+}) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
   const theme: ThemeType = useContext(ThemeContext);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
-  // const { openAsset, addAsset } = useAsset();
+  const { addAsset } = useAsset();
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
   );
+
   const [isBlockOpen] = useAtom(
-    useMemo(() => selectBlockOpenState(blockData?.id), [blockData?.id])
+    useMemo(
+      () => selectBlockOpenStateItem(fileTreeId, blockData?.id),
+      [blockData?.id, fileTreeId]
+    )
   );
 
-  const [, setIsBlockOpen] = useAtom(setBlockOpenStateAtom);
+  const [, setIsBlockOpen] = useAtom(updateBlockOpenStateAtom);
 
   const paddingLeft =
     type === FILETREE_TYPES.FOLDER
@@ -71,6 +78,10 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
       : type === FILETREE_TYPES.STUDY_SET
       ? theme.spacers.size48
       : null;
+
+  const handleCloseBlockModal = useCallback(() => setBlockModal(false), []);
+  const handleOpenColorPicker = useCallback(() => setColorPicker(true), []);
+  const handleCloseColorPicker = useCallback(() => setColorPicker(false), []);
 
   // open and position block modal
   const handleBlockModal = useCallback(
@@ -90,22 +101,25 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    const id = blockData.id;
-    setIsBlockOpen({ id, isOpen: !isBlockOpen });
+    setIsBlockOpen({ fileTreeId, id: blockData?.id });
   };
 
   // add item on click of plus icon
   const handleAddItem = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    // addAsset(getChildType(type as FILETREE_TYPES), blockData.id);
+    addAsset(
+      getChildType(type as FILETREE_TYPES),
+      type === FILETREE_TYPES.BINDER ? blockData?.folder_id : blockData?.id,
+      type === FILETREE_TYPES.BINDER ? blockData.id : undefined
+    );
   };
 
   const pathName = blockData && {
     pathname:
       type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
         ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${studySetTab}`,
+        : `/${type}/${blockData.id}/${studySetTab || TAB_TYPE.NOTES}`,
   };
 
   const navLinkStyle = { width: "100%" };
@@ -170,16 +184,16 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({ blockData, type }) => {
 
           <SidebarBlockModal
             isOpen={blockModal}
-            handleClose={() => setBlockModal(false)}
+            handleClose={handleCloseBlockModal}
             coords={coords}
-            handleColorPicker={() => setColorPicker(true)}
+            handleColorPicker={handleOpenColorPicker}
             type={type}
             id={blockData?.id}
           />
 
           <ColorPicker
             isOpen={colorPicker}
-            handleClose={() => setColorPicker(false)}
+            handleClose={handleCloseColorPicker}
             coords={coords}
             iconColor={blockData?.color}
             type={type}

@@ -1,9 +1,9 @@
 import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
-import { getSessionCookie } from "../helpers";
+import { getSessionCookie, useAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
 import { fileTreeAtom, loadingErrorAtom } from "../store";
 
@@ -26,18 +26,20 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const isLoading = false;
   const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
-
+  const { addAsset } = useAsset();
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (loadingError) {
       history.push("/error");
     } else if (!getSessionCookie()) {
       history.push("/login");
-    } else if (path === "/" && fileTree && Object.keys(fileTree)[0]) {
-      history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
+    } else if (path === "/" && fileTree) {
+      if (!Object.keys(fileTree)[0]) addAsset(FILETREE_TYPES.FOLDER);
+      else
+        history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [history, fileTree, path, loadingError]);
+  }, [history, fileTree, path, loadingError, addAsset]);
 
   return (
     <>

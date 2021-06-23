@@ -13,9 +13,8 @@ import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { FlashcardsContext } from "../../../contexts";
 import { useParams } from "react-router-dom";
-import { isAppLoadingAtom, typeAtom } from "../../../store";
+import { isAppLoadingAtom, studySetsAtom, typeAtom } from "../../../store";
 import { useAtom } from "jotai";
-import { useGetAsset } from "../../../helpers";
 import Skeleton from "react-loading-skeleton";
 
 interface PageHeaderProps {
@@ -31,7 +30,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
   const { flashcards } = useContext(FlashcardsContext);
   const flashcardsDoNotExist = flashcards?.length === 0;
   const [isLoading] = useAtom(isAppLoadingAtom);
-  const { getAsset } = useGetAsset();
+  const [studySets] = useAtom(studySetsAtom);
 
   useMultiKeyPress(
     ["Control", "2"],
@@ -49,7 +48,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
             <StyledEditableText
               itemId={id}
               editableTextRef={headerRef}
-              name={getAsset(type, id)?.name}
+              name={studySets?.[id]?.name}
             />
           ) : (
             <Skeleton width="400px" height="66px" />
@@ -96,10 +95,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
     </>
   );
 };
-
-const StyledSkeleton = styled(Skeleton)`
-  margin-bottom: ${({ theme }) => theme.spacers.size48};
-`;
 
 const StyledEditableText = styled((props) => <EditableText {...props} />)`
   font-size: ${({ theme }) => theme.typography.fontSizes.size48};

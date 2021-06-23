@@ -1,5 +1,12 @@
 import { ContentBlock, EditorState } from "draft-js";
-import React, { memo, ReactElement, useContext, useState } from "react";
+import React, {
+  memo,
+  ReactElement,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import styled, { css, ThemeContext } from "styled-components";
 import { MoveIcon, PlusIcon } from "../../../assets";
 import { BLOCK_TYPES } from "../../../shared";
@@ -33,22 +40,33 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
   const [showDragStyles, setShowDragStyles] = useState<boolean>(false);
   const theme = useContext(ThemeContext);
 
+  const handleDrop = useCallback(() => {
+    dragBlockKey &&
+      setEditorState(moveBlock(editorState, blockKey, dragBlockKey));
+    setShowDragStyles(false);
+    setIsDraggable(false);
+  }, [dragBlockKey, blockKey, editorState, setEditorState]);
+
+  const handleDragEnd = useCallback(() => setIsDraggable(false), []);
+  const handleDragLeave = useCallback(() => setShowDragStyles(false), []);
+  const handleDragEnter = useCallback(() => setShowDragStyles(true), []);
+
+  const dragStyles = useMemo(
+    () => css`
+      padding-bottom: 4px;
+      border-bottom: solid 2px ${({ theme }) => theme.colors.primary};
+    `,
+    []
+  );
+
   return (
     <StyledDragBlock
       isDraggable={isDraggable}
-      dragStyles={css`
-        padding-bottom: 4px;
-        border-bottom: solid 2px ${({ theme }) => theme.colors.primary};
-      `}
-      handleDrop={() => {
-        dragBlockKey &&
-          setEditorState(moveBlock(editorState, blockKey, dragBlockKey));
-        setShowDragStyles(false);
-        setIsDraggable(false);
-      }}
-      handleDragEnd={() => setIsDraggable(false)}
-      handleDragLeave={() => setShowDragStyles(false)}
-      handleDragEnter={() => setShowDragStyles(true)}
+      dragStyles={dragStyles}
+      handleDrop={handleDrop}
+      handleDragEnd={handleDragEnd}
+      handleDragLeave={handleDragLeave}
+      handleDragEnter={handleDragEnter}
       showDragStyles={showDragStyles}
     >
       <BlockHoverSettings

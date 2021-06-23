@@ -14,7 +14,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   type,
   id,
 }) => {
-  const { addAsset } = useAsset();
+  const { addAsset } = useAsset("folderbinderaddcard");
   const theme: ThemeType = useContext(ThemeContext);
 
   const handleAddItem = () => {

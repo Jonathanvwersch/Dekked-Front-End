@@ -17,13 +17,12 @@ import {
   ROTATE,
 } from "../../../../assets";
 import { ThemeType } from "../../../../styles/theme";
-import { positionModals } from "../../../../helpers";
+import { getSessionCookie, positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
-import { CoordsType, UserType } from "../../../../shared";
-import { useQuery } from "react-query";
-import { getUser } from "../../../../services/authentication/getUser";
+import { CoordsType } from "../../../../shared";
 import { useAtom } from "jotai";
-import { sidebarAtom } from "../../../../store";
+import { sidebarAtom, userAtom } from "../../../../store";
+import { useIsFetching } from "react-query";
 
 interface SidebarTopProps {}
 
@@ -32,14 +31,11 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
-  const { data, isLoading } = useQuery<UserType>("get-user", getUser, {
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-  });
+  const [user] = useAtom(userAtom);
+  const isFetchingUser = useIsFetching([`${getSessionCookie()}-user`]);
 
-  const firstName = data?.first_name || "";
-  const lastName = data?.last_name || "";
+  const firstName = user?.first_name || "";
+  const lastName = user?.last_name || "";
   const fullName = `${firstName} ${lastName}`;
   const firstLetterOfFirstName = firstName?.[0] || "";
   const [sidebar, setSidebar] = useAtom(sidebarAtom);
@@ -61,7 +57,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
       <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            {isLoading ? (
+            {isFetchingUser ? (
               <Skeleton
                 circle={true}
                 height={theme.spacers.size32}
@@ -81,7 +77,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
               fontSize={theme.typography.fontSizes.size14}
               className="overflow"
             >
-              {!isLoading ? fullName : <Skeleton width="100px" />}
+              {!isFetchingUser ? fullName : <Skeleton width="100px" />}
             </Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
@@ -90,7 +86,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
                 handleOpenModal(e)
               }
             >
-              {!isLoading && <DropDownArrowIcon rotate={ROTATE.NINETY} />}
+              {!isFetchingUser && <DropDownArrowIcon rotate={ROTATE.NINETY} />}
             </IconActive>
             <Spacer width={theme.spacers.size24} />
           </Flex>
@@ -102,7 +98,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
             ariaLabel={ariaText}
           >
             <Tooltip id="CloseSidebar" text={ariaText}>
-              {!isLoading && (
+              {!isFetchingUser && (
                 <DoubleChevronIcon
                   rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
                 />

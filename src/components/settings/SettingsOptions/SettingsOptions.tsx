@@ -1,9 +1,12 @@
+import { useAtom } from "jotai";
 import React, { SyntheticEvent, useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount, SettingsAppearance } from "..";
+import { getSessionCookie } from "../../../helpers";
 import { updateUser } from "../../../services/authentication/updateUser";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
+import { userAtom } from "../../../store";
 import { Box, Footer } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 
@@ -18,13 +21,15 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const queryClient = useQueryClient();
+  const [user] = useAtom(userAtom);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState(user?.first_name);
+  const [lastName, setLastName] = useState(user?.last_name);
 
   const { mutate: updateUserData } = useMutation("update-user", updateUser, {
     onSuccess: (data) => {
-      queryClient.setQueryData(["get-user"], data.json);
+      console.log(data);
+      queryClient.setQueryData([`${getSessionCookie()}-user`], data.json);
     },
   });
 

@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 import { login } from "../../../services/authentication/login";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
+import { userAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface LogInFormProps {}
 
@@ -21,6 +23,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const emailFromSignUp = window.localStorage.getItem("user-email") || "";
   const [emailAddress, setEmailAddress] = useState<string>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
+  const [, setUser] = useAtom(userAtom);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
 
@@ -47,6 +50,13 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     } else if (data?.userData?.success) {
       const token = data?.userData?.data?.token;
       setSessionCookie(token);
+      console.log(data?.userData);
+      setUser({
+        id: data?.userData?.data?.id,
+        last_name: data?.userData?.data?.first_name,
+        first_name: data?.userData?.data?.last_name,
+        email_address: data?.userData?.data?.email_address,
+      });
       const logInInterval = setInterval(() => {
         setSessionCookie(token);
       }, 1000);

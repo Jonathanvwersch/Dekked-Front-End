@@ -14,7 +14,7 @@ interface FolderBinderCardContainerProps {}
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
   () => {
     const [fileTree] = useAtom(fileTreeAtom);
-    const { getAsset, getNumberOfChildAssets } = useGetAsset();
+    const { getNumberOfChildAssets } = useGetAsset("folderbindercarcontainer");
     const [type] = useAtom(typeAtom);
     const { id } = useParams<Params>();
     const { folderData } = useContext(SelectedItemContext);
@@ -30,16 +30,12 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
           fileTree &&
           fileTree[folderData?.id]?.children
           ? Object.entries(fileTree[folderData?.id]?.children).map((binder) => {
-              const binderDetails = getAsset(
-                binder[1].type,
-                binder[0]
-              ) as BinderInterface;
               return (
-                binderDetails && (
+                binder?.[1] && (
                   <FolderBinderCard
-                    key={binderDetails.id}
-                    data={binderDetails}
-                    type={type}
+                    key={binder?.[0]}
+                    data={binder?.[1]}
+                    type={binder?.[1].type as FILETREE_TYPES}
                   />
                 )
               );
@@ -55,15 +51,11 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
           ? Object.entries(
               fileTree[folderData?.id]?.children[id]?.children
             ).map((studySet) => {
-              const studySetDetails = getAsset(
-                studySet[1].type,
-                studySet[0]
-              ) as BinderInterface;
               return (
-                studySetDetails && (
+                studySet?.[1] && (
                   <FolderBinderCard
-                    key={studySetDetails.id}
-                    data={studySetDetails}
+                    key={studySet?.[0]}
+                    data={studySet?.[1]}
                     type={type}
                   />
                 )

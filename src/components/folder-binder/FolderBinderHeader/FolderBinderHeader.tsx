@@ -12,7 +12,7 @@ const FolderBinderHeader: React.FC = () => {
   const intl = useIntl();
   const { id } = useParams<Params>();
   const [type] = useAtom(typeAtom);
-  const { getNumberOfChildAssets } = useGetAsset();
+  const { getNumberOfChildAssets } = useGetAsset("folderbinderheaderr");
 
   // Use plural form of item (either binder or study set) if the number of items does not equal 1
   const numberOfItems = (type: FILETREE_TYPES) => {

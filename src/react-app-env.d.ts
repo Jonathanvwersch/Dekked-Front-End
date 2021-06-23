@@ -1,9 +1,30 @@
 /// <reference types="react-scripts" />
 
+interface FileInterface {
+  type: string;
+  id: string;
+  owner_id: string;
+  color: string;
+  name: string;
+  children: FileTreeInterface;
+  date_created?: Date;
+  date_modified?: Date;
+  folder_id?: string;
+  binder_id?: string;
+}
+
 interface FileTreeInterface {
   [instance_id: string]: {
     type: string;
+    id: string;
+    owner_id: string;
+    color: string;
+    name: string;
     children: FileTreeInterface;
+    date_created?: Date;
+    date_modified?: Date;
+    folder_id?: string;
+    binder_id?: string;
   };
 }
 interface BinderInterface {
@@ -31,6 +52,7 @@ interface StudyPackInterface {
   date_modified: Date;
   name: string;
   color: string;
+  folder_id: string;
 }
 interface PageInterface {
   id?: string;

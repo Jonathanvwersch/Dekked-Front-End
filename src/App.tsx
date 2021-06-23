@@ -31,61 +31,66 @@ export const App: React.FC = () => {
   const [isDarkTheme] = useAtom(darkModeAtom);
   const [, setIsLoading] = useAtom(isAppLoadingAtom);
   const [, setLoadingError] = useAtom(loadingErrorAtom);
-  const color = theme(isDarkTheme).colors.primary;
-  const name = "";
 
   // get user on mount
-  const { data: user } = useQuery<UserType>("user", getUser, {
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-  });
+  const { data: user } = useQuery<UserType>(
+    `${getSessionCookie()}-user`,
+    getUser,
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      enabled: Boolean(getSessionCookie()),
+    }
+  );
 
   // Fetch file tree data on mount
   const {
     data: initialFileTree,
-    isLoading: isFileTreeLoading,
+    isFetched: isFetchedFileTree,
     isLoadingError: isFileTreeLoadingError,
-  } = useQuery<FileTreeInterface>(`${user?.id}-file-tree`, getFileTree, {
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-  });
+  } = useQuery<FileTreeInterface>(
+    `${getSessionCookie()}-file-tree`,
+    getFileTree,
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      enabled: Boolean(getSessionCookie()),
+    }
+  );
 
   const {
     data: initialFolders,
-    isLoading: isFoldersLoading,
+    isFetched: isFetchedFolders,
     isLoadingError: isFoldersLoadingError,
   } = useQuery<{
     [key: string]: FolderInterface;
-  }>(`${user?.id}-folders`, () => getFolders(), {
+  }>(`${getSessionCookie()}-folders`, () => getFolders(), {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
+    enabled: Boolean(getSessionCookie()),
   });
 
   const {
     data: initialBinders,
-    isLoading: isBindersLoading,
+    isFetched: isFetchedBinders,
     isLoadingError: isBindersLoadingError,
   } = useQuery<{
     [key: string]: BinderInterface;
-  }>(`${user?.id}-binders`, getBinders, {
+  }>(`${getSessionCookie()}-binders`, getBinders, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
   });
 
   const {
     data: initialStudySets,
-    isLoading: isStudySetLoading,
+    isFetched: isFetchedStudySets,
     isLoadingError: isStudySetsLoadingError,
   } = useQuery<{
     [key: string]: StudyPackInterface;
-  }>(`${user?.id}-study-sets`, getStudySets, {
+  }>(`${getSessionCookie()}-study-sets`, getStudySets, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
+    enabled: Boolean(getSessionCookie()),
   });
 
   const [, _setFileTree] = useAtom(fileTreeAtom);
@@ -101,10 +106,6 @@ export const App: React.FC = () => {
       isFileTreeLoadingError ||
       isStudySetsLoadingError
     ) {
-      console.log(isBindersLoadingError);
-      console.log(isFoldersLoadingError);
-      console.log(isFileTreeLoadingError);
-      console.log(isStudySetsLoadingError);
       setLoadingError(true);
     }
   }, [
@@ -117,18 +118,18 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (
-      !isFileTreeLoading &&
-      !isFoldersLoading &&
-      !isBindersLoading &&
-      !isStudySetLoading
+      isFetchedFileTree &&
+      isFetchedFolders &&
+      isFetchedStudySets &&
+      isFetchedBinders
     ) {
       setIsLoading(false);
     }
   }, [
-    isFileTreeLoading,
-    isFoldersLoading,
-    isBindersLoading,
-    isStudySetLoading,
+    isFetchedBinders,
+    isFetchedFileTree,
+    isFetchedFolders,
+    isFetchedStudySets,
     setIsLoading,
   ]);
 

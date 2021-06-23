@@ -20,6 +20,69 @@ export const studySetsAtom = atom<
 
 export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 
+export const addAssetAtom = atom(
+  null,
+  (
+    get,
+    set,
+    arg: {
+      newFileId: string;
+      type: string;
+      newFile: FileInterface;
+      folderId?: string;
+      binderId?: string;
+    }
+  ) => {
+    const prev = get(fileTreeAtom);
+    const asset = arg.newFile;
+    const folderId = arg.folderId;
+    const binderId = arg.binderId;
+    const newFileId = arg.newFileId;
+
+    if (arg.type === FILETREE_TYPES.FOLDER) {
+      set(fileTreeAtom, {
+        ...prev,
+        [newFileId]: {
+          ...asset,
+        },
+      });
+    } else if (arg.type === FILETREE_TYPES.BINDER && folderId) {
+      set(fileTreeAtom, {
+        ...prev,
+        [folderId]: {
+          ...(prev?.[folderId] as FileInterface),
+          children: {
+            ...prev?.[folderId]?.children,
+            [newFileId]: {
+              ...asset,
+            },
+          },
+        },
+      });
+    } else if (arg.type === FILETREE_TYPES.STUDY_SET && binderId && folderId) {
+      console.log(folderId);
+      set(fileTreeAtom, {
+        ...prev,
+        [folderId]: {
+          ...(prev?.[folderId] as FileInterface),
+          children: {
+            ...prev?.[folderId]?.children,
+            [binderId]: {
+              ...(prev?.[folderId]?.children?.[binderId] as FileInterface),
+              children: {
+                ...prev?.[folderId]?.children?.[binderId]?.children,
+                [newFileId]: {
+                  ...asset,
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+);
+
 // App theme
 export const darkModeAtom = atomWithStorage<boolean>("dark-mode", false);
 
@@ -34,26 +97,51 @@ export const userAtom = atom<UserType>({
 // Sidebar
 export const sidebarAtom = atomWithStorage("sidebar-state", true);
 export const isBlockOpenAtom = atomWithStorage<{
-  [id: string]: boolean;
-}>("blocks-toggle", {});
-export const selectBlockOpenState = (id: string) => {
-  const selectValue = atom((get) => get(isBlockOpenAtom)?.[id]);
+  [fileTreeId: string]: { [itemId: string]: boolean };
+}>(`blocks-toggle`, {});
+
+export const selectBlockOpenStateItem = (
+  fileTreeId: string,
+  itemId: string
+) => {
+  const selectValue = atom(
+    (get) => get(isBlockOpenAtom)?.[fileTreeId]?.[itemId]
+  );
   return selectValue;
 };
 
-export const setBlockOpenStateAtom = atom(
-  (get) => get(isBlockOpenAtom),
-  (get, set, _arg: { id: string; isOpen?: boolean }) =>
+export const selectBlockOpenStateFileTree = (fileTreeId: string) => {
+  const selectValue = atom((get) => get(isBlockOpenAtom)?.[fileTreeId]);
+  return selectValue;
+};
+
+export const updateBlockOpenStateAtom = atom(
+  null,
+  (get, set, arg: { fileTreeId: string; id: string; isOpen?: boolean }) => {
+    const prev = get(isBlockOpenAtom);
+    if (
+      arg.isOpen !== undefined &&
+      prev?.[arg.fileTreeId]?.[arg.id] === arg.isOpen
+    ) {
+      return;
+    }
     set(isBlockOpenAtom, {
-      [_arg.id]: _arg.isOpen || false,
-      ...get(isBlockOpenAtom),
-    })
+      ...prev,
+      [arg.fileTreeId]: {
+        ...prev?.[arg.fileTreeId],
+        [arg.id]:
+          arg.isOpen === true || arg.isOpen === false
+            ? arg.isOpen
+            : !prev?.[arg.fileTreeId]?.[arg.id],
+      },
+    });
+  }
 );
 
 // Study set
 export const studySetTabAtom = atomWithStorage<{
   [id: string]: TAB_TYPE;
-}>("study-set-tabs", {});
+}>(`study-set-tabs`, {});
 export const selectStudySetTab = (id: string) => {
   const selectValue = atom((get) => get(studySetTabAtom)?.[id]);
   return selectValue;

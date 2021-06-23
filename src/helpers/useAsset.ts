@@ -1,5 +1,4 @@
 import { useAtom } from "jotai";
-import { cloneDeep } from "lodash";
 import { useCallback, useContext } from "react";
 import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
@@ -8,27 +7,17 @@ import { addBinder } from "../services/file-structure/binders-api";
 import { addFolder } from "../services/file-structure/folders-api";
 import { addStudySet } from "../services/file-structure/studySets-api";
 import { FILETREE_TYPES } from "../shared";
-import {
-  bindersAtom,
-  fileTreeAtom,
-  foldersAtom,
-  isBlockOpenAtom,
-  studySetsAtom,
-  userAtom,
-} from "../store";
+import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 
-export const useAsset = () => {
+export const useAsset = (message?: string) => {
+  console.log("useAsset " + message);
   const id = uuidv4();
   const theme = useContext(ThemeContext);
   const iconColor = theme.colors.primary;
   const itemName = "";
-  const [folders, setFolders] = useAtom(foldersAtom);
-  const [binders, setBinders] = useAtom(bindersAtom);
-  const [studySets, setStudySets] = useAtom(studySetsAtom);
-  const [fileTree, setFileTree] = useAtom(fileTreeAtom);
-  const [isBlockOpen, setIsBlockOpen] = useAtom(isBlockOpenAtom);
+  const [, setAsset] = useAtom(addAssetAtom);
+  const [, setIsBlockOpen] = useAtom(updateBlockOpenStateAtom);
   const [user] = useAtom(userAtom);
-  console.log("useAsset");
 
   const { mutate: _addFolder } = useMutation(
     "add-folder",
@@ -61,122 +50,96 @@ export const useAsset = () => {
     }
   );
 
-  const openAsset = useCallback(
-    (id: string, isOpen?: boolean) => {
-      console.log("openAsset");
-
-      if (isOpen && isOpen === isBlockOpen[id]) return;
-
-      let fileCopy = { ...isBlockOpen };
-      if (isOpen === true || isOpen === false) {
-        fileCopy[id] = isOpen;
-      } else {
-        fileCopy[id] = !fileCopy[id];
-      }
-      setIsBlockOpen(fileCopy);
-    },
-    [isBlockOpen, setIsBlockOpen]
-  );
-
   const addAsset = useCallback(
-    (type: string, parentId?: string) => {
+    (type: string, folderId?: string, binderId?: string) => {
       const now = new Date();
       console.log("addAsset");
 
       switch (type) {
-        case FILETREE_TYPES.FOLDER: {
-          if (fileTree && folders) {
-            fileTree[id] = {
-              type,
-              children: {},
-            };
-            folders[id] = {
-              date_created: now,
-              date_modified: now,
+        case FILETREE_TYPES.FOLDER:
+          setAsset({
+            newFileId: id,
+            type,
+            newFile: {
               id,
+              type,
               owner_id: user?.id || "",
               color: iconColor,
               name: itemName,
-            };
-            setFileTree(cloneDeep(fileTree));
-            setFolders(cloneDeep(folders));
-            parentId && openAsset(parentId, true);
-            _addFolder();
-          }
+              date_created: now,
+              date_modified: now,
+              children: {},
+            },
+          });
+          _addFolder();
           break;
-        }
 
         case FILETREE_TYPES.BINDER:
-          if (parentId && fileTree && binders) {
-            fileTree[parentId] = {
-              type: FILETREE_TYPES.FOLDER,
-              children: {
-                ...fileTree[parentId].children,
-                [id]: {
-                  type,
-                  children: {},
-                },
-              },
-            };
-            binders[id] = {
-              date_created: now,
-              date_modified: now,
+          setAsset({
+            newFileId: id,
+            type,
+            newFile: {
               id,
+              type,
+              folder_id: folderId,
               owner_id: user?.id || "",
               color: iconColor,
               name: itemName,
-              folder_id: parentId,
-            };
-            setFileTree(cloneDeep(fileTree));
-            setBinders(cloneDeep(binders));
-            parentId && openAsset(parentId, true);
-            _addBinder(parentId);
-          }
+              date_created: now,
+              date_modified: now,
+              children: {},
+            },
+            folderId,
+          });
+          folderId &&
+            setIsBlockOpen({
+              fileTreeId: folderId,
+              id: folderId,
+              isOpen: true,
+            });
+          folderId && _addBinder(folderId);
           break;
 
         case FILETREE_TYPES.STUDY_SET:
-          if (parentId && binders && fileTree && studySets) {
-            const folderId = binders[parentId].folder_id;
-            fileTree[folderId] = {
-              type: FILETREE_TYPES.FOLDER,
-              children: {
-                ...fileTree[folderId].children,
-                [parentId]: {
-                  type: FILETREE_TYPES.BINDER,
-                  children: {
-                    ...fileTree[folderId].children[parentId].children,
-                    [id]: {
-                      type,
-                      children: {},
-                    },
-                  },
-                },
-              },
-            };
-            studySets[id] = {
-              date_created: now,
-              date_modified: now,
+          setAsset({
+            newFileId: id,
+            type,
+            newFile: {
               id,
+              type,
+              binder_id: binderId,
               owner_id: user?.id || "",
               color: iconColor,
               name: itemName,
-              binder_id: parentId,
-            };
-            setFileTree(cloneDeep(fileTree));
-            setStudySets(cloneDeep(studySets));
-            parentId && openAsset(parentId, true);
-            _addStudySet(parentId);
-          }
+              date_created: now,
+              date_modified: now,
+              children: {},
+            },
+            folderId,
+            binderId,
+          });
+          folderId &&
+            binderId &&
+            setIsBlockOpen({ fileTreeId: folderId, id: binderId });
+          binderId && _addStudySet(binderId);
           break;
         default:
           break;
       }
     },
-    [folders, fileTree, binders, studySets]
+    [
+      id,
+      setIsBlockOpen,
+      setAsset,
+      _addBinder,
+      _addStudySet,
+      _addFolder,
+      user?.id,
+      iconColor,
+    ]
   );
 
   return {
     addAsset,
-    openAsset,
   };
 };

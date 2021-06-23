@@ -9,6 +9,9 @@ import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import { EditorState } from "draft-js";
+import { isAppLoadingAtom } from "../../../store";
+import { useAtom } from "jotai";
+import Skeleton from "react-loading-skeleton";
 
 interface StudySetHeaderProps {
   editorState: EditorState;
@@ -26,6 +29,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
   const theme = useContext(ThemeContext);
   const { tab } = useParams<Params>();
   const [addFlashcard, setAddFlashcard] = useState<boolean>(false);
+  const [isLoading] = useAtom(isAppLoadingAtom);
 
   // Calculate the number of words in text
   useEffect(() => {
@@ -51,13 +55,15 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({
             editorState={editorState}
             setEditorState={setEditorState}
           />
-        ) : (
+        ) : !isLoading ? (
           <Button
             buttonStyle={BUTTON_THEME.SECONDARY}
             handleClick={() => setAddFlashcard(true)}
           >
             <FormattedMessage id="studySet.flashcards.addFlashcard" />
           </Button>
+        ) : (
+          <Skeleton width="136px" height="32px" />
         )}
         <StudySetTabSwitcher />
       </ToolbarAndTabs>

@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useLayoutEffect } from "react";
+import { useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { SelectedItemContextProvider } from "../../contexts/SelectedItemContext";
 import { Sidebar } from "../../components/shared/Sidebar";
@@ -10,27 +10,17 @@ import { LayeredModalContextProvider } from "../../contexts/LayeredModalContext"
 import PrivateRoute from "../../Router/PrivateRoute";
 import { useAtom } from "jotai";
 
-import { fileTreeAtom, typeAtom } from "../../store";
-import { differenceInObjects, useGetAsset } from "../../helpers";
+import { typeAtom } from "../../store";
+import { differenceInObjects } from "../../helpers";
 import { isEmpty } from "lodash";
 
 const OptionsPage: React.FC = () => {
-  const { type, id } = useParams<Params>();
+  const { type } = useParams<Params>();
   const [, setType] = useAtom(typeAtom);
-  const [fileTree] = useAtom(fileTreeAtom);
-  const { getAsset } = useGetAsset();
-  const history = useHistory();
 
   useLayoutEffect(() => {
     setType(type);
   }, [type, setType]);
-
-  // if id doesn't exist, just push to first folder
-  useLayoutEffect(() => {
-    if (fileTree && Object.keys(fileTree)[0] && !getAsset(type, id)) {
-      history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
-    }
-  }, [id, fileTree, getAsset, history, type]);
 
   return (
     <SelectedItemContextProvider>

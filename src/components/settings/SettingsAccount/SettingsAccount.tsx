@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import { useAtom } from "jotai";
+import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useQuery } from "react-query";
+import { useIsFetching } from "react-query";
+import { getSessionCookie } from "../../../helpers";
 import { usePageSetupHelpers } from "../../../hooks";
-import { getUser } from "../../../services/authentication/getUser";
-import { UserType } from "../../../shared";
+import { userAtom } from "../../../store";
+
 import {
   Box,
   Divider,
@@ -24,20 +26,12 @@ const SettingsAccount: React.FC<SettingsAccountProps> = ({
   setLastName,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { data, isLoading } = useQuery<UserType>("get-user", getUser, {
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
-
-  useEffect(() => {
-    setFirstName(data?.first_name || "");
-    setLastName(data?.last_name || "");
-  }, [data, setFirstName, setLastName]);
+  const [user] = useAtom(userAtom);
+  const isFetchingUser = useIsFetching([`${getSessionCookie()}-user`]);
 
   return (
     <>
-      {!isLoading ? (
+      {!isFetchingUser ? (
         <>
           <H4>
             <FormattedMessage id="settings.account.header" />
@@ -49,13 +43,13 @@ const SettingsAccount: React.FC<SettingsAccountProps> = ({
             </Text>
             <Spacer height={theme.spacers.size16} />
             <Input
-              defaultValue={data?.first_name || ""}
+              defaultValue={user?.first_name || ""}
               onChange={(e) => setFirstName(e.target.value)}
               label={formatMessage("forms.names.firstName")}
             />
             <Spacer height={theme.spacers.size8} />
             <Input
-              defaultValue={data?.last_name || ""}
+              defaultValue={user?.last_name || ""}
               onChange={(e) => setLastName(e.target.value)}
               label={formatMessage("forms.names.lastName")}
             />

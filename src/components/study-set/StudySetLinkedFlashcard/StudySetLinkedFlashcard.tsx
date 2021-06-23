@@ -53,7 +53,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
           <Tab
             tabIndex={1}
             isDisabled={!currentBlock?.hasFocus && !showFlashcard}
-            handleClick={show}
+            handleMouseDown={show}
             fillType={FILL_TYPE.STROKE}
           >
             {memoIcon}

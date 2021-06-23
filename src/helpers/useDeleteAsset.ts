@@ -12,6 +12,7 @@ import {
   bindersAtom,
   fileTreeAtom,
   foldersAtom,
+  isBlockOpenAtom,
   studySetsAtom,
 } from "../store";
 
@@ -22,7 +23,8 @@ export const useDeleteAsset = () => {
   const [binders, setBinders] = useAtom(bindersAtom);
   const [studySets, setStudySets] = useAtom(studySetsAtom);
   const [fileTree] = useAtom(fileTreeAtom);
-  const { addAsset } = useAsset();
+  const [isBlocksOpen] = useAtom(isBlockOpenAtom);
+  const { addAsset } = useAsset("useDelete");
 
   const { mutate: _deleteFolder } = useMutation(
     "delete-folder",
@@ -60,6 +62,7 @@ export const useDeleteAsset = () => {
             // not deleting if last folder item
             delete folders[assetId];
             delete fileTree[assetId];
+            delete isBlocksOpen[assetId];
 
             if (Object.keys(folders).length === 0) {
               addAsset(FILETREE_TYPES.FOLDER);
@@ -99,6 +102,8 @@ export const useDeleteAsset = () => {
 
             delete binders[assetId];
             delete fileTree[parentFolder?.id].children[assetId];
+            delete isBlocksOpen[assetId];
+
             // delete binder on client side
             setBinders(cloneDeep(binders));
 
@@ -128,6 +133,7 @@ export const useDeleteAsset = () => {
             delete studySets[assetId];
             delete fileTree[parentBinder?.folder_id]?.children[parentBinderId]
               .children[assetId];
+            delete isBlocksOpen[assetId];
             setStudySets(cloneDeep(studySets));
 
             // if (numberOfStudySets === 1) {

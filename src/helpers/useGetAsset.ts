@@ -9,16 +9,16 @@ import {
   studySetsAtom,
 } from "../store";
 
-export const useGetAsset = () => {
+export const useGetAsset = (message?: string) => {
   const [folders] = useAtom(foldersAtom);
   const [binders] = useAtom(bindersAtom);
   const [studySets] = useAtom(studySetsAtom);
   const [fileTree] = useAtom(fileTreeAtom);
+  console.log("getAsset" + message);
 
   const getAsset = useCallback(
     (type: string, assetId: string) => {
       console.log("getAsset");
-
       switch (type) {
         case FILETREE_TYPES.FOLDER:
           return folders && folders[assetId];
