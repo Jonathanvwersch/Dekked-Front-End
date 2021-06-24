@@ -57,13 +57,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
       <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            {isFetchingUser ? (
-              <Skeleton
-                circle={true}
-                height={theme.spacers.size32}
-                width={theme.spacers.size32}
-              />
-            ) : (
+            {!isFetchingUser ? (
               <Avatar>
                 {firstLetterOfFirstName ? (
                   firstLetterOfFirstName.toUpperCase()
@@ -71,6 +65,12 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
                   <LogoIcon color="white" />
                 )}
               </Avatar>
+            ) : (
+              <Skeleton
+                circle={true}
+                height={theme.spacers.size32}
+                width={theme.spacers.size32}
+              />
             )}
             <Spacer width={theme.spacers.size8} />
             <Text

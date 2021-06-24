@@ -7,7 +7,7 @@ import Spacer from "../Spacer/Spacer";
 
 interface GeneralModalProps {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose: (args?: any) => void;
   header?: JSX.Element;
   size?: SIZES;
   type?: MODAL_TYPE;

@@ -56,6 +56,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
+  console.log("block" + blockData.id);
   const { addAsset } = useAsset();
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
@@ -127,8 +128,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     filter: `${theme.colors.active.filter}`,
     fontWeight: theme.typography.fontWeights.bold as "bold",
   };
-
-  console.log("block");
 
   return (
     <>

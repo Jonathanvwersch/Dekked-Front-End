@@ -8,19 +8,23 @@ import { ThemeType } from "../../../styles/theme";
 interface FolderBinderAddCardProps {
   type: FILETREE_TYPES;
   id: string;
+  folderId: string | undefined;
 }
 
 const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   type,
   id,
+  folderId,
 }) => {
-  const { addAsset } = useAsset("folderbinderaddcard");
+  const { addAsset } = useAsset();
   const theme: ThemeType = useContext(ThemeContext);
+
+  console.log(folderId);
 
   const handleAddItem = () => {
     if (type === FILETREE_TYPES.FOLDER) {
       addAsset(FILETREE_TYPES.BINDER, id);
-    } else addAsset(FILETREE_TYPES.STUDY_SET, id);
+    } else addAsset(FILETREE_TYPES.STUDY_SET, folderId, id);
   };
 
   const ariaText = () => {

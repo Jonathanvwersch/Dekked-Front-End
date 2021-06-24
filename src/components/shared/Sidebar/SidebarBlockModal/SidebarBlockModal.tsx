@@ -28,8 +28,8 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   type,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  // const { addAsset } = useAsset("blockModal");
-  // const { deleteAsset } = useDeleteAsset();
+  const { addAsset } = useAsset();
+  const { deleteAsset } = useDeleteAsset();
 
   const modalData =
     type === FILETREE_TYPES.FOLDER
@@ -46,7 +46,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     ) {
       handleClose();
-      // addAsset(getChildType(type as FILETREE_TYPES), id);
+      addAsset(getChildType(type as FILETREE_TYPES), id);
     } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
       handleColorPicker();
     }
@@ -76,14 +76,11 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       ) : null}
       {isDeleteModalOpen ? (
         <DeleteModal
-          handleClose={(e: SyntheticEvent) => {
-            e?.preventDefault();
-            setIsDeleteModalOpen(false);
-          }}
+          handleClose={() => setIsDeleteModalOpen(false)}
           isOpen={isDeleteModalOpen}
           handleMainButton={(e: SyntheticEvent) => {
             e.preventDefault();
-            // deleteAsset(type, id);
+            deleteAsset(type, id);
             setIsDeleteModalOpen(false);
           }}
           bodyText={deleteModalBodyText()}

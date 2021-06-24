@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SidebarFileTree from "../SidebarFileTree/SidebarFileTree";
 import { Scroller, Flex } from "../../../common";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
-import { fileTreeAtom } from "../../../../store";
+import { fileTreeAtom, isAppLoadingAtom } from "../../../../store";
 import styled from "styled-components";
+import { useAsset } from "../../../../helpers";
+import { FILETREE_TYPES } from "../../../../shared";
+import { useHistory } from "react-router-dom";
 
 interface SidebarWorkspaceProps {
   bottomFolderRef: React.RefObject<HTMLDivElement>;
@@ -14,8 +17,16 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
   bottomFolderRef,
 }) => {
   const [fileTree] = useAtom(fileTreeAtom);
+  const { addAsset, assetId } = useAsset();
+  const [isAppLoading] = useAtom(isAppLoadingAtom);
+  const history = useHistory();
 
-  console.log("workspace");
+  useEffect(() => {
+    if (Object.keys(fileTree || {})?.length === 0 && !isAppLoading) {
+      addAsset(FILETREE_TYPES.FOLDER);
+      history.push(`/${FILETREE_TYPES.FOLDER}/${assetId}`);
+    }
+  }, [fileTree, history, addAsset, assetId, isAppLoading]);
 
   return (
     <Scroller>

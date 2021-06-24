@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../shared";
-import { SelectedItemContext } from "../../../contexts";
 import { FolderBinderAddCard, FolderBinderCard } from "..";
-import { fileTreeAtom, isAppLoadingAtom, typeAtom } from "../../../store";
+import {
+  fileTreeAtom,
+  getActiveFolder,
+  isAppLoadingAtom,
+  typeAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
-import { useGetAsset } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 
@@ -14,28 +17,24 @@ interface FolderBinderCardContainerProps {}
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
   () => {
     const [fileTree] = useAtom(fileTreeAtom);
-    const { getNumberOfChildAssets } = useGetAsset("folderbindercarcontainer");
     const [type] = useAtom(typeAtom);
     const { id } = useParams<Params>();
-    const { folderData } = useContext(SelectedItemContext);
-    const numOfItems = getNumberOfChildAssets(type, id);
+    const [folderData] = useAtom(
+      useMemo(() => getActiveFolder(id, type), [id, type])
+    );
     const [isLoading] = useAtom(isAppLoadingAtom);
 
     const Cards = (type: FILETREE_TYPES) => {
       // if type = folders, create cards using binder data
       if (type === FILETREE_TYPES.FOLDER) {
-        return numOfItems &&
-          numOfItems > 0 &&
-          folderData &&
-          fileTree &&
-          fileTree[folderData?.id]?.children
+        return folderData && fileTree && fileTree[folderData?.id]?.children
           ? Object.entries(fileTree[folderData?.id]?.children).map((binder) => {
               return (
                 binder?.[1] && (
                   <FolderBinderCard
                     key={binder?.[0]}
                     data={binder?.[1]}
-                    type={binder?.[1].type as FILETREE_TYPES}
+                    type={type}
                   />
                 )
               );
@@ -43,9 +42,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
           : null;
       } else {
         // if type = binders, create cards with study set data
-        return numOfItems &&
-          numOfItems > 0 &&
-          folderData &&
+        return folderData &&
           fileTree &&
           fileTree[folderData?.id]?.children[id]?.children
           ? Object.entries(
@@ -69,7 +66,11 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
       <>
         {!isLoading ? (
           <StyledContainer>
-            <FolderBinderAddCard id={id} type={type} />
+            <FolderBinderAddCard
+              id={id}
+              type={type}
+              folderId={folderData?.id}
+            />
             {Cards(type)}
           </StyledContainer>
         ) : (

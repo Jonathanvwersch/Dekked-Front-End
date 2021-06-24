@@ -153,7 +153,7 @@ const BlockHoverSettings = styled.div<{
 }>`
   display: flex;
   opacity: 0;
-  align-items: center;
+  align-items: start;
   position: absolute;
   top: 0;
   bottom: 0;

@@ -9,8 +9,7 @@ import { addStudySet } from "../services/file-structure/studySets-api";
 import { FILETREE_TYPES } from "../shared";
 import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 
-export const useAsset = (message?: string) => {
-  console.log("useAsset " + message);
+export const useAsset = () => {
   const id = uuidv4();
   const theme = useContext(ThemeContext);
   const iconColor = theme.colors.primary;
@@ -53,7 +52,6 @@ export const useAsset = (message?: string) => {
   const addAsset = useCallback(
     (type: string, folderId?: string, binderId?: string) => {
       const now = new Date();
-      console.log("addAsset");
 
       switch (type) {
         case FILETREE_TYPES.FOLDER:
@@ -120,7 +118,11 @@ export const useAsset = (message?: string) => {
           });
           folderId &&
             binderId &&
-            setIsBlockOpen({ fileTreeId: folderId, id: binderId });
+            setIsBlockOpen({
+              fileTreeId: folderId,
+              id: binderId,
+              isOpen: true,
+            });
           binderId && _addStudySet(binderId);
           break;
         default:
@@ -141,5 +143,6 @@ export const useAsset = (message?: string) => {
 
   return {
     addAsset,
+    assetId: id,
   };
 };

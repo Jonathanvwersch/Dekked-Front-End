@@ -25,7 +25,7 @@ export const SelectedItemContextProvider: React.FC = ({ children }) => {
   const [studySetData, setStudySetData] = useState<StudyPackInterface>();
   const [selectedItemData, setSelectedItemData] =
     useState<FolderInterface | BinderInterface | StudyPackInterface>();
-  const { getAsset } = useGetAsset("slecteditemcontext");
+  const { getAsset } = useGetAsset();
 
   useMemo(() => {
     if (type === FILETREE_TYPES.FOLDER) {

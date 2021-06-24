@@ -3,8 +3,6 @@ import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
 import SidebarBlock from "../SidebarBlock/SidebarBlock";
 import { useAtom } from "jotai";
 import { selectBlockOpenStateFileTree } from "../../../../store";
-import { differenceInObjects } from "../../../../helpers";
-import { isEmpty } from "lodash";
 
 interface SidebarFileTreeProps {
   file: FileTreeInterface;
@@ -13,12 +11,9 @@ interface SidebarFileTreeProps {
 const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   const fileId = Object.keys(file)[0];
   const folderData = file?.[fileId];
-  console.log("fileTree");
   const [isBlockOpen] = useAtom(
     useMemo(() => selectBlockOpenStateFileTree(fileId), [fileId])
   );
-
-  console.log(file);
 
   return (
     <>
@@ -69,6 +64,4 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   );
 };
 
-export default React.memo(SidebarFileTree, (prevProps, newProps) => {
-  return isEmpty(differenceInObjects(newProps, prevProps));
-});
+export default React.memo(SidebarFileTree);

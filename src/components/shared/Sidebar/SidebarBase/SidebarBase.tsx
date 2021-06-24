@@ -15,10 +15,8 @@ interface SidebarBaseProps {
 
 const SidebarBase: React.FC<SidebarBaseProps> = ({ bottomFolderRef }) => {
   const theme = useContext(ThemeContext);
-  const { addAsset } = useAsset("sidebarbar");
+  const { addAsset } = useAsset();
   const [isLoading] = useAtom(isAppLoadingAtom);
-  console.log("base");
-
   const scrollToBottom = useCallback(() => {
     if (bottomFolderRef && bottomFolderRef.current) {
       bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });

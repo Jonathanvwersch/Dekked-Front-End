@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
 import { ThumbnailCard } from "../../common";
@@ -7,7 +7,7 @@ import { formatMessage } from "../../../intl";
 import { getChildType, handleUntitled } from "../../../helpers";
 import { BinderIcon, StudySetIcon } from "../../../assets";
 import { ThemeContext } from "styled-components";
-import { studySetsAtom } from "../../../store";
+import { selectStudySetTab, studySetsAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface FolderBinderCardProps {
@@ -18,11 +18,9 @@ interface FolderBinderCardProps {
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
-  const [studySetTab] = useAtom(studySetsAtom);
-  const tab =
-    typeof studySetTab?.[data?.id] === "string"
-      ? studySetTab?.[data?.id]
-      : TAB_TYPE.NOTES;
+  const [studySetTab] = useAtom(
+    useMemo(() => selectStudySetTab(data?.id), [data?.id])
+  );
 
   return (
     <>
@@ -31,7 +29,9 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
           to={
             getChildType(type) === FILETREE_TYPES.BINDER
               ? `/${FILETREE_TYPES.BINDER}/${data?.id}`
-              : `/${FILETREE_TYPES.STUDY_SET}/${data?.id}/${tab}`
+              : `/${FILETREE_TYPES.STUDY_SET}/${data?.id}/${
+                  studySetTab || TAB_TYPE.NOTES
+                }`
           }
         >
           <ThumbnailCard

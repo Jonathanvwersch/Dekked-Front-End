@@ -7,18 +7,129 @@ export const fileTreeAtom = atom<FileTreeInterface | undefined>({});
 export const foldersAtom = atom<{ [key: string]: FolderInterface } | undefined>(
   {}
 );
+export const getActiveFolder = (
+  itemId: string,
+  type?: string | FILETREE_TYPES
+) => {
+  let foldersData;
+  const folders = atom((get) => get(foldersAtom)?.[itemId]);
+
+  if (type === FILETREE_TYPES.FOLDER) {
+    foldersData = folders;
+  } else if (type === FILETREE_TYPES.BINDER) {
+    foldersData = atom(
+      (get) => get(foldersAtom)?.[get(bindersAtom)?.[itemId]?.folder_id || 0]
+    );
+  } else {
+    foldersData = atom(
+      (get) =>
+        get(foldersAtom)?.[
+          get(bindersAtom)?.[get(studySetsAtom)?.[itemId]?.binder_id || 0]
+            ?.folder_id || 0
+        ]
+    );
+  }
+  return foldersData;
+};
+
+// else if (type === FILETREE_TYPES.BINDER) {
+//     foldersData = atom((get) => get(foldersAtom)?.[itemId]);
+//     bindersData = atom((get) => get(bindersAtom)?.[itemId]);
+//   } else {
+//     foldersData = atom((get) => get(foldersAtom)?.[itemId]);
+//     bindersData = atom((get) => get(bindersAtom)?.[itemId]);
+//     studySetsData = atom((get) => get(studySetsAtom)?.[itemId]);
+//   }
+
+export const firstFolderIdAtom = atom((get) => {
+  const fileTree = get(fileTreeAtom || {});
+  return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
+});
+
 export const numberOfFoldersAtom = atom(
-  (get) => Object.keys(get(foldersAtom) || {}).length
+  (get) => Object.keys(get(fileTreeAtom) || {}).length
 );
+export const numberOfChildrenOfFolder = (id: string) => {
+  const numOfBindersInFolder = atom(
+    (get) => Object.keys(get(fileTreeAtom)?.[id]?.children || {})?.length
+  );
+  return numOfBindersInFolder;
+};
+
+export const numberOfChildrenOfBinder = (binderId: string) => {
+  const numOfStudySetsInBinder = atom((get) => {
+    const binders = get(bindersAtom);
+    const folderId = binders?.[binderId]?.folder_id;
+    return (
+      Object.keys(
+        get(fileTreeAtom)?.[folderId || 0]?.children?.[binderId]?.children || {}
+      )?.length || 0
+    );
+  });
+  return numOfStudySetsInBinder;
+};
 
 export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
   {}
 );
+
 export const studySetsAtom = atom<
   { [key: string]: StudyPackInterface } | undefined
 >({});
 
 export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
+
+export const deleteAssetAtom = atom(
+  null,
+  (
+    get,
+    set,
+    arg: {
+      fileId: string;
+      type: string;
+    }
+  ) => {
+    const fileTree = get(fileTreeAtom);
+    const folders = get(foldersAtom);
+    const studySets = get(studySetsAtom);
+    const binders = get(bindersAtom);
+    const fileId = arg.fileId;
+
+    if (arg.type === FILETREE_TYPES.FOLDER) {
+      delete fileTree?.[fileId];
+      delete folders?.[fileId];
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+      set(foldersAtom, {
+        ...folders,
+      });
+    } else if (arg.type === FILETREE_TYPES.BINDER) {
+      const folderId = binders?.[fileId]?.folder_id;
+      delete fileTree?.[folderId || 0]?.children[fileId];
+      delete binders?.[fileId];
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+      set(bindersAtom, {
+        ...binders,
+      });
+    } else if (arg.type === FILETREE_TYPES.STUDY_SET) {
+      const binderId = studySets?.[fileId]?.binder_id;
+      const folderId = binders?.[binderId || 0]?.folder_id;
+      delete fileTree?.[folderId || 0]?.children?.[binderId || 0]?.children?.[
+        fileId
+      ];
+      delete studySets?.[fileId];
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+      set(studySetsAtom, {
+        ...studySets,
+      });
+    }
+  }
+);
 
 export const addAssetAtom = atom(
   null,
@@ -33,7 +144,10 @@ export const addAssetAtom = atom(
       binderId?: string;
     }
   ) => {
-    const prev = get(fileTreeAtom);
+    const fileTree = get(fileTreeAtom);
+    const folders = get(foldersAtom);
+    const studySets = get(studySetsAtom);
+    const binders = get(bindersAtom);
     const asset = arg.newFile;
     const folderId = arg.folderId;
     const binderId = arg.binderId;
@@ -41,42 +155,59 @@ export const addAssetAtom = atom(
 
     if (arg.type === FILETREE_TYPES.FOLDER) {
       set(fileTreeAtom, {
-        ...prev,
+        ...fileTree,
         [newFileId]: {
           ...asset,
         },
       });
+      set(foldersAtom, {
+        ...folders,
+        [newFileId]: {
+          ...(asset as FolderInterface),
+        },
+      });
     } else if (arg.type === FILETREE_TYPES.BINDER && folderId) {
       set(fileTreeAtom, {
-        ...prev,
+        ...fileTree,
         [folderId]: {
-          ...(prev?.[folderId] as FileInterface),
+          ...(fileTree?.[folderId] as FileInterface),
           children: {
-            ...prev?.[folderId]?.children,
+            ...fileTree?.[folderId]?.children,
             [newFileId]: {
               ...asset,
             },
           },
         },
       });
+      set(bindersAtom, {
+        ...binders,
+        [newFileId]: {
+          ...(asset as BinderInterface),
+        },
+      });
     } else if (arg.type === FILETREE_TYPES.STUDY_SET && binderId && folderId) {
-      console.log(folderId);
       set(fileTreeAtom, {
-        ...prev,
+        ...fileTree,
         [folderId]: {
-          ...(prev?.[folderId] as FileInterface),
+          ...(fileTree?.[folderId] as FileInterface),
           children: {
-            ...prev?.[folderId]?.children,
+            ...fileTree?.[folderId]?.children,
             [binderId]: {
-              ...(prev?.[folderId]?.children?.[binderId] as FileInterface),
+              ...(fileTree?.[folderId]?.children?.[binderId] as FileInterface),
               children: {
-                ...prev?.[folderId]?.children?.[binderId]?.children,
+                ...fileTree?.[folderId]?.children?.[binderId]?.children,
                 [newFileId]: {
                   ...asset,
                 },
               },
             },
           },
+        },
+      });
+      set(studySetsAtom, {
+        ...studySets,
+        [newFileId]: {
+          ...(asset as StudyPackInterface),
         },
       });
     }
