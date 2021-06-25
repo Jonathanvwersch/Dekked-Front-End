@@ -28,7 +28,6 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
 
   const { mutate: updateUserData } = useMutation("update-user", updateUser, {
     onSuccess: (data) => {
-      console.log(data);
       queryClient.setQueryData([`${getSessionCookie()}-user`], data.json);
     },
   });

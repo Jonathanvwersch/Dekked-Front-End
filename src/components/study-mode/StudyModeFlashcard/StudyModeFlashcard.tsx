@@ -41,7 +41,6 @@ interface StudyModeFlashcardProps {
   flippedState: boolean;
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   isEditable: boolean;
-  setFlashcards: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
   isFinishedStudying?: boolean;
   frontBlocks?: string[];
   backBlocks?: string[];
@@ -62,7 +61,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   ownerId,
   isEditable,
   setIsEditable,
-  setFlashcards,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -192,7 +190,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
           backBlocks={backBlocks}
-          setFlashcards={setFlashcards}
         />
       ) : null}
     </>

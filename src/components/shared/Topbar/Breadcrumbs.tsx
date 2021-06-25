@@ -1,24 +1,37 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { StudyModeIcon } from "../../../assets";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { isAppLoadingAtom, studySetTabAtom, typeAtom } from "../../../store";
+import {
+  getActiveBinder,
+  getActiveFolder,
+  getActiveStudySet,
+  isAppLoadingAtom,
+  studySetTabAtom,
+  typeAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 
 const Breadcrumbs: React.FC = () => {
   const [type] = useAtom(typeAtom);
-  const { folderData, binderData, studySetData } =
-    useContext(SelectedItemContext);
   const [loading] = useAtom(isAppLoadingAtom);
-  const { studyModes } = useParams<Params>();
+  const { studyModes, id } = useParams<Params>();
   const [studySetTab] = useAtom(studySetTabAtom);
   const { url } = useRouteMatch();
   const intl = useIntl();
+  const [folderData] = useAtom(
+    useMemo(() => getActiveFolder(id, type), [id, type])
+  );
+  const [binderData] = useAtom(
+    useMemo(() => getActiveBinder(id, type), [id, type])
+  );
+  const [studySetData] = useAtom(
+    useMemo(() => getActiveStudySet(id, type), [id, type])
+  );
 
   return !loading ? (
     <Flex>

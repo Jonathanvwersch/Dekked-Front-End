@@ -19,8 +19,6 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   const { addAsset } = useAsset();
   const theme: ThemeType = useContext(ThemeContext);
 
-  console.log(folderId);
-
   const handleAddItem = () => {
     if (type === FILETREE_TYPES.FOLDER) {
       addAsset(FILETREE_TYPES.BINDER, id);

@@ -1,4 +1,5 @@
-import { atom } from "jotai";
+import { EditorState } from "draft-js";
+import { Atom, atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { FILETREE_TYPES, TAB_TYPE, UserType } from "./shared";
 
@@ -11,7 +12,7 @@ export const getActiveFolder = (
   itemId: string,
   type?: string | FILETREE_TYPES
 ) => {
-  let foldersData;
+  let foldersData: Atom<FolderInterface | undefined> = atom(undefined);
   const folders = atom((get) => get(foldersAtom)?.[itemId]);
 
   if (type === FILETREE_TYPES.FOLDER) {
@@ -32,14 +33,34 @@ export const getActiveFolder = (
   return foldersData;
 };
 
-// else if (type === FILETREE_TYPES.BINDER) {
-//     foldersData = atom((get) => get(foldersAtom)?.[itemId]);
-//     bindersData = atom((get) => get(bindersAtom)?.[itemId]);
-//   } else {
-//     foldersData = atom((get) => get(foldersAtom)?.[itemId]);
-//     bindersData = atom((get) => get(bindersAtom)?.[itemId]);
-//     studySetsData = atom((get) => get(studySetsAtom)?.[itemId]);
-//   }
+export const getActiveBinder = (
+  itemId: string,
+  type?: string | FILETREE_TYPES
+) => {
+  let binderData: Atom<BinderInterface | undefined> = atom(undefined);
+  const binder = atom((get) => get(bindersAtom)?.[itemId]);
+
+  if (type === FILETREE_TYPES.BINDER) {
+    binderData = binder;
+  } else {
+    binderData = atom(
+      (get) => get(bindersAtom)?.[get(studySetsAtom)?.[itemId]?.binder_id || 0]
+    );
+  }
+  return binderData;
+};
+
+export const getActiveStudySet = (
+  itemId: string,
+  type?: string | FILETREE_TYPES
+) => {
+  let studySetData: Atom<StudyPackInterface | undefined> = atom(undefined);
+
+  if (type === FILETREE_TYPES.STUDY_SET) {
+    studySetData = atom((get) => get(studySetsAtom)?.[itemId]);
+  }
+  return studySetData;
+};
 
 export const firstFolderIdAtom = atom((get) => {
   const fileTree = get(fileTreeAtom || {});
@@ -296,3 +317,11 @@ export const currentBlockAtom = atom<{
   key: string | undefined;
   hasFocus: boolean;
 }>({ key: "", hasFocus: false });
+
+// Notes
+export const pageEditorStateAtom = atom<EditorState>(EditorState.createEmpty());
+
+// Layered Modal
+export const layeredModalAtom = atom<boolean>(false);
+
+// Flashcards

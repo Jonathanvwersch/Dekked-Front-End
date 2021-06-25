@@ -143,6 +143,8 @@ const en_GB = {
         back: "Back",
         save: "Save",
         addFlashcard: "+ Add flashcard",
+        flashcard: "{num} flashcard",
+        flashcards: "{num} flashcards",
       },
       tabs: {
         notes: "Notes",

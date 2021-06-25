@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -11,7 +11,6 @@ import {
 import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
-import { FlashcardsContext } from "../../../contexts";
 import { useParams } from "react-router-dom";
 import { isAppLoadingAtom, studySetsAtom, typeAtom } from "../../../store";
 import { useAtom } from "jotai";
@@ -19,22 +18,24 @@ import Skeleton from "react-loading-skeleton";
 
 interface PageHeaderProps {
   message?: string;
+  disableStudyButton?: boolean;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({
+  message,
+  disableStudyButton,
+}) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id } = useParams<Params>();
   const [type] = useAtom(typeAtom);
-  const { flashcards } = useContext(FlashcardsContext);
-  const flashcardsDoNotExist = flashcards?.length === 0;
   const [isLoading] = useAtom(isAppLoadingAtom);
   const [studySets] = useAtom(studySetsAtom);
 
   useMultiKeyPress(
     ["Control", "2"],
-    () => !flashcardsDoNotExist && setStudyMode(true)
+    () => !disableStudyButton && setStudyMode(true)
   );
 
   return (
@@ -68,12 +69,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
                     <Tooltip
                       id="DisabledStudyButton"
                       text="tooltips.studyMode.disabledStudyButton"
-                      isActive={flashcardsDoNotExist}
+                      isActive={disableStudyButton}
                     >
                       <Button
                         buttonStyle={BUTTON_THEME.PRIMARY}
                         handleClick={() => setStudyMode(true)}
-                        isDisabled={flashcardsDoNotExist}
+                        isDisabled={disableStudyButton}
                       >
                         {formatMessage("generics.study")}
                       </Button>
@@ -86,10 +87,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
             )}
           </Flex>
           <Spacer height={theme.spacers.size32} />
-          <StudyModeModal
-            isOpen={studyMode}
-            handleClose={() => setStudyMode(false)}
-          />
+          {studyMode && (
+            <StudyModeModal
+              isOpen={studyMode}
+              handleClose={() => setStudyMode(false)}
+            />
+          )}
         </>
       </Flex>
     </>
@@ -107,4 +110,4 @@ const StyledEditableText = styled((props) => <EditableText {...props} />)`
   }
 `;
 
-export default PageHeader;
+export default React.memo(PageHeader);

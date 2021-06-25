@@ -20,6 +20,11 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   const { theme, formatMessage } = usePageSetupHelpers();
   const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
 
+  const handlePrimaryButton = () => {
+    handleMainButton();
+    handleClose();
+  };
+
   return (
     <GeneralModal
       isOpen={isOpen}
@@ -30,7 +35,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           padding="0px"
           secondaryButton={{ onClick: handleClose }}
           primaryButton={{
-            onClick: handleMainButton,
+            onClick: handlePrimaryButton,
             style: BUTTON_THEME.DANGER,
             text: "sharedModals.deleteModal.delete",
           }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Card,
@@ -22,7 +22,7 @@ import {
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import {
   addFlashcard,
   deleteFlashcard,
@@ -48,7 +48,9 @@ interface StudySetFlashcardProps {
   toolbarSize?: SIZES;
   fullHeight?: boolean;
   type?: "edit" | "add";
-  setFlashcards?: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
+  setFlashcards?: (
+    update?: SetStateAction<FlashcardInterface[] | undefined>
+  ) => void;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -81,6 +83,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const { id: ownerId } = user;
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (linked) {
@@ -94,7 +97,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const { mutate: addCard } = useMutation(
     `${studyPackId}-add-flashcard`,
-    addFlashcard
+    addFlashcard,
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          [`${studyPackId}-get-flashcards`],
+          data.data.flashcards
+        );
+      },
+    }
   );
 
   const { mutate: deleteCard } = useMutation(
@@ -104,7 +115,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
     `${studyPackId}-save-flashcard`,
-    saveFlashcard
+    saveFlashcard,
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.setQueryData(
+          [`${studyPackId}-get-flashcards`],
+          data.data.flashcards
+        );
+      },
+    }
   );
 
   // Switch up current side depending on focus
@@ -258,6 +278,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         backEditorState: backFlashcardEditorState,
         flash_card_id: flashcardId,
         owner_id: ownerId,
+        study_pack_id: studyPackId,
       });
     }
   };
@@ -326,7 +347,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         handleMainButton={() => {
           setFlashcards &&
             setFlashcards((prevState) =>
-              prevState.filter(
+              prevState?.filter(
                 (flashcard) => flashcard.flashcard.id !== flashcardId
               )
             );

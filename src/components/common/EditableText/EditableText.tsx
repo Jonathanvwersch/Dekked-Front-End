@@ -127,4 +127,4 @@ const StyledContentEditable = styled(ContentEditable)`
   }
 `;
 
-export default EditableText;
+export default React.memo(EditableText);

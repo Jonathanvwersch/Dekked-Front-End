@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React, { useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
@@ -6,13 +7,13 @@ import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
 import { Params, SIZES } from "../../../shared";
+import { flashcardsAtom } from "../../../store";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  setFlashcards: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
   isEditable: boolean;
   flashcardId?: string;
   frontBlocks?: string[];
@@ -29,12 +30,11 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   backBlocks,
   ownerId,
   currentBlockKey,
-  setFlashcards,
 }) => {
   const theme = useContext(ThemeContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { id: studyPackId } = useParams<Params>();
-
+  const [, setFlashcards] = useAtom(flashcardsAtom);
   const { mutate: deleteCard } = useMutation(
     `${studyPackId}-delete-flashcard`,
     deleteFlashcard
@@ -79,7 +79,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
           setFlashcards((prevState) =>
-            prevState.filter(
+            prevState?.filter(
               (flashcard) => flashcard.flashcard.id !== flashcardId
             )
           );
@@ -88,7 +88,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           });
         }}
       />
-
       <FlashcardModal
         type="edit"
         frontBlocks={frontBlocks}

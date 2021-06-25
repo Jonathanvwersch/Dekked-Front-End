@@ -11,7 +11,6 @@ import { useIntl } from "react-intl";
 import styled, { ThemeContext } from "styled-components";
 import { Card, Flex, Overlay, ShadowCard } from "..";
 import { TextColorIcon } from "../../../assets";
-import { LayeredModalContext } from "../../../contexts";
 import {
   handleIconType,
   lightenOrDarkenHexColour,
@@ -28,7 +27,7 @@ import {
   DARK_THEME_FONT_COLORS,
   DARK_THEME_BACKGROUND_COLORS,
 } from "../../../shared";
-import { darkModeAtom } from "../../../store";
+import { darkModeAtom, layeredModalAtom } from "../../../store";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 import Tooltip from "../Tooltip/Tooltip";
 import { backgroundColors, textAndIconColors } from "./ColorPicker.data";
@@ -58,7 +57,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   id,
 }) => {
   const theme = useContext(ThemeContext);
-  const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
+  const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
   const [isDarkTheme] = useAtom(darkModeAtom);
   const intl = useIntl();
   const { updateAsset } = useUpdateAsset();

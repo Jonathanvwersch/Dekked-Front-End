@@ -7,7 +7,7 @@ import { formatMessage } from "../../../intl";
 import { getChildType, handleUntitled } from "../../../helpers";
 import { BinderIcon, StudySetIcon } from "../../../assets";
 import { ThemeContext } from "styled-components";
-import { selectStudySetTab, studySetsAtom } from "../../../store";
+import { selectStudySetTab } from "../../../store";
 import { useAtom } from "jotai";
 
 interface FolderBinderCardProps {
@@ -21,6 +21,13 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(data?.id), [data?.id])
   );
+  var options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  const date = new Date(data?.date_created || "");
 
   return (
     <>
@@ -39,7 +46,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
             bottomText={`${formatMessage(
               "folderBinders.created",
               intl
-            )} June 13th, 2021`}
+            )} ${date.toLocaleDateString("en-US", options)}`}
             thumbnailBackgroundColor={theme.colors.secondary}
             descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
             backgroundIcon={
@@ -56,4 +63,4 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   );
 };
 
-export default FolderBinderCard;
+export default React.memo(FolderBinderCard);

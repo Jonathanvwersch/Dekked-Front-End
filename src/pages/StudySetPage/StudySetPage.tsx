@@ -1,4 +1,3 @@
-import { EditorState } from "draft-js";
 import React, { useCallback, useRef, useState } from "react";
 import { Route } from "react-router-dom";
 import { InsetPage } from "../../components/common";
@@ -17,9 +16,6 @@ interface StudySetPageProps {}
 const StudySetPage: React.FC<StudySetPageProps> = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const [initialWidth, setInitialWidth] = useState(0);
-  const [pageEditorState, setPageEditorState] = useState<EditorState>(
-    EditorState.createEmpty()
-  );
   const { dimensions, position } = useResize(headerRef);
 
   // This ref is used to get the initial width of the flashcard as the headerRef is undefined on mount
@@ -31,19 +27,13 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
 
   return (
     <MainFrame>
+      <StudySetHeader headerRef={headerRef} />
       <InsetPage size={SIZES.SMALL}>
-        <StudySetHeader
-          editorState={pageEditorState}
-          setEditorState={setPageEditorState}
-          headerRef={headerRef}
-        />
         <CustomSwitch>
           <Route
             path={`/${FILETREE_TYPES.STUDY_SET}/:id/${TAB_TYPE.NOTES}`}
             render={() => (
               <StudySetNotesContainer
-                editorState={pageEditorState}
-                setEditorState={setPageEditorState}
                 notesRef={initialRef}
                 flashcardSize={
                   dimensions.width ? dimensions.width : initialWidth

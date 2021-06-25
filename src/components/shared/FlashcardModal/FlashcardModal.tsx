@@ -6,8 +6,9 @@ import { useParams } from "react-router-dom";
 
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
-import { LayeredModalContext } from "../../../contexts";
 import { ThemeContext } from "styled-components";
+import { layeredModalAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface FlashcardModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +34,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   const isSaving = useIsMutating({
     mutationKey: `${id}-save-flashcard`,
   });
-  const { isLayeredModalOpen } = useContext(LayeredModalContext);
+  const [isLayeredModalOpen] = useAtom(layeredModalAtom);
 
   useEffect(() => {
     if (!isSaving) {

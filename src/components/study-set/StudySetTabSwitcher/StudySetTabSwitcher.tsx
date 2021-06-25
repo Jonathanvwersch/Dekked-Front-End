@@ -74,4 +74,4 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export default StudySetTabSwitcher;
+export default React.memo(StudySetTabSwitcher);

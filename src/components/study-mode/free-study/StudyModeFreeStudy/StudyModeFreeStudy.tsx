@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { FlashcardsContext } from "../../../../contexts";
+import useFlashcards from "../../../../services/flashcards/useFlashcards";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { FullPageLoadingSpinner } from "../../../common";
 import StudyModeController from "../../StudyModeController/StudyModeController";
@@ -15,8 +15,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
     Number(index) - 1
   );
   const [flippedState, setFlippedState] = useState<boolean>(true);
-  const { flashcards, isLoading, setFlashcards } =
-    useContext(FlashcardsContext);
+  const { flashcards, isLoading } = useFlashcards();
 
   const maxLength = flashcards?.length;
 
@@ -32,7 +31,6 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
             studyMode={STUDY_MODE_TYPES.FREE_STUDY}
             isEditable={isEditable}
             setIsEditable={setIsEditable}
-            setFlashcards={setFlashcards}
           />
           <StudyModeController
             maxLength={maxLength}
