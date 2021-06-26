@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
 import { ThemeContext } from "styled-components";
-import { layeredModalAtom } from "../../../store";
+import { flashcardsAtom, layeredModalAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface FlashcardModalProps {
@@ -35,6 +35,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
     mutationKey: `${id}-save-flashcard`,
   });
   const [isLayeredModalOpen] = useAtom(layeredModalAtom);
+  const [, setFlashcards] = useAtom(flashcardsAtom);
 
   useEffect(() => {
     if (!isSaving) {
@@ -61,6 +62,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
         currentBlockKey={blockLink}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
+        setFlashcards={setFlashcards}
         type={type}
         width="100%"
         vertical

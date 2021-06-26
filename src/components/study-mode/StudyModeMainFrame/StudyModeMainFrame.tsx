@@ -24,10 +24,12 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
 }) => {
   const [currentFlashcard, setCurrentFlashcard] =
     useState<FlashcardInterface | undefined>();
+  const frontBlocks = flashcards?.[flashcardIndex]?.front_blocks;
+  const backBlocks = flashcards?.[flashcardIndex]?.back_blocks;
 
   useLayoutEffect(() => {
-    flashcards && setCurrentFlashcard(flashcards[flashcardIndex]);
-  }, [flashcardIndex, flashcards]);
+    setCurrentFlashcard(flashcards?.[flashcardIndex]);
+  }, [flashcardIndex, flashcards, frontBlocks, backBlocks]);
 
   return (
     <>

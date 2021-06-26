@@ -1,7 +1,9 @@
+import { useAtom } from "jotai";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFlashcards from "../../../../services/flashcards/useFlashcards";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
+import { flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "../../../common";
 import StudyModeController from "../../StudyModeController/StudyModeController";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
@@ -15,13 +17,11 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
     Number(index) - 1
   );
   const [flippedState, setFlippedState] = useState<boolean>(true);
-  const { flashcards, isLoading } = useFlashcards();
-
+  const [flashcards] = useAtom(flashcardsAtom);
   const maxLength = flashcards?.length;
-
   return (
     <>
-      {!isLoading && typeof maxLength !== "undefined" ? (
+      {typeof maxLength !== "undefined" ? (
         <>
           <StudyModeMainFrame
             flashcardIndex={flashcardIndex}
