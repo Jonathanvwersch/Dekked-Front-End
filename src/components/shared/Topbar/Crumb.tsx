@@ -1,4 +1,4 @@
-import React, { memo, useContext, useLayoutEffect, useMemo } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
@@ -6,7 +6,7 @@ import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES, Params, SIZES } from "../../../shared";
 import { useIntl } from "react-intl";
 import { handleIconType, handleUntitled } from "../../../helpers";
-import { selectActiveBlockName, selectedBlockNameAtom } from "../../../store";
+import { selectedBlockNameAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface CrumbProps {

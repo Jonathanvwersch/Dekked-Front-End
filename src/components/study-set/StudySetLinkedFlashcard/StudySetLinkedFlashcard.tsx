@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StudySetFlashcard } from "..";
