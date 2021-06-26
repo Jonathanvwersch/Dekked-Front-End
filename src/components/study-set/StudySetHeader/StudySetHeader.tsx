@@ -5,7 +5,7 @@ import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
-import { BUTTON_THEME, Params, TAB_TYPE } from "../../../shared";
+import { BUTTON_THEME, Params, SIZES, TAB_TYPE } from "../../../shared";
 import { useParams } from "react-router-dom";
 import { getWordCount } from "../../notetaking/Editor/Editor.helpers";
 import {
@@ -93,6 +93,7 @@ const PageHeaderWrapper = styled.div`
   padding-left: 100px;
   padding-right: 100px;
   width: 100%;
+  max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
 `;
 
 const ToolbarAndTabs = styled(Flex)`
@@ -100,6 +101,7 @@ const ToolbarAndTabs = styled(Flex)`
   margin-top: ${({ theme }) => theme.spacers.size32};
   width: 100%;
   top: 0;
+  max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
   padding: ${({ theme }) => theme.spacers.size16} 0px;
   background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
   height: ${({ theme }) => theme.spacers.size64};

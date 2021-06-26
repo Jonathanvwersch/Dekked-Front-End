@@ -59,7 +59,7 @@ const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <>
           <StyledSpan>{children}</StyledSpan>
-          <StyledSpinner />
+          <StyledSpinner size={SIZES.SMALL} />
         </>
       ) : (
         children

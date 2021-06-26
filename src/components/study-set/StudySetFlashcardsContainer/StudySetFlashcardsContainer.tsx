@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty, isEqual } from "lodash";
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
@@ -22,8 +22,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       mutationKey: `${studyPackId}-add-flashcard`,
     });
     const endOfFlashcardsContainer = useRef<HTMLDivElement>(null);
-
-    console.log(flashcards);
 
     const { data, isLoading } = useQuery(
       `${studyPackId}-get-flashcards`,
@@ -95,4 +93,9 @@ const StyledSkeleton = styled(Skeleton)`
   margin-bottom: ${({ theme }) => theme.spacers.size32};
 `;
 
-export default StudySetFlashcardsContainer;
+export default React.memo(
+  StudySetFlashcardsContainer,
+  (prevProps, newProps) => {
+    return isEqual(newProps, prevProps);
+  }
+);

@@ -42,14 +42,12 @@ const Sidebar: React.FC<SidebarProps> = () => {
               }
         }
       >
-        {sidebar || hoverbar ? (
-          <>
-            <SidebarTop />
-            <SidebarWorkspaceHeader />
-            <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
-            <SidebarBase bottomFolderRef={bottomFolderRef} />
-          </>
-        ) : null}
+        <>
+          <SidebarTop />
+          <SidebarWorkspaceHeader />
+          <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+          <SidebarBase bottomFolderRef={bottomFolderRef} />
+        </>
       </InnerSidebar>
     </SidebarContainer>
   );

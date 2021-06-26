@@ -25,13 +25,13 @@ export const saveFlashcard = async ({
   owner_id,
   frontEditorState,
   backEditorState,
-  study_pack_id,
+  flashcardIndex,
 }: {
   flash_card_id: string | undefined;
   owner_id: string | undefined;
   frontEditorState: EditorState;
   backEditorState: EditorState;
-  study_pack_id: string | undefined;
+  flashcardIndex?: number;
 }) => {
   const url = config.api + `/flashcard/${flash_card_id}`;
 
@@ -53,7 +53,6 @@ export const saveFlashcard = async ({
       front_draft_keys,
       back_blocks,
       back_draft_keys,
-      study_pack_id,
     }),
   });
   return await response.json();

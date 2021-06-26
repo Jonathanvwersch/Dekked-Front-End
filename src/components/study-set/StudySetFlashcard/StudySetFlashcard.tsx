@@ -16,7 +16,7 @@ import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
-import { isEmpty } from "lodash";
+import { isEmpty, isEqual } from "lodash";
 import {
   convertBlocksToContent,
   getWordCount,
@@ -113,15 +113,32 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     deleteFlashcard
   );
 
+  const updateFlashcards = (
+    flashcards: FlashcardInterface[] | undefined,
+    updatedFlashcard: FlashcardInterface,
+    flashcardId?: string
+  ) => {
+    if (flashcards && flashcardId) {
+      const flashcardIndex = flashcards.findIndex((card) => card.flashcard.id);
+      flashcards[flashcardIndex] = { ...updatedFlashcard };
+    }
+    return flashcards || [];
+  };
+
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
     `${studyPackId}-save-flashcard`,
     saveFlashcard,
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: (data, { flash_card_id }) => {
         queryClient.setQueryData(
-          [`${studyPackId}-get-flashcards`],
-          data.data.flashcards
+          `${studyPackId}-get-flashcards`,
+          (prevState) => {
+            return updateFlashcards(
+              prevState as FlashcardInterface[] | undefined,
+              data?.fullFlashcard,
+              flash_card_id
+            );
+          }
         );
       },
     }
@@ -278,7 +295,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         backEditorState: backFlashcardEditorState,
         flash_card_id: flashcardId,
         owner_id: ownerId,
-        study_pack_id: studyPackId,
+        flashcardIndex: index,
       });
     }
   };
@@ -295,6 +312,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     if (e.key === "Enter" && type !== "add" && type !== "edit")
       setEditFlashcard(true);
   });
+
+  const isSaveButtonDisabled = () => false;
+
+  const isAddButtonDisabled = () =>
+    getWordCount(frontFlashcardEditorState) === 0 &&
+    getWordCount(backFlashcardEditorState) === 0;
 
   return (
     <>
@@ -329,14 +352,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
               <Button
                 buttonStyle={BUTTON_THEME.PRIMARY}
                 isDisabled={
-                  getWordCount(frontFlashcardEditorState) === 0 &&
-                  getWordCount(backFlashcardEditorState) === 0
+                  type === "edit"
+                    ? isSaveButtonDisabled()
+                    : isAddButtonDisabled()
                 }
                 handleClick={handleSaveFlashcard}
                 isLoading={type === "edit" ? isSaveLoading : false}
               >
                 {formatMessage(
-                  type === "edit" ? "generics.save" : "generics.add"
+                  type === "edit" ? "generics.saveAndClose" : "generics.add"
                 )}
               </Button>
             </Flex>
@@ -405,4 +429,6 @@ const CardHeader = styled.div`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
-export default StudySetFlashcard;
+export default React.memo(StudySetFlashcard, (prevProps, newProps) => {
+  return isEqual(newProps, prevProps);
+});

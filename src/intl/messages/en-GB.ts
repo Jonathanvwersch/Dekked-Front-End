@@ -5,6 +5,7 @@ const en_GB = {
     generics: {
       study: "Study",
       save: "Save",
+      saveAndClose: "Save and close",
       untitled: "Untitled",
       saveChanges: "Save changes",
       cancel: "Cancel",
