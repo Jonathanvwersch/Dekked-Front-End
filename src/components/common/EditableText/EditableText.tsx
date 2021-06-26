@@ -39,7 +39,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const autoSave = useCallback(
     debounce((name: string) => {
-      updateItem(type, itemId, {
+      updateItem(itemId, type, {
         name: name.replace("&nbsp;", " "),
       });
     }, 1000),
@@ -94,16 +94,16 @@ const EditableText: React.FC<EditableTextProps> = ({
         handleEditable && handleEditable();
       }}
       onKeyUp={() => {
-        // editableTextRef &&
-        //   editableTextRef.current &&
-        //   updateAsset(
-        //     type,
-        //     itemId,
-        //     {
-        //       name: editableTextRef.current?.innerText,
-        //     },
-        //     false
-        //   );
+        editableTextRef &&
+          editableTextRef.current &&
+          updateItem(
+            itemId,
+            type,
+            {
+              name: editableTextRef.current?.innerText,
+            },
+            true
+          );
       }}
       className={className}
       onChange={handleChange}
@@ -122,4 +122,4 @@ const StyledContentEditable = styled(ContentEditable)`
   }
 `;
 
-export default React.memo(EditableText);
+export default EditableText;

@@ -26,7 +26,6 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
     month: "short",
     day: "numeric",
   };
-
   const date = new Date(data?.date_created || "");
 
   return (

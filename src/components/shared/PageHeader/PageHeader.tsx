@@ -52,7 +52,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
               name={studySets?.[id]?.name}
             />
           ) : (
-            <Skeleton width="400px" height="66px" />
+            <div style={{ width: "100%" }}>
+              <Skeleton width="30%" height="66px" />
+            </div>
           )}
           <Spacer height={theme.spacers.size16} />
           <Flex justifyContent="space-between">

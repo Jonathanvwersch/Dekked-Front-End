@@ -25,43 +25,41 @@ const DragBlock: React.FC<DragBlockProps> = ({
   dragStyles,
   className,
   showDragStyles,
-}) => {
-  return (
-    <StyledDragBlock
-      dragStyles={dragStyles}
-      className={className}
-      draggable={isDraggable}
-      onDragEnter={(e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDragEnter && handleDragEnter();
-      }}
-      onDragLeave={(e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDragLeave && handleDragLeave();
-      }}
-      onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDragOver && handleDragOver();
-      }}
-      onDragEnd={(e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDragEnd && handleDragEnd();
-      }}
-      onDrop={(e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleDrop && handleDrop();
-      }}
-      showDragStyles={showDragStyles}
-    >
-      {children}
-    </StyledDragBlock>
-  );
-};
+}) => (
+  <StyledDragBlock
+    dragStyles={dragStyles}
+    className={className}
+    draggable={isDraggable}
+    onDragEnter={(e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDragEnter && handleDragEnter();
+    }}
+    onDragLeave={(e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDragLeave && handleDragLeave();
+    }}
+    onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDragOver && handleDragOver();
+    }}
+    onDragEnd={(e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDragEnd && handleDragEnd();
+    }}
+    onDrop={(e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDrop && handleDrop();
+    }}
+    showDragStyles={showDragStyles}
+  >
+    {children}
+  </StyledDragBlock>
+);
 
 const StyledDragBlock = styled.div<{
   dragStyles?: FlattenInterpolation<ThemeProps<any>>;

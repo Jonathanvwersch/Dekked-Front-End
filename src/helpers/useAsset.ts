@@ -17,7 +17,6 @@ export const useAsset = () => {
   const [, setAsset] = useAtom(addAssetAtom);
   const [, setIsBlockOpen] = useAtom(updateBlockOpenStateAtom);
   const [user] = useAtom(userAtom);
-
   const { mutate: _addFolder } = useMutation(
     "add-folder",
     () => addFolder({ id, name: itemName, color: iconColor }),

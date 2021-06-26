@@ -35,7 +35,7 @@ const TopBar: React.FC = () => {
         {!isLoading ? (
           <Breadcrumbs />
         ) : (
-          <StyledSkeleton count={3} width="50px" height="20px" />
+          <StyledSkeleton count={3} width="100px" height="20px" />
         )}
         <PageSaving />
       </Flex>

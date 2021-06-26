@@ -1,12 +1,11 @@
 import { useAtom } from "jotai";
-import { first } from "lodash";
 import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
 import { getSessionCookie, useAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
-import { fileTreeAtom, firstFolderIdAtom, loadingErrorAtom } from "../store";
+import { fileTreeAtom, loadingErrorAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -25,7 +24,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 }) => {
   const history = useHistory();
   const isLoading = false;
-  const [firstFolderId] = useAtom(firstFolderIdAtom);
+  const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
   const { addAsset } = useAsset();
   // If there is no user, redirect to login
@@ -35,11 +34,12 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
       history.push("/error");
     } else if (!getSessionCookie()) {
       history.push("/login");
-    } else if (path === "/" && firstFolderId) {
-      if (!firstFolderId) addAsset(FILETREE_TYPES.FOLDER);
-      else history.push(`/${FILETREE_TYPES.FOLDER}/${firstFolderId}`);
+    } else if (path === "/" && fileTree) {
+      if (!Object.keys(fileTree)[0]) addAsset(FILETREE_TYPES.FOLDER);
+      else
+        history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [history, firstFolderId, path, loadingError, addAsset]);
+  }, [history, fileTree, path, loadingError, addAsset]);
 
   return (
     <>

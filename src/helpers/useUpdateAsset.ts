@@ -37,7 +37,8 @@ export const useUpdateAsset = () => {
       updateData: {
         color?: string;
         name?: string;
-      }
+      },
+      noRequest?: boolean
     ) => {
       setAsset({
         fileId: assetId,
@@ -46,7 +47,7 @@ export const useUpdateAsset = () => {
         name: updateData.name,
       });
 
-      _updateAsset({ fileId: assetId, type, updateData });
+      !noRequest && _updateAsset({ fileId: assetId, type, updateData });
     },
     [setAsset, _updateAsset]
   );

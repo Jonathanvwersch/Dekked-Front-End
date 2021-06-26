@@ -74,7 +74,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
             {Cards(type)}
           </StyledContainer>
         ) : (
-          <StyledSkeleton width="160px" height="180px" count={3} />
+          <StyledSkeleton width="160px" height="180px" count={2} />
         )}
       </>
     );
@@ -94,4 +94,4 @@ const StyledContainer = styled.div<FolderBinderCardContainerProps>`
   grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 
-export default FolderBinderCardContainer;
+export default React.memo(FolderBinderCardContainer);

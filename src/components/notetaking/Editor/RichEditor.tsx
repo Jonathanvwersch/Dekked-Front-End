@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -300,4 +300,4 @@ const EditorContainer = styled.div<{
   }
 `;
 
-export default memo(RichEditor);
+export default RichEditor;

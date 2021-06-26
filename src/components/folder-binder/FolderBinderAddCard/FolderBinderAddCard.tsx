@@ -62,4 +62,4 @@ const StyledIconActive = styled.div`
   }
 `;
 
-export default FolderBinderAddCard;
+export default React.memo(FolderBinderAddCard);

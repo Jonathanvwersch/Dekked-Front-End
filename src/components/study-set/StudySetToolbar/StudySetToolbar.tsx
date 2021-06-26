@@ -32,7 +32,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
 
   return (
     <>
-      <Flex width="auto">
+      <Flex width={isLoading ? "100%" : "auto"}>
         {!isLoading ? (
           <>
             <ChangeTextStyles
@@ -61,7 +61,9 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
             />
           </>
         ) : (
-          <Skeleton height="24px" width="450px" />
+          <div style={{ width: "100%" }}>
+            <Skeleton height="24px" width="75%" />
+          </div>
         )}
       </Flex>
     </>
