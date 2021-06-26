@@ -56,6 +56,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
+  const [iconColor, setIconColor] = useState<string>(blockData?.color);
   const { addAsset } = useAsset();
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
@@ -147,9 +148,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
                 </IconActive>
               ) : null}
               <Spacer width={theme.spacers.size8} />
-              <IconWrapper>
-                {handleIconType(type, blockData?.color)}
-              </IconWrapper>
+              <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
               <Spacer width={theme.spacers.size8} />
               <SidebarBlockName
                 blockId={blockData?.id}
@@ -193,7 +192,8 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             isOpen={colorPicker}
             handleClose={handleCloseColorPicker}
             coords={coords}
-            iconColor={blockData?.color}
+            iconColor={iconColor}
+            setIconColor={setIconColor}
             type={type}
             id={blockData?.id}
           />

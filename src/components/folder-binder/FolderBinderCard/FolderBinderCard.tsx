@@ -63,4 +63,4 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({ data, type }) => {
   );
 };
 
-export default React.memo(FolderBinderCard);
+export default FolderBinderCard;

@@ -228,6 +228,100 @@ export const addAssetAtom = atom(
   }
 );
 
+export const updateAssetAtom = atom(
+  null,
+  (
+    get,
+    set,
+    arg: {
+      fileId: string;
+      type: string;
+      color?: string;
+      name?: string;
+    }
+  ) => {
+    const fileTree = get(fileTreeAtom);
+    const folders = get(foldersAtom);
+    const studySets = get(studySetsAtom);
+    const binders = get(bindersAtom);
+    const fileId = arg.fileId;
+
+    if (arg.type === FILETREE_TYPES.FOLDER) {
+      if (folders?.[fileId]?.name && arg.name) {
+        folders[fileId].name = arg.name;
+      }
+      if (folders?.[fileId]?.color && arg.color) {
+        folders[fileId].color = arg.color;
+      }
+      if (fileTree?.[fileId]?.name && arg.name) {
+        fileTree[fileId].name = arg.name;
+      }
+      if (fileTree?.[fileId]?.color && arg.color) {
+        fileTree[fileId].color = arg.color;
+      }
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+      set(foldersAtom, {
+        ...folders,
+      });
+    } else if (arg.type === FILETREE_TYPES.BINDER) {
+      const folderId = binders?.[fileId]?.folder_id;
+      if (binders?.[fileId]?.name && arg.name) {
+        binders[fileId].name = arg.name;
+      }
+      if (binders?.[fileId]?.color && arg.color) {
+        binders[fileId].color = arg.color;
+      }
+      if (fileTree?.[fileId]?.children?.[fileId]?.name && arg.name) {
+        fileTree[fileId].children[fileId].name = arg.name;
+      }
+      if (fileTree?.[folderId || 0]?.children?.[fileId]?.color && arg.color) {
+        fileTree[folderId || 0].children[fileId].color = arg.color;
+      }
+      set(bindersAtom, {
+        ...binders,
+      });
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+    } else if (arg.type === FILETREE_TYPES.STUDY_SET) {
+      const binderId = studySets?.[fileId]?.binder_id;
+      const folderId = binders?.[binderId || 0]?.folder_id;
+
+      if (studySets?.[fileId]?.name && arg.name) {
+        studySets[fileId].name = arg.name;
+      }
+      if (studySets?.[fileId]?.color && arg.color) {
+        studySets[fileId].color = arg.color;
+      }
+      if (
+        folderId &&
+        binderId &&
+        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId]?.name &&
+        arg.name
+      ) {
+        fileTree[folderId].children[binderId].children[fileId].name = arg.name;
+      }
+      if (
+        folderId &&
+        binderId &&
+        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId]?.color &&
+        arg.color
+      ) {
+        fileTree[folderId].children[binderId].children[fileId].color =
+          arg.color;
+      }
+      set(studySetsAtom, {
+        ...studySets,
+      });
+      set(fileTreeAtom, {
+        ...fileTree,
+      });
+    }
+  }
+);
+
 // App theme
 export const darkModeAtom = atomWithStorage<boolean>("dark-mode", false);
 

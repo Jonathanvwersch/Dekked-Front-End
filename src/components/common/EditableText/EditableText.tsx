@@ -28,7 +28,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 }) => {
   const [type] = useAtom(typeAtom);
   const intl = useIntl();
-  const { updateAsset } = useUpdateAsset();
+  const { updateItem } = useUpdateAsset();
   const [html, setHtml] = useState<string>(name);
 
   const handleChange = (e: any) => {
@@ -39,14 +39,9 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const autoSave = useCallback(
     debounce((name: string) => {
-      updateAsset(
-        type,
-        itemId,
-        {
-          name: name.replace("&nbsp;", " "),
-        },
-        true
-      );
+      updateItem(type, itemId, {
+        name: name.replace("&nbsp;", " "),
+      });
     }, 1000),
     [itemId, editableTextRef, type]
   );
@@ -99,16 +94,16 @@ const EditableText: React.FC<EditableTextProps> = ({
         handleEditable && handleEditable();
       }}
       onKeyUp={() => {
-        editableTextRef &&
-          editableTextRef.current &&
-          updateAsset(
-            type,
-            itemId,
-            {
-              name: editableTextRef.current?.innerText,
-            },
-            false
-          );
+        // editableTextRef &&
+        //   editableTextRef.current &&
+        //   updateAsset(
+        //     type,
+        //     itemId,
+        //     {
+        //       name: editableTextRef.current?.innerText,
+        //     },
+        //     false
+        //   );
       }}
       className={className}
       onChange={handleChange}

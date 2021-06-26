@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from "react";
 import { useIntl } from "react-intl";
+import { useMutation } from "react-query";
 import styled, { ThemeContext } from "styled-components";
 import { Card, Flex, Overlay, ShadowCard } from "..";
 import { TextColorIcon } from "../../../assets";
@@ -17,6 +18,7 @@ import {
   useUpdateAsset,
 } from "../../../helpers";
 import { formatMessage } from "../../../intl";
+import { updateAsset } from "../../../services/file-structure/asset-api";
 import {
   LIGHT_THEME_BACKGROUND_COLORS,
   CoordsType,
@@ -60,7 +62,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
   const [isDarkTheme] = useAtom(darkModeAtom);
   const intl = useIntl();
-  const { updateAsset } = useUpdateAsset();
+  const { updateItem } = useUpdateAsset();
 
   useEffect(() => {
     setIsLayeredModalOpen(true);
@@ -68,8 +70,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   }, [isOpen, setIsLayeredModalOpen]);
 
   const handleClick = (colour: string) => {
-    if (variant === "color-block" && type && id) {
-      updateAsset(type, id, { color: colour });
+    if (variant === "color-block" && id && type) {
+      setIconColor && setIconColor(colour);
+      updateItem(id, type, { color: colour });
     }
 
     if (editorState && setEditorState) {
