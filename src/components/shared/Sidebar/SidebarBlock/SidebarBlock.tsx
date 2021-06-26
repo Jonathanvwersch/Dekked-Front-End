@@ -60,7 +60,6 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
   );
-  console.log(blockData?.name);
 
   const [isBlockOpen] = useAtom(
     useMemo(

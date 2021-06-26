@@ -40,6 +40,7 @@ export const App: React.FC = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       enabled: Boolean(getSessionCookie()),
+      retry: 5,
     }
   );
 
@@ -55,6 +56,7 @@ export const App: React.FC = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       enabled: Boolean(getSessionCookie()),
+      retry: 5,
     }
   );
 
@@ -68,6 +70,7 @@ export const App: React.FC = () => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     enabled: Boolean(getSessionCookie()),
+    retry: 5,
   });
 
   const {
@@ -79,6 +82,8 @@ export const App: React.FC = () => {
   }>(`${getSessionCookie()}-binders`, getBinders, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    enabled: Boolean(getSessionCookie()),
+    retry: 5,
   });
 
   const {
@@ -91,6 +96,7 @@ export const App: React.FC = () => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     enabled: Boolean(getSessionCookie()),
+    retry: 5,
   });
 
   const [, _setFileTree] = useAtom(fileTreeAtom);
