@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -12,7 +12,12 @@ import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { useParams } from "react-router-dom";
-import { isAppLoadingAtom, studySetsAtom, typeAtom } from "../../../store";
+import {
+  isAppLoadingAtom,
+  selectActiveBlockName,
+  studySetsAtom,
+  typeAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
 
@@ -31,8 +36,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const { id } = useParams<Params>();
   const [type] = useAtom(typeAtom);
   const [isLoading] = useAtom(isAppLoadingAtom);
-  const [studySets] = useAtom(studySetsAtom);
-
+  const [selectedBlockName] = useAtom(
+    useMemo(() => selectActiveBlockName(id, type), [id, type])
+  );
   useMultiKeyPress(
     ["Control", "2"],
     () => !disableStudyButton && setStudyMode(true)
@@ -49,7 +55,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             <StyledEditableText
               itemId={id}
               editableTextRef={headerRef}
-              name={studySets?.[id]?.name}
+              name={selectedBlockName}
             />
           ) : (
             <div style={{ width: "100%" }}>

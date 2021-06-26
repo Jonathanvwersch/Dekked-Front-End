@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
 import { getSessionCookie, useAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
-import { fileTreeAtom, loadingErrorAtom } from "../store";
+import { fileTreeAtom, isAppLoadingAtom, loadingErrorAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -23,7 +23,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const isLoading = false;
+  const [isLoading] = useAtom(isAppLoadingAtom);
   const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
   const { addAsset } = useAsset();

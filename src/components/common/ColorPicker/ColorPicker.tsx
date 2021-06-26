@@ -8,7 +8,6 @@ import React, {
   useEffect,
 } from "react";
 import { useIntl } from "react-intl";
-import { useMutation } from "react-query";
 import styled, { ThemeContext } from "styled-components";
 import { Card, Flex, Overlay, ShadowCard } from "..";
 import { TextColorIcon } from "../../../assets";
@@ -18,7 +17,6 @@ import {
   useUpdateAsset,
 } from "../../../helpers";
 import { formatMessage } from "../../../intl";
-import { updateAsset } from "../../../services/file-structure/asset-api";
 import {
   LIGHT_THEME_BACKGROUND_COLORS,
   CoordsType,
@@ -139,8 +137,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                     ? color.color
                     : theme.colors.backgrounds.pageBackground
                 }
-                m="8px"
-                p="0"
+                m={theme.spacers.size8}
+                p="0px"
                 width="28px"
                 height="28px"
                 border={`solid 1px ${lightenOrDarkenHexColour(

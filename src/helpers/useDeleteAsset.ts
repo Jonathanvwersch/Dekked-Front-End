@@ -56,7 +56,6 @@ export const useDeleteAsset = () => {
 
           // navigate to first folder after deleting folder if id === assetId
           const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-
           if (
             shouldRedirect ||
             binders?.[studySets?.[id]?.binder_id || 0]?.folder_id === assetId ||

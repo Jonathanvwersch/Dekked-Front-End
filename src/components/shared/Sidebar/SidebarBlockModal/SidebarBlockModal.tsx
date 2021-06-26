@@ -78,10 +78,8 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
         <DeleteModal
           handleClose={() => setIsDeleteModalOpen(false)}
           isOpen={isDeleteModalOpen}
-          handleMainButton={(e: SyntheticEvent) => {
-            e.preventDefault();
+          handleMainButton={() => {
             deleteAsset(type, id);
-            setIsDeleteModalOpen(false);
           }}
           bodyText={deleteModalBodyText()}
         />

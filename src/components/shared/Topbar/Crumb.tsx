@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react";
+import React, { memo, useContext, useLayoutEffect, useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { ThemeType } from "../../../styles/theme";
 import { Flex, HoverCard, IconWrapper, Spacer, Text } from "../../common";
@@ -6,6 +6,8 @@ import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES, Params, SIZES } from "../../../shared";
 import { useIntl } from "react-intl";
 import { handleIconType, handleUntitled } from "../../../helpers";
+import { selectActiveBlockName, selectedBlockNameAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface CrumbProps {
   breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;
@@ -26,6 +28,14 @@ const Crumb: React.FC<CrumbProps> = ({
   const intl = useIntl();
   const history = useHistory();
   const { studyModes } = useParams<Params>();
+  const { id } = useParams<Params>();
+  const [selectedBlockName, setSelectedBlockName] = useAtom(
+    selectedBlockNameAtom
+  );
+
+  useLayoutEffect(() => {
+    id === breadCrumbData?.id && setSelectedBlockName(breadCrumbData?.name);
+  }, [id, setSelectedBlockName, breadCrumbData?.name, breadCrumbData?.id]);
 
   const pathName = { pathname: link };
 
@@ -69,7 +79,12 @@ const Crumb: React.FC<CrumbProps> = ({
                 fontSize={theme.typography.fontSizes.size14}
               >
                 {breadCrumbData
-                  ? handleUntitled(breadCrumbData.name, intl)
+                  ? handleUntitled(
+                      id === breadCrumbData.id
+                        ? selectedBlockName || ""
+                        : breadCrumbData.name,
+                      intl
+                    )
                   : name}
               </Text>
             </Flex>
@@ -80,4 +95,4 @@ const Crumb: React.FC<CrumbProps> = ({
   );
 };
 
-export default memo(Crumb);
+export default Crumb;

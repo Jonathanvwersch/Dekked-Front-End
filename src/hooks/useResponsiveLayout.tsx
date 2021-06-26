@@ -21,19 +21,19 @@ const useResponsiveLayout = (breakpoint?: number): Layout => {
   );
 
   useEffect(() => {
-    const appBreakpoint = breakpoint
-      ? breakpoint
-      : !sidebar
-      ? DEFAULT_BREAKPOINT_SIDEBAR_CLOSED
-      : DEFAULT_BREAKPOINT_SIDEBAR_OPEN;
+    setLayout(
+      window.innerWidth < appBreakpoint ? LAYOUT_VERTICAL : LAYOUT_HORIZONTAL
+    );
+  }, [sidebar, appBreakpoint]);
 
+  useEffect(() => {
     const handleResize = () =>
       setLayout(
         window.innerWidth < appBreakpoint ? LAYOUT_VERTICAL : LAYOUT_HORIZONTAL
       );
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [sidebar]);
+  }, [appBreakpoint, breakpoint]);
 
   return layout as Layout;
 };

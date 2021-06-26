@@ -50,7 +50,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     } else if (data?.userData?.success) {
       const token = data?.userData?.data?.token;
       setSessionCookie(token);
-      console.log(data?.userData);
       setUser({
         id: data?.userData?.data?.id,
         last_name: data?.userData?.data?.first_name,

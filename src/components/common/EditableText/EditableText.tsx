@@ -6,7 +6,7 @@ import { useIntl } from "react-intl";
 
 import { formatMessage } from "../../../intl";
 import { useUpdateAsset } from "../../../helpers";
-import { typeAtom } from "../../../store";
+import { selectedBlockNameAtom, typeAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface EditableTextProps {
@@ -30,6 +30,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   const intl = useIntl();
   const { updateItem } = useUpdateAsset();
   const [html, setHtml] = useState<string>(name);
+  const [, setSelectedBlockName] = useAtom(selectedBlockNameAtom);
 
   const handleChange = (e: any) => {
     setHtml(e.target.value);
@@ -96,14 +97,7 @@ const EditableText: React.FC<EditableTextProps> = ({
       onKeyUp={() => {
         editableTextRef &&
           editableTextRef.current &&
-          updateItem(
-            itemId,
-            type,
-            {
-              name: editableTextRef.current?.innerText,
-            },
-            true
-          );
+          setSelectedBlockName(editableTextRef.current?.innerText);
       }}
       className={className}
       onChange={handleChange}

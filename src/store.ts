@@ -247,16 +247,16 @@ export const updateAssetAtom = atom(
     const fileId = arg.fileId;
 
     if (arg.type === FILETREE_TYPES.FOLDER) {
-      if (folders?.[fileId]?.name && arg.name) {
+      if (folders?.[fileId] && (arg.name || arg.name === "")) {
         folders[fileId].name = arg.name;
       }
-      if (folders?.[fileId]?.color && arg.color) {
+      if (folders?.[fileId] && arg.color) {
         folders[fileId].color = arg.color;
       }
-      if (fileTree?.[fileId]?.name && arg.name) {
+      if (fileTree?.[fileId] && (arg.name || arg.name === "")) {
         fileTree[fileId].name = arg.name;
       }
-      if (fileTree?.[fileId]?.color && arg.color) {
+      if (fileTree?.[fileId] && arg.color) {
         fileTree[fileId].color = arg.color;
       }
       set(fileTreeAtom, {
@@ -267,16 +267,19 @@ export const updateAssetAtom = atom(
       });
     } else if (arg.type === FILETREE_TYPES.BINDER) {
       const folderId = binders?.[fileId]?.folder_id;
-      if (binders?.[fileId]?.name && arg.name) {
+      if (binders?.[fileId] && (arg.name || arg.name === "")) {
         binders[fileId].name = arg.name;
       }
-      if (binders?.[fileId]?.color && arg.color) {
+      if (binders?.[fileId] && arg.color) {
         binders[fileId].color = arg.color;
       }
-      if (fileTree?.[fileId]?.children?.[fileId]?.name && arg.name) {
+      if (
+        fileTree?.[fileId]?.children?.[fileId] &&
+        (arg.name || arg.name === "")
+      ) {
         fileTree[fileId].children[fileId].name = arg.name;
       }
-      if (fileTree?.[folderId || 0]?.children?.[fileId]?.color && arg.color) {
+      if (fileTree?.[folderId || 0]?.children?.[fileId] && arg.color) {
         fileTree[folderId || 0].children[fileId].color = arg.color;
       }
       set(bindersAtom, {
@@ -289,24 +292,24 @@ export const updateAssetAtom = atom(
       const binderId = studySets?.[fileId]?.binder_id;
       const folderId = binders?.[binderId || 0]?.folder_id;
 
-      if (studySets?.[fileId]?.name && arg.name) {
+      if (studySets?.[fileId] && (arg.name || arg.name === "")) {
         studySets[fileId].name = arg.name;
       }
-      if (studySets?.[fileId]?.color && arg.color) {
+      if (studySets?.[fileId] && arg.color) {
         studySets[fileId].color = arg.color;
       }
       if (
         folderId &&
         binderId &&
-        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId]?.name &&
-        arg.name
+        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId] &&
+        (arg.name || arg.name === "")
       ) {
         fileTree[folderId].children[binderId].children[fileId].name = arg.name;
       }
       if (
         folderId &&
         binderId &&
-        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId]?.color &&
+        fileTree?.[folderId]?.children?.[binderId]?.children?.[fileId] &&
         arg.color
       ) {
         fileTree[folderId].children[binderId].children[fileId].color =
@@ -338,7 +341,17 @@ export const sidebarAtom = atomWithStorage("sidebar-state", true);
 export const isBlockOpenAtom = atomWithStorage<{
   [fileTreeId: string]: { [itemId: string]: boolean };
 }>(`blocks-toggle`, {});
-
+export const selectedBlockNameAtom = atom<string>("");
+export const selectActiveBlockName = (fileId: string, type?: string) => {
+  if (type === FILETREE_TYPES.FOLDER) {
+    return atom((get) => get(foldersAtom)?.[fileId]?.name);
+  }
+  if (type === FILETREE_TYPES.BINDER) {
+    return atom((get) => get(bindersAtom)?.[fileId]?.name);
+  } else {
+    return atom((get) => get(studySetsAtom)?.[fileId]?.name);
+  }
+};
 export const selectBlockOpenStateItem = (
   fileTreeId: string,
   itemId: string
