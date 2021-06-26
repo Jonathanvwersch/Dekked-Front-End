@@ -30,7 +30,6 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   const show = useCallback(() => {
     setShowFlashcard((prevState) => !prevState);
   }, []);
-  const memoIcon = useMemo(() => <LogoIcon size={SIZES.MEDIUM} />, []);
 
   return (
     <LinkedCard
@@ -56,7 +55,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
             handleMouseDown={show}
             fillType={FILL_TYPE.STROKE}
           >
-            {memoIcon}
+            <LogoIcon size={SIZES.MEDIUM} />
           </Tab>
         </Tooltip>
       ) : (

@@ -11,7 +11,7 @@ import TextBlock from "./TextBlock";
 
 const TodoBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
-  const { setEditorState, editorState } = blockProps;
+  const { setEditorState, editorState, isEditable } = blockProps;
   const data = block.getData();
   const checked = data.has("checked") && data.get("checked") === true;
   const theme = useContext(ThemeContext);
@@ -32,10 +32,12 @@ const TodoBlock: React.FC = (props: any) => {
       )
     );
   };
+  console.log(isEditable);
 
   return (
     <Flex id={`${props.block.getKey()}-0-0`} alignItems="flex-start">
       <Checkbox
+        isDisabled={!isEditable}
         checked={checked}
         handleClick={() => {
           updateData();
@@ -61,6 +63,7 @@ const Checkbox = styled(HoverCard)<{ checked: boolean }>`
   align-items: center;
   justify-content: center;
   flex-grow: 0;
+  padding: 2px;
   user-select: none;
   margin-bottom: 1px;
   margin-top: 1px;

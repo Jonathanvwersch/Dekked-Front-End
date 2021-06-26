@@ -8,6 +8,16 @@ export const fileTreeAtom = atom<FileTreeInterface | undefined>({});
 export const foldersAtom = atom<{ [key: string]: FolderInterface } | undefined>(
   {}
 );
+export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
+  {}
+);
+export const studySetsAtom = atom<
+  { [key: string]: StudyPackInterface } | undefined
+>({});
+export const firstFolderIdAtom = atom((get) => {
+  const fileTree = get(fileTreeAtom || {});
+  return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
+});
 export const getActiveFolder = (
   itemId: string,
   type?: string | FILETREE_TYPES
@@ -61,12 +71,6 @@ export const getActiveStudySet = (
   }
   return studySetData;
 };
-
-export const firstFolderIdAtom = atom((get) => {
-  const fileTree = get(fileTreeAtom || {});
-  return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
-});
-
 export const numberOfFoldersAtom = atom(
   (get) => Object.keys(get(fileTreeAtom) || {}).length
 );
@@ -76,7 +80,6 @@ export const numberOfChildrenOfFolder = (id: string) => {
   );
   return numOfBindersInFolder;
 };
-
 export const numberOfChildrenOfBinder = (binderId: string) => {
   const numOfStudySetsInBinder = atom((get) => {
     const binders = get(bindersAtom);
@@ -89,16 +92,6 @@ export const numberOfChildrenOfBinder = (binderId: string) => {
   });
   return numOfStudySetsInBinder;
 };
-
-export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
-  {}
-);
-
-export const studySetsAtom = atom<
-  { [key: string]: StudyPackInterface } | undefined
->({});
-
-export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 
 export const deleteAssetAtom = atom(
   null,
@@ -324,4 +317,5 @@ export const pageEditorStateAtom = atom<EditorState>(EditorState.createEmpty());
 // Layered Modal
 export const layeredModalAtom = atom<boolean>(false);
 
-// Flashcards
+// General
+export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
