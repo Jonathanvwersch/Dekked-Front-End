@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
-import { FileTreeContext } from "../contexts";
-import { getSessionCookie } from "../helpers";
+import { getSessionCookie, useAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
+import { fileTreeAtom, isAppLoadingAtom, loadingErrorAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -22,28 +23,27 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const { isLoading, fileTree } = useContext(FileTreeContext);
-  const firstFolderId = Object.keys(fileTree)[0];
-  const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(getSessionCookie());
-
+  const [isLoading] = useAtom(isAppLoadingAtom);
+  const [fileTree] = useAtom(fileTreeAtom);
+  const [loadingError] = useAtom(loadingErrorAtom);
+  const { addAsset } = useAsset();
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
-  useEffect(() => {
-    if (!isLoggedIn) {
+  useLayoutEffect(() => {
+    if (loadingError) {
+      history.push("/error");
+    } else if (!getSessionCookie()) {
       history.push("/login");
-    } else if (path === "/" && firstFolderId) {
-      history.push(firstFolderLink);
+    } else if (path === "/" && fileTree) {
+      if (!Object.keys(fileTree)[0]) addAsset(FILETREE_TYPES.FOLDER);
+      else
+        history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [history, firstFolderLink, path, isLoggedIn, firstFolderId]);
-
-  useEffect(() => {
-    setIsLoggedIn(getSessionCookie());
-  }, []);
+  }, [history, fileTree, path, loadingError, addAsset]);
 
   return (
     <>
-      {!isLoading && isLoggedIn ? (
+      {!isLoading && getSessionCookie() ? (
         <Route path={path} exact={exact} strict={strict} component={Component}>
           {children}
         </Route>

@@ -46,6 +46,7 @@ const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.colors.primary};
   &:hover {
     filter: ${({ theme }) => theme.colors.hover.filter};
+    text-decoration: underline;
   }
   &:active {
     color: ${({ theme }) => theme.colors.active.filter};

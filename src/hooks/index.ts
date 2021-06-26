@@ -6,3 +6,4 @@ export { default as useKeyDownAndUpListener } from "./useKeyDownAndUpListener";
 export { default as useKeyPress } from "./useKeyPress";
 export { default as useMultiKeyPress } from "./useMultiKeyPress";
 export { default as useResponsiveLayout } from "./useResponsiveLayout";
+export { default as useRenderingTrace } from "./useRenderingTrace";

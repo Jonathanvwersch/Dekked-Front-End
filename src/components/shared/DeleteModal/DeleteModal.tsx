@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
 import { BUTTON_THEME } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -18,8 +18,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   handleMainButton,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-
   const header = <H4>{formatMessage("sharedModals.deleteModal.header")}</H4>;
+
+  const handlePrimaryButton = (e: SyntheticEvent) => {
+    e.preventDefault();
+    handleMainButton();
+  };
 
   return (
     <GeneralModal
@@ -31,7 +35,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           padding="0px"
           secondaryButton={{ onClick: handleClose }}
           primaryButton={{
-            onClick: handleMainButton,
+            onClick: handlePrimaryButton,
             style: BUTTON_THEME.DANGER,
             text: "sharedModals.deleteModal.delete",
           }}

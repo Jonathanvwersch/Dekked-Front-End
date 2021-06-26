@@ -1,31 +1,175 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
 import { Redirect, Route, withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
-import { FileTreeContextProvider } from "./contexts/FileTreeContext";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { LogInSignUpPage, LogOutPage } from "./pages";
+import { useQuery } from "react-query";
+import { LogInSignUpPage } from "./pages";
 import { getSessionCookie } from "./helpers";
 import CustomSwitch from "./Router/CustomSwitch";
 import { theme } from "./styles/theme";
-import { DarkThemeContext } from "./contexts";
+import { useAtom } from "jotai";
+import { getBinders, getFileTree, getFolders, getStudySets } from "./services";
+import { SkeletonTheme } from "react-loading-skeleton";
+import {
+  bindersAtom,
+  darkModeAtom,
+  fileTreeAtom,
+  foldersAtom,
+  isAppLoadingAtom,
+  loadingErrorAtom,
+  studySetsAtom,
+  userAtom,
+} from "./store";
+import { getUser } from "./services/authentication/getUser";
+import { UserType } from "./shared";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
-  const queryClient = new QueryClient();
-  const { isDarkTheme } = useContext(DarkThemeContext);
+  const [isDarkTheme] = useAtom(darkModeAtom);
+  const [, setIsLoading] = useAtom(isAppLoadingAtom);
+  const [, setLoadingError] = useAtom(loadingErrorAtom);
+
+  // get user on mount
+  const { data: user } = useQuery<UserType>(
+    `${getSessionCookie()}-user`,
+    getUser,
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      enabled: Boolean(getSessionCookie()),
+      retry: 5,
+    }
+  );
+
+  // Fetch file tree data on mount
+  const {
+    data: initialFileTree,
+    isFetched: isFetchedFileTree,
+    isLoadingError: isFileTreeLoadingError,
+  } = useQuery<FileTreeInterface>(
+    `${getSessionCookie()}-file-tree`,
+    getFileTree,
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      enabled: Boolean(getSessionCookie()),
+      retry: 5,
+    }
+  );
+
+  const {
+    data: initialFolders,
+    isFetched: isFetchedFolders,
+    isLoadingError: isFoldersLoadingError,
+  } = useQuery<{
+    [key: string]: FolderInterface;
+  }>(`${getSessionCookie()}-folders`, () => getFolders(), {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    enabled: Boolean(getSessionCookie()),
+    retry: 5,
+  });
+
+  const {
+    data: initialBinders,
+    isFetched: isFetchedBinders,
+    isLoadingError: isBindersLoadingError,
+  } = useQuery<{
+    [key: string]: BinderInterface;
+  }>(`${getSessionCookie()}-binders`, getBinders, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    enabled: Boolean(getSessionCookie()),
+    retry: 5,
+  });
+
+  const {
+    data: initialStudySets,
+    isFetched: isFetchedStudySets,
+    isLoadingError: isStudySetsLoadingError,
+  } = useQuery<{
+    [key: string]: StudyPackInterface;
+  }>(`${getSessionCookie()}-study-sets`, getStudySets, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    enabled: Boolean(getSessionCookie()),
+    retry: 5,
+  });
+
+  const [, _setFileTree] = useAtom(fileTreeAtom);
+  const [, _setFolders] = useAtom(foldersAtom);
+  const [, _setBinders] = useAtom(bindersAtom);
+  const [, _setStudySets] = useAtom(studySetsAtom);
+  const [, _setUser] = useAtom(userAtom);
+
+  useEffect(() => {
+    if (
+      isBindersLoadingError ||
+      isFoldersLoadingError ||
+      isFileTreeLoadingError ||
+      isStudySetsLoadingError
+    ) {
+      setLoadingError(true);
+    }
+  }, [
+    isFoldersLoadingError,
+    isStudySetsLoadingError,
+    isFileTreeLoadingError,
+    isBindersLoadingError,
+    setLoadingError,
+  ]);
+
+  useEffect(() => {
+    if (
+      isFetchedFileTree &&
+      isFetchedFolders &&
+      isFetchedStudySets &&
+      isFetchedBinders
+    ) {
+      setIsLoading(false);
+    }
+  }, [
+    isFetchedBinders,
+    isFetchedFileTree,
+    isFetchedFolders,
+    isFetchedStudySets,
+    setIsLoading,
+  ]);
+
+  // Set global state variables on mount
+  useEffect(() => {
+    _setFileTree(initialFileTree);
+    _setFolders(initialFolders);
+    _setBinders(initialBinders);
+    _setStudySets(initialStudySets);
+  }, [
+    initialFileTree,
+    initialFolders,
+    initialBinders,
+    initialStudySets,
+    _setBinders,
+    _setFolders,
+    _setStudySets,
+    _setFileTree,
+  ]);
+
+  useEffect(() => {
+    if (user) _setUser(user);
+  }, [user, _setUser]);
 
   // Google analytics user tracking
   useEffect(() => {
     ReactGa.pageview(window.location.pathname + window.location.search);
   }, []);
 
+  const memoisedTheme = useMemo(() => theme(isDarkTheme), [isDarkTheme]);
+
   return (
-    <ThemeProvider theme={theme(isDarkTheme)}>
-      <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={memoisedTheme}>
+      <SkeletonTheme color={memoisedTheme.colors.loadingBlocks}>
         <StyledApp className="app">
           <GlobalStyle />
           <CustomSwitch>
@@ -35,13 +179,10 @@ export const App: React.FC = () => {
             <Route exact path="/sign-up" component={LogInSignUpPage}>
               {getSessionCookie() && <Redirect to="/" />}
             </Route>
-            <Route exact path="/logout" component={LogOutPage} />
-            <FileTreeContextProvider>
-              <Routes />
-            </FileTreeContextProvider>
+            <Routes />
           </CustomSwitch>
         </StyledApp>
-      </QueryClientProvider>
+      </SkeletonTheme>
     </ThemeProvider>
   );
 };

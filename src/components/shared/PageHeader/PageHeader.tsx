@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -8,66 +8,101 @@ import {
   EditableText,
   Tooltip,
 } from "../../common";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { BUTTON_THEME, FILETREE_TYPES } from "../../../shared";
+import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
-import { FlashcardsContext } from "../../../contexts";
+import { useParams } from "react-router-dom";
+import {
+  isAppLoadingAtom,
+  selectActiveBlockName,
+  studySetsAtom,
+  typeAtom,
+} from "../../../store";
+import { useAtom } from "jotai";
+import Skeleton from "react-loading-skeleton";
 
 interface PageHeaderProps {
   message?: string;
+  disableStudyButton?: boolean;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ message }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({
+  message,
+  disableStudyButton,
+}) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { selectedBlockName, type, id } = useContext(SelectedItemContext);
-  const { flashcards } = useContext(FlashcardsContext);
-  const flashcardsDoNotExist = flashcards?.length === 0;
+  const { id } = useParams<Params>();
+  const [type] = useAtom(typeAtom);
+  const [isLoading] = useAtom(isAppLoadingAtom);
+  const [selectedBlockName] = useAtom(
+    useMemo(() => selectActiveBlockName(id, type), [id, type])
+  );
   useMultiKeyPress(
     ["Control", "2"],
-    () => !flashcardsDoNotExist && setStudyMode(true)
+    () => !disableStudyButton && setStudyMode(true)
   );
 
   return (
     <>
-      <Flex flexDirection="column">
-        <StyledEditableText
-          itemId={id}
-          editableTextRef={headerRef}
-          name={selectedBlockName}
-        />
-        <Spacer height={theme.spacers.size16} />
-        <Flex justifyContent="space-between">
-          <Text fontColor={theme.colors.grey1}>{message}</Text>
-          <Flex width="auto">
-            {type === FILETREE_TYPES.STUDY_SET ? (
-              <>
-                <Spacer width={theme.spacers.size16} />
-                <Tooltip
-                  id="DisabledStudyButton"
-                  text="tooltips.studyMode.disabledStudyButton"
-                  isActive={flashcardsDoNotExist}
-                >
-                  <Button
-                    buttonStyle={BUTTON_THEME.PRIMARY}
-                    handleClick={() => setStudyMode(true)}
-                    isDisabled={flashcardsDoNotExist}
-                  >
-                    {formatMessage("generics.study")}
-                  </Button>
-                </Tooltip>
-              </>
-            ) : null}
+      <Flex
+        flexDirection="column"
+        alignItems={isLoading ? "flex-start" : "center"}
+      >
+        <>
+          {!isLoading ? (
+            <StyledEditableText
+              itemId={id}
+              editableTextRef={headerRef}
+              name={selectedBlockName}
+            />
+          ) : (
+            <div style={{ width: "100%" }}>
+              <Skeleton width="30%" height="66px" />
+            </div>
+          )}
+          <Spacer height={theme.spacers.size16} />
+          <Flex justifyContent="space-between">
+            {!isLoading ? (
+              <Text fontColor={theme.colors.grey1}>{message}</Text>
+            ) : (
+              <Skeleton width="45px" height="16px" />
+            )}
+            {!isLoading ? (
+              <Flex width="auto">
+                {type === FILETREE_TYPES.STUDY_SET ? (
+                  <>
+                    <Spacer width={theme.spacers.size16} />
+                    <Tooltip
+                      id="DisabledStudyButton"
+                      text="tooltips.studyMode.disabledStudyButton"
+                      isActive={disableStudyButton}
+                    >
+                      <Button
+                        buttonStyle={BUTTON_THEME.PRIMARY}
+                        handleClick={() => setStudyMode(true)}
+                        isDisabled={disableStudyButton}
+                      >
+                        {formatMessage("generics.study")}
+                      </Button>
+                    </Tooltip>
+                  </>
+                ) : null}
+              </Flex>
+            ) : (
+              <Skeleton width="70px" height="32px" />
+            )}
           </Flex>
-        </Flex>
-        <Spacer height={theme.spacers.size32} />
+          <Spacer height={theme.spacers.size32} />
+          {studyMode && (
+            <StudyModeModal
+              isOpen={studyMode}
+              handleClose={() => setStudyMode(false)}
+            />
+          )}
+        </>
       </Flex>
-      <StudyModeModal
-        isOpen={studyMode}
-        handleClose={() => setStudyMode(false)}
-      />
     </>
   );
 };
@@ -83,4 +118,4 @@ const StyledEditableText = styled((props) => <EditableText {...props} />)`
   }
 `;
 
-export default PageHeader;
+export default React.memo(PageHeader);

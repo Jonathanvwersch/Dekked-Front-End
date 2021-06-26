@@ -5,13 +5,12 @@ import StudyModeProgressBar from "../StudyModeProgressBar/StudyModeProgressBar";
 
 interface StudyModeMainFrameProps {
   flashcardIndex: number;
-  flashcards: FlashcardInterface[] | null;
+  flashcards: FlashcardInterface[] | undefined;
   maxLength: number;
   flippedState: boolean;
   studyMode?: STUDY_MODE_TYPES;
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   isEditable: boolean;
-  setFlashcards: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
 }
 
 const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
@@ -22,14 +21,15 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
   studyMode,
   isEditable,
   setIsEditable,
-  setFlashcards,
 }) => {
   const [currentFlashcard, setCurrentFlashcard] =
-    useState<FlashcardInterface | null>();
+    useState<FlashcardInterface | undefined>();
+  const frontBlocks = flashcards?.[flashcardIndex]?.front_blocks;
+  const backBlocks = flashcards?.[flashcardIndex]?.back_blocks;
 
   useLayoutEffect(() => {
-    flashcards && setCurrentFlashcard(flashcards[flashcardIndex]);
-  }, [flashcardIndex, flashcards]);
+    setCurrentFlashcard(flashcards?.[flashcardIndex]);
+  }, [flashcardIndex, flashcards, frontBlocks, backBlocks]);
 
   return (
     <>
@@ -48,7 +48,6 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         isFinishedStudying={maxLength === flashcardIndex}
         studyMode={studyMode}
         ownerId={currentFlashcard?.flashcard.owner_id}
-        setFlashcards={setFlashcards}
       />
     </>
   );

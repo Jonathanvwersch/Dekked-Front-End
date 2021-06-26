@@ -1,4 +1,5 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
+import { useAtom } from "jotai";
 import React, {
   Fragment,
   MutableRefObject,
@@ -8,9 +9,9 @@ import React, {
 } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Block, Divider, Overlay, ShadowCard } from "..";
-import { LayeredModalContext } from "../../../contexts";
 import { useKeyDownAndUpListener } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
+import { layeredModalAtom } from "../../../store";
 
 interface ScrollerModalProps {
   open: boolean;
@@ -45,7 +46,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
     data.length,
     preventDefault
   );
-  const { setIsLayeredModalOpen } = useContext(LayeredModalContext);
+  const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
 
   useEffect(() => {
     setIsLayeredModalOpen(true);

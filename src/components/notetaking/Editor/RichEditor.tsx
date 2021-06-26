@@ -11,7 +11,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -22,12 +22,13 @@ import {
 import styled, { ThemeContext } from "styled-components";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
 import { BLOCK_TYPES } from "../../../shared";
-import { ComponentLoadingSpinner } from "../../common";
+import Skeleton from "react-loading-skeleton";
 import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
 import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
-import { CurrentBlockContext, LinkedFlashcardContext } from "../../../contexts";
+import { blockLinkAtom, isFlashcardLinkedAtom } from "../../../store";
+import { useAtom } from "jotai";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -168,7 +169,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
     setEditorState(RichUtils.onTab(event, editorState, 4));
   };
 
-  const { blockLink, isLinked } = useContext(LinkedFlashcardContext);
+  const [isLinked] = useAtom(isFlashcardLinkedAtom);
+  const [blockLink] = useAtom(blockLinkAtom);
   const div = document.getElementById(`${blockLink}-0-0`);
 
   useEffect(() => {
@@ -222,11 +224,24 @@ const RichEditor: React.FC<RichEditorProps> = ({
           />
         </EditorContainer>
       ) : (
-        <ComponentLoadingSpinner />
+        <SkeletonContainer>
+          <StyledSkeleton count={5} width='"100%"' height="32px" />
+        </SkeletonContainer>
       )}
     </>
   );
 };
+
+const SkeletonContainer = styled.div`
+  width: 100%;
+  & span {
+    width: 100%;
+  }
+`;
+
+const StyledSkeleton = styled(Skeleton)`
+  margin-top: ${({ theme }) => theme.spacers.size16};
+`;
 
 const EditorContainer = styled.div<{
   isEditable: boolean;
@@ -285,4 +300,4 @@ const EditorContainer = styled.div<{
   }
 `;
 
-export default memo(RichEditor);
+export default RichEditor;

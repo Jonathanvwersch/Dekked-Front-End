@@ -1,49 +1,49 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useMemo } from "react";
 import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
 import SidebarBlock from "../SidebarBlock/SidebarBlock";
-import { FileTreeContext, SidebarBlocksContext } from "../../../../contexts";
-import { isEqual } from "lodash";
+import { useAtom } from "jotai";
+import { selectBlockOpenStateFileTree } from "../../../../store";
 
 interface SidebarFileTreeProps {
   file: FileTreeInterface;
 }
 
 const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
-  const { getAsset } = useContext(FileTreeContext);
-  const { isBlockOpen } = useContext(SidebarBlocksContext);
   const fileId = Object.keys(file)[0];
-  const folderData = getAsset(file[fileId].type, fileId) as FolderInterface;
+  const folderData = file?.[fileId];
+  const [isBlockOpen] = useAtom(
+    useMemo(() => selectBlockOpenStateFileTree(fileId), [fileId])
+  );
 
   return (
     <>
       {folderData ? (
         <>
-          <SidebarBlock blockData={folderData} type={file[fileId].type} />
-          {isBlockOpen[folderData.id] ? (
+          <SidebarBlock
+            key={folderData.id}
+            blockData={folderData}
+            type={file?.[fileId]?.type}
+            fileTreeId={fileId}
+          />
+          {isBlockOpen?.[folderData?.id] ? (
             Object.keys(file[fileId].children).length > 0 ? (
               Object.entries(file[fileId].children).map((binder) => {
-                const binderData = getAsset(
-                  binder[1].type,
-                  binder[0]
-                ) as BinderInterface;
                 return (
                   <Fragment key={binder[0]}>
                     <SidebarBlock
-                      blockData={binderData}
-                      type={binder[1].type}
+                      blockData={binder?.[1]}
+                      type={binder?.[1]?.type}
+                      fileTreeId={fileId}
                     />
-                    {isBlockOpen[binder[0]] ? (
+                    {isBlockOpen?.[binder?.[1].id] ? (
                       Object.entries(binder[1].children).length > 0 ? (
                         Object.entries(binder[1].children).map((studySet) => {
-                          const studySetData = getAsset(
-                            studySet[1].type,
-                            studySet[0]
-                          ) as StudyPackInterface;
                           return (
                             <SidebarBlock
-                              key={studySet[0]}
-                              blockData={studySetData}
+                              key={studySet?.[0]}
+                              blockData={studySet?.[1]}
                               type={studySet[1].type}
+                              fileTreeId={fileId}
                             />
                           );
                         })
@@ -64,6 +64,4 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   );
 };
 
-export default React.memo(SidebarFileTree, (prevProps, newProps) => {
-  return isEqual(prevProps.file, newProps.file);
-});
+export default React.memo(SidebarFileTree);

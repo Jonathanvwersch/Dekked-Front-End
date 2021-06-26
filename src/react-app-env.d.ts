@@ -1,12 +1,32 @@
 /// <reference types="react-scripts" />
 
+interface FileInterface {
+  type: string;
+  id: string;
+  owner_id: string;
+  color: string;
+  name: string;
+  children: FileTreeInterface;
+  date_created?: Date;
+  date_modified?: Date;
+  folder_id?: string;
+  binder_id?: string;
+}
+
 interface FileTreeInterface {
   [instance_id: string]: {
     type: string;
+    id: string;
+    owner_id: string;
+    color: string;
+    name: string;
     children: FileTreeInterface;
+    date_created?: Date;
+    date_modified?: Date;
+    folder_id?: string;
+    binder_id?: string;
   };
 }
-
 interface BinderInterface {
   id: string;
   owner_id: string;
@@ -16,7 +36,6 @@ interface BinderInterface {
   name: string;
   color: string;
 }
-
 interface FolderInterface {
   id: string;
   owner_id: string;
@@ -25,7 +44,6 @@ interface FolderInterface {
   date_modified: Date;
   color: string;
 }
-
 interface StudyPackInterface {
   id: string;
   owner_id: string;
@@ -34,8 +52,8 @@ interface StudyPackInterface {
   date_modified: Date;
   name: string;
   color: string;
+  folder_id: string;
 }
-
 interface PageInterface {
   id?: string;
   owner_id: string;
@@ -43,7 +61,6 @@ interface PageInterface {
   study_pack_id: string;
   ordering: string[];
 }
-
 interface FlashcardInterface {
   flashcard: {
     id: string;

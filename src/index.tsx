@@ -1,20 +1,24 @@
+// import "./wdyr"; // <--- first import
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { IntlProvider, LOCALES } from "./intl";
-import { UserContextProvider } from "./contexts/UserContext";
-import { DarkThemeContextProvider } from "./contexts/DarkThemeContext";
+import { Provider } from "jotai";
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <IntlProvider locale={LOCALES.ENGLISH_GB}>
-    <Router>
-      <UserContextProvider>
-        <DarkThemeContextProvider>
+  <Provider>
+    <QueryClientProvider client={queryClient}>
+      <IntlProvider locale={LOCALES.ENGLISH_GB}>
+        <Router>
           <App />
-        </DarkThemeContextProvider>
-      </UserContextProvider>
-    </Router>
-  </IntlProvider>,
+        </Router>
+      </IntlProvider>
+    </QueryClientProvider>
+  </Provider>,
+
   document.getElementById("dekked-app")
 );

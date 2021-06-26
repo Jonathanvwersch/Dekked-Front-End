@@ -1,5 +1,5 @@
 import { EditorBlock } from "draft-js";
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const TextBlock: React.FC = (props: any) => {
@@ -28,4 +28,4 @@ const AlignBlock = styled.div<{ alignment?: string }>`
   }
 `;
 
-export default memo(TextBlock);
+export default TextBlock;

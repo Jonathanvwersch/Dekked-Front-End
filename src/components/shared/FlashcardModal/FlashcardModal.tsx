@@ -6,8 +6,9 @@ import { useParams } from "react-router-dom";
 
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
-import { LayeredModalContext } from "../../../contexts";
 import { ThemeContext } from "styled-components";
+import { flashcardsAtom, layeredModalAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface FlashcardModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,6 @@ interface FlashcardModalProps {
   backBlocks?: string[];
   blockLink?: string;
   flashcardId?: string;
-  ownerId?: string;
 }
 
 const FlashcardModal: React.FC<FlashcardModalProps> = ({
@@ -25,7 +25,6 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   backBlocks,
   blockLink,
   flashcardId,
-  ownerId,
   isOpen,
   setIsOpen,
   type = "add",
@@ -35,7 +34,8 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   const isSaving = useIsMutating({
     mutationKey: `${id}-save-flashcard`,
   });
-  const { isLayeredModalOpen } = useContext(LayeredModalContext);
+  const [isLayeredModalOpen] = useAtom(layeredModalAtom);
+  const [, setFlashcards] = useAtom(flashcardsAtom);
 
   useEffect(() => {
     if (!isSaving) {
@@ -56,13 +56,13 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
       closeButtonBackgroundColor={theme.colors.secondary}
     >
       <StudySetFlashcard
-        ownerId={ownerId}
         studyPackId={id}
         linked={true}
         flashcardId={flashcardId}
         currentBlockKey={blockLink}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
+        setFlashcards={setFlashcards}
         type={type}
         width="100%"
         vertical

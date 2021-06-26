@@ -5,6 +5,7 @@ const en_GB = {
     generics: {
       study: "Study",
       save: "Save",
+      saveAndClose: "Save and close",
       untitled: "Untitled",
       saveChanges: "Save changes",
       cancel: "Cancel",
@@ -19,6 +20,11 @@ const en_GB = {
     notFoundPage: {
       goHome: "Go home",
       mainMessage: "That link does not exist",
+    },
+    errorPage: {
+      reload: "Reload",
+      mainMessage: "Uh oh. Something went wrong. Please reload the page.",
+      subMessage: "If problem persists, contact ",
     },
     sidebar: {
       workspace: {
@@ -138,6 +144,8 @@ const en_GB = {
         back: "Back",
         save: "Save",
         addFlashcard: "+ Add flashcard",
+        flashcard: "{num} flashcard",
+        flashcards: "{num} flashcards",
       },
       tabs: {
         notes: "Notes",

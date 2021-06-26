@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button, Divider, Overlay, Spacer } from "../../common";
 import {
   FILETREE_TYPES,
@@ -11,8 +11,9 @@ import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory, useParams } from "react-router-dom";
-import { LinkedFlashcardContext } from "../../../contexts";
 import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
+import { isFlashcardLinkedAtom, studyModeUrlAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface ReturnToStudyModeButtonProps {
   buttonPosition: number;
@@ -27,9 +28,8 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
   const history = useHistory();
   const { id } = useParams<Params>();
   const buttonWidth = 290;
-  const { isLinked, setIsLinked, studyModeUrl } = useContext(
-    LinkedFlashcardContext
-  );
+  const [isLinked, setIsLinked] = useAtom(isFlashcardLinkedAtom);
+  const [studyModeUrl] = useAtom(studyModeUrlAtom);
   const position = (pageWidth - buttonWidth) / 2 + buttonPosition;
 
   useKeyPress(["Escape"], () => setIsLinked(false));

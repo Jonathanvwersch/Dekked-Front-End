@@ -1,5 +1,6 @@
-import { useState, useLayoutEffect, useContext, RefObject } from "react";
-import { SidebarContext } from "../contexts";
+import { useAtom } from "jotai";
+import { useState, useLayoutEffect, RefObject } from "react";
+import { sidebarAtom } from "../store";
 
 export const useResize = (myRef: RefObject<HTMLDivElement>) => {
   const [dimensions, setDimensions] = useState({
@@ -9,7 +10,7 @@ export const useResize = (myRef: RefObject<HTMLDivElement>) => {
   const [position, setPosition] = useState({
     left: 0,
   });
-  const { sidebar } = useContext(SidebarContext);
+  const [sidebar] = useAtom(sidebarAtom);
 
   useLayoutEffect(() => {
     const getDimensions = () => ({

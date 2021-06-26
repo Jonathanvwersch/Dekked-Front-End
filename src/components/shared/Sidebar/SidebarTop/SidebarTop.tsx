@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
+import Skeleton from "react-loading-skeleton";
 import {
   Avatar,
   Card,
@@ -16,35 +17,28 @@ import {
   ROTATE,
 } from "../../../../assets";
 import { ThemeType } from "../../../../styles/theme";
-import { positionModals } from "../../../../helpers";
+import { getSessionCookie, positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
-import { CoordsType, UserType } from "../../../../shared";
-import { useIsMutating, useQuery } from "react-query";
-import { getUser } from "../../../../services/authentication/getUser";
-import { UserContext } from "../../../../contexts";
+import { CoordsType } from "../../../../shared";
+import { useAtom } from "jotai";
+import { sidebarAtom, userAtom } from "../../../../store";
+import { useIsFetching } from "react-query";
 
-interface SidebarTopProps {
-  isSidebarOpen: boolean;
-  handleSidebar?: () => void;
-}
+interface SidebarTopProps {}
 
-const SidebarTop: React.FC<SidebarTopProps> = ({
-  isSidebarOpen,
-  handleSidebar,
-}) => {
+const SidebarTop: React.FC<SidebarTopProps> = () => {
   const theme: ThemeType = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
-  const { user } = useContext(UserContext);
-  const { data } = useQuery<UserType>(user.id, getUser, {
-    refetchOnWindowFocus: false,
-  });
+  const [user] = useAtom(userAtom);
+  const isFetchingUser = useIsFetching([`${getSessionCookie()}-user`]);
 
-  const firstName = data?.first_name || "";
-  const lastName = data?.last_name || "";
+  const firstName = user?.first_name || "";
+  const lastName = user?.last_name || "";
   const fullName = `${firstName} ${lastName}`;
   const firstLetterOfFirstName = firstName?.[0] || "";
+  const [sidebar, setSidebar] = useAtom(sidebarAtom);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -54,7 +48,7 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
     setCoords(positionModals(e, modalHeight, settingsRef));
   };
 
-  const ariaText = !isSidebarOpen
+  const ariaText = sidebar
     ? "tooltips.sidebar.openSidebar"
     : "tooltips.sidebar.closeSidebar";
 
@@ -63,19 +57,27 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
       <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            <Avatar>
-              {firstLetterOfFirstName ? (
-                firstLetterOfFirstName.toUpperCase()
-              ) : (
-                <LogoIcon color="white" />
-              )}
-            </Avatar>
+            {!isFetchingUser ? (
+              <Avatar>
+                {firstLetterOfFirstName ? (
+                  firstLetterOfFirstName.toUpperCase()
+                ) : (
+                  <LogoIcon color="white" />
+                )}
+              </Avatar>
+            ) : (
+              <Skeleton
+                circle={true}
+                height={theme.spacers.size32}
+                width={theme.spacers.size32}
+              />
+            )}
             <Spacer width={theme.spacers.size8} />
             <Text
               fontSize={theme.typography.fontSizes.size14}
               className="overflow"
             >
-              {fullName}
+              {!isFetchingUser ? fullName : <Skeleton width="100px" />}
             </Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
@@ -84,18 +86,23 @@ const SidebarTop: React.FC<SidebarTopProps> = ({
                 handleOpenModal(e)
               }
             >
-              <DropDownArrowIcon rotate={ROTATE.NINETY} />
+              {!isFetchingUser && <DropDownArrowIcon rotate={ROTATE.NINETY} />}
             </IconActive>
             <Spacer width={theme.spacers.size24} />
           </Flex>
         </Card>
 
         <DoubleChevronIconContainer>
-          <IconActive handleClick={handleSidebar} ariaLabel={ariaText}>
+          <IconActive
+            handleClick={() => setSidebar((prevState) => !prevState)}
+            ariaLabel={ariaText}
+          >
             <Tooltip id="CloseSidebar" text={ariaText}>
-              <DoubleChevronIcon
-                rotate={!isSidebarOpen ? ROTATE.ONEEIGHTY : undefined}
-              />
+              {!isFetchingUser && (
+                <DoubleChevronIcon
+                  rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
+                />
+              )}
             </Tooltip>
           </IconActive>
         </DoubleChevronIconContainer>

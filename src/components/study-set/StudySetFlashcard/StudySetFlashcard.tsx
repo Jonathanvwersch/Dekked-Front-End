@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Card,
@@ -16,18 +16,20 @@ import { BUTTON_THEME, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
-import { isEmpty } from "lodash";
+import { isEmpty, isEqual } from "lodash";
 import {
   convertBlocksToContent,
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import {
   addFlashcard,
   deleteFlashcard,
   saveFlashcard,
 } from "../../../services/flashcards/flashcards-api";
+import { userAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -39,7 +41,6 @@ interface StudySetFlashcardProps {
   backBlocks?: string[];
   linked?: boolean;
   index?: number;
-  ownerId?: string;
   currentBlockKey?: string;
   studyPackId?: string;
   vertical?: boolean; // if true, flashcard text containers will be stacked vertically
@@ -47,7 +48,9 @@ interface StudySetFlashcardProps {
   toolbarSize?: SIZES;
   fullHeight?: boolean;
   type?: "edit" | "add";
-  setFlashcards?: React.Dispatch<React.SetStateAction<FlashcardInterface[]>>;
+  setFlashcards?: (
+    update?: SetStateAction<FlashcardInterface[] | undefined>
+  ) => void;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -57,7 +60,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   index,
   flashcardId,
   studyPackId,
-  ownerId,
   currentBlockKey,
   vertical = false,
   width,
@@ -77,8 +79,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
   const [editFlashcard, setEditFlashcard] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [user] = useAtom(userAtom);
+  const { id: ownerId } = user;
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (linked) {
@@ -92,7 +97,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const { mutate: addCard } = useMutation(
     `${studyPackId}-add-flashcard`,
-    addFlashcard
+    addFlashcard,
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          [`${studyPackId}-get-flashcards`],
+          data.data.flashcards
+        );
+      },
+    }
   );
 
   const { mutate: deleteCard } = useMutation(
@@ -100,9 +113,35 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     deleteFlashcard
   );
 
+  const updateFlashcards = (
+    flashcards: FlashcardInterface[] | undefined,
+    updatedFlashcard: FlashcardInterface,
+    flashcardId?: string
+  ) => {
+    if (flashcards && flashcardId) {
+      const flashcardIndex = flashcards.findIndex((card) => card.flashcard.id);
+      flashcards[flashcardIndex] = { ...updatedFlashcard };
+    }
+    return flashcards || [];
+  };
+
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
     `${studyPackId}-save-flashcard`,
-    saveFlashcard
+    saveFlashcard,
+    {
+      onSuccess: (data, { flash_card_id }) => {
+        queryClient.setQueryData(
+          `${studyPackId}-get-flashcards`,
+          (prevState) => {
+            return updateFlashcards(
+              prevState as FlashcardInterface[] | undefined,
+              data?.fullFlashcard,
+              flash_card_id
+            );
+          }
+        );
+      },
+    }
   );
 
   // Switch up current side depending on focus
@@ -237,8 +276,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const handleSaveFlashcard = () => {
     if (type === "add") {
-      ownerId &&
-        studyPackId &&
+      studyPackId &&
         addCard({
           owner_id: ownerId,
           study_pack_id: studyPackId,
@@ -257,6 +295,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         backEditorState: backFlashcardEditorState,
         flash_card_id: flashcardId,
         owner_id: ownerId,
+        flashcardIndex: index,
       });
     }
   };
@@ -273,6 +312,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     if (e.key === "Enter" && type !== "add" && type !== "edit")
       setEditFlashcard(true);
   });
+
+  const isSaveButtonDisabled = () => false;
+
+  const isAddButtonDisabled = () =>
+    getWordCount(frontFlashcardEditorState) === 0 &&
+    getWordCount(backFlashcardEditorState) === 0;
 
   return (
     <>
@@ -307,14 +352,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
               <Button
                 buttonStyle={BUTTON_THEME.PRIMARY}
                 isDisabled={
-                  getWordCount(frontFlashcardEditorState) === 0 &&
-                  getWordCount(backFlashcardEditorState) === 0
+                  type === "edit"
+                    ? isSaveButtonDisabled()
+                    : isAddButtonDisabled()
                 }
                 handleClick={handleSaveFlashcard}
                 isLoading={type === "edit" ? isSaveLoading : false}
               >
                 {formatMessage(
-                  type === "edit" ? "generics.save" : "generics.add"
+                  type === "edit" ? "generics.saveAndClose" : "generics.add"
                 )}
               </Button>
             </Flex>
@@ -325,7 +371,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         handleMainButton={() => {
           setFlashcards &&
             setFlashcards((prevState) =>
-              prevState.filter(
+              prevState?.filter(
                 (flashcard) => flashcard.flashcard.id !== flashcardId
               )
             );
@@ -340,7 +386,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       <FlashcardModal
         isOpen={editFlashcard}
         setIsOpen={setEditFlashcard}
-        ownerId={ownerId}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
         type="edit"
@@ -384,4 +429,6 @@ const CardHeader = styled.div`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
-export default StudySetFlashcard;
+export default React.memo(StudySetFlashcard, (prevProps, newProps) => {
+  return isEqual(newProps, prevProps);
+});

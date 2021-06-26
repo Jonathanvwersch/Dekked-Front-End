@@ -2,7 +2,7 @@ import { MutableRefObject, useCallback, useEffect } from "react";
 
 const useOutsideClickListener = (
   element: MutableRefObject<any> | undefined,
-  handler: () => void,
+  handler: (args?: any) => void,
   shouldRun: boolean = true,
   withEscape: boolean = true,
   withEnter: boolean = false
@@ -10,6 +10,8 @@ const useOutsideClickListener = (
   const handleClickOutside = useCallback(
     (e: Event) => {
       if (element && element.current && !element.current.contains(e.target)) {
+        e.preventDefault();
+        e.stopPropagation();
         handler();
       }
     },

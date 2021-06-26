@@ -71,7 +71,6 @@ const StyledCard = styled((props) => <Card {...props} />)`
   &:hover {
     box-shadow: ${({ theme }) => theme.boxShadow};
   }
-
   &:active {
     box-shadow: none;
   }

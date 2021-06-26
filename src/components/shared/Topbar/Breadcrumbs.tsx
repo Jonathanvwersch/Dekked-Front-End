@@ -1,20 +1,37 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { StudyModeIcon } from "../../../assets";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { FILETREE_TYPES, Params } from "../../../shared";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { Flex } from "../../common";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getStudySetTabLink } from "../../../helpers";
+import {
+  getActiveBinder,
+  getActiveFolder,
+  getActiveStudySet,
+  isAppLoadingAtom,
+  studySetTabAtom,
+  typeAtom,
+} from "../../../store";
+import { useAtom } from "jotai";
 
 const Breadcrumbs: React.FC = () => {
-  const { folderData, binderData, studySetData, type, loading } =
-    useContext(SelectedItemContext);
-  const { studyModes } = useParams<Params>();
+  const [type] = useAtom(typeAtom);
+  const [loading] = useAtom(isAppLoadingAtom);
+  const { studyModes, id } = useParams<Params>();
+  const [studySetTab] = useAtom(studySetTabAtom);
   const { url } = useRouteMatch();
   const intl = useIntl();
+  const [folderData] = useAtom(
+    useMemo(() => getActiveFolder(id, type), [id, type])
+  );
+  const [binderData] = useAtom(
+    useMemo(() => getActiveBinder(id, type), [id, type])
+  );
+  const [studySetData] = useAtom(
+    useMemo(() => getActiveStudySet(id, type), [id, type])
+  );
 
   return !loading ? (
     <Flex>
@@ -36,9 +53,9 @@ const Breadcrumbs: React.FC = () => {
         <Crumb
           breadCrumbData={studySetData}
           breadCrumbType={FILETREE_TYPES.STUDY_SET}
-          link={`/${FILETREE_TYPES.STUDY_SET}/${
-            studySetData.id
-          }/${getStudySetTabLink(studySetData?.id)}`}
+          link={`/${FILETREE_TYPES.STUDY_SET}/${studySetData.id}/${
+            studySetTab[studySetData?.id] || TAB_TYPE.NOTES
+          }`}
         />
       ) : null}
       {studyModes ? (

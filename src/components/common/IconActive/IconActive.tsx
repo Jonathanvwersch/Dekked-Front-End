@@ -15,9 +15,9 @@ interface IconActiveProps {
   children: ReactNode;
   backgroundColor?: string;
   className?: string;
-  handleClick?: (args: any) => void;
+  handleClick?: (args?: any) => void;
   fillType?: string;
-  handleMouseDown?: (args: any) => void;
+  handleMouseDown?: (args?: any) => void;
   iconActiveRef?: React.RefObject<HTMLButtonElement>;
   cursor?: string;
   ariaLabel?: string;
@@ -50,12 +50,6 @@ const IconActive: React.FC<IconActiveProps> = ({
       backgroundColor={backgroundColor}
       onMouseDown={handleMouseDown && handleMouseDown}
       onClick={handleClick && handleClick}
-      onKeyDown={(e: any) => {
-        if (e.key === "Enter") {
-          (handleClick && handleClick(e)) ||
-            (handleMouseDown && handleMouseDown(e));
-        }
-      }}
       className={className}
       fillType={fillType}
       tabIndex={tabIndex}

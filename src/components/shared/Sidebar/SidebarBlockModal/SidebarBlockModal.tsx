@@ -1,5 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
-import { SidebarBlocksContext } from "../../../../contexts";
+import React, { SyntheticEvent, useState } from "react";
 import {
   BinderData,
   FolderData,
@@ -8,7 +7,7 @@ import {
 } from "./SidebarBlockModal.data";
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES, CoordsType } from "../../../../shared";
-import { getChildType } from "../../../../helpers";
+import { getChildType, useAsset, useDeleteAsset } from "../../../../helpers";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
@@ -28,9 +27,9 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   id,
   type,
 }) => {
-  const { handleAddBlock, handleDeleteBlock } =
-    useContext(SidebarBlocksContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const { addAsset } = useAsset();
+  const { deleteAsset } = useDeleteAsset();
 
   const modalData =
     type === FILETREE_TYPES.FOLDER
@@ -42,15 +41,13 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   const handleClick = (blockAction: string) => {
     if (blockAction === SIDEBAR_BLOCK_MENU.DELETE) {
       setIsDeleteModalOpen(true);
-      handleClose();
     } else if (
       blockAction === SIDEBAR_BLOCK_MENU.ADD_BINDER ||
       blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     ) {
       handleClose();
-      handleAddBlock(id, getChildType(type as FILETREE_TYPES));
+      addAsset(getChildType(type as FILETREE_TYPES), id);
     } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
-      handleClose();
       handleColorPicker();
     }
   };
@@ -79,14 +76,10 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       ) : null}
       {isDeleteModalOpen ? (
         <DeleteModal
-          handleClose={(e: SyntheticEvent) => {
-            e?.preventDefault();
-            setIsDeleteModalOpen(false);
-          }}
+          handleClose={() => setIsDeleteModalOpen(false)}
           isOpen={isDeleteModalOpen}
-          handleMainButton={(e: SyntheticEvent) => {
-            e.preventDefault();
-            handleDeleteBlock(id, type);
+          handleMainButton={() => {
+            deleteAsset(type, id);
           }}
           bodyText={deleteModalBodyText()}
         />
@@ -95,4 +88,4 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   );
 };
 
-export default SidebarBlockModal;
+export default React.memo(SidebarBlockModal);

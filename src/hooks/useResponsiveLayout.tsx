@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { SidebarContext } from "../contexts";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { sidebarAtom } from "../store";
 
 export type Layout = "vertical" | "horizontal";
 export const DEFAULT_BREAKPOINT_SIDEBAR_OPEN = 1000;
@@ -8,7 +9,7 @@ export const LAYOUT_VERTICAL = "vertical";
 export const LAYOUT_HORIZONTAL = "horizontal";
 
 const useResponsiveLayout = (breakpoint?: number): Layout => {
-  const { sidebar } = useContext(SidebarContext);
+  const [sidebar] = useAtom(sidebarAtom);
   const appBreakpoint = breakpoint
     ? breakpoint
     : !sidebar
@@ -20,19 +21,19 @@ const useResponsiveLayout = (breakpoint?: number): Layout => {
   );
 
   useEffect(() => {
-    const appBreakpoint = breakpoint
-      ? breakpoint
-      : !sidebar
-      ? DEFAULT_BREAKPOINT_SIDEBAR_CLOSED
-      : DEFAULT_BREAKPOINT_SIDEBAR_OPEN;
+    setLayout(
+      window.innerWidth < appBreakpoint ? LAYOUT_VERTICAL : LAYOUT_HORIZONTAL
+    );
+  }, [sidebar, appBreakpoint]);
 
+  useEffect(() => {
     const handleResize = () =>
       setLayout(
         window.innerWidth < appBreakpoint ? LAYOUT_VERTICAL : LAYOUT_HORIZONTAL
       );
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [sidebar]);
+  }, [appBreakpoint, breakpoint]);
 
   return layout as Layout;
 };

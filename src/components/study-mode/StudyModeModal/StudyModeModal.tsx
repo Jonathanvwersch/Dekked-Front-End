@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { GeneralModal, H4, Flex, Spacer, ThumbnailCard } from "../../common";
 import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
 import { Params, STUDY_MODE_TYPES } from "../../../shared";
-import { SelectedItemContext } from "../../../contexts";
 import { usePageSetupHelpers } from "../../../hooks";
 import styled from "styled-components";
+import { typeAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface StudyModeModalProps {
   isOpen: boolean;
@@ -19,7 +20,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id } = useParams<Params>();
-  const { type } = useContext(SelectedItemContext);
+  const [type] = useAtom(typeAtom);
   const header = <H4>{formatMessage("studyMode.chooseModal.header")}</H4>;
 
   return (

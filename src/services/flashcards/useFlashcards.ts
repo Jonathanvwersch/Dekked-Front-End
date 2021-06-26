@@ -1,44 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useIsMutating, useQuery } from "react-query";
 import { getFlashcards } from "./flashcards-api";
+import { useAtom } from "jotai";
+import { flashcardsAtom } from "../../store";
 import { useParams } from "react-router-dom";
-import { FILETREE_TYPES, Params } from "../../shared";
+import { Params } from "../../shared";
 
-export default function useFlashcards(studyPackId: string) {
-  const [isMutating, setIsMutating] = useState<number>(0);
-  const { type } = useParams<Params>();
+export default function useFlashcards() {
+  const { id: studyPackId } = useParams<Params>();
+  const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
   const isAdding = useIsMutating({
     mutationKey: `${studyPackId}-add-flashcard`,
   });
 
-  const isDeleting = useIsMutating({
-    mutationKey: `${studyPackId}-delete-flashcard`,
-  });
-
-  const isSaving = useIsMutating({
-    mutationKey: `${studyPackId}-save-flashcard`,
-  });
-
-  useEffect(() => {
-    setIsMutating(isAdding);
-  }, [isAdding]);
-
-  useEffect(() => {
-    setIsMutating(isDeleting);
-  }, [isDeleting]);
-
-  useEffect(() => {
-    setIsMutating(isSaving);
-  }, [isSaving]);
-
-  return useQuery(
+  const { data, isLoading } = useQuery(
     `${studyPackId}-get-flashcards`,
     () => getFlashcards({ studyPackId }),
     {
-      enabled: type === FILETREE_TYPES.STUDY_SET && isMutating === 0,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }
   );
+
+  useEffect(() => {
+    setFlashcards(data);
+  }, [data, setFlashcards]);
+
+  return { flashcards, isLoading, isAdding, setFlashcards };
 }

@@ -1,12 +1,13 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
-import { FileTreeContext } from "../../../contexts";
 import { debounce } from "lodash";
 import { useIntl } from "react-intl";
 
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
 import { formatMessage } from "../../../intl";
+import { useUpdateAsset } from "../../../helpers";
+import { selectedBlockNameAtom, typeAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
@@ -25,10 +26,11 @@ const EditableText: React.FC<EditableTextProps> = ({
   className,
   itemId,
 }) => {
-  const { handleSelectedBlockName, type } = useContext(SelectedItemContext);
+  const [type] = useAtom(typeAtom);
   const intl = useIntl();
-  const { updateAsset } = useContext(FileTreeContext);
+  const { updateItem } = useUpdateAsset();
   const [html, setHtml] = useState<string>(name);
+  const [, setSelectedBlockName] = useAtom(selectedBlockNameAtom);
 
   const handleChange = (e: any) => {
     setHtml(e.target.value);
@@ -38,10 +40,10 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   const autoSave = useCallback(
     debounce((name: string) => {
-      updateAsset(type, itemId, {
+      updateItem(itemId, type, {
         name: name.replace("&nbsp;", " "),
       });
-    }, 500),
+    }, 1000),
     [itemId, editableTextRef, type]
   );
 
@@ -95,11 +97,11 @@ const EditableText: React.FC<EditableTextProps> = ({
       onKeyUp={() => {
         editableTextRef &&
           editableTextRef.current &&
-          handleSelectedBlockName(editableTextRef.current?.innerText);
+          setSelectedBlockName(editableTextRef.current?.innerText);
       }}
       className={className}
       onChange={handleChange}
-      html={html}
+      html={html || ""}
     />
   );
 };

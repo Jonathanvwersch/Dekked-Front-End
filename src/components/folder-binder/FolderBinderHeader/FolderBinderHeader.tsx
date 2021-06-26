@@ -1,22 +1,33 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import { PageHeader } from "../../shared";
 import { Flex } from "../../common";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
-import { FILETREE_TYPES } from "../../../shared";
+import { FILETREE_TYPES, Params } from "../../../shared";
 import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
+import {
+  numberOfChildrenOfBinder,
+  numberOfChildrenOfFolder,
+  typeAtom,
+} from "../../../store";
+import { useAtom } from "jotai";
+import { useParams } from "react-router-dom";
 
 const FolderBinderHeader: React.FC = () => {
   const intl = useIntl();
-
-  const { type, numOfBinders, numOfStudySets } =
-    useContext(SelectedItemContext);
+  const { id } = useParams<Params>();
+  const [type] = useAtom(typeAtom);
+  const [numberOfBinders] = useAtom(
+    useMemo(() => numberOfChildrenOfFolder(id), [id])
+  );
+  const [numberOfStudySets] = useAtom(
+    useMemo(() => numberOfChildrenOfBinder(id), [id])
+  );
 
   // Use plural form of item (either binder or study set) if the number of items does not equal 1
   const numberOfItems = (type: FILETREE_TYPES) => {
     if (type === FILETREE_TYPES.FOLDER) {
       return getPluralOrSingular(
-        numOfBinders,
+        numberOfBinders,
         "folderBinders.numOfBinder",
         "folderBinders.numOfBinders",
         intl
@@ -24,7 +35,7 @@ const FolderBinderHeader: React.FC = () => {
     }
 
     return getPluralOrSingular(
-      numOfStudySets,
+      numberOfStudySets,
       "folderBinders.numOfStudySet",
       "folderBinders.numOfStudySets",
       intl

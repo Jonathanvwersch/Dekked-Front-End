@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import { useAtom } from "jotai";
+import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { DarkThemeContext } from "../../../contexts";
 import { usePageSetupHelpers } from "../../../hooks";
 import { translateOptions } from "../../../intl";
+import { darkModeAtom } from "../../../store";
 import { Box, Divider, H4, Text, Spacer } from "../../common";
 import DropdownMenu from "../../common/DropdownMenu/DropdownMenu";
 import { themeOptions, THEME_OPTIONS } from "./SettingsAppearance.data";
@@ -12,7 +13,7 @@ interface SettingsAppearanceProps {}
 const SettingsAppearance: React.FC<SettingsAppearanceProps> = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { setIsDarkTheme, isDarkTheme } = useContext(DarkThemeContext);
+  const [isDarkTheme, setIsDarkTheme] = useAtom(darkModeAtom);
 
   const handleThemeChange = (e: any) => {
     setIsDarkTheme(e.value === THEME_OPTIONS.DARK ? true : false);

@@ -1,9 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { SelectedItemContext } from "../../../../contexts/SelectedItemContext";
 import { Text } from "../../../common";
 import { formatMessage } from "../../../../intl";
 import { useIntl } from "react-intl";
+import { Params } from "../../../../shared";
+import { useParams } from "react-router-dom";
+import { useAtom } from "jotai";
+import { selectedBlockNameAtom } from "../../../../store";
 
 interface SidebarBlockNameProps {
   blockId: string;
@@ -11,19 +14,19 @@ interface SidebarBlockNameProps {
 }
 
 const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
-  blockId,
   blockName,
+  blockId,
 }) => {
-  const { id, selectedBlockName } = useContext(SelectedItemContext);
-  const [name, setName] = useState(blockName);
   const intl = useIntl();
   const theme = useContext(ThemeContext);
+  const { id } = useParams<Params>();
+  const [selectedBlockName, setSelectedBlockName] = useAtom(
+    selectedBlockNameAtom
+  );
 
-  useEffect(() => {
-    if (blockId === id) {
-      setName(selectedBlockName);
-    }
-  }, [id, blockId, selectedBlockName]);
+  useLayoutEffect(() => {
+    id === blockId && setSelectedBlockName(blockName);
+  }, [blockName, setSelectedBlockName, id, blockId]);
 
   return (
     <StyledText
@@ -31,7 +34,7 @@ const SidebarBlockName: React.FC<SidebarBlockNameProps> = ({
       className="overflow"
       fontSize={theme.typography.fontSizes.size14}
     >
-      {name}
+      {id === blockId ? selectedBlockName : blockName}
     </StyledText>
   );
 };

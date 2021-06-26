@@ -10,7 +10,7 @@ import IconActive from "../IconActive/IconActive";
 interface OverlayProps {
   children: JSX.Element;
   isOpen: boolean;
-  handleClose?: () => void;
+  handleClose?: (args?: any) => void;
   type?: MODAL_TYPE;
   center?: boolean; // set to true if you want to center the div on the screen
   close?: boolean; // set to true if you want to add an close (X) icon in the top right of your modal

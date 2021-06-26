@@ -25,11 +25,13 @@ export const saveFlashcard = async ({
   owner_id,
   frontEditorState,
   backEditorState,
+  flashcardIndex,
 }: {
   flash_card_id: string | undefined;
   owner_id: string | undefined;
   frontEditorState: EditorState;
   backEditorState: EditorState;
+  flashcardIndex?: number;
 }) => {
   const url = config.api + `/flashcard/${flash_card_id}`;
 

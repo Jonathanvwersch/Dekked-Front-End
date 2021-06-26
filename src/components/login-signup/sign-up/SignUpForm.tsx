@@ -25,7 +25,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [password, setPassword] = useState<string>();
   const [repeatPassword, setRepeatPassword] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
-  const [errorCode, setErrorCode] = useState<number>();
+  const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
   const { mutate: signUp, data, isLoading } = useMutation("register", register);
 
   const isSubmitButtonDisabled = () => {
@@ -42,7 +42,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
 
   const handleSubmit = (event: SyntheticEvent) => {
     setErrorMessage(false);
+    setErrorCode(undefined);
     event.preventDefault();
+
     emailAddress &&
       firstName &&
       lastName &&
@@ -54,18 +56,12 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         password: password,
       });
 
-    setErrorMessage(!data?.userData?.success);
-    console.log(data?.errorCode);
-    setErrorCode(data?.errorCode);
-
     emailAddress && window.localStorage.setItem("user-email", emailAddress);
   };
 
   useEffect(() => {
-    setErrorMessage(data?.userData?.success === false ? true : false);
-    console.log(data);
+    setErrorMessage(!data?.userData?.success);
     setErrorCode(data?.errorCode);
-
     if (data?.userData?.success) {
       history.push("/login");
     }
@@ -73,7 +69,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
 
   return (
     <>
-      {errorMessage && (
+      {errorMessage && errorCode && (
         <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>

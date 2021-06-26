@@ -1,26 +1,18 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import { useAtom } from "jotai";
+import React, { useCallback, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { SidebarBase, SidebarTop, SidebarWorkspace } from ".";
-import { FileTreeContext, SidebarContext } from "../../../contexts";
-import { SelectedItemContext } from "../../../contexts/SelectedItemContext";
+import { SidebarTop, SidebarWorkspace } from ".";
 import { SIZES } from "../../../shared";
-import { ComponentLoadingSpinner } from "../../common";
+import { sidebarAtom } from "../../../store";
+import SidebarBase from "./SidebarBase/SidebarBase";
+import SidebarWorkspaceHeader from "./SidebarWorkspace/SidebarWorkspaceHeader";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const { sidebar, handleSidebar } = useContext(SidebarContext);
+  const [sidebar] = useAtom(sidebarAtom);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
-  const { loading } = useContext(SelectedItemContext);
   const bottomFolderRef = useRef<HTMLDivElement>(null);
-  const { folders } = useContext(FileTreeContext);
-
-  // scroll down to bottom of list as you add elements
-  const scrollToBottom = useCallback(() => {
-    if (bottomFolderRef && bottomFolderRef.current) {
-      bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [bottomFolderRef]);
 
   const mouseLeave = useCallback(() => {
     !sidebar && setHoverbar(false);
@@ -35,26 +27,27 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <InnerSidebar
         sidebar={sidebar}
         hoverbar={hoverbar}
-        onMouseLeave={mouseLeave}
-        onMouseEnter={mouseEnter}
+        onMouseLeave={
+          !sidebar
+            ? mouseLeave
+            : (e) => {
+                return null;
+              }
+        }
+        onMouseEnter={
+          !sidebar
+            ? mouseEnter
+            : (e) => {
+                return null;
+              }
+        }
       >
-        {!loading ? (
-          sidebar || hoverbar ? (
-            <>
-              <SidebarTop
-                isSidebarOpen={sidebar}
-                handleSidebar={handleSidebar}
-              />
-              <SidebarWorkspace
-                numOfFolders={Object.keys(folders).length}
-                bottomFolderRef={bottomFolderRef}
-              />
-              <SidebarBase scrollToBottom={scrollToBottom} />
-            </>
-          ) : null
-        ) : (
-          <ComponentLoadingSpinner />
-        )}
+        <>
+          <SidebarTop />
+          <SidebarWorkspaceHeader />
+          <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
+          <SidebarBase bottomFolderRef={bottomFolderRef} />
+        </>
       </InnerSidebar>
     </SidebarContainer>
   );
@@ -102,4 +95,4 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
       : `translateX(calc(20px - ${theme.sizes.sidebar})) translateZ(0px)`};
 `;
 
-export default Sidebar;
+export default React.memo(Sidebar);

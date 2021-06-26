@@ -2,21 +2,18 @@ import React from "react";
 import { NavLink, useHistory, useParams } from "react-router-dom";
 import { Flex, Spacer } from "../../common";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
-import {
-  useMultiKeyPress,
-  usePageSetupHelpers,
-  useStorageState,
-} from "../../../hooks";
+import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import styled from "styled-components";
-import { StudySetTabKey } from "../../../helpers/getStudySetTabLink";
+import { isAppLoadingAtom, studySetTabAtom } from "../../../store";
+import { useAtom } from "jotai";
+import Skeleton from "react-loading-skeleton";
 
 const StudySetTabSwitcher: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id, tab } = useParams<Params>();
   // store state of study set tabs (either flashcard or notes)
-  const { value: studySetTab, setValue: setStudySetTab } = useStorageState<{
-    [id: string]: TAB_TYPE;
-  }>({}, StudySetTabKey);
+  const [studySetTab, setStudySetTab] = useAtom(studySetTabAtom);
+  const [isLoading] = useAtom(isAppLoadingAtom);
   const history = useHistory();
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
@@ -54,9 +51,18 @@ const StudySetTabSwitcher: React.FC = () => {
 
   return (
     <Flex width="auto">
-      {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes"))}
-      <Spacer width={theme.spacers.size16} />
-      {tabLink(TAB_TYPE.FLASHCARDS, formatMessage("studySet.tabs.flashcards"))}
+      {!isLoading ? (
+        <>
+          {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes"))}
+          <Spacer width={theme.spacers.size16} />
+          {tabLink(
+            TAB_TYPE.FLASHCARDS,
+            formatMessage("studySet.tabs.flashcards")
+          )}
+        </>
+      ) : (
+        <Skeleton width="140px" height="24px" />
+      )}
     </Flex>
   );
 };
@@ -68,4 +74,4 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export default StudySetTabSwitcher;
+export default React.memo(StudySetTabSwitcher);

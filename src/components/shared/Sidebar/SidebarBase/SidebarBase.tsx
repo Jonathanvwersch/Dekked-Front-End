@@ -1,37 +1,50 @@
-import React, { memo, useContext } from "react";
-import { Divider, Flex, HoverCard, Spacer, Text } from "../../../common";
-import styled, { ThemeContext } from "styled-components";
-import { PlusIcon } from "../../../../assets";
-import { FileTreeContext } from "../../../../contexts";
-import { FILETREE_TYPES, SIZES } from "../../../../shared";
+import React, { useCallback, useContext } from "react";
 import { FormattedMessage } from "react-intl";
+import { Flex, Text, Divider, HoverCard, Spacer } from "../../../common";
+import styled, { ThemeContext } from "styled-components";
+
+import { PlusIcon } from "../../../../assets";
+import { FILETREE_TYPES, SIZES } from "../../../../shared";
+import { useAsset } from "../../../../helpers";
+import { isAppLoadingAtom } from "../../../../store";
+import { useAtom } from "jotai";
 
 interface SidebarBaseProps {
-  scrollToBottom: () => void;
+  bottomFolderRef: React.RefObject<HTMLDivElement>;
 }
 
-const SidebarBase: React.FC<SidebarBaseProps> = ({ scrollToBottom }) => {
+const SidebarBase: React.FC<SidebarBaseProps> = ({ bottomFolderRef }) => {
   const theme = useContext(ThemeContext);
-  const { addAsset } = useContext(FileTreeContext);
+  const { addAsset } = useAsset();
+  const [isLoading] = useAtom(isAppLoadingAtom);
+  const scrollToBottom = useCallback(() => {
+    if (bottomFolderRef && bottomFolderRef.current) {
+      bottomFolderRef?.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [bottomFolderRef]);
 
   return (
     <StyledSidebarBase>
-      <Divider />
-      <HoverCard
-        handleMouseDown={() => {
-          addAsset(FILETREE_TYPES.FOLDER);
-          scrollToBottom();
-        }}
-        padding={theme.spacers.size16}
-      >
-        <Flex>
-          <PlusIcon size={SIZES.MEDIUM} />
-          <Spacer width={theme.spacers.size8} />
-          <Text fontSize={theme.typography.fontSizes.size16}>
-            <FormattedMessage id="sidebar.base.addFolder" />
-          </Text>
-        </Flex>
-      </HoverCard>
+      {!isLoading ? (
+        <>
+          <Divider />
+          <HoverCard
+            handleMouseDown={() => {
+              addAsset(FILETREE_TYPES.FOLDER);
+              scrollToBottom();
+            }}
+            padding={theme.spacers.size16}
+          >
+            <Flex>
+              <PlusIcon size={SIZES.MEDIUM} />
+              <Spacer width={theme.spacers.size8} />
+              <Text fontSize={theme.typography.fontSizes.size16}>
+                <FormattedMessage id="sidebar.base.addFolder" />
+              </Text>
+            </Flex>
+          </HoverCard>
+        </>
+      ) : null}
     </StyledSidebarBase>
   );
 };
@@ -42,4 +55,4 @@ const StyledSidebarBase = styled.div`
   width: 100%;
 `;
 
-export default memo(SidebarBase);
+export default React.memo(SidebarBase);

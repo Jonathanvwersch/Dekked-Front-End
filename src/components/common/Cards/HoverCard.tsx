@@ -18,10 +18,11 @@ interface HoverCardProps {
   ariaLabel?: string;
   fakeFocus?: boolean;
   turnOffHover?: boolean;
+  isDisabled?: boolean;
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLButtonElement>(null);
   const shouldFocus =
     cardRef && !isNil(props.index) && props.index === props.activeIndex;
 
@@ -57,8 +58,8 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
 
   return (
     <StyledHoverCard
-      role="button"
       ref={cardRef}
+      disabled={props.isDisabled}
       aria-label={props.ariaLabel}
       tabIndex={0}
       contentEditable={false}
@@ -70,17 +71,6 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
         if (props.handleClick) {
           e.preventDefault();
           props.handleClick();
-        }
-      }}
-      onKeyDown={(e: any) => {
-        if (e.key === "Enter")
-          if (props.handleClick) {
-            e.preventDefault();
-            props.handleClick();
-          }
-        if (props.handleMouseDown) {
-          e.preventDefault();
-          props.handleMouseDown();
         }
       }}
       turnOffHover={false}
@@ -97,9 +87,11 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
   );
 };
 
-const StyledHoverCard = styled.div<HoverCardProps & { active?: boolean }>`
+const StyledHoverCard = styled.button<HoverCardProps & { active?: boolean }>`
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => height && height};
+  outline: none;
+  border: none;
   padding: ${({ padding }) => padding};
   background-color: ${({ backgroundColor, theme }) =>
     backgroundColor ? backgroundColor : theme.colors.secondary};
