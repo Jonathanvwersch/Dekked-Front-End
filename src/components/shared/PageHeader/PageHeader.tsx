@@ -15,7 +15,6 @@ import { useParams } from "react-router-dom";
 import {
   isAppLoadingAtom,
   selectActiveBlockName,
-  studySetsAtom,
   typeAtom,
 } from "../../../store";
 import { useAtom } from "jotai";

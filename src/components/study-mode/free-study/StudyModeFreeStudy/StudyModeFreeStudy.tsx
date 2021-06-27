@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import useFlashcards from "../../../../services/flashcards/useFlashcards";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "../../../common";

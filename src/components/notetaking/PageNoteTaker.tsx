@@ -39,6 +39,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      refetchOnMount: false,
     }
   );
 
@@ -69,7 +70,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     (editorState: EditorState) => {
       debounced(editorState);
     },
-    [pageId]
+    [pageId] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   useEffect(() => {

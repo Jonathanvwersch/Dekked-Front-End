@@ -94,7 +94,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
 
       setData(filteredData);
     }
-  }, [open, currentText]);
+  }, [open, currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

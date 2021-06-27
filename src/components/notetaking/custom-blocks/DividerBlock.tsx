@@ -25,7 +25,7 @@ const DividerBlock: React.FC = (props: any) => {
     if (!newBlock) {
       updateData();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Halo editable={false}>

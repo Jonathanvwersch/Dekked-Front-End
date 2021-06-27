@@ -18,7 +18,7 @@ const useKeyPress = (
         }
       }
     },
-    [onKeyPress, targetKey]
+    [onKeyPress, targetKey, shouldThisHookRun]
   );
 
   // If released key is our target key then set to false
@@ -30,7 +30,7 @@ const useKeyPress = (
         }
       }
     },
-    [targetKey]
+    [targetKey, shouldThisHookRun]
   );
 
   // Add event listeners

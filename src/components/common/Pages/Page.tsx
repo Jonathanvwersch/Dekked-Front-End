@@ -1,11 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Params } from "../../../shared";
-import { StudyQueueContainer } from "../../shared";
+// import { Params } from "../../../shared";
+// import { StudyQueueContainer } from "../../shared";
 
 const Page: React.FC = ({ children }) => {
-  const { studyModes } = useParams<Params>();
+  // const { studyModes } = useParams<Params>();
 
   return (
     <StyledPage>
