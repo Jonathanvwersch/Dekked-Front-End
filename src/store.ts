@@ -240,7 +240,6 @@ export const updateAssetAtom = atom(
       name?: string;
     }
   ) => {
-    console.log("fdsfds");
     const fileTree = get(fileTreeAtom);
     const folders = get(foldersAtom);
     const studySets = get(studySetsAtom);

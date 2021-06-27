@@ -34,6 +34,10 @@ const StyledAvatar = styled.div<AvatarProps>`
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? backgroundColor : theme.colors.primary};
   color: ${({ fontColor }) => (fontColor ? fontColor : "white")};
+
+  &:hover {
+    transform: ${({ handleClick }) => handleClick && "scale(1.1)"};
+  }
 `;
 
 export default Avatar;
