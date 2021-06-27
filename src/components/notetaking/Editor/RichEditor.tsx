@@ -205,7 +205,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
             handleKeyCommand={handleKeyCommand}
             ref={editorRef}
             onTab={onTab}
-            keyBindingFn={}
             blockRendererFn={myBlockRenderer}
             readOnly={!isEditable}
             handleReturn={handleReturn}
