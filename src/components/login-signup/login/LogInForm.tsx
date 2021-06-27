@@ -65,7 +65,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         history.push("/");
       }
     }
-  }, [data, history]);
+  }, [data, history, setUser]);
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
