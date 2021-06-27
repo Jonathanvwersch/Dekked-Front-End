@@ -185,6 +185,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             handleColorPicker={handleOpenColorPicker}
             type={type}
             id={blockData?.id}
+            folderId={blockData?.folder_id}
           />
 
           <ColorPicker

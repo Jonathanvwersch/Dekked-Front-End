@@ -17,6 +17,7 @@ interface SidebarBlockModalProps {
   id: string;
   handleColorPicker: () => void;
   coords: CoordsType | undefined;
+  folderId?: string;
 }
 
 const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
@@ -26,6 +27,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   coords,
   id,
   type,
+  folderId,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { addAsset } = useAsset();
@@ -46,7 +48,11 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
       blockAction === SIDEBAR_BLOCK_MENU.ADD_STUDYSET
     ) {
       handleClose();
-      addAsset(getChildType(type as FILETREE_TYPES), id);
+      addAsset(
+        getChildType(type as FILETREE_TYPES),
+        type === FILETREE_TYPES.BINDER ? folderId : id,
+        type === FILETREE_TYPES.BINDER ? id : undefined
+      );
     } else if (blockAction === SIDEBAR_BLOCK_MENU.RECOLOR) {
       handleColorPicker();
     }

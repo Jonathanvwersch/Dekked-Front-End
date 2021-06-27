@@ -19,6 +19,7 @@ export const StyledButton = styled.button<ButtonProps>`
       ? theme.typography.fontSizes.size14
       : theme.typography.fontSizes.size16};
   height: ${({ theme, size }) => theme.sizes.button.height[size]};
+  user-select: none;
   width: ${({ theme, width }) =>
     width === SIZES.SMALL ||
     width === SIZES.MEDIUM ||

@@ -75,7 +75,7 @@ const BlockSettings: React.FC<BlockSettingsProps> = ({
         <IconActive
           cursor={isDraggable ? "grabbing" : undefined}
           handleMouseDown={() => {
-            setIsDraggable(true);
+            // setIsDraggable(true);
             setDragBlockKey(blockKey);
           }}
           tabIndex={-1}

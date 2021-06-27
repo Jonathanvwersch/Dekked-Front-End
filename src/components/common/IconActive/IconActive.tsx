@@ -1,5 +1,5 @@
 // Wrapper component for making an icon into a button with a hover and active state
-import React, { memo, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { useIntl } from "react-intl";
 import styled from "styled-components";
 import { formatMessage } from "../../../intl";
@@ -119,4 +119,4 @@ const StyledIconActive = styled.button<IconActiveProps>`
   }
 `;
 
-export default memo(IconActive);
+export default IconActive;

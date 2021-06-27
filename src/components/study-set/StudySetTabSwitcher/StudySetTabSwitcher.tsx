@@ -68,6 +68,7 @@ const StudySetTabSwitcher: React.FC = () => {
 };
 
 const StyledNavLink = styled(NavLink)`
+  user-select: none;
   color: ${({ theme }) => theme.colors.fontColor};
   &:hover {
     color: ${({ theme }) => theme.colors.primary};

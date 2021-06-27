@@ -64,7 +64,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           <Spacer height={theme.spacers.size16} />
           <Flex justifyContent="space-between">
             {!isLoading ? (
-              <Text fontColor={theme.colors.grey1}>{message}</Text>
+              <Text fontColor={theme.colors.grey1} userSelect="none">
+                {message}
+              </Text>
             ) : (
               <Skeleton width="45px" height="16px" />
             )}

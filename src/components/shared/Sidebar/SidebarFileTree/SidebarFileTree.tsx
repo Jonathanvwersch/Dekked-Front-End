@@ -3,6 +3,7 @@ import SidebarEmptyBlock from "../SidebarEmptyBlock/SidebarEmptyBlock";
 import SidebarBlock from "../SidebarBlock/SidebarBlock";
 import { useAtom } from "jotai";
 import { selectBlockOpenStateFileTree } from "../../../../store";
+import { isEqual } from "lodash";
 
 interface SidebarFileTreeProps {
   file: FileTreeInterface;
@@ -64,4 +65,6 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
   );
 };
 
-export default React.memo(SidebarFileTree);
+export default React.memo(SidebarFileTree, (oldProps, newProps) => {
+  return isEqual(oldProps, newProps);
+});

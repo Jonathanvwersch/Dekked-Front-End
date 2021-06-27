@@ -59,4 +59,4 @@ const StyledFlex = styled(Flex)`
   justify-content: center;
 `;
 
-export default React.memo(SidebarWorkspace);
+export default SidebarWorkspace;

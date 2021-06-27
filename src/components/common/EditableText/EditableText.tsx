@@ -6,7 +6,7 @@ import { useIntl } from "react-intl";
 
 import { formatMessage } from "../../../intl";
 import { useUpdateAsset } from "../../../helpers";
-import { selectedBlockNameAtom, typeAtom } from "../../../store";
+import { typeAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface EditableTextProps {
@@ -28,9 +28,8 @@ const EditableText: React.FC<EditableTextProps> = ({
 }) => {
   const [type] = useAtom(typeAtom);
   const intl = useIntl();
-  const { updateItem } = useUpdateAsset();
   const [html, setHtml] = useState<string>(name);
-  const [, setSelectedBlockName] = useAtom(selectedBlockNameAtom);
+  const { updateItem } = useUpdateAsset();
 
   const handleChange = (e: any) => {
     setHtml(e.target.value);
@@ -44,7 +43,7 @@ const EditableText: React.FC<EditableTextProps> = ({
     });
   }, 1000);
 
-  const autoSave = useCallback((name: string) => debounced(name), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const autoSave = useCallback((name: string) => debounced(name), [type]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleScrollToStart = () => {
     if (editableTextRef && editableTextRef.current)
@@ -86,17 +85,15 @@ const EditableText: React.FC<EditableTextProps> = ({
       onPaste={(e: any) => {
         handlePaste(e);
       }}
+      onDrag={(e: any) => {
+        e.preventDefault();
+      }}
       onDragOver={(e: any) => {
         e.preventDefault();
       }}
       onBlur={() => {
         handleScrollToStart();
         handleEditable && handleEditable();
-      }}
-      onKeyUp={() => {
-        editableTextRef &&
-          editableTextRef.current &&
-          setSelectedBlockName(editableTextRef.current?.innerText);
       }}
       className={className}
       onChange={handleChange}

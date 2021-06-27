@@ -23,6 +23,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   const handlePrimaryButton = (e: SyntheticEvent) => {
     e.preventDefault();
     handleMainButton();
+    handleClose();
   };
 
   return (

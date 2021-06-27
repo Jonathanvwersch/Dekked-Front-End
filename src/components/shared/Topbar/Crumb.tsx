@@ -28,15 +28,6 @@ const Crumb: React.FC<CrumbProps> = ({
   const intl = useIntl();
   const history = useHistory();
   const { studyModes } = useParams<Params>();
-  const { id } = useParams<Params>();
-  const [selectedBlockName, setSelectedBlockName] = useAtom(
-    selectedBlockNameAtom
-  );
-
-  useLayoutEffect(() => {
-    id === breadCrumbData?.id && setSelectedBlockName(breadCrumbData?.name);
-  }, [id, setSelectedBlockName, breadCrumbData?.name, breadCrumbData?.id]);
-
   const pathName = { pathname: link };
 
   return (
@@ -79,12 +70,7 @@ const Crumb: React.FC<CrumbProps> = ({
                 fontSize={theme.typography.fontSizes.size14}
               >
                 {breadCrumbData
-                  ? handleUntitled(
-                      id === breadCrumbData.id
-                        ? selectedBlockName || ""
-                        : breadCrumbData.name,
-                      intl
-                    )
+                  ? handleUntitled(breadCrumbData.name, intl)
                   : name}
               </Text>
             </Flex>

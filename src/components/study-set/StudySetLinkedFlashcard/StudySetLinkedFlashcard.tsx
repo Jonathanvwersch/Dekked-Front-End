@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StudySetFlashcard } from "..";
@@ -31,6 +31,8 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
     setShowFlashcard((prevState) => !prevState);
   }, []);
 
+  const memoChildren = useMemo(() => <LogoIcon size={SIZES.MEDIUM} />, []);
+
   return (
     <LinkedCard
       flexDirection="column"
@@ -55,7 +57,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
             handleMouseDown={show}
             fillType={FILL_TYPE.STROKE}
           >
-            <LogoIcon size={SIZES.MEDIUM} />
+            {memoChildren}
           </Tab>
         </Tooltip>
       ) : (
