@@ -39,6 +39,8 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const fullName = `${firstName} ${lastName}`;
   const firstLetterOfFirstName = firstName?.[0] || "";
   const [sidebar, setSidebar] = useAtom(sidebarAtom);
+  const [openMainSettingsModal, setOpenMainSettingsModal] =
+    useState<boolean>(false);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -58,7 +60,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
         <Card padding="0px">
           <Flex>
             {!isFetchingUser ? (
-              <Avatar>
+              <Avatar handleClick={() => setOpenMainSettingsModal(true)}>
                 {firstLetterOfFirstName ? (
                   firstLetterOfFirstName.toUpperCase()
                 ) : (
@@ -108,6 +110,8 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
         </DoubleChevronIconContainer>
       </StyledSidebarTop>
       <OpenSettingsModal
+        openMainSettingsModal={openMainSettingsModal}
+        setOpenMainSettingsModal={setOpenMainSettingsModal}
         open={openModal}
         coords={coords}
         handleClose={() => setOpenModal(false)}

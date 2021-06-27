@@ -5,13 +5,19 @@ interface AvatarProps {
   diameter?: string;
   backgroundColor?: string;
   fontColor?: string;
+  handleClick?: () => void;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ children, ...props }) => {
-  return <StyledAvatar {...props}>{children}</StyledAvatar>;
+  return (
+    <StyledAvatar onClick={props.handleClick} {...props}>
+      {children}
+    </StyledAvatar>
+  );
 };
 
 const StyledAvatar = styled.div<AvatarProps>`
+  cursor: ${({ handleClick }) => (handleClick ? "pointer" : "auto")};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -13,15 +13,17 @@ interface OpenSettingsModalProps {
   open: boolean;
   handleClose: () => void;
   coords?: CoordsType;
+  setOpenMainSettingsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openMainSettingsModal: boolean;
 }
 
 const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   handleClose,
   open,
   coords,
+  openMainSettingsModal,
+  setOpenMainSettingsModal,
 }) => {
-  const [openMainSettingsModal, setOpenMainSettingsModal] =
-    useState<boolean>(false);
   const history = useHistory();
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
