@@ -41,9 +41,12 @@ const EditableText: React.FC<EditableTextProps> = ({
     updateItem(itemId, type, {
       name: name.replace("&nbsp;", " "),
     });
-  }, 1000);
+  }, 500);
 
-  const autoSave = useCallback((name: string) => debounced(name), [type]); // eslint-disable-line react-hooks/exhaustive-deps
+  const autoSave = useCallback(
+    (name: string) => debounced(name),
+    [type, itemId] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const handleScrollToStart = () => {
     if (editableTextRef && editableTextRef.current)
