@@ -1,5 +1,5 @@
 // Wrapper component for whenever you want to add a box shadow to a component
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 import { SIZES } from "../../../shared";
 
@@ -23,6 +23,7 @@ interface ShadowCardProps {
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
   return (
     <StyledShadowCard
+      onClick={(e: SyntheticEvent) => e.preventDefault()}
       tabIndex={props.tabIndex}
       aria-label={props.ariaLabel}
       role={props.role}

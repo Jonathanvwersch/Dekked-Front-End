@@ -60,6 +60,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const currentBlock = getCurrentBlock(editorState);
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
   const theme = useContext(ThemeContext);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -120,6 +121,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   // handle what happens when return key is pressed
   const handleReturn = (e: any): DraftHandleValue => {
+    if (isOpen) return "handled";
     if (isSoftNewlineEvent(e)) {
       setEditorState(RichUtils.insertSoftNewline(editorState));
       return "handled";
@@ -176,9 +178,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
   useEffect(() => {
     // style block if is linked
     if (isLinked) {
-      if (div) div.style.boxShadow = theme.boxShadow;
+      if (div) {
+        div.style.boxShadow = theme.boxShadow;
+        div.style.padding = "4px";
+      }
     } else if (div) {
       div.style.boxShadow = "none";
+      div.style.padding = "0px";
     }
   }, [isLinked, div, blockLink, theme]);
 
@@ -218,7 +224,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
                 : ""
             }
           />
+
           <NotetakingBlocksModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
             onToggle={toggleBlockType}
             editorState={editorState}
           />

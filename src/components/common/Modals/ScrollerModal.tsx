@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import React, {
   Fragment,
   MutableRefObject,
+  SyntheticEvent,
   useContext,
   useEffect,
   useRef,
@@ -67,25 +68,23 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
         width={theme.sizes.modal.small}
         cardRef={cardRef || modalRef}
       >
-        {data.map((item, index) => {
-          return (
-            <Fragment key={item.label}>
-              <Block
-                index={index}
-                activeIndex={activeIndex}
-                icon={item?.icon}
-                fakeFocus={fakeFocus}
-                label={item?.label}
-                turnOffHover={item?.turnOffHover}
-                handleClick={() => {
-                  handleClose();
-                  clickFunctions(item?.value);
-                }}
-              />
-              {item?.divider ? <Divider /> : null}
-            </Fragment>
-          );
-        })}
+        {data.map((item, index) => (
+          <Fragment key={item.label}>
+            <Block
+              index={index}
+              activeIndex={activeIndex}
+              icon={item?.icon}
+              fakeFocus={fakeFocus}
+              label={item?.label}
+              turnOffHover={item?.turnOffHover}
+              handleClick={() => {
+                handleClose();
+                clickFunctions(item?.value);
+              }}
+            />
+            {item?.divider ? <Divider /> : null}
+          </Fragment>
+        ))}
       </StyledScrollerModal>
     </Overlay>
   );

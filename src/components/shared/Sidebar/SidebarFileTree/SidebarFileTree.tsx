@@ -22,19 +22,24 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
         <>
           <SidebarBlock
             key={folderData.id}
-            blockData={folderData}
-            type={file?.[fileId]?.type}
+            blockType={folderData.type}
+            blockId={folderData.id}
+            blockColor={folderData.color}
+            blockName={folderData.name}
             fileTreeId={fileId}
           />
-          {isBlockOpen?.[folderData?.id] ? (
-            Object.keys(file[fileId].children).length > 0 ? (
-              Object.entries(file[fileId].children).map((binder) => {
+          {isBlockOpen?.[folderData.id] ? (
+            Object.keys(folderData.children).length > 0 ? (
+              Object.entries(folderData.children).map((binder) => {
                 return (
                   <Fragment key={binder[0]}>
                     <SidebarBlock
-                      blockData={binder?.[1]}
-                      type={binder?.[1]?.type}
                       fileTreeId={fileId}
+                      blockType={binder?.[1]?.type}
+                      blockId={binder?.[1]?.id}
+                      blockColor={binder?.[1]?.color}
+                      blockFolderId={binder?.[1]?.folder_id}
+                      blockName={binder?.[1]?.name}
                     />
                     {isBlockOpen?.[binder?.[1].id] ? (
                       Object.entries(binder[1].children).length > 0 ? (
@@ -42,8 +47,10 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
                           return (
                             <SidebarBlock
                               key={studySet?.[0]}
-                              blockData={studySet?.[1]}
-                              type={studySet[1].type}
+                              blockType={studySet?.[1]?.type}
+                              blockId={studySet?.[1]?.id}
+                              blockColor={studySet?.[1]?.color}
+                              blockName={studySet?.[1]?.name}
                               fileTreeId={fileId}
                             />
                           );

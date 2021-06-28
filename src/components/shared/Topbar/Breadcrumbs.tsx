@@ -33,6 +33,9 @@ const Breadcrumbs: React.FC = () => {
     useMemo(() => getActiveStudySet(id, type), [id, type])
   );
 
+  console.log(folderData);
+  console.log(binderData);
+  console.log(studySetData);
   return !loading ? (
     <Flex>
       {folderData && (

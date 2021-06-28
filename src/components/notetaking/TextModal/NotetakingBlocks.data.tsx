@@ -64,11 +64,11 @@ export const ConvertToBlockData: ScrollerModalData = [
     value: BLOCK_TYPES.QUOTE,
     icon: <QuoteIcon />,
   },
-  {
-    label: NOTETAKING_BLOCKS.TODO,
-    value: BLOCK_TYPES.TODO,
-    icon: <TodoIcon />,
-  },
+  // {
+  //   label: NOTETAKING_BLOCKS.TODO,
+  //   value: BLOCK_TYPES.TODO,
+  //   icon: <TodoIcon />,
+  // },
 ];
 
 export const TextBlocksData: ScrollerModalData = [
@@ -107,11 +107,11 @@ export const TextBlocksData: ScrollerModalData = [
     value: BLOCK_TYPES.QUOTE,
     icon: <QuoteIcon />,
   },
-  {
-    label: NOTETAKING_BLOCKS.TODO,
-    value: BLOCK_TYPES.TODO,
-    icon: <TodoIcon />,
-  },
+  // {
+  //   label: NOTETAKING_BLOCKS.TODO,
+  //   value: BLOCK_TYPES.TODO,
+  //   icon: <TodoIcon />,
+  // },
   {
     label: NOTETAKING_BLOCKS.DIVIDER,
     value: BLOCK_TYPES.DIVIDER,

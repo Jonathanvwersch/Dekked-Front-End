@@ -7,8 +7,8 @@ interface FileInterface {
   color: string;
   name: string;
   children: FileTreeInterface;
-  date_created?: Date;
-  date_modified?: Date;
+  date_created?: string;
+  date_modified?: string;
   folder_id?: string;
   binder_id?: string;
 }
@@ -21,8 +21,8 @@ interface FileTreeInterface {
     color: string;
     name: string;
     children: FileTreeInterface;
-    date_created?: Date;
-    date_modified?: Date;
+    date_created?: string;
+    date_modified?: string;
     folder_id?: string;
     binder_id?: string;
   };
@@ -31,8 +31,8 @@ interface BinderInterface {
   id: string;
   owner_id: string;
   folder_id: string;
-  date_created: Date;
-  date_modified: Date;
+  date_created: string;
+  date_modified: string;
   name: string;
   color: string;
 }
@@ -40,16 +40,16 @@ interface FolderInterface {
   id: string;
   owner_id: string;
   name: string;
-  date_created: Date;
-  date_modified: Date;
+  date_created: string;
+  date_modified: string;
   color: string;
 }
 interface StudyPackInterface {
   id: string;
   owner_id: string;
   binder_id: string;
-  date_created: Date;
-  date_modified: Date;
+  date_created: string;
+  date_modified: string;
   name: string;
   color: string;
   folder_id: string;
@@ -68,8 +68,8 @@ interface FlashcardInterface {
     study_pack_id: string;
     back_ordering: string[];
     front_ordering: string[];
-    date_created: Date;
-    date_modified: Date;
+    date_created: string;
+    date_modified: string;
     block_link?: string;
   };
   front_blocks: string[];

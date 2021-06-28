@@ -11,6 +11,7 @@ import {
   deleteAssetAtom,
   firstFolderIdAtom,
   foldersAtom,
+  secondFolderIdAtom,
   studySetsAtom,
 } from "../store";
 
@@ -22,7 +23,7 @@ export const useDeleteAsset = () => {
   const [binders] = useAtom(bindersAtom);
   const [studySets] = useAtom(studySetsAtom);
   const [firstFolderId] = useAtom(firstFolderIdAtom);
-
+  const [secondFolderId] = useAtom(secondFolderIdAtom);
   const { mutate: _deleteFolder } = useMutation(
     "delete-folder",
     (folderId: string) => deleteFolder(folderId),
@@ -56,12 +57,16 @@ export const useDeleteAsset = () => {
 
           // navigate to first folder after deleting folder if id === assetId
           const firstFolderLink = `/${FILETREE_TYPES.FOLDER}/${firstFolderId}`;
+          const secondFolderLink = `/${FILETREE_TYPES.FOLDER}/${secondFolderId}`;
           if (
             shouldRedirect ||
             binders?.[studySets?.[id]?.binder_id || 0]?.folder_id === assetId ||
             binders?.[id]?.folder_id === assetId
-          )
-            history.push(firstFolderLink);
+          ) {
+            if (assetId === firstFolderId) {
+              history.push(secondFolderLink);
+            } else history.push(firstFolderLink);
+          }
 
           _deleteFolder(assetId);
 

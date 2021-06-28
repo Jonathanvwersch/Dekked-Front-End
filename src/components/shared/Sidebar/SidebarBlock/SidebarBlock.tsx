@@ -37,17 +37,22 @@ import {
   updateBlockOpenStateAtom,
 } from "../../../../store";
 import { useAtom } from "jotai";
-import { isEqual } from "lodash";
 
 interface SidebarBlockProps {
-  blockData: FileInterface;
-  type: string;
+  blockId: string;
+  blockName: string;
+  blockColor: string;
+  blockType: string;
   fileTreeId: string;
+  blockFolderId?: string | undefined;
 }
 
 const SidebarBlock: React.FC<SidebarBlockProps> = ({
-  blockData,
-  type,
+  blockColor,
+  blockFolderId,
+  blockId,
+  blockName,
+  blockType,
   fileTreeId,
 }) => {
   const [blockModal, setBlockModal] = useState<boolean>(false);
@@ -55,27 +60,27 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
-  const [iconColor, setIconColor] = useState<string>(blockData?.color);
+  const [iconColor, setIconColor] = useState<string>(blockColor);
   const { addAsset } = useAsset();
   const [studySetTab] = useAtom(
-    useMemo(() => selectStudySetTab(blockData?.id), [blockData?.id])
+    useMemo(() => selectStudySetTab(blockId), [blockId])
   );
 
   const [isBlockOpen] = useAtom(
     useMemo(
-      () => selectBlockOpenStateItem(fileTreeId, blockData?.id),
-      [blockData?.id, fileTreeId]
+      () => selectBlockOpenStateItem(fileTreeId, blockId),
+      [blockId, fileTreeId]
     )
   );
 
   const [, setIsBlockOpen] = useAtom(updateBlockOpenStateAtom);
 
   const paddingLeft =
-    type === FILETREE_TYPES.FOLDER
+    blockType === FILETREE_TYPES.FOLDER
       ? theme.spacers.size16
-      : type === FILETREE_TYPES.BINDER
+      : blockType === FILETREE_TYPES.BINDER
       ? theme.spacers.size24
-      : type === FILETREE_TYPES.STUDY_SET
+      : blockType === FILETREE_TYPES.STUDY_SET
       ? theme.spacers.size48
       : null;
 
@@ -101,7 +106,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsBlockOpen({ fileTreeId, id: blockData?.id });
+    setIsBlockOpen({ fileTreeId, id: blockId });
   };
 
   // add item on click of plus icon
@@ -109,17 +114,17 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
     e.preventDefault();
     e.stopPropagation();
     addAsset(
-      getChildType(type as FILETREE_TYPES),
-      type === FILETREE_TYPES.BINDER ? blockData?.folder_id : blockData?.id,
-      type === FILETREE_TYPES.BINDER ? blockData.id : undefined
+      getChildType(blockType as FILETREE_TYPES),
+      blockType === FILETREE_TYPES.BINDER ? blockFolderId : blockId,
+      blockType === FILETREE_TYPES.BINDER ? blockId : undefined
     );
   };
 
-  const pathName = blockData && {
+  const pathName = {
     pathname:
-      type === FILETREE_TYPES.FOLDER || type === FILETREE_TYPES.BINDER
-        ? `/${type}/${blockData.id}`
-        : `/${type}/${blockData.id}/${studySetTab || TAB_TYPE.NOTES}`,
+      blockType === FILETREE_TYPES.FOLDER || blockType === FILETREE_TYPES.BINDER
+        ? `/${blockType}/${blockId}`
+        : `/${blockType}/${blockId}/${studySetTab || TAB_TYPE.NOTES}`,
   };
 
   const navLinkStyle = { width: "100%" };
@@ -130,75 +135,70 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
 
   return (
     <>
-      {blockData ? (
-        <NavLink
-          to={pathName}
-          style={navLinkStyle}
-          activeStyle={navLinkActiveStyle}
-        >
-          <StyledBlock paddingLeft={paddingLeft}>
-            <Flex>
-              {type === FILETREE_TYPES.FOLDER ||
-              type === FILETREE_TYPES.BINDER ? (
-                <IconActive handleClick={(e) => handleExpandBlock(e)}>
-                  <DropDownArrowIcon
-                    rotate={isBlockOpen ? ROTATE.NINETY : ROTATE.ZERO}
-                  />
-                </IconActive>
-              ) : null}
-              <Spacer width={theme.spacers.size8} />
-              <IconWrapper>{handleIconType(type, iconColor)}</IconWrapper>
-              <Spacer width={theme.spacers.size8} />
-              <SidebarBlockName
-                blockId={blockData?.id}
-                blockName={blockData?.name}
-              />
-              <Spacer width={theme.spacers.size4} />
-              <HiddenIconsContainer>
+      <NavLink
+        to={pathName}
+        style={navLinkStyle}
+        activeStyle={navLinkActiveStyle}
+      >
+        <StyledBlock paddingLeft={paddingLeft}>
+          <Flex>
+            {blockType === FILETREE_TYPES.FOLDER ||
+            blockType === FILETREE_TYPES.BINDER ? (
+              <IconActive handleClick={(e) => handleExpandBlock(e)}>
+                <DropDownArrowIcon
+                  rotate={isBlockOpen ? ROTATE.NINETY : ROTATE.ZERO}
+                />
+              </IconActive>
+            ) : null}
+            <Spacer width={theme.spacers.size8} />
+            <IconWrapper>{handleIconType(blockType, iconColor)}</IconWrapper>
+            <Spacer width={theme.spacers.size8} />
+            <SidebarBlockName blockId={blockId} blockName={blockName} />
+            <Spacer width={theme.spacers.size4} />
+            <HiddenIconsContainer>
+              <IconActive
+                iconActiveRef={menuRef}
+                handleClick={(e) => handleBlockModal(e)}
+              >
+                <Tooltip id="Menu" text="tooltips.sidebar.menu">
+                  <DotsMenuIcon rotate={ROTATE.NINETY} />
+                </Tooltip>
+              </IconActive>
+              {blockType !== FILETREE_TYPES.STUDY_SET ? (
                 <IconActive
-                  iconActiveRef={menuRef}
-                  handleClick={(e) => handleBlockModal(e)}
+                  handleClick={(
+                    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                  ) => handleAddItem(e)}
                 >
-                  <Tooltip id="Menu" text="tooltips.sidebar.menu">
-                    <DotsMenuIcon rotate={ROTATE.NINETY} />
+                  <Tooltip id="AddItem" text="tooltips.sidebar.addItem">
+                    <PlusIcon />
                   </Tooltip>
                 </IconActive>
-                {type !== FILETREE_TYPES.STUDY_SET ? (
-                  <IconActive
-                    handleClick={(
-                      e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                    ) => handleAddItem(e)}
-                  >
-                    <Tooltip id="AddItem" text="tooltips.sidebar.addItem">
-                      <PlusIcon />
-                    </Tooltip>
-                  </IconActive>
-                ) : null}
-              </HiddenIconsContainer>
-            </Flex>
-          </StyledBlock>
+              ) : null}
+            </HiddenIconsContainer>
+          </Flex>
+        </StyledBlock>
 
-          <SidebarBlockModal
-            isOpen={blockModal}
-            handleClose={handleCloseBlockModal}
-            coords={coords}
-            handleColorPicker={handleOpenColorPicker}
-            type={type}
-            id={blockData?.id}
-            folderId={blockData?.folder_id}
-          />
+        <SidebarBlockModal
+          isOpen={blockModal}
+          handleClose={handleCloseBlockModal}
+          coords={coords}
+          handleColorPicker={handleOpenColorPicker}
+          type={blockType}
+          id={blockId}
+          folderId={blockFolderId}
+        />
 
-          <ColorPicker
-            isOpen={colorPicker}
-            handleClose={handleCloseColorPicker}
-            coords={coords}
-            iconColor={iconColor}
-            setIconColor={setIconColor}
-            type={type}
-            id={blockData?.id}
-          />
-        </NavLink>
-      ) : null}
+        <ColorPicker
+          isOpen={colorPicker}
+          handleClose={handleCloseColorPicker}
+          coords={coords}
+          iconColor={iconColor}
+          setIconColor={setIconColor}
+          type={blockType}
+          id={blockId}
+        />
+      </NavLink>
     </>
   );
 };
@@ -233,21 +233,19 @@ const StyledBlock = styled.div<{
   }
 `;
 
-export default React.memo(SidebarBlock, (prevProps, newProps) => {
-  return isEqual(newProps, prevProps);
-});
+export default React.memo(SidebarBlock);
 
 // if (
 //   (slugType === FILETREE_TYPES.STUDY_SET &&
 //     studyPacks &&
-//     studyPacks?.[id]?.binder_id === blockData?.id) ||
+//     studyPacks?.[id]?.binder_id === blockId) ||
 //   (studyPacks &&
-//     binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockData?.id)
+//     binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockId)
 // ) {
 //   isParentOfActiveBlock = true;
 // } else if (
 //   slugType === FILETREE_TYPES.BINDER &&
-//   binders?.[id]?.folder_id === blockData?.id
+//   binders?.[id]?.folder_id === blockId
 // ) {
 //   isParentOfActiveBlock = true;
 // }

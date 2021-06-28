@@ -1,6 +1,12 @@
 // Wrapper component for whenever you want to add a hover and active state to another component
 import { isNil } from "lodash";
-import React, { ReactNode, SyntheticEvent, useEffect, useRef } from "react";
+import React, {
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import styled from "styled-components";
 
 interface HoverCardProps {
@@ -41,8 +47,9 @@ const HoverCard: React.FC<HoverCardProps> = ({ children, ...props }) => {
     }
   }, [shouldFocus, props.fakeFocus]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleFakeFocusClick = (e: KeyboardEvent) => {
+      console.log(e.key === "Enter");
       if (e.key === "Enter") {
         e.preventDefault();
         props.handleClick && props.handleClick();

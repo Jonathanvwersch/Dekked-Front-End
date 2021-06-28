@@ -23,14 +23,17 @@ import { useIntl } from "react-intl";
 interface NotetakingBlocksModalProps {
   onToggle: (style: BLOCK_TYPES) => void;
   editorState: EditorState;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   onToggle,
   editorState,
+  isOpen,
+  setIsOpen,
 }) => {
   const intl = useIntl();
-  const [open, setOpen] = useState<boolean>(false);
   const [currentTextLength, setCurrentTextLength] = useState<number>(0);
   const [data, setData] = useState<ScrollerModalData>(NoteTakingBlocksData);
   const [coords, setCoords] = useState<CoordsType>();
@@ -57,14 +60,14 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   useEffect(() => {
     if (currentBlock.getText()[0] === "/" && editorHasFocus) {
       updatePosition();
-      setOpen(true);
+      setIsOpen(true);
     } else {
-      setOpen(false);
+      setIsOpen(false);
     }
   }, [currentBlock, editorHasFocus]);
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       // Filter data of modal based on what user types
       let filteredData = NoteTakingBlocksData.filter((item) => {
         const label = formatMessage(item.label, intl).toLowerCase();
@@ -89,19 +92,19 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
         filteredData === noMatchingBlocksData &&
         currentText.length > currentTextLength + 6
       ) {
-        setOpen(false);
+        setIsOpen(false);
       }
 
       setData(filteredData);
     }
-  }, [open, currentText]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isOpen, currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      {open ? (
+      {isOpen ? (
         <ScrollerModal
-          open={open}
-          handleClose={() => setOpen(false)}
+          open={isOpen}
+          handleClose={() => setIsOpen(false)}
           coords={coords}
           clickFunctions={toggleBlockStyle}
           data={data}

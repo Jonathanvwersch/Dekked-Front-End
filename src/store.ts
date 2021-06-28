@@ -18,6 +18,10 @@ export const firstFolderIdAtom = atom((get) => {
   const fileTree = get(fileTreeAtom || {});
   return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
 });
+export const secondFolderIdAtom = atom((get) => {
+  const fileTree = get(fileTreeAtom || {});
+  return fileTree && fileTree[Object.keys(fileTree)?.[1]]?.id;
+});
 export const getActiveFolder = (
   itemId: string,
   type?: string | FILETREE_TYPES
@@ -282,11 +286,11 @@ export const updateAssetAtom = atom(
       if (fileTree?.[folderId || 0]?.children?.[fileId] && arg.color) {
         fileTree[folderId || 0].children[fileId].color = arg.color;
       }
-      set(bindersAtom, {
-        ...binders,
-      });
       set(fileTreeAtom, {
         ...fileTree,
+      });
+      set(bindersAtom, {
+        ...binders,
       });
     } else if (arg.type === FILETREE_TYPES.STUDY_SET) {
       const binderId = studySets?.[fileId]?.binder_id;
@@ -315,11 +319,11 @@ export const updateAssetAtom = atom(
         fileTree[folderId].children[binderId].children[fileId].color =
           arg.color;
       }
-      set(studySetsAtom, {
-        ...studySets,
-      });
       set(fileTreeAtom, {
         ...fileTree,
+      });
+      set(studySetsAtom, {
+        ...studySets,
       });
     }
   }

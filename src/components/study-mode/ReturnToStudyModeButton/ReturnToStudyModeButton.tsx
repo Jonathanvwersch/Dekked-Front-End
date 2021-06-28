@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Divider, Overlay, Spacer } from "../../common";
+import { Button, Divider, Flex, Overlay, Spacer } from "../../common";
 import {
   FILETREE_TYPES,
   MODAL_TYPE,
@@ -41,42 +41,45 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
         return null;
       }}
       type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-      coords={{ bottom: 64, left: position }}
+      coords={{ bottom: 64 }}
+      modalWidth="100vw"
     >
-      <ButtonContainer buttonWidth={buttonWidth}>
-        <Button
-          size={SIZES.LARGE}
-          borderRadius={`${theme.sizes.borderRadius[SIZES.MEDIUM]} 0px 0px ${
-            theme.sizes.borderRadius[SIZES.MEDIUM]
-          }`}
-          handleClick={() => {
-            studyModeUrl ? history.push(studyModeUrl) : history.goBack();
-            setIsLinked(false);
-          }}
-          width="80%"
-        >
-          <ReturnIcon size={SIZES.LARGE} color="white" />
-          <Spacer width={theme.spacers.size8} />
-          <FormattedMessage id="studyMode.flashcard.returnToStudy" />
-        </Button>
-        <Divider width="2px" height="auto" />
-        <Button
-          size={SIZES.LARGE}
-          borderRadius={`0px ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
-            theme.sizes.borderRadius[SIZES.MEDIUM]
-          } 0px`}
-          width="20%"
-          handleClick={() => {
-            setIsLinked(false);
-            history.push(
-              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`
-            );
-          }}
-          ariaLabel={formatMessage("tooltips.generics.close")}
-        >
-          <CloseIcon size={SIZES.LARGE} color="white" />
-        </Button>
-      </ButtonContainer>
+      <Flex width="100vw" justifyContent="center">
+        <ButtonContainer buttonWidth={buttonWidth}>
+          <Button
+            size={SIZES.LARGE}
+            borderRadius={`${theme.sizes.borderRadius[SIZES.MEDIUM]} 0px 0px ${
+              theme.sizes.borderRadius[SIZES.MEDIUM]
+            }`}
+            handleClick={() => {
+              studyModeUrl ? history.push(studyModeUrl) : history.goBack();
+              setIsLinked(false);
+            }}
+            width="80%"
+          >
+            <ReturnIcon size={SIZES.LARGE} color="white" />
+            <Spacer width={theme.spacers.size8} />
+            <FormattedMessage id="studyMode.flashcard.returnToStudy" />
+          </Button>
+          <Divider width="2px" height="auto" />
+          <Button
+            size={SIZES.LARGE}
+            borderRadius={`0px ${theme.sizes.borderRadius[SIZES.MEDIUM]} ${
+              theme.sizes.borderRadius[SIZES.MEDIUM]
+            } 0px`}
+            width="20%"
+            handleClick={() => {
+              setIsLinked(false);
+              history.push(
+                `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`
+              );
+            }}
+            ariaLabel={formatMessage("tooltips.generics.close")}
+          >
+            <CloseIcon size={SIZES.LARGE} color="white" />
+          </Button>
+        </ButtonContainer>
+      </Flex>
     </Overlay>
   );
 };

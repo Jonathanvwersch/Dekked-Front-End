@@ -22,6 +22,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
     !sidebar && setHoverbar(true);
   }, [sidebar]);
 
+  console.log("hey");
+
   return (
     <SidebarContainer sidebar={sidebar}>
       <InnerSidebar

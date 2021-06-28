@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { FolderBinderAddCard, FolderBinderCard } from "..";
 import {
+  bindersAtom,
   fileTreeAtom,
-  getActiveFolder,
   isAppLoadingAtom,
   typeAtom,
 } from "../../../store";
@@ -19,45 +19,46 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
     const [fileTree] = useAtom(fileTreeAtom);
     const [type] = useAtom(typeAtom);
     const { id } = useParams<Params>();
-    const [folderData] = useAtom(
-      useMemo(() => getActiveFolder(id, type), [id, type])
-    );
+    const [binders] = useAtom(bindersAtom);
     const [isLoading] = useAtom(isAppLoadingAtom);
+    const folderId = binders?.[id]?.folder_id;
 
     const Cards = (type: FILETREE_TYPES) => {
       // if type = folders, create cards using binder data
       if (type === FILETREE_TYPES.FOLDER) {
-        return folderData && fileTree && fileTree[folderData?.id]?.children
-          ? Object.entries(fileTree[folderData?.id]?.children).map((binder) => {
-              return (
+        return fileTree && fileTree[id]?.children
+          ? Object.entries(fileTree[id]?.children).map(
+              (binder) =>
                 binder?.[1] && (
                   <FolderBinderCard
                     key={binder?.[0]}
-                    data={binder?.[1]}
-                    type={type}
+                    color={binder?.[1]?.color}
+                    name={binder?.[1]?.name}
+                    id={binder?.[1]?.id}
+                    dateCreated={binder?.[1]?.date_created}
+                    type={binder?.[1]?.type as FILETREE_TYPES}
                   />
                 )
-              );
-            })
+            )
           : null;
       } else {
         // if type = binders, create cards with study set data
-        return folderData &&
+        return folderId &&
           fileTree &&
-          fileTree[folderData?.id]?.children[id]?.children
-          ? Object.entries(
-              fileTree[folderData?.id]?.children[id]?.children
-            ).map((studySet) => {
-              return (
+          fileTree[folderId]?.children[id]?.children
+          ? Object.entries(fileTree[folderId]?.children[id]?.children).map(
+              (studySet) =>
                 studySet?.[1] && (
                   <FolderBinderCard
                     key={studySet?.[0]}
-                    data={studySet?.[1]}
-                    type={type}
+                    color={studySet?.[1]?.color}
+                    name={studySet?.[1]?.name}
+                    id={studySet?.[1]?.id}
+                    dateCreated={studySet?.[1]?.date_created}
+                    type={studySet?.[1]?.type as FILETREE_TYPES}
                   />
                 )
-              );
-            })
+            )
           : null;
       }
     };
@@ -66,11 +67,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
       <>
         {!isLoading ? (
           <StyledContainer>
-            <FolderBinderAddCard
-              id={id}
-              type={type}
-              folderId={folderData?.id}
-            />
+            <FolderBinderAddCard id={id} type={type} folderId={folderId} />
             {Cards(type)}
           </StyledContainer>
         ) : (

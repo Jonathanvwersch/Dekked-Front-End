@@ -23,6 +23,8 @@ const SidebarBase: React.FC<SidebarBaseProps> = ({ bottomFolderRef }) => {
     }
   }, [bottomFolderRef]);
 
+  console.log("base");
+
   return (
     <StyledSidebarBase>
       {!isLoading ? (

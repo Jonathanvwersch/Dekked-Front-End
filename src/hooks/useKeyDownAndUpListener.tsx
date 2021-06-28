@@ -13,7 +13,7 @@ const useKeyDownAndUpListener = (
         preventDefault && event.preventDefault();
         setActiveIndex((activeIndex - 1 + length) % length);
       } else if (event.key === "ArrowDown") {
-        event.preventDefault();
+        preventDefault && event.preventDefault();
         setActiveIndex((activeIndex + 1) % length);
       }
     }

@@ -73,7 +73,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
             </>
           ) : (
             <Div>
-              <StyledSkeleton width="100%" height="164px" count={3} />
+              <StyledSkeleton width="100%" height="164px" count={2} />
             </Div>
           )}
         </Flex>

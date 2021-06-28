@@ -1,54 +1,53 @@
-import React, { memo, ReactElement } from "react";
+import React from "react";
 import { BLOCK_TYPES } from "../../../shared";
-import { ConditionalWrapper } from "../../common";
-import BlockSettings from "../BlockSettings/BlockSettings";
-import { DividerBlock, TextBlock, TodoBlock } from "../custom-blocks";
+import { DividerBlock, TextBlock } from "../custom-blocks";
 
 const GeneralBlock: React.FC = (props: any) => {
   const {
-    editorState,
-    setEditorState,
-    dragBlockKey,
-    setDragBlockKey,
+    // editorState,
+    // setEditorState,
+    // dragBlockKey,
+    // setDragBlockKey,
     type,
-    editorType,
-    isEditable,
+    // editorType,
+    // isEditable,
   } = props.blockProps;
 
   const GeneralBlock = () => {
     switch (type) {
+      case BLOCK_TYPES.UNSTYLED:
+        return <TextBlock {...props} />;
       case BLOCK_TYPES.DIVIDER:
         return <DividerBlock {...props} />;
-      case BLOCK_TYPES.TODO:
-        return <TodoBlock {...props} />;
+      // case BLOCK_TYPES.TODO:
+      //   return <TodoBlock {...props} />;
       default:
         return <TextBlock {...props} />;
     }
   };
 
-  const HoverBlocks = (children: ReactElement) => (
-    <BlockSettings
-      editorState={editorState}
-      setEditorState={setEditorState}
-      blockKey={props.block.getKey()}
-      block={props.block}
-      dragBlockKey={dragBlockKey}
-      setDragBlockKey={setDragBlockKey}
-      blockType={type}
-      editorType={editorType}
-    >
-      {children}
-    </BlockSettings>
-  );
+  // const HoverBlocks = (children: ReactElement) => (
+  //   <BlockSettings
+  //     editorState={editorState}
+  //     setEditorState={setEditorState}
+  //     blockKey={props.block.getKey()}
+  //     block={props.block}
+  //     dragBlockKey={dragBlockKey}
+  //     setDragBlockKey={setDragBlockKey}
+  //     blockType={type}
+  //     editorType={editorType}
+  //   >
+  //     {children}
+  //   </BlockSettings>
+  // );
 
-  return (
-    <ConditionalWrapper
-      condition={isEditable}
-      wrapper={(children: ReactElement) => HoverBlocks(children)}
-    >
-      {GeneralBlock()}
-    </ConditionalWrapper>
-  );
+  return <>{GeneralBlock()}</>;
+  // <ConditionalWrapper
+  //   condition={isEditable}
+  //   wrapper={(children: ReactElement) => HoverBlocks(children)}
+  // >
+  //   {GeneralBlock()}
+  // </ConditionalWrapper>
 };
 
-export default memo(GeneralBlock);
+export default GeneralBlock;
