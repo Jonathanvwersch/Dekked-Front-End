@@ -25,10 +25,7 @@ const StudySetNotesContainer: React.FC<StudySetNotesContainerProps> = ({
         flashcardPosition={flashcardPosition}
       />
     )}
-    <ReturnToStudyModeButton
-      pageWidth={flashcardSize}
-      buttonPosition={flashcardPosition}
-    />
+    <ReturnToStudyModeButton />
   </div>
 );
 

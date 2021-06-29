@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import React, {
   Fragment,
   MutableRefObject,
-  SyntheticEvent,
   useContext,
   useEffect,
   useRef,

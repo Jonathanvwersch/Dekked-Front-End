@@ -34,11 +34,12 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
 
   const handleAccountSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    handleCloseModal();
+
     updateUserData({
       first_name: firstName,
       last_name: lastName,
     });
-    handleCloseModal();
   };
 
   return (

@@ -12,7 +12,7 @@ const SidebarWorkspaceHeader: React.FC<SidebarWorkspaceHeaderProps> = () => {
   const [numberOfFolders] = useAtom(numberOfFoldersAtom);
   const theme = useContext(ThemeContext);
   const [isLoading] = useAtom(isAppLoadingAtom);
-  console.log("header");
+
   return (
     <Card padding={`${theme.spacers.size8} ${theme.spacers.size16}`}>
       <Text

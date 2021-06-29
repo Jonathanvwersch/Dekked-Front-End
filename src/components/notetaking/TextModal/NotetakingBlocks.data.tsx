@@ -9,7 +9,6 @@ import {
   QuoteIcon,
   DividerIcon,
   ROTATE,
-  TodoIcon,
   CloseIcon,
 } from "../../../assets";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";

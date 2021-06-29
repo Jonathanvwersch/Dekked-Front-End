@@ -278,10 +278,10 @@ export const updateAssetAtom = atom(
         binders[fileId].color = arg.color;
       }
       if (
-        fileTree?.[fileId]?.children?.[fileId] &&
+        fileTree?.[folderId || 0]?.children?.[fileId] &&
         (arg.name || arg.name === "")
       ) {
-        fileTree[fileId].children[fileId].name = arg.name;
+        fileTree[folderId || 0].children[fileId].name = arg.name;
       }
       if (fileTree?.[folderId || 0]?.children?.[fileId] && arg.color) {
         fileTree[folderId || 0].children[fileId].color = arg.color;

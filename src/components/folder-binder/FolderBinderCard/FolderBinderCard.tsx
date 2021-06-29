@@ -4,7 +4,7 @@ import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
 import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
-import { getChildType, handleUntitled } from "../../../helpers";
+import { handleUntitled } from "../../../helpers";
 import { BinderIcon, StudySetIcon } from "../../../assets";
 import { ThemeContext } from "styled-components";
 import { selectStudySetTab } from "../../../store";

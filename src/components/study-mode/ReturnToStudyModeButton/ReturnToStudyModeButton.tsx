@@ -15,22 +15,15 @@ import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { isFlashcardLinkedAtom, studyModeUrlAtom } from "../../../store";
 import { useAtom } from "jotai";
 
-interface ReturnToStudyModeButtonProps {
-  buttonPosition: number;
-  pageWidth: number;
-}
+interface ReturnToStudyModeButtonProps {}
 
-const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = ({
-  buttonPosition,
-  pageWidth,
-}) => {
+const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const history = useHistory();
   const { id } = useParams<Params>();
   const buttonWidth = 290;
   const [isLinked, setIsLinked] = useAtom(isFlashcardLinkedAtom);
   const [studyModeUrl] = useAtom(studyModeUrlAtom);
-  const position = (pageWidth - buttonWidth) / 2 + buttonPosition;
 
   useKeyPress(["Escape"], () => setIsLinked(false));
 

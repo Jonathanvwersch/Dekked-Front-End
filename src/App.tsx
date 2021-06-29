@@ -49,6 +49,7 @@ export const App: React.FC = () => {
     data: initialFileTree,
     isFetched: isFetchedFileTree,
     isLoadingError: isFileTreeLoadingError,
+    isError: isFileTreeError,
   } = useQuery<FileTreeInterface>(
     `${getSessionCookie()}-file-tree`,
     getFileTree,
@@ -64,6 +65,7 @@ export const App: React.FC = () => {
     data: initialFolders,
     isFetched: isFetchedFolders,
     isLoadingError: isFoldersLoadingError,
+    isError: isFoldersError,
   } = useQuery<{
     [key: string]: FolderInterface;
   }>(`${getSessionCookie()}-folders`, () => getFolders(), {
@@ -77,6 +79,7 @@ export const App: React.FC = () => {
     data: initialBinders,
     isFetched: isFetchedBinders,
     isLoadingError: isBindersLoadingError,
+    isError: isBindersError,
   } = useQuery<{
     [key: string]: BinderInterface;
   }>(`${getSessionCookie()}-binders`, getBinders, {
@@ -90,6 +93,7 @@ export const App: React.FC = () => {
     data: initialStudySets,
     isFetched: isFetchedStudySets,
     isLoadingError: isStudySetsLoadingError,
+    isError: isStudySetsError,
   } = useQuery<{
     [key: string]: StudyPackInterface;
   }>(`${getSessionCookie()}-study-sets`, getStudySets, {
@@ -104,6 +108,28 @@ export const App: React.FC = () => {
   const [, _setBinders] = useAtom(bindersAtom);
   const [, _setStudySets] = useAtom(studySetsAtom);
   const [, _setUser] = useAtom(userAtom);
+  console.log(isFileTreeLoadingError);
+  console.log(isFileTreeError);
+  console.log(isFoldersError);
+  console.log(isBindersError);
+  console.log(isStudySetsError);
+
+  useEffect(() => {
+    if (
+      isBindersError ||
+      isFoldersError ||
+      isFileTreeError ||
+      isStudySetsError
+    ) {
+      setLoadingError(true);
+    }
+  }, [
+    isFoldersError,
+    isStudySetsError,
+    isFileTreeError,
+    isBindersError,
+    setLoadingError,
+  ]);
 
   useEffect(() => {
     if (

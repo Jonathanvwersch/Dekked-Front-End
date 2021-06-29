@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollerModal } from "../../common";
 import {
   OPEN_SETTINGS_DATA,

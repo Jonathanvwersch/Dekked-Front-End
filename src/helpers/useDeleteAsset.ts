@@ -112,6 +112,7 @@ export const useDeleteAsset = () => {
       studySets,
       folders,
       history,
+      secondFolderId,
     ]
   );
 

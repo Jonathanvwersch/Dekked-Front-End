@@ -181,10 +181,12 @@ const RichEditor: React.FC<RichEditorProps> = ({
       if (div) {
         div.style.boxShadow = theme.boxShadow;
         div.style.padding = "4px";
+        div.style.borderRadius = "8px";
       }
     } else if (div) {
       div.style.boxShadow = "none";
       div.style.padding = "0px";
+      div.style.borderRadius = "none";
     }
   }, [isLinked, div, blockLink, theme]);
 

@@ -33,7 +33,11 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
 
   const currentBlock = editorState && getCurrentBlock(editorState);
-  const { data: blocks, isLoading } = useQuery(
+  const {
+    data: blocks,
+    isLoading,
+    isFetching,
+  } = useQuery(
     `${studyPackId}-notes`,
     () => getBlocksByPageId({ studyPackId }),
     {
@@ -80,7 +84,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     <RichEditor
       hasFocus={editorHasFocus}
       setHasFocus={setEditorHasFocus}
-      isLoading={isLoading}
+      isLoading={isLoading || isFetching}
       editorState={editorState}
       setEditorState={setEditorState}
       saveEditor={autoSave}
