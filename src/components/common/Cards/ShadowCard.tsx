@@ -23,7 +23,6 @@ interface ShadowCardProps {
 const ShadowCard: React.FC<ShadowCardProps> = ({ children, ...props }) => {
   return (
     <StyledShadowCard
-      onClick={(e: SyntheticEvent) => e.preventDefault()}
       tabIndex={props.tabIndex}
       aria-label={props.ariaLabel}
       role={props.role}

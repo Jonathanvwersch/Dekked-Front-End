@@ -15,8 +15,6 @@ const SidebarFileTree: React.FC<SidebarFileTreeProps> = ({ file }) => {
     useMemo(() => selectBlockOpenStateFileTree(fileId), [fileId])
   );
 
-  console.log(file);
-
   return (
     <>
       {folderData ? (
