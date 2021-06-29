@@ -25,7 +25,12 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
   const [isLinked, setIsLinked] = useAtom(isFlashcardLinkedAtom);
   const [studyModeUrl] = useAtom(studyModeUrlAtom);
 
-  useKeyPress(["Escape"], () => setIsLinked(false));
+  const handleClose = () => {
+    setIsLinked(false);
+    history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`);
+  };
+
+  useKeyPress(["Escape"], () => handleClose());
 
   return (
     <Overlay
@@ -61,12 +66,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
               theme.sizes.borderRadius[SIZES.MEDIUM]
             } 0px`}
             width="20%"
-            handleClick={() => {
-              setIsLinked(false);
-              history.push(
-                `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`
-              );
-            }}
+            handleClick={handleClose}
             ariaLabel={formatMessage("tooltips.generics.close")}
           >
             <CloseIcon size={SIZES.LARGE} color="white" />
