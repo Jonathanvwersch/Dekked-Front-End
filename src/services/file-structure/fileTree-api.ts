@@ -19,5 +19,6 @@ export const getFileTree = async () => {
     throw Error("There was an error getting the file tree");
   } catch (error) {
     console.log(error);
+    return false;
   }
 };

@@ -4,6 +4,7 @@ import { ThemeContext } from "styled-components";
 import { Flex, Overlay, ShadowCard } from "..";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import Spacer from "../Spacer/Spacer";
+import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
 interface GeneralModalProps {
   isOpen: boolean;
@@ -38,13 +39,17 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
         width={theme.sizes.modal[size]}
         padding={theme.spacers.size16}
       >
-        <Flex flexDirection="column">
-          {header ? header : null}
-          <Spacer height={theme.spacers.size20} />
-          {children}
-          <Spacer height={theme.spacers.size20} />
-          {footer ? footer : null}
-        </Flex>
+        <FocusLock>
+          <AutoFocusInside>
+            <Flex flexDirection="column">
+              {header ? header : null}
+              <Spacer height={theme.spacers.size20} />
+              {children}
+              <Spacer height={theme.spacers.size20} />
+              {footer ? footer : null}
+            </Flex>
+          </AutoFocusInside>
+        </FocusLock>
       </ShadowCard>
     </Overlay>
   );

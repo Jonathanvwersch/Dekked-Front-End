@@ -142,12 +142,12 @@ const RichEditor: React.FC<RichEditorProps> = ({
   };
 
   const onChange = (newEditorState: EditorState) => {
-    // const currentState = editorState.getCurrentContent();
-    // const newState = newEditorState.getCurrentContent();
-    // const hasContentChanged = currentState !== newState;
-    saveEditor && saveEditor(newEditorState);
     setEditorState(newEditorState);
   };
+
+  useEffect(() => {
+    saveEditor && saveEditor(editorState);
+  }, [editorState, saveEditor]);
 
   // see https://draftjs.org/docs/advanced-topics-block-styling
   // essentially the following bit of code defines what happens
@@ -209,7 +209,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         >
           <Editor
             editorState={editorState}
-            onChange={onChange}
+            onChange={(newEditorState) => onChange(newEditorState)}
             handleKeyCommand={handleKeyCommand}
             ref={editorRef}
             onTab={onTab}

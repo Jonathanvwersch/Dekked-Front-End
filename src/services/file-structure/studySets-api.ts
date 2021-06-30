@@ -20,6 +20,7 @@ export const getStudySets = async () => {
     throw Error("There was an error getting study packs");
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

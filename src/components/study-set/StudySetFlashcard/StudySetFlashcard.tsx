@@ -1,4 +1,10 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 import {
   Card,
@@ -19,6 +25,7 @@ import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
 import { isEmpty, isEqual } from "lodash";
 import {
   convertBlocksToContent,
+  createKeysAndBlocks,
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
@@ -28,7 +35,7 @@ import {
   deleteFlashcard,
   saveFlashcard,
 } from "../../../services/flashcards/flashcards-api";
-import { userAtom } from "../../../store";
+import { isMainFlashcardButtonDisabledAtom, userAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 enum FLASHCARD_SIDE {
@@ -84,6 +91,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
   const queryClient = useQueryClient();
+  const [isMainFlashcardButtonDisabled, setIsMainFlashcardButtonDisabled] =
+    useAtom(isMainFlashcardButtonDisabledAtom);
 
   useEffect(() => {
     if (linked) {
@@ -295,7 +304,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         backEditorState: backFlashcardEditorState,
         flash_card_id: flashcardId,
         owner_id: ownerId,
-        flashcardIndex: index,
       });
     }
   };
@@ -313,11 +321,43 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       setEditFlashcard(true);
   });
 
-  const isSaveButtonDisabled = () => false;
+  const { blocks: _backBlocks } = createKeysAndBlocks(backFlashcardEditorState);
+  const { blocks: _frontBlocks } = createKeysAndBlocks(
+    frontFlashcardEditorState
+  );
 
-  const isAddButtonDisabled = () =>
-    getWordCount(frontFlashcardEditorState) === 0 &&
-    getWordCount(backFlashcardEditorState) === 0;
+  const isSaveButtonDisabled = useCallback(
+    () =>
+      isEqual(_backBlocks, backBlocks) && isEqual(_frontBlocks, frontBlocks),
+    [_backBlocks, _frontBlocks] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const isAddButtonDisabled = useCallback(
+    () =>
+      getWordCount(frontFlashcardEditorState) === 0 &&
+      getWordCount(backFlashcardEditorState) === 0,
+    [frontFlashcardEditorState, backFlashcardEditorState]
+  );
+
+  useEffect(() => {
+    if (
+      type === "edit" &&
+      isMainFlashcardButtonDisabled !== isSaveButtonDisabled()
+    ) {
+      setIsMainFlashcardButtonDisabled(isSaveButtonDisabled());
+    } else if (
+      type === "add" &&
+      isMainFlashcardButtonDisabled !== isAddButtonDisabled()
+    ) {
+      setIsMainFlashcardButtonDisabled(isAddButtonDisabled());
+    }
+  }, [
+    isAddButtonDisabled,
+    setIsMainFlashcardButtonDisabled,
+    type,
+    isSaveButtonDisabled,
+    isMainFlashcardButtonDisabled,
+  ]);
 
   return (
     <>

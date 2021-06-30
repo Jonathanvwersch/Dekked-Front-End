@@ -21,6 +21,7 @@ export const getBinders = async () => {
     throw Error("There was an error getting binders");
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

@@ -113,6 +113,11 @@ export const App: React.FC = () => {
   console.log(isFoldersError);
   console.log(isBindersError);
   console.log(isStudySetsError);
+  console.log(isFetchedStudySets);
+  console.log(initialStudySets);
+  console.log(initialFileTree);
+  console.log(initialBinders);
+  console.log(initialFolders);
 
   useEffect(() => {
     if (

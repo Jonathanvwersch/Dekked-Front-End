@@ -268,8 +268,16 @@ const en_GB = {
         delete: "Delete",
       },
       unsavedChangesModal: {
-        header: "Review changes?",
-        unsavedChanges: "You have unsaved changes. Do you want to save them?",
+        header: "You have unsaved changes",
+        body: {
+          default: "Are you sure you want to discard your changes?",
+          addFlashcard:
+            "It looks like you were in the middle of creating a flashcard.",
+          editFlashcard:
+            "It looks like you were in the middle of editing a flashcard.",
+        },
+        discardChanges: "Yes, discard changes",
+        keepEditing: "No, keep editing",
       },
     },
     ariaLabels: {

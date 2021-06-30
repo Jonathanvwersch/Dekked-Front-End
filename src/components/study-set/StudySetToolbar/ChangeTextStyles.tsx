@@ -82,23 +82,23 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 
   return (
     <>
+      <IconDropdown
+        tooltip={{
+          id: changeBlockTypeIcons(currentBlockType).id,
+          text: changeBlockTypeIcons(currentBlockType).text,
+        }}
+        modal={{
+          height: theme.sizes.scrollerModal,
+          data: ConvertToBlockData,
+          clickFunctions: changeBlockTypes,
+        }}
+        icon={{
+          icon: changeBlockTypeIcons(currentBlockType).icon,
+          size: SIZES.MEDIUM,
+        }}
+      />
       {layout === LAYOUT_HORIZONTAL ? (
         <>
-          <IconDropdown
-            tooltip={{
-              id: changeBlockTypeIcons(currentBlockType).id,
-              text: changeBlockTypeIcons(currentBlockType).text,
-            }}
-            modal={{
-              height: theme.sizes.scrollerModal,
-              data: ConvertToBlockData,
-              clickFunctions: changeBlockTypes,
-            }}
-            icon={{
-              icon: changeBlockTypeIcons(currentBlockType).icon,
-              size: SIZES.MEDIUM,
-            }}
-          />
           <Spacer width={theme.spacers.size4} />
           {changeTextStylesData.map((textStyleData) => (
             <Fragment key={textStyleData.id}>
