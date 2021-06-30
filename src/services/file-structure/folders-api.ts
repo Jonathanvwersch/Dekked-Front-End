@@ -19,7 +19,7 @@ export const getFolders = async () => {
     throw Error("There was an error getting folders");
   } catch (error) {
     console.log(error);
-    return false;
+    return null;
   }
 };
 
