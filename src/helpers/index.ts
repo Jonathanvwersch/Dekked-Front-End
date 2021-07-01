@@ -6,7 +6,6 @@ export { getChildType } from "./getChildType";
 export { lightenOrDarkenHexColour } from "./lightenOrDarkenHexColour";
 export { differenceInObjects } from "./differenceInObjects";
 export { useAsset } from "./useAsset";
-export { useGetAsset } from "./useGetAsset";
 export { useDeleteAsset } from "./useDeleteAsset";
 export { useUpdateAsset } from "./useUpdateAsset";
 export * from "./formValidation";

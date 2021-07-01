@@ -108,10 +108,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studyPackId}-add-flashcard`,
     addFlashcard,
     {
-      onSuccess: (data) => {
+      onSuccess: (data: { fullFlashcard: FlashcardInterface }) => {
         queryClient.setQueryData(
           [`${studyPackId}-get-flashcards`],
-          data.data.flashcards
+          (prevState: FlashcardInterface[] | any) => {
+            const allFlashcards = prevState;
+            allFlashcards?.push(data?.fullFlashcard);
+            return allFlashcards;
+          }
         );
       },
     }
