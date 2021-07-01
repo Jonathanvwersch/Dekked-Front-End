@@ -9,7 +9,7 @@ import ChangeTextStyles from "./ChangeTextStyles";
 import ChangeTextAlignment from "./ChangeTextAlignment";
 import ChangeTextColor from "./ChangeTextColor";
 import { EditorState } from "draft-js";
-import { currentBlockAtom, isAppLoadingAtom } from "../../../store";
+import { isAppLoadingAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface StudySetToolbarProps {
