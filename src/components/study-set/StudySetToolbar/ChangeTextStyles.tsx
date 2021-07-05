@@ -46,12 +46,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   const currentBlockType = getCurrentBlock(editorState).getType() || "unstyled";
 
   const changeBlockTypes = (type: BLOCK_TYPES) => {
-    // focus on end of block after switching styles
-    const newEditorState = focusEndOfBlock(editorState);
-
     // only change block type if user chooses option other than current block type
     if (getCurrentBlock(editorState).getType() !== type) {
-      setEditorState(RichUtils.toggleBlockType(newEditorState, type));
+      setEditorState(RichUtils.toggleBlockType(editorState, type));
     }
   };
 
