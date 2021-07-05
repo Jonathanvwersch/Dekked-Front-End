@@ -9,7 +9,7 @@ import { addStudySet } from "../services/file-structure/studySets-api";
 import { FILETREE_TYPES } from "../shared";
 import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 
-export const useAsset = () => {
+export const useAddAsset = () => {
   const id = uuidv4();
   const theme = useContext(ThemeContext);
   const iconColor = theme.colors.primary;

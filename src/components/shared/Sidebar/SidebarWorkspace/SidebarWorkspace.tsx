@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
 import { fileTreeAtom, isAppLoadingAtom } from "../../../../store";
 import styled from "styled-components";
-import { useAsset } from "../../../../helpers";
+import { useAddAsset } from "../../../../helpers";
 import { FILETREE_TYPES } from "../../../../shared";
 import { useHistory } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const SidebarWorkspace: React.FC<SidebarWorkspaceProps> = ({
   bottomFolderRef,
 }) => {
   const [fileTree] = useAtom(fileTreeAtom);
-  const { addAsset, assetId } = useAsset();
+  const { addAsset, assetId } = useAddAsset();
   const [isAppLoading] = useAtom(isAppLoadingAtom);
   const history = useHistory();
 

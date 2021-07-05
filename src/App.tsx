@@ -30,7 +30,7 @@ export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
   const [isDarkTheme] = useAtom(darkModeAtom);
   const [, setIsLoading] = useAtom(isAppLoadingAtom);
-  const [, setLoadingError] = useAtom(loadingErrorAtom);
+  const [loadingError, setLoadingError] = useAtom(loadingErrorAtom);
 
   // get user on mount
   const { data: user } = useQuery<UserType>(
@@ -45,26 +45,19 @@ export const App: React.FC = () => {
   );
 
   // Fetch file tree data on mount
-  const {
-    data: initialFileTree,
-    isFetched: isFetchedFileTree,
-    isLoadingError: isFileTreeLoadingError,
-  } = useQuery<FileTreeInterface>(
-    `${getSessionCookie()}-file-tree`,
-    getFileTree,
-    {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      enabled: Boolean(getSessionCookie()),
-      retry: 5,
-    }
-  );
+  const { data: initialFileTree, isFetched: isFetchedFileTree } =
+    useQuery<FileTreeInterface>(
+      `${getSessionCookie()}-file-tree`,
+      getFileTree,
+      {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        enabled: Boolean(getSessionCookie()),
+        retry: 5,
+      }
+    );
 
-  const {
-    data: initialFolders,
-    isFetched: isFetchedFolders,
-    isLoadingError: isFoldersLoadingError,
-  } = useQuery<{
+  const { data: initialFolders, isFetched: isFetchedFolders } = useQuery<{
     [key: string]: FolderInterface;
   }>(`${getSessionCookie()}-folders`, () => getFolders(), {
     refetchOnWindowFocus: false,
@@ -73,11 +66,7 @@ export const App: React.FC = () => {
     retry: 5,
   });
 
-  const {
-    data: initialBinders,
-    isFetched: isFetchedBinders,
-    isLoadingError: isBindersLoadingError,
-  } = useQuery<{
+  const { data: initialBinders, isFetched: isFetchedBinders } = useQuery<{
     [key: string]: BinderInterface;
   }>(`${getSessionCookie()}-binders`, getBinders, {
     refetchOnWindowFocus: false,
@@ -86,11 +75,7 @@ export const App: React.FC = () => {
     retry: 5,
   });
 
-  const {
-    data: initialStudySets,
-    isFetched: isFetchedStudySets,
-    isLoadingError: isStudySetsLoadingError,
-  } = useQuery<{
+  const { data: initialStudySets, isFetched: isFetchedStudySets } = useQuery<{
     [key: string]: StudyPackInterface;
   }>(`${getSessionCookie()}-study-sets`, getStudySets, {
     refetchOnWindowFocus: false,
@@ -120,23 +105,7 @@ export const App: React.FC = () => {
     initialStudySets,
     initialBinders,
     setLoadingError,
-  ]);
-
-  useEffect(() => {
-    if (
-      isBindersLoadingError ||
-      isFoldersLoadingError ||
-      isFileTreeLoadingError ||
-      isStudySetsLoadingError
-    ) {
-      setLoadingError(true);
-    }
-  }, [
-    isFoldersLoadingError,
-    isStudySetsLoadingError,
-    isFileTreeLoadingError,
-    isBindersLoadingError,
-    setLoadingError,
+    loadingError,
   ]);
 
   useEffect(() => {

@@ -54,7 +54,9 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
                     color={studySet?.[1]?.color}
                     name={studySet?.[1]?.name}
                     id={studySet?.[1]?.id}
-                    dateCreated={studySet?.[1]?.date_created}
+                    dateCreated={
+                      studySet?.[1]?.date_created as unknown as string
+                    }
                     type={studySet?.[1]?.type as FILETREE_TYPES}
                   />
                 )

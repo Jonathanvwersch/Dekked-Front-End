@@ -7,7 +7,7 @@ import {
 } from "./SidebarBlockModal.data";
 import { ScrollerModal } from "../../../common";
 import { FILETREE_TYPES, CoordsType } from "../../../../shared";
-import { getChildType, useAsset, useDeleteAsset } from "../../../../helpers";
+import { getChildType, useAddAsset, useDeleteAsset } from "../../../../helpers";
 import DeleteModal from "../../DeleteModal/DeleteModal";
 
 interface SidebarBlockModalProps {
@@ -30,7 +30,7 @@ const SidebarBlockModal: React.FC<SidebarBlockModalProps> = ({
   folderId,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const { addAsset } = useAsset();
+  const { addAsset } = useAddAsset();
   const { deleteAsset } = useDeleteAsset();
 
   const modalData =

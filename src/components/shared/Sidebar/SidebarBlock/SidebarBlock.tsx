@@ -18,7 +18,7 @@ import styled, { ThemeContext } from "styled-components";
 import {
   positionModals,
   handleIconType,
-  useAsset,
+  useAddAsset,
   getChildType,
 } from "../../../../helpers";
 import {
@@ -61,7 +61,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
   const [coords, setCoords] = useState<CoordsType>();
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const [iconColor, setIconColor] = useState<string>(blockColor);
-  const { addAsset } = useAsset();
+  const { addAsset } = useAddAsset();
   const [studySetTab] = useAtom(
     useMemo(() => selectStudySetTab(blockId), [blockId])
   );

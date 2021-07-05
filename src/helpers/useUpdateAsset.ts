@@ -40,11 +40,13 @@ export const useUpdateAsset = () => {
       },
       noRequest?: boolean
     ) => {
+      const dateModified = new Date();
       setAsset({
         fileId: assetId,
         type,
         color: updateData.color,
         name: updateData.name,
+        dateModified,
       });
 
       !noRequest && _updateAsset({ fileId: assetId, type, updateData });

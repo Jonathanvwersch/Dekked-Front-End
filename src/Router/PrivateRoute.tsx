@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "../components/common";
-import { getSessionCookie, useAsset } from "../helpers";
+import { getSessionCookie, useAddAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
 import { fileTreeAtom, isAppLoadingAtom, loadingErrorAtom } from "../store";
 
@@ -23,15 +23,17 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const [isLoading] = useAtom(isAppLoadingAtom);
+  const [isLoading, setIsLoading] = useAtom(isAppLoadingAtom);
   const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
-  const { addAsset } = useAsset();
+  const { addAsset } = useAddAsset();
+
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
   useLayoutEffect(() => {
     if (loadingError) {
       history.push("/error");
+      setIsLoading(false);
     } else if (!getSessionCookie()) {
       history.push("/login");
     } else if (path === "/" && fileTree) {
@@ -39,7 +41,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
       else
         history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
     }
-  }, [history, fileTree, path, loadingError, addAsset]);
+  }, [fileTree, loadingError]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

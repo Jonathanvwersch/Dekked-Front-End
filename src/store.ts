@@ -238,6 +238,7 @@ export const updateAssetAtom = atom(
     get,
     set,
     arg: {
+      dateModified: Date;
       fileId: string;
       type: string;
       color?: string;
@@ -251,6 +252,9 @@ export const updateAssetAtom = atom(
     const fileId = arg.fileId;
 
     if (arg.type === FILETREE_TYPES.FOLDER) {
+      if (folders?.[fileId]?.date_modified) {
+        folders[fileId].date_modified = arg.dateModified.toDateString();
+      }
       if (folders?.[fileId] && (arg.name || arg.name === "")) {
         folders[fileId].name = arg.name;
       }
@@ -271,6 +275,9 @@ export const updateAssetAtom = atom(
       });
     } else if (arg.type === FILETREE_TYPES.BINDER) {
       const folderId = binders?.[fileId]?.folder_id;
+      if (binders?.[fileId]?.date_modified) {
+        binders[fileId].date_modified = arg.dateModified.toDateString();
+      }
       if (binders?.[fileId] && (arg.name || arg.name === "")) {
         binders[fileId].name = arg.name;
       }
@@ -296,6 +303,9 @@ export const updateAssetAtom = atom(
       const binderId = studySets?.[fileId]?.binder_id;
       const folderId = binders?.[binderId || 0]?.folder_id;
 
+      if (studySets?.[fileId]?.date_modified) {
+        studySets[fileId].date_modified = arg.dateModified.toDateString();
+      }
       if (studySets?.[fileId] && (arg.name || arg.name === "")) {
         studySets[fileId].name = arg.name;
       }

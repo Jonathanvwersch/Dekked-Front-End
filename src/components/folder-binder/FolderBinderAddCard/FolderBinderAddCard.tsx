@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { PlusIcon } from "../../../assets";
-import { useAsset } from "../../../helpers";
+import { useAddAsset } from "../../../helpers";
 import { FILETREE_TYPES, SIZES } from "../../../shared";
 import { ThemeType } from "../../../styles/theme";
 
@@ -16,7 +16,7 @@ const FolderBinderAddCard: React.FC<FolderBinderAddCardProps> = ({
   id,
   folderId,
 }) => {
-  const { addAsset } = useAsset();
+  const { addAsset } = useAddAsset();
   const theme: ThemeType = useContext(ThemeContext);
 
   const handleAddItem = () => {

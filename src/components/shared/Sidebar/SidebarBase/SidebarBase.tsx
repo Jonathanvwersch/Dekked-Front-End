@@ -5,7 +5,7 @@ import styled, { ThemeContext } from "styled-components";
 
 import { PlusIcon } from "../../../../assets";
 import { FILETREE_TYPES, SIZES } from "../../../../shared";
-import { useAsset } from "../../../../helpers";
+import { useAddAsset } from "../../../../helpers";
 import { isAppLoadingAtom } from "../../../../store";
 import { useAtom } from "jotai";
 
@@ -15,7 +15,7 @@ interface SidebarBaseProps {
 
 const SidebarBase: React.FC<SidebarBaseProps> = ({ bottomFolderRef }) => {
   const theme = useContext(ThemeContext);
-  const { addAsset } = useAsset();
+  const { addAsset } = useAddAsset();
   const [isLoading] = useAtom(isAppLoadingAtom);
   const scrollToBottom = useCallback(() => {
     if (bottomFolderRef && bottomFolderRef.current) {

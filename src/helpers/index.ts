@@ -5,7 +5,7 @@ export { handleIconType } from "./handleIconType";
 export { getChildType } from "./getChildType";
 export { lightenOrDarkenHexColour } from "./lightenOrDarkenHexColour";
 export { differenceInObjects } from "./differenceInObjects";
-export { useAsset } from "./useAsset";
+export { useAddAsset } from "./useAddAsset";
 export { useDeleteAsset } from "./useDeleteAsset";
 export { useUpdateAsset } from "./useUpdateAsset";
 export * from "./formValidation";
