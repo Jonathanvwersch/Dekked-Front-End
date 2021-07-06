@@ -10,7 +10,7 @@ export enum SIZES {
 export enum FILETREE_TYPES {
   FOLDER = "folder",
   BINDER = "binder",
-  STUDY_SET = "study_pack",
+  STUDY_SET = "study-set",
 }
 
 // URL params

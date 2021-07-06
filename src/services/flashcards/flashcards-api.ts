@@ -4,12 +4,8 @@ import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.h
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
-export const getFlashcards = async ({
-  studyPackId,
-}: {
-  studyPackId: string;
-}) => {
-  const uri = config.api + `/get-flashcards-by-study-pack-id/${studyPackId}`;
+export const getFlashcards = async ({ studySetId }: { studySetId: string }) => {
+  const uri = config.api + `/get-flashcards-by-study-set-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -58,13 +54,13 @@ export const saveFlashcard = async ({
 
 export const addFlashcard = async ({
   owner_id,
-  study_pack_id,
+  study_set_id,
   block_link,
   frontFlashcardEditorState,
   backFlashcardEditorState,
 }: {
   owner_id: string;
-  study_pack_id: string;
+  study_set_id: string;
   block_link?: string;
   frontFlashcardEditorState?: EditorState;
   backFlashcardEditorState?: EditorState;
@@ -77,7 +73,7 @@ export const addFlashcard = async ({
     const { keys: backKeys, blocks: backBlocks } =
       backFlashcardEditorState && createKeysAndBlocks(backFlashcardEditorState);
     body = {
-      study_pack_id: study_pack_id,
+      study_set_id: study_set_id,
       owner_id: owner_id,
       block_link: block_link,
       front_blocks: frontBlocks,
@@ -87,7 +83,7 @@ export const addFlashcard = async ({
     };
   } else {
     body = {
-      study_pack_id: study_pack_id,
+      study_set_id: study_set_id,
       owner_id: owner_id,
       block_link: block_link,
     };

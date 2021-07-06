@@ -49,7 +49,7 @@ interface StudySetFlashcardProps {
   linked?: boolean;
   index?: number;
   currentBlockKey?: string;
-  studyPackId?: string;
+  studySetId?: string;
   vertical?: boolean; // if true, flashcard text containers will be stacked vertically
   width?: string;
   toolbarSize?: SIZES;
@@ -66,7 +66,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   linked = false,
   index,
   flashcardId,
-  studyPackId,
+  studySetId,
   currentBlockKey,
   vertical = false,
   width,
@@ -105,12 +105,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   }, [linked]);
 
   const { mutate: addCard } = useMutation(
-    `${studyPackId}-add-flashcard`,
+    `${studySetId}-add-flashcard`,
     addFlashcard,
     {
       onSuccess: (data: { fullFlashcard: FlashcardInterface }) => {
         queryClient.setQueryData(
-          [`${studyPackId}-get-flashcards`],
+          [`${studySetId}-get-flashcards`],
           (prevState: FlashcardInterface[] | any) => {
             const allFlashcards = prevState;
             allFlashcards?.push(data?.fullFlashcard);
@@ -122,7 +122,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   const { mutate: deleteCard } = useMutation(
-    `${studyPackId}-delete-flashcard`,
+    `${studySetId}-delete-flashcard`,
     deleteFlashcard
   );
 
@@ -141,12 +141,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
-    `${studyPackId}-save-flashcard`,
+    `${studySetId}-save-flashcard`,
     saveFlashcard,
     {
       onSuccess: (data, { flash_card_id }) => {
         queryClient.setQueryData(
-          `${studyPackId}-get-flashcards`,
+          `${studySetId}-get-flashcards`,
           (prevState) => {
             return updateFlashcards(
               prevState as FlashcardInterface[] | undefined,
@@ -291,10 +291,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const handleSaveFlashcard = () => {
     if (type === "add") {
-      studyPackId &&
+      studySetId &&
         addCard({
           owner_id: ownerId,
-          study_pack_id: studyPackId,
+          study_set_id: studySetId,
           block_link: currentBlockKey,
           frontFlashcardEditorState,
           backFlashcardEditorState,

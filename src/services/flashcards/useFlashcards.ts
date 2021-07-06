@@ -7,15 +7,15 @@ import { useParams } from "react-router-dom";
 import { Params } from "../../shared";
 
 export default function useFlashcards() {
-  const { id: studyPackId } = useParams<Params>();
+  const { id: studySetId } = useParams<Params>();
   const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
   const isAdding = useIsMutating({
-    mutationKey: `${studyPackId}-add-flashcard`,
+    mutationKey: `${studySetId}-add-flashcard`,
   });
 
   const { data, isLoading } = useQuery(
-    `${studyPackId}-get-flashcards`,
-    () => getFlashcards({ studyPackId }),
+    `${studySetId}-get-flashcards`,
+    () => getFlashcards({ studySetId }),
     {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,

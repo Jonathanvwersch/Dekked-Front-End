@@ -16,16 +16,16 @@ interface StudySetFlashcardsContainerProps {}
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const { id: studyPackId } = useParams<Params>();
+    const { id: studySetId } = useParams<Params>();
     const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
     const isAdding = useIsMutating({
-      mutationKey: `${studyPackId}-add-flashcard`,
+      mutationKey: `${studySetId}-add-flashcard`,
     });
     const endOfFlashcardsContainer = useRef<HTMLDivElement>(null);
 
     const { data, isLoading } = useQuery(
-      `${studyPackId}-get-flashcards`,
-      () => getFlashcards({ studyPackId }),
+      `${studySetId}-get-flashcards`,
+      () => getFlashcards({ studySetId }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
@@ -58,7 +58,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                           index={index + 1}
                           setFlashcards={setFlashcards}
                           flashcardId={flashcard.flashcard?.id}
-                          studyPackId={flashcard.flashcard.study_pack_id}
+                          studySetId={flashcard.flashcard.study_set_id}
                           frontBlocks={flashcard.front_blocks}
                           backBlocks={flashcard.back_blocks}
                         />

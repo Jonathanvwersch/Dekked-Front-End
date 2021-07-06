@@ -8,7 +8,7 @@ import { useIntl } from "react-intl";
 import { handleIconType, handleUntitled } from "../../../helpers";
 
 interface CrumbProps {
-  breadCrumbData?: FolderInterface | BinderInterface | StudyPackInterface;
+  breadCrumbData?: FolderInterface | BinderInterface | StudySetInterface;
   breadCrumbType?: FILETREE_TYPES;
   link?: string;
   name?: string;

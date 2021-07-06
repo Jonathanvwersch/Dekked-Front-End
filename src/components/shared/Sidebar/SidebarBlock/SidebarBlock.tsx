@@ -237,10 +237,10 @@ export default React.memo(SidebarBlock);
 
 // if (
 //   (slugType === FILETREE_TYPES.STUDY_SET &&
-//     studyPacks &&
-//     studyPacks?.[id]?.binder_id === blockId) ||
-//   (studyPacks &&
-//     binders?.[studyPacks?.[id]?.binder_id]?.folder_id === blockId)
+//     studySets &&
+//     studySets?.[id]?.binder_id === blockId) ||
+//   (studySets &&
+//     binders?.[studySets?.[id]?.binder_id]?.folder_id === blockId)
 // ) {
 //   isParentOfActiveBlock = true;
 // } else if (

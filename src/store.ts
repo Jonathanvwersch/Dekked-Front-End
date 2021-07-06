@@ -12,7 +12,7 @@ export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
   {}
 );
 export const studySetsAtom = atom<
-  { [key: string]: StudyPackInterface } | undefined
+  { [key: string]: StudySetInterface } | undefined
 >({});
 export const firstFolderIdAtom = atom((get) => {
   const fileTree = get(fileTreeAtom || {});
@@ -68,7 +68,7 @@ export const getActiveStudySet = (
   itemId: string,
   type?: string | FILETREE_TYPES
 ) => {
-  let studySetData: Atom<StudyPackInterface | undefined> = atom(undefined);
+  let studySetData: Atom<StudySetInterface | undefined> = atom(undefined);
 
   if (type === FILETREE_TYPES.STUDY_SET) {
     studySetData = atom((get) => get(studySetsAtom)?.[itemId]);
@@ -225,7 +225,7 @@ export const addAssetAtom = atom(
       set(studySetsAtom, {
         ...studySets,
         [newFileId]: {
-          ...(asset as StudyPackInterface),
+          ...(asset as StudySetInterface),
         },
       });
     }

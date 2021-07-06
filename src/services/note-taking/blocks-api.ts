@@ -3,8 +3,8 @@ import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.h
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
-const getPageByStudyPackId = async (studyPackId: string) => {
-  const uri = config.api + `/get-page-by-parent-id/${studyPackId}`;
+const getPageByStudySetId = async (studySetId: string) => {
+  const uri = config.api + `/get-page-by-parent-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -15,11 +15,11 @@ const getPageByStudyPackId = async (studyPackId: string) => {
 };
 
 export const getBlocksByPageId = async ({
-  studyPackId,
+  studySetId,
 }: {
-  studyPackId: string;
+  studySetId: string;
 }) => {
-  const page = await getPageByStudyPackId(studyPackId);
+  const page = await getPageByStudySetId(studySetId);
 
   const uri = config.api + `/get-blocks-by-page/${page?.id}`;
   const response = await fetch(uri, {

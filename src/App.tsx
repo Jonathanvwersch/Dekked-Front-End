@@ -76,7 +76,7 @@ export const App: React.FC = () => {
   });
 
   const { data: initialStudySets, isFetched: isFetchedStudySets } = useQuery<{
-    [key: string]: StudyPackInterface;
+    [key: string]: StudySetInterface;
   }>(`${getSessionCookie()}-study-sets`, getStudySets, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

@@ -44,7 +44,7 @@ interface FolderInterface {
   date_modified: string;
   color: string;
 }
-interface StudyPackInterface {
+interface StudySetInterface {
   id: string;
   owner_id: string;
   binder_id: string;
@@ -58,14 +58,14 @@ interface PageInterface {
   id?: string;
   owner_id: string;
   title: string;
-  study_pack_id: string;
+  study_set_id: string;
   ordering: string[];
 }
 interface FlashcardInterface {
   flashcard: {
     id: string;
     owner_id: string;
-    study_pack_id: string;
+    study_set_id: string;
     back_ordering: string[];
     front_ordering: string[];
     date_created: string;

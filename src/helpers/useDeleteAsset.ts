@@ -86,7 +86,7 @@ export const useDeleteAsset = () => {
           break;
 
         case FILETREE_TYPES.STUDY_SET:
-          // navigate to parent binder after deleting a study pack
+          // navigate to parent binder after deleting a study set
           const parentBinder = binders?.[studySets?.[assetId]?.binder_id || 0];
           const parentBinderId = parentBinder?.id;
           const parentBinderLink = `/${FILETREE_TYPES.BINDER}/${parentBinderId}`;

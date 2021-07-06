@@ -3,7 +3,7 @@ import { getSessionCookie } from "../../helpers";
 
 export const getStudySets = async () => {
   try {
-    const uri = config.api + "/study-packs";
+    const uri = config.api + "/study-sets";
     const response = await fetch(uri, {
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
@@ -13,11 +13,11 @@ export const getStudySets = async () => {
     if (response.ok) {
       const json = await response.json();
       if (json.success) {
-        return json.data.studyPacks;
+        return json.data.studySets;
       }
     }
 
-    throw Error("There was an error getting study packs");
+    throw Error("There was an error getting study sets");
   } catch (error) {
     console.log(error);
     return null;
@@ -36,7 +36,7 @@ export const addStudySet = async ({
   id?: string;
 }) => {
   try {
-    const uri = config.api + "/study-pack";
+    const uri = config.api + "/study-set";
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -62,7 +62,7 @@ export const addStudySet = async ({
 };
 
 export const updateStudySet = async (
-  study_pack_id: string,
+  study_set_id: string,
   {
     name,
     color,
@@ -72,7 +72,7 @@ export const updateStudySet = async (
   }
 ) => {
   try {
-    const uri = config.api + "/study-pack";
+    const uri = config.api + "/study-set";
     const response = await fetch(uri, {
       method: "PUT",
       headers: {
@@ -80,7 +80,7 @@ export const updateStudySet = async (
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        study_pack_id,
+        study_set_id,
         color,
         name,
       }),
@@ -89,15 +89,15 @@ export const updateStudySet = async (
       const json = await response.json();
       return json;
     }
-    throw Error("There was an error updating study packs");
+    throw Error("There was an error updating study sets");
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteStudySet = async (study_pack_id: string) => {
+export const deleteStudySet = async (study_set_id: string) => {
   try {
-    const uri = config.api + "/study-pack";
+    const uri = config.api + "/study-set";
     const response = await fetch(uri, {
       method: "DELETE",
       headers: {
@@ -105,14 +105,14 @@ export const deleteStudySet = async (study_pack_id: string) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        study_pack_id,
+        study_set_id,
       }),
     });
     if (response.ok) {
       const json = await response.json();
       return json;
     }
-    throw Error("There was an error deleting study packs");
+    throw Error("There was an error deleting study sets");
   } catch (error) {
     console.log(error);
   }

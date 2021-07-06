@@ -33,10 +33,10 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const { id: studyPackId } = useParams<Params>();
+  const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const { mutate: deleteCard } = useMutation(
-    `${studyPackId}-delete-flashcard`,
+    `${studySetId}-delete-flashcard`,
     deleteFlashcard
   );
 

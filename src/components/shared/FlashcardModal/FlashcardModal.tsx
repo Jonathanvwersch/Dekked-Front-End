@@ -73,7 +73,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
         closeButtonBackgroundColor={theme.colors.secondary}
       >
         <StudySetFlashcard
-          studyPackId={id}
+          studySetId={id}
           linked={true}
           flashcardId={flashcardId}
           currentBlockKey={blockLink}

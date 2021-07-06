@@ -29,7 +29,7 @@ interface PageNoteTakerProps {}
 const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
   const [, setCurrentBlock] = useAtom(currentBlockAtom);
-  const { id: studyPackId } = useParams<Params>();
+  const { id: studySetId } = useParams<Params>();
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
 
   const currentBlock = editorState && getCurrentBlock(editorState);
@@ -37,19 +37,15 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     data: blocks,
     isLoading,
     isFetching,
-  } = useQuery(
-    `${studyPackId}-notes`,
-    () => getBlocksByPageId({ studyPackId }),
-    {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-    }
-  );
+  } = useQuery(`${studySetId}-notes`, () => getBlocksByPageId({ studySetId }), {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 
   const pageId = blocks?.pageId;
 
   const { mutate: _savePage } = useMutation(
-    `${studyPackId}-save-notes`,
+    `${studySetId}-save-notes`,
     (editorState: EditorState) => pageId && savePage({ editorState, pageId })
   );
 
