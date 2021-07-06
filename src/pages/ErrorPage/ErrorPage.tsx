@@ -1,6 +1,5 @@
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Flex, Spacer, Text, Button } from "../../components/common";
 import { usePageSetupHelpers } from "../../hooks";
@@ -9,7 +8,6 @@ import { loadingErrorAtom } from "../../store";
 
 const ErrorPage: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const history = useHistory();
   const [, setLoadingError] = useAtom(loadingErrorAtom);
 
   useEffect(() => {
@@ -32,7 +30,7 @@ const ErrorPage: React.FC = () => {
         <Spacer height={theme.spacers.size8} />
         <Button
           buttonStyle={BUTTON_THEME.PRIMARY}
-          handleClick={() => history.push("/")}
+          handleClick={() => window.location.reload()}
         >
           {formatMessage("errorPage.reload")}
         </Button>

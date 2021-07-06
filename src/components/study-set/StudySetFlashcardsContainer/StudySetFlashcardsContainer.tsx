@@ -29,7 +29,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        refetchOnMount: false,
       }
     );
 
@@ -54,11 +53,11 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                 <>
                   {flashcards.map(
                     (flashcard: FlashcardInterface, index: number) => (
-                      <Fragment key={flashcard.flashcard.id}>
+                      <Fragment key={flashcard.flashcard?.id}>
                         <StudySetFlashcard
                           index={index + 1}
                           setFlashcards={setFlashcards}
-                          flashcardId={flashcard.flashcard.id}
+                          flashcardId={flashcard.flashcard?.id}
                           studyPackId={flashcard.flashcard.study_pack_id}
                           frontBlocks={flashcard.front_blocks}
                           backBlocks={flashcard.back_blocks}

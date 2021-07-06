@@ -6,7 +6,7 @@ import GlobalStyle from "./styles/GlobalStyles";
 import { Redirect, Route, withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
 import { useQuery } from "react-query";
-import { LogInSignUpPage } from "./pages";
+import { ErrorPage, LogInSignUpPage } from "./pages";
 import { getSessionCookie } from "./helpers";
 import CustomSwitch from "./Router/CustomSwitch";
 import { theme } from "./styles/theme";
@@ -158,15 +158,23 @@ export const App: React.FC = () => {
       <SkeletonTheme color={memoisedTheme.colors.loadingBlocks}>
         <StyledApp className="app">
           <GlobalStyle />
-          <CustomSwitch>
-            <Route exact path="/login" render={() => <LogInSignUpPage login />}>
-              {getSessionCookie() && <Redirect to="/" />}
-            </Route>
-            <Route exact path="/sign-up" component={LogInSignUpPage}>
-              {getSessionCookie() && <Redirect to="/" />}
-            </Route>
-            <Routes />
-          </CustomSwitch>
+          {!loadingError ? (
+            <CustomSwitch>
+              <Route
+                exact
+                path="/login"
+                render={() => <LogInSignUpPage login />}
+              >
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Route exact path="/sign-up" component={LogInSignUpPage}>
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Routes />
+            </CustomSwitch>
+          ) : (
+            <ErrorPage />
+          )}
         </StyledApp>
       </SkeletonTheme>
     </ThemeProvider>

@@ -5,7 +5,6 @@ import { BoldIcon } from "../../../assets";
 import { BLOCK_TYPES, SIZES, TEXT_STYLES } from "../../../shared";
 import {
   doesBlockContainStyle,
-  focusEndOfBlock,
   getCurrentBlock,
   removeSpecificBlockStyle,
   toggleInlineStyle,
