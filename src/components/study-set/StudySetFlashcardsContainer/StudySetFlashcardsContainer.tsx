@@ -45,38 +45,36 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     }, [isAdding]);
 
     return (
-      <>
-        <Flex flexDirection="column">
-          {!isAdding && !isLoading ? (
-            <>
-              {flashcards && !isEmpty(flashcards) ? (
-                <>
-                  {flashcards.map(
-                    (flashcard: FlashcardInterface, index: number) => (
-                      <Fragment key={flashcard.flashcard?.id}>
-                        <StudySetFlashcard
-                          index={index + 1}
-                          setFlashcards={setFlashcards}
-                          flashcardId={flashcard.flashcard?.id}
-                          studySetId={flashcard.flashcard.study_set_id}
-                          frontBlocks={flashcard.front_blocks}
-                          backBlocks={flashcard.back_blocks}
-                        />
-                        <Spacer height={theme.spacers.size32} />
-                      </Fragment>
-                    )
-                  )}
-                  <div ref={endOfFlashcardsContainer} />
-                </>
-              ) : null}
-            </>
-          ) : (
-            <Div>
-              <StyledSkeleton width="100%" height="164px" count={2} />
-            </Div>
-          )}
-        </Flex>
-      </>
+      <Flex flexDirection="column">
+        {!isAdding && !isLoading ? (
+          <>
+            {flashcards && !isEmpty(flashcards) ? (
+              <>
+                {flashcards.map(
+                  (flashcard: FlashcardInterface, index: number) => (
+                    <Fragment key={flashcard.id}>
+                      <StudySetFlashcard
+                        index={index + 1}
+                        setFlashcards={setFlashcards}
+                        flashcardId={flashcard.id}
+                        studySetId={flashcard.study_set_id}
+                        frontBlocks={flashcard.front_blocks}
+                        backBlocks={flashcard.back_blocks}
+                      />
+                      <Spacer height={theme.spacers.size32} />
+                    </Fragment>
+                  )
+                )}
+                <div ref={endOfFlashcardsContainer} />
+              </>
+            ) : null}
+          </>
+        ) : (
+          <Div>
+            <StyledSkeleton width="100%" height="164px" count={2} />
+          </Div>
+        )}
+      </Flex>
     );
   };
 

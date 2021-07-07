@@ -58,7 +58,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   flippedState,
   isFinishedStudying,
   flashcardId,
-  ownerId,
   isEditable,
   setIsEditable,
 }) => {
@@ -186,7 +185,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           flashcardId={flashcardId}
           setIsEditable={setIsEditable}
           isEditable={isEditable}
-          ownerId={ownerId}
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
           backBlocks={backBlocks}

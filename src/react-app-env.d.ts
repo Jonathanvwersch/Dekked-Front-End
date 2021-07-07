@@ -62,16 +62,19 @@ interface PageInterface {
   ordering: string[];
 }
 interface FlashcardInterface {
-  flashcard: {
-    id: string;
-    owner_id: string;
-    study_set_id: string;
-    back_ordering: string[];
-    front_ordering: string[];
-    date_created: string;
-    date_modified: string;
-    block_link?: string;
-  };
+  id: string;
+  owner_id: string;
+  study_set_id: string;
+  back_ordering: string[];
+  front_ordering: string[];
+  date_created: Date;
+  date_modified: Date;
+  block_link?: string;
+  status?: FlashcardStatus;
+  quality?: number;
+  ease_factor?: number;
+  failed_attempts?: number;
+  interval?: number;
   front_blocks: string[];
   back_blocks: string[];
 }

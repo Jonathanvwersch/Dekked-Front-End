@@ -18,7 +18,6 @@ interface StudyModeToolbarProps {
   flashcardId?: string;
   frontBlocks?: string[];
   backBlocks?: string[];
-  ownerId?: string;
   currentBlockKey?: string;
 }
 
@@ -28,7 +27,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   isEditable,
   frontBlocks,
   backBlocks,
-  ownerId,
   currentBlockKey,
 }) => {
   const theme = useContext(ThemeContext);
@@ -79,9 +77,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
           setFlashcards((prevState) =>
-            prevState?.filter(
-              (flashcard) => flashcard.flashcard.id !== flashcardId
-            )
+            prevState?.filter((flashcard) => flashcard.id !== flashcardId)
           );
           deleteCard({
             flashcard_id: flashcardId,

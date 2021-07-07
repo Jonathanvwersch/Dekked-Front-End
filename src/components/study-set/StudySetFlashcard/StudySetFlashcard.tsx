@@ -133,7 +133,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   ) => {
     if (flashcards && flashcardId) {
       const flashcardIndex = flashcards.findIndex(
-        (card) => card.flashcard.id === flashcardId
+        (card) => card.id === flashcardId
       );
       flashcards[flashcardIndex] = { ...updatedFlashcard };
     }
@@ -417,9 +417,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         handleMainButton={() => {
           setFlashcards &&
             setFlashcards((prevState) =>
-              prevState?.filter(
-                (flashcard) => flashcard.flashcard.id !== flashcardId
-              )
+              prevState?.filter((flashcard) => flashcard.id !== flashcardId)
             );
           deleteCard({
             flashcard_id: flashcardId,

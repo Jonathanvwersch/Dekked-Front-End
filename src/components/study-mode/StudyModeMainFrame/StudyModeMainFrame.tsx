@@ -43,11 +43,11 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         frontBlocks={currentFlashcard?.front_blocks}
         backBlocks={currentFlashcard?.back_blocks}
         flippedState={flippedState}
-        blockLink={currentFlashcard?.flashcard.block_link}
-        flashcardId={currentFlashcard?.flashcard.id}
+        blockLink={currentFlashcard?.block_link}
+        flashcardId={currentFlashcard?.id}
         isFinishedStudying={maxLength === flashcardIndex}
         studyMode={studyMode}
-        ownerId={currentFlashcard?.flashcard.owner_id}
+        ownerId={currentFlashcard?.owner_id}
       />
     </>
   );
