@@ -1,4 +1,4 @@
-import { isEmpty, isEqual } from "lodash";
+import { isEmpty, isEqual, shuffle } from "lodash";
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
@@ -26,10 +26,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     const { data, isLoading } = useQuery(
       `${studySetId}-get-flashcards`,
       () => getFlashcards({ studySetId }),
-      {
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-      }
+      { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
 
     useEffect(() => {

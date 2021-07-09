@@ -37,6 +37,7 @@ import {
   updateBlockOpenStateAtom,
 } from "../../../../store";
 import { useAtom } from "jotai";
+import ActiveBlockIndicator from "./ActiveBlockIndicator";
 
 interface SidebarBlockProps {
   blockId: string;
@@ -127,10 +128,14 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
         : `/${blockType}/${blockId}/${studySetTab || TAB_TYPE.NOTES}`,
   };
 
-  const navLinkStyle = { width: "100%" };
-  const navLinkActiveStyle = {
+  const navLinkStyle: React.CSSProperties = {
+    width: "100%",
+    position: "relative",
+  };
+  const navLinkActiveStyle: React.CSSProperties = {
     filter: `${theme.colors.active.filter}`,
-    fontWeight: theme.typography.fontWeights.bold as "bold",
+    fontWeight: "bold",
+    borderRight: `solid 2px ${theme.colors.primary}`,
   };
 
   return (
@@ -178,6 +183,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             </HiddenIconsContainer>
           </Flex>
         </StyledBlock>
+        <ActiveBlockIndicator blockId={blockId} />
 
         <SidebarBlockModal
           isOpen={blockModal}

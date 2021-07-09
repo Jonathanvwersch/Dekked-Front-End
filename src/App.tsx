@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   const [, setIsLoading] = useAtom(isAppLoadingAtom);
   const [loadingError, setLoadingError] = useAtom(loadingErrorAtom);
 
-  // get user on mount
+  // Get user on mount
   const { data: user } = useQuery<UserType>(
     `${getSessionCookie()}-user`,
     getUser,

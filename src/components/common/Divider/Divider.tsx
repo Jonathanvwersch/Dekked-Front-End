@@ -6,10 +6,11 @@ interface DividerProps {
   width?: string;
   height?: string;
   color?: string;
+  style?: React.CSSProperties;
 }
 
 const Divider: React.FC<DividerProps> = ({ ...props }) => {
-  return <StyledDivider {...props} />;
+  return <StyledDivider style={props.style} {...props} />;
 };
 
 const StyledDivider = styled.div<DividerProps>`

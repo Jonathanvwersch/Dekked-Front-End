@@ -135,7 +135,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       const flashcardIndex = flashcards.findIndex(
         (card) => card.id === flashcardId
       );
-      flashcards[flashcardIndex] = { ...updatedFlashcard };
+      flashcards[flashcardIndex] = updatedFlashcard;
     }
     return flashcards || [];
   };
