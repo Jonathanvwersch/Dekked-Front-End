@@ -1,4 +1,4 @@
-import { isEmpty, isEqual, shuffle } from "lodash";
+import { isEmpty, isEqual } from "lodash";
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Params } from "../../../shared";
-import { getFlashcards } from "../../../services/flashcards/flashcards-api";
+import { getFlashcards } from "../../../api/flashcards/flashcardsApi";
 
 interface StudySetFlashcardsContainerProps {}
 
