@@ -72,7 +72,7 @@ export const updateFolder = async (
   try {
     const uri = config.api + "/folder";
     const response = await fetch(uri, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
         "Content-type": "application/json",

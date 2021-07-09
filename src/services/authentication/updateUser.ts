@@ -12,7 +12,7 @@ export const updateUser = async ({
 }) => {
   const uri = config.api + `/user`;
   const response = await fetch(uri, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${getSessionCookie()}`,

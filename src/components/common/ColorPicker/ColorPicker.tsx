@@ -51,6 +51,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   coords,
   editorState,
   setEditorState,
+  iconColor,
   setIconColor,
   variant = "color-block",
   type,
@@ -68,7 +69,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   }, [isOpen, setIsLayeredModalOpen]);
 
   const handleClick = (colour: string) => {
-    if (variant === "color-block" && id && type) {
+    if (variant === "color-block" && id && type && colour !== iconColor) {
       setIconColor && setIconColor(colour);
       updateItem(id, type, { color: colour });
     }

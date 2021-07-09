@@ -74,7 +74,7 @@ export const updateStudySet = async (
   try {
     const uri = config.api + "/study-set";
     const response = await fetch(uri, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
         "Content-type": "application/json",

@@ -42,7 +42,7 @@ export const savePage = async ({
   const { keys, blocks } = createKeysAndBlocks(editorState);
   const url = config.api + `/page/${pageId}`;
   await fetch(url, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getSessionCookie()}`,

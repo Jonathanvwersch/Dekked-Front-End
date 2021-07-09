@@ -75,7 +75,7 @@ export const updateBinder = async (
   try {
     const uri = config.api + "/binder";
     const response = await fetch(uri, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
         "Content-type": "application/json",

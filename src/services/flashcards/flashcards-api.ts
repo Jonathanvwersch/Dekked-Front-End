@@ -35,7 +35,7 @@ export const saveFlashcard = async ({
     createKeysAndBlocks(backEditorState);
 
   const response = await fetch(url, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getSessionCookie()}`,
