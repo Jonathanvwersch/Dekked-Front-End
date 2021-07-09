@@ -303,7 +303,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       setBackFlashcardEditorState(EditorState.createEmpty());
       setTimeout(() => {
         frontEditorRef?.current?.focus();
-      }, 50);
+      }, 1);
     } else {
       saveCard({
         frontEditorState: frontFlashcardEditorState,
