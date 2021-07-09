@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import {
   getBlocksByPageId,
   savePage,
-} from "../../services/note-taking/blocks-api";
+} from "../../api/note-taking/noteTakingApi";
 import { Params } from "../../shared";
 import { currentBlockAtom, pageEditorStateAtom } from "../../store";
 import {

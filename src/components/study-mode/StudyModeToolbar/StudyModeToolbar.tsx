@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { useKeyPress } from "../../../hooks";
-import { deleteFlashcard } from "../../../services/flashcards/flashcards-api";
+import { deleteFlashcard } from "../../../api/flashcards/flashcardsApi";
 import { Params, SIZES } from "../../../shared";
 import { flashcardsAtom } from "../../../store";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";

@@ -8,7 +8,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../../helpers";
-import { register } from "../../../services/authentication/register";
+import { register } from "../../../api/authentication/registerApi";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";

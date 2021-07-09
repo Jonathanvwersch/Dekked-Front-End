@@ -34,7 +34,7 @@ import {
   addFlashcard,
   deleteFlashcard,
   saveFlashcard,
-} from "../../../services/flashcards/flashcards-api";
+} from "../../../api/flashcards/flashcardsApi";
 import { isMainFlashcardButtonDisabledAtom, userAtom } from "../../../store";
 import { useAtom } from "jotai";
 

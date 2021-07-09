@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount, SettingsAppearance } from "..";
 import { getSessionCookie } from "../../../helpers";
-import { updateUser } from "../../../services/authentication/updateUser";
+import { updateUser } from "../../../api/authentication/updateUserApi";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
 import { userAtom } from "../../../store";
 import { Box, Footer } from "../../common";

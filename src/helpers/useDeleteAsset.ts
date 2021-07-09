@@ -2,9 +2,9 @@ import { useAtom } from "jotai";
 import { useCallback } from "react";
 import { useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
-import { deleteBinder } from "../services/file-structure/binders-api";
-import { deleteFolder } from "../services/file-structure/folders-api";
-import { deleteStudySet } from "../services/file-structure/studySets-api";
+import { deleteBinder } from "../api/file-structure/bindersApi";
+import { deleteFolder } from "../api/file-structure/foldersApi";
+import { deleteStudySet } from "../api/file-structure/studySetsApi";
 import { FILETREE_TYPES, Params } from "../shared";
 import {
   bindersAtom,

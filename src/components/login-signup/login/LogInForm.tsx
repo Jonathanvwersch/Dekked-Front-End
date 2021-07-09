@@ -10,7 +10,7 @@ import {
 } from "../../../helpers";
 
 import { useHistory } from "react-router-dom";
-import { login } from "../../../services/authentication/login";
+import { login } from "../../../api/authentication/loginApi";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 import { userAtom } from "../../../store";

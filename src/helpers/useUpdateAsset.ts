@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useCallback } from "react";
 import { useMutation } from "react-query";
-import { updateAsset } from "../services/file-structure/asset-api";
+import { updateAsset } from "../api/file-structure/assetsApi";
 import { updateAssetAtom } from "../store";
 
 export const useUpdateAsset = () => {

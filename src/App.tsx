@@ -11,7 +11,7 @@ import { getSessionCookie } from "./helpers";
 import CustomSwitch from "./Router/CustomSwitch";
 import { theme } from "./styles/theme";
 import { useAtom } from "jotai";
-import { getBinders, getFileTree, getFolders, getStudySets } from "./services";
+import { getBinders, getFileTree, getFolders, getStudySets } from "./api";
 import { SkeletonTheme } from "react-loading-skeleton";
 import {
   bindersAtom,
@@ -23,7 +23,7 @@ import {
   studySetsAtom,
   userAtom,
 } from "./store";
-import { getUser } from "./services/authentication/getUser";
+import { getUser } from "./api/authentication/getUserApi";
 import { UserType } from "./shared";
 
 export const App: React.FC = () => {
