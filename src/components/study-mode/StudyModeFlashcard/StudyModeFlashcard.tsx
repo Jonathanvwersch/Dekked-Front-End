@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -33,6 +33,7 @@ import { usePageSetupHelpers } from "../../../hooks";
 import {
   blockLinkAtom,
   isFlashcardLinkedAtom,
+  selectStudySetTab,
   studyModeUrlAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
@@ -72,6 +73,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
   const [, setStudyModeUrl] = useAtom(studyModeUrlAtom);
   const [, setBlockLink] = useAtom(blockLinkAtom);
+  const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
 
   const [hasFocus, setHasFocus] = useState<boolean>(false);
 
@@ -92,7 +94,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   }, [backBlocks]);
 
   const handleFinishButton = () => {
-    history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`);
+    history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
   };
 
   const FinalCard = (

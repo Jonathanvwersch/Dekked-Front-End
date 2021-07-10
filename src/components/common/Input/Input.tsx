@@ -29,7 +29,9 @@ export interface InputProps {
   required?: boolean;
   showPassword?: boolean;
   clearButton?: boolean;
+  autoFocus?: boolean;
   defaultValue?: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -41,6 +43,8 @@ const Input: React.FC<InputProps> = ({
   isDisabled,
   ariaLabel,
   placeholder,
+  autoFocus,
+  inputRef,
   onChange,
   size = SIZES.SMALL,
   validate,
@@ -66,8 +70,10 @@ const Input: React.FC<InputProps> = ({
             type={type === "password" ? inputType : type}
             value={value === null ? undefined : value}
             name={name}
+            ref={inputRef}
             disabled={isDisabled}
             autoComplete="off"
+            autoFocus={autoFocus}
             onBlur={() =>
               typeof validate !== "undefined" && setValidation(validate())
             }

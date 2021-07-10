@@ -1,4 +1,10 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, {
+  SyntheticEvent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 import { Spacer, Input, Button } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -13,19 +19,21 @@ import { useHistory } from "react-router-dom";
 import { login } from "../../../api/authentication/loginApi";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
-import { userAtom } from "../../../store";
+import { emailFromSignUpAtom, userAtom } from "../../../store";
 import { useAtom } from "jotai";
 
 interface LogInFormProps {}
 
 const LogInForm: React.FC<LogInFormProps> = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const emailFromSignUp = window.localStorage.getItem("user-email") || "";
-  const [emailAddress, setEmailAddress] = useState<string>(emailFromSignUp);
+  const [emailFromSignUp] = useAtom(emailFromSignUpAtom);
+  const [emailAddress, setEmailAddress] =
+    useState<string | undefined>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
   const [, setUser] = useAtom(userAtom);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const { mutate: logIn, data, isLoading } = useMutation("log-in", login);
 
@@ -72,6 +80,10 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     emailAddress && password && loginUser(emailAddress, password);
   };
 
+  useLayoutEffect(() => {
+    if (emailAddress) passwordRef.current?.focus();
+  }, [passwordRef]); // eslint-disable-next-line react/jsx-no-undef
+
   return (
     <>
       {errorMessage && errorCode && (
@@ -79,6 +91,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
       )}
       <form onSubmit={handleSubmit}>
         <Input
+          autoFocus
           size={SIZES.MEDIUM}
           defaultValue={emailFromSignUp}
           placeholder={formatMessage("forms.email.placeholder")}
@@ -90,6 +103,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         />
         <Spacer height={theme.spacers.size16} />
         <Input
+          inputRef={passwordRef}
           size={SIZES.MEDIUM}
           placeholder={formatMessage("forms.password.currentPassword")}
           type="password"

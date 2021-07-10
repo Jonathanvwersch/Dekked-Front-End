@@ -55,6 +55,8 @@ const Overlay: React.FC<OverlayProps> = ({
             <ModalType className={type} />
           ) : null}
           <Modal
+            data-autofocus-inside="true"
+            data-focus-lock-disabled="false"
             coords={coords}
             className={close ? "close" : undefined}
             ref={modalRef}

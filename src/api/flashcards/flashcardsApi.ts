@@ -17,17 +17,17 @@ export const getFlashcards = async ({ studySetId }: { studySetId: string }) => {
 };
 
 export const saveFlashcard = async ({
-  flash_card_id,
+  flashcard_id,
   owner_id,
   frontEditorState,
   backEditorState,
 }: {
-  flash_card_id: string | undefined;
+  flashcard_id: string | undefined;
   owner_id: string | undefined;
   frontEditorState: EditorState;
   backEditorState: EditorState;
 }) => {
-  const url = config.api + `/flashcard/${flash_card_id}`;
+  const url = config.api + `/flashcard/${flashcard_id}`;
 
   const { keys: front_draft_keys, blocks: front_blocks } =
     createKeysAndBlocks(frontEditorState);
@@ -41,7 +41,7 @@ export const saveFlashcard = async ({
       Authorization: `Bearer ${getSessionCookie()}`,
     },
     body: JSON.stringify({
-      flash_card_id,
+      flashcard_id,
       owner_id,
       front_blocks,
       front_draft_keys,

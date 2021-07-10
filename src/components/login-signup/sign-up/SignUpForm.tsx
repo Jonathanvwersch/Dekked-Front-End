@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
 import { Spacer, Input, Button, Tooltip } from "../../common";
 import { useIntl } from "react-intl";
@@ -12,6 +12,8 @@ import { register } from "../../../api/authentication/registerApi";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
+import { emailFromSignUpAtom } from "../../../store";
+import { useAtom } from "jotai";
 
 interface SignUpFormProps {}
 
@@ -24,9 +26,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [lastName, setLastName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repeatPassword, setRepeatPassword] = useState<string>();
+  const emailRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
   const { mutate: signUp, data, isLoading } = useMutation("register", register);
+  const [, setEmailFromSignUp] = useAtom(emailFromSignUpAtom);
 
   const isSubmitButtonDisabled = () => {
     if (!validateEmail(emailAddress)) return true;
@@ -56,16 +60,19 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         password: password,
       });
 
-    emailAddress && window.localStorage.setItem("user-email", emailAddress);
+    setEmailFromSignUp(emailAddress);
   };
 
   useEffect(() => {
     setErrorMessage(!data?.userData?.success);
     setErrorCode(data?.errorCode);
+    if (errorCode === 400) {
+      emailRef.current?.focus();
+    }
     if (data?.userData?.success) {
       history.push("/login");
     }
-  }, [data, history]);
+  }, [data, history, emailRef, errorCode]);
 
   return (
     <>
@@ -78,6 +85,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           placeholder="Example@dekked.com"
           label={formatMessage("forms.email.emailAddress")}
           type="email"
+          autoFocus
+          inputRef={emailRef}
           id="EmailAddress"
           onChange={(e) => setEmailAddress(e.target.value)}
           validate={() => validateEmail(emailAddress)}

@@ -2,6 +2,7 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -100,7 +101,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       // adding a near instantaneous delay to allow linked flashcard to appear on screen before focusing
       setTimeout(() => {
         frontEditorRef?.current?.focus();
-      }, 50);
+      }, 1);
     }
   }, [linked]);
 
@@ -144,14 +145,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studySetId}-save-flashcard`,
     saveFlashcard,
     {
-      onSuccess: (data, { flash_card_id }) => {
+      onSuccess: (data, { flashcard_id }) => {
         queryClient.setQueryData(
           `${studySetId}-get-flashcards`,
           (prevState) => {
             return updateFlashcards(
               prevState as FlashcardInterface[] | undefined,
               data?.fullFlashcard,
-              flash_card_id
+              flashcard_id
             );
           }
         );
@@ -160,7 +161,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   // Switch up current side depending on focus
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (frontHasFocus) {
       setCurrentSide(FLASHCARD_SIDE.FRONT);
       frontEditorRef?.current?.focus();
@@ -170,16 +171,16 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     }
   }, [frontHasFocus, backHasFocus]);
 
-  // Set editor state on mount
-  useEffect(() => {
+  // Set front editor state on mount
+  useLayoutEffect(() => {
     if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(frontBlocks);
       setFrontFlashcardEditorState(EditorState.createWithContent(savedState));
     }
   }, [frontBlocks]);
 
-  // Set editor state on mount
-  useEffect(() => {
+  // Set back editor state on mount
+  useLayoutEffect(() => {
     if (backBlocks && !isEmpty(backBlocks) && backBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
@@ -308,7 +309,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       saveCard({
         frontEditorState: frontFlashcardEditorState,
         backEditorState: backFlashcardEditorState,
-        flash_card_id: flashcardId,
+        flashcard_id: flashcardId,
         owner_id: ownerId,
       });
     }

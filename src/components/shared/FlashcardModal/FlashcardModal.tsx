@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Overlay } from "../../common";
 import { MODAL_TYPE, Params, SIZES } from "../../../shared";
+import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
 import { useParams } from "react-router-dom";
 
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
-import { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import {
   flashcardsAtom,
   isMainFlashcardButtonDisabledAtom,
@@ -72,20 +73,24 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
         withOutsideClick={!isLayeredModalOpen}
         closeButtonBackgroundColor={theme.colors.secondary}
       >
-        <StudySetFlashcard
-          studySetId={id}
-          linked={true}
-          flashcardId={flashcardId}
-          currentBlockKey={blockLink}
-          frontBlocks={frontBlocks}
-          backBlocks={backBlocks}
-          setFlashcards={setFlashcards}
-          type={type}
-          width="100%"
-          vertical
-          toolbarSize={SIZES.MEDIUM}
-          fullHeight
-        />
+        <StyledFocusLock>
+          <StyledAutoFocusInside>
+            <StudySetFlashcard
+              studySetId={id}
+              linked={true}
+              flashcardId={flashcardId}
+              currentBlockKey={blockLink}
+              frontBlocks={frontBlocks}
+              backBlocks={backBlocks}
+              setFlashcards={setFlashcards}
+              type={type}
+              width="100%"
+              vertical
+              toolbarSize={SIZES.MEDIUM}
+              fullHeight
+            />
+          </StyledAutoFocusInside>
+        </StyledFocusLock>
       </Overlay>
       <UnsavedChangesModal
         isOpen={isUnsavedChangesModalOpen}
@@ -104,5 +109,13 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
     </>
   );
 };
+
+const StyledFocusLock = styled(FocusLock)`
+  display: inline;
+`;
+
+const StyledAutoFocusInside = styled(AutoFocusInside)`
+  display: inline;
+`;
 
 export default React.memo(FlashcardModal);

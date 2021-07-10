@@ -350,6 +350,8 @@ export const userAtom = atom<UserType>({
   last_name: "",
 });
 
+export const emailFromSignUpAtom = atom<string | undefined>(undefined);
+
 // Sidebar
 export const sidebarAtom = atomWithStorage("sidebar-state", true);
 export const isBlockOpenAtom = atomWithStorage<{
