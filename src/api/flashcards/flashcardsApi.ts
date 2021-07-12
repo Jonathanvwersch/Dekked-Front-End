@@ -4,8 +4,25 @@ import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.h
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
-export const getFlashcards = async ({ studySetId }: { studySetId: string }) => {
-  const uri = config.api + `/get-flashcards-by-study-set-id/${studySetId}`;
+export const getDeckByStudySetId = async (studySetId: string) => {
+  const uri = config.api + `/get-deck-by-study-set-id/${studySetId}`;
+  const response = await fetch(uri, {
+    headers: {
+      Authorization: `Bearer ${getSessionCookie()}`,
+    },
+  });
+  const json = await response.json();
+  return json.data.deck;
+};
+
+export const getFlashcardsByDeckId = async ({
+  studySetId,
+}: {
+  studySetId: string;
+}) => {
+  const deck = await getDeckByStudySetId(studySetId);
+
+  const uri = config.api + `/get-flashcards-by-deck-id/${deck?.id}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -13,17 +30,19 @@ export const getFlashcards = async ({ studySetId }: { studySetId: string }) => {
   });
 
   const json = await response.json();
-  return json.data.flashcards;
+  return { data: json.data.flashcards, deckId: deck?.id };
 };
 
 export const saveFlashcard = async ({
   flashcard_id,
   owner_id,
+  deck_id,
   frontEditorState,
   backEditorState,
 }: {
   flashcard_id: string | undefined;
   owner_id: string | undefined;
+  deck_id: string | undefined;
   frontEditorState: EditorState;
   backEditorState: EditorState;
 }) => {
@@ -43,6 +62,7 @@ export const saveFlashcard = async ({
     body: JSON.stringify({
       flashcard_id,
       owner_id,
+      deck_id,
       front_blocks,
       front_draft_keys,
       back_blocks,
@@ -57,10 +77,12 @@ export const addFlashcard = async ({
   study_set_id,
   block_link,
   frontFlashcardEditorState,
+  deck_id,
   backFlashcardEditorState,
 }: {
   owner_id: string;
   study_set_id: string;
+  deck_id: string | undefined;
   block_link?: string;
   frontFlashcardEditorState?: EditorState;
   backFlashcardEditorState?: EditorState;
@@ -73,9 +95,10 @@ export const addFlashcard = async ({
     const { keys: backKeys, blocks: backBlocks } =
       backFlashcardEditorState && createKeysAndBlocks(backFlashcardEditorState);
     body = {
-      study_set_id: study_set_id,
-      owner_id: owner_id,
-      block_link: block_link,
+      study_set_id,
+      owner_id,
+      deck_id,
+      block_link,
       front_blocks: frontBlocks,
       front_draft_keys: frontKeys,
       back_blocks: backBlocks,
@@ -85,6 +108,7 @@ export const addFlashcard = async ({
     body = {
       study_set_id: study_set_id,
       owner_id: owner_id,
+      deck_id,
       block_link: block_link,
     };
   }

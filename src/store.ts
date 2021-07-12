@@ -427,6 +427,7 @@ export const blockLinkAtom = atom<string>("");
 // Flashcard
 export const flashcardsAtom = atom<FlashcardInterface[] | undefined>([]);
 export const isMainFlashcardButtonDisabledAtom = atom<boolean>(true);
+export const deckIdAtom = atom<string>("");
 
 // Current Block
 export const savingNotesAtom = atom<boolean>(false);

@@ -1,11 +1,10 @@
 import { useAtom } from "jotai";
 import React, { useCallback, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import { LogoIcon } from "../../../assets";
 import { useMultiKeyPress } from "../../../hooks";
-import { Params, SIZES } from "../../../shared";
+import { SIZES } from "../../../shared";
 import { currentBlockAtom, isAppLoadingAtom } from "../../../store";
 import { Flex, IconActive, Tooltip } from "../../common";
 import { FILL_TYPE } from "../../common/IconActive/IconActive";
@@ -22,7 +21,6 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
   const [currentBlock] = useAtom(currentBlockAtom);
-  const { id } = useParams<Params>();
   useMultiKeyPress(["Control", "1"], () =>
     setShowFlashcard((prevState) => !prevState)
   );
@@ -66,7 +64,6 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
 
       {showFlashcard ? (
         <StudySetFlashcard
-          studySetId={id}
           linked={showFlashcard}
           currentBlockKey={currentBlock?.key}
           type="add"

@@ -76,7 +76,6 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
         <StyledFocusLock>
           <StyledAutoFocusInside>
             <StudySetFlashcard
-              studySetId={id}
               linked={true}
               flashcardId={flashcardId}
               currentBlockKey={blockLink}

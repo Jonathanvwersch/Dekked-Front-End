@@ -74,7 +74,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [, setStudyModeUrl] = useAtom(studyModeUrlAtom);
   const [, setBlockLink] = useAtom(blockLinkAtom);
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
-
   const [hasFocus, setHasFocus] = useState<boolean>(false);
 
   // Set front editor state on mount

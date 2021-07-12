@@ -19,7 +19,7 @@ import {
 } from "../../common";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { StudySetToolbar } from "..";
-import { BUTTON_THEME, SIZES } from "../../../shared";
+import { BUTTON_THEME, Params, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
@@ -36,8 +36,13 @@ import {
   deleteFlashcard,
   saveFlashcard,
 } from "../../../api/flashcards/flashcardsApi";
-import { isMainFlashcardButtonDisabledAtom, userAtom } from "../../../store";
+import {
+  deckIdAtom,
+  isMainFlashcardButtonDisabledAtom,
+  userAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
+import { useParams } from "react-router-dom";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -50,7 +55,6 @@ interface StudySetFlashcardProps {
   linked?: boolean;
   index?: number;
   currentBlockKey?: string;
-  studySetId?: string;
   vertical?: boolean; // if true, flashcard text containers will be stacked vertically
   width?: string;
   toolbarSize?: SIZES;
@@ -67,7 +71,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   linked = false,
   index,
   flashcardId,
-  studySetId,
   currentBlockKey,
   vertical = false,
   width,
@@ -89,6 +92,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [user] = useAtom(userAtom);
   const { id: ownerId } = user;
+  const { id: studySetId } = useParams<Params>();
+  const [deckId] = useAtom(deckIdAtom);
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
   const queryClient = useQueryClient();
@@ -114,7 +119,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           [`${studySetId}-get-flashcards`],
           (prevState: FlashcardInterface[] | any) => {
             const allFlashcards = prevState;
-            allFlashcards?.push(data?.fullFlashcard);
+            allFlashcards?.data?.push(data?.fullFlashcard);
             return allFlashcards;
           }
         );
@@ -128,15 +133,15 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   const updateFlashcards = (
-    flashcards: FlashcardInterface[] | undefined,
+    flashcards: { deckId: string; data: FlashcardInterface[] } | undefined,
     updatedFlashcard: FlashcardInterface,
     flashcardId?: string
   ) => {
-    if (flashcards && flashcardId) {
-      const flashcardIndex = flashcards.findIndex(
+    if (flashcards?.data && flashcardId) {
+      const flashcardIndex = flashcards.data.findIndex(
         (card) => card.id === flashcardId
       );
-      flashcards[flashcardIndex] = updatedFlashcard;
+      flashcards.data[flashcardIndex] = updatedFlashcard;
     }
     return flashcards || [];
   };
@@ -148,9 +153,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       onSuccess: (data, { flashcard_id }) => {
         queryClient.setQueryData(
           `${studySetId}-get-flashcards`,
-          (prevState) => {
+          (prevState: any) => {
             return updateFlashcards(
-              prevState as FlashcardInterface[] | undefined,
+              prevState,
               data?.fullFlashcard,
               flashcard_id
             );
@@ -295,6 +300,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       studySetId &&
         addCard({
           owner_id: ownerId,
+          deck_id: deckId,
           study_set_id: studySetId,
           block_link: currentBlockKey,
           frontFlashcardEditorState,
@@ -306,12 +312,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         frontEditorRef?.current?.focus();
       }, 1);
     } else {
-      saveCard({
-        frontEditorState: frontFlashcardEditorState,
-        backEditorState: backFlashcardEditorState,
-        flashcard_id: flashcardId,
-        owner_id: ownerId,
-      });
+      flashcardId &&
+        saveCard({
+          frontEditorState: frontFlashcardEditorState,
+          backEditorState: backFlashcardEditorState,
+          flashcard_id: flashcardId,
+          deck_id: deckId,
+          owner_id: ownerId,
+        });
     }
   };
 
@@ -319,9 +327,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `StudySetFlashcard-${index}`
   );
 
-  studySetFlashcard?.addEventListener("dblclick", function (e) {
-    type !== "add" && type !== "edit" && setEditFlashcard(true);
-  });
+  studySetFlashcard?.addEventListener(
+    "dblclick",
+    () => type !== "add" && type !== "edit" && setEditFlashcard(true)
+  );
 
   studySetFlashcard?.addEventListener("keypress", function (e) {
     if (e.key === "Enter" && type !== "add" && type !== "edit")

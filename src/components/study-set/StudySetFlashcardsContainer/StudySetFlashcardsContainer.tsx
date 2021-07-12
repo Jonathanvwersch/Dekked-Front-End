@@ -10,12 +10,12 @@ import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
 import { Spacer, Flex } from "../../common";
-import { flashcardsAtom } from "../../../store";
+import { deckIdAtom, flashcardsAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Params } from "../../../shared";
-import { getFlashcards } from "../../../api/flashcards/flashcardsApi";
+import { getFlashcardsByDeckId } from "../../../api/flashcards/flashcardsApi";
 
 interface StudySetFlashcardsContainerProps {}
 
@@ -28,16 +28,18 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       mutationKey: `${studySetId}-add-flashcard`,
     });
     const endOfFlashcardsContainer = useRef<HTMLDivElement>(null);
+    const [, setDeckId] = useAtom(deckIdAtom);
 
     const { data, isLoading } = useQuery(
       `${studySetId}-get-flashcards`,
-      () => getFlashcards({ studySetId }),
+      () => getFlashcardsByDeckId({ studySetId }),
       { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
 
     useLayoutEffect(() => {
-      setFlashcards(data);
-    }, [data, setFlashcards]);
+      setFlashcards(data?.data);
+      setDeckId(data?.deckId);
+    }, [data, setFlashcards, setDeckId]);
 
     useEffect(() => {
       if (!isAdding) {
@@ -60,7 +62,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                         index={index + 1}
                         setFlashcards={setFlashcards}
                         flashcardId={flashcard.id}
-                        studySetId={flashcard.study_set_id}
                         frontBlocks={flashcard.front_blocks}
                         backBlocks={flashcard.back_blocks}
                       />

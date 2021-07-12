@@ -4,7 +4,7 @@ import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
 const getPageByStudySetId = async (studySetId: string) => {
-  const uri = config.api + `/get-page-by-parent-id/${studySetId}`;
+  const uri = config.api + `/get-page-by-study-set-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
