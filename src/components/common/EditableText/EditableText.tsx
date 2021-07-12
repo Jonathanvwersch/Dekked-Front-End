@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import styled from "styled-components";
 import { debounce } from "lodash";
@@ -84,14 +84,18 @@ const EditableText: React.FC<EditableTextProps> = ({
           handleScrollToStart();
           handleEditable && handleEditable();
         }
+        // user should not be able to enter a space character before text has been entered
+        if (!editableTextRef.current?.innerText && e.code === "Space") {
+          e.preventDefault();
+        }
       }}
-      onPaste={(e: any) => {
+      onPaste={(e: SyntheticEvent) => {
         handlePaste(e);
       }}
-      onDrag={(e: any) => {
+      onDrag={(e: SyntheticEvent) => {
         e.preventDefault();
       }}
-      onDragOver={(e: any) => {
+      onDragOver={(e: SyntheticEvent) => {
         e.preventDefault();
       }}
       onBlur={() => {
