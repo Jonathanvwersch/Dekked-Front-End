@@ -3,6 +3,7 @@ import { EditorState } from "draft-js";
 import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.helpers";
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
+import { FlashcardQuality } from "../../shared";
 
 export const getDeckByStudySetId = async (studySetId: string) => {
   const uri = config.api + `/get-deck-by-study-set-id/${studySetId}`;
@@ -57,19 +58,46 @@ export const saveFlashcard = async ({
   deck_id,
   frontEditorState,
   backEditorState,
+  quality,
 }: {
   flashcard_id: string | undefined;
   owner_id: string | undefined;
   deck_id: string | undefined;
-  frontEditorState: EditorState;
-  backEditorState: EditorState;
+  frontEditorState?: EditorState;
+  backEditorState?: EditorState;
+  quality?: FlashcardQuality;
 }) => {
   const url = config.api + `/flashcard/${flashcard_id}`;
 
-  const { keys: front_draft_keys, blocks: front_blocks } =
-    createKeysAndBlocks(frontEditorState);
-  const { keys: back_draft_keys, blocks: back_blocks } =
-    createKeysAndBlocks(backEditorState);
+  const payload: {
+    flashcard_id: string | undefined;
+    owner_id: string | undefined;
+    deck_id: string | undefined;
+    front_draft_keys?: string[];
+    front_blocks?: string[];
+    back_draft_keys?: string[];
+    back_blocks?: string[];
+    quality?: FlashcardQuality;
+  } = {
+    flashcard_id,
+    owner_id,
+    deck_id,
+    quality,
+  };
+
+  if (frontEditorState) {
+    const { keys: front_draft_keys, blocks: front_blocks } =
+      createKeysAndBlocks(frontEditorState);
+    payload["front_draft_keys"] = front_draft_keys;
+    payload["front_blocks"] = front_blocks;
+  }
+
+  if (backEditorState) {
+    const { keys: back_draft_keys, blocks: back_blocks } =
+      createKeysAndBlocks(backEditorState);
+    payload["back_draft_keys"] = back_draft_keys;
+    payload["back_blocks"] = back_blocks;
+  }
 
   const response = await fetch(url, {
     method: "PATCH",
@@ -77,16 +105,9 @@ export const saveFlashcard = async ({
       "Content-Type": "application/json",
       Authorization: `Bearer ${getSessionCookie()}`,
     },
-    body: JSON.stringify({
-      flashcard_id,
-      owner_id,
-      deck_id,
-      front_blocks,
-      front_draft_keys,
-      back_blocks,
-      back_draft_keys,
-    }),
+    body: JSON.stringify(payload),
   });
+
   return await response.json();
 };
 

@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Overlay } from "../../common";
-import { MODAL_TYPE, Params, SIZES } from "../../../shared";
+import { MODAL_TYPE, SIZES } from "../../../shared";
 import FocusLock, { AutoFocusInside } from "react-focus-lock";
-
-import { useParams } from "react-router-dom";
 
 import { StudySetFlashcard } from "../../study-set";
 import { useIsMutating } from "react-query";
@@ -37,10 +35,9 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   setIsOpen,
   type = "add",
 }) => {
-  const { id } = useParams<Params>();
   const theme = useContext(ThemeContext);
   const isSaving = useIsMutating({
-    mutationKey: `${id}-save-flashcard`,
+    mutationKey: `save-flashcard`,
   });
   const [isLayeredModalOpen] = useAtom(layeredModalAtom);
   const [, setFlashcards] = useAtom(flashcardsAtom);

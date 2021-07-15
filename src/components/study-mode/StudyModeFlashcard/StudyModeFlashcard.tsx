@@ -13,6 +13,7 @@ import {
 } from "../../common";
 import { HashLink } from "react-router-hash-link";
 import {
+  BUTTON_THEME,
   FILETREE_TYPES,
   Params,
   SIZES,
@@ -89,10 +90,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     }
   }, [backBlocks]);
 
-  const handleFinishButton = () => {
-    history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
-  };
-
   const FinalCard = (
     <Flex
       flexDirection="column"
@@ -107,10 +104,34 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
       <H2 styledAs="h5" fontWeight="normal" textAlign="center">
         <FormattedMessage id="studyMode.flashcard.finish" />
       </H2>
+      <H2 styledAs="h5" fontWeight="normal" textAlign="center">
+        <FormattedMessage id="studyMode.flashcard.continueStudying" />
+      </H2>
       <Spacer height={theme.spacers.size32} />
-      <Button size={SIZES.LARGE} width="200px" handleClick={handleFinishButton}>
-        <FormattedMessage id="generics.finish" />
-      </Button>
+      <Flex flexDirection="row" alignItems="center" justifyContent="center">
+        <Button
+          size={SIZES.LARGE}
+          width="200px"
+          handleClick={() => {
+            history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
+          }}
+        >
+          <FormattedMessage id="generics.finish" />
+        </Button>
+        <Spacer width={theme.spacers.size16} />
+        <Button
+          size={SIZES.LARGE}
+          width="200px"
+          handleClick={() => {
+            history.push(
+              `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1`
+            );
+          }}
+          buttonStyle={BUTTON_THEME.SECONDARY}
+        >
+          <FormattedMessage id="studyMode.chooseModal.freeStudy" />
+        </Button>
+      </Flex>
     </Flex>
   );
 

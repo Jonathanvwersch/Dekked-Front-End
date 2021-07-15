@@ -181,8 +181,7 @@ export enum TEXT_STYLES {
 }
 
 export enum FlashcardQuality {
-  AGAIN = "Again",
-  HARD = "Hard",
-  GOOD = "Good",
-  EASY = "Easy",
+  REPEAT = "Repeat",
+  REMEMBERED = "Remembered",
+  EASILY_REMEMBERED = "Easily remembered",
 }

@@ -1,16 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import FlipIcon from "../../../../assets/icons/FlipIcon";
+import { useMutation } from "react-query";
+import { saveFlashcard } from "../../../../api";
 import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
-import { BUTTON_THEME, SIZES } from "../../../../shared";
-import {
-  Button,
-  Flex,
-  IconActive,
-  Spacer,
-  Text,
-  Tooltip,
-} from "../../../common";
+import { BUTTON_THEME, FlashcardQuality, SIZES } from "../../../../shared";
+import { Button, Flex, Spacer, Text } from "../../../common";
 
 interface SpacedRepetitionControllerProps {
   maxLength: number;
@@ -18,6 +12,9 @@ interface SpacedRepetitionControllerProps {
   setFlashcardIndex: React.Dispatch<React.SetStateAction<number>>;
   setFlippedState: React.Dispatch<React.SetStateAction<boolean>>;
   flippedState: boolean | undefined;
+  ownerId?: string;
+  flashcardId?: string;
+  deckId?: string;
 }
 
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
@@ -26,16 +23,22 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   setFlashcardIndex,
   flippedState,
   setFlippedState,
+  ownerId,
+  flashcardId,
+  deckId,
 }) => {
   const { theme } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
+
+  const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
 
   const spacedRepetitionButton = (
     buttonStyle: BUTTON_THEME,
     buttonText: string,
     reviewText: string,
     reviewTime?: string,
-    flipCard?: boolean
+    flipCard?: boolean,
+    quality?: FlashcardQuality
   ) => {
     return (
       <Flex flexDirection="column">
@@ -45,7 +48,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
           width="180px"
           handleClick={() => {
             flipCard ? setFlippedState(false) : setFlippedState(true);
-            setFlashcardIndex((prevState) => prevState + 1);
+            !flipCard && setFlashcardIndex((prevState) => prevState + 1);
+            !flipCard &&
+              saveCard({
+                flashcard_id: flashcardId,
+                owner_id: ownerId,
+                deck_id: deckId,
+                quality,
+              });
           }}
         >
           <FormattedMessage id={buttonText} />
@@ -87,19 +97,25 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                 BUTTON_THEME.DANGER,
                 `${messagePrefix}.controller.repeat`,
                 `${messagePrefix}.controller.nextReview`,
-                "<10 mins"
+                "<10 mins",
+                undefined,
+                FlashcardQuality.REPEAT
               )}
               {spacedRepetitionButton(
                 BUTTON_THEME.SECONDARY,
                 `${messagePrefix}.controller.remembered`,
                 `${messagePrefix}.controller.nextReview`,
-                "1 day"
+                "1 day",
+                undefined,
+                FlashcardQuality.REMEMBERED
               )}
               {spacedRepetitionButton(
                 BUTTON_THEME.PRIMARY,
                 `${messagePrefix}.controller.easilyRemembered`,
                 `${messagePrefix}.controller.nextReview`,
-                "6 days"
+                "6 days",
+                undefined,
+                FlashcardQuality.EASILY_REMEMBERED
               )}
             </Flex>
           )}

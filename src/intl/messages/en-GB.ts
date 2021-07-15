@@ -80,6 +80,7 @@ const en_GB = {
       flashcard: {
         congratulations: "Congratulations!",
         finish: "Click finish to return to your study set",
+        continueStudying: "or free study to continue studying",
         returnToStudy: "Return to study mode",
       },
     },

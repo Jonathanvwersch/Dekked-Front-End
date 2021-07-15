@@ -144,7 +144,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   };
 
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
-    `${studySetId}-save-flashcard`,
+    "save-flashcard",
     saveFlashcard,
     {
       onSuccess: (data, { flashcard_id }) => {
@@ -292,7 +292,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     );
   };
 
-  const handleSaveFlashcard = () => {
+  const handleSubmitFlashcard = () => {
     if (type === "add") {
       studySetId &&
         addCard({
@@ -409,7 +409,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                     ? isSaveButtonDisabled()
                     : isAddButtonDisabled()
                 }
-                handleClick={handleSaveFlashcard}
+                handleClick={handleSubmitFlashcard}
                 isLoading={type === "edit" ? isSaveLoading : false}
               >
                 {formatMessage(

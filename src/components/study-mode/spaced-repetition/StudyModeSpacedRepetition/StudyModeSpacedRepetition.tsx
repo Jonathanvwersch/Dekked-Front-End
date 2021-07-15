@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { getSpacedRepetitionFlashcardsByDeckId } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { Flex, FullPageLoadingSpinner, Text } from "../../../common";
-import StudyModeController from "../../StudyModeController/StudyModeController";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
+import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 
 interface StudyModeSpacedRepetitionProps {}
 
@@ -18,7 +18,8 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
     const { id: studySetId } = useParams<Params>();
     const { data: flashcards, isLoading } = useQuery<FlashcardInterface[]>(
       `${studySetId}-get-sr-flashcards`,
-      () => getSpacedRepetitionFlashcardsByDeckId({ studySetId })
+      () => getSpacedRepetitionFlashcardsByDeckId({ studySetId }),
+      { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
 
     const [flippedState, setFlippedState] = useState<boolean>(true);
@@ -42,12 +43,14 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
                 flashcards={flashcards}
                 studyMode={STUDY_MODE_TYPES.SPACED_REPETITION}
               />
-              <StudyModeController
+              <SpacedRepetitionController
+                ownerId={flashcards?.[flashcardIndex]?.owner_id}
+                flashcardId={flashcards?.[flashcardIndex]?.id}
+                deckId={flashcards?.[flashcardIndex]?.deck_id}
                 maxLength={maxLength}
                 flashcardIndex={flashcardIndex}
                 setFlashcardIndex={setFlashcardIndex}
                 setFlippedState={setFlippedState}
-                type={STUDY_MODE_TYPES.SPACED_REPETITION}
                 flippedState={flippedState}
               />
             </Flex>

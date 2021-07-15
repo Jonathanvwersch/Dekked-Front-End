@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "../../../common";
-import StudyModeController from "../../StudyModeController/StudyModeController";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
+import FreeStudyController from "../FreeStudyController/FreeStudyController";
 
 interface StudyModeFreeStudyProps {}
 
@@ -28,12 +28,11 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
             flippedState={flippedState}
             studyMode={STUDY_MODE_TYPES.FREE_STUDY}
           />
-          <StudyModeController
+          <FreeStudyController
             maxLength={maxLength}
             flashcardIndex={flashcardIndex}
             setFlashcardIndex={setFlashcardIndex}
             setFlippedState={setFlippedState}
-            type={STUDY_MODE_TYPES.FREE_STUDY}
           />
         </>
       ) : (
