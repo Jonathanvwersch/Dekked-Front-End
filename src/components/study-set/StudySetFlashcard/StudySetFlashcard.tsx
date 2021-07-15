@@ -103,12 +103,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   useEffect(() => {
     if (linked) {
       setIsEditable(true);
-      // adding a near instantaneous delay to allow linked flashcard to appear on screen before focusing
-      setTimeout(() => {
-        frontEditorRef?.current?.focus();
-      }, 1);
+      frontEditorRef?.current?.focus();
     }
-  }, [linked]);
+  }, [linked, frontEditorRef]);
 
   const { mutate: addCard } = useMutation(
     `${studySetId}-add-flashcard`,
@@ -117,10 +114,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       onSuccess: (data: { fullFlashcard: FlashcardInterface }) => {
         queryClient.setQueryData(
           [`${studySetId}-get-flashcards`],
-          (prevState: FlashcardInterface[] | any) => {
-            const allFlashcards = prevState;
-            allFlashcards?.data?.push(data?.fullFlashcard);
-            return allFlashcards;
+          (prevState: any) => {
+            const allFlashcards = prevState?.data || [];
+            allFlashcards?.push(data?.fullFlashcard);
+            return { data: allFlashcards, deckId: prevState?.deckId };
           }
         );
       },
@@ -401,7 +398,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             overflow="hidden"
           >
             {frontAndBack(FLASHCARD_SIDE.FRONT)}
-            {frontAndBack("back")}
+            {frontAndBack(FLASHCARD_SIDE.BACK)}
           </Flex>
           {linked ? (
             <Flex justifyContent="flex-end" mt={theme.spacers.size8}>

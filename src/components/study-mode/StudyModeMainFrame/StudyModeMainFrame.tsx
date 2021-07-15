@@ -9,8 +9,6 @@ interface StudyModeMainFrameProps {
   maxLength: number;
   flippedState: boolean;
   studyMode?: STUDY_MODE_TYPES;
-  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditable: boolean;
 }
 
 const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
@@ -19,8 +17,6 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
   maxLength,
   flippedState,
   studyMode,
-  isEditable,
-  setIsEditable,
 }) => {
   const [currentFlashcard, setCurrentFlashcard] =
     useState<FlashcardInterface | undefined>();
@@ -38,8 +34,6 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         flashcardTotal={maxLength}
       />
       <StudyModeFlashcard
-        isEditable={isEditable}
-        setIsEditable={setIsEditable}
         frontBlocks={currentFlashcard?.front_blocks}
         backBlocks={currentFlashcard?.back_blocks}
         flippedState={flippedState}

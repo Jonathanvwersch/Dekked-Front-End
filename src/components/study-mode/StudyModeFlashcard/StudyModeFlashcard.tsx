@@ -40,8 +40,6 @@ import { useAtom } from "jotai";
 
 interface StudyModeFlashcardProps {
   flippedState: boolean;
-  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditable: boolean;
   isFinishedStudying?: boolean;
   frontBlocks?: string[];
   backBlocks?: string[];
@@ -59,8 +57,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   flippedState,
   isFinishedStudying,
   flashcardId,
-  isEditable,
-  setIsEditable,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -75,6 +71,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [, setBlockLink] = useAtom(blockLinkAtom);
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
   const [hasFocus, setHasFocus] = useState<boolean>(false);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
 
   // Set front editor state on mount
   useEffect(() => {

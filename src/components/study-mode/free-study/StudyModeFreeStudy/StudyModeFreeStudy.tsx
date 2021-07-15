@@ -11,7 +11,6 @@ interface StudyModeFreeStudyProps {}
 
 const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const { flashcardIndex: index } = useParams<Params>();
-  const [isEditable, setIsEditable] = useState<boolean>(false);
   const [flashcardIndex, setFlashcardIndex] = useState<number>(
     Number(index) - 1
   );
@@ -28,8 +27,6 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
             maxLength={maxLength}
             flippedState={flippedState}
             studyMode={STUDY_MODE_TYPES.FREE_STUDY}
-            isEditable={isEditable}
-            setIsEditable={setIsEditable}
           />
           <StudyModeController
             maxLength={maxLength}

@@ -26,15 +26,15 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
   return (
     <GeneralModal isOpen={isOpen} header={header} handleClose={handleClose}>
       <Flex justifyContent="center">
-        {/* <NavLink
+        <NavLink
           to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}/1`}
-        > */}
-        <ThumbnailCard
-          topText={formatMessage("studyMode.chooseModal.spacedRepetition")}
-          bottomText={formatMessage("studyMode.chooseModal.intervalStudying")}
-          backgroundImage={SpacedRepetitionCard}
-        />
-        {/* </NavLink> */}
+        >
+          <ThumbnailCard
+            topText={formatMessage("studyMode.chooseModal.spacedRepetition")}
+            bottomText={formatMessage("studyMode.chooseModal.intervalStudying")}
+            backgroundImage={SpacedRepetitionCard}
+          />
+        </NavLink>
         <Spacer width={theme.spacers.size64} />
         <StyledNavLink
           to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1/`}

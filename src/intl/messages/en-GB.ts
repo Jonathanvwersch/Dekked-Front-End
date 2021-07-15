@@ -72,6 +72,10 @@ const en_GB = {
           easilyRemembered: "Easily remembered",
           nextReview: "Next review in {time}",
         },
+        flipCard: {
+          flipCard: "Flip card",
+          clickToShowAnswer: "Click to show answer",
+        },
       },
       flashcard: {
         congratulations: "Congratulations!",

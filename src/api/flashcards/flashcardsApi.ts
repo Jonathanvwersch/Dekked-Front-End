@@ -33,6 +33,24 @@ export const getFlashcardsByDeckId = async ({
   return { data: json.data.flashcards, deckId: deck?.id };
 };
 
+export const getSpacedRepetitionFlashcardsByDeckId = async ({
+  studySetId,
+}: {
+  studySetId: string;
+}) => {
+  const deck = await getDeckByStudySetId(studySetId);
+
+  const uri = config.api + `/get-sr-flashcards-by-deck-id/${deck?.id}`;
+  const response = await fetch(uri, {
+    headers: {
+      Authorization: `Bearer ${getSessionCookie()}`,
+    },
+  });
+
+  const json = await response.json();
+  return json.data.flashcards;
+};
+
 export const saveFlashcard = async ({
   flashcard_id,
   owner_id,

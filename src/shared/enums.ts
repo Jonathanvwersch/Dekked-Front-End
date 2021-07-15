@@ -179,3 +179,10 @@ export enum TEXT_STYLES {
   BACKGROUND_COLOR_666666 = "BACKGROUND_COLOR_666666",
   BACKGROUND_COLOR_434040 = "BACKGROUND_COLOR_434040",
 }
+
+export enum FlashcardQuality {
+  AGAIN = "Again",
+  HARD = "Hard",
+  GOOD = "Good",
+  EASY = "Easy",
+}

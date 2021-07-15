@@ -9,6 +9,7 @@ interface StudyModeControllerProps {
   setFlashcardIndex: React.Dispatch<React.SetStateAction<number>>;
   setFlippedState: React.Dispatch<React.SetStateAction<boolean>>;
   type: STUDY_MODE_TYPES;
+  flippedState?: boolean;
 }
 
 const StudyModeController: React.FC<StudyModeControllerProps> = ({
@@ -16,6 +17,7 @@ const StudyModeController: React.FC<StudyModeControllerProps> = ({
   flashcardIndex,
   setFlashcardIndex,
   setFlippedState,
+  flippedState,
   type,
 }) => {
   return (
@@ -29,7 +31,13 @@ const StudyModeController: React.FC<StudyModeControllerProps> = ({
         />
       ) : null}
       {type === STUDY_MODE_TYPES.SPACED_REPETITION ? (
-        <SpacedRepetitionController />
+        <SpacedRepetitionController
+          maxLength={maxLength}
+          flashcardIndex={flashcardIndex}
+          setFlashcardIndex={setFlashcardIndex}
+          setFlippedState={setFlippedState}
+          flippedState={flippedState}
+        />
       ) : null}
     </>
   );

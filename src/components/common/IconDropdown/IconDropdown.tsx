@@ -67,6 +67,7 @@ const IconDropdown: React.FC<ChangeTextStyleProps> = ({
         open={showModal}
         handleClose={() => setShowModal(false)}
         data={modal.data}
+        fakeFocus={true}
         fullHeight={true}
       />
     </>

@@ -46,6 +46,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
     data.length,
     preventDefault
   );
+
   const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
 
   useEffect(() => {
