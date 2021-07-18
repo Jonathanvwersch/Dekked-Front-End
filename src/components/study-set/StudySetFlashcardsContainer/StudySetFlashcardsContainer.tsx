@@ -1,11 +1,5 @@
 import { isEmpty, isEqual } from "lodash";
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { Fragment, useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
@@ -36,7 +30,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       setFlashcards(data?.data);
       setDeckId(data?.deckId);
     }, [data, setFlashcards, setDeckId]);

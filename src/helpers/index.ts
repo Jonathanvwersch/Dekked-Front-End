@@ -8,5 +8,6 @@ export { differenceInObjects } from "./differenceInObjects";
 export { useAddAsset } from "./useAddAsset";
 export { useDeleteAsset } from "./useDeleteAsset";
 export { useUpdateAsset } from "./useUpdateAsset";
+export { orZero } from "./orZero";
 export * from "./formValidation";
 export * from "./cookies";

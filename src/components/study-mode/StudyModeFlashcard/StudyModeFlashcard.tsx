@@ -15,6 +15,7 @@ import { HashLink } from "react-router-hash-link";
 import {
   BUTTON_THEME,
   FILETREE_TYPES,
+  FlashcardLearningStatus,
   Params,
   SIZES,
   STUDY_MODE_TYPES,
@@ -48,6 +49,7 @@ interface StudyModeFlashcardProps {
   studyMode?: STUDY_MODE_TYPES;
   flashcardId?: string;
   ownerId?: string;
+  learningStatus?: FlashcardLearningStatus;
 }
 const logoIconSize = SIZES.XLARGE;
 
@@ -58,6 +60,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   flippedState,
   isFinishedStudying,
   flashcardId,
+  learningStatus,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -143,6 +146,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         height="100%"
         backgroundImage={Confetti}
         isFinishedStudying={isFinishedStudying}
+        learningStatus={learningStatus}
       >
         {!isFinishedStudying ? (
           <CardHeader>
@@ -216,6 +220,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
 const Flashcard = styled(ShadowCard)<{
   backgroundImage: string;
   isFinishedStudying?: boolean;
+  learningStatus?: FlashcardLearningStatus;
 }>`
   overflow-y: auto;
   position: relative;
@@ -225,6 +230,18 @@ const Flashcard = styled(ShadowCard)<{
     isFinishedStudying && backgroundImage
       ? `url(${backgroundImage})`
       : undefined};
+
+  border: ${({ theme, learningStatus }) =>
+    `1px solid ${
+      learningStatus === FlashcardLearningStatus.NEW
+        ? theme.colors.success
+        : learningStatus === FlashcardLearningStatus.LEARNING
+        ? theme.colors.primary
+        : learningStatus === FlashcardLearningStatus.LEARNED ||
+          learningStatus === FlashcardLearningStatus.DUE
+        ? theme.colors.danger
+        : "transparent"
+    } `};
 `;
 
 const LogoIconContainer = styled(IconActive)`

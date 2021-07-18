@@ -70,15 +70,17 @@ interface FlashcardInterface {
   front_ordering: string[];
   date_created: Date;
   date_modified: Date;
-  block_link?: string;
-  status?: FlashcardStatus;
-  quality?: number;
-  ease_factor?: number;
-  failed_attempts?: number;
-  interval?: number;
+  status: FlashcardStatus;
+  learning_status: FlashcardLearningStatus;
+  ease_factor: number;
+  failed_consecutive_attempts: number;
+  interval: number;
   front_blocks: string[];
   back_blocks: string[];
+  due_date: Date;
   deck_id: string;
+  block_link?: string;
+  quality?: number;
 }
 
 interface UserInterface {
@@ -90,10 +92,14 @@ interface UserInterface {
   date_created?: string;
   date_modified?: string;
 }
+
 interface DeckInterface {
   id: string;
   owner_id: string;
   study_set_id: string;
-  date_created?: string;
-  date_modified?: string;
+  date_created: string;
+  date_modified: string;
+  easy_bonus: number;
+  interval_modifier: number;
+  new_interval: number;
 }

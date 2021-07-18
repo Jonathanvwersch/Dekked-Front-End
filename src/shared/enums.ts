@@ -180,8 +180,22 @@ export enum TEXT_STYLES {
   BACKGROUND_COLOR_434040 = "BACKGROUND_COLOR_434040",
 }
 
+export enum FlashcardStatus {
+  NEW = "New",
+  NEW_1 = "New_1",
+  NEW_2 = "New_2",
+  GRADUATED = "Graduated",
+}
+
 export enum FlashcardQuality {
   REPEAT = "Repeat",
   REMEMBERED = "Remembered",
   EASILY_REMEMBERED = "Easily remembered",
+}
+
+export enum FlashcardLearningStatus {
+  NEW = "New",
+  LEARNING = "Learning",
+  LEARNED = "Learned",
+  DUE = "Due",
 }

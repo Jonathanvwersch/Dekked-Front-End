@@ -1,10 +1,22 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
 import { saveFlashcard } from "../../../../api";
 import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
-import { BUTTON_THEME, FlashcardQuality, SIZES } from "../../../../shared";
+import { formatNumber } from "../../../../intl";
+import {
+  BUTTON_THEME,
+  FlashcardLearningStatus,
+  FlashcardQuality,
+  FlashcardStatus,
+  SIZES,
+} from "../../../../shared";
 import { Button, Flex, Spacer, Text } from "../../../common";
+import {
+  calculateNewInterval,
+  easilyRememberedButtonTimings,
+  rememberedButtonTimings,
+} from "./SpacedRepetitionController.helpers";
 
 interface SpacedRepetitionControllerProps {
   maxLength: number;
@@ -15,6 +27,10 @@ interface SpacedRepetitionControllerProps {
   ownerId?: string;
   flashcardId?: string;
   deckId?: string;
+  status?: FlashcardStatus;
+  interval?: number;
+  easeFactor?: number;
+  easyBonus?: number;
 }
 
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
@@ -26,10 +42,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   ownerId,
   flashcardId,
   deckId,
+  status,
+  interval,
+  easeFactor,
+  easyBonus,
 }) => {
-  const { theme } = usePageSetupHelpers();
+  const intl = useIntl();
+  const { theme, formatMessage } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
-
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
 
   const spacedRepetitionButton = (
@@ -38,7 +58,8 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     reviewText: string,
     reviewTime?: string,
     flipCard?: boolean,
-    quality?: FlashcardQuality
+    quality?: FlashcardQuality,
+    newLearningStatus?: FlashcardLearningStatus
   ) => {
     return (
       <Flex flexDirection="column">
@@ -50,11 +71,19 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
             flipCard ? setFlippedState(false) : setFlippedState(true);
             !flipCard && setFlashcardIndex((prevState) => prevState + 1);
             !flipCard &&
+              quality &&
               saveCard({
                 flashcard_id: flashcardId,
                 owner_id: ownerId,
                 deck_id: deckId,
                 quality,
+                interval: calculateNewInterval(
+                  quality,
+                  interval,
+                  easeFactor,
+                  easyBonus
+                ),
+                learningStatus: newLearningStatus,
               });
           }}
         >
@@ -97,26 +126,49 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                 BUTTON_THEME.DANGER,
                 `${messagePrefix}.controller.repeat`,
                 `${messagePrefix}.controller.nextReview`,
-                "<10 mins",
+                `<${formatNumber(10, intl)} ${formatMessage(
+                  `${messagePrefix}.controller.mins`
+                )}`,
                 undefined,
-                FlashcardQuality.REPEAT
+                FlashcardQuality.REPEAT,
+                FlashcardLearningStatus.LEARNING
               )}
               {spacedRepetitionButton(
                 BUTTON_THEME.SECONDARY,
                 `${messagePrefix}.controller.remembered`,
                 `${messagePrefix}.controller.nextReview`,
-                "1 day",
+                `${formatNumber(
+                  rememberedButtonTimings(
+                    status,
+                    interval,
+                    easeFactor,
+                    easyBonus
+                  ),
+                  intl
+                )} ${formatMessage(`${messagePrefix}.controller.days`)}`,
                 undefined,
-                FlashcardQuality.REMEMBERED
+                FlashcardQuality.REMEMBERED,
+                FlashcardLearningStatus.LEARNED
               )}
-              {spacedRepetitionButton(
-                BUTTON_THEME.PRIMARY,
-                `${messagePrefix}.controller.easilyRemembered`,
-                `${messagePrefix}.controller.nextReview`,
-                "6 days",
-                undefined,
-                FlashcardQuality.EASILY_REMEMBERED
-              )}
+              {status === FlashcardStatus.GRADUATED
+                ? spacedRepetitionButton(
+                    BUTTON_THEME.PRIMARY,
+                    `${messagePrefix}.controller.easilyRemembered`,
+                    `${messagePrefix}.controller.nextReview`,
+                    `${formatNumber(
+                      easilyRememberedButtonTimings(
+                        status,
+                        interval,
+                        easeFactor,
+                        easyBonus
+                      ),
+                      intl
+                    )} ${formatMessage(`${messagePrefix}.controller.days`)}`,
+                    undefined,
+                    FlashcardQuality.EASILY_REMEMBERED,
+                    FlashcardLearningStatus.LEARNED
+                  )
+                : null}
             </Flex>
           )}
         </Flex>

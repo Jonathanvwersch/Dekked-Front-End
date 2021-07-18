@@ -63,6 +63,7 @@ interface StudySetFlashcardProps {
   setFlashcards?: (
     update?: SetStateAction<FlashcardInterface[] | undefined>
   ) => void;
+  closeModal?: () => void;
 }
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
@@ -78,6 +79,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   toolbarSize = SIZES.SMALL,
   type,
   setFlashcards,
+  closeModal,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -126,7 +128,20 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const { mutate: deleteCard } = useMutation(
     `${studySetId}-delete-flashcard`,
-    deleteFlashcard
+    deleteFlashcard,
+    {
+      onSuccess: (data, { flashcard_id }) => {
+        queryClient.setQueryData(
+          `${studySetId}-get-flashcards`,
+          (prevState: any) => {
+            const newState = prevState?.data?.filter(
+              (flashcard: FlashcardInterface) => flashcard.id !== flashcard_id
+            );
+            return { data: newState, deckId: prevState?.deckId };
+          }
+        );
+      },
+    }
   );
 
   const updateFlashcards = (
@@ -143,24 +158,26 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     return flashcards || [];
   };
 
-  const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
-    "save-flashcard",
-    saveFlashcard,
-    {
-      onSuccess: (data, { flashcard_id }) => {
-        queryClient.setQueryData(
-          `${studySetId}-get-flashcards`,
-          (prevState: any) => {
-            return updateFlashcards(
-              prevState,
-              data?.fullFlashcard,
-              flashcard_id
-            );
-          }
-        );
-      },
+  const {
+    mutate: saveCard,
+    isLoading: isSaveLoading,
+    isSuccess: isSaveSuccess,
+  } = useMutation("save-flashcard", saveFlashcard, {
+    onSuccess: (data, { flashcard_id }) => {
+      queryClient.setQueryData(
+        `${studySetId}-get-flashcards`,
+        (prevState: any) => {
+          return updateFlashcards(prevState, data?.fullFlashcard, flashcard_id);
+        }
+      );
+    },
+  });
+
+  useEffect(() => {
+    if (isSaveSuccess) {
+      closeModal && closeModal();
     }
-  );
+  }, [isSaveSuccess, closeModal]);
 
   // Switch up current side depending on focus
   useLayoutEffect(() => {
@@ -317,6 +334,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           deck_id: deckId,
           owner_id: ownerId,
         });
+      closeModal && closeModal();
     }
   };
 

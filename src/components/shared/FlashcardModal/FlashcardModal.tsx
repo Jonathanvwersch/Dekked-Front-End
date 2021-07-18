@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Overlay } from "../../common";
 import { MODAL_TYPE, SIZES } from "../../../shared";
 import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
 import { StudySetFlashcard } from "../../study-set";
-import { useIsMutating } from "react-query";
 import styled, { ThemeContext } from "styled-components";
 import {
   flashcardsAtom,
@@ -36,9 +35,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   type = "add",
 }) => {
   const theme = useContext(ThemeContext);
-  const isSaving = useIsMutating({
-    mutationKey: `save-flashcard`,
-  });
+
   const [isLayeredModalOpen] = useAtom(layeredModalAtom);
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [isUnsavedChangesModalOpen, setIsUnsavedChangesModalOpen] =
@@ -46,12 +43,6 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   const [isMainFlashcardButtonDisabled] = useAtom(
     isMainFlashcardButtonDisabledAtom
   );
-
-  useEffect(() => {
-    if (!isSaving) {
-      setIsOpen(false);
-    }
-  }, [isSaving, setIsOpen]);
 
   return (
     <>
@@ -84,6 +75,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
               vertical
               toolbarSize={SIZES.MEDIUM}
               fullHeight
+              closeModal={() => setIsOpen(false)}
             />
           </StyledAutoFocusInside>
         </StyledFocusLock>

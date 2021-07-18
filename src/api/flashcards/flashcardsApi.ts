@@ -3,7 +3,7 @@ import { EditorState } from "draft-js";
 import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.helpers";
 import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
-import { FlashcardQuality } from "../../shared";
+import { FlashcardLearningStatus, FlashcardQuality } from "../../shared";
 
 export const getDeckByStudySetId = async (studySetId: string) => {
   const uri = config.api + `/get-deck-by-study-set-id/${studySetId}`;
@@ -39,7 +39,7 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
 }: {
   studySetId: string;
 }) => {
-  const deck = await getDeckByStudySetId(studySetId);
+  const deck: DeckInterface = await getDeckByStudySetId(studySetId);
 
   const uri = config.api + `/get-sr-flashcards-by-deck-id/${deck?.id}`;
   const response = await fetch(uri, {
@@ -48,8 +48,10 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
     },
   });
 
-  const json = await response.json();
-  return json.data.flashcards;
+  const json: { data: { flashcards: FlashcardInterface[] } } =
+    await response.json();
+
+  return { flashcards: json.data.flashcards, deck: deck };
 };
 
 export const saveFlashcard = async ({
@@ -59,6 +61,8 @@ export const saveFlashcard = async ({
   frontEditorState,
   backEditorState,
   quality,
+  interval,
+  learningStatus,
 }: {
   flashcard_id: string | undefined;
   owner_id: string | undefined;
@@ -66,6 +70,8 @@ export const saveFlashcard = async ({
   frontEditorState?: EditorState;
   backEditorState?: EditorState;
   quality?: FlashcardQuality;
+  interval?: number;
+  learningStatus?: FlashcardLearningStatus;
 }) => {
   const url = config.api + `/flashcard/${flashcard_id}`;
 
@@ -78,11 +84,15 @@ export const saveFlashcard = async ({
     back_draft_keys?: string[];
     back_blocks?: string[];
     quality?: FlashcardQuality;
+    interval?: number;
+    learning_status?: FlashcardLearningStatus;
   } = {
     flashcard_id,
     owner_id,
     deck_id,
     quality,
+    interval,
+    learning_status: learningStatus,
   };
 
   if (frontEditorState) {

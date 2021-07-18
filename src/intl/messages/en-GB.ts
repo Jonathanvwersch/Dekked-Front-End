@@ -71,6 +71,10 @@ const en_GB = {
           remembered: "Remembered",
           easilyRemembered: "Easily remembered",
           nextReview: "Next review in {time}",
+          day: "day",
+          days: "days",
+          min: "min",
+          mins: "mins",
         },
         flipCard: {
           flipCard: "Flip card",
