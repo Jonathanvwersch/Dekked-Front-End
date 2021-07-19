@@ -61,7 +61,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   isFinishedStudying,
   flashcardId,
   learningStatus,
-  studyMode
+  studyMode,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -223,7 +223,7 @@ const Flashcard = styled(ShadowCard)<{
   backgroundImage: string;
   isFinishedStudying?: boolean;
   learningStatus?: FlashcardLearningStatus;
-  studyMode?: STUDY_MODE_TYPES
+  studyMode?: STUDY_MODE_TYPES;
 }>`
   overflow-y: auto;
   position: relative;
@@ -235,7 +235,7 @@ const Flashcard = styled(ShadowCard)<{
       : undefined};
 
   border: ${({ theme, learningStatus, studyMode }) =>
-  studyMode === STUDY_MODE_TYPES.SPACED_REPETITION  &&
+    studyMode === STUDY_MODE_TYPES.SPACED_REPETITION &&
     `1px solid ${
       learningStatus === FlashcardLearningStatus.NEW
         ? theme.colors.success
@@ -245,7 +245,7 @@ const Flashcard = styled(ShadowCard)<{
           learningStatus === FlashcardLearningStatus.DUE
         ? theme.colors.danger
         : "transparent"
-    }`}
+    }`};
 `;
 
 const LogoIconContainer = styled(IconActive)`

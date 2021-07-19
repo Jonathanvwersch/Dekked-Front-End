@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getSpacedRepetitionFlashcardsByDeckId } from "../../../../api";
@@ -12,10 +12,7 @@ interface StudyModeSpacedRepetitionProps {}
 
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
-    const { flashcardIndex: index } = useParams<Params>();
-    const [flashcardIndex, setFlashcardIndex] = useState<number>(
-      Number(index) - 1
-    );
+    const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
     const { id: studySetId } = useParams<Params>();
     const { data, isLoading, isFetching } = useQuery<{
       flashcards: FlashcardInterface[];
@@ -25,9 +22,14 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       () => getSpacedRepetitionFlashcardsByDeckId({ studySetId }),
       { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
-
+    const [flashcards, setFlashcards] =
+      useState<FlashcardInterface[] | undefined>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
     const maxLength = data?.flashcards?.length;
+
+    useEffect(() => {
+      setFlashcards(data?.flashcards);
+    }, [data]);
 
     return (
       <>
@@ -44,22 +46,23 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
                 flashcardIndex={flashcardIndex}
                 flippedState={flippedState}
                 maxLength={maxLength}
-                flashcards={data?.flashcards}
+                flashcards={flashcards}
                 studyMode={STUDY_MODE_TYPES.SPACED_REPETITION}
               />
               <SpacedRepetitionController
-                ownerId={data?.flashcards?.[flashcardIndex]?.owner_id}
-                flashcardId={data?.flashcards?.[flashcardIndex]?.id}
-                deckId={data?.flashcards?.[flashcardIndex]?.deck_id}
+                ownerId={flashcards?.[flashcardIndex]?.owner_id}
+                flashcardId={flashcards?.[flashcardIndex]?.id}
+                deckId={flashcards?.[flashcardIndex]?.deck_id}
                 maxLength={maxLength}
+                flashcards={flashcards}
                 flashcardIndex={flashcardIndex}
                 setFlashcardIndex={setFlashcardIndex}
                 setFlippedState={setFlippedState}
                 flippedState={flippedState}
-                easeFactor={data?.flashcards?.[flashcardIndex]?.ease_factor}
+                easeFactor={flashcards?.[flashcardIndex]?.ease_factor}
                 easyBonus={data?.deck?.easy_bonus}
-                status={data?.flashcards?.[flashcardIndex]?.status}
-                interval={data?.flashcards?.[flashcardIndex]?.interval}
+                status={flashcards?.[flashcardIndex]?.status}
+                interval={flashcards?.[flashcardIndex]?.interval}
               />
             </Flex>
           )

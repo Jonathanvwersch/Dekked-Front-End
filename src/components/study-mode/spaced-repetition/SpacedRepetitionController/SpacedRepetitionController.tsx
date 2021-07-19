@@ -2,6 +2,7 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
 import { saveFlashcard } from "../../../../api";
+import { moveArrayItem } from "../../../../helpers";
 import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
 import { formatNumber } from "../../../../intl";
 import {
@@ -31,6 +32,7 @@ interface SpacedRepetitionControllerProps {
   interval?: number;
   easeFactor?: number;
   easyBonus?: number;
+  flashcards?: FlashcardInterface[];
 }
 
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
@@ -46,6 +48,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   interval,
   easeFactor,
   easyBonus,
+  flashcards,
 }) => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
@@ -57,24 +60,34 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     quality?: FlashcardQuality,
     newLearningStatus?: FlashcardLearningStatus
   ) => {
-    flipCard ? setFlippedState(false) : setFlippedState(true);
-    !flipCard && setFlashcardIndex((prevState) => prevState + 1);
-    !flipCard &&
+    flipCard && setFlippedState(false);
+    if (quality === FlashcardQuality.REPEAT) {
+      if (maxLength - 1 - flashcardIndex < 10) {
+        flashcards?.push(flashcards?.[flashcardIndex]);
+      } else {
+        flashcards &&
+          moveArrayItem(flashcards, flashcardIndex, flashcardIndex + 9);
+      }
+    }
+    if (!flipCard) {
+      setFlippedState(true);
+      setFlashcardIndex((prevState) => prevState + 1);
       quality &&
-      saveCard({
-        flashcard_id: flashcardId,
-        owner_id: ownerId,
-        deck_id: deckId,
-        quality,
-        interval: calculateNewInterval(
+        saveCard({
+          flashcard_id: flashcardId,
+          owner_id: ownerId,
+          deck_id: deckId,
           quality,
-          status,
-          interval,
-          easeFactor,
-          easyBonus
-        ),
-        learningStatus: newLearningStatus,
-      });
+          interval: calculateNewInterval(
+            quality,
+            status,
+            interval,
+            easeFactor,
+            easyBonus
+          ),
+          learningStatus: newLearningStatus,
+        });
+    }
   };
 
   const spacedRepetitionButton = (

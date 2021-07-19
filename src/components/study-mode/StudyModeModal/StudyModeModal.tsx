@@ -27,7 +27,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
     <GeneralModal isOpen={isOpen} header={header} handleClose={handleClose}>
       <Flex justifyContent="center">
         <NavLink
-          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}/1`}
+          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
         >
           <ThumbnailCard
             topText={formatMessage("studyMode.chooseModal.spacedRepetition")}

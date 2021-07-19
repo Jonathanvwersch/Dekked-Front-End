@@ -25,7 +25,7 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
       <StyledInsetPage size={SIZES.LARGE} overflow="hidden">
         <CustomSwitch>
           <PrivateRoute
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}/:flashcardIndex`}
+            path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
             component={StudyModeSpacedRepetition}
           />
           <PrivateRoute

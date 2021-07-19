@@ -38,8 +38,7 @@ const OptionsPage: React.FC = () => {
           component={StudySetPage}
         />
         <PrivateRoute
-          exact
-          path={`/:type/:id/study/:studyModes/:flashcardIndex`}
+          path={`/:type/:id/study/:studyModes`}
           component={StudyModePage}
         />
       </CustomSwitch>
