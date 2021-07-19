@@ -35,13 +35,13 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       setDeckId(data?.deckId);
     }, [data, setFlashcards, setDeckId]);
 
-    useEffect(() => {
-      if (!isAdding) {
-        endOfFlashcardsContainer?.current?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, [isAdding]);
+    // useEffect(() => {
+    //   if (!isAdding) {
+    //     endOfFlashcardsContainer?.current?.scrollIntoView({
+    //       behavior: "smooth",
+    //     });
+    //   }
+    // }, [isAdding]);
 
     return (
       <Flex flexDirection="column">

@@ -52,6 +52,31 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const messagePrefix = "studyMode.spacedRepetition";
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
 
+  const handleSpacedRepetitionButton = (
+    flipCard?: boolean,
+    quality?: FlashcardQuality,
+    newLearningStatus?: FlashcardLearningStatus
+  ) => {
+    flipCard ? setFlippedState(false) : setFlippedState(true);
+    !flipCard && setFlashcardIndex((prevState) => prevState + 1);
+    !flipCard &&
+      quality &&
+      saveCard({
+        flashcard_id: flashcardId,
+        owner_id: ownerId,
+        deck_id: deckId,
+        quality,
+        interval: calculateNewInterval(
+          quality,
+          status,
+          interval,
+          easeFactor,
+          easyBonus
+        ),
+        learningStatus: newLearningStatus,
+      });
+  };
+
   const spacedRepetitionButton = (
     buttonStyle: BUTTON_THEME,
     buttonText: string,
@@ -67,25 +92,9 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
           buttonStyle={buttonStyle}
           size={SIZES.MEDIUM}
           width="180px"
-          handleClick={() => {
-            flipCard ? setFlippedState(false) : setFlippedState(true);
-            !flipCard && setFlashcardIndex((prevState) => prevState + 1);
-            !flipCard &&
-              quality &&
-              saveCard({
-                flashcard_id: flashcardId,
-                owner_id: ownerId,
-                deck_id: deckId,
-                quality,
-                interval: calculateNewInterval(
-                  quality,
-                  interval,
-                  easeFactor,
-                  easyBonus
-                ),
-                learningStatus: newLearningStatus,
-              });
-          }}
+          handleClick={() =>
+            handleSpacedRepetitionButton(flipCard, quality, newLearningStatus)
+          }
         >
           <FormattedMessage id={buttonText} />
         </Button>
@@ -107,6 +116,38 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   };
 
   useKeyPress([" ", "Spacebar"], flipCard);
+
+  useKeyPress(["1"], () =>
+    handleSpacedRepetitionButton(
+      false,
+      FlashcardQuality.REPEAT,
+      FlashcardLearningStatus.LEARNING
+    )
+  );
+  useKeyPress(["2"], () =>
+    handleSpacedRepetitionButton(
+      false,
+      FlashcardQuality.REMEMBERED,
+      FlashcardLearningStatus.LEARNED
+    )
+  );
+  useKeyPress(
+    ["3"],
+    () =>
+      status === FlashcardStatus.GRADUATED &&
+      handleSpacedRepetitionButton(
+        false,
+        FlashcardQuality.EASILY_REMEMBERED,
+        FlashcardLearningStatus.LEARNED
+      )
+  );
+
+  const rememberedInterval = rememberedButtonTimings(
+    status,
+    interval,
+    easeFactor,
+    easyBonus
+  );
 
   return (
     <>
@@ -137,15 +178,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                 BUTTON_THEME.SECONDARY,
                 `${messagePrefix}.controller.remembered`,
                 `${messagePrefix}.controller.nextReview`,
-                `${formatNumber(
-                  rememberedButtonTimings(
-                    status,
-                    interval,
-                    easeFactor,
-                    easyBonus
-                  ),
-                  intl
-                )} ${formatMessage(`${messagePrefix}.controller.days`)}`,
+                `${formatNumber(rememberedInterval, intl)} ${formatMessage(
+                  `${messagePrefix}.controller.${
+                    rememberedInterval === 1 ? "day" : "days"
+                  }`
+                )}`,
                 undefined,
                 FlashcardQuality.REMEMBERED,
                 FlashcardLearningStatus.LEARNED

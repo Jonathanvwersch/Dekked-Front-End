@@ -174,10 +174,10 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   });
 
   useEffect(() => {
-    if (isSaveSuccess) {
+    if (isSaveSuccess && !isSaveLoading) {
       closeModal && closeModal();
     }
-  }, [isSaveSuccess, closeModal]);
+  }, [isSaveSuccess, closeModal, isSaveLoading]);
 
   // Switch up current side depending on focus
   useLayoutEffect(() => {

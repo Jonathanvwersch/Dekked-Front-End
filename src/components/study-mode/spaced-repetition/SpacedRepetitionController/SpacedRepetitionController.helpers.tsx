@@ -1,7 +1,7 @@
 import { orZero } from "../../../../helpers";
 import { FlashcardQuality, FlashcardStatus } from "../../../../shared";
 
-export const calculateNewInterval = (
+const calculateGraduatedInterval = (
   quality: FlashcardQuality,
   interval: number | undefined,
   easeFactor: number | undefined,
@@ -36,7 +36,7 @@ export const rememberedButtonTimings = (
   }
 
   if (status === FlashcardStatus.GRADUATED) {
-    return calculateNewInterval(
+    return calculateGraduatedInterval(
       FlashcardQuality.EASILY_REMEMBERED,
       interval,
       easeFactor,
@@ -61,7 +61,7 @@ export const easilyRememberedButtonTimings = (
     return 14;
   }
   if (status === FlashcardStatus.GRADUATED) {
-    return calculateNewInterval(
+    return calculateGraduatedInterval(
       FlashcardQuality.EASILY_REMEMBERED,
       interval,
       easeFactor,
@@ -70,4 +70,25 @@ export const easilyRememberedButtonTimings = (
   }
 
   return 0;
+};
+
+export const calculateNewInterval = (
+  quality: FlashcardQuality,
+  status: FlashcardStatus | undefined,
+  interval: number | undefined,
+  easeFactor: number | undefined,
+  easyBonus: number | undefined
+) => {
+  if (quality === FlashcardQuality.REPEAT) {
+    return 0;
+  } else if (quality === FlashcardQuality.REMEMBERED) {
+    return rememberedButtonTimings(status, interval, easeFactor, easyBonus);
+  } else {
+    return easilyRememberedButtonTimings(
+      status,
+      interval,
+      easeFactor,
+      easyBonus
+    );
+  }
 };

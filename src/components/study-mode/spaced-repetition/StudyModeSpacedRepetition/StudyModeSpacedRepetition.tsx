@@ -3,7 +3,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getSpacedRepetitionFlashcardsByDeckId } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
-import { Flex, FullPageLoadingSpinner, Text } from "../../../common";
+import { Flex, FullPageLoadingSpinner } from "../../../common";
+import StudyModeFlashcard from "../../StudyModeFlashcard/StudyModeFlashcard";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 
@@ -16,7 +17,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       Number(index) - 1
     );
     const { id: studySetId } = useParams<Params>();
-    const { data, isLoading } = useQuery<{
+    const { data, isLoading, isFetching } = useQuery<{
       flashcards: FlashcardInterface[];
       deck: DeckInterface;
     }>(
@@ -30,9 +31,9 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
 
     return (
       <>
-        {!isLoading ? (
+        {!isLoading && !isFetching ? (
           !maxLength ? (
-            <Text>Empty</Text>
+            <StudyModeFlashcard isFinishedStudying />
           ) : (
             <Flex
               flexDirection="column"
