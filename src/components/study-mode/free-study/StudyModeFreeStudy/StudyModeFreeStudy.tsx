@@ -1,6 +1,8 @@
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "../../../common";
@@ -14,13 +16,42 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const [flashcardIndex, setFlashcardIndex] = useState<number>(
     Number(index) - 1
   );
+  const { id: studySetId } = useParams<Params>();
   const [flippedState, setFlippedState] = useState<boolean>(true);
-  const [flashcards] = useAtom(flashcardsAtom);
+  const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
   const maxLength = flashcards?.length;
+
+  // we only want to fetch flashcards if none exist
+  // this occurs on refresh of study mode page.
+  const { data: deck } = useQuery(
+    `${studySetId}-get-deck`,
+    () => getDeckByStudySetId({ studySetId }),
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      enabled: !flashcards,
+    }
+  );
+
+  const { data: fetchedFlashcards, isFetching } = useQuery<
+    FlashcardInterface[]
+  >(
+    `${studySetId}-get-flashcards`,
+    () => getFlashcardsByDeckId({ deckId: deck?.id }),
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      enabled: Boolean(deck?.id) && !flashcards,
+    }
+  );
+
+  useEffect(() => {
+    if (fetchedFlashcards) setFlashcards(fetchedFlashcards);
+  }, [fetchedFlashcards, setFlashcards]);
 
   return (
     <>
-      {typeof maxLength !== "undefined" ? (
+      {typeof maxLength !== "undefined" && !isFetching && flashcards ? (
         <>
           <StudyModeMainFrame
             flashcardIndex={flashcardIndex}

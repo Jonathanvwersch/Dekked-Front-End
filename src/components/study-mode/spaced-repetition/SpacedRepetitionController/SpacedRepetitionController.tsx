@@ -3,7 +3,12 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
 import { saveFlashcard } from "../../../../api";
 import { moveArrayItem } from "../../../../helpers";
-import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
+import {
+  useKeyPress,
+  usePageSetupHelpers,
+  useResponsiveLayout,
+} from "../../../../hooks";
+import { LAYOUT_HORIZONTAL } from "../../../../hooks/useResponsiveLayout";
 import { formatNumber } from "../../../../intl";
 import {
   BUTTON_THEME,
@@ -54,6 +59,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const { theme, formatMessage } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
+  const layout = useResponsiveLayout(1200);
 
   const handleSpacedRepetitionButton = (
     flipCard?: boolean,
@@ -103,8 +109,8 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       <Flex flexDirection="column">
         <Button
           buttonStyle={buttonStyle}
-          size={SIZES.MEDIUM}
-          width="180px"
+          size={SIZES.LARGE}
+          width={layout === LAYOUT_HORIZONTAL ? "250px" : "200px"}
           handleClick={() =>
             handleSpacedRepetitionButton(flipCard, quality, newLearningStatus)
           }

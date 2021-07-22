@@ -130,6 +130,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             history.push(
               `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1`
             );
+            window.location.reload();
           }}
           buttonStyle={BUTTON_THEME.SECONDARY}
         >

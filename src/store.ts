@@ -425,7 +425,7 @@ export const studyModeUrlAtom = atom<string>("/");
 export const blockLinkAtom = atom<string>("");
 
 // Flashcard
-export const flashcardsAtom = atom<FlashcardInterface[] | undefined>([]);
+export const flashcardsAtom = atom<FlashcardInterface[] | undefined>(undefined);
 export const srFlashcardsAtom = atom<FlashcardInterface[] | undefined>([]);
 export const isMainFlashcardButtonDisabledAtom = atom<boolean>(true);
 export const deckAtom = atom<DeckInterface | undefined>(undefined);
