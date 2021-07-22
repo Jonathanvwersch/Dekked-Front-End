@@ -5,7 +5,11 @@ import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 import { FlashcardLearningStatus, FlashcardQuality } from "../../shared";
 
-export const getDeckByStudySetId = async (studySetId: string) => {
+export const getDeckByStudySetId = async ({
+  studySetId,
+}: {
+  studySetId: string;
+}) => {
   const uri = config.api + `/get-deck-by-study-set-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
@@ -16,14 +20,8 @@ export const getDeckByStudySetId = async (studySetId: string) => {
   return json.data.deck;
 };
 
-export const getFlashcardsByDeckId = async ({
-  studySetId,
-}: {
-  studySetId: string;
-}) => {
-  const deck = await getDeckByStudySetId(studySetId);
-
-  const uri = config.api + `/get-flashcards-by-deck-id/${deck?.id}`;
+export const getFlashcardsByDeckId = async ({ deckId }: { deckId: string }) => {
+  const uri = config.api + `/get-flashcards-by-deck-id/${deckId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -31,17 +29,15 @@ export const getFlashcardsByDeckId = async ({
   });
 
   const json = await response.json();
-  return { data: json.data.flashcards, deckId: deck?.id };
+  return json.data.flashcards;
 };
 
 export const getSpacedRepetitionFlashcardsByDeckId = async ({
-  studySetId,
+  deckId,
 }: {
-  studySetId: string;
+  deckId: string;
 }) => {
-  const deck: DeckInterface = await getDeckByStudySetId(studySetId);
-
-  const uri = config.api + `/get-sr-flashcards-by-deck-id/${deck?.id}`;
+  const uri = config.api + `/get-sr-flashcards-by-deck-id/${deckId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -51,7 +47,7 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
   const json: { data: { flashcards: FlashcardInterface[] } } =
     await response.json();
 
-  return { flashcards: json.data.flashcards, deck: deck };
+  return json.data.flashcards;
 };
 
 export const saveFlashcard = async ({

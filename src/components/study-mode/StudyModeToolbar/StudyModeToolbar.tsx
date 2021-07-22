@@ -6,8 +6,8 @@ import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
 import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard } from "../../../api/flashcards/flashcardsApi";
-import { Params, SIZES } from "../../../shared";
-import { flashcardsAtom } from "../../../store";
+import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
+import { flashcardsAtom, srFlashcardsAtom } from "../../../store";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
@@ -19,6 +19,7 @@ interface StudyModeToolbarProps {
   frontBlocks?: string[];
   backBlocks?: string[];
   currentBlockKey?: string;
+  studyMode?: STUDY_MODE_TYPES;
 }
 
 const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
@@ -28,11 +29,13 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   frontBlocks,
   backBlocks,
   currentBlockKey,
+  studyMode,
 }) => {
   const theme = useContext(ThemeContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
+  const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
   const { mutate: deleteCard } = useMutation(
     `${studySetId}-delete-flashcard`,
     deleteFlashcard
@@ -76,9 +79,13 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         handleClose={() => setIsDeleteModalOpen(false)}
         bodyText="studyMode.deleteModal.deleteCard"
         handleMainButton={() => {
-          setFlashcards((prevState) =>
-            prevState?.filter((flashcard) => flashcard.id !== flashcardId)
-          );
+          studyMode === STUDY_MODE_TYPES.FREE_STUDY
+            ? setFlashcards((prevState) =>
+                prevState?.filter((flashcard) => flashcard.id !== flashcardId)
+              )
+            : setSrFlashcards((prevState) =>
+                prevState?.filter((flashcard) => flashcard.id !== flashcardId)
+              );
           deleteCard({
             flashcard_id: flashcardId,
           });
@@ -86,6 +93,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
       />
       <FlashcardModal
         type="edit"
+        studyMode={studyMode}
         frontBlocks={frontBlocks}
         backBlocks={backBlocks}
         blockLink={currentBlockKey}

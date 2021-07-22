@@ -202,6 +202,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
                 <LogoIcon size={logoIconSize} />
               </Tooltip>
             </HashLink>
+            s
           </LogoIconContainer>
         ) : null}
       </Flashcard>
@@ -210,6 +211,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           flashcardId={flashcardId}
           setIsEditable={setIsEditable}
           isEditable={isEditable}
+          studyMode={studyMode}
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
           backBlocks={backBlocks}

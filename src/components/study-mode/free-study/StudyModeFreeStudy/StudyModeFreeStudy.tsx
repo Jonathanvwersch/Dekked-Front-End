@@ -17,6 +17,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const [flippedState, setFlippedState] = useState<boolean>(true);
   const [flashcards] = useAtom(flashcardsAtom);
   const maxLength = flashcards?.length;
+
   return (
     <>
       {typeof maxLength !== "undefined" ? (

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Overlay } from "../../common";
-import { MODAL_TYPE, SIZES } from "../../../shared";
+import { MODAL_TYPE, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
 import { StudySetFlashcard } from "../../study-set";
@@ -9,6 +9,7 @@ import {
   flashcardsAtom,
   isMainFlashcardButtonDisabledAtom,
   layeredModalAtom,
+  srFlashcardsAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 import UnsavedChangesModal, {
@@ -23,6 +24,7 @@ interface FlashcardModalProps {
   backBlocks?: string[];
   blockLink?: string;
   flashcardId?: string;
+  studyMode?: STUDY_MODE_TYPES;
 }
 
 const FlashcardModal: React.FC<FlashcardModalProps> = ({
@@ -33,11 +35,13 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   isOpen,
   setIsOpen,
   type = "add",
+  studyMode,
 }) => {
   const theme = useContext(ThemeContext);
 
   const [isLayeredModalOpen] = useAtom(layeredModalAtom);
   const [, setFlashcards] = useAtom(flashcardsAtom);
+  const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
   const [isUnsavedChangesModalOpen, setIsUnsavedChangesModalOpen] =
     useState<boolean>(false);
   const [isMainFlashcardButtonDisabled] = useAtom(
@@ -69,10 +73,15 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
               currentBlockKey={blockLink}
               frontBlocks={frontBlocks}
               backBlocks={backBlocks}
-              setFlashcards={setFlashcards}
+              setFlashcards={
+                studyMode === STUDY_MODE_TYPES.FREE_STUDY
+                  ? setFlashcards
+                  : setSrFlashcards
+              }
               type={type}
               width="100%"
               vertical
+              studyMode={studyMode}
               toolbarSize={SIZES.MEDIUM}
               fullHeight
               closeModal={() => setIsOpen(false)}
