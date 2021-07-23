@@ -4,7 +4,7 @@ import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
 import { Spacer, Flex } from "../../common";
-import { deckAtom, flashcardsAtom, srFlashcardsAtom } from "../../../store";
+import { deckAtom, flashcardsAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import { Params } from "../../../shared";
 import {
   getDeckByStudySetId,
   getFlashcardsByDeckId,
-  getSpacedRepetitionFlashcardsByDeckId,
 } from "../../../api/flashcards/flashcardsApi";
 
 interface StudySetFlashcardsContainerProps {}
@@ -22,7 +21,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     const theme = useContext(ThemeContext);
     const { id: studySetId } = useParams<Params>();
     const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
-    const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
     const [, setDeck] = useAtom(deckAtom);
     const isAdding = useIsMutating({
       mutationKey: `${studySetId}-add-flashcard`,
@@ -33,16 +31,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       `${studySetId}-get-deck`,
       () => getDeckByStudySetId({ studySetId }),
       { refetchOnReconnect: false, refetchOnWindowFocus: false }
-    );
-
-    const { data: fetchedSrFlashcards } = useQuery<FlashcardInterface[]>(
-      `${studySetId}-get-sr-flashcards`,
-      () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id }),
-      {
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id),
-      }
     );
 
     const { data: fetchedFlashcards, isLoading } = useQuery<
@@ -60,10 +48,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     useEffect(() => {
       setFlashcards(fetchedFlashcards);
     }, [fetchedFlashcards, setFlashcards]);
-
-    useEffect(() => {
-      setSrFlashcards(fetchedSrFlashcards);
-    }, [fetchedSrFlashcards, setSrFlashcards]);
 
     useEffect(() => {
       setDeck(deck);

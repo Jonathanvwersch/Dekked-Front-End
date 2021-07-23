@@ -50,6 +50,8 @@ interface StudyModeFlashcardProps {
   flashcardId?: string;
   ownerId?: string;
   learningStatus?: FlashcardLearningStatus;
+  setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
+  isFlashcardsEmpty?: boolean;
 }
 const logoIconSize = SIZES.XLARGE;
 
@@ -62,6 +64,8 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   flashcardId,
   learningStatus,
   studyMode,
+  setFlashcardIndex,
+  isFlashcardsEmpty,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -101,42 +105,79 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
       height="100%"
       justifyContent="center"
     >
-      <H1 textAlign="center">
-        <FormattedMessage id="studyMode.flashcard.congratulations" />
-      </H1>
-      <Spacer height={theme.spacers.size64} />
-      <H2 styledAs="h5" fontWeight="normal" textAlign="center">
-        <FormattedMessage id="studyMode.flashcard.finish" />
+      {!isFlashcardsEmpty && (
+        <H1 textAlign="center">
+          <FormattedMessage id="studyMode.flashcard.congratulations" />
+        </H1>
+      )}
+      <H2 styledAs="h4">
+        <FormattedMessage
+          id={
+            isFlashcardsEmpty
+              ? "studyMode.flashcard.flashcardsEmpty"
+              : studyMode === STUDY_MODE_TYPES.FREE_STUDY
+              ? "studyMode.flashcard.reachedTheEnd"
+              : "studyMode.flashcard.caughtUp"
+          }
+        />
       </H2>
-      <H2 styledAs="h5" fontWeight="normal" textAlign="center">
-        <FormattedMessage id="studyMode.flashcard.continueStudying" />
-      </H2>
+      <Spacer height={theme.spacers.size48} />
+      {isFlashcardsEmpty ? (
+        <H2 styledAs="h5" fontWeight="normal" textAlign="center">
+          <FormattedMessage id="studyMode.flashcard.clickReturnToStudySet" />
+        </H2>
+      ) : (
+        <>
+          {" "}
+          <H2 styledAs="h5" fontWeight="normal" textAlign="center">
+            <FormattedMessage id="studyMode.flashcard.finish" />
+          </H2>
+          <H2 styledAs="h5" fontWeight="normal" textAlign="center">
+            <FormattedMessage id="studyMode.flashcard.continueStudying" />
+          </H2>
+        </>
+      )}
       <Spacer height={theme.spacers.size32} />
-      <Flex flexDirection="row" alignItems="center" justifyContent="center">
-        <Button
-          size={SIZES.LARGE}
-          width="200px"
-          handleClick={() => {
-            history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
-          }}
-        >
-          <FormattedMessage id="generics.finish" />
-        </Button>
-        <Spacer width={theme.spacers.size16} />
+      {isFlashcardsEmpty ? (
         <Button
           size={SIZES.LARGE}
           width="200px"
           handleClick={() => {
             history.push(
-              `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1`
+              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.FLASHCARDS}`
             );
-            window.location.reload();
           }}
-          buttonStyle={BUTTON_THEME.SECONDARY}
         >
-          <FormattedMessage id="studyMode.chooseModal.freeStudy" />
+          <FormattedMessage id="studyMode.flashcard.returnToStudySet" />
         </Button>
-      </Flex>
+      ) : (
+        <Flex flexDirection="row" alignItems="center" justifyContent="center">
+          <Button
+            size={SIZES.LARGE}
+            width="200px"
+            handleClick={() => {
+              history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
+            }}
+          >
+            <FormattedMessage id="generics.finish" />
+          </Button>
+          <Spacer width={theme.spacers.size16} />
+          <Button
+            size={SIZES.LARGE}
+            width="200px"
+            handleClick={() => {
+              studyMode === STUDY_MODE_TYPES.SPACED_REPETITION
+                ? history.push(
+                    `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1`
+                  )
+                : setFlashcardIndex && setFlashcardIndex(0);
+            }}
+            buttonStyle={BUTTON_THEME.SECONDARY}
+          >
+            <FormattedMessage id="studyMode.chooseModal.freeStudy" />
+          </Button>
+        </Flex>
+      )}
     </Flex>
   );
 
@@ -146,7 +187,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         padding={`${theme.spacers.size48} ${theme.spacers.size48}`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         height="100%"
-        backgroundImage={Confetti}
+        backgroundImage={!isFlashcardsEmpty ? Confetti : undefined}
         isFinishedStudying={isFinishedStudying}
         learningStatus={learningStatus}
         studyMode={studyMode}
@@ -203,7 +244,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
                 <LogoIcon size={logoIconSize} />
               </Tooltip>
             </HashLink>
-            s
           </LogoIconContainer>
         ) : null}
       </Flashcard>
@@ -223,7 +263,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
 };
 
 const Flashcard = styled(ShadowCard)<{
-  backgroundImage: string;
+  backgroundImage?: string;
   isFinishedStudying?: boolean;
   learningStatus?: FlashcardLearningStatus;
   studyMode?: STUDY_MODE_TYPES;

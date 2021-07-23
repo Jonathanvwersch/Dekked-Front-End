@@ -78,7 +78,7 @@ const en_GB = {
         },
         flipCard: {
           flipCard: "Flip card",
-          clickToShowAnswer: "Click to show answer",
+          showAnswer: "Show answer",
         },
       },
       flashcard: {
@@ -86,6 +86,12 @@ const en_GB = {
         finish: "Click finish to return to your study set",
         continueStudying: "or free study to continue studying",
         returnToStudy: "Return to study mode",
+        reachedTheEnd: "You've reached the end of your deck",
+        caughtUp: "You're all caught up for the day",
+        flashcardsEmpty: "It looks like your deck of flashcards is empty",
+        clickReturnToStudySet:
+          "Click return to study set to add your first flashcard",
+        returnToStudySet: "Return to study set",
       },
     },
     forms: {

@@ -30,7 +30,7 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
           />
           <PrivateRoute
             exact
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}/:flashcardIndex`}
+            path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}`}
             component={StudyModeFreeStudy}
           />
         </CustomSwitch>

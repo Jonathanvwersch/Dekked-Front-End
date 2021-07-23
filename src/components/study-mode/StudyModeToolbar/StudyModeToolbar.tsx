@@ -47,6 +47,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   return (
     <>
       <StudyToolbar
+        studyMode={studyMode}
         flexDirection="column"
         width="auto"
         height="100%"
@@ -105,10 +106,11 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   );
 };
 
-const StudyToolbar = styled(Flex)`
+const StudyToolbar = styled(Flex)<{ studyMode?: STUDY_MODE_TYPES }>`
   position: absolute;
   right: ${({ theme }) => theme.spacers.size48};
-  top: 88px;
+  top: ${({ studyMode }) =>
+    studyMode === STUDY_MODE_TYPES.FREE_STUDY ? "88px" : undefined};
 `;
 
 export default StudyModeToolbar;

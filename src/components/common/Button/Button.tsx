@@ -36,12 +36,13 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   size = SIZES.SMALL,
   width,
+  className,
   borderRadius,
   ariaLabel,
   id,
 }) => {
   const Button = ButtonStyles[buttonStyle];
-  const className = fullWidth ? "fullWidth" : "";
+  const buttonClassName = className ? className : fullWidth ? "fullWidth" : "";
 
   return (
     <Button
@@ -51,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
       isLoading={isLoading}
       onClick={handleClick}
       size={size}
-      className={className}
+      className={buttonClassName}
       width={width}
       borderRadius={borderRadius}
       aria-label={ariaLabel}

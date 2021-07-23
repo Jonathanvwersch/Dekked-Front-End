@@ -1,47 +1,95 @@
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getSpacedRepetitionFlashcardsByDeckId } from "../../../../api";
+import {
+  getDeckByStudySetId,
+  getFlashcardsByDeckId,
+  getSpacedRepetitionFlashcardsByDeckId,
+} from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
-import { deckAtom, srFlashcardsAtom } from "../../../../store";
+import { flashcardsAtom, srFlashcardsAtom } from "../../../../store";
 import { Flex, FullPageLoadingSpinner } from "../../../common";
 import StudyModeFlashcard from "../../StudyModeFlashcard/StudyModeFlashcard";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
+import { calculateNumberOfCardsGroupedByLearningStatus } from "./StudyModeSpacedRepetition.helpers";
 
 interface StudyModeSpacedRepetitionProps {}
 
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
     const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
+    const [numberOfLearnedCards, setNumberOfLearnedCards] = useState<number>(0);
+    const [numberOfLearningCards, setNumberOfLearningCards] =
+      useState<number>(0);
+    const [numberOfNewCards, setNumberOfNewCards] = useState<number>(0);
     const [flashcards, setFlashcards] = useAtom(srFlashcardsAtom);
-    const [deck] = useAtom(deckAtom);
+    const [generalFlashcards] = useAtom(flashcardsAtom);
     const { id: studySetId } = useParams<Params>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
     const maxLength = flashcards?.length;
 
-    const { data: fetchedSrFlashcards, isFetching } = useQuery<
-      FlashcardInterface[]
-    >(
-      `${studySetId}-get-sr-flashcards`,
-      () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
+    const { data: deck, isLoading: isDeckLoading } = useQuery(
+      `${studySetId}-get-deck`,
+      () => getDeckByStudySetId({ studySetId }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id),
+        enabled: !flashcards,
       }
     );
 
-    useEffect(() => {
+    const { data: fetchedFlashcards } = useQuery<FlashcardInterface[]>(
+      `${studySetId}-get-flashcards`,
+      () => getFlashcardsByDeckId({ deckId: deck?.id }),
+      {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        enabled: Boolean(deck?.id) && !flashcards,
+      }
+    );
+
+    const { data: fetchedSrFlashcards, isLoading: isFlashcardsLoading } =
+      useQuery<FlashcardInterface[]>(
+        `${studySetId}-get-sr-flashcards`,
+        () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
+        {
+          refetchOnReconnect: false,
+          refetchOnWindowFocus: false,
+          enabled: Boolean(deck?.id),
+        }
+      );
+
+    useLayoutEffect(() => {
       setFlashcards(fetchedSrFlashcards);
     }, [fetchedSrFlashcards, setFlashcards]);
 
+    useEffect(() => {
+      setNumberOfLearnedCards(
+        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+          .numberOfLearnedCards
+      );
+      setNumberOfLearningCards(
+        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+          .numberOfLearningCards
+      );
+      setNumberOfNewCards(
+        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+          .numberOfNewCards
+      );
+    }, [flashcards]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
       <>
-        {!isFetching ? (
+        {!isDeckLoading && !isFlashcardsLoading ? (
           !maxLength ? (
-            <StudyModeFlashcard isFinishedStudying />
+            <StudyModeFlashcard
+              isFinishedStudying
+              isFlashcardsEmpty={
+                !flashcards && (!generalFlashcards || !fetchedFlashcards)
+              }
+            />
           ) : (
             <Flex
               flexDirection="column"
@@ -68,7 +116,13 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
                 easeFactor={flashcards?.[flashcardIndex]?.ease_factor}
                 easyBonus={deck?.easy_bonus}
                 status={flashcards?.[flashcardIndex]?.status}
+                currentLearningStatus={
+                  flashcards?.[flashcardIndex]?.learning_status
+                }
+                numberOfLearningCards={numberOfLearningCards}
                 interval={flashcards?.[flashcardIndex]?.interval}
+                numberOfLearnedCards={numberOfLearnedCards}
+                numberOfNewCards={numberOfNewCards}
               />
             </Flex>
           )

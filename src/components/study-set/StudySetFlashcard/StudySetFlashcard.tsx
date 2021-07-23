@@ -122,7 +122,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     {
       onSuccess: (data: { fullFlashcard: FlashcardInterface }) => {
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
-          console.log(prevState);
           const allFlashcards = prevState || [];
           allFlashcards?.push(data?.fullFlashcard);
           return allFlashcards;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
-import { HoverCard, IconWrapper, Tooltip } from "../../common";
+import { Button, IconWrapper, Tooltip } from "../../common";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -30,7 +30,6 @@ const StudyQueueContainer: React.FC = () => {
         >
           <StudyQueue
             handleClick={() => setStudyQueueModal(true)}
-            backgroundColor={theme.colors.primary}
             ariaLabel={formatMessage("ariaLabels.studyQueue")}
           >
             <IconWrapper>
@@ -58,11 +57,11 @@ const Container = styled.div`
   right: 32px;
 `;
 
-const StudyQueue = styled(HoverCard)`
+const StudyQueue = styled((props) => <Button {...props} />)`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 50% !important;
   height: ${({ theme }) => theme.spacers.size48}!important;
   width: ${({ theme }) => theme.spacers.size48}!important;
   z-index: 0;

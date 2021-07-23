@@ -37,7 +37,7 @@ const StudyModeModal: React.FC<StudyModeModalProps> = ({
         </NavLink>
         <Spacer width={theme.spacers.size64} />
         <StyledNavLink
-          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1/`}
+          to={`/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`}
         >
           <ThumbnailCard
             topText={formatMessage("studyMode.chooseModal.freeStudy")}
