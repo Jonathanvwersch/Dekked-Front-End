@@ -43,6 +43,7 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         backBlocks={currentFlashcard?.back_blocks}
         learningStatus={currentFlashcard?.learning_status}
         flippedState={flippedState}
+        flashcardIndex={flashcardIndex}
         setFlashcardIndex={setFlashcardIndex}
         blockLink={currentFlashcard?.block_link}
         flashcardId={currentFlashcard?.id}

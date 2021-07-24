@@ -12,7 +12,10 @@ import styled from "styled-components";
 import { CloseIcon, ReturnIcon } from "../../../assets";
 import { useHistory, useParams } from "react-router-dom";
 import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
-import { isFlashcardLinkedAtom, studyModeUrlAtom } from "../../../store";
+import {
+  currentFlashcardIndexAtom,
+  isFlashcardLinkedAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 
 interface ReturnToStudyModeButtonProps {}
@@ -23,7 +26,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
   const { id } = useParams<Params>();
   const buttonWidth = 290;
   const [isLinked, setIsLinked] = useAtom(isFlashcardLinkedAtom);
-  const [studyModeUrl] = useAtom(studyModeUrlAtom);
+  const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
 
   const handleClose = () => {
     setIsLinked(false);
@@ -50,7 +53,7 @@ const ReturnToStudyModeButton: React.FC<ReturnToStudyModeButtonProps> = () => {
               theme.sizes.borderRadius[SIZES.MEDIUM]
             }`}
             handleClick={() => {
-              studyModeUrl ? history.push(studyModeUrl) : history.goBack();
+              history.goBack();
               setIsLinked(false);
             }}
             width="80%"

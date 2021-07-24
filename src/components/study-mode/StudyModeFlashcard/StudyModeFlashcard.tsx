@@ -29,14 +29,14 @@ import { EditorState } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";
 import Confetti from "../../../assets/images/Confetti.png";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   blockLinkAtom,
   isFlashcardLinkedAtom,
   selectStudySetTab,
-  studyModeUrlAtom,
+  currentFlashcardIndexAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 
@@ -49,6 +49,7 @@ interface StudyModeFlashcardProps {
   studyMode?: STUDY_MODE_TYPES;
   flashcardId?: string;
   ownerId?: string;
+  flashcardIndex?: number;
   learningStatus?: FlashcardLearningStatus;
   setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
   isFlashcardsEmpty?: boolean;
@@ -66,9 +67,9 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   studyMode,
   setFlashcardIndex,
   isFlashcardsEmpty,
+  flashcardIndex,
 }) => {
   const history = useHistory();
-  const location = useLocation();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
@@ -76,7 +77,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
   const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
-  const [, setStudyModeUrl] = useAtom(studyModeUrlAtom);
+  const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
   const [, setBlockLink] = useAtom(blockLinkAtom);
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
   const [hasFocus, setHasFocus] = useState<boolean>(false);
@@ -226,7 +227,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           <LogoIconContainer
             handleMouseDown={() => {
               setIsLinked(true);
-              setStudyModeUrl(location.pathname);
+              setCurrentFlashcardIndex(flashcardIndex || 0);
               setBlockLink(blockLink);
             }}
             fillType={FILL_TYPE.STROKE}

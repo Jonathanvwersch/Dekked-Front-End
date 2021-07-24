@@ -421,8 +421,8 @@ export const loadingErrorAtom = atom<boolean>(false);
 
 // Linked flashcards
 export const isFlashcardLinkedAtom = atom<boolean>(false);
-export const studyModeUrlAtom = atom<string>("/");
 export const blockLinkAtom = atom<string>("");
+export const currentFlashcardIndexAtom = atom<number>(0);
 
 // Flashcard
 export const flashcardsAtom = atom<FlashcardInterface[] | undefined>(undefined);

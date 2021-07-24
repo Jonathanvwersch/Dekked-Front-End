@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
-import { flashcardsAtom } from "../../../../store";
+import { currentFlashcardIndexAtom, flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "../../../common";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import FreeStudyController from "../FreeStudyController/FreeStudyController";
@@ -12,7 +12,10 @@ import FreeStudyController from "../FreeStudyController/FreeStudyController";
 interface StudyModeFreeStudyProps {}
 
 const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
-  const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
+  const [currentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
+  const [flashcardIndex, setFlashcardIndex] = useState<number>(
+    currentFlashcardIndex
+  );
   const { id: studySetId } = useParams<Params>();
   const [flippedState, setFlippedState] = useState<boolean>(true);
   const [flashcards, setFlashcards] = useAtom(flashcardsAtom);

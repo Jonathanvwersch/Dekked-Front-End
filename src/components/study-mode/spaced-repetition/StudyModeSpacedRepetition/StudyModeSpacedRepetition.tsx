@@ -8,7 +8,11 @@ import {
   getSpacedRepetitionFlashcardsByDeckId,
 } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
-import { flashcardsAtom, srFlashcardsAtom } from "../../../../store";
+import {
+  currentFlashcardIndexAtom,
+  flashcardsAtom,
+  srFlashcardsAtom,
+} from "../../../../store";
 import { Flex, FullPageLoadingSpinner } from "../../../common";
 import StudyModeFlashcard from "../../StudyModeFlashcard/StudyModeFlashcard";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
@@ -19,7 +23,10 @@ interface StudyModeSpacedRepetitionProps {}
 
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
-    const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
+    const [currentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
+    const [flashcardIndex, setFlashcardIndex] = useState<number>(
+      currentFlashcardIndex
+    );
     const [numberOfLearnedCards, setNumberOfLearnedCards] = useState<number>(0);
     const [numberOfLearningCards, setNumberOfLearningCards] =
       useState<number>(0);
@@ -36,7 +43,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: !flashcards,
+        enabled: !flashcards && currentFlashcardIndex === 0,
       }
     );
 
@@ -46,7 +53,8 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id) && !flashcards,
+        enabled:
+          Boolean(deck?.id) && !flashcards && currentFlashcardIndex === 0,
       }
     );
 
@@ -57,7 +65,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
         {
           refetchOnReconnect: false,
           refetchOnWindowFocus: false,
-          enabled: Boolean(deck?.id),
+          enabled: Boolean(deck?.id) && currentFlashcardIndex === 0,
         }
       );
 

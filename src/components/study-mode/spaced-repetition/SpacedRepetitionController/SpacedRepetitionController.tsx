@@ -94,11 +94,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       }
     }
 
-    if (flashcards?.[flashcardIndex] && newLearningStatus) {
-      flashcards[flashcardIndex].learning_status = newLearningStatus;
-    }
-
     if (!flipCard) {
+      if (flashcards?.[flashcardIndex] && newLearningStatus) {
+        flashcards[flashcardIndex].learning_status = newLearningStatus;
+      }
+
       currentLearningStatus === FlashcardLearningStatus.NEW &&
         setNumberOfNewCards((prevState) => prevState - 1);
       if (
@@ -186,25 +186,32 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
 
   useKeyPress([" ", "Spacebar"], flipCard);
 
-  useKeyPress(["1"], () =>
-    handleSpacedRepetitionButton(
-      false,
-      FlashcardQuality.REPEAT,
-      FlashcardLearningStatus.LEARNING
-    )
+  useKeyPress(
+    ["1"],
+    () =>
+      !flippedState &&
+      handleSpacedRepetitionButton(
+        false,
+        FlashcardQuality.REPEAT,
+        FlashcardLearningStatus.LEARNING
+      )
   );
 
-  useKeyPress(["2"], () =>
-    handleSpacedRepetitionButton(
-      false,
-      FlashcardQuality.REMEMBERED,
-      FlashcardLearningStatus.LEARNED
-    )
+  useKeyPress(
+    ["2"],
+    () =>
+      !flippedState &&
+      handleSpacedRepetitionButton(
+        false,
+        FlashcardQuality.REMEMBERED,
+        FlashcardLearningStatus.LEARNED
+      )
   );
 
   useKeyPress(
     ["3"],
     () =>
+      !flippedState &&
       status === FlashcardStatus.GRADUATED &&
       handleSpacedRepetitionButton(
         false,

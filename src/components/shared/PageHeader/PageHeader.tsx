@@ -13,6 +13,7 @@ import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { useParams } from "react-router-dom";
 import {
+  currentFlashcardIndexAtom,
   isAppLoadingAtom,
   selectActiveBlockName,
   typeAtom,
@@ -30,6 +31,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   disableStudyButton,
 }) => {
   const [studyMode, setStudyMode] = useState<boolean>(false);
+  const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
   const { id } = useParams<Params>();
@@ -82,7 +84,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                     >
                       <Button
                         buttonStyle={BUTTON_THEME.PRIMARY}
-                        handleClick={() => setStudyMode(true)}
+                        handleClick={() => {
+                          setStudyMode(true);
+                          setCurrentFlashcardIndex(0);
+                        }}
                         isDisabled={disableStudyButton}
                       >
                         {formatMessage("generics.study")}
