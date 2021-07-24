@@ -73,6 +73,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const [_numberOfLearningCards, setNumberOfLearningCards] = useState<number>(
     numberOfLearningCards
   );
+
   const { theme, formatMessage } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
@@ -92,13 +93,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
           moveArrayItem(flashcards, flashcardIndex, flashcardIndex + 9);
       }
     }
-    console.log(currentLearningStatus);
-    console.log(newLearningStatus);
+
+    if (flashcards?.[flashcardIndex] && newLearningStatus) {
+      flashcards[flashcardIndex].learning_status = newLearningStatus;
+    }
 
     if (!flipCard) {
       currentLearningStatus === FlashcardLearningStatus.NEW &&
         setNumberOfNewCards((prevState) => prevState - 1);
-
       if (
         currentLearningStatus === FlashcardLearningStatus.NEW &&
         newLearningStatus === FlashcardLearningStatus.LEARNING
@@ -106,6 +108,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
         setNumberOfLearningCards((prevState) => prevState + 1);
       } else if (
         currentLearningStatus === FlashcardLearningStatus.LEARNING &&
+        newLearningStatus === FlashcardLearningStatus.LEARNED
+      ) {
+        setNumberOfLearningCards((prevState) => prevState - 1);
+      } else if (
+        currentLearningStatus === FlashcardLearningStatus.LEARNED &&
         newLearningStatus === FlashcardLearningStatus.LEARNED
       ) {
         setNumberOfLearnedCards((prevState) => prevState - 1);

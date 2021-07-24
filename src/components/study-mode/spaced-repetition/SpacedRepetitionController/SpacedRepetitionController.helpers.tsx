@@ -1,5 +1,9 @@
 import { orZero } from "../../../../helpers";
-import { FlashcardQuality, FlashcardStatus } from "../../../../shared";
+import {
+  FlashcardLearningStatus,
+  FlashcardQuality,
+  FlashcardStatus,
+} from "../../../../shared";
 
 const calculateGraduatedInterval = (
   quality: FlashcardQuality,
