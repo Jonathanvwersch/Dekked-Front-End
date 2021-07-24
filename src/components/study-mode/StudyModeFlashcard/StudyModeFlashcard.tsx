@@ -166,11 +166,10 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             size={SIZES.LARGE}
             width="200px"
             handleClick={() => {
-              studyMode === STUDY_MODE_TYPES.SPACED_REPETITION
-                ? history.push(
-                    `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}/1`
-                  )
-                : setFlashcardIndex && setFlashcardIndex(0);
+              history.push(
+                `/${FILETREE_TYPES.STUDY_SET}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`
+              );
+              setFlashcardIndex && setFlashcardIndex(0);
             }}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
