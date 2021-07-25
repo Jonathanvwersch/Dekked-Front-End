@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { ThemeContext } from "styled-components";
 import { Button, Spacer } from "../../../components/common";
@@ -19,7 +19,7 @@ interface GoogleOAuthProps {}
 
 const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
   const theme = useContext(ThemeContext);
-  const [, setUser] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const history = useHistory();
   const googleId = "281383698502-ho9b8tv17243fcjjcvdslondg6820oko";
   const clientId = `${googleId}.apps.googleusercontent.com`;
@@ -31,6 +31,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
   const responseGoogle = async (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
+    console.log(response);
     if (isLoginResponse(response)) {
       const basicProfile = response.getBasicProfile();
 
@@ -49,6 +50,8 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
         last_name: authenticationResponse?.userData?.data?.last_name,
         email_address: authenticationResponse?.userData?.data?.email_address,
       });
+
+      console.log(authenticationResponse);
 
       setSessionCookie(authenticationResponse?.userData?.data?.token);
       if (getSessionCookie()) {
