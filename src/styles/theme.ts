@@ -167,7 +167,7 @@ const lightThemeColors: ThemeColors = {
   grey2: "#D3D3D3", // mid
   grey3: "#EAEAEA", // light
   loadingBlocks: "#EAEAEA",
-  disabled: "#A9A9A9",
+  disabled: "#D3D3D3",
   selection: "#B1FAFF",
   backgrounds: {
     studyModeBackground: "#F7F8FA",

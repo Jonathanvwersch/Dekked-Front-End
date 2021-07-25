@@ -91,6 +91,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   useEffect(() => {
     if (googleButton?.[0]) console.log("hey");
   }, [googleButton]);
+
   return (
     <>
       {errorMessage && errorCode && (
