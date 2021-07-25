@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import { Spacer, Input, Button } from "../../common";
+import { Spacer, Input, Button, Flex, Divider } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   getSessionCookie,
@@ -21,6 +21,8 @@ import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 import { emailFromSignUpAtom, userAtom } from "../../../store";
 import { useAtom } from "jotai";
+import { FormattedMessage } from "react-intl";
+import GoogleOAuth from "../GoogleOAuth/GoogleOAuth";
 
 interface LogInFormProps {}
 
@@ -84,6 +86,11 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     if (emailAddress) passwordRef.current?.focus();
   }, [passwordRef]); // eslint-disable-next-line react/jsx-no-undef
 
+  const googleButton = document.querySelectorAll("[id^=not_signed]");
+
+  useEffect(() => {
+    if (googleButton?.[0]) console.log("hey");
+  }, [googleButton]);
   return (
     <>
       {errorMessage && errorCode && (
@@ -123,6 +130,16 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         >
           {formatMessage("forms.logIn.logIn")}
         </Button>
+        <Spacer height={theme.spacers.size32} />
+        <Flex>
+          <Divider color={theme.colors.grey2} />
+          <Spacer width={theme.spacers.size20} />
+          <FormattedMessage id="generics.or" />
+          <Spacer width={theme.spacers.size20} />
+          <Divider color={theme.colors.grey2} />
+        </Flex>
+        <Spacer height={theme.spacers.size32} />
+        <GoogleOAuth />
       </form>
     </>
   );

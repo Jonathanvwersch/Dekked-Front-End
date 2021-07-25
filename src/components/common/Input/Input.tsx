@@ -32,6 +32,7 @@ export interface InputProps {
   autoFocus?: boolean;
   defaultValue?: string;
   inputRef?: React.RefObject<HTMLInputElement>;
+  width?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -53,6 +54,7 @@ const Input: React.FC<InputProps> = ({
   showPassword,
   clearButton = false,
   defaultValue,
+  width,
 }) => {
   const theme = useContext(ThemeContext);
   const [validation, setValidation] = useState<boolean>(true);
@@ -61,7 +63,7 @@ const Input: React.FC<InputProps> = ({
   const asterisks = !required ? "" : "*";
 
   return (
-    <LabelAndInputWrapper>
+    <LabelAndInputWrapper width={width}>
       {label && <Label htmlFor={id}>{`${label} ${asterisks}`}</Label>}
       <Flex width="100%" flexDirection="column" alignItems="flex-start">
         <InputWrapper height={size} error={validate && !validation}>

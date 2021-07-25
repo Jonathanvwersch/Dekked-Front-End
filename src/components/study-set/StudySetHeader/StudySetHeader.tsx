@@ -29,7 +29,8 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const [isLoading] = useAtom(isAppLoadingAtom);
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
   const [flashcards] = useAtom(flashcardsAtom);
-  const flashcardsDoNotExist = flashcards?.length === 0;
+  const flashcardsDoNotExist = flashcards?.length === 0 || !flashcards;
+  console.log(flashcards);
 
   // Calculate the number of words in text
   useEffect(() => {

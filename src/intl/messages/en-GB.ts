@@ -16,6 +16,7 @@ const en_GB = {
       okay: "Okay",
       loggingOut: "Logging out...",
       somethingWentWrong: "Something went wrong. Please try again.",
+      or: "Or",
     },
     notFoundPage: {
       goHome: "Go home",
@@ -95,6 +96,9 @@ const en_GB = {
       },
     },
     forms: {
+      oAuth: {
+        continueWithGoogle: "Continue with Google",
+      },
       password: {
         password: "Password",
         newPassword: "New password",

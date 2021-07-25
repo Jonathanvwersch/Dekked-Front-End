@@ -4,13 +4,14 @@ import { SIZES } from "../../../shared";
 interface InputProps {
   height: SIZES;
   error: boolean | undefined;
+  width?: string;
 }
 
 export const StyledInput = styled.input`
   transition: all 0.1s ease-in-out;
   font-size: ${({ theme }) => theme.typography.fontSizes.size14};
-  width: 100%;
   min-width: 0;
+  width: 100%;
   background: none;
   border: none;
   height: 100%;
@@ -66,7 +67,8 @@ export const Label = styled.label`
   margin-bottom: ${({ theme }) => theme.spacers.size4};
 `;
 
-export const LabelAndInputWrapper = styled.div`
+export const LabelAndInputWrapper = styled.div<{ width?: string }>`
+  width: ${({ width }) => width || "100%"};
   position: relative;
   display: flex;
   flex-direction: column;

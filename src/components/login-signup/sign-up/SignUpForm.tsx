@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import { Spacer, Input, Button, Tooltip } from "../../common";
-import { useIntl } from "react-intl";
+import { Spacer, Input, Button, Tooltip, Flex, Divider } from "../../common";
+import { FormattedMessage, useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   isAnyRequiredFieldPristine,
@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import { emailFromSignUpAtom } from "../../../store";
 import { useAtom } from "jotai";
+import { GoogleOAuth } from "..";
 
 interface SignUpFormProps {}
 
@@ -80,6 +81,16 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>
+        <GoogleOAuth />
+        <Spacer height={theme.spacers.size32} />
+        <Flex>
+          <Divider color={theme.colors.grey2} />
+          <Spacer width={theme.spacers.size20} />
+          <FormattedMessage id="generics.or" />
+          <Spacer width={theme.spacers.size20} />
+          <Divider color={theme.colors.grey2} />
+        </Flex>
+        <Spacer height={theme.spacers.size32} />
         <Input
           size={SIZES.MEDIUM}
           placeholder="Example@dekked.com"
@@ -94,23 +105,30 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           required
         />
         <Spacer height={theme.spacers.size16} />
-        <Input
-          size={SIZES.MEDIUM}
-          placeholder={formatMessage("forms.names.firstNamePlaceholder", intl)}
-          label={formatMessage("forms.names.firstName", intl)}
-          id="FirstName"
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <Spacer height={theme.spacers.size16} />
-        <Input
-          size={SIZES.MEDIUM}
-          placeholder={formatMessage("forms.names.lastNamePlaceholder", intl)}
-          label={formatMessage("forms.names.lastName", intl)}
-          id="LastName"
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
+        <Flex>
+          <Input
+            width="50%"
+            size={SIZES.MEDIUM}
+            placeholder={formatMessage(
+              "forms.names.firstNamePlaceholder",
+              intl
+            )}
+            label={formatMessage("forms.names.firstName", intl)}
+            id="FirstName"
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <Spacer width={theme.spacers.size16} />
+          <Input
+            width="50%"
+            size={SIZES.MEDIUM}
+            placeholder={formatMessage("forms.names.lastNamePlaceholder", intl)}
+            label={formatMessage("forms.names.lastName", intl)}
+            id="LastName"
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </Flex>
         <Spacer height={theme.spacers.size16} />
         <Input
           size={SIZES.MEDIUM}
