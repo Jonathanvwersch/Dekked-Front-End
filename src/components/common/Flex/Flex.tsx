@@ -15,13 +15,19 @@ interface FlexProps {
   className?: string;
   overflow?: string;
   flexWrap?: string;
+  style?: React.CSSProperties | undefined;
 }
 
 type FlexPropsUnion = FlexProps & BoxProps;
 
 const Flex: React.FC<FlexPropsUnion> = ({ children, ...props }) => {
   return (
-    <StyledFlex className={props.className} id={props.id} {...props}>
+    <StyledFlex
+      style={props.style}
+      className={props.className}
+      id={props.id}
+      {...props}
+    >
       {children}
     </StyledFlex>
   );

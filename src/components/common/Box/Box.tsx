@@ -20,6 +20,7 @@ export interface BoxProps {
   p?: string; // padding top, padding right, padding bottom, padding left (e.g. '10px 11px 12px 13px' or '10px' (same padding on all 4 sides) or '10px 11px' (first number refers to top and bottom padding and second number refers to left and right padding))
   width?: string;
   height?: string;
+  style?: React.CSSProperties | undefined;
 }
 
 const getXAndYValues = (value: string, afterSpace?: boolean) => {
@@ -30,7 +31,11 @@ const getXAndYValues = (value: string, afterSpace?: boolean) => {
 };
 
 const Box: React.FC<BoxProps> = ({ children, ...props }) => {
-  return <StyledBox {...props}>{children}</StyledBox>;
+  return (
+    <StyledBox style={props.style} {...props}>
+      {children}
+    </StyledBox>
+  );
 };
 
 export const marginAndPadding = css<BoxProps>`

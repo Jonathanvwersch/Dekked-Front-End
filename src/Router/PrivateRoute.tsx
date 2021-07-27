@@ -37,11 +37,13 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     } else if (!getSessionCookie()) {
       history.push("/login");
     } else if (path === "/" && fileTree) {
-      if (!Object.keys(fileTree)[0]) addAsset(FILETREE_TYPES.FOLDER);
-      else
+      if (!Object.keys(fileTree)[0]) {
+        addAsset(FILETREE_TYPES.FOLDER);
+      } else {
         history.push(`/${FILETREE_TYPES.FOLDER}/${Object.keys(fileTree)[0]}`);
+      }
     }
-  }, [fileTree, loadingError]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fileTree, loadingError, addAsset]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

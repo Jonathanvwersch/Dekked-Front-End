@@ -20,6 +20,18 @@ export const getDeckByStudySetId = async ({
   return json.data.deck;
 };
 
+export const getAllDueSrDecks = async () => {
+  const uri = config.api + `/get-all-due-sr-decks`;
+  const response = await fetch(uri, {
+    headers: {
+      Authorization: `Bearer ${getSessionCookie()}`,
+    },
+  });
+
+  const json = await response.json();
+  return json.data.decks;
+};
+
 export const getFlashcardsByDeckId = async ({ deckId }: { deckId: string }) => {
   const uri = config.api + `/get-flashcards-by-deck-id/${deckId}`;
   const response = await fetch(uri, {

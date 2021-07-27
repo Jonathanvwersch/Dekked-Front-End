@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { FormattedMessage } from "react-intl";
 import { ThemeContext } from "styled-components";
-import { Flex, HoverCard, IconWrapper, Spacer, Text } from "..";
+import { Box, Flex, HoverCard, IconWrapper, Spacer, Text } from "..";
 
 interface BlockProps {
-  label: string;
+  label?: string;
   backgroundColor?: string;
   handleClick?: (args: any) => any;
   handleMouseDown?: (args: any) => any;
@@ -15,6 +15,8 @@ interface BlockProps {
   className?: string;
   turnOffHover?: boolean;
   fakeFocus?: boolean;
+  text?: string;
+  extraText?: string;
 }
 
 const Block: React.FC<BlockProps> = ({
@@ -29,6 +31,8 @@ const Block: React.FC<BlockProps> = ({
   className,
   turnOffHover = false,
   fakeFocus,
+  text,
+  extraText,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -48,15 +52,29 @@ const Block: React.FC<BlockProps> = ({
       className={className}
       fakeFocus={fakeFocus}
     >
-      <Flex>
-        <IconWrapper>{icon}</IconWrapper>
-        <Spacer width={theme.spacers.size8} />
-        <Text
-          fontSize={theme.typography.fontSizes.size14}
-          fontWeight={fontWeight}
-        >
-          <FormattedMessage id={label} />
-        </Text>
+      <Flex justifyContent="space-between" width="100%">
+        <Flex style={{ overflow: "hidden" }}>
+          <IconWrapper>{icon}</IconWrapper>
+          <Spacer width={theme.spacers.size8} />
+          <Text
+            fontSize={theme.typography.fontSizes.size14}
+            fontWeight={fontWeight}
+            className="overflow"
+          >
+            {text ? text : label ? <FormattedMessage id={label} /> : null}
+          </Text>
+        </Flex>
+        {extraText && (
+          <Box
+            pl={theme.spacers.size8}
+            style={{
+              fontSize: theme.typography.fontSizes.size14,
+              display: "flex",
+            }}
+          >
+            {extraText}
+          </Box>
+        )}
       </Flex>
     </HoverCard>
   );
