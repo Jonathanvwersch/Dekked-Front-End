@@ -1,71 +1,73 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
-import { Button, IconWrapper, Tooltip, Text } from "../../common";
+import { Button, IconWrapper, Text } from "../../common";
 import StudyQueueModal from "./StudyQueueModal";
-import { Params, SIZES } from "../../../shared";
+import { CoordsType, Params, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getAllDueSrDecks } from "../../../api";
 import { formatNumber } from "../../../intl";
 import { useIntl } from "react-intl";
+import { positionModals } from "../../../helpers";
 
 const StudyQueueContainer: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
   const { id: studySetId } = useParams<Params>();
+  const [coords, setCoords] = useState<CoordsType>();
+  const modalRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
     `${studySetId}-get-all-due-sr-decks`,
-    getAllDueSrDecks
+    getAllDueSrDecks,
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
-  const tooltipOffset = { top: -26 };
   const isDataGreaterThanNine = Boolean(data && Object.keys(data).length > 9);
+  const isDataGreaterThanZero = Boolean(data && Object.keys(data).length > 0);
 
   return (
     <>
-      <Container>
-        <Tooltip
-          id="StudyQueue"
-          text="tooltips.studyQueue.bubble"
-          offset={tooltipOffset}
-          place="left"
-        >
-          <>
-            {data && !isLoading && (
-              <Notifications increaseSize={isDataGreaterThanNine}>
-                <Text
-                  fontColor={theme.colors.backgrounds.pageBackground}
-                  fontWeight={theme.typography.fontWeights.bold}
-                >
-                  {isDataGreaterThanNine
-                    ? `+${formatNumber(9, intl)}`
-                    : formatNumber(Object.keys(data).length, intl)}
-                </Text>
-              </Notifications>
-            )}
-
-            <StudyQueue
-              handleClick={() => setStudyQueueModal(true)}
-              ariaLabel={formatMessage("ariaLabels.studyQueue")}
+      <Container ref={modalRef}>
+        {isDataGreaterThanZero && data && !isLoading && (
+          <Notifications increaseSize={isDataGreaterThanNine}>
+            <Text
+              fontColor={theme.colors.backgrounds.pageBackground}
+              fontWeight={theme.typography.fontWeights.bold}
             >
-              <IconWrapper>
-                <StudyQueueIcon
-                  size={SIZES.LARGE}
-                  color={theme.colors.backgrounds.pageBackground}
-                />
-              </IconWrapper>
-            </StudyQueue>
-          </>
-        </Tooltip>
+              {isDataGreaterThanNine
+                ? `${formatNumber(9, intl)}+`
+                : formatNumber(Object.keys(data).length, intl)}
+            </Text>
+          </Notifications>
+        )}
+        <StudyQueue
+          handleClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            setStudyQueueModal(true);
+            setCoords(positionModals(e, 350, modalRef));
+          }}
+          ariaLabel={formatMessage("ariaLabels.studyQueue")}
+        >
+          <IconWrapper>
+            <StudyQueueIcon
+              size={SIZES.LARGE}
+              color={theme.colors.backgrounds.pageBackground}
+            />
+          </IconWrapper>
+        </StudyQueue>
       </Container>
       <StudyQueueModal
         data={data}
         isLoading={isLoading}
         isOpen={studyQueueModal}
         handleClose={() => setStudyQueueModal(false)}
+        coords={{ ...coords, left: 735 }}
       />
     </>
   );
@@ -75,8 +77,8 @@ const Container = styled.div`
   height: ${({ theme }) => theme.spacers.size56};
   width: ${({ theme }) => theme.spacers.size56};
   position: fixed;
-  bottom: 32px;
-  right: 32px;
+  bottom: ${({ theme }) => theme.spacers.size32};
+  right: ${({ theme }) => theme.spacers.size16};
 `;
 
 const StudyQueue = styled((props) => <Button {...props} />)`

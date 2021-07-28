@@ -32,5 +32,6 @@ export const positionModals = (
   } else {
     newCoordinate = { top: top };
   }
+
   return { ...newCoordinate, left: left };
 };

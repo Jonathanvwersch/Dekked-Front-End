@@ -21,15 +21,9 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
 
-  const navigateFlashcards = (addIndex?: boolean) => {
-    addIndex && setFlashcardIndex((prevState) => prevState + 1);
-    setFlashcardIndex((prevState) => prevState - 1);
-  };
-
   const arrowLeft = () => {
     if (flashcardIndex !== 0) {
       setFlashcardIndex((prevState) => prevState - 1);
-      navigateFlashcards();
     }
   };
 
@@ -37,7 +31,6 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
     if (flashcardIndex !== maxLength) {
       setFlippedState(true);
       setFlashcardIndex((prevState) => prevState + 1);
-      navigateFlashcards(true);
     }
   };
 

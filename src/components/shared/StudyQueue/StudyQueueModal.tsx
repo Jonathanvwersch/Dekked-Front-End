@@ -13,24 +13,23 @@ import {
 import { ThemeType } from "../../../styles/theme";
 import {
   BUTTON_THEME,
+  CoordsType,
   FILETREE_TYPES,
-  Params,
   STUDY_MODE_TYPES,
 } from "../../../shared";
-import { useQuery } from "react-query";
-import { getAllDueSrDecks } from "../../../api";
-import { useHistory, useParams } from "react-router-dom";
+
+import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { StudySetIcon } from "../../../assets";
 import { handleUntitled } from "../../../helpers";
 import { FormattedMessage, useIntl } from "react-intl";
-import Skeleton from "react-loading-skeleton";
 
 interface StudyQueueProps {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose: (args?: any) => void;
   data: DueSpacedRepetitionDecks | undefined;
   isLoading: boolean;
+  coords: CoordsType | undefined;
 }
 
 const StudyQueueModal: React.FC<StudyQueueProps> = ({
@@ -38,10 +37,10 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
   handleClose,
   data,
   isLoading,
+  coords,
 }) => {
   const intl = useIntl();
   const theme: ThemeType = useContext(ThemeContext);
-  const coords = { bottom: 78, right: 78 };
   const history = useHistory();
   const [studyUrl, setStudyUrl] = useState<string>();
   const [activeId, setActiveId] = useState<string>();
