@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
 import { moveArrayItem } from "../../../../helpers";
@@ -73,10 +73,17 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const [_numberOfLearningCards, setNumberOfLearningCards] = useState<number>(
     numberOfLearningCards
   );
+  const queryClient = useQueryClient();
 
   const { theme, formatMessage } = usePageSetupHelpers();
   const messagePrefix = "studyMode.spacedRepetition";
-  const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard);
+  const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
+    onSuccess: () => {
+      flashcardIndex + 1 === maxLength &&
+        queryClient.refetchQueries(`get-all-due-sr-decks`);
+      return undefined;
+    },
+  });
   const layout = useResponsiveLayout(1200);
 
   const handleSpacedRepetitionButton = (
