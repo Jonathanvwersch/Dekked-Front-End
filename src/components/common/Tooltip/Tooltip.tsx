@@ -18,6 +18,7 @@ interface TooltipProps {
   children?: React.ReactNode;
   isActive?: boolean;
   values?: {};
+  tooltipChildrenStyle?: React.CSSProperties | undefined;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -32,6 +33,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   children,
   isActive = true,
   values,
+  tooltipChildrenStyle,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const [tooltip, setTooltip] = useState<boolean>(false);
@@ -61,6 +63,7 @@ const Tooltip: React.FC<TooltipProps> = ({
         condition={isActive}
         wrapper={(children: ReactElement) => (
           <TooltipChildren
+            style={tooltipChildrenStyle}
             data-tip
             data-for={id}
             onMouseEnter={() => setTooltip(true)}

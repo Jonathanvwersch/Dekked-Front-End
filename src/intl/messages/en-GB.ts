@@ -239,7 +239,7 @@ const en_GB = {
         dekkedBlue: "Dekked blue",
       },
       studyQueue: {
-        bubble: "View which decks are ready to study",
+        bubble: "View which decks are due",
       },
       studyMode: {
         flip: "Flip flashcard",

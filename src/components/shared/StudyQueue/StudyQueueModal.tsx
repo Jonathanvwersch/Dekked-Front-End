@@ -29,24 +29,22 @@ import Skeleton from "react-loading-skeleton";
 interface StudyQueueProps {
   isOpen: boolean;
   handleClose: () => void;
+  data: DueSpacedRepetitionDecks | undefined;
+  isLoading: boolean;
 }
 
 const StudyQueueModal: React.FC<StudyQueueProps> = ({
   isOpen,
   handleClose,
+  data,
+  isLoading,
 }) => {
   const intl = useIntl();
   const theme: ThemeType = useContext(ThemeContext);
   const coords = { bottom: 78, right: 78 };
-  const { id: studySetId } = useParams<Params>();
   const history = useHistory();
   const [studyUrl, setStudyUrl] = useState<string>();
   const [activeId, setActiveId] = useState<string>();
-
-  const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
-    `${studySetId}-get-all-due-sr-decks`,
-    getAllDueSrDecks
-  );
 
   return (
     <Overlay isOpen={isOpen} handleClose={handleClose} coords={coords}>

@@ -148,6 +148,7 @@ export type ThemeType = {
     size32: string;
     size40: string;
     size48: string;
+    size56: string;
     size64: string;
     size80: string;
     size128: string;
@@ -364,6 +365,7 @@ export const theme = (darkTheme?: boolean): ThemeType => {
       size32: "32px",
       size40: "40px",
       size48: "48px",
+      size56: "56px",
       size64: "64px",
       size80: "80px",
       size128: "128px",
