@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useCallback } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { deleteBinder } from "../api/file-structure/bindersApi";
 import { deleteFolder } from "../api/file-structure/foldersApi";
@@ -24,11 +24,16 @@ export const useDeleteAsset = () => {
   const [studySets] = useAtom(studySetsAtom);
   const [firstFolderId] = useAtom(firstFolderIdAtom);
   const [secondFolderId] = useAtom(secondFolderIdAtom);
+  const queryClient = useQueryClient();
+
   const { mutate: _deleteFolder } = useMutation(
     "delete-folder",
     (folderId: string) => deleteFolder(folderId),
     {
       retry: 3,
+      onSuccess: () => {
+        queryClient.refetchQueries(`get-all-due-sr-decks`);
+      },
     }
   );
 
@@ -37,6 +42,9 @@ export const useDeleteAsset = () => {
     (binderId: string) => deleteBinder(binderId),
     {
       retry: 3,
+      onSuccess: () => {
+        queryClient.refetchQueries(`get-all-due-sr-decks`);
+      },
     }
   );
 
@@ -45,6 +53,9 @@ export const useDeleteAsset = () => {
     (studySetId: string) => deleteStudySet(studySetId),
     {
       retry: 3,
+      onSuccess: () => {
+        queryClient.refetchQueries(`get-all-due-sr-decks`);
+      },
     }
   );
 

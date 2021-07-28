@@ -120,12 +120,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studySetId}-add-flashcard`,
     addFlashcard,
     {
-      onSuccess: (data: { fullFlashcard: FlashcardInterface }) => {
+      onSuccess: async (data: { fullFlashcard: FlashcardInterface }) => {
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
           const allFlashcards = prevState || [];
           allFlashcards?.push(data?.fullFlashcard);
           return allFlashcards;
         });
+        queryClient.refetchQueries(`get-all-due-sr-decks`);
       },
     }
   );
@@ -134,12 +135,17 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studySetId}-delete-flashcard`,
     deleteFlashcard,
     {
-      onSuccess: (data, { flashcard_id }) => {
-        queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
-          prevState?.filter(
+      onSuccess: async (data, { flashcard_id }) => {
+        let flashcards;
+        queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
+          flashcards = prevState?.filter(
             (flashcard: FlashcardInterface) => flashcard.id !== flashcard_id
-          )
-        );
+          );
+          return flashcards;
+        });
+
+        isEmpty(flashcards) &&
+          queryClient.refetchQueries(`get-all-due-sr-decks`);
       },
     }
   );

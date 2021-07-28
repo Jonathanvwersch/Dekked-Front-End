@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
 import { Button, IconWrapper, Text } from "../../common";
 import StudyQueueModal from "./StudyQueueModal";
-import { CoordsType, Params, SIZES } from "../../../shared";
+import { CoordsType, SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
-import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getAllDueSrDecks } from "../../../api";
 import { formatNumber } from "../../../intl";
@@ -16,11 +15,10 @@ const StudyQueueContainer: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
-  const { id: studySetId } = useParams<Params>();
   const [coords, setCoords] = useState<CoordsType>();
   const modalRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
-    `${studySetId}-get-all-due-sr-decks`,
+    "get-all-due-sr-decks",
     getAllDueSrDecks,
     {
       refetchOnMount: false,
@@ -35,7 +33,7 @@ const StudyQueueContainer: React.FC = () => {
   return (
     <>
       <Container ref={modalRef}>
-        {isDataGreaterThanZero && data && !isLoading && (
+        {isDataGreaterThanZero && data && (
           <Notifications increaseSize={isDataGreaterThanNine}>
             <Text
               fontColor={theme.colors.backgrounds.pageBackground}
@@ -89,7 +87,7 @@ const StudyQueue = styled((props) => <Button {...props} />)`
   height: ${({ theme }) => theme.spacers.size48}!important;
   width: ${({ theme }) => theme.spacers.size48}!important;
   z-index: 0;
-  position: absolute;
+  position: absolute !important;
   bottom: 0;
   left: 0;
   box-shadow: ${({ theme }) => theme.boxShadow};
