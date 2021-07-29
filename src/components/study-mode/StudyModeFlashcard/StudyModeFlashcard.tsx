@@ -129,7 +129,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         </H2>
       ) : (
         <>
-          {" "}
           <H2 styledAs="h5" fontWeight="normal" textAlign="center">
             <FormattedMessage id="studyMode.flashcard.finish" />
           </H2>
@@ -157,7 +156,11 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             size={SIZES.LARGE}
             width="200px"
             handleClick={() => {
-              history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${studySetTab}`);
+              history.push(
+                `/${FILETREE_TYPES.STUDY_SET}/${id}/${
+                  studySetTab || TAB_TYPE.FLASHCARDS
+                }`
+              );
             }}
           >
             <FormattedMessage id="generics.finish" />

@@ -31,11 +31,11 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
     const [numberOfLearningCards, setNumberOfLearningCards] =
       useState<number>(0);
     const [numberOfNewCards, setNumberOfNewCards] = useState<number>(0);
-    const [flashcards, setFlashcards] = useAtom(srFlashcardsAtom);
+    const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
     const [generalFlashcards] = useAtom(flashcardsAtom);
     const { id: studySetId } = useParams<Params>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
-    const maxLength = flashcards?.length;
+    const maxLength = srFlashcards?.length;
 
     const { data: deck, isLoading: isDeckLoading } = useQuery(
       `${studySetId}-get-deck`,
@@ -43,7 +43,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: !flashcards && currentFlashcardIndex === 0,
+        enabled: !srFlashcards && currentFlashcardIndex === 0,
       }
     );
 
@@ -54,7 +54,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
         enabled:
-          Boolean(deck?.id) && !flashcards && currentFlashcardIndex === 0,
+          Boolean(deck?.id) && !srFlashcards && currentFlashcardIndex === 0,
       }
     );
 
@@ -70,23 +70,23 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       );
 
     useLayoutEffect(() => {
-      setFlashcards(fetchedSrFlashcards);
-    }, [fetchedSrFlashcards, setFlashcards]);
+      setSrFlashcards(fetchedSrFlashcards);
+    }, [fetchedSrFlashcards, setSrFlashcards]);
 
     useEffect(() => {
       setNumberOfLearnedCards(
-        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+        calculateNumberOfCardsGroupedByLearningStatus(srFlashcards)
           .numberOfLearnedCards
       );
       setNumberOfLearningCards(
-        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+        calculateNumberOfCardsGroupedByLearningStatus(srFlashcards)
           .numberOfLearningCards
       );
       setNumberOfNewCards(
-        calculateNumberOfCardsGroupedByLearningStatus(flashcards)
+        calculateNumberOfCardsGroupedByLearningStatus(srFlashcards)
           .numberOfNewCards
       );
-    }, [flashcards]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [srFlashcards]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
       <>
@@ -95,7 +95,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
             <StudyModeFlashcard
               isFinishedStudying
               isFlashcardsEmpty={
-                !flashcards && (!generalFlashcards || !fetchedFlashcards)
+                !srFlashcards && (!generalFlashcards || !fetchedFlashcards)
               }
             />
           ) : (
@@ -108,27 +108,26 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
                 flashcardIndex={flashcardIndex}
                 flippedState={flippedState}
                 maxLength={maxLength}
-                flashcards={flashcards}
+                flashcards={srFlashcards}
                 studyMode={STUDY_MODE_TYPES.SPACED_REPETITION}
               />
               <SpacedRepetitionController
-                ownerId={flashcards?.[flashcardIndex]?.owner_id}
-                flashcardId={flashcards?.[flashcardIndex]?.id}
-                deckId={flashcards?.[flashcardIndex]?.deck_id}
+                ownerId={srFlashcards?.[flashcardIndex]?.owner_id}
+                flashcardId={srFlashcards?.[flashcardIndex]?.id}
+                deckId={srFlashcards?.[flashcardIndex]?.deck_id}
                 maxLength={maxLength}
-                flashcards={flashcards}
                 flashcardIndex={flashcardIndex}
                 setFlashcardIndex={setFlashcardIndex}
                 setFlippedState={setFlippedState}
                 flippedState={flippedState}
-                easeFactor={flashcards?.[flashcardIndex]?.ease_factor}
+                easeFactor={srFlashcards?.[flashcardIndex]?.ease_factor}
                 easyBonus={deck?.easy_bonus}
-                status={flashcards?.[flashcardIndex]?.status}
+                status={srFlashcards?.[flashcardIndex]?.status}
                 currentLearningStatus={
-                  flashcards?.[flashcardIndex]?.learning_status
+                  srFlashcards?.[flashcardIndex]?.learning_status
                 }
                 numberOfLearningCards={numberOfLearningCards}
-                interval={flashcards?.[flashcardIndex]?.interval}
+                interval={srFlashcards?.[flashcardIndex]?.interval}
                 numberOfLearnedCards={numberOfLearnedCards}
                 numberOfNewCards={numberOfNewCards}
               />

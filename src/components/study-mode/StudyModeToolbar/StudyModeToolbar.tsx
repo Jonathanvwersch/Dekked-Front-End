@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import React, { useContext, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { DeleteForeverIcon, EditIcon } from "../../../assets";
@@ -11,6 +11,8 @@ import { flashcardsAtom, srFlashcardsAtom } from "../../../store";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
+import { getSessionCookie } from "../../../helpers";
+import { isEmpty } from "lodash";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,9 +38,31 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
+  const queryClient = useQueryClient();
+  const getFlashcardsKey =
+    studyMode === STUDY_MODE_TYPES.FREE_STUDY
+      ? `${studySetId}-get-flashcards`
+      : `${studySetId}-get-sr-flashcards`;
+
   const { mutate: deleteCard } = useMutation(
     `${studySetId}-delete-flashcard`,
-    deleteFlashcard
+    deleteFlashcard,
+    {
+      onSuccess: async (data, { flashcard_id }) => {
+        let flashcards;
+        queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
+          flashcards = prevState?.filter(
+            (flashcard: FlashcardInterface) => flashcard.id !== flashcard_id
+          );
+          return flashcards;
+        });
+
+        isEmpty(flashcards) &&
+          queryClient.refetchQueries(
+            `${getSessionCookie()}-get-all-due-sr-decks`
+          );
+      },
+    }
   );
 
   useKeyPress(["e", "E"], () => !isDeleteModalOpen && setIsEditable(true));

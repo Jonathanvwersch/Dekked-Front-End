@@ -53,10 +53,7 @@ const StudyQueueContainer: React.FC = () => {
           ariaLabel={formatMessage("ariaLabels.studyQueue")}
         >
           <IconWrapper>
-            <StudyQueueIcon
-              size={SIZES.LARGE}
-              color={theme.colors.backgrounds.pageBackground}
-            />
+            <StudyQueueIcon size={SIZES.LARGE} color="white" />
           </IconWrapper>
         </StudyQueue>
       </Container>

@@ -1,7 +1,7 @@
 import { EditorState } from "draft-js";
 import { Atom, atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { FILETREE_TYPES, TAB_TYPE, UserType } from "./shared";
+import { FILETREE_TYPES, STUDY_MODE_TYPES, TAB_TYPE, UserType } from "./shared";
 
 // File tree atoms
 export const fileTreeAtom = atom<FileTreeInterface | undefined>({});

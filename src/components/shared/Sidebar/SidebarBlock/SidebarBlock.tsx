@@ -240,18 +240,3 @@ const StyledBlock = styled.div<{
 `;
 
 export default React.memo(SidebarBlock);
-
-// if (
-//   (slugType === FILETREE_TYPES.STUDY_SET &&
-//     studySets &&
-//     studySets?.[id]?.binder_id === blockId) ||
-//   (studySets &&
-//     binders?.[studySets?.[id]?.binder_id]?.folder_id === blockId)
-// ) {
-//   isParentOfActiveBlock = true;
-// } else if (
-//   slugType === FILETREE_TYPES.BINDER &&
-//   binders?.[id]?.folder_id === blockId
-// ) {
-//   isParentOfActiveBlock = true;
-// }

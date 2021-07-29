@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React, { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation, useQueryClient } from "react-query";
@@ -18,6 +19,7 @@ import {
   FlashcardStatus,
   SIZES,
 } from "../../../../shared";
+import { srFlashcardsAtom } from "../../../../store";
 import { Button, Flex, Spacer, Text } from "../../../common";
 import {
   calculateNewInterval,
@@ -41,7 +43,6 @@ interface SpacedRepetitionControllerProps {
   interval?: number;
   easeFactor?: number;
   easyBonus?: number;
-  flashcards?: FlashcardInterface[];
   currentLearningStatus?: FlashcardLearningStatus;
 }
 
@@ -58,16 +59,16 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   interval,
   easeFactor,
   easyBonus,
-  flashcards,
   numberOfLearnedCards,
   numberOfLearningCards,
   numberOfNewCards,
   currentLearningStatus,
 }) => {
+  const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
+  console.log(srFlashcards);
   const intl = useIntl();
   const [_numberOfNewCards, setNumberOfNewCards] =
     useState<number>(numberOfNewCards);
-
   const [_numberOfLearnedCards, setNumberOfLearnedCards] =
     useState<number>(numberOfLearnedCards);
   const [_numberOfLearningCards, setNumberOfLearningCards] = useState<number>(
@@ -96,16 +97,16 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     flipCard && setFlippedState(false);
     if (quality === FlashcardQuality.REPEAT) {
       if (maxLength - 1 - flashcardIndex < 10) {
-        flashcards?.push(flashcards?.[flashcardIndex]);
+        srFlashcards?.push(srFlashcards?.[flashcardIndex]);
       } else {
-        flashcards &&
-          moveArrayItem(flashcards, flashcardIndex, flashcardIndex + 9);
+        srFlashcards &&
+          moveArrayItem(srFlashcards, flashcardIndex, flashcardIndex + 9);
       }
     }
 
     if (!flipCard) {
-      if (flashcards?.[flashcardIndex] && newLearningStatus) {
-        flashcards[flashcardIndex].learning_status = newLearningStatus;
+      if (srFlashcards?.[flashcardIndex] && newLearningStatus) {
+        srFlashcards[flashcardIndex].learning_status = newLearningStatus;
       }
 
       currentLearningStatus === FlashcardLearningStatus.NEW &&
@@ -135,6 +136,15 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
 
       setFlippedState(true);
       setFlashcardIndex((prevState) => prevState + 1);
+      // if (quality !== FlashcardQuality.REPEAT) {
+      //   // console.log(flashcardIndex);
+      //   // console.log(
+      //   //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
+      //   // );
+      //   // setSrFlashcards(
+      //   //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
+      //   // );
+      // }
       quality &&
         saveCard({
           flashcard_id: flashcardId,
