@@ -8,6 +8,7 @@ import { CoordsType } from "../../../shared";
 import { MainSettingsModal } from "..";
 import { useHistory } from "react-router-dom";
 import { removeCookie } from "../../../helpers";
+import { QueryCache } from "react-query";
 
 interface OpenSettingsModalProps {
   open: boolean;
@@ -25,6 +26,7 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   setOpenMainSettingsModal,
 }) => {
   const history = useHistory();
+  const queryCache = new QueryCache();
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
@@ -34,6 +36,7 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
     if (option === OPEN_SETTINGS_DATA.LOGOUT) {
       removeCookie();
       localStorage.clear();
+      queryCache.clear();
       history.push("/login");
     }
   };

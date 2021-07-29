@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
-import { moveArrayItem } from "../../../../helpers";
+import { getSessionCookie, moveArrayItem } from "../../../../helpers";
 import {
   useKeyPress,
   usePageSetupHelpers,
@@ -80,7 +80,9 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
     onSuccess: () => {
       flashcardIndex + 1 === maxLength &&
-        queryClient.refetchQueries(`get-all-due-sr-decks`);
+        queryClient.refetchQueries(
+          `${getSessionCookie()}-get-all-due-sr-decks`
+        );
       return undefined;
     },
   });

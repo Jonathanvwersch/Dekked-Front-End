@@ -43,6 +43,7 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
+import { getSessionCookie } from "../../../helpers";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -126,7 +127,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           allFlashcards?.push(data?.fullFlashcard);
           return allFlashcards;
         });
-        queryClient.refetchQueries(`get-all-due-sr-decks`);
+        queryClient.refetchQueries(
+          `${getSessionCookie()}-get-all-due-sr-decks`
+        );
       },
     }
   );
@@ -145,7 +148,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         });
 
         isEmpty(flashcards) &&
-          queryClient.refetchQueries(`get-all-due-sr-decks`);
+          queryClient.refetchQueries(
+            `${getSessionCookie()}-get-all-due-sr-decks`
+          );
       },
     }
   );

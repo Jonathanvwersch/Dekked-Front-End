@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 import { getAllDueSrDecks } from "../../../api";
 import { formatNumber } from "../../../intl";
 import { useIntl } from "react-intl";
-import { positionModals } from "../../../helpers";
+import { getSessionCookie, positionModals } from "../../../helpers";
 
 const StudyQueueContainer: React.FC = () => {
   const intl = useIntl();
@@ -18,7 +18,7 @@ const StudyQueueContainer: React.FC = () => {
   const [coords, setCoords] = useState<CoordsType>();
   const modalRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
-    "get-all-due-sr-decks",
+    `${getSessionCookie()}-get-all-due-sr-decks`,
     getAllDueSrDecks,
     {
       refetchOnMount: false,

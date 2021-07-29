@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
+import { getSessionCookie } from ".";
 import { deleteBinder } from "../api/file-structure/bindersApi";
 import { deleteFolder } from "../api/file-structure/foldersApi";
 import { deleteStudySet } from "../api/file-structure/studySetsApi";
@@ -32,7 +33,9 @@ export const useDeleteAsset = () => {
     {
       retry: 3,
       onSuccess: () => {
-        queryClient.refetchQueries(`get-all-due-sr-decks`);
+        queryClient.refetchQueries(
+          `${getSessionCookie()}-get-all-due-sr-decks`
+        );
       },
     }
   );
@@ -43,7 +46,9 @@ export const useDeleteAsset = () => {
     {
       retry: 3,
       onSuccess: () => {
-        queryClient.refetchQueries(`get-all-due-sr-decks`);
+        queryClient.refetchQueries(
+          `${getSessionCookie()}-get-all-due-sr-decks`
+        );
       },
     }
   );
@@ -54,7 +59,9 @@ export const useDeleteAsset = () => {
     {
       retry: 3,
       onSuccess: () => {
-        queryClient.refetchQueries(`get-all-due-sr-decks`);
+        queryClient.refetchQueries(
+          `${getSessionCookie()}-get-all-due-sr-decks`
+        );
       },
     }
   );
