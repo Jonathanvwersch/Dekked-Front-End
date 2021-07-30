@@ -43,6 +43,7 @@ interface RichEditorProps {
   editorType?: EditorType;
   isEditable?: boolean;
   editorRef?: React.RefObject<any>;
+  styles?: React.CSSProperties | undefined;
 }
 
 const RichEditor: React.FC<RichEditorProps> = ({
@@ -55,6 +56,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   isEditable = true,
   editorType = "page",
   editorRef,
+  styles,
 }) => {
   const intl = useIntl();
   const currentBlock = getCurrentBlock(editorState);
@@ -194,6 +196,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
     <>
       {!isLoading ? (
         <EditorContainer
+          style={styles}
           isEditable={isEditable}
           onFocus={() => {
             setHasFocus(true);
@@ -260,7 +263,6 @@ const EditorContainer = styled.div<{
   isLinked?: boolean;
 }>`
   color: ${({ theme }) => theme.colors.fontColor};
-  padding-bottom: 100px;
   width: 100%;
   position: relative;
   font-size: ${({ theme, editorType }) =>

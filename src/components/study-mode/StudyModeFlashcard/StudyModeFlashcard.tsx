@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   Button,
   H1,
@@ -103,7 +103,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     <Flex
       flexDirection="column"
       width="100%"
-      height="100%"
+      height="50%"
       justifyContent="center"
     >
       {!isFlashcardsEmpty && (
@@ -185,9 +185,9 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   );
 
   return (
-    <>
+    <Flex height="100%">
       <Flashcard
-        padding={`${theme.spacers.size48} ${theme.spacers.size48}`}
+        padding={`0 0 ${theme.spacers.size32} 0`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         height="100%"
         backgroundImage={!isFlashcardsEmpty ? Confetti : undefined}
@@ -209,6 +209,11 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         ) : null}
         {!isFinishedStudying ? (
           <RichEditor
+            styles={{
+              padding: `0 ${theme.spacers.size32} 0 ${theme.spacers.size32}`,
+              overflow: "auto",
+              height: "100%",
+            }}
             hasFocus={hasFocus}
             setHasFocus={setHasFocus}
             editorState={
@@ -261,7 +266,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           backBlocks={backBlocks}
         />
       ) : null}
-    </>
+    </Flex>
   );
 };
 
@@ -274,6 +279,11 @@ const Flashcard = styled(ShadowCard)<{
   overflow-y: auto;
   position: relative;
   z-index: 0;
+  display: flex;
+  align-items: center;
+  max-height: 630px;
+  justify-content: center;
+  flex-direction: column;
   background-size: contain;
   background-image: ${({ backgroundImage, isFinishedStudying }) =>
     isFinishedStudying && backgroundImage
@@ -303,9 +313,11 @@ const LogoIconContainer = styled(IconActive)`
 `;
 
 const CardHeader = styled.div`
-  top: ${({ theme }) => theme.spacers.size16};
-  left: ${({ theme }) => theme.spacers.size16};
-  position: absolute;
+  user-select: none;
+  width: 100%;
+  z-index: 1000;
+  padding: ${({ theme }) => `${theme.spacers.size16} ${theme.spacers.size16}`};
+  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
 export default StudyModeFlashcard;

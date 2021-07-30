@@ -6,6 +6,7 @@ import {
   StudyModeFreeStudy,
   StudyModeSpacedRepetition,
 } from "../../components/study-mode";
+import { useResponsiveLayout } from "../../hooks";
 import CustomSwitch from "../../Router/CustomSwitch";
 import PrivateRoute from "../../Router/PrivateRoute";
 import { SIZES, STUDY_MODE_TYPES } from "../../shared";
@@ -15,6 +16,7 @@ interface StudyModePageProps {}
 const StudyModePage: React.FC<StudyModePageProps> = () => {
   const [, setSidebar] = useAtom(sidebarAtom);
   const theme = useContext(ThemeContext);
+  const layout = useResponsiveLayout();
 
   useLayoutEffect(() => {
     setSidebar(false);
@@ -22,7 +24,7 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
 
   return (
     <MainFrame backgroundColor={theme.colors.backgrounds.studyModeBackground}>
-      <StyledInsetPage size={SIZES.LARGE} overflow="hidden">
+      <Wrapper>
         <CustomSwitch>
           <PrivateRoute
             path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
@@ -34,15 +36,25 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
             component={StudyModeFreeStudy}
           />
         </CustomSwitch>
-      </StyledInsetPage>
+      </Wrapper>
     </MainFrame>
   );
 };
 
-const StyledInsetPage = styled(InsetPage)`
+const Wrapper = styled.div`
+  padding-left: 100px;
+  padding-right: 100px;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+  max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
+  padding-top: ${({ theme }) => theme.spacers.size64};
+  padding-bottom: ${({ theme }) => theme.spacers.size64};
   display: flex;
   flex-direction: column;
   position: relative;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default StudyModePage;

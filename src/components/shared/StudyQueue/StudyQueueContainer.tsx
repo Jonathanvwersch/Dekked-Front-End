@@ -1,22 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { StudyQueueIcon } from "../../../assets";
 import { Button, IconWrapper, Text } from "../../common";
 import StudyQueueModal from "./StudyQueueModal";
-import { CoordsType, SIZES } from "../../../shared";
+import { SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { useQuery } from "react-query";
 import { getAllDueSrDecks } from "../../../api";
 import { formatNumber } from "../../../intl";
 import { useIntl } from "react-intl";
-import { getSessionCookie, positionModals } from "../../../helpers";
+import { getSessionCookie } from "../../../helpers";
 
 const StudyQueueContainer: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
-  const [coords, setCoords] = useState<CoordsType>();
-  const modalRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
     `${getSessionCookie()}-get-all-due-sr-decks`,
     getAllDueSrDecks,
@@ -32,7 +30,7 @@ const StudyQueueContainer: React.FC = () => {
 
   return (
     <>
-      <Container ref={modalRef}>
+      <Container>
         {isDataGreaterThanZero && data && (
           <Notifications increaseSize={isDataGreaterThanNine}>
             <Text
@@ -46,10 +44,7 @@ const StudyQueueContainer: React.FC = () => {
           </Notifications>
         )}
         <StudyQueue
-          handleClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            setStudyQueueModal(true);
-            setCoords(positionModals(e, 350, modalRef));
-          }}
+          handleClick={() => setStudyQueueModal(true)}
           ariaLabel={formatMessage("ariaLabels.studyQueue")}
         >
           <IconWrapper>
@@ -62,7 +57,6 @@ const StudyQueueContainer: React.FC = () => {
         isLoading={isLoading}
         isOpen={studyQueueModal}
         handleClose={() => setStudyQueueModal(false)}
-        coords={{ ...coords, left: 735 }}
       />
     </>
   );

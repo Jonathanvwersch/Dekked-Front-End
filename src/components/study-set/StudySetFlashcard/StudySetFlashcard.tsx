@@ -481,7 +481,7 @@ const StyledShadowCard = styled(ShadowCard)<{ type?: "edit" | "add" }>`
 const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
   max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};
   width: ${({ vertical }) => (vertical ? "100%" : "49%")};
-  max-height: ${({ vertical }) => (vertical ? "48%" : "auto")};
+  max-height: ${({ vertical }) => vertical && "48%"};
   position: relative;
 `;
 
@@ -491,17 +491,16 @@ const TextCard = styled(Card)<{ linked: boolean; fullHeight?: boolean }>`
     overflow: auto;
   }
   padding: ${({ theme }) =>
-    `${theme.spacers.size24} ${theme.spacers.size24} ${theme.spacers.size16} ${theme.spacers.size24}`};
+    `0 ${theme.spacers.size24} ${theme.spacers.size16} ${theme.spacers.size24}`};
   max-height: ${({ fullHeight, linked }) =>
     fullHeight ? "100%" : linked ? "200px" : "100px"};
 `;
 
 const CardHeader = styled.div`
   user-select: none;
-  width: 95%;
-  z-index: 10;
+  width: 100%;
+  z-index: 1000;
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
-  position: absolute;
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 

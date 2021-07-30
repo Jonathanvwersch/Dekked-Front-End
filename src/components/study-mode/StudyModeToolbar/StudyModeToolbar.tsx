@@ -70,11 +70,11 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
 
   return (
     <>
-      <StudyToolbar
-        studyMode={studyMode}
+      <Flex
         flexDirection="column"
         width="auto"
         height="100%"
+        ml={theme.spacers.size16}
         justifyContent="flex-start"
       >
         <Tooltip
@@ -98,7 +98,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
             <DeleteForeverIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
-      </StudyToolbar>
+      </Flex>
       <DeleteModal
         isOpen={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
@@ -129,12 +129,5 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
     </>
   );
 };
-
-const StudyToolbar = styled(Flex)<{ studyMode?: STUDY_MODE_TYPES }>`
-  position: absolute;
-  right: ${({ theme }) => theme.spacers.size48};
-  top: ${({ studyMode }) =>
-    studyMode === STUDY_MODE_TYPES.FREE_STUDY ? "88px" : undefined};
-`;
 
 export default StudyModeToolbar;

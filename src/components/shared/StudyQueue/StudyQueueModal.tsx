@@ -13,7 +13,6 @@ import {
 import { ThemeType } from "../../../styles/theme";
 import {
   BUTTON_THEME,
-  CoordsType,
   FILETREE_TYPES,
   STUDY_MODE_TYPES,
 } from "../../../shared";
@@ -26,10 +25,9 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 interface StudyQueueProps {
   isOpen: boolean;
-  handleClose: (args?: any) => void;
+  handleClose: () => void;
   data: DueSpacedRepetitionDecks | undefined;
   isLoading: boolean;
-  coords: CoordsType | undefined;
 }
 
 const StudyQueueModal: React.FC<StudyQueueProps> = ({
@@ -37,10 +35,10 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
   handleClose,
   data,
   isLoading,
-  coords,
 }) => {
   const intl = useIntl();
   const theme: ThemeType = useContext(ThemeContext);
+  const coords = { bottom: 84, right: 78 };
   const history = useHistory();
   const [studyUrl, setStudyUrl] = useState<string>();
   const [activeId, setActiveId] = useState<string>();
