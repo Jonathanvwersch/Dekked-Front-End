@@ -448,4 +448,7 @@ export const layeredModalAtom = atom<boolean>(false);
 export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 
 // Study mode
-export const fullscreenStudyModeAtom = atom<boolean>(false);
+export const fullscreenStudyModeAtom = atomWithStorage<boolean>(
+  "fullscreen-study-mode",
+  false
+);
