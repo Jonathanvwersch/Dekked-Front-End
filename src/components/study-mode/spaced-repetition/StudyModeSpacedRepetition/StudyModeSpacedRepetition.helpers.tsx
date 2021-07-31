@@ -8,14 +8,14 @@ export const calculateNumberOfCardsGroupedByLearningStatus = (
   let numberOfLearnedCards = 0;
 
   flashcards?.forEach((flashcard) => {
-    if (flashcard.learning_status === FlashcardLearningStatus.LEARNING) {
+    if (flashcard?.learning_status === FlashcardLearningStatus.LEARNING) {
       numberOfLearningCards += 1;
     } else if (
-      flashcard.learning_status === FlashcardLearningStatus.LEARNED ||
-      flashcard.learning_status === FlashcardLearningStatus.DUE
+      flashcard?.learning_status === FlashcardLearningStatus.LEARNED ||
+      flashcard?.learning_status === FlashcardLearningStatus.DUE
     ) {
       numberOfLearnedCards += 1;
-    } else if (flashcard.learning_status === FlashcardLearningStatus.NEW) {
+    } else if (flashcard?.learning_status === FlashcardLearningStatus.NEW) {
       numberOfNewCards += 1;
     }
   });

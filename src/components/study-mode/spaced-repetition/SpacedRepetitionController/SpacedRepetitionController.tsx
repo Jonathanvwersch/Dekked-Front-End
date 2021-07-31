@@ -1,10 +1,14 @@
-import { useAtom } from "jotai";
+import { isEmpty } from "lodash";
 import React, { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
-import { getSessionCookie, moveArrayItem } from "../../../../helpers";
+import {
+  getSessionCookie,
+  moveArrayItem,
+  titleCase,
+} from "../../../../helpers";
 import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
 import { formatNumber } from "../../../../intl";
 import {
@@ -14,8 +18,7 @@ import {
   FlashcardStatus,
   SIZES,
 } from "../../../../shared";
-import { srFlashcardsAtom } from "../../../../store";
-import { Button, Flex, Spacer, Text } from "../../../common";
+import { Button, Flex, Spacer, Text, Tooltip } from "../../../common";
 import {
   calculateNewInterval,
   easilyRememberedButtonTimings,
@@ -39,6 +42,7 @@ interface SpacedRepetitionControllerProps {
   easeFactor?: number;
   easyBonus?: number;
   currentLearningStatus?: FlashcardLearningStatus;
+  srFlashcards?: FlashcardInterface[];
 }
 
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
@@ -58,9 +62,8 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   numberOfLearningCards,
   numberOfNewCards,
   currentLearningStatus,
+  srFlashcards,
 }) => {
-  const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
-  console.log(srFlashcards);
   const intl = useIntl();
   const [_numberOfNewCards, setNumberOfNewCards] =
     useState<number>(numberOfNewCards);
@@ -129,14 +132,9 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       }
 
       setFlippedState(true);
-      setFlashcardIndex((prevState) => prevState + 1);
-      // console.log(flashcardIndex);
-      // console.log(
-      //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
-      // );
-      // setSrFlashcards(
-      //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
-      // );
+      // setFlashcardIndex((prevState) => prevState + 1);
+
+      srFlashcards?.splice(flashcardIndex, 1);
 
       quality &&
         saveCard({
@@ -239,8 +237,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     easyBonus
   );
 
-  const numberOfCards = (backgroundColor: string, numberOfCards: number) => (
-    <CardNumber backgroundColor={backgroundColor}>{numberOfCards}</CardNumber>
+  const numberOfCards = (
+    backgroundColor: string,
+    numberOfCards: number,
+    tooltip: string
+  ) => (
+    <Tooltip text={tooltip} id={titleCase(formatMessage(tooltip))}>
+      <CardNumber backgroundColor={backgroundColor}>{numberOfCards}</CardNumber>
+    </Tooltip>
   );
 
   useMemo(() => {
@@ -251,14 +255,26 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
 
   return (
     <>
-      {flashcardIndex !== maxLength ? (
+      {!isEmpty(srFlashcards) ? (
         <Flex flexDirection="column" mt={theme.spacers.size32}>
           <Flex justifyContent="center">
-            {numberOfCards(theme.colors.success, _numberOfNewCards)}
+            {numberOfCards(
+              theme.colors.success,
+              _numberOfNewCards,
+              "tooltips.studyMode.newCards"
+            )}
             <Spacer width={theme.spacers.size64} />
-            {numberOfCards(theme.colors.primary, _numberOfLearningCards)}
+            {numberOfCards(
+              theme.colors.primary,
+              _numberOfLearningCards,
+              "tooltips.studyMode.repeatedCards"
+            )}
             <Spacer width={theme.spacers.size64} />
-            {numberOfCards(theme.colors.danger, _numberOfLearnedCards)}
+            {numberOfCards(
+              theme.colors.danger,
+              _numberOfLearnedCards,
+              "tooltips.studyMode.dueCards"
+            )}
           </Flex>
           <Spacer height={theme.spacers.size24} />
           <Flex justifyContent="center">

@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -60,6 +61,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
             flippedState={flippedState}
             studyMode={STUDY_MODE_TYPES.FREE_STUDY}
             setFlashcardIndex={setFlashcardIndex}
+            isFlashcardsEmpty={isEmpty(fetchedFlashcards)}
           />
           <FreeStudyController
             maxLength={maxLength}

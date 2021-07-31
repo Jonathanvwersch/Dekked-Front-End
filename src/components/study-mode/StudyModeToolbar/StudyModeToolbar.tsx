@@ -20,6 +20,7 @@ import { isEmpty } from "lodash";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
+  setDeletedLastFlashcard: React.Dispatch<React.SetStateAction<boolean>>;
   isEditable: boolean;
   flashcardId?: string;
   frontBlocks?: string[];
@@ -35,6 +36,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   frontBlocks,
   backBlocks,
   currentBlockKey,
+  setDeletedLastFlashcard,
   studyMode,
 }) => {
   const theme = useContext(ThemeContext);
@@ -66,12 +68,20 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           queryClient.refetchQueries(
             `${getSessionCookie()}-get-all-due-sr-decks`
           );
+
+        isEmpty(flashcards) && setDeletedLastFlashcard(true);
       },
     }
   );
 
-  useKeyPress(["e", "E"], () => !isDeleteModalOpen && setIsEditable(true));
-  useKeyPress(["d", "D"], () => !isEditable && setIsDeleteModalOpen(true));
+  useKeyPress(
+    ["e", "E"],
+    () => !isDeleteModalOpen && setIsEditable((prevState) => !prevState)
+  );
+  useKeyPress(
+    ["d", "D"],
+    () => !isEditable && setIsDeleteModalOpen((prevState) => !prevState)
+  );
 
   return (
     <>

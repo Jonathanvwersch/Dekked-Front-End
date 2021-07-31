@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { isEmpty } from "lodash";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -14,7 +15,6 @@ import {
   srFlashcardsAtom,
 } from "../../../../store";
 import { Flex, FullPageLoadingSpinner } from "../../../common";
-import StudyModeFlashcard from "../../StudyModeFlashcard/StudyModeFlashcard";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 import { calculateNumberOfCardsGroupedByLearningStatus } from "./StudyModeSpacedRepetition.helpers";
@@ -32,10 +32,10 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       useState<number>(0);
     const [numberOfNewCards, setNumberOfNewCards] = useState<number>(0);
     const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
-    const [generalFlashcards] = useAtom(flashcardsAtom);
+    const [flashcards] = useAtom(flashcardsAtom);
     const { id: studySetId } = useParams<Params>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
-    const maxLength = srFlashcards?.length;
+    const [maxLength, setMaxLength] = useState<number>();
 
     const { data: deck, isLoading: isDeckLoading } = useQuery(
       `${studySetId}-get-deck`,
@@ -47,27 +47,34 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       }
     );
 
-    const { data: fetchedFlashcards } = useQuery<FlashcardInterface[]>(
+    const {
+      data: fetchedFlashcards,
+      isLoading: isFlashcardsLoading,
+      isFetching: isFlashcardsFetching,
+    } = useQuery<FlashcardInterface[]>(
       `${studySetId}-get-flashcards`,
       () => getFlashcardsByDeckId({ deckId: deck?.id }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled:
-          Boolean(deck?.id) && !srFlashcards && currentFlashcardIndex === 0,
+        enabled: Boolean(deck?.id) && isEmpty(flashcards),
       }
     );
 
-    const { data: fetchedSrFlashcards, isLoading: isFlashcardsLoading } =
-      useQuery<FlashcardInterface[]>(
-        `${studySetId}-get-sr-flashcards`,
-        () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
-        {
-          refetchOnReconnect: false,
-          refetchOnWindowFocus: false,
-          enabled: Boolean(deck?.id) && currentFlashcardIndex === 0,
-        }
-      );
+    const {
+      data: fetchedSrFlashcards,
+      isLoading: isSrFlashcardsLoading,
+      isFetching: isSrFlashcardsFetching,
+    } = useQuery<FlashcardInterface[]>(
+      `${studySetId}-get-sr-flashcards`,
+      () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
+      {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        enabled: Boolean(deck?.id) && currentFlashcardIndex === 0,
+        onSuccess: (data) => setMaxLength(data?.length),
+      }
+    );
 
     useLayoutEffect(() => {
       setSrFlashcards(fetchedSrFlashcards);
@@ -90,49 +97,42 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
 
     return (
       <>
-        {!isDeckLoading && !isFlashcardsLoading ? (
-          !maxLength ? (
-            <StudyModeFlashcard
-              isFinishedStudying
-              isFlashcardsEmpty={
-                !srFlashcards && (!generalFlashcards || !fetchedFlashcards)
-              }
+        {!isDeckLoading &&
+        !isSrFlashcardsLoading &&
+        !isSrFlashcardsFetching &&
+        !isFlashcardsLoading &&
+        !isFlashcardsFetching ? (
+          <Flex flexDirection="column" justifyContent="center" height="100%">
+            <StudyModeMainFrame
+              flashcardIndex={flashcardIndex}
+              flippedState={flippedState}
+              maxLength={maxLength || 0}
+              flashcards={srFlashcards}
+              studyMode={STUDY_MODE_TYPES.SPACED_REPETITION}
+              isFlashcardsEmpty={isEmpty(fetchedFlashcards)}
             />
-          ) : (
-            <Flex
-              flexDirection="column"
-              justifyContent="center"
-              height="100%"
-            >
-              <StudyModeMainFrame
-                flashcardIndex={flashcardIndex}
-                flippedState={flippedState}
-                maxLength={maxLength}
-                flashcards={srFlashcards}
-                studyMode={STUDY_MODE_TYPES.SPACED_REPETITION}
-              />
-              <SpacedRepetitionController
-                ownerId={srFlashcards?.[flashcardIndex]?.owner_id}
-                flashcardId={srFlashcards?.[flashcardIndex]?.id}
-                deckId={srFlashcards?.[flashcardIndex]?.deck_id}
-                maxLength={maxLength}
-                flashcardIndex={flashcardIndex}
-                setFlashcardIndex={setFlashcardIndex}
-                setFlippedState={setFlippedState}
-                flippedState={flippedState}
-                easeFactor={srFlashcards?.[flashcardIndex]?.ease_factor}
-                easyBonus={deck?.easy_bonus}
-                status={srFlashcards?.[flashcardIndex]?.status}
-                currentLearningStatus={
-                  srFlashcards?.[flashcardIndex]?.learning_status
-                }
-                numberOfLearningCards={numberOfLearningCards}
-                interval={srFlashcards?.[flashcardIndex]?.interval}
-                numberOfLearnedCards={numberOfLearnedCards}
-                numberOfNewCards={numberOfNewCards}
-              />
-            </Flex>
-          )
+            <SpacedRepetitionController
+              srFlashcards={srFlashcards}
+              ownerId={srFlashcards?.[flashcardIndex]?.owner_id}
+              flashcardId={srFlashcards?.[flashcardIndex]?.id}
+              deckId={srFlashcards?.[flashcardIndex]?.deck_id}
+              maxLength={maxLength || 0}
+              flashcardIndex={flashcardIndex}
+              setFlashcardIndex={setFlashcardIndex}
+              setFlippedState={setFlippedState}
+              flippedState={flippedState}
+              easeFactor={srFlashcards?.[flashcardIndex]?.ease_factor}
+              easyBonus={deck?.easy_bonus}
+              status={srFlashcards?.[flashcardIndex]?.status}
+              currentLearningStatus={
+                srFlashcards?.[flashcardIndex]?.learning_status
+              }
+              numberOfLearningCards={numberOfLearningCards}
+              interval={srFlashcards?.[flashcardIndex]?.interval}
+              numberOfLearnedCards={numberOfLearnedCards}
+              numberOfNewCards={numberOfNewCards}
+            />
+          </Flex>
         ) : (
           <FullPageLoadingSpinner />
         )}

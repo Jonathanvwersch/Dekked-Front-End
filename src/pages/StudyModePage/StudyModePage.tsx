@@ -25,7 +25,7 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
   }, [setSidebar]);
 
   const maxWidth =
-    layout === LAYOUT_VERTICAL ? "100%" : fullscreen ? "1400px" : "800px";
+    layout === LAYOUT_VERTICAL ? "100%" : fullscreen ? "1400px" : "750px";
 
   return (
     <MainFrame

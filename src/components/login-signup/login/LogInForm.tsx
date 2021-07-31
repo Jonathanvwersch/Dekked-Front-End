@@ -86,12 +86,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     if (emailAddress) passwordRef.current?.focus();
   }, [passwordRef]); // eslint-disable-next-line react/jsx-no-undef
 
-  const googleButton = document.querySelectorAll("[id^=not_signed]");
-
-  useEffect(() => {
-    if (googleButton?.[0]) console.log("hey");
-  }, [googleButton]);
-
   return (
     <>
       {errorMessage && errorCode && (

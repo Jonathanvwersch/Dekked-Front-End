@@ -11,6 +11,7 @@ interface StudyModeMainFrameProps {
   flippedState: boolean;
   studyMode?: STUDY_MODE_TYPES;
   setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
+  isFlashcardsEmpty?: boolean;
 }
 
 const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
@@ -20,6 +21,7 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
   flippedState,
   studyMode,
   setFlashcardIndex,
+  isFlashcardsEmpty,
 }) => {
   const [currentFlashcard, setCurrentFlashcard] =
     useState<FlashcardInterface | undefined>();
@@ -47,10 +49,10 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         setFlashcardIndex={setFlashcardIndex}
         blockLink={currentFlashcard?.block_link}
         flashcardId={currentFlashcard?.id}
-        isFinishedStudying={maxLength === flashcardIndex}
+        isFinishedStudying={maxLength === flashcardIndex || isEmpty(flashcards)}
         studyMode={studyMode}
         ownerId={currentFlashcard?.owner_id}
-        isFlashcardsEmpty={isEmpty(flashcards) || !flashcards}
+        isFlashcardsEmpty={isFlashcardsEmpty}
       />
     </>
   );

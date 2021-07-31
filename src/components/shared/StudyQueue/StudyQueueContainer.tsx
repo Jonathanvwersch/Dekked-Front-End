@@ -67,7 +67,7 @@ const Container = styled.div`
   width: ${({ theme }) => theme.spacers.size56};
   position: fixed;
   bottom: ${({ theme }) => theme.spacers.size32};
-  right: ${({ theme }) => theme.spacers.size32};
+  right: ${({ theme }) => theme.spacers.size16};
 `;
 
 const StudyQueue = styled((props) => <Button {...props} />)`

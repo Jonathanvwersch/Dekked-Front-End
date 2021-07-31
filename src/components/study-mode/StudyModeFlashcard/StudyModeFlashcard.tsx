@@ -28,7 +28,6 @@ import { isEmpty } from "lodash";
 import { EditorState } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";
-import Confetti from "../../../assets/images/Confetti.png";
 import { useHistory, useParams } from "react-router-dom";
 import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -71,7 +70,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   flashcardIndex,
 }) => {
   const [fullscreen] = useAtom(fullscreenStudyModeAtom);
-  const flashcardMaxHeight = fullscreen ? "80%" : "500px";
+  const flashcardMaxHeight = fullscreen ? "80%" : "400px";
   const history = useHistory();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
@@ -79,6 +78,8 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const { id } = useParams<Params>();
+  const [deletedLastFlashcard, setDeletedLastFlashcard] =
+    useState<boolean>(false);
   const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
   const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
   const [, setBlockLink] = useAtom(blockLinkAtom);
@@ -109,15 +110,15 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
       height="50%"
       justifyContent="center"
     >
-      {!isFlashcardsEmpty && (
-        <H1 textAlign="center">
+      {(!isFlashcardsEmpty || !deletedLastFlashcard) && (
+        <H1 textAlign="center" styledAs="h2">
           <FormattedMessage id="studyMode.flashcard.congratulations" />
         </H1>
       )}
       <H2 styledAs="h4">
         <FormattedMessage
           id={
-            isFlashcardsEmpty
+            isFlashcardsEmpty || deletedLastFlashcard
               ? "studyMode.flashcard.flashcardsEmpty"
               : studyMode === STUDY_MODE_TYPES.FREE_STUDY
               ? "studyMode.flashcard.reachedTheEnd"
@@ -126,7 +127,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         />
       </H2>
       <Spacer height={theme.spacers.size48} />
-      {isFlashcardsEmpty ? (
+      {isFlashcardsEmpty || deletedLastFlashcard ? (
         <H2 styledAs="h5" fontWeight="normal" textAlign="center">
           <FormattedMessage id="studyMode.flashcard.clickReturnToStudySet" />
         </H2>
@@ -141,7 +142,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         </>
       )}
       <Spacer height={theme.spacers.size32} />
-      {isFlashcardsEmpty ? (
+      {isFlashcardsEmpty || deletedLastFlashcard ? (
         <Button
           size={SIZES.LARGE}
           width="200px"
@@ -193,7 +194,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         padding={`0 0 ${theme.spacers.size32} 0`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         height="100%"
-        backgroundImage={!isFlashcardsEmpty ? Confetti : undefined}
         isFinishedStudying={isFinishedStudying}
         learningStatus={learningStatus}
         studyMode={studyMode}
@@ -263,6 +263,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           flashcardId={flashcardId}
           setIsEditable={setIsEditable}
           isEditable={isEditable}
+          setDeletedLastFlashcard={setDeletedLastFlashcard}
           studyMode={studyMode}
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
@@ -274,7 +275,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
 };
 
 const Flashcard = styled(ShadowCard)<{
-  backgroundImage?: string;
   isFinishedStudying?: boolean;
   learningStatus?: FlashcardLearningStatus;
   studyMode?: STUDY_MODE_TYPES;
@@ -287,10 +287,6 @@ const Flashcard = styled(ShadowCard)<{
   justify-content: center;
   flex-direction: column;
   background-size: contain;
-  background-image: ${({ backgroundImage, isFinishedStudying }) =>
-    isFinishedStudying && backgroundImage
-      ? `url(${backgroundImage})`
-      : undefined};
 
   border: ${({ theme, learningStatus, studyMode }) =>
     studyMode === STUDY_MODE_TYPES.SPACED_REPETITION &&

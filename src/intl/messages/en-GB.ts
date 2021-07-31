@@ -249,6 +249,9 @@ const en_GB = {
         linkedFlashcard: "Click to view linked block",
         disabledStudyButton: "Add a flashcard to enable study mode",
         fullscreen: "Fullscreen",
+        newCards: "New cards",
+        repeatedCards: "Repeated cards",
+        dueCards: "Due cards",
       },
       studySet: {
         toolbar: {

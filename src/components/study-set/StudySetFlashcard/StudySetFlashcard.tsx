@@ -400,7 +400,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   return (
     <>
       <StyledShadowCard
-        id={`StudySetFlashcard-${index}`}
+        id={index ? `StudySetFlashcard-${index}` : "StudySetFlashcard"}
         backgroundColor={theme.colors.secondary}
         padding={theme.spacers.size16}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
@@ -408,7 +408,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         width={width || "99%"}
         height={fullHeight ? "100%" : "auto"}
         tabIndex={0}
-        ariaLabel={formatMessage("ariaLabels.studySetFlashcard")}
+        ariaLabel={!linked ? formatMessage("ariaLabels.studySetFlashcard") : ""}
         role="button"
         type={type}
       >
@@ -493,7 +493,8 @@ const TextCard = styled(Card)<{ linked: boolean; fullHeight?: boolean }>`
   padding: ${({ theme }) =>
     `0 ${theme.spacers.size24} ${theme.spacers.size16} ${theme.spacers.size24}`};
   max-height: ${({ fullHeight, linked }) =>
-    fullHeight ? "100%" : linked ? "200px" : "100px"};
+    fullHeight ? "100%" : linked ? "175px" : "100px"};
+  min-height: ${({ linked }) => linked && "175px"};
 `;
 
 const CardHeader = styled.div`
