@@ -106,7 +106,11 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         <Spacer height={theme.spacers.size16} />
         <Tooltip
           id="FullScreenFlashcard"
-          text={"tooltips.studyMode.fullscreen"}
+          text={
+            fullscreen
+              ? "tooltips.studyMode.exitFullscreen"
+              : "tooltips.studyMode.enterFullscreen"
+          }
           place="left"
         >
           <IconActive
