@@ -2,12 +2,16 @@ import { useAtom } from "jotai";
 import React, { useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import styled, { ThemeContext } from "styled-components";
-import { DeleteForeverIcon, EditIcon } from "../../../assets";
+import { ThemeContext } from "styled-components";
+import { DeleteForeverIcon, EditIcon, FullscreenIcon } from "../../../assets";
 import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard } from "../../../api/flashcards/flashcardsApi";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
-import { flashcardsAtom, srFlashcardsAtom } from "../../../store";
+import {
+  flashcardsAtom,
+  fullscreenStudyModeAtom,
+  srFlashcardsAtom,
+} from "../../../store";
 import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
@@ -34,6 +38,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   studyMode,
 }) => {
   const theme = useContext(ThemeContext);
+  const [fullscreen, setFullscreen] = useAtom(fullscreenStudyModeAtom);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
@@ -86,6 +91,19 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
             handleClick={() => setIsEditable((prevState) => !prevState)}
           >
             <EditIcon size={SIZES.LARGE} />
+          </IconActive>
+        </Tooltip>
+        <Spacer height={theme.spacers.size16} />
+        <Tooltip
+          id="FullScreenFlashcard"
+          text={"tooltips.studyMode.fullscreen"}
+          place="left"
+        >
+          <IconActive
+            handleClick={() => setFullscreen((prevState) => !prevState)}
+            className={fullscreen ? "active" : undefined}
+          >
+            <FullscreenIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
         <Spacer height={theme.spacers.size16} />

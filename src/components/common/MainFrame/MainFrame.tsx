@@ -6,24 +6,24 @@ import TopBar from "../../shared/Topbar/Topbar";
 
 interface MainFrameProps {
   backgroundColor?: string;
+  justifyContent?: string;
 }
 
 const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
   return (
-    <>
-      <StyledMainFrame backgroundColor={backgroundColor}>
-        <>
-          <TopBar />
-          {<Page>{children}</Page>}
-        </>
-      </StyledMainFrame>
-    </>
+    <StyledMainFrame backgroundColor={backgroundColor}>
+      <>
+        <TopBar />
+        <Page>{children}</Page>
+      </>
+    </StyledMainFrame>
   );
 };
 
 export const StyledMainFrame = styled.div<MainFrameProps>`
   display: flex;
   flex-direction: column;
+  justify-content: ${({ justifyContent }) => justifyContent};
   background: ${({ theme, backgroundColor }) =>
     backgroundColor
       ? backgroundColor

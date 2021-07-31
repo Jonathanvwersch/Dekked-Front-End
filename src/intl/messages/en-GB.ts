@@ -248,6 +248,7 @@ const en_GB = {
         deleteCard: "Delete flashcard",
         linkedFlashcard: "Click to view linked block",
         disabledStudyButton: "Add a flashcard to enable study mode",
+        fullscreen: "Fullscreen",
       },
       studySet: {
         toolbar: {

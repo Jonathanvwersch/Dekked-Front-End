@@ -101,7 +101,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
           ) : (
             <Flex
               flexDirection="column"
-              justifyContent="space-between"
+              justifyContent="center"
               height="100%"
             >
               <StudyModeMainFrame

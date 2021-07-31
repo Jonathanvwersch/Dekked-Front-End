@@ -5,12 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
 import { getSessionCookie, moveArrayItem } from "../../../../helpers";
-import {
-  useKeyPress,
-  usePageSetupHelpers,
-  useResponsiveLayout,
-} from "../../../../hooks";
-import { LAYOUT_HORIZONTAL } from "../../../../hooks/useResponsiveLayout";
+import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
 import { formatNumber } from "../../../../intl";
 import {
   BUTTON_THEME,
@@ -87,7 +82,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       return undefined;
     },
   });
-  const layout = useResponsiveLayout(1200);
 
   const handleSpacedRepetitionButton = (
     flipCard?: boolean,
@@ -136,15 +130,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
 
       setFlippedState(true);
       setFlashcardIndex((prevState) => prevState + 1);
-      // if (quality !== FlashcardQuality.REPEAT) {
-      //   // console.log(flashcardIndex);
-      //   // console.log(
-      //   //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
-      //   // );
-      //   // setSrFlashcards(
-      //   //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
-      //   // );
-      // }
+      // console.log(flashcardIndex);
+      // console.log(
+      //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
+      // );
+      // setSrFlashcards(
+      //   srFlashcards?.filter((flashcard, index) => index !== flashcardIndex)
+      // );
+
       quality &&
         saveCard({
           flashcard_id: flashcardId,
@@ -177,7 +170,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
         <Button
           buttonStyle={buttonStyle}
           size={SIZES.LARGE}
-          width={layout === LAYOUT_HORIZONTAL ? "250px" : "200px"}
+          width="175px"
           handleClick={() =>
             handleSpacedRepetitionButton(flipCard, quality, newLearningStatus)
           }

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import {
   Button,
   H1,
@@ -37,6 +37,7 @@ import {
   isFlashcardLinkedAtom,
   selectStudySetTab,
   currentFlashcardIndexAtom,
+  fullscreenStudyModeAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 
@@ -69,6 +70,8 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   isFlashcardsEmpty,
   flashcardIndex,
 }) => {
+  const [fullscreen] = useAtom(fullscreenStudyModeAtom);
+  const flashcardMaxHeight = fullscreen ? "80%" : "500px";
   const history = useHistory();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
@@ -185,7 +188,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   );
 
   return (
-    <Flex height="100%">
+    <Flex height="100%" maxHeight={flashcardMaxHeight}>
       <Flashcard
         padding={`0 0 ${theme.spacers.size32} 0`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
@@ -281,7 +284,6 @@ const Flashcard = styled(ShadowCard)<{
   z-index: 0;
   display: flex;
   align-items: center;
-  max-height: 630px;
   justify-content: center;
   flex-direction: column;
   background-size: contain;
@@ -316,7 +318,10 @@ const CardHeader = styled.div`
   user-select: none;
   width: 100%;
   z-index: 1000;
-  padding: ${({ theme }) => `${theme.spacers.size16} ${theme.spacers.size16}`};
+  display: flex;
+  height: ${({ theme }) => theme.spacers.size32};
+  align-items: center;
+  padding: ${({ theme }) => `0 ${theme.spacers.size16}`};
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
