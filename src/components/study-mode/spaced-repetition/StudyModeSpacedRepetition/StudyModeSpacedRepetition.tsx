@@ -57,7 +57,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id) && isEmpty(flashcards),
+        enabled: Boolean(deck?.id),
       }
     );
 
