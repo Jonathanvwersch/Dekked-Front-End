@@ -74,13 +74,15 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
     }
   );
 
+  useKeyPress(["e", "E"], () => !isDeleteModalOpen && setIsEditable(true));
+  useKeyPress(["d", "D"], () => !isEditable && setIsDeleteModalOpen(true));
+
   useKeyPress(
-    ["e", "E"],
-    () => !isDeleteModalOpen && setIsEditable((prevState) => !prevState)
-  );
-  useKeyPress(
-    ["d", "D"],
-    () => !isEditable && setIsDeleteModalOpen((prevState) => !prevState)
+    ["f", "F"],
+    () =>
+      !isEditable &&
+      !isDeleteModalOpen &&
+      setFullscreen((prevState) => !prevState)
   );
 
   return (

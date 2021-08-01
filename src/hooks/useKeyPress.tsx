@@ -13,7 +13,7 @@ const useKeyPress = (
     ({ key }: any) => {
       if (shouldThisHookRun) {
         if (targetKey.includes(key)) {
-          onKeyPress && onKeyPress();
+          setTimeout(() => onKeyPress && onKeyPress(), 0);
           setKeyPressed(true);
         }
       }

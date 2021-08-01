@@ -481,7 +481,7 @@ const StyledShadowCard = styled(ShadowCard)<{ type?: "edit" | "add" }>`
 const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
   max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};
   width: ${({ vertical }) => (vertical ? "100%" : "49%")};
-  max-height: ${({ vertical }) => vertical && "48%"};
+  max-height: ${({ vertical }) => vertical && "46%"};
   position: relative;
 `;
 
