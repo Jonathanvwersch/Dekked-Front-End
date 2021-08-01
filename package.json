@@ -5,7 +5,7 @@
   "proxy": "https://dekked-api.onrender.com",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/draft-js": "^0.10.45",
     "@types/jest": "^26.0.15",
@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "@welldone-software/why-did-you-render": "^6.2.0",
+    "cypress": "^8.1.0",
     "styled-components.macro": "^1.0.0"
   }
 }

@@ -9,11 +9,7 @@ import {
   getSpacedRepetitionFlashcardsByDeckId,
 } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
-import {
-  currentFlashcardIndexAtom,
-  flashcardsAtom,
-  srFlashcardsAtom,
-} from "../../../../store";
+import { currentFlashcardIndexAtom, srFlashcardsAtom } from "../../../../store";
 import { Flex, FullPageLoadingSpinner } from "../../../common";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
@@ -32,7 +28,6 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       useState<number>(0);
     const [numberOfNewCards, setNumberOfNewCards] = useState<number>(0);
     const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
-    const [flashcards] = useAtom(flashcardsAtom);
     const { id: studySetId } = useParams<Params>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
     const [maxLength, setMaxLength] = useState<number>();
