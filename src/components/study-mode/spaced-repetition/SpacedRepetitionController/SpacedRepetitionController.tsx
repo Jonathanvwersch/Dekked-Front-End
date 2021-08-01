@@ -31,7 +31,6 @@ interface SpacedRepetitionControllerProps {
   numberOfLearnedCards: number;
   maxLength: number;
   flashcardIndex: number;
-  setFlashcardIndex: React.Dispatch<React.SetStateAction<number>>;
   setFlippedState: React.Dispatch<React.SetStateAction<boolean>>;
   flippedState: boolean | undefined;
   ownerId?: string;
@@ -48,7 +47,6 @@ interface SpacedRepetitionControllerProps {
 const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   maxLength,
   flashcardIndex,
-  setFlashcardIndex,
   flippedState,
   setFlippedState,
   ownerId,
@@ -78,7 +76,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const messagePrefix = "studyMode.spacedRepetition";
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
     onSuccess: () => {
-      flashcardIndex + 1 === maxLength &&
+      isEmpty(srFlashcards) &&
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
         );
@@ -132,7 +130,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       }
 
       setFlippedState(true);
-      // setFlashcardIndex((prevState) => prevState + 1);
 
       srFlashcards?.splice(flashcardIndex, 1);
 
