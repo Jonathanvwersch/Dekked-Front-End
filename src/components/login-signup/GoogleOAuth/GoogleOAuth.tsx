@@ -13,7 +13,11 @@ import { userAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useHistory } from "react-router-dom";
 import { googleAuthentication } from "../../../api/authentication/googleAuthenticationApi";
-import { getSessionCookie, setSessionCookie } from "../../../helpers";
+import {
+  getSessionCookie,
+  removeCookie,
+  setSessionCookie,
+} from "../../../helpers";
 
 interface GoogleOAuthProps {}
 
@@ -48,7 +52,11 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
         email_address: authenticationResponse?.userData?.data?.email_address,
       });
 
-      setSessionCookie(authenticationResponse?.userData?.data?.token);
+      if (authenticationResponse?.userData?.data?.token)
+        setSessionCookie(authenticationResponse?.userData?.data?.token);
+      else {
+        history.push("/login");
+      }
 
       if (getSessionCookie()) {
         history.push("/");
@@ -60,7 +68,9 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
     <GoogleLogin
       clientId={clientId}
       onSuccess={responseGoogle}
-      // onFailure={responseGoogle}
+      onFailure={() => {
+        removeCookie();
+      }}
       cookiePolicy={"single_host_origin"}
       render={(renderProps: { onClick: () => void; disabled?: boolean }) => (
         <Button
