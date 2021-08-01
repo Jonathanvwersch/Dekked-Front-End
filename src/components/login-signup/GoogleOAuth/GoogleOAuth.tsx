@@ -19,9 +19,15 @@ import {
   setSessionCookie,
 } from "../../../helpers";
 
-interface GoogleOAuthProps {}
+interface GoogleOAuthProps {
+  setErrorMessage?: React.Dispatch<React.SetStateAction<boolean>>;
+  setErrorCode?: React.Dispatch<React.SetStateAction<number | undefined>>;
+}
 
-const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
+const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
+  setErrorCode,
+  setErrorMessage,
+}) => {
   const theme = useContext(ThemeContext);
   const [, setUser] = useAtom(userAtom);
   const history = useHistory();
@@ -55,6 +61,8 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = () => {
       if (authenticationResponse?.userData?.data?.token)
         setSessionCookie(authenticationResponse?.userData?.data?.token);
       else {
+        setErrorMessage && setErrorMessage(true);
+        setErrorCode && setErrorCode(500);
         history.push("/login");
       }
 
