@@ -284,7 +284,7 @@ const Flashcard = styled(ShadowCard)<{
   z-index: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: column;
   background-size: contain;
 
