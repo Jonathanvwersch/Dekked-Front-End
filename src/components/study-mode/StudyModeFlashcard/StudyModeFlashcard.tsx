@@ -54,7 +54,7 @@ interface StudyModeFlashcardProps {
   setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
   isFlashcardsEmpty?: boolean;
 }
-const logoIconSize = SIZES.XLARGE;
+const logoIconSize = SIZES.LARGE;
 
 const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   frontBlocks,
@@ -304,7 +304,7 @@ const Flashcard = styled(ShadowCard)<{
 
 const LogoIconContainer = styled(IconActive)`
   position: absolute;
-  bottom: 16px;
+  bottom: ${({ theme }) => theme.spacers.size4};
   z-index: 1;
   left: ${({ theme }) =>
     `calc(50% - ${parseInt(theme.sizes.icons[logoIconSize]) / 2}px)`};
