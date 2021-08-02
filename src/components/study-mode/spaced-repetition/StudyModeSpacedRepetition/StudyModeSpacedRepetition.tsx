@@ -113,7 +113,6 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
               deckId={srFlashcards?.[flashcardIndex]?.deck_id}
               maxLength={maxLength || 0}
               flashcardIndex={flashcardIndex}
-              setFlashcardIndex={setFlashcardIndex}
               setFlippedState={setFlippedState}
               flippedState={flippedState}
               easeFactor={srFlashcards?.[flashcardIndex]?.ease_factor}

@@ -35,7 +35,6 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
     }
     if (option === OPEN_SETTINGS_DATA.LOGOUT) {
       removeCookie();
-      localStorage.clear();
       queryCache.clear();
       history.push("/login");
     }
