@@ -1,6 +1,6 @@
 import React from "react";
-import { Switch } from "react-router-dom";
 import { NotFoundPage } from "../pages";
+import { Switch } from "react-router-dom";
 
 const CustomSwitch: React.FC = ({ children }) => (
   <Switch>
