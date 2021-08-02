@@ -81,7 +81,10 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
       )}
       <form onSubmit={handleSubmit}>
-        <GoogleOAuth />
+        <GoogleOAuth
+          setErrorMessage={setErrorMessage}
+          setErrorCode={setErrorCode}
+        />
         <Spacer height={theme.spacers.size32} />
         <Flex>
           <Divider color={theme.colors.grey2} />
