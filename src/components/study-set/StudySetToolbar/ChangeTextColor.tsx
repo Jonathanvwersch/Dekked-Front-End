@@ -51,6 +51,8 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
     setCoords(positionModals(e, undefined, backgroundColorRef));
   };
 
+  console.log(colorPickerFont);
+
   return (
     <>
       <IconWrapper>
@@ -84,26 +86,22 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
           <ReColorIcon size={iconSize} />
         </Tooltip>
       </IconActive>
-      {colorPickerFont ? (
-        <ColorPicker
-          isOpen={colorPickerFont}
-          handleClose={() => setColorPickerFont(false)}
-          coords={coords}
-          variant="color-font"
-          editorState={editorState}
-          setEditorState={setEditorState}
-        />
-      ) : null}
-      {colorPickerBackground ? (
-        <ColorPicker
-          isOpen={colorPickerBackground}
-          handleClose={() => setColorPickerBackground(false)}
-          coords={coords}
-          variant="color-background"
-          editorState={editorState}
-          setEditorState={setEditorState}
-        />
-      ) : null}
+      <ColorPicker
+        isOpen={colorPickerFont}
+        handleClose={() => setColorPickerFont(false)}
+        coords={coords}
+        variant="color-font"
+        editorState={editorState}
+        setEditorState={setEditorState}
+      />
+      <ColorPicker
+        isOpen={colorPickerBackground}
+        handleClose={() => setColorPickerBackground(false)}
+        coords={coords}
+        variant="color-background"
+        editorState={editorState}
+        setEditorState={setEditorState}
+      />
     </>
   );
 };
