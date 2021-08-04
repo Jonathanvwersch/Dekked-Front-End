@@ -51,7 +51,7 @@ export const StyledButton = styled.button<ButtonProps>`
 
   &:disabled {
     & svg path {
-      stroke: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+      fill: ${({ theme }) => theme.colors.backgrounds.pageBackground};
     }
     cursor: ${({ isLoading }: { isLoading: boolean }) =>
       isLoading ? "progress" : "not-allowed"};

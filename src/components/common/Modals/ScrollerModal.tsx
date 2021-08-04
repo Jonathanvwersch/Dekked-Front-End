@@ -1,17 +1,9 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
-import { useAtom } from "jotai";
-import React, {
-  Fragment,
-  MutableRefObject,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import React, { Fragment, MutableRefObject, useContext, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Block, Divider, Overlay, ShadowCard } from "..";
-import { useKeyDownAndUpListener } from "../../../hooks";
+import { useKeyDownAndUpListener, useLayeredModal } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
-import { layeredModalAtom } from "../../../store";
 
 interface ScrollerModalProps {
   open: boolean;
@@ -24,6 +16,7 @@ interface ScrollerModalProps {
   fullHeight?: boolean;
   fakeFocus?: boolean;
   preventDefault?: boolean;
+  id?: string;
 }
 
 const ScrollerModal: React.FC<ScrollerModalProps> = ({
@@ -37,6 +30,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   fullHeight,
   fakeFocus,
   preventDefault,
+  id,
 }) => {
   const theme = useContext(ThemeContext);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -47,12 +41,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
     preventDefault
   );
 
-  const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
-
-  useEffect(() => {
-    setIsLayeredModalOpen(true);
-    !open && setIsLayeredModalOpen(false);
-  }, [open, setIsLayeredModalOpen]);
+  useLayeredModal(open);
 
   return (
     <Overlay
@@ -61,6 +50,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
       coords={coords}
       type={type}
       withOutsideClick
+      id={id}
     >
       <StyledScrollerModal
         fullHeight={fullHeight}

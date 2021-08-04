@@ -169,23 +169,18 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     return flashcards || [];
   };
 
-  const {
-    mutate: saveCard,
-    isLoading: isSaveLoading,
-    isSuccess: isSaveSuccess,
-  } = useMutation("save-flashcard", saveFlashcard, {
-    onSuccess: (data, { flashcard_id }) => {
-      queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
-        updateFlashcards(prevState, data?.fullFlashcard, flashcard_id)
-      );
-    },
-  });
-
-  useEffect(() => {
-    if (isSaveSuccess && !isSaveLoading) {
-      closeModal && closeModal();
+  const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
+    "save-flashcard",
+    saveFlashcard,
+    {
+      onSuccess: (data, { flashcard_id }) => {
+        queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
+          updateFlashcards(prevState, data?.fullFlashcard, flashcard_id)
+        );
+        closeModal && closeModal();
+      },
     }
-  }, [isSaveSuccess, closeModal, isSaveLoading]);
+  );
 
   // Switch up current side depending on focus
   useLayoutEffect(() => {
@@ -479,9 +474,12 @@ const StyledShadowCard = styled(ShadowCard)<{ type?: "edit" | "add" }>`
 `;
 
 const TextCardContainer = styled(Card)<{ vertical?: boolean }>`
+  display: flex;
+  flex-direction: column;
   max-width: ${({ vertical }) => (vertical ? "100%" : "49%")};
   width: ${({ vertical }) => (vertical ? "100%" : "49%")};
-  max-height: ${({ vertical }) => vertical && "46%"};
+  height: ${({ vertical }) => vertical && "48%"};
+  max-height: ${({ vertical }) => vertical && "48%"};
   position: relative;
 `;
 
@@ -505,6 +503,4 @@ const CardHeader = styled.div`
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
-export default React.memo(StudySetFlashcard, (prevProps, newProps) => {
-  return isEqual(newProps, prevProps);
-});
+export default React.memo(StudySetFlashcard);

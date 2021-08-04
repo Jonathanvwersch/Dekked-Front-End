@@ -93,11 +93,11 @@ const StyledIconActive = styled.button<IconActiveProps>`
         fill: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
             ? theme.colors.disabled
-            : "auto"};
+            : undefined};
         stroke: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
             ? theme.colors.disabled
-            : "auto"};
+            : undefined};
       }
     }
     background-color: ${({ backgroundColor }) => backgroundColor || "inherit"};
@@ -109,11 +109,11 @@ const StyledIconActive = styled.button<IconActiveProps>`
         fill: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.FILL || fillType === FILL_TYPE.BOTH
             ? theme.colors.primary
-            : "auto"};
+            : undefined};
         stroke: ${({ theme, fillType }) =>
           fillType === FILL_TYPE.STROKE || fillType === FILL_TYPE.BOTH
             ? theme.colors.primary
-            : "auto"};
+            : undefined};
       }
     }
   }

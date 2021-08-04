@@ -22,12 +22,14 @@ interface ChangeTextStyleProps {
     size?: SIZES;
     isDisabled?: boolean;
   };
+  id?: string;
 }
 
 const IconDropdown: React.FC<ChangeTextStyleProps> = ({
   tooltip,
   icon,
   modal,
+  id,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const modalRef = useRef<HTMLButtonElement>(null);
@@ -69,6 +71,7 @@ const IconDropdown: React.FC<ChangeTextStyleProps> = ({
         data={modal.data}
         fakeFocus={true}
         fullHeight={true}
+        id={id}
       />
     </>
   );

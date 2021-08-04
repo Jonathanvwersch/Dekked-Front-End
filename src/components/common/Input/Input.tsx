@@ -103,9 +103,8 @@ const Input: React.FC<InputProps> = ({
             </InputIconWrapper>
           )}
         </InputWrapper>
-        <Spacer height={theme.spacers.size4} />
         {validate && !validation && errorMessage && (
-          <Flex>
+          <Flex mt={theme.spacers.size4}>
             <ErrorIcon color={theme.colors.danger} />
             <Spacer width={theme.spacers.size8} />
             <Text fontColor={theme.colors.danger}>

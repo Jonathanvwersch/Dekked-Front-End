@@ -20,9 +20,7 @@ interface StudyModeSpacedRepetitionProps {}
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
     const [currentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
-    const [flashcardIndex, setFlashcardIndex] = useState<number>(
-      currentFlashcardIndex
-    );
+    const [flashcardIndex] = useState<number>(currentFlashcardIndex);
     const [numberOfLearnedCards, setNumberOfLearnedCards] = useState<number>(0);
     const [numberOfLearningCards, setNumberOfLearningCards] =
       useState<number>(0);

@@ -1,10 +1,8 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { SyntheticEvent } from "react";
 import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
 import { BUTTON_THEME } from "../../../shared";
-import { usePageSetupHelpers } from "../../../hooks";
+import { useLayeredModal, usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";
-import { useAtom } from "jotai";
-import { layeredModalAtom } from "../../../store";
 
 export const unsavedChangesModalPrefix = "sharedModals.unsavedChangesModal";
 
@@ -32,18 +30,14 @@ const UnsavedChangesModal: React.FC<UnsavedChangesModalProps> = ({
     handleClose();
   };
 
-  const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
-
-  useEffect(() => {
-    setIsLayeredModalOpen(true);
-    !isOpen && setIsLayeredModalOpen(false);
-  }, [isOpen, setIsLayeredModalOpen]);
+  useLayeredModal(isOpen);
 
   return (
     <GeneralModal
       isOpen={isOpen}
       header={header}
       handleClose={handleClose}
+      id="UnsavedChangedModal"
       footer={
         <Footer
           padding="0px"
