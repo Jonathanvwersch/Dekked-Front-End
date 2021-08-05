@@ -4,7 +4,11 @@ import { Flex, Spacer } from "../../common";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import styled from "styled-components";
-import { isAppLoadingAtom, studySetTabAtom } from "../../../store";
+import {
+  addedLinkedFlashcardAtom,
+  isAppLoadingAtom,
+  studySetTabAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
 
@@ -15,6 +19,7 @@ const StudySetTabSwitcher: React.FC = () => {
   const [studySetTab, setStudySetTab] = useAtom(studySetTabAtom);
   const [isLoading] = useAtom(isAppLoadingAtom);
   const history = useHistory();
+  const [addedLinkedFlashcard] = useAtom(addedLinkedFlashcardAtom);
   const activeTabStyle = {
     fontWeight: theme.typography.fontWeights.bold as "bold",
     borderBottom: `2px solid ${theme.colors.primary}`,
@@ -45,6 +50,9 @@ const StudySetTabSwitcher: React.FC = () => {
         onClick={() => handleStudySetTab(id, slug)}
       >
         {text}
+        {slug === TAB_TYPE.FLASHCARDS && addedLinkedFlashcard !== 0 ? (
+          <Superscript>{addedLinkedFlashcard}</Superscript>
+        ) : null}
       </StyledNavLink>
     );
   };
@@ -73,6 +81,10 @@ const StyledNavLink = styled(NavLink)`
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+const Superscript = styled.sup`
+  font-size: ${({ theme }) => theme.typography.fontSizes.size12};
 `;
 
 export default React.memo(StudySetTabSwitcher);

@@ -11,7 +11,7 @@ export const register = async ({
   last_name: string;
   password: string;
 }) => {
-  const uri = config.api + `/register`;
+  const uri = config.API + `/register`;
   const response = await fetch(uri, {
     method: "POST",
     headers: {

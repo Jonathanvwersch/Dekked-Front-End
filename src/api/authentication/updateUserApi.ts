@@ -10,7 +10,7 @@ export const updateUser = async ({
   last_name?: string;
   email_address?: string;
 }) => {
-  const uri = config.api + `/user`;
+  const uri = config.API + `/user`;
   const response = await fetch(uri, {
     method: "PATCH",
     headers: {

@@ -4,7 +4,11 @@ import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
 import { Spacer, Flex } from "../../common";
-import { deckAtom, flashcardsAtom } from "../../../store";
+import {
+  addedLinkedFlashcardAtom,
+  deckAtom,
+  flashcardsAtom,
+} from "../../../store";
 import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -26,6 +30,13 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       mutationKey: `${studySetId}-add-flashcard`,
     });
     const endOfFlashcardsContainer = useRef<HTMLDivElement>(null);
+    const [addedLinkedFlashcard, setAddedLinkedFlashcard] = useAtom(
+      addedLinkedFlashcardAtom
+    );
+
+    useEffect(() => {
+      addedLinkedFlashcard !== 0 && setAddedLinkedFlashcard(0);
+    }, [addedLinkedFlashcard, setAddedLinkedFlashcard]);
 
     const { data: deck } = useQuery(
       `${studySetId}-get-deck`,

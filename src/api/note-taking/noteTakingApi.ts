@@ -4,7 +4,7 @@ import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
 const getPageByStudySetId = async (studySetId: string) => {
-  const uri = config.api + `/get-page-by-study-set-id/${studySetId}`;
+  const uri = config.API + `/get-page-by-study-set-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -21,7 +21,7 @@ export const getBlocksByPageId = async ({
 }) => {
   const page = await getPageByStudySetId(studySetId);
 
-  const uri = config.api + `/get-blocks-by-page/${page?.id}`;
+  const uri = config.API + `/get-blocks-by-page/${page?.id}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -40,7 +40,7 @@ export const savePage = async ({
   pageId?: string;
 }) => {
   const { keys, blocks } = createKeysAndBlocks(editorState);
-  const url = config.api + `/page/${pageId}`;
+  const url = config.API + `/page/${pageId}`;
   await fetch(url, {
     method: "PATCH",
     headers: {

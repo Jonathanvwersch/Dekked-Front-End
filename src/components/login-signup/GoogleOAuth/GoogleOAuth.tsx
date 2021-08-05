@@ -14,6 +14,7 @@ import { useAtom } from "jotai";
 import { useHistory } from "react-router-dom";
 import { googleAuthentication } from "../../../api/authentication/googleAuthenticationApi";
 import { getSessionCookie, setSessionCookie } from "../../../helpers";
+import { config } from "../../../config";
 
 interface GoogleOAuthProps {
   setErrorMessage?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,8 +28,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
   const theme = useContext(ThemeContext);
   const [, setUser] = useAtom(userAtom);
   const history = useHistory();
-  const googleId = "281383698502-ho9b8tv17243fcjjcvdslondg6820oko";
-  const clientId = `${googleId}.apps.googleusercontent.com`;
+  const clientId = `${config.GOOGLE_CLIENT_ID}.apps.googleusercontent.com`;
 
   const isLoginResponse = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline

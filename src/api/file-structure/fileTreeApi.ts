@@ -2,7 +2,7 @@ import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
 export const getFileTree = async () => {
-  const uri = config.api + "/file-tree";
+  const uri = config.API + "/file-tree";
 
   try {
     const response = await fetch(uri, {

@@ -9,6 +9,7 @@ import {
   Overlay,
   Block,
   ComponentLoadingSpinner,
+  Box,
 } from "../../common";
 import { ThemeType } from "../../../styles/theme";
 import {
@@ -85,15 +86,16 @@ const StudyQueueModal: React.FC<StudyQueueProps> = ({
             )}
           </Scroller>
           <Divider />
-          <Flex justifyContent="flex-end" p={theme.spacers.size8}>
+          <Box px={theme.spacers.size16} py={theme.spacers.size8} width="100%">
             <Button
               buttonStyle={BUTTON_THEME.PRIMARY}
               isDisabled={!studyUrl}
               handleClick={() => studyUrl && history.push(studyUrl)}
+              fullWidth
             >
               <FormattedMessage id="generics.study" />
             </Button>
-          </Flex>
+          </Box>
         </Flex>
       </ShadowCard>
     </Overlay>
