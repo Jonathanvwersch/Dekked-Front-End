@@ -37,6 +37,7 @@ import {
   saveFlashcard,
 } from "../../../api/flashcards/flashcardsApi";
 import {
+  addedLinkedFlashcardAtom,
   deckAtom,
   isMainFlashcardButtonDisabledAtom,
   userAtom,
@@ -73,7 +74,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   backBlocks,
   linked = false,
   index,
-  studyMode = STUDY_MODE_TYPES.FREE_STUDY,
+  studyMode,
   flashcardId,
   currentBlockKey,
   vertical = false,
@@ -88,6 +89,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { theme, formatMessage } = usePageSetupHelpers();
+  const [, setAddedLinkedFlashcard] = useAtom(addedLinkedFlashcardAtom);
   const [frontFlashcardEditorState, setFrontFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
@@ -106,9 +108,9 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     useAtom(isMainFlashcardButtonDisabledAtom);
 
   const getFlashcardsKey =
-    studyMode === STUDY_MODE_TYPES.FREE_STUDY
-      ? `${studySetId}-get-flashcards`
-      : `${studySetId}-get-sr-flashcards`;
+    studyMode === STUDY_MODE_TYPES.SPACED_REPETITION
+      ? `${studySetId}-get-sr-flashcards`
+      : `${studySetId}-get-flashcards`;
 
   useEffect(() => {
     if (linked) {
@@ -323,6 +325,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           frontFlashcardEditorState,
           backFlashcardEditorState,
         });
+      setAddedLinkedFlashcard((prevState) => prevState + 1);
       setFrontFlashcardEditorState(EditorState.createEmpty());
       setBackFlashcardEditorState(EditorState.createEmpty());
       setTimeout(() => {

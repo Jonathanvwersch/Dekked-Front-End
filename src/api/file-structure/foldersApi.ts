@@ -3,7 +3,7 @@ import { getSessionCookie } from "../../helpers";
 
 export const getFolders = async () => {
   try {
-    const uri = config.api + "/folders";
+    const uri = config.API + "/folders";
     const response = await fetch(uri, {
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
@@ -33,7 +33,7 @@ export const addFolder = async ({
   id?: string;
 }) => {
   try {
-    const uri = config.api + "/folder";
+    const uri = config.API + "/folder";
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -70,7 +70,7 @@ export const updateFolder = async (
   }
 ) => {
   try {
-    const uri = config.api + "/folder";
+    const uri = config.API + "/folder";
     const response = await fetch(uri, {
       method: "PATCH",
       headers: {
@@ -95,7 +95,7 @@ export const updateFolder = async (
 
 export const deleteFolder = async (folder_id: string) => {
   try {
-    const uri = config.api + "/folder";
+    const uri = config.API + "/folder";
     const response = await fetch(uri, {
       method: "DELETE",
       headers: {

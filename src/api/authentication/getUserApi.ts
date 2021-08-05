@@ -2,7 +2,7 @@ import { config } from "../../config";
 import { getSessionCookie } from "../../helpers";
 
 export const getUser = async () => {
-  const uri = config.api + `/user`;
+  const uri = config.API + `/user`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,

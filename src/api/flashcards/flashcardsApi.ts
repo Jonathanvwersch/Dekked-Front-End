@@ -10,7 +10,7 @@ export const getDeckByStudySetId = async ({
 }: {
   studySetId: string;
 }) => {
-  const uri = config.api + `/get-deck-by-study-set-id/${studySetId}`;
+  const uri = config.API + `/get-deck-by-study-set-id/${studySetId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -21,7 +21,7 @@ export const getDeckByStudySetId = async ({
 };
 
 export const getAllDueSrDecks = async () => {
-  const uri = config.api + `/get-all-due-sr-decks`;
+  const uri = config.API + `/get-all-due-sr-decks`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -33,7 +33,7 @@ export const getAllDueSrDecks = async () => {
 };
 
 export const getFlashcardsByDeckId = async ({ deckId }: { deckId: string }) => {
-  const uri = config.api + `/get-flashcards-by-deck-id/${deckId}`;
+  const uri = config.API + `/get-flashcards-by-deck-id/${deckId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -49,7 +49,7 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
 }: {
   deckId: string;
 }) => {
-  const uri = config.api + `/get-sr-flashcards-by-deck-id/${deckId}`;
+  const uri = config.API + `/get-sr-flashcards-by-deck-id/${deckId}`;
   const response = await fetch(uri, {
     headers: {
       Authorization: `Bearer ${getSessionCookie()}`,
@@ -81,7 +81,7 @@ export const saveFlashcard = async ({
   interval?: number;
   learningStatus?: FlashcardLearningStatus;
 }) => {
-  const url = config.api + `/flashcard/${flashcard_id}`;
+  const url = config.API + `/flashcard/${flashcard_id}`;
 
   const payload: {
     flashcard_id: string | undefined;
@@ -169,7 +169,7 @@ export const addFlashcard = async ({
       block_link: block_link,
     };
   }
-  const uri = config.api + "/flashcard";
+  const uri = config.API + "/flashcard";
   const response = await fetch(uri, {
     method: "POST",
     headers: {
@@ -188,7 +188,7 @@ export const deleteFlashcard = async ({
 }: {
   flashcard_id?: string;
 }) => {
-  const uri = config.api + `/flashcard/${flashcard_id}`;
+  const uri = config.API + `/flashcard/${flashcard_id}`;
   const response = await fetch(uri, {
     method: "DELETE",
     headers: {

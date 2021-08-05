@@ -3,7 +3,7 @@ import { getSessionCookie } from "../../helpers";
 
 export const getBinders = async () => {
   try {
-    const uri = config.api + "/binders";
+    const uri = config.API + "/binders";
 
     const response = await fetch(uri, {
       headers: {
@@ -37,7 +37,7 @@ export const addBinder = async ({
   id?: string;
 }) => {
   try {
-    const uri = config.api + "/binder";
+    const uri = config.API + "/binder";
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -73,7 +73,7 @@ export const updateBinder = async (
   }
 ) => {
   try {
-    const uri = config.api + "/binder";
+    const uri = config.API + "/binder";
     const response = await fetch(uri, {
       method: "PATCH",
       headers: {
@@ -98,7 +98,7 @@ export const updateBinder = async (
 
 export const deleteBinder = async (binder_id: string) => {
   try {
-    const uri = config.api + "/binder";
+    const uri = config.API + "/binder";
     const response = await fetch(uri, {
       method: "DELETE",
       headers: {

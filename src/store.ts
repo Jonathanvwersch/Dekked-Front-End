@@ -452,3 +452,5 @@ export const fullscreenStudyModeAtom = atomWithStorage<boolean>(
   "fullscreen-study-mode",
   false
 );
+
+export const addedLinkedFlashcardAtom = atom<number>(0);

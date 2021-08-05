@@ -51,8 +51,6 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
     setCoords(positionModals(e, undefined, backgroundColorRef));
   };
 
-  console.log(colorPickerFont);
-
   return (
     <>
       <IconWrapper>

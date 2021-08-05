@@ -7,7 +7,7 @@ export const login = async ({
   email_address: string;
   password: string;
 }) => {
-  const uri = config.api + `/login`;
+  const uri = config.API + `/login`;
   const response = await fetch(uri, {
     method: "POST",
     headers: {

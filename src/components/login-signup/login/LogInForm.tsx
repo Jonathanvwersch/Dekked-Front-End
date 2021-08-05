@@ -84,7 +84,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   useLayoutEffect(() => {
     if (emailAddress) passwordRef.current?.focus();
-  }, [passwordRef]);
+  }, [passwordRef, emailAddress]);
 
   console.log(errorMessage);
   console.log(errorCode);
