@@ -3,7 +3,7 @@ import { getSessionCookie } from "../../helpers";
 
 export const getStudySets = async () => {
   try {
-    const uri = config.api + "/study-sets";
+    const uri = config.API + "/study-sets";
     const response = await fetch(uri, {
       headers: {
         Authorization: `Bearer ${getSessionCookie()}`,
@@ -36,7 +36,7 @@ export const addStudySet = async ({
   id?: string;
 }) => {
   try {
-    const uri = config.api + "/study-set";
+    const uri = config.API + "/study-set";
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -72,7 +72,7 @@ export const updateStudySet = async (
   }
 ) => {
   try {
-    const uri = config.api + "/study-set";
+    const uri = config.API + "/study-set";
     const response = await fetch(uri, {
       method: "PATCH",
       headers: {
@@ -97,7 +97,7 @@ export const updateStudySet = async (
 
 export const deleteStudySet = async (study_set_id: string) => {
   try {
-    const uri = config.api + "/study-set";
+    const uri = config.API + "/study-set";
     const response = await fetch(uri, {
       method: "DELETE",
       headers: {

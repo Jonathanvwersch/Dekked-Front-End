@@ -11,7 +11,7 @@ export const googleAuthentication = async ({
   last_name: string;
   email_address: string;
 }) => {
-  const uri = config.api + `/auth/google`;
+  const uri = config.API + `/auth/google`;
   const response = await fetch(uri, {
     method: "POST",
     headers: {
