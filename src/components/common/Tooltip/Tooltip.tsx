@@ -1,10 +1,11 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
+import { createPortal } from "react-dom";
 import { FormattedMessage } from "react-intl";
 import ReactTooltip, { Effect, Offset, Place, Type } from "react-tooltip";
 import styled from "styled-components";
-import { ConditionalWrapper, Overlay } from "..";
+import { ConditionalWrapper } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
-import { MODAL_TYPE, SIZES } from "../../../shared";
+import { SIZES } from "../../../shared";
 
 interface TooltipProps {
   text: string;
@@ -36,11 +37,10 @@ const Tooltip: React.FC<TooltipProps> = ({
   tooltipChildrenStyle,
 }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const [tooltip, setTooltip] = useState<boolean>(false);
 
   return (
     <>
-      <Overlay isOpen={tooltip} type={MODAL_TYPE.TOOL_TIP}>
+      {createPortal(
         <StyledTooltip
           multiline
           type={type}
@@ -56,20 +56,14 @@ const Tooltip: React.FC<TooltipProps> = ({
           }
         >
           <FormattedMessage id={text} values={values} />
-        </StyledTooltip>
-      </Overlay>
+        </StyledTooltip>,
+        document.getElementById("modal-overlay")!
+      )}
 
       <ConditionalWrapper
         condition={isActive}
         wrapper={(children: ReactElement) => (
-          <TooltipChildren
-            style={tooltipChildrenStyle}
-            data-tip
-            data-for={id}
-            onMouseEnter={() => setTooltip(true)}
-            onMouseLeave={() => setTooltip(false)}
-            onClick={() => setTooltip(false)}
-          >
+          <TooltipChildren style={tooltipChildrenStyle} data-tip data-for={id}>
             {children}
           </TooltipChildren>
         )}

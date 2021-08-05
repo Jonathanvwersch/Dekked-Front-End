@@ -20,6 +20,7 @@ interface OverlayProps {
   withOutsideClick?: boolean;
   closeWarning?: boolean;
   closeButtonBackgroundColor?: string;
+  id?: string;
 }
 
 const Overlay: React.FC<OverlayProps> = ({
@@ -35,9 +36,9 @@ const Overlay: React.FC<OverlayProps> = ({
   modalWidth,
   modalHeight,
   withOutsideClick,
+  id,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
   const centeredOverlayClassname =
     center && type === MODAL_TYPE.NON_MODAL_LIGHTBOX
       ? "centered non-modal-lightbox"
@@ -49,17 +50,15 @@ const Overlay: React.FC<OverlayProps> = ({
 
   return createPortal(
     isOpen && (coords ? coords : true) ? (
-      <OuterContainer>
+      <OuterContainer id={id}>
         <CenteredOverlay className={centeredOverlayClassname}>
           {type !== MODAL_TYPE.NON_MODAL_NON_LIGHTBOX ? (
             <ModalType className={type} />
           ) : null}
           <Modal
-            data-autofocus-inside="true"
-            data-focus-lock-disabled="false"
-            coords={coords}
             className={close ? "close" : undefined}
             ref={modalRef}
+            coords={coords}
             modalWidth={modalWidth}
             modalHeight={modalHeight}
           >

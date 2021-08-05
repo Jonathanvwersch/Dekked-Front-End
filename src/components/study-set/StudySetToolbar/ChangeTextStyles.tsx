@@ -25,14 +25,12 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
-  iconSize?: SIZES;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   editorState,
   setEditorState,
   isDisabled,
-  iconSize = SIZES.MEDIUM,
 }) => {
   const theme = useContext(ThemeContext);
   const stylesToRemoveScripts = [
@@ -92,6 +90,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           icon: changeBlockTypeIcons(currentBlockType).icon,
           size: SIZES.MEDIUM,
         }}
+        id="ChangeTextStyles"
       />
       {layout === LAYOUT_HORIZONTAL ? (
         <>

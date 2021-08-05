@@ -54,7 +54,7 @@ interface StudyModeFlashcardProps {
   setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
   isFlashcardsEmpty?: boolean;
 }
-const logoIconSize = SIZES.LARGE;
+const logoIconSize = SIZES.MEDIUM;
 
 const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   frontBlocks,
@@ -241,7 +241,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
               setCurrentFlashcardIndex(flashcardIndex || 0);
               setBlockLink(blockLink);
             }}
-            fillType={FILL_TYPE.STROKE}
+            fillType={FILL_TYPE.FILL}
           >
             <HashLink
               smooth

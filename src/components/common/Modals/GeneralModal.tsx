@@ -9,11 +9,12 @@ import FocusLock, { AutoFocusInside } from "react-focus-lock";
 interface GeneralModalProps {
   isOpen: boolean;
   handleClose: (args?: any) => void;
+  children: React.ReactNode;
   header?: JSX.Element;
   size?: SIZES;
   type?: MODAL_TYPE;
   footer?: JSX.Element | string;
-  children: React.ReactNode;
+  id?: string;
 }
 
 const GeneralModal: React.FC<GeneralModalProps> = ({
@@ -24,6 +25,7 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
   size = SIZES.LARGE,
   header,
   footer,
+  id,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -34,6 +36,7 @@ const GeneralModal: React.FC<GeneralModalProps> = ({
       type={type}
       center={true}
       close={true}
+      id={id}
     >
       <ShadowCard
         width={theme.sizes.modal[size]}

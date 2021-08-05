@@ -5,7 +5,6 @@ import React, {
   SetStateAction,
   SyntheticEvent,
   useContext,
-  useEffect,
 } from "react";
 import { useIntl } from "react-intl";
 import styled, { ThemeContext } from "styled-components";
@@ -16,6 +15,7 @@ import {
   lightenOrDarkenHexColour,
   useUpdateAsset,
 } from "../../../helpers";
+import { useLayeredModal } from "../../../hooks";
 import { formatMessage } from "../../../intl";
 import {
   LIGHT_THEME_BACKGROUND_COLORS,
@@ -27,7 +27,7 @@ import {
   DARK_THEME_FONT_COLORS,
   DARK_THEME_BACKGROUND_COLORS,
 } from "../../../shared";
-import { darkModeAtom, layeredModalAtom } from "../../../store";
+import { darkModeAtom } from "../../../store";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 import Tooltip from "../Tooltip/Tooltip";
 import { backgroundColors, textAndIconColors } from "./ColorPicker.data";
@@ -58,15 +58,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   id,
 }) => {
   const theme = useContext(ThemeContext);
-  const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
   const [isDarkTheme] = useAtom(darkModeAtom);
   const intl = useIntl();
   const { updateItem } = useUpdateAsset();
-
-  useEffect(() => {
-    setIsLayeredModalOpen(true);
-    !isOpen && setIsLayeredModalOpen(false);
-  }, [isOpen, setIsLayeredModalOpen]);
+  useLayeredModal(isOpen);
 
   const handleClick = (colour: string) => {
     if (variant === "color-block" && id && type && colour !== iconColor) {

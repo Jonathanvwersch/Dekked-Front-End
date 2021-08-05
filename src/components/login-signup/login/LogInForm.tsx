@@ -84,8 +84,10 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   useLayoutEffect(() => {
     if (emailAddress) passwordRef.current?.focus();
-  }, [passwordRef]); // eslint-disable-next-line react/jsx-no-undef
+  }, [passwordRef]);
 
+  console.log(errorMessage);
+  console.log(errorCode);
   return (
     <>
       {errorMessage && errorCode && (
@@ -134,7 +136,10 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           <Divider color={theme.colors.grey2} />
         </Flex>
         <Spacer height={theme.spacers.size32} />
-        <GoogleOAuth />
+        <GoogleOAuth
+          setErrorCode={setErrorCode}
+          setErrorMessage={setErrorMessage}
+        />
       </form>
     </>
   );

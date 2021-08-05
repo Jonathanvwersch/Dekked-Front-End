@@ -29,7 +29,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
     setShowFlashcard((prevState) => !prevState);
   }, []);
 
-  const memoChildren = useMemo(() => <LogoIcon size={SIZES.MEDIUM} />, []);
+  const memoChildren = useMemo(() => <LogoIcon />, []);
 
   return (
     <LinkedCard
@@ -53,7 +53,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
             tabIndex={1}
             isDisabled={!currentBlock?.hasFocus && !showFlashcard}
             handleMouseDown={show}
-            fillType={FILL_TYPE.STROKE}
+            fillType={FILL_TYPE.FILL}
           >
             {memoChildren}
           </Tab>

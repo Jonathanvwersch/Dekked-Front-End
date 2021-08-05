@@ -39,7 +39,6 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               editorState={editorState}
               setEditorState={setEditorState}
               isDisabled={isDisabled}
-              iconSize={iconSize}
             />
             <Spacer width={theme.spacers.size4} />
             <DividerIcon size={iconSize} />

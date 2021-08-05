@@ -342,6 +342,7 @@ const CardNumber = styled.div<{ backgroundColor: string }>`
   font-size: ${({ theme }) => theme.typography.fontSizes.size16};
   font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
   color: white;
+  user-select: none;
   background-color: ${({ backgroundColor }) => backgroundColor};
   display: flex;
   align-items: center;
