@@ -65,13 +65,15 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   useEffect(() => {
-    setErrorMessage(!data?.userData?.success);
-    setErrorCode(data?.errorCode);
-    if (errorCode === 400) {
-      emailRef.current?.focus();
+    if (!data?.userData?.success) {
+      setErrorMessage(!data?.userData?.success);
+      setErrorCode(data?.errorCode);
     }
     if (data?.userData?.success) {
       history.push("/login");
+    }
+    if (errorCode === 400) {
+      emailRef.current?.focus();
     }
   }, [data, history, emailRef, errorCode]);
 
