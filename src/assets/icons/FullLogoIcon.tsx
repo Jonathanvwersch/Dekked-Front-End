@@ -9,8 +9,8 @@ const FullLogoIcon: React.FC<IconProps> = ({ color, height, width }) => {
 
   return (
     <SvgVaried
-      height={height ? height : "55px"}
-      width={width ? width : "200px"}
+      height={height ? height : "50px"}
+      width={width ? width : "180px"}
       viewBox="0 0 1701 441"
       fill="none"
     >

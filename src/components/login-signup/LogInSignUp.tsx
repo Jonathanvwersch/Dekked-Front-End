@@ -13,7 +13,6 @@ interface LogInSignUpProps {
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const header = login ? "forms.logIn.header" : "forms.signUp.header";
-  const subHeader = login ? "forms.logIn.subHeader" : "forms.signUp.subHeader";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
   const link = login ? "forms.signUp.signUp" : "forms.logIn.logIn";
   const slug = login ? "/sign-up" : "/login";
@@ -21,12 +20,9 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   return (
     <Flex flexDirection="column">
       <Flex flexDirection="column">
-        <H1 styledAs="h3"> {formatMessage(header)}</H1>
-        <Text fontSize={theme.typography.fontSizes.size18}>
-          {formatMessage(subHeader)}
-        </Text>
+        <H1 styledAs="h4"> {formatMessage(header)}</H1>
       </Flex>
-      <Spacer height={theme.spacers.size32} />
+      <Spacer height={theme.spacers.size20} />
       <ShadowCard
         width={theme.sizes.modal[SIZES.LARGE]}
         padding={`${theme.spacers.size32} ${theme.spacers.size32}`}
