@@ -114,7 +114,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           showPassword
           clearButton={false}
         />
-        <Spacer height={theme.spacers.size48} />
+        <Spacer height={theme.spacers.size32} />
         <Button
           size={SIZES.LARGE}
           fullWidth

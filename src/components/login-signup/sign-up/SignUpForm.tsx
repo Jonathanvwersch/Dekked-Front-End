@@ -65,7 +65,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   useEffect(() => {
-    if (!data?.userData?.success) {
+    if (data && !data.userData?.success) {
       setErrorMessage(!data?.userData?.success);
       setErrorCode(data?.errorCode);
     }
@@ -166,7 +166,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           showPassword
           clearButton={false}
         />
-        <Spacer height={theme.spacers.size48} />
+        <Spacer height={theme.spacers.size32} />
         <Tooltip
           id="DisabledSubmitButton"
           text="tooltips.forms.disabledButton"

@@ -58,7 +58,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
         setSessionCookie(authenticationResponse?.userData?.data?.token);
       } else {
         setErrorMessage && setErrorMessage(true);
-        setErrorCode && setErrorCode(500);
+        setErrorCode && setErrorCode(authenticationResponse?.errorCode);
       }
 
       if (getSessionCookie()) {
@@ -72,7 +72,6 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
       clientId={clientId}
       onSuccess={responseGoogle}
       onFailure={() => {
-        console.log("2");
         setErrorMessage && setErrorMessage(true);
         setErrorCode && setErrorCode(500);
       }}
