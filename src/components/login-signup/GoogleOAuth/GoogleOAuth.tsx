@@ -54,11 +54,11 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
         email_address: authenticationResponse?.userData?.data?.email_address,
       });
 
-      if (authenticationResponse?.userData?.data?.token) {
+      if (authenticationResponse?.userData?.data?.token)
         setSessionCookie(authenticationResponse?.userData?.data?.token);
-      } else {
+      else {
         setErrorMessage && setErrorMessage(true);
-        setErrorCode && setErrorCode(authenticationResponse?.errorCode);
+        setErrorCode && setErrorCode(500);
       }
 
       if (getSessionCookie()) {
