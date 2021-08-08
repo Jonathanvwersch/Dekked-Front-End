@@ -48,6 +48,8 @@
     "start:development": "env-cmd -f .env.development yarn run start",
     "build:integration": "env-cmd -f .env.integration yarn run build",
     "build:production": "env-cmd -f .env.production yarn run build",
+    "env:integration": "env-cmd -f .env.integration",
+    "env:production": "env-cmd -f .env.production",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
