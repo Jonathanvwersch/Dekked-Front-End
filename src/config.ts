@@ -6,9 +6,9 @@ type ConfigType = {
 
 export const config: ConfigType = {
   API:
-    process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
-      ? process.env.REACT_APP_INTEGRATION_API!
-      : process.env.REACT_APP_PRODUCTION_API!,
+    process.env.REACT_APP_ENV === "production"
+      ? process.env.REACT_APP_PRODUCTION_API!
+      : process.env.REACT_APP_INTEGRATION_API!,
   GA_TRACKING_CODE: process.env.REACT_APP_GA_TRACKING_CODE!,
   GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
 };
