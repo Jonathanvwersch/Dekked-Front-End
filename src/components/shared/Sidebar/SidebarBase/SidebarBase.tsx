@@ -1,13 +1,19 @@
 import React, { useCallback, useContext } from "react";
 import { FormattedMessage } from "react-intl";
-import { Flex, Text, Divider, HoverCard, Spacer } from "../../../common";
 import styled, { ThemeContext } from "styled-components";
 
-import { PlusIcon } from "../../../../assets";
 import { FILETREE_TYPES, SIZES } from "../../../../shared";
 import { useAddAsset } from "../../../../helpers";
 import { isAppLoadingAtom } from "../../../../store";
 import { useAtom } from "jotai";
+import {
+  Divider,
+  Flex,
+  HoverCard,
+  PlusIcon,
+  Spacer,
+  Text,
+} from "dekked-design-system";
 
 interface SidebarBaseProps {
   bottomFolderRef: React.RefObject<HTMLDivElement>;

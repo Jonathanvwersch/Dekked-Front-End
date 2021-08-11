@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from "react";
-import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
+import { Footer, GeneralModal, H4, Flex, Text } from "dekked-design-system";
 import { BUTTON_THEME } from "../../../shared";
 import { useLayeredModal, usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";

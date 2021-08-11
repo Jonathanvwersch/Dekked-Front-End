@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Flex, Spacer, Text, Button } from "../../components/common";
+import { Flex, Spacer, Text, Button } from "dekked-design-system";
 import { usePageSetupHelpers } from "../../hooks";
 import { BUTTON_THEME } from "../../shared";
 import { loadingErrorAtom } from "../../store";

@@ -1,6 +1,5 @@
 import React from "react";
-import { BinderIcon, StudySetIcon } from "../assets";
-import FolderIcon from "../assets/icons/FolderIcon";
+import { BinderIcon, StudySetIcon, FolderIcon } from "dekked-design-system";
 import { FILETREE_TYPES } from "../shared";
 
 export const handleIconType = (type: string, iconColor: string) => {

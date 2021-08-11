@@ -4633,6 +4633,11 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
+dekked-design-system@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/dekked-design-system/-/dekked-design-system-1.1.4.tgz#36c0cdd9cd374892088158bc78d1c1b93ede68cb"
+  integrity sha512-G6vdo9OKc6L0W/vgWfIEw/fthv+d3BoGJU0vjGDvrvGion8F5/8YNLwRG/8gFhu2tWk8q+Wj3BuFMLmO0KHeOQ==
+
 del@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/del/-/del-4.1.1.tgz"

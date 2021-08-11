@@ -3,7 +3,7 @@ import { useIsMutating } from "react-query";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { Params, SIZES } from "../../../shared";
-import { ComponentLoadingSpinner, Spacer } from "../../common";
+import { ComponentLoadingSpinner, Spacer } from "dekked-design-system";
 
 const PageSaving: React.FC = () => {
   const theme = useContext(ThemeContext);

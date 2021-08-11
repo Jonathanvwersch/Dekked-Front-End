@@ -3,7 +3,7 @@ import React, { Fragment, useContext, useEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
-import { Spacer, Flex } from "../../common";
+import { Spacer, Flex } from "dekked-design-system";
 import {
   addedLinkedFlashcardAtom,
   deckAtom,

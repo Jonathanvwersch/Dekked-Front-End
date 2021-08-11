@@ -1,9 +1,9 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Flex, IconActive, IconWrapper, ScrollerModal, Tooltip } from "..";
-import { DropDownArrowIcon } from "../../../assets";
+import { ScrollerModal } from "..";
+import { Flex, IconActive, IconWrapper, Tooltip } from "dekked-design-system";
+import { DropDownArrowIcon, ROTATE } from "dekked-design-system";
 
 import { CoordsType, ScrollerModalData, SIZES } from "../../../shared";
-import { ROTATE } from "../../../assets/icons/Icon.types";
 
 import { positionModals } from "../../../helpers";
 

@@ -10,17 +10,14 @@ import {
   Block,
   ComponentLoadingSpinner,
   Box,
-} from "../../common";
-import { ThemeType } from "../../../styles/theme";
-import {
+  ThemeType,
   BUTTON_THEME,
-  FILETREE_TYPES,
-  STUDY_MODE_TYPES,
-} from "../../../shared";
+  StudySetIcon,
+} from "dekked-design-system";
+import { FILETREE_TYPES, STUDY_MODE_TYPES } from "../../../shared";
 
 import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
-import { StudySetIcon } from "../../../assets";
 import { handleUntitled } from "../../../helpers";
 import { FormattedMessage, useIntl } from "react-intl";
 

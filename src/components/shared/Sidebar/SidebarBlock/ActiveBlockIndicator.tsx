@@ -1,10 +1,10 @@
+import { Divider } from "dekked-design-system";
 import { useAtom } from "jotai";
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../../shared";
 import { bindersAtom, studySetsAtom, typeAtom } from "../../../../store";
-import { Divider } from "../../../common";
 
 interface ActiveBlockIndicatorProps {
   blockId: string;

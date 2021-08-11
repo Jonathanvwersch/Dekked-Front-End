@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { SignUpForm, LogInForm } from ".";
-import { Spacer, Flex, ShadowCard, Text, H1 } from "../../components/common";
 import { SIZES } from "../../shared";
 import { usePageSetupHelpers } from "../../hooks";
+import { Flex, H1, ShadowCard, Spacer, Text } from "dekked-design-system";
 
 interface LogInSignUpProps {
   login: boolean;

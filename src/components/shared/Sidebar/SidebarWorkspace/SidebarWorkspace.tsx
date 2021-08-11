@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SidebarFileTree from "../SidebarFileTree/SidebarFileTree";
-import { Scroller, Flex } from "../../../common";
+import { Scroller, Flex } from "dekked-design-system";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
 import { fileTreeAtom, isAppLoadingAtom } from "../../../../store";

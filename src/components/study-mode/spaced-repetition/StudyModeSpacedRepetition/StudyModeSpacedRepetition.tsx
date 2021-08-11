@@ -10,7 +10,7 @@ import {
 } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { currentFlashcardIndexAtom, srFlashcardsAtom } from "../../../../store";
-import { Flex, FullPageLoadingSpinner } from "../../../common";
+import { Flex, FullPageLoadingSpinner } from "dekked-design-system";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 import { calculateNumberOfCardsGroupedByLearningStatus } from "./StudyModeSpacedRepetition.helpers";

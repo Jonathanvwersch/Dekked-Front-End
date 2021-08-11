@@ -1,4 +1,4 @@
-import { ThemeType } from "../../../styles/theme";
+import { ThemeType } from "dekked-design-system";
 
 export const backgroundColors = (theme: ThemeType) => [
   {

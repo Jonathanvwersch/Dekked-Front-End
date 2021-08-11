@@ -16,10 +16,11 @@ import {
   IconActive,
   ShadowCard,
   Tooltip,
-} from "../../common";
-import { DeleteForeverIcon, EditIcon } from "../../../assets";
+  DeleteForeverIcon,
+  EditIcon,
+  BUTTON_THEME,
+} from "dekked-design-system";
 import { StudySetToolbar } from "..";
-import { BUTTON_THEME, Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { EditorState } from "draft-js";
 import FlashcardNoteTaker from "../../notetaking/FlashcardNoteTaker";
@@ -45,6 +46,7 @@ import {
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
 import { getSessionCookie } from "../../../helpers";
+import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -140,7 +142,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studySetId}-delete-flashcard`,
     deleteFlashcard,
     {
-      onSuccess: async (data, { flashcard_id }) => {
+      onSuccess: async (_, { flashcard_id }) => {
         let flashcards;
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
           flashcards = prevState?.filter(

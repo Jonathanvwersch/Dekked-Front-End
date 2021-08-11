@@ -8,8 +8,14 @@ import React, {
 } from "react";
 import { useIntl } from "react-intl";
 import styled, { ThemeContext } from "styled-components";
-import { Card, Flex, Overlay, ShadowCard } from "..";
-import { TextColorIcon } from "../../../assets";
+import {
+  Card,
+  Flex,
+  Overlay,
+  ShadowCard,
+  TextColorIcon,
+  Tooltip,
+} from "dekked-design-system";
 import {
   handleIconType,
   lightenOrDarkenHexColour,
@@ -29,7 +35,6 @@ import {
 } from "../../../shared";
 import { darkModeAtom } from "../../../store";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
-import Tooltip from "../Tooltip/Tooltip";
 import { backgroundColors, textAndIconColors } from "./ColorPicker.data";
 
 interface ColorPickerProps {

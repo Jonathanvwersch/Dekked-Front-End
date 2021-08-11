@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-import { Flex, Spacer } from "../../common";
-import { DividerIcon } from "../../../assets";
+import { DividerIcon, ThemeType, Flex, Spacer } from "dekked-design-system";
 import { ThemeContext } from "styled-components";
-import { ThemeType } from "../../../styles/theme";
 import { SIZES } from "../../../shared";
 import Skeleton from "react-loading-skeleton";
 import ChangeTextStyles from "./ChangeTextStyles";
@@ -23,7 +21,7 @@ interface StudySetToolbarProps {
 const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   editorState,
   setEditorState,
-  toolbarFull = true,
+  // toolbarFull = true,
   isDisabled = false,
   iconSize = SIZES.MEDIUM,
 }) => {

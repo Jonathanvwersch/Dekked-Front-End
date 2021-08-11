@@ -1,20 +1,19 @@
 import React, { useContext } from "react";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { ThemeContext } from "styled-components";
-import { Button, Spacer } from "../../../components/common";
 import { FormattedMessage } from "react-intl";
 import {
   GoogleLogin,
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import GoogleIcon from "../../../assets/icons/GoogleIcon";
 import { userAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useHistory } from "react-router-dom";
 import { googleAuthentication } from "../../../api/authentication/googleAuthenticationApi";
 import { getSessionCookie, setSessionCookie } from "../../../helpers";
 import { config } from "../../../config";
+import { Button, GoogleIcon, Spacer } from "dekked-design-system";
 
 interface GoogleOAuthProps {
   setErrorMessage?: React.Dispatch<React.SetStateAction<boolean>>;
