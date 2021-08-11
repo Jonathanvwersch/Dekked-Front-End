@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { ROTATE, SingleChevronIcon } from "../../../../assets";
-import FlipIcon from "../../../../assets/icons/FlipIcon";
+import {
+  ROTATE,
+  SingleChevronIcon,
+  Flex,
+  IconActive,
+  Spacer,
+  Tooltip,
+  FlipIcon,
+} from "dekked-design-system";
 import useKeyPress from "../../../../hooks/useKeyPress";
 import { SIZES } from "../../../../shared";
-import { Flex, IconActive, Spacer, Tooltip } from "../../../common";
 
 interface FreeStudyControllerProps {
   maxLength: number;

@@ -1,3 +1,12 @@
+import {
+  Box,
+  ComponentLoadingSpinner,
+  Divider,
+  H4,
+  Input,
+  Spacer,
+  Text,
+} from "dekked-design-system";
 import { useAtom } from "jotai";
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -5,16 +14,6 @@ import { useIsFetching } from "react-query";
 import { getSessionCookie } from "../../../helpers";
 import { usePageSetupHelpers } from "../../../hooks";
 import { userAtom } from "../../../store";
-
-import {
-  Box,
-  Divider,
-  H4,
-  Text,
-  Input,
-  Spacer,
-  ComponentLoadingSpinner,
-} from "../../common";
 
 interface SettingsAccountProps {
   setFirstName: React.Dispatch<React.SetStateAction<string>>;
@@ -83,5 +82,4 @@ export default SettingsAccount;
         <Text fontColor={theme.colors.grey1}>
           <FormattedMessage id="forms.password.length" />
         </Text> */
-
 /* </Box> */

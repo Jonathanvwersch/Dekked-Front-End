@@ -1,5 +1,5 @@
 import React from "react";
-import { AccountIcon, AppearanceIcon } from "../../../assets";
+import { AccountIcon, AppearanceIcon } from "dekked-design-system";
 import { ScrollerModalData } from "../../../shared";
 
 export enum SETTINGS_SIDEBAR_DATA {

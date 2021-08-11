@@ -1,9 +1,10 @@
+import { Flex, ShadowCard } from "dekked-design-system";
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { SettingsOptions, SettingsSidebar } from "..";
 import { useStorageState } from "../../../hooks";
 import { MODAL_TYPE, SIZES } from "../../../shared";
-import { Flex, Overlay, ShadowCard } from "../../common";
+import { Overlay } from "dekked-design-system";
 import { StyledMainFrame } from "../../common/MainFrame/MainFrame";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Divider, Flex, Overlay, Spacer } from "../../common";
 import {
   FILETREE_TYPES,
   MODAL_TYPE,
@@ -9,7 +8,15 @@ import {
 } from "../../../shared";
 import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
-import { CloseIcon, ReturnIcon } from "../../../assets";
+import {
+  CloseIcon,
+  ReturnIcon,
+  Button,
+  Divider,
+  Flex,
+  Overlay,
+  Spacer,
+} from "dekked-design-system";
 import { useHistory, useParams } from "react-router-dom";
 import { useKeyPress, usePageSetupHelpers } from "../../../hooks";
 import { isFlashcardLinkedAtom } from "../../../store";

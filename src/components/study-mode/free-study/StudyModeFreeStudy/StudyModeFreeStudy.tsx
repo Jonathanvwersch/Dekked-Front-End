@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { currentFlashcardIndexAtom, flashcardsAtom } from "../../../../store";
-import { FullPageLoadingSpinner } from "../../../common";
+import { FullPageLoadingSpinner } from "dekked-design-system";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import FreeStudyController from "../FreeStudyController/FreeStudyController";
 

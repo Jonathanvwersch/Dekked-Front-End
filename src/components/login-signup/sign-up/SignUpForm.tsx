@@ -1,6 +1,5 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import { Spacer, Input, Button, Tooltip, Flex, Divider } from "../../common";
 import { FormattedMessage, useIntl } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
@@ -15,6 +14,14 @@ import ErrorMessage from "../ErrorMessage";
 import { emailFromSignUpAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { GoogleOAuth } from "..";
+import {
+  Button,
+  Divider,
+  Flex,
+  Input,
+  Spacer,
+  Tooltip,
+} from "dekked-design-system";
 
 interface SignUpFormProps {}
 

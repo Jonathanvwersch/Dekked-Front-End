@@ -9,14 +9,12 @@ import {
   Text,
   Tooltip,
   Flex,
-} from "../../../common";
-import {
   DoubleChevronIcon,
   DropDownArrowIcon,
   LogoIcon,
   ROTATE,
-} from "../../../../assets";
-import { ThemeType } from "../../../../styles/theme";
+  ThemeType,
+} from "dekked-design-system";
 import { getSessionCookie, positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
 import { CoordsType } from "../../../../shared";

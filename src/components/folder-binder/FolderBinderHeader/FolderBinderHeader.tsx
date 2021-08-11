@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { PageHeader } from "../../shared";
-import { Flex } from "../../common";
 import { FILETREE_TYPES, Params } from "../../../shared";
 import { useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
@@ -11,6 +10,7 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
+import { Flex } from "dekked-design-system";
 
 const FolderBinderHeader: React.FC = () => {
   const intl = useIntl();

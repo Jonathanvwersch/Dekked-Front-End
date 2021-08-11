@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Flex, Spacer, Text, Button } from "../../components/common";
+import { Flex, Spacer, Text, Button } from "dekked-design-system";
 import { usePageSetupHelpers } from "../../hooks";
 import { BUTTON_THEME } from "../../shared";
 

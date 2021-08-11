@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useHistory, useParams } from "react-router-dom";
-import { Flex, Spacer } from "../../common";
+import { Flex, Spacer } from "dekked-design-system";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
 import styled from "styled-components";

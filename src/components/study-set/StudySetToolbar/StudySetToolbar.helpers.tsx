@@ -18,7 +18,7 @@ import {
   SuperscriptIcon,
   TodoIcon,
   UnderlineIcon,
-} from "../../../assets";
+} from "dekked-design-system";
 import {
   BLOCK_TYPES,
   ScrollerModalData,

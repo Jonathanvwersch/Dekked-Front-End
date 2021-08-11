@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
-import { IconDropdown, IconActive, Spacer, Tooltip } from "../../common";
+import { IconDropdown } from "../../common";
 import {
+  IconActive,
+  Spacer,
+  Tooltip,
   CenterAlignIcon,
   LeftAlignIcon,
   RightAlignIcon,
-} from "../../../assets";
+} from "dekked-design-system";
 import { ThemeContext } from "styled-components";
 import { SIZES } from "../../../shared";
 import {

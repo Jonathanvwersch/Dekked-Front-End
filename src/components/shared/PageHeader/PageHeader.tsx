@@ -1,13 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  Flex,
-  Spacer,
-  Text,
-  EditableText,
-  Tooltip,
-} from "../../common";
+import { EditableText } from "../../common";
 import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
 import { StudyModeModal } from "../../study-mode";
 import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
@@ -20,6 +13,7 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
+import { Button, Flex, Spacer, Text, Tooltip } from "dekked-design-system";
 
 interface PageHeaderProps {
   message?: string;

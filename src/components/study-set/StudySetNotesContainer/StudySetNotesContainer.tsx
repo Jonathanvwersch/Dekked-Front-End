@@ -1,7 +1,7 @@
 import React from "react";
 import { StudySetLinkedFlashcard } from "..";
 import PageNoteTaker from "../../notetaking/PageNoteTaker";
-import { Flex } from "../../common";
+import { Flex } from "dekked-design-system";
 import ReturnToStudyModeButton from "../../study-mode/ReturnToStudyModeButton/ReturnToStudyModeButton";
 
 interface StudySetNotesContainerProps {

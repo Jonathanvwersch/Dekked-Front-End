@@ -1,9 +1,15 @@
+import {
+  DragBlock,
+  IconActive,
+  MoveIcon,
+  PlusIcon,
+  Spacer,
+  Tooltip,
+} from "dekked-design-system";
 import { ContentBlock, EditorState } from "draft-js";
 import React, { memo, ReactElement, useContext, useState } from "react";
 import styled, { css, ThemeContext } from "styled-components";
-import { MoveIcon, PlusIcon } from "../../../assets";
 import { BLOCK_TYPES } from "../../../shared";
-import { DragBlock, IconActive, Spacer, Tooltip } from "../../common";
 import { addNewBlockAt, moveBlock } from "../Editor/Editor.helpers";
 import { EditorType } from "../Editor/RichEditor";
 

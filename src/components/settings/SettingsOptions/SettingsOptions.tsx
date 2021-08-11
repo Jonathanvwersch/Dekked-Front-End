@@ -7,8 +7,8 @@ import { getSessionCookie } from "../../../helpers";
 import { updateUser } from "../../../api/authentication/updateUserApi";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
 import { userAtom } from "../../../store";
-import { Box, Footer } from "../../common";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
+import { Box, Footer } from "dekked-design-system";
 
 interface SettingsOptionsProps {
   activeSetting: SETTINGS_SIDEBAR_DATA;

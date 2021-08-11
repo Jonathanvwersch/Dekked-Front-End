@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Overlay } from "../../common";
 import { MODAL_TYPE, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
@@ -15,6 +14,7 @@ import { useAtom } from "jotai";
 import UnsavedChangesModal, {
   unsavedChangesModalPrefix,
 } from "../UnsavedChangesModal/UnsavedChangesModal";
+import { Overlay } from "dekked-design-system";
 
 interface FlashcardModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

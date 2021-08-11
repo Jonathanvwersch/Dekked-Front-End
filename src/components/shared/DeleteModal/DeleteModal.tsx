@@ -1,8 +1,8 @@
 import React, { SyntheticEvent } from "react";
-import { Footer, GeneralModal, H4, Flex, Text } from "../../common";
 import { BUTTON_THEME } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { FormattedMessage } from "react-intl";
+import { GeneralModal, H4, Footer, Text, Flex } from "dekked-design-system";
 
 interface DeleteModalProps {
   isOpen: boolean;

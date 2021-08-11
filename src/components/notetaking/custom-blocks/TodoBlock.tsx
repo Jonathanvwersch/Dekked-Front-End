@@ -1,8 +1,7 @@
+import { CheckmarkIcon, Flex, HoverCard } from "dekked-design-system";
 import React, { memo, useCallback, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { CheckmarkIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
-import { Flex, HoverCard } from "../../common";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 import TextBlock from "./TextBlock";
 

@@ -18,7 +18,7 @@ import {
   FlashcardStatus,
   SIZES,
 } from "../../../../shared";
-import { Button, Flex, Spacer, Text, Tooltip } from "../../../common";
+import { Button, Flex, Spacer, Text, Tooltip } from "dekked-design-system";
 import {
   calculateNewInterval,
   easilyRememberedButtonTimings,
