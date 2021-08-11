@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { StudyQueueIcon } from "../../../assets";
-import { Button, IconWrapper, Text } from "../../common";
+import {
+  Button,
+  IconWrapper,
+  Text,
+  StudyQueueIcon,
+} from "dekked-design-system";
 import StudyQueueModal from "./StudyQueueModal";
 import { SIZES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";

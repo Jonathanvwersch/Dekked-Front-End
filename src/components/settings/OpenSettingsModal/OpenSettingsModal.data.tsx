@@ -1,5 +1,5 @@
 import React from "react";
-import { LogOutIcon, SettingsIcon } from "../../../assets";
+import { LogOutIcon, SettingsIcon } from "dekked-design-system";
 import { ScrollerModalData } from "../../../shared";
 
 export enum OPEN_SETTINGS_DATA {

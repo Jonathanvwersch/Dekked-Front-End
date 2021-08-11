@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FlashcardModal, PageHeader } from "../../shared";
-import { Button, Flex, Spacer } from "../../common";
+import { Button, Flex, Spacer } from "dekked-design-system";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
 import styled, { ThemeContext } from "styled-components";
 import { FormattedMessage, useIntl } from "react-intl";

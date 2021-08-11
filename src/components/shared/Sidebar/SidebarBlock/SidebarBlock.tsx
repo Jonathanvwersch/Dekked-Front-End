@@ -5,30 +5,15 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  DotsMenuIcon,
-  DropDownArrowIcon,
-  PlusIcon,
-  ROTATE,
-} from "../../../../assets";
 import { NavLink } from "react-router-dom";
-import { ThemeType } from "../../../../styles/theme";
 import styled, { ThemeContext } from "styled-components";
-
 import {
   positionModals,
   handleIconType,
   useAddAsset,
   getChildType,
 } from "../../../../helpers";
-import {
-  ColorPicker,
-  Flex,
-  IconActive,
-  IconWrapper,
-  Spacer,
-  Tooltip,
-} from "../../../common";
+import { ColorPicker } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
 import {
@@ -38,6 +23,18 @@ import {
 } from "../../../../store";
 import { useAtom } from "jotai";
 import ActiveBlockIndicator from "./ActiveBlockIndicator";
+import {
+  DotsMenuIcon,
+  DropDownArrowIcon,
+  Flex,
+  IconActive,
+  IconWrapper,
+  PlusIcon,
+  ROTATE,
+  Spacer,
+  Tooltip,
+  ThemeType,
+} from "dekked-design-system";
 
 interface SidebarBlockProps {
   blockId: string;
@@ -158,7 +155,7 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             <Spacer width={theme.spacers.size8} />
             <IconWrapper>{handleIconType(blockType, iconColor)}</IconWrapper>
             <Spacer width={theme.spacers.size8} />
-            <SidebarBlockName blockId={blockId} blockName={blockName} />
+            <SidebarBlockName blockName={blockName} />
             <Spacer width={theme.spacers.size4} />
             <HiddenIconsContainer>
               <IconActive

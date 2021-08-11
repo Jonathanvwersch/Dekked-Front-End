@@ -1,9 +1,8 @@
+import { PlusIcon, ThemeType } from "dekked-design-system";
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { PlusIcon } from "../../../assets";
 import { useAddAsset } from "../../../helpers";
 import { FILETREE_TYPES, SIZES } from "../../../shared";
-import { ThemeType } from "../../../styles/theme";
 
 interface FolderBinderAddCardProps {
   type: FILETREE_TYPES;

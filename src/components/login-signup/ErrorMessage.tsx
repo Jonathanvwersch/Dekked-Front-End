@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { Spacer, Text, Card, Flex, IconWrapper } from "../common";
+import { Spacer, Text, Card, Flex, IconWrapper } from "dekked-design-system";
 import { FormattedMessage } from "react-intl";
-import { ClearIcon, ErrorIcon } from "../../assets";
 import { ThemeContext } from "styled-components";
+import { ClearIcon, ErrorIcon } from "dekked-design-system";
 
 interface LogInFormProps {
   setShowError: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Flex, Spacer, Text } from "../../common";
+import { Flex, Spacer, Text } from "dekked-design-system";
 
 interface StudyModeToolbarProps {
   flashcardIndex: number;

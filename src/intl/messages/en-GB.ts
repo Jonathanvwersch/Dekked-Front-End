@@ -210,7 +210,7 @@ const en_GB = {
         header: "Appearance",
         theme: "Theme",
         light: "Light",
-        dark: "Dark",
+        dark: "Dark (beta)",
       },
     },
     topbar: {

@@ -4,7 +4,7 @@ import {
   ReColorIcon,
   DeleteIcon,
   StudySetIcon,
-} from "../../../../assets";
+} from "dekked-design-system";
 import { ScrollerModalData } from "../../../../shared";
 
 export enum SIDEBAR_BLOCK_MENU {

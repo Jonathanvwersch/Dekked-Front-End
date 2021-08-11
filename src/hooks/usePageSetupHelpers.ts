@@ -1,7 +1,7 @@
+import { ThemeType } from "dekked-design-system";
 import { useCallback, useContext } from "react";
 import { useIntl } from "react-intl";
 import { ThemeContext } from "styled-components";
-import { ThemeType } from "../styles/theme";
 
 export const usePageSetupHelpers = () => {
   const intl = useIntl();

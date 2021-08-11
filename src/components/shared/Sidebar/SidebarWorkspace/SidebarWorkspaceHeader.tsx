@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { FormattedMessage } from "react-intl";
-import { Card, Text } from "../../../common";
+import { Card, Text } from "dekked-design-system";
 import { ThemeContext } from "styled-components";
 import { useAtom } from "jotai";
 import { isAppLoadingAtom, numberOfFoldersAtom } from "../../../../store";

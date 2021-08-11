@@ -1,12 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
+import { ColorPicker } from "../../common";
 import {
-  ColorPicker,
   IconActive,
   IconWrapper,
   Spacer,
   Tooltip,
-} from "../../common";
-import { ReColorIcon, TextColorIcon } from "../../../assets";
+  ReColorIcon,
+  TextColorIcon,
+} from "dekked-design-system";
 import { ThemeContext } from "styled-components";
 import { CoordsType, SIZES } from "../../../shared";
 import { positionModals } from "../../../helpers";

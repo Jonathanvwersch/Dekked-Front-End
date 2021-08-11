@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, SIZES } from "../../../shared";
-import { Spacer, Input, Button, Flex, Divider } from "../../common";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
   getSessionCookie,
@@ -23,6 +22,7 @@ import { emailFromSignUpAtom, userAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { FormattedMessage } from "react-intl";
 import GoogleOAuth from "../GoogleOAuth/GoogleOAuth";
+import { Button, Divider, Flex, Input, Spacer } from "dekked-design-system";
 
 interface LogInFormProps {}
 
@@ -84,6 +84,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   useLayoutEffect(() => {
     if (emailAddress) passwordRef.current?.focus();
+    // eslint-disable-next-line
   }, [passwordRef]);
 
   return (

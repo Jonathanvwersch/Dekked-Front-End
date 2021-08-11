@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
-import { StudyModeIcon } from "../../../assets";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
-import { Flex } from "../../common";
+import { Flex, StudyModeIcon } from "dekked-design-system";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";

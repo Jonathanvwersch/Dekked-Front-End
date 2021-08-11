@@ -1,6 +1,12 @@
 import React from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { GeneralModal, H4, Flex, Spacer, ThumbnailCard } from "../../common";
+import {
+  GeneralModal,
+  H4,
+  Flex,
+  Spacer,
+  ThumbnailCard,
+} from "dekked-design-system";
 import FreeStudyCard from "../../../assets/images/FreeStudyCard.png";
 import SpacedRepetitionCard from "../../../assets/images/SpacedRepetitionCard.png";
 import { Params, STUDY_MODE_TYPES } from "../../../shared";

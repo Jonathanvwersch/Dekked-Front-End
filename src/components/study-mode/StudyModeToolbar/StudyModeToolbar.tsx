@@ -1,9 +1,17 @@
 import { useAtom } from "jotai";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
-import { DeleteForeverIcon, EditIcon, FullscreenIcon } from "../../../assets";
+import {
+  DeleteForeverIcon,
+  EditIcon,
+  FullscreenIcon,
+  IconActive,
+  Spacer,
+  Tooltip,
+  Flex,
+} from "dekked-design-system";
 import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard } from "../../../api/flashcards/flashcardsApi";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
@@ -12,7 +20,6 @@ import {
   fullscreenStudyModeAtom,
   srFlashcardsAtom,
 } from "../../../store";
-import { IconActive, Spacer, Tooltip, Flex } from "../../common";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 import { getSessionCookie } from "../../../helpers";
@@ -46,6 +53,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
   const queryClient = useQueryClient();
+  const fullscreenRef = useRef<HTMLButtonElement>(null);
   const getFlashcardsKey =
     studyMode === STUDY_MODE_TYPES.FREE_STUDY
       ? `${studySetId}-get-flashcards`
@@ -55,7 +63,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
     `${studySetId}-delete-flashcard`,
     deleteFlashcard,
     {
-      onSuccess: async (data, { flashcard_id }) => {
+      onSuccess: async (_, { flashcard_id }) => {
         let flashcards;
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
           flashcards = prevState?.filter(
@@ -118,6 +126,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
           <IconActive
             handleClick={() => setFullscreen((prevState) => !prevState)}
             className={fullscreen ? "active" : undefined}
+            iconActiveRef={fullscreenRef}
           >
             <FullscreenIcon size={SIZES.LARGE} />
           </IconActive>

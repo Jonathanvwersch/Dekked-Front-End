@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { Flex, Text, Card, Scroller } from "../../../common";
+import { Flex, Text, Card, Scroller } from "dekked-design-system";
 
 interface SidebarScrollerProps {
   heading: string;

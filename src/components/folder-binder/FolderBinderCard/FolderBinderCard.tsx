@@ -1,14 +1,13 @@
 import React, { useContext, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import { FILETREE_TYPES, TAB_TYPE } from "../../../shared";
-import { ThumbnailCard } from "../../common";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
 import { handleUntitled } from "../../../helpers";
-import { BinderIcon, StudySetIcon } from "../../../assets";
 import { ThemeContext } from "styled-components";
 import { selectStudySetTab } from "../../../store";
 import { useAtom } from "jotai";
+import { BinderIcon, StudySetIcon, ThumbnailCard } from "dekked-design-system";
 
 interface FolderBinderCardProps {
   name: string;

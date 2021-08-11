@@ -10,7 +10,7 @@ import {
   DividerIcon,
   ROTATE,
   CloseIcon,
-} from "../../../assets";
+} from "dekked-design-system";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
 export enum NOTETAKING_BLOCKS {

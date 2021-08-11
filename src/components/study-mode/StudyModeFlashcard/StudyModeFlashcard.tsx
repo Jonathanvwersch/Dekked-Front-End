@@ -10,7 +10,9 @@ import {
   Spacer,
   Tooltip,
   Text,
-} from "../../common";
+  LogoIcon,
+  FILL_TYPE,
+} from "dekked-design-system";
 import { HashLink } from "react-router-hash-link";
 import {
   BUTTON_THEME,
@@ -22,8 +24,6 @@ import {
   TAB_TYPE,
 } from "../../../shared";
 import StudyModeToolbar from "../StudyModeToolbar/StudyModeToolbar";
-import { LogoIcon } from "../../../assets";
-import { FILL_TYPE } from "../../common/IconActive/IconActive";
 import { isEmpty } from "lodash";
 import { EditorState } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";

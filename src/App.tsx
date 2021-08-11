@@ -9,7 +9,6 @@ import { useQuery } from "react-query";
 import { ErrorPage, LogInSignUpPage } from "./pages";
 import { getSessionCookie } from "./helpers";
 import CustomSwitch from "./Router/CustomSwitch";
-import { theme } from "./styles/theme";
 import { useAtom } from "jotai";
 import { getBinders, getFileTree, getFolders, getStudySets } from "./api";
 import { SkeletonTheme } from "react-loading-skeleton";
@@ -25,6 +24,7 @@ import {
 } from "./store";
 import { getUser } from "./api/authentication/getUserApi";
 import { UserType } from "./shared";
+import { theme } from "dekked-design-system";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);

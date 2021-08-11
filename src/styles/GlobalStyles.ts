@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { SIZES } from "../shared";
-import { ThemeType } from "./theme";
+import { ThemeType } from "dekked-design-system";
 
 const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
     a {

@@ -2,12 +2,17 @@ import { useAtom } from "jotai";
 import React, { useContext } from "react";
 
 import styled, { ThemeContext } from "styled-components";
-import { HamburgerMenuIcon } from "../../../assets";
 import { SIZES } from "../../../shared";
 import { isAppLoadingAtom, sidebarAtom } from "../../../store";
 import Skeleton from "react-loading-skeleton";
 
-import { Flex, IconActive, Spacer, Tooltip } from "../../common";
+import {
+  Flex,
+  IconActive,
+  Spacer,
+  Tooltip,
+  HamburgerMenuIcon,
+} from "dekked-design-system";
 import Breadcrumbs from "./Breadcrumbs";
 import PageSaving from "./PageSaving";
 
@@ -51,11 +56,12 @@ const StyledTopbar = styled.div`
   display: flex;
   z-index: 998;
   position: sticky;
-  min-height: 58px;
+  height: 58px;
   top: 0;
   user-select: none;
   justify-content: flex-start;
-  padding: 16px 32px;
+  padding: ${({ theme }) => theme.spacers.size16}
+    ${({ theme }) => theme.spacers.size32};
 `;
 
 export default React.memo(TopBar);

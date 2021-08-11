@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, Flex, Text } from "../../../common";
+import { Card, Flex, Text } from "dekked-design-system";
 import { usePageSetupHelpers } from "../../../../hooks";
 import { FILETREE_TYPES } from "../../../../shared";
-
 interface SidebarEmptyBlockProps {
   type: string;
 }

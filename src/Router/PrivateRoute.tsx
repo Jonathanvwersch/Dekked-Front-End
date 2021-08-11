@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
-import { FullPageLoadingSpinner } from "../components/common";
+import { FullPageLoadingSpinner } from "dekked-design-system";
 import { getSessionCookie, useAddAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
 import { fileTreeAtom, isAppLoadingAtom, loadingErrorAtom } from "../store";
