@@ -1,5 +1,5 @@
 import React from "react";
-import { AccountIcon, AppearanceIcon } from "dekked-design-system";
+import { AccountIcon } from "dekked-design-system";
 import { ScrollerModalData } from "../../../shared";
 
 export enum SETTINGS_SIDEBAR_DATA {
@@ -13,9 +13,9 @@ export const SettingsSidebarData: ScrollerModalData = [
     label: "settings.sidebar.account",
     icon: <AccountIcon />,
   },
-  {
-    value: SETTINGS_SIDEBAR_DATA.APPEARANCE,
-    label: "settings.sidebar.appearance",
-    icon: <AppearanceIcon />,
-  },
+  // {
+  //   value: SETTINGS_SIDEBAR_DATA.APPEARANCE,
+  //   label: "settings.sidebar.appearance",
+  //   icon: <AppearanceIcon />,
+  // },
 ];

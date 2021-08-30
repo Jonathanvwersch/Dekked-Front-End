@@ -7,7 +7,6 @@ import {
   IconActive,
   Spacer,
   Text,
-  Tooltip,
   Flex,
   DoubleChevronIcon,
   DropDownArrowIcon,
@@ -21,6 +20,7 @@ import { CoordsType } from "../../../../shared";
 import { useAtom } from "jotai";
 import { sidebarAtom, userAtom } from "../../../../store";
 import { useIsFetching } from "react-query";
+import { Tooltip } from "../../../common";
 
 interface SidebarTopProps {}
 

@@ -54,7 +54,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   };
 
   useEffect(() => {
-    if (!data?.userData?.success) {
+    if (data?.userData?.success === false) {
       setErrorMessage(!data?.userData?.success);
       setErrorCode(data?.errorCode);
     } else if (data?.userData?.success) {
@@ -117,7 +117,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
         />
         <Spacer height={theme.spacers.size32} />
         <Button
-          size={SIZES.LARGE}
+          size={SIZES.MEDIUM}
           fullWidth
           buttonStyle={BUTTON_THEME.PRIMARY}
           isDisabled={isSubmitButtonDisabled()}

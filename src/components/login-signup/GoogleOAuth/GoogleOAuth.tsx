@@ -70,21 +70,17 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
     <GoogleLogin
       clientId={clientId}
       onSuccess={responseGoogle}
-      onFailure={() => {
-        setErrorMessage && setErrorMessage(true);
-        setErrorCode && setErrorCode(500);
-      }}
       cookiePolicy={"single_host_origin"}
       render={(renderProps: { onClick: () => void; disabled?: boolean }) => (
         <Button
-          size={SIZES.LARGE}
+          size={SIZES.MEDIUM}
           fullWidth
           isDisabled={renderProps.disabled}
           handleClick={renderProps.onClick}
           buttonStyle={BUTTON_THEME.SECONDARY}
         >
           <GoogleIcon size={SIZES.LARGE} />
-          <Spacer width={theme.spacers.size16} />
+          <Spacer width={theme.spacers.size8} />
           <FormattedMessage id="forms.oAuth.continueWithGoogle" />
         </Button>
       )}

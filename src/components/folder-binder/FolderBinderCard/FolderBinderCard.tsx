@@ -7,7 +7,8 @@ import { handleUntitled } from "../../../helpers";
 import { ThemeContext } from "styled-components";
 import { selectStudySetTab } from "../../../store";
 import { useAtom } from "jotai";
-import { BinderIcon, StudySetIcon, ThumbnailCard } from "dekked-design-system";
+import { BinderIcon, StudySetIcon } from "dekked-design-system";
+import { ThumbnailCard } from "../../common";
 
 interface FolderBinderCardProps {
   name: string;

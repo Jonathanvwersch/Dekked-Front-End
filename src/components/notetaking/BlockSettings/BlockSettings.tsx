@@ -4,7 +4,6 @@ import {
   MoveIcon,
   PlusIcon,
   Spacer,
-  Tooltip,
 } from "dekked-design-system";
 import { ContentBlock, EditorState } from "draft-js";
 import React, { memo, ReactElement, useContext, useState } from "react";
@@ -12,6 +11,7 @@ import styled, { css, ThemeContext } from "styled-components";
 import { BLOCK_TYPES } from "../../../shared";
 import { addNewBlockAt, moveBlock } from "../Editor/Editor.helpers";
 import { EditorType } from "../Editor/RichEditor";
+import { Tooltip } from "../../common";
 
 interface BlockSettingsProps {
   blockKey: string;

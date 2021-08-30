@@ -1,10 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
-import { ColorPicker } from "../../common";
+import { ColorPicker, Tooltip } from "../../common";
 import {
   IconActive,
   IconWrapper,
   Spacer,
-  Tooltip,
   ReColorIcon,
   TextColorIcon,
 } from "dekked-design-system";

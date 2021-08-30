@@ -27,9 +27,16 @@ const useKeyDownAndUpListener = (
   }, [shouldRun]);
 
   useEffect(() => {
+    if (activeIndex > length - 1) {
+      console.log("hi");
+      setActiveIndex(-1);
+    }
+  }, [length, activeIndex]);
+
+  useEffect(() => {
     window.addEventListener("keydown", eventHandler);
     return () => window.removeEventListener("keydown", eventHandler);
-  }, [shouldRun, activeIndex]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [shouldRun, activeIndex, length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { activeIndex };
 };
