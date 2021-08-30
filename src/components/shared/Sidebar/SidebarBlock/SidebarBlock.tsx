@@ -13,7 +13,7 @@ import {
   useAddAsset,
   getChildType,
 } from "../../../../helpers";
-import { ColorPicker } from "../../../common";
+import { ColorPicker, Tooltip } from "../../../common";
 import { SidebarBlockModal, SidebarBlockName } from "..";
 import { CoordsType, FILETREE_TYPES, TAB_TYPE } from "../../../../shared";
 import {
@@ -32,7 +32,6 @@ import {
   PlusIcon,
   ROTATE,
   Spacer,
-  Tooltip,
   ThemeType,
 } from "dekked-design-system";
 

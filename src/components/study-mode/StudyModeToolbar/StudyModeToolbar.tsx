@@ -9,7 +9,6 @@ import {
   FullscreenIcon,
   IconActive,
   Spacer,
-  Tooltip,
   Flex,
 } from "dekked-design-system";
 import { useKeyPress } from "../../../hooks";
@@ -24,6 +23,7 @@ import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 import { getSessionCookie } from "../../../helpers";
 import { isEmpty } from "lodash";
+import { Tooltip } from "../../common";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;

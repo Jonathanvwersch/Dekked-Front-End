@@ -6,11 +6,11 @@ import {
   Flex,
   IconActive,
   Spacer,
-  Tooltip,
   FlipIcon,
 } from "dekked-design-system";
 import useKeyPress from "../../../../hooks/useKeyPress";
 import { SIZES } from "../../../../shared";
+import { Tooltip } from "../../../common";
 
 interface FreeStudyControllerProps {
   maxLength: number;

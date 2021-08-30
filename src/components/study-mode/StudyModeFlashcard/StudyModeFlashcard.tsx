@@ -8,7 +8,6 @@ import {
   IconActive,
   ShadowCard,
   Spacer,
-  Tooltip,
   Text,
   LogoIcon,
   FILL_TYPE,
@@ -39,6 +38,7 @@ import {
   fullscreenStudyModeAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
+import { Tooltip } from "../../common";
 
 interface StudyModeFlashcardProps {
   flippedState?: boolean;
@@ -181,7 +181,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             }}
             buttonStyle={BUTTON_THEME.SECONDARY}
           >
-            <FormattedMessage id="studyMode.chooseModal.freeStudy" />
+            <FormattedMessage id="studyMode.types.freeStudy" />
           </Button>
         </Flex>
       )}

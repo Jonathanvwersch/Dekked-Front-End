@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
-import { IconDropdown } from "../../common";
-import { IconActive, Spacer, Tooltip, BoldIcon } from "dekked-design-system";
+import { IconDropdown, Tooltip } from "../../common";
+import { IconActive, Spacer, BoldIcon } from "dekked-design-system";
 
 import { BLOCK_TYPES, SIZES, TEXT_STYLES } from "../../../shared";
 import {

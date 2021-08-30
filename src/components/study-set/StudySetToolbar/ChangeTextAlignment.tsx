@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { IconDropdown } from "../../common";
+import { IconDropdown, Tooltip } from "../../common";
 import {
   IconActive,
   Spacer,
-  Tooltip,
   CenterAlignIcon,
   LeftAlignIcon,
   RightAlignIcon,

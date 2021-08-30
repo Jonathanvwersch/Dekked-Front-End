@@ -7,7 +7,6 @@ import {
   ShadowCard,
   Button,
   Overlay,
-  Block,
   ComponentLoadingSpinner,
   Box,
   ThemeType,
@@ -20,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { handleUntitled } from "../../../helpers";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Block } from "../../common";
 
 interface StudyQueueProps {
   isOpen: boolean;

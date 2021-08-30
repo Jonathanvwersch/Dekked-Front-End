@@ -12,31 +12,31 @@ interface LogInSignUpProps {
 
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  const header = login ? "forms.logIn.header" : "forms.signUp.header";
+  // const header = login ? "forms.logIn.header" : "forms.signUp.header";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
   const link = login ? "forms.signUp.signUp" : "forms.logIn.logIn";
   const slug = login ? "/sign-up" : "/login";
 
   return (
-    <Flex flexDirection="column">
-      <Flex flexDirection="column">
-        <H1 styledAs="h4"> {formatMessage(header)}</H1>
-      </Flex>
+    <Flex flexDirection="column" px={theme.spacers.size16}>
       <Spacer height={theme.spacers.size20} />
-      <ShadowCard
-        width={theme.sizes.modal[SIZES.LARGE]}
-        padding={`${theme.spacers.size32} ${theme.spacers.size32}`}
-      >
+      <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
         {login ? <LogInForm /> : <SignUpForm />}
-      </ShadowCard>
+      </FormCard>
       <Spacer height={theme.spacers.size32} />
       <Text fontSize={theme.typography.fontSizes.size16}>
         {formatMessage(linkText)}
         <StyledLink to={`${slug}`}> {formatMessage(link)}</StyledLink>
       </Text>
+      <Spacer height={theme.spacers.size32} />
     </Flex>
   );
 };
+
+const FormCard = styled(ShadowCard)`
+  max-width: ${({ theme }) => theme.sizes.modal[SIZES.LARGE]};
+  margin-top: ${({ theme }) => theme.spacers.size128};
+`;
 
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.colors.primary};
