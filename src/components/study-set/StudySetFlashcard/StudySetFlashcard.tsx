@@ -15,7 +15,6 @@ import {
   Button,
   IconActive,
   ShadowCard,
-  Tooltip,
   DeleteForeverIcon,
   EditIcon,
   BUTTON_THEME,
@@ -47,6 +46,7 @@ import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
 import { getSessionCookie } from "../../../helpers";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
+import { Tooltip } from "../../common";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",

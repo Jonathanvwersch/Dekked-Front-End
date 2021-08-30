@@ -18,12 +18,15 @@ import {
   FlashcardStatus,
   SIZES,
 } from "../../../../shared";
-import { Button, Flex, Spacer, Text, Tooltip } from "dekked-design-system";
+import { Button, Flex, Spacer, Text } from "dekked-design-system";
 import {
   calculateNewInterval,
   easilyRememberedButtonTimings,
+  formatTimings,
+  messagePrefix,
   rememberedButtonTimings,
 } from "./SpacedRepetitionController.helpers";
+import { Tooltip } from "../../../common";
 
 interface SpacedRepetitionControllerProps {
   numberOfNewCards: number;
@@ -73,7 +76,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const queryClient = useQueryClient();
 
   const { theme, formatMessage } = usePageSetupHelpers();
-  const messagePrefix = "studyMode.spacedRepetition";
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
     onSuccess: () => {
       isEmpty(srFlashcards) &&
@@ -158,10 +160,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     reviewTime?: string,
     flipCard?: boolean,
     quality?: FlashcardQuality,
-    newLearningStatus?: FlashcardLearningStatus
+    newLearningStatus?: FlashcardLearningStatus,
+    marginRight?: string
   ) => {
     return (
-      <Flex flexDirection="column" height="75px">
+      <Flex flexDirection="column" height="75px" mr={marginRight}>
         <Button
           buttonStyle={buttonStyle}
           size={SIZES.LARGE}
@@ -227,7 +230,14 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       )
   );
 
-  const rememberedInterval = rememberedButtonTimings(
+  const remembered = rememberedButtonTimings(
+    status,
+    interval,
+    easeFactor,
+    easyBonus
+  );
+
+  const easilyRemembered = easilyRememberedButtonTimings(
     status,
     interval,
     easeFactor,
@@ -274,7 +284,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
             )}
           </Flex>
           <Spacer height={theme.spacers.size24} />
-          <Flex justifyContent="center">
+          <Flex justifyContent="center" overflow="auto">
             {flippedState ? (
               spacedRepetitionButton(
                 BUTTON_THEME.PRIMARY,
@@ -294,20 +304,21 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                   )}`,
                   undefined,
                   FlashcardQuality.REPEAT,
-                  FlashcardLearningStatus.LEARNING
+                  FlashcardLearningStatus.LEARNING,
+                  theme.spacers.size16
                 )}
                 {spacedRepetitionButton(
                   BUTTON_THEME.SECONDARY,
                   `${messagePrefix}.controller.remembered`,
                   `${messagePrefix}.controller.nextReview`,
-                  `${formatNumber(rememberedInterval, intl)} ${formatMessage(
-                    `${messagePrefix}.controller.${
-                      rememberedInterval === 1 ? "day" : "days"
-                    }`
-                  )}`,
+                  `${formatNumber(formatTimings(remembered).timing, intl)}
+                  ${formatMessage(formatTimings(remembered).unit)}`,
                   undefined,
                   FlashcardQuality.REMEMBERED,
-                  FlashcardLearningStatus.LEARNED
+                  FlashcardLearningStatus.LEARNED,
+                  status !== FlashcardStatus.GRADUATED
+                    ? theme.spacers.size16
+                    : undefined
                 )}
                 {status === FlashcardStatus.GRADUATED
                   ? spacedRepetitionButton(
@@ -315,14 +326,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                       `${messagePrefix}.controller.easilyRemembered`,
                       `${messagePrefix}.controller.nextReview`,
                       `${formatNumber(
-                        easilyRememberedButtonTimings(
-                          status,
-                          interval,
-                          easeFactor,
-                          easyBonus
-                        ),
+                        formatTimings(easilyRemembered).timing,
                         intl
-                      )} ${formatMessage(`${messagePrefix}.controller.days`)}`,
+                      )} ${formatMessage(
+                        formatTimings(easilyRemembered).unit
+                      )}`,
                       undefined,
                       FlashcardQuality.EASILY_REMEMBERED,
                       FlashcardLearningStatus.LEARNED

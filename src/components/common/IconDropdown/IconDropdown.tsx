@@ -1,13 +1,13 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { ScrollerModal } from "..";
-import { Flex, IconActive, IconWrapper, Tooltip } from "dekked-design-system";
+import { ScrollerModal, Tooltip } from "..";
+import { Flex, IconActive, IconWrapper } from "dekked-design-system";
 import { DropDownArrowIcon, ROTATE } from "dekked-design-system";
 
 import { CoordsType, ScrollerModalData, SIZES } from "../../../shared";
 
 import { positionModals } from "../../../helpers";
 
-interface ChangeTextStyleProps {
+interface IconDropdownProps {
   modal: {
     height: number;
     data: ScrollerModalData;
@@ -25,7 +25,7 @@ interface ChangeTextStyleProps {
   id?: string;
 }
 
-const IconDropdown: React.FC<ChangeTextStyleProps> = ({
+const IconDropdown: React.FC<IconDropdownProps> = ({
   tooltip,
   icon,
   modal,

@@ -2,17 +2,12 @@ import { useAtom } from "jotai";
 import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { StudySetFlashcard } from "..";
-import {
-  LogoIcon,
-  Flex,
-  IconActive,
-  Tooltip,
-  FILL_TYPE,
-} from "dekked-design-system";
+import { LogoIcon, Flex, IconActive, FILL_TYPE } from "dekked-design-system";
 import { useMultiKeyPress } from "../../../hooks";
 import { SIZES } from "../../../shared";
 import { currentBlockAtom, isAppLoadingAtom } from "../../../store";
 import Skeleton from "react-loading-skeleton";
+import { Tooltip } from "../../common";
 
 interface StudySetLinkedFlashcardProps {
   flashcardSize: number;

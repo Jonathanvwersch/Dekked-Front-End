@@ -14,14 +14,8 @@ import ErrorMessage from "../ErrorMessage";
 import { emailFromSignUpAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { GoogleOAuth } from "..";
-import {
-  Button,
-  Divider,
-  Flex,
-  Input,
-  Spacer,
-  Tooltip,
-} from "dekked-design-system";
+import { Button, Divider, Flex, Input, Spacer } from "dekked-design-system";
+import { Tooltip } from "../../common";
 
 interface SignUpFormProps {}
 
@@ -180,7 +174,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           isActive={isSubmitButtonDisabled()}
         >
           <Button
-            size={SIZES.LARGE}
+            size={SIZES.MEDIUM}
             fullWidth
             buttonStyle={BUTTON_THEME.PRIMARY}
             isDisabled={isSubmitButtonDisabled()}
