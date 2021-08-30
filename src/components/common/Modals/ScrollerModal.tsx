@@ -1,5 +1,5 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
-import React, { Fragment, MutableRefObject, useContext, useRef } from "react";
+import React, { Fragment, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Divider, Overlay, ShadowCard } from "dekked-design-system";
 import { useKeyDownAndUpListener, useLayeredModal } from "../../../hooks";
@@ -12,7 +12,7 @@ interface ScrollerModalProps {
   clickFunctions: (args?: any) => void;
   data: ScrollerModalData;
   coords?: CoordsType;
-  cardRef?: MutableRefObject<HTMLDivElement>;
+  cardRef?: React.RefObject<HTMLDivElement>;
   type?: MODAL_TYPE;
   fullHeight?: boolean;
   fakeFocus?: boolean;
@@ -34,7 +34,6 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
   id,
 }) => {
   const theme = useContext(ThemeContext);
-  const modalRef = useRef<HTMLDivElement>(null);
 
   const { activeIndex } = useKeyDownAndUpListener(
     open,
@@ -57,7 +56,7 @@ const ScrollerModal: React.FC<ScrollerModalProps> = ({
         fullHeight={fullHeight}
         coords={coords}
         width={theme.sizes.modal.small}
-        cardRef={cardRef || modalRef}
+        cardRef={cardRef}
       >
         {data.map((item, index) => (
           <Fragment key={item.label}>

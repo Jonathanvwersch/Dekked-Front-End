@@ -215,7 +215,6 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             styles={{
               padding: `0 ${theme.spacers.size32} 0 ${theme.spacers.size32}`,
               overflow: "auto",
-              height: "100%",
             }}
             hasFocus={hasFocus}
             setHasFocus={setHasFocus}
@@ -283,10 +282,9 @@ const Flashcard = styled(ShadowCard)<{
   position: relative;
   z-index: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-direction: column;
-  background-size: contain;
 
   border: ${({ theme, learningStatus, studyMode }) =>
     studyMode === STUDY_MODE_TYPES.SPACED_REPETITION &&
@@ -317,7 +315,7 @@ const CardHeader = styled.div`
   display: flex;
   height: ${({ theme }) => theme.spacers.size32};
   align-items: center;
-  padding: ${({ theme }) => `0 ${theme.spacers.size16}`};
+  padding: ${({ theme }) => theme.spacers.size16};
   background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
