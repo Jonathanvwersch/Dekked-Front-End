@@ -107,7 +107,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           id="EmailAddress"
           onChange={(e) => setEmailAddress(e.target.value)}
           validate={() => validateEmail(emailAddress)}
-          errorMessage="forms.validation.invalidEmail"
+          errorMessage={formatMessage("forms.validation.invalidEmail")}
           required
         />
         <Spacer height={theme.spacers.size16} />
@@ -144,7 +144,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           id="Password"
           validate={() => validatePassword(password)}
           onChange={(e) => setPassword(e.target.value)}
-          errorMessage="forms.password.length"
+          errorMessage={formatMessage("forms.password.length")}
           required
           showPassword
           clearButton={false}
@@ -161,7 +161,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           errorMessage={
             password === repeatPassword
               ? ""
-              : "forms.validation.passwordsNoMatch"
+              : formatMessage("forms.validation.passwordsNoMatch")
           }
           required
           showPassword

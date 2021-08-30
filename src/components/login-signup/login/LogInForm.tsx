@@ -102,7 +102,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           type="email"
           validate={() => validateEmail(emailAddress)}
           onChange={(e) => setEmailAddress(e.target.value)}
-          errorMessage="forms.validation.invalidEmail"
+          errorMessage={formatMessage("forms.validation.invalidEmail")}
         />
         <Spacer height={theme.spacers.size16} />
         <Input
