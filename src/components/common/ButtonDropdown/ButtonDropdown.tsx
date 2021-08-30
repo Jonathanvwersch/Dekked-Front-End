@@ -29,7 +29,7 @@ interface ButtonDropdownProps {
     size?: SIZES;
     isDisabled?: boolean;
   };
-
+  flushWithRightButtonSide?: boolean;
   id?: string;
 }
 
@@ -37,16 +37,27 @@ const ButtonDropdown: React.FC<ButtonDropdownProps> = ({
   modal,
   id,
   button,
+  flushWithRightButtonSide,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const theme = useContext(ThemeContext);
-  const modalRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<CoordsType>();
   const handleShowModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
     setShowModal(true);
-    setCoords(positionModals(e, modal.height, modalRef));
+    const buttonWidth = buttonRef?.current?.clientWidth || 0;
+
+    flushWithRightButtonSide
+      ? setCoords({
+          ...positionModals(e, modal.height, buttonRef),
+          left:
+            positionModals(e, modal.height, buttonRef)?.left -
+            (Number(theme.sizes.modal.small.slice(0, -2)) - buttonWidth),
+        })
+      : setCoords(positionModals(e, modal.height, buttonRef));
   };
 
   return (
@@ -56,7 +67,7 @@ const ButtonDropdown: React.FC<ButtonDropdownProps> = ({
         handleClick={handleShowModal}
         buttonStyle={button.style}
         isDisabled={button.isDisabled}
-        buttonRef={modalRef}
+        buttonRef={buttonRef}
       >
         {button.text}
         <Spacer width={theme.spacers.size8} />
@@ -72,6 +83,8 @@ const ButtonDropdown: React.FC<ButtonDropdownProps> = ({
         open={showModal}
         handleClose={() => setShowModal(false)}
         data={modal.data}
+        cardRef={modalRef}
+        preventDefault
         fakeFocus={true}
         fullHeight={true}
         id={id}

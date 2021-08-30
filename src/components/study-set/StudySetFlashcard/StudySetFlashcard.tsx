@@ -505,7 +505,6 @@ const CardHeader = styled.div`
   width: 100%;
   z-index: 1000;
   padding: ${({ theme }) => `${theme.spacers.size4} ${theme.spacers.size8}`};
-  background-color: ${({ theme }) => theme.colors.backgrounds.pageBackground};
 `;
 
 export default React.memo(StudySetFlashcard);

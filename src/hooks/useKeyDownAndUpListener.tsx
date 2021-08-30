@@ -28,7 +28,6 @@ const useKeyDownAndUpListener = (
 
   useEffect(() => {
     if (activeIndex > length - 1) {
-      console.log("hi");
       setActiveIndex(-1);
     }
   }, [length, activeIndex]);
