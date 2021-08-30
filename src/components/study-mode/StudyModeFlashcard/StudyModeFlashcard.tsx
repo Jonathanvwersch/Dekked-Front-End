@@ -104,12 +104,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   }, [backBlocks]);
 
   const FinalCard = (
-    <Flex
-      flexDirection="column"
-      width="100%"
-      height="50%"
-      justifyContent="center"
-    >
+    <Flex flexDirection="column" width="100%" justifyContent="center" m="auto">
       {(!isFlashcardsEmpty || !deletedLastFlashcard) && (
         <H1 textAlign="center" styledAs="h2">
           <FormattedMessage id="studyMode.flashcard.congratulations" />
@@ -191,7 +186,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   return (
     <Flex height="100%" maxHeight={flashcardMaxHeight}>
       <Flashcard
-        padding={`0 0 ${theme.spacers.size32} 0`}
+        padding={`0 0 ${isFinishedStudying ? 0 : theme.spacers.size48} 0`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         height="100%"
         isFinishedStudying={isFinishedStudying}
@@ -288,7 +283,7 @@ const Flashcard = styled(ShadowCard)<{
 
   border: ${({ theme, learningStatus, studyMode }) =>
     studyMode === STUDY_MODE_TYPES.SPACED_REPETITION &&
-    `1px solid ${
+    `2px solid ${
       learningStatus === FlashcardLearningStatus.NEW
         ? theme.colors.success
         : learningStatus === FlashcardLearningStatus.LEARNING
@@ -302,7 +297,7 @@ const Flashcard = styled(ShadowCard)<{
 
 const LogoIconContainer = styled(IconActive)`
   position: absolute;
-  bottom: ${({ theme }) => theme.spacers.size4};
+  bottom: 12px;
   z-index: 1;
   left: ${({ theme }) =>
     `calc(50% - ${parseInt(theme.sizes.icons[logoIconSize]) / 2}px)`};

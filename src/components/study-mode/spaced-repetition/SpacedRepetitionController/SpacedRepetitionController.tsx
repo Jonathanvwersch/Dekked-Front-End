@@ -86,71 +86,87 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     },
   });
 
+  console.log(srFlashcards);
+
   const handleSpacedRepetitionButton = (
     flipCard?: boolean,
     quality?: FlashcardQuality,
     newLearningStatus?: FlashcardLearningStatus
   ) => {
-    flipCard && setFlippedState(false);
+    // If user is flipping flashcard to view front or back
+    // no requests need to be made--can simply return null and break out of function
+    if (flipCard) {
+      setFlippedState(false);
+      return null;
+    }
+
+    // Update learning status
+    if (srFlashcards?.[flashcardIndex] && newLearningStatus) {
+      srFlashcards[flashcardIndex].learning_status = newLearningStatus;
+    }
+
+    // If user wishes to repeat flashcard, we must move its position in array
     if (quality === FlashcardQuality.REPEAT) {
+      // if there are less than 10 flashcards ahead of the current flashcard,
+      // simply push the flashcard to the end of the array
       if (maxLength - 1 - flashcardIndex < 10) {
         srFlashcards?.push(srFlashcards?.[flashcardIndex]);
       } else {
+        // otherwise move it forward by 9 flashcards
         srFlashcards &&
           moveArrayItem(srFlashcards, flashcardIndex, flashcardIndex + 9);
       }
     }
 
-    if (!flipCard) {
-      if (srFlashcards?.[flashcardIndex] && newLearningStatus) {
-        srFlashcards[flashcardIndex].learning_status = newLearningStatus;
-      }
+    // Update number of cards if current status is new
+    if (currentLearningStatus === FlashcardLearningStatus.NEW) {
+      setNumberOfNewCards((prevState) => prevState - 1);
 
-      currentLearningStatus === FlashcardLearningStatus.NEW &&
-        setNumberOfNewCards((prevState) => prevState - 1);
-      if (
-        currentLearningStatus === FlashcardLearningStatus.NEW &&
-        newLearningStatus === FlashcardLearningStatus.LEARNING
-      ) {
-        setNumberOfLearningCards((prevState) => prevState + 1);
-      } else if (
-        currentLearningStatus === FlashcardLearningStatus.LEARNING &&
-        newLearningStatus === FlashcardLearningStatus.LEARNED
-      ) {
-        setNumberOfLearningCards((prevState) => prevState - 1);
-      } else if (
-        currentLearningStatus === FlashcardLearningStatus.LEARNED &&
-        newLearningStatus === FlashcardLearningStatus.LEARNED
-      ) {
-        setNumberOfLearnedCards((prevState) => prevState - 1);
-      } else if (
-        currentLearningStatus === FlashcardLearningStatus.LEARNED &&
-        newLearningStatus === FlashcardLearningStatus.LEARNING
-      ) {
-        setNumberOfLearnedCards((prevState) => prevState - 1);
+      if (newLearningStatus === FlashcardLearningStatus.LEARNING) {
         setNumberOfLearningCards((prevState) => prevState + 1);
       }
-
-      setFlippedState(true);
-
-      srFlashcards?.splice(flashcardIndex, 1);
-
-      quality &&
-        saveCard({
-          flashcard_id: flashcardId,
-          owner_id: ownerId,
-          deck_id: deckId,
-          quality,
-          interval: calculateNewInterval(
-            quality,
-            status,
-            interval,
-            easeFactor,
-            easyBonus
-          ),
-          learningStatus: newLearningStatus,
-        });
     }
+
+    // Update number of cards if current status is learning
+    // number of cards remains the same if new learning status is Learning
+    else if (
+      currentLearningStatus === FlashcardLearningStatus.LEARNING &&
+      newLearningStatus === FlashcardLearningStatus.LEARNED
+    ) {
+      setNumberOfLearningCards((prevState) => prevState - 1);
+    }
+
+    // Update number of cards if current status is learned
+    else if (currentLearningStatus === FlashcardLearningStatus.LEARNED) {
+      if (newLearningStatus === FlashcardLearningStatus.LEARNED) {
+        setNumberOfLearnedCards((prevState) => prevState - 1);
+      } else if (newLearningStatus === FlashcardLearningStatus.LEARNING) {
+        setNumberOfLearnedCards((prevState) => prevState - 1);
+        setNumberOfLearningCards((prevState) => prevState + 1);
+      }
+    }
+
+    // Flip over
+    setFlippedState(true);
+
+    // Remove studied flashcard
+    srFlashcards?.splice(flashcardIndex, 1);
+
+    quality &&
+      saveCard({
+        flashcard_id: flashcardId,
+        owner_id: ownerId,
+        deck_id: deckId,
+        quality,
+        interval: calculateNewInterval(
+          quality,
+          status,
+          interval,
+          easeFactor,
+          easyBonus
+        ),
+        learningStatus: newLearningStatus,
+      });
   };
 
   const spacedRepetitionButton = (
