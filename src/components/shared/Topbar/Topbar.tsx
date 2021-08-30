@@ -10,11 +10,11 @@ import {
   Flex,
   IconActive,
   Spacer,
-  Tooltip,
   HamburgerMenuIcon,
 } from "dekked-design-system";
 import Breadcrumbs from "./Breadcrumbs";
 import PageSaving from "./PageSaving";
+import { Tooltip } from "../../common";
 
 const TopBar: React.FC = () => {
   const [sidebar, setSidebar] = useAtom(sidebarAtom);

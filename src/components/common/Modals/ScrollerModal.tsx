@@ -1,9 +1,10 @@
 // Modal used whenever you have a scrolling set of hover cards as is the case in the sidebar
 import React, { Fragment, MutableRefObject, useContext, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Block, Divider, Overlay, ShadowCard } from "dekked-design-system";
+import { Divider, Overlay, ShadowCard } from "dekked-design-system";
 import { useKeyDownAndUpListener, useLayeredModal } from "../../../hooks";
 import { CoordsType, MODAL_TYPE, ScrollerModalData } from "../../../shared";
+import { Block } from "..";
 
 interface ScrollerModalProps {
   open: boolean;

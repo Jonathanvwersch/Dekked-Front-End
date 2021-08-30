@@ -56,12 +56,9 @@ const en_GB = {
       },
     },
     studyMode: {
-      chooseModal: {
-        header: "Choose your study mode",
+      types: {
         spacedRepetition: "Spaced repetition",
-        intervalStudying: "Interval studying",
         freeStudy: "Free study",
-        linearStudying: "Linear studying",
       },
       deleteModal: {
         deleteCard: "Do you really want to delete this flashcard?",
@@ -74,6 +71,10 @@ const en_GB = {
           nextReview: "Next review in {time}",
           day: "day",
           days: "days",
+          month: "month",
+          months: "months",
+          year: "year",
+          years: "years",
           min: "min",
           mins: "mins",
         },

@@ -14,7 +14,6 @@ import {
   Overlay,
   ShadowCard,
   TextColorIcon,
-  Tooltip,
 } from "dekked-design-system";
 import {
   handleIconType,
@@ -36,6 +35,7 @@ import {
 import { darkModeAtom } from "../../../store";
 import { toggleInlineStyle } from "../../notetaking/Editor/Editor.helpers";
 import { backgroundColors, textAndIconColors } from "./ColorPicker.data";
+import { Tooltip } from "..";
 
 interface ColorPickerProps {
   isOpen: boolean;

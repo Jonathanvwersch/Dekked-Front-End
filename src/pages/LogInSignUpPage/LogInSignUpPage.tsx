@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { ThemeContext } from "styled-components";
-import { FullLogoIcon, Card, Flex, ThemeType } from "dekked-design-system";
+import { FullLogoIcon, Flex, ThemeType } from "dekked-design-system";
 import { LogInSignUp } from "../../components/login-signup";
 
 interface LogInPageProps {
@@ -12,21 +12,23 @@ const LogInPage: React.FC<LogInPageProps> = ({ login }) => {
   const theme: ThemeType = useContext(ThemeContext);
 
   return (
-    <Card backgroundColor={theme.colors.secondary} borderRadius="0px">
-      <StyledLink href="https://www.dekked.com">
-        <FullLogoIcon color={theme.colors.primary} />
-      </StyledLink>
+    <Flex
+      style={{ backgroundColor: theme.colors.secondary }}
+      flexDirection="column"
+    >
+      {/* <StyledLink href="https://www.dekked.com">
+        <FullLogoIcon color={theme.colors.primary} height="30px" />
+      </StyledLink> */}
       <Flex width="100%" height="100%" justifyContent="center">
         <LogInSignUp login={login} />
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 
 const StyledLink = styled.a`
+  padding: ${({ theme }) => theme.spacers.size32};
   position: absolute;
-  left: ${({ theme }) => theme.spacers.size32};
-  top: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default LogInPage;
