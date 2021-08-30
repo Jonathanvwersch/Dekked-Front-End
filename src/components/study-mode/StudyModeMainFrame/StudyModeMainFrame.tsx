@@ -32,6 +32,10 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
     setCurrentFlashcard(flashcards?.[flashcardIndex]);
   }, [flashcardIndex, flashcards, frontBlocks, backBlocks]);
 
+  console.log(maxLength);
+  console.log(flashcardIndex);
+  console.log(flashcards);
+
   return (
     <>
       {studyMode === STUDY_MODE_TYPES.FREE_STUDY && (
