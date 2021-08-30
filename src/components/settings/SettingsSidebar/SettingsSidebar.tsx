@@ -1,7 +1,7 @@
-import { Block } from "dekked-design-system";
 import React from "react";
 import styled from "styled-components";
 import { usePageSetupHelpers } from "../../../hooks";
+import { Block } from "../../common";
 import SidebarScroller from "../../shared/Sidebar/SidebarScroller/SidebarScroller";
 import {
   SettingsSidebarData,

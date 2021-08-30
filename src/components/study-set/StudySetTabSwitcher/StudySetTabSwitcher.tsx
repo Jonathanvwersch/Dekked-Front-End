@@ -58,7 +58,7 @@ const StudySetTabSwitcher: React.FC = () => {
   };
 
   return (
-    <Flex width="auto">
+    <Flex width="auto" ml={theme.spacers.size16}>
       {!isLoading ? (
         <>
           {tabLink(TAB_TYPE.NOTES, formatMessage("studySet.tabs.notes"))}

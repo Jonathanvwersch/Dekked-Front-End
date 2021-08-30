@@ -1,10 +1,9 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import styled from "styled-components";
-import { EditableText } from "../../common";
-import { BUTTON_THEME, FILETREE_TYPES, Params } from "../../../shared";
-import { StudyModeModal } from "../../study-mode";
-import { useMultiKeyPress, usePageSetupHelpers } from "../../../hooks";
-import { useParams } from "react-router-dom";
+import { ButtonDropdown, EditableText, Tooltip } from "../../common";
+import { FILETREE_TYPES, Params, STUDY_MODE_TYPES } from "../../../shared";
+import { usePageSetupHelpers } from "../../../hooks";
+import { useHistory, useParams } from "react-router-dom";
 import {
   currentFlashcardIndexAtom,
   isAppLoadingAtom,
@@ -13,7 +12,8 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
-import { Button, Flex, Spacer, Text, Tooltip } from "dekked-design-system";
+import { Flex, Spacer, Text } from "dekked-design-system";
+import { studyButtonData } from "./PageHeader.data";
 
 interface PageHeaderProps {
   message?: string;
@@ -24,7 +24,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   message,
   disableStudyButton,
 }) => {
-  const [studyMode, setStudyMode] = useState<boolean>(false);
   const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
@@ -34,10 +33,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const [selectedBlockName] = useAtom(
     useMemo(() => selectActiveBlockName(id, type), [id, type])
   );
-  useMultiKeyPress(
-    ["Control", "2"],
-    () => !disableStudyButton && setStudyMode(true)
-  );
+  const history = useHistory();
 
   return (
     <>
@@ -76,16 +72,29 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                       text="tooltips.studyMode.disabledStudyButton"
                       isActive={disableStudyButton}
                     >
-                      <Button
-                        buttonStyle={BUTTON_THEME.PRIMARY}
-                        handleClick={() => {
-                          setStudyMode(true);
-                          setCurrentFlashcardIndex(0);
+                      <ButtonDropdown
+                        modal={{
+                          clickFunctions: (option: STUDY_MODE_TYPES) => {
+                            setCurrentFlashcardIndex(0);
+                            if (option === STUDY_MODE_TYPES.FREE_STUDY) {
+                              history.push(
+                                `/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`
+                              );
+                            } else if (
+                              option === STUDY_MODE_TYPES.SPACED_REPETITION
+                            ) {
+                              history.push(
+                                `/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`
+                              );
+                            }
+                          },
+                          data: studyButtonData,
                         }}
-                        isDisabled={disableStudyButton}
-                      >
-                        {formatMessage("generics.study")}
-                      </Button>
+                        button={{
+                          text: formatMessage("generics.study"),
+                          isDisabled: disableStudyButton,
+                        }}
+                      />
                     </Tooltip>
                   </>
                 ) : null}
@@ -95,12 +104,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             )}
           </Flex>
           <Spacer height={theme.spacers.size32} />
-          {studyMode && (
-            <StudyModeModal
-              isOpen={studyMode}
-              handleClose={() => setStudyMode(false)}
-            />
-          )}
         </>
       </Flex>
     </>

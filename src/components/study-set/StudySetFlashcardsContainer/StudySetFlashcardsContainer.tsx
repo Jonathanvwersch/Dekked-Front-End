@@ -72,12 +72,12 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
               <>
                 {flashcards.map(
                   (flashcard: FlashcardInterface, index: number) => (
-                    <Fragment key={flashcard.id}>
+                    <Fragment key={flashcard?.id}>
                       <StudySetFlashcard
                         index={index + 1}
-                        flashcardId={flashcard.id}
-                        frontBlocks={flashcard.front_blocks}
-                        backBlocks={flashcard.back_blocks}
+                        flashcardId={flashcard?.id}
+                        frontBlocks={flashcard?.front_blocks}
+                        backBlocks={flashcard?.back_blocks}
                         setFlashcards={setFlashcards}
                       />
                       <Spacer height={theme.spacers.size32} />

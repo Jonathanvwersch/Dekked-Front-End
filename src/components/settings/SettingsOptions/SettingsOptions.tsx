@@ -8,7 +8,8 @@ import { updateUser } from "../../../api/authentication/updateUserApi";
 import { BUTTON_TYPES, SIZES } from "../../../shared";
 import { userAtom } from "../../../store";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
-import { Box, Footer } from "dekked-design-system";
+import { Box } from "dekked-design-system";
+import { Footer } from "../../common";
 
 interface SettingsOptionsProps {
   activeSetting: SETTINGS_SIDEBAR_DATA;
