@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { SignUpForm, LogInForm } from ".";
 import { SIZES } from "../../shared";
 import { usePageSetupHelpers } from "../../hooks";
-import { Flex, H1, ShadowCard, Spacer, Text } from "dekked-design-system";
+import { Flex, ShadowCard, Spacer, Text, H1 } from "dekked-design-system";
+import { FormattedMessage } from "react-intl";
 
 interface LogInSignUpProps {
   login: boolean;
@@ -12,13 +13,20 @@ interface LogInSignUpProps {
 
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
   const { theme, formatMessage } = usePageSetupHelpers();
-  // const header = login ? "forms.logIn.header" : "forms.signUp.header";
+  const header = login ? "forms.logIn.logIn" : "forms.signUp.signUp";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
   const link = login ? "forms.signUp.signUp" : "forms.logIn.logIn";
   const slug = login ? "/sign-up" : "/login";
 
   return (
-    <Flex flexDirection="column" px={theme.spacers.size16}>
+    <Flex
+      flexDirection="column"
+      px={theme.spacers.size16}
+      py={theme.spacers.size64}
+    >
+      <H1 styledAs="h4" textAlign="center">
+        <FormattedMessage id={header} />
+      </H1>
       <Spacer height={theme.spacers.size20} />
       <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
         {login ? <LogInForm /> : <SignUpForm />}
@@ -35,7 +43,7 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
 
 const FormCard = styled(ShadowCard)`
   max-width: ${({ theme }) => theme.sizes.modal[SIZES.LARGE]};
-  margin-top: ${({ theme }) => theme.spacers.size128};
+  overflow: unset;
 `;
 
 const StyledLink = styled(Link)`
