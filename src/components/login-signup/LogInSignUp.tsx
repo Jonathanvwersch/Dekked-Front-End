@@ -23,12 +23,13 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
       flexDirection="column"
       px={theme.spacers.size16}
       py={theme.spacers.size64}
+      justifyContent="center"
     >
-      <H1 styledAs="h4" textAlign="center">
-        <FormattedMessage id={header} />
-      </H1>
-      <Spacer height={theme.spacers.size20} />
       <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
+        <H1 styledAs="h4" textAlign="center">
+          <FormattedMessage id={header} />
+        </H1>
+        <Spacer height={theme.spacers.size32} />
         {login ? <LogInForm /> : <SignUpForm />}
       </FormCard>
       <Spacer height={theme.spacers.size32} />

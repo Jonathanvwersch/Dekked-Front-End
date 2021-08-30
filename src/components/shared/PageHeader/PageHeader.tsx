@@ -90,6 +90,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                           },
                           data: studyButtonData,
                         }}
+                        flushWithRightButtonSide
                         button={{
                           text: formatMessage("generics.study"),
                           isDisabled: disableStudyButton,
