@@ -4,7 +4,15 @@ import styled from "styled-components";
 import { SignUpForm, LogInForm } from ".";
 import { SIZES } from "../../shared";
 import { usePageSetupHelpers } from "../../hooks";
-import { Flex, ShadowCard, Spacer, Text, H1 } from "dekked-design-system";
+import {
+  Flex,
+  ShadowCard,
+  Spacer,
+  Text,
+  H1,
+  FullLogoIcon,
+  Link as DekkedLink,
+} from "dekked-design-system";
 import { FormattedMessage } from "react-intl";
 
 interface LogInSignUpProps {
@@ -26,6 +34,18 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
       justifyContent="center"
     >
       <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
+        <DekkedLink
+          href="https://dekked.com"
+          textAlign="center"
+          style={{
+            justifyContent: "center",
+            width: "100%",
+            display: "flex",
+            marginBottom: theme.spacers.size16,
+          }}
+        >
+          <FullLogoIcon height="32px" color={theme.colors.primary} />
+        </DekkedLink>
         <H1 styledAs="h4" textAlign="center">
           <FormattedMessage id={header} />
         </H1>
