@@ -60,7 +60,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
         center
         type={MODAL_TYPE.MODAL_LIGHTBOX}
         modalWidth="80%"
-        modalHeight="60%"
+        modalHeight="90%"
         close
         withOutsideClick={!isLayeredModalOpen}
         closeButtonBackgroundColor={theme.colors.secondary}
