@@ -31,7 +31,6 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
       flexDirection="column"
       px={theme.spacers.size16}
       py={theme.spacers.size64}
-      justifyContent="center"
     >
       <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
         <DekkedLink
