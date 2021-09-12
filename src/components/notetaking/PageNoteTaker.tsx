@@ -39,8 +39,6 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     refetchOnReconnect: false,
   });
 
-  console.log("blocks", blocks);
-
   const pageId = blocks?.pageId;
 
   const { mutate: updatePage } = useMutation(

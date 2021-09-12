@@ -54,8 +54,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     logIn({ email_address: emailAddress, password });
   };
 
-  console.log(data);
-
   useEffect(() => {
     if (data?.status !== 200) {
       setErrorMessage(true);

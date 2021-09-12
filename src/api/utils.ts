@@ -43,11 +43,8 @@ const requestBuilder =
       headers,
     };
 
-    console.log(requestConfig);
-
     return axios(requestConfig)
       .then((res: any) => {
-        console.log(apiUrl, res);
         return res;
       })
       .catch((err: AxiosError) => {

@@ -45,8 +45,6 @@ export const App: React.FC = () => {
     }
   );
 
-  console.log("user", user);
-
   // Fetch file tree data on mount
   const { data: initialFileTree, isFetched: isFetchedFileTree } =
     useQuery<FileTreeInterface>(
