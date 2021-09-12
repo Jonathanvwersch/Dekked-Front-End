@@ -86,7 +86,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     },
   });
 
-  console.log(srFlashcards);
 
   const handleSpacedRepetitionButton = (
     flipCard?: boolean,

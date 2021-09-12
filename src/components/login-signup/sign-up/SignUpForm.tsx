@@ -7,7 +7,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../../helpers";
-import { register } from "../../../api/authentication/registerApi";
+import { register } from "../../../api";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
@@ -66,11 +66,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   useEffect(() => {
-    if (data && !data.userData?.success) {
-      setErrorMessage(!data?.userData?.success);
-      setErrorCode(data?.errorCode);
+    if (data?.status !== 200) {
+      setErrorMessage(true);
+      setErrorCode(data?.status);
     }
-    if (data?.userData?.success) {
+    if (data?.status === 200) {
       history.push("/login");
     }
     if (errorCode === 400) {

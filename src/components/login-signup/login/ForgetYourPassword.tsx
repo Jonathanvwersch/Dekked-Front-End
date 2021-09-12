@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import { SignUpForm, LogInForm } from ".";
-import { SIZES } from "../../shared";
 import {
   Flex,
   ShadowCard,
@@ -10,26 +8,24 @@ import {
   H1,
   FullLogoIcon,
   Link as DekkedLink,
+  SIZES,
 } from "dekked-design-system";
 import { FormattedMessage } from "react-intl";
-import { InternalLink } from "../common";
+import { InternalLink } from "../../common";
+import ForgetYourPasswordForm from "./ForgetYourPasswordForm";
 
-interface LogInSignUpProps {
+interface ForgetYourPasswordProps {
   login: boolean;
 }
 
-const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
+const ForgetYourPassword: React.FC<ForgetYourPasswordProps> = () => {
   const theme = useContext(ThemeContext);
-  const header = login ? "forms.logIn.logIn" : "forms.signUp.signUp";
-  const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
-  const link = login ? "forms.signUp.signUp" : "forms.logIn.logIn";
-  const slug = login ? "/sign-up" : "/login";
 
   return (
     <Flex
       flexDirection="column"
-      px={theme.spacers.size16}
-      py={theme.spacers.size64}
+      mx={theme.spacers.size16}
+      my={theme.spacers.size128}
     >
       <FormCard padding={`${theme.spacers.size32} ${theme.spacers.size20}`}>
         <DekkedLink
@@ -45,21 +41,19 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
           <FullLogoIcon height="32px" color={theme.colors.primary} />
         </DekkedLink>
         <H1 styledAs="h4" textAlign="center">
-          <FormattedMessage id={header} />
+          <FormattedMessage id="forms.forgetYourPassword.resetYourPassword" />
         </H1>
         <Spacer height={theme.spacers.size32} />
-        {login ? <LogInForm /> : <SignUpForm />}
+        <ForgetYourPasswordForm />
       </FormCard>
-      <Spacer height={theme.spacers.size32} />
+      <Spacer height={theme.spacers.size16} />
       <Text fontSize={theme.typography.fontSizes.size16}>
-        <FormattedMessage id={linkText} />
         <InternalLink
-          to={`${slug}`}
-          fontSize={theme.typography.fontSizes.size16}
+          to="/login"
+          fontSize={theme.typography.fontSizes.size14}
           textDecoration="underline"
         >
-          {" "}
-          <FormattedMessage id={link} />
+          <FormattedMessage id="forms.forgetYourPassword.goBackToLogin" />
         </InternalLink>
       </Text>
       <Spacer height={theme.spacers.size32} />
@@ -72,4 +66,4 @@ const FormCard = styled(ShadowCard)`
   overflow: unset;
 `;
 
-export default LogInSignUp;
+export default ForgetYourPassword;

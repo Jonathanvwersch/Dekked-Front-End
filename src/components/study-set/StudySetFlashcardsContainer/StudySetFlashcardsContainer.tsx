@@ -13,10 +13,7 @@ import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Params } from "../../../shared";
-import {
-  getDeckByStudySetId,
-  getFlashcardsByDeckId,
-} from "../../../api/flashcards/flashcardsApi";
+import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../api";
 
 interface StudySetFlashcardsContainerProps {}
 
@@ -44,9 +41,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       { refetchOnReconnect: false, refetchOnWindowFocus: false }
     );
 
-    const { data: fetchedFlashcards, isLoading } = useQuery<
-      FlashcardInterface[]
-    >(
+    const { data: fetchedFlashcards, isLoading } = useQuery(
       `${studySetId}-get-flashcards`,
       () => getFlashcardsByDeckId({ deckId: deck?.id }),
       {
@@ -70,7 +65,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
           <>
             {flashcards && !isEmpty(flashcards) ? (
               <>
-                {flashcards.map(
+                {flashcards?.map(
                   (flashcard: FlashcardInterface, index: number) => (
                     <Fragment key={flashcard?.id}>
                       <StudySetFlashcard

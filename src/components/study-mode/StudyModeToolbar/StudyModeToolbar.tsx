@@ -12,7 +12,7 @@ import {
   Flex,
 } from "dekked-design-system";
 import { useKeyPress } from "../../../hooks";
-import { deleteFlashcard } from "../../../api/flashcards/flashcardsApi";
+import { deleteFlashcard } from "../../../api";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import {
   flashcardsAtom,

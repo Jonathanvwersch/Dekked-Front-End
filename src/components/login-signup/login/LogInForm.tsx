@@ -15,7 +15,7 @@ import {
 } from "../../../helpers";
 
 import { useHistory } from "react-router-dom";
-import { login } from "../../../api/authentication/loginApi";
+import { login } from "../../../api";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 import { emailFromSignUpAtom, userAtom } from "../../../store";
@@ -23,6 +23,7 @@ import { useAtom } from "jotai";
 import { FormattedMessage } from "react-intl";
 import GoogleOAuth from "../GoogleOAuth/GoogleOAuth";
 import { Button, Divider, Flex, Input, Spacer } from "dekked-design-system";
+import { InternalLink } from "../../common";
 
 interface LogInFormProps {}
 
@@ -53,18 +54,20 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     logIn({ email_address: emailAddress, password });
   };
 
+  console.log(data);
+
   useEffect(() => {
-    if (data?.userData?.success === false) {
-      setErrorMessage(!data?.userData?.success);
-      setErrorCode(data?.errorCode);
-    } else if (data?.userData?.success) {
-      const token = data?.userData?.data?.token;
+    if (data?.status !== 200) {
+      setErrorMessage(true);
+      setErrorCode(data?.status);
+    } else if (data?.status === 200) {
+      const token = data?.token;
       setSessionCookie(token);
       setUser({
-        id: data?.userData?.data?.id,
-        last_name: data?.userData?.data?.first_name,
-        first_name: data?.userData?.data?.last_name,
-        email_address: data?.userData?.data?.email_address,
+        id: data?.id,
+        last_name: data?.first_name,
+        first_name: data?.last_name,
+        email_address: data?.email_address,
       });
       const logInInterval = setInterval(() => {
         setSessionCookie(token);
@@ -115,6 +118,12 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           showPassword
           clearButton={false}
         />
+        <InternalLink
+          to="/login/forget-your-password"
+          textDecoration="underline"
+        >
+          <FormattedMessage id="forms.forgetYourPassword.forgetYourPassword" />
+        </InternalLink>
         <Spacer height={theme.spacers.size32} />
         <Button
           size={SIZES.MEDIUM}
@@ -124,7 +133,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           type={BUTTON_TYPES.SUBMIT}
           isLoading={isLoading}
         >
-          {formatMessage("forms.logIn.logIn")}
+          <FormattedMessage id="forms.logIn.logIn" />
         </Button>
         <Spacer height={theme.spacers.size32} />
         <Flex>

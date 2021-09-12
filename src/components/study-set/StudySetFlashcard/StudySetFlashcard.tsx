@@ -31,11 +31,7 @@ import {
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
 import { useMutation, useQueryClient } from "react-query";
-import {
-  addFlashcard,
-  deleteFlashcard,
-  saveFlashcard,
-} from "../../../api/flashcards/flashcardsApi";
+import { addFlashcard, deleteFlashcard, saveFlashcard } from "../../../api";
 import {
   addedLinkedFlashcardAtom,
   deckAtom,
@@ -125,10 +121,12 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     `${studySetId}-add-flashcard`,
     addFlashcard,
     {
-      onSuccess: async (data: { fullFlashcard: FlashcardInterface }) => {
+      onSuccess: async (flashcard: FlashcardInterface) => {
+        console.log("flashcard", flashcard);
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) => {
           const allFlashcards = prevState || [];
-          allFlashcards?.push(data?.fullFlashcard);
+          console.log("allFlashcards", allFlashcards);
+          allFlashcards?.push(flashcard);
           return allFlashcards;
         });
         queryClient.refetchQueries(
@@ -179,7 +177,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     {
       onSuccess: (data, { flashcard_id }) => {
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
-          updateFlashcards(prevState, data?.fullFlashcard, flashcard_id)
+          updateFlashcards(prevState, data, flashcard_id)
         );
         closeModal && closeModal();
       },

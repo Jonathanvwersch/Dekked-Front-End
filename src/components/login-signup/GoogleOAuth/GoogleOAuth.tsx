@@ -10,7 +10,7 @@ import {
 import { userAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useHistory } from "react-router-dom";
-import { googleAuthentication } from "../../../api/authentication/googleAuthenticationApi";
+import { googleAuthentication } from "../../../api";
 import { getSessionCookie, setSessionCookie } from "../../../helpers";
 import { config } from "../../../config";
 import { Button, GoogleIcon, Spacer } from "dekked-design-system";
@@ -47,14 +47,14 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
       });
 
       setUser({
-        id: authenticationResponse?.userData?.data?.id,
-        first_name: authenticationResponse?.userData?.data?.first_name,
-        last_name: authenticationResponse?.userData?.data?.last_name,
-        email_address: authenticationResponse?.userData?.data?.email_address,
+        id: authenticationResponse?.id,
+        first_name: authenticationResponse?.first_name,
+        last_name: authenticationResponse?.last_name,
+        email_address: authenticationResponse?.email_address,
       });
 
-      if (authenticationResponse?.userData?.data?.token)
-        setSessionCookie(authenticationResponse?.userData?.data?.token);
+      if (authenticationResponse?.token)
+        setSessionCookie(authenticationResponse?.token);
       else {
         setErrorMessage && setErrorMessage(true);
         setErrorCode && setErrorCode(500);

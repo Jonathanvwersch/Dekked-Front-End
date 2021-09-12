@@ -100,6 +100,17 @@ const en_GB = {
       oAuth: {
         continueWithGoogle: "Continue with Google",
       },
+      forgetYourPassword: {
+        forgetYourPassword: "Forget your password?",
+        resetYourPassword: "Reset your password",
+        goBackToLogin: "Go back to login",
+        bodyText:
+          "To reset your password, enter the email address you use to log in",
+        getResetLink: "Get reset link",
+        checkYourEmail: "Check your email",
+        checkYourEmailBody:
+          "Check the inbox of {email}, for further instructions from us on how to reset your password.",
+      },
       password: {
         password: "Password",
         newPassword: "New password",

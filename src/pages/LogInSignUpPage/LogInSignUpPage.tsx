@@ -9,9 +9,4 @@ const LogInPage: React.FC<LogInPageProps> = ({ login }) => {
   return <LogInSignUp login={login} />;
 };
 
-// const StyledLink = styled.a`
-//   padding: ${({ theme }) => theme.spacers.size32};
-//   position: absolute;
-// `;
-
 export default LogInPage;

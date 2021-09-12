@@ -22,9 +22,10 @@ import {
   studySetsAtom,
   userAtom,
 } from "./store";
-import { getUser } from "./api/authentication/getUserApi";
+import { getUser } from "./api";
 import { UserType } from "./shared";
 import { theme } from "dekked-design-system";
+import ForgetYourPassword from "./components/login-signup/login/ForgetYourPassword";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -43,6 +44,8 @@ export const App: React.FC = () => {
       retry: 5,
     }
   );
+
+  console.log("user", user);
 
   // Fetch file tree data on mount
   const { data: initialFileTree, isFetched: isFetchedFileTree } =
@@ -164,6 +167,13 @@ export const App: React.FC = () => {
                 exact
                 path="/login"
                 render={() => <LogInSignUpPage login />}
+              >
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Route
+                exact
+                path="/login/forget-your-password"
+                component={ForgetYourPassword}
               >
                 {getSessionCookie() && <Redirect to="/" />}
               </Route>
