@@ -88,10 +88,10 @@ export const resetPassword = async ({
   newPassword: string;
   token: string;
 }) => {
-  const input = { password: newPassword };
+  const input = { password: newPassword, token };
 
   const response = await patch({
-    apiUrl: `/reset-password/${token}`,
+    apiUrl: `/reset-password`,
     body: input,
     noAuthorisation: true,
   });

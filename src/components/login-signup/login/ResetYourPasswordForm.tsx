@@ -109,7 +109,7 @@ const ForgetYourPasswordForm: React.FC<ForgetYourPasswordFormProps> = () => {
               isDisabled={isSubmitButtonDisabled()}
               type={BUTTON_TYPES.SUBMIT}
             >
-              <FormattedMessage id="forms.forgetYourPassword.getResetLink" />
+              <FormattedMessage id="forms.forgetYourPassword.resetPassword" />
             </Button>
           </form>
         </>

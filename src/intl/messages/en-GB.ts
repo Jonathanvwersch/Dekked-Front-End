@@ -112,6 +112,7 @@ const en_GB = {
         userDoesNotExistEmail: "No user exists with that email address",
         userDoesNotExistToken: "No user exists with that reset token",
         goToLogin: "Go to login",
+        resetPassword: "Reset password",
         passwordReset:
           "Your password has been successfully reset. You can now log in using your new credentials.",
       },
