@@ -7,9 +7,14 @@ import { ClearIcon, ErrorIcon } from "dekked-design-system";
 interface LogInFormProps {
   setShowError: React.Dispatch<React.SetStateAction<boolean>>;
   errorCode?: number;
+  custom404Message?: string;
 }
 
-const LogInForm: React.FC<LogInFormProps> = ({ setShowError, errorCode }) => {
+const LogInForm: React.FC<LogInFormProps> = ({
+  setShowError,
+  errorCode,
+  custom404Message,
+}) => {
   const theme = useContext(ThemeContext);
   return (
     <>
@@ -26,7 +31,7 @@ const LogInForm: React.FC<LogInFormProps> = ({ setShowError, errorCode }) => {
               <FormattedMessage
                 id={
                   errorCode === 401 || errorCode === 404
-                    ? "forms.logIn.noUserExists"
+                    ? custom404Message || "forms.logIn.noUserExists"
                     : errorCode === 400
                     ? "forms.signUp.accountExists"
                     : "generics.somethingWentWrong"

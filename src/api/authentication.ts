@@ -1,4 +1,4 @@
-import { post } from "./utils";
+import { patch, post } from "./utils";
 
 export const googleAuthentication = async ({
   token,
@@ -63,4 +63,38 @@ export const register = async ({
   });
 
   return { ...response.data, status: response.status };
+};
+
+export const forgetPassword = async ({
+  email_address,
+}: {
+  email_address: string;
+}): Promise<UserInterface & { success: boolean; status: number }> => {
+  const input = { email_address };
+
+  const response = await patch({
+    apiUrl: "/forget-password",
+    body: input,
+    noAuthorisation: true,
+  });
+
+  return { ...response.data, status: response.status };
+};
+
+export const resetPassword = async ({
+  token,
+  newPassword,
+}: {
+  newPassword: string;
+  token: string;
+}) => {
+  const input = { password: newPassword };
+
+  const response = await patch({
+    apiUrl: `/reset-password/${token}`,
+    body: input,
+    noAuthorisation: true,
+  });
+
+  return response;
 };

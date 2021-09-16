@@ -170,8 +170,15 @@ export const App: React.FC = () => {
               </Route>
               <Route
                 exact
-                path="/login/forget-your-password"
+                path="/forget-password"
                 component={ForgetYourPassword}
+              >
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Route
+                exact
+                path="/reset-password/:token"
+                component={() => <ForgetYourPassword isResetPage />}
               >
                 {getSessionCookie() && <Redirect to="/" />}
               </Route>

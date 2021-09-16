@@ -116,10 +116,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           showPassword
           clearButton={false}
         />
-        <InternalLink
-          to="/login/forget-your-password"
-          textDecoration="underline"
-        >
+        <InternalLink to="/forget-password" textDecoration="underline">
           <FormattedMessage id="forms.forgetYourPassword.forgetYourPassword" />
         </InternalLink>
         <Spacer height={theme.spacers.size32} />

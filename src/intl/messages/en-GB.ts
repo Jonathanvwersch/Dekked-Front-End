@@ -107,9 +107,13 @@ const en_GB = {
         bodyText:
           "To reset your password, enter the email address you use to log in",
         getResetLink: "Get reset link",
-        checkYourEmail: "Check your email",
-        checkYourEmailBody:
-          "Check the inbox of {email}, for further instructions from us on how to reset your password.",
+        checkYourEmail:
+          "An email has been sent to the inbox of {email} with further instructions from us on how to reset your password.",
+        userDoesNotExistEmail: "No user exists with that email address",
+        userDoesNotExistToken: "No user exists with that reset token",
+        goToLogin: "Go to login",
+        passwordReset:
+          "Your password has been successfully reset. You can now log in using your new credentials.",
       },
       password: {
         password: "Password",

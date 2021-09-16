@@ -32,7 +32,7 @@ const requestBuilder =
       "Content-type": "application/json",
     };
 
-    if (!noAuthorisation) {
+    if (!noAuthorisation && getSessionCookie()) {
       headers["Authorization"] = `Bearer ${getSessionCookie()}`;
     }
 
@@ -48,18 +48,8 @@ const requestBuilder =
         return res;
       })
       .catch((err: AxiosError) => {
-        if (err.response) {
-          const errorResponse = err.response.data;
-          const errorStatus = err.response.status;
-
-          if (errorResponse.exception) {
-            throw Error(`${errorStatus}: ${errorMessage}`);
-          } else {
-            throw err;
-          }
-        } else {
-          console.error(err);
-        }
+        console.error(err);
+        return err.response;
       });
   };
 

@@ -13,12 +13,15 @@ import {
 import { FormattedMessage } from "react-intl";
 import { InternalLink } from "../../common";
 import ForgetYourPasswordForm from "./ForgetYourPasswordForm";
+import ResetYourPasswordForm from "./ResetYourPasswordForm";
 
 interface ForgetYourPasswordProps {
-  login: boolean;
+  isResetPage: boolean;
 }
 
-const ForgetYourPassword: React.FC<ForgetYourPasswordProps> = () => {
+const ForgetYourPassword: React.FC<ForgetYourPasswordProps> = ({
+  isResetPage,
+}) => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -44,19 +47,29 @@ const ForgetYourPassword: React.FC<ForgetYourPasswordProps> = () => {
           <FormattedMessage id="forms.forgetYourPassword.resetYourPassword" />
         </H1>
         <Spacer height={theme.spacers.size32} />
-        <ForgetYourPasswordForm />
+        {isResetPage ? (
+          <>
+            <ResetYourPasswordForm />
+          </>
+        ) : (
+          <ForgetYourPasswordForm />
+        )}
       </FormCard>
       <Spacer height={theme.spacers.size16} />
-      <Text fontSize={theme.typography.fontSizes.size16}>
-        <InternalLink
-          to="/login"
-          fontSize={theme.typography.fontSizes.size14}
-          textDecoration="underline"
-        >
-          <FormattedMessage id="forms.forgetYourPassword.goBackToLogin" />
-        </InternalLink>
-      </Text>
-      <Spacer height={theme.spacers.size32} />
+      {!isResetPage && (
+        <>
+          <Text fontSize={theme.typography.fontSizes.size16}>
+            <InternalLink
+              to="/login"
+              fontSize={theme.typography.fontSizes.size14}
+              textDecoration="underline"
+            >
+              <FormattedMessage id="forms.forgetYourPassword.goBackToLogin" />
+            </InternalLink>
+          </Text>
+          <Spacer height={theme.spacers.size32} />
+        </>
+      )}
     </Flex>
   );
 };

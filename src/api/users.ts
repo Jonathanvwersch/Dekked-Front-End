@@ -1,4 +1,4 @@
-import { get, patch } from "./utils";
+import { get, patch, post } from "./utils";
 import { AxiosResponse } from "axios";
 
 export const updateUser = async ({
@@ -24,6 +24,20 @@ export const getUser = async (): Promise<UserInterface> => {
   const response: AxiosResponse<UserInterface> = await get({
     apiUrl: "/user",
     errorMessage: "There was an error getting the user",
+  });
+  return response.data;
+};
+
+export const verifyUserEmail = async ({
+  email_address,
+}: {
+  email_address: string;
+}): Promise<{ success: boolean }> => {
+  const response: AxiosResponse<{ success: boolean }> = await post({
+    apiUrl: "/verify-user-email",
+    errorMessage: "There was an error verifying the email address",
+    body: { email_address },
+    noAuthorisation: true,
   });
   return response.data;
 };
