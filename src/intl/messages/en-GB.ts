@@ -12,6 +12,7 @@ const en_GB = {
       clickToMinimise: "Click to minimise",
       finish: "Finish",
       add: "Add",
+      here: "here",
       saving: "Saving",
       okay: "Okay",
       loggingOut: "Logging out...",
@@ -99,6 +100,23 @@ const en_GB = {
     forms: {
       oAuth: {
         continueWithGoogle: "Continue with Google",
+      },
+      forgetYourPassword: {
+        forgetYourPassword: "Forget your password?",
+        resetYourPassword: "Reset your password",
+        goBackToLogin: "Go back to login",
+        bodyText:
+          "To reset your password, enter the email address you use to log in",
+        getResetLink: "Get reset link",
+        checkYourEmail:
+          "An email has been sent to the inbox of {email} with further instructions from us on how to reset your password.",
+        userDoesNotExistEmail: "No user exists with that email address",
+        userDoesNotExistToken: "No user exists with that reset token",
+        goToLogin: "Go to login",
+        resetPassword: "Reset password",
+        passwordReset:
+          "Your password has been successfully reset. You can now log in using your new credentials.",
+        passwordResetExpired: "This link to reset your password has expired",
       },
       password: {
         password: "Password",

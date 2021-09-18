@@ -1,65 +1,55 @@
 import { EditorState } from "draft-js";
-
-import { createKeysAndBlocks } from "../../components/notetaking/Editor/Editor.helpers";
-import { config } from "../../config";
-import { getSessionCookie } from "../../helpers";
-import { FlashcardLearningStatus, FlashcardQuality } from "../../shared";
+import { createKeysAndBlocks } from "../components/notetaking/Editor/Editor.helpers";
+import { FlashcardLearningStatus, FlashcardQuality } from "../shared";
+import { del, get, patch, post } from "./utils";
+import { AxiosResponse } from "axios";
 
 export const getDeckByStudySetId = async ({
   studySetId,
 }: {
   studySetId: string;
-}) => {
-  const uri = config.API + `/get-deck-by-study-set-id/${studySetId}`;
-  const response = await fetch(uri, {
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-    },
+}): Promise<DeckInterface> => {
+  const response: AxiosResponse<DeckInterface> = await get({
+    apiUrl: `/get-deck-by-study-set-id/${studySetId}`,
+    errorMessage: "There was an error getting the deck by study set id",
   });
-  const json = await response.json();
-  return json.data.deck;
+
+  return response.data;
 };
 
-export const getAllDueSrDecks = async () => {
-  const uri = config.API + `/get-all-due-sr-decks`;
-  const response = await fetch(uri, {
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-    },
+export const getAllDueSrDecks = async (): Promise<DueSpacedRepetitionDecks> => {
+  const response: AxiosResponse<DueSpacedRepetitionDecks> = await get({
+    apiUrl: `/get-all-due-sr-decks`,
+    errorMessage:
+      "There was an error getting all of the due spaced repetition decks",
   });
-
-  const json = await response.json();
-  return json.data.decks;
+  return response.data;
 };
 
-export const getFlashcardsByDeckId = async ({ deckId }: { deckId: string }) => {
-  const uri = config.API + `/get-flashcards-by-deck-id/${deckId}`;
-  const response = await fetch(uri, {
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-    },
+export const getFlashcardsByDeckId = async ({
+  deckId,
+}: {
+  deckId?: string;
+}): Promise<FlashcardInterface[]> => {
+  const response: AxiosResponse<FlashcardInterface[]> = await get({
+    apiUrl: `/get-flashcards-by-deck-id/${deckId}`,
+    errorMessage: "There was an error getting the deck by deck id",
   });
 
-  const json = await response.json();
-  return json.data.flashcards;
+  return response.data;
 };
 
 export const getSpacedRepetitionFlashcardsByDeckId = async ({
   deckId,
 }: {
   deckId: string;
-}) => {
-  const uri = config.API + `/get-sr-flashcards-by-deck-id/${deckId}`;
-  const response = await fetch(uri, {
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-    },
+}): Promise<FlashcardInterface[]> => {
+  const response: AxiosResponse<FlashcardInterface[]> = await get({
+    apiUrl: `/get-sr-flashcards-by-deck-id/${deckId}`,
+    errorMessage:
+      "There was an error getting the spaced repetition flashcard by deck id",
   });
-
-  const json: { data: { flashcards: FlashcardInterface[] } } =
-    await response.json();
-
-  return json.data.flashcards;
+  return response.data;
 };
 
 export const saveFlashcard = async ({
@@ -81,8 +71,6 @@ export const saveFlashcard = async ({
   interval?: number;
   learningStatus?: FlashcardLearningStatus;
 }) => {
-  const url = config.API + `/flashcard/${flashcard_id}`;
-
   const payload: {
     flashcard_id: string | undefined;
     owner_id: string | undefined;
@@ -117,16 +105,13 @@ export const saveFlashcard = async ({
     payload["back_blocks"] = back_blocks;
   }
 
-  const response = await fetch(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getSessionCookie()}`,
-    },
-    body: JSON.stringify(payload),
+  const response: AxiosResponse<FlashcardInterface> = await patch({
+    apiUrl: `/flashcard/${flashcard_id}`,
+    errorMessage: "There was an error updating the flashcard",
+    body: payload,
   });
 
-  return await response.json();
+  return response.data;
 };
 
 export const addFlashcard = async ({
@@ -143,15 +128,15 @@ export const addFlashcard = async ({
   block_link?: string;
   frontFlashcardEditorState?: EditorState;
   backFlashcardEditorState?: EditorState;
-}) => {
-  let body = {};
+}): Promise<FlashcardInterface> => {
+  let payload = {};
   if (frontFlashcardEditorState && backFlashcardEditorState) {
     const { keys: frontKeys, blocks: frontBlocks } =
       frontFlashcardEditorState &&
       createKeysAndBlocks(frontFlashcardEditorState);
     const { keys: backKeys, blocks: backBlocks } =
       backFlashcardEditorState && createKeysAndBlocks(backFlashcardEditorState);
-    body = {
+    payload = {
       study_set_id,
       owner_id,
       deck_id,
@@ -162,25 +147,21 @@ export const addFlashcard = async ({
       back_draft_keys: backKeys,
     };
   } else {
-    body = {
+    payload = {
       study_set_id: study_set_id,
       owner_id: owner_id,
       deck_id,
       block_link: block_link,
     };
   }
-  const uri = config.API + "/flashcard";
-  const response = await fetch(uri, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(body),
+
+  const response: AxiosResponse<FlashcardInterface> = await post({
+    apiUrl: `/flashcard`,
+    errorMessage: "There was an error creating the flashcard",
+    body: payload,
   });
 
-  const json = await response.json();
-  return json;
+  return response.data;
 };
 
 export const deleteFlashcard = async ({
@@ -188,14 +169,10 @@ export const deleteFlashcard = async ({
 }: {
   flashcard_id?: string;
 }) => {
-  const uri = config.API + `/flashcard/${flashcard_id}`;
-  const response = await fetch(uri, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${getSessionCookie()}`,
-      "Content-type": "application/json",
-    },
+  const response = await del({
+    apiUrl: `/flashcard/${flashcard_id}`,
+    errorMessage: "There was an error deleting the flashcard",
   });
-  const json = await response.json();
-  return json;
+
+  return response.data;
 };

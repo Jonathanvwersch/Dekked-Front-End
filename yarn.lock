@@ -3063,6 +3063,13 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.1.tgz"
   integrity sha512-5Kgy8Cz6LPC9DJcNb3yjAXTu3XihQgEdnIg50c//zOC/MyLP0Clg+Y8Sh9ZjjnvBrDZU4DgXS9C3T9r4/scGZQ==
 
+axios@^0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
+
 axobject-query@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz"
@@ -4736,10 +4743,10 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
-dekked-design-system@^1.5.6:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/dekked-design-system/-/dekked-design-system-1.5.6.tgz#bcff4f00535c4b468ba02e96cc58f77cff48d391"
-  integrity sha512-sfypI4DLcXrDjhiWlGOAzOY+Dr8j9bLw3x1WMoMo5V/197iOoD7yB/+cbjAciaHChH7a+W8IOeGuXKQmMorA2Q==
+dekked-design-system@^1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/dekked-design-system/-/dekked-design-system-1.5.11.tgz#7668df21c6a8343f41fddef2df247f86b4a360bf"
+  integrity sha512-pHIH6wz+V/5zsAulvIubi0LAF9VcVg7sEvQp/aBw83TP+aOY3B9g4o8rmbDH7iBWxOaEucb9sZyIXaIPDpdeUA==
   dependencies:
     "@types/react-select" "^4.0.17"
     "@types/styled-components" "^5.1.12"
@@ -5913,6 +5920,11 @@ follow-redirects@^1.0.0:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.2.tgz"
   integrity sha512-6mPTgLxYm3r6Bkkg0vNM0HTjfGrOEtsfbhagQvbxDEsEkpNhw582upBaoRZylzen6krEmxXJgt9Ju6HiI4O7BA==
+
+follow-redirects@^1.14.0:
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
+  integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
 
 for-in@^1.0.2:
   version "1.0.2"

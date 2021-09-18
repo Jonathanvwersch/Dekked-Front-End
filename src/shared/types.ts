@@ -16,6 +16,7 @@ export type Params = {
   type: FILETREE_TYPES;
   flashcardIndex: string;
   studyModes: STUDY_MODE_TYPES;
+  token: string;
 };
 
 export type CoordsType = {

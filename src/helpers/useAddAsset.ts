@@ -3,9 +3,7 @@ import { useCallback, useContext } from "react";
 import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { addBinder } from "../api/file-structure/bindersApi";
-import { addFolder } from "../api/file-structure/foldersApi";
-import { addStudySet } from "../api/file-structure/studySetsApi";
+import { addBinder, addFolder, addStudySet } from "../api";
 import { FILETREE_TYPES } from "../shared";
 import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 

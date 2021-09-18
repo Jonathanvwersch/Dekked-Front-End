@@ -44,7 +44,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       data: fetchedFlashcards,
       isLoading: isFlashcardsLoading,
       isFetching: isFlashcardsFetching,
-    } = useQuery<FlashcardInterface[]>(
+    } = useQuery(
       `${studySetId}-get-flashcards`,
       () => getFlashcardsByDeckId({ deckId: deck?.id }),
       {
@@ -58,7 +58,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       data: fetchedSrFlashcards,
       isLoading: isSrFlashcardsLoading,
       isFetching: isSrFlashcardsFetching,
-    } = useQuery<FlashcardInterface[]>(
+    } = useQuery(
       `${studySetId}-get-sr-flashcards`,
       () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
       {

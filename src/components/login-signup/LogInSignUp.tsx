@@ -1,9 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { SignUpForm, LogInForm } from ".";
 import { SIZES } from "../../shared";
-import { usePageSetupHelpers } from "../../hooks";
 import {
   Flex,
   ShadowCard,
@@ -14,13 +12,14 @@ import {
   Link as DekkedLink,
 } from "dekked-design-system";
 import { FormattedMessage } from "react-intl";
+import { InternalLink } from "../common";
 
 interface LogInSignUpProps {
   login: boolean;
 }
 
 const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
-  const { theme, formatMessage } = usePageSetupHelpers();
+  const theme = useContext(ThemeContext);
   const header = login ? "forms.logIn.logIn" : "forms.signUp.signUp";
   const linkText = login ? "forms.logIn.noAccount" : "forms.signUp.haveAccount";
   const link = login ? "forms.signUp.signUp" : "forms.logIn.logIn";
@@ -53,8 +52,15 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
       </FormCard>
       <Spacer height={theme.spacers.size32} />
       <Text fontSize={theme.typography.fontSizes.size16}>
-        {formatMessage(linkText)}
-        <StyledLink to={`${slug}`}> {formatMessage(link)}</StyledLink>
+        <FormattedMessage id={linkText} />
+        <InternalLink
+          to={`${slug}`}
+          fontSize={theme.typography.fontSizes.size16}
+          textDecoration="underline"
+        >
+          {" "}
+          <FormattedMessage id={link} />
+        </InternalLink>
       </Text>
       <Spacer height={theme.spacers.size32} />
     </Flex>
@@ -64,17 +70,6 @@ const LogInSignUp: React.FC<LogInSignUpProps> = ({ login }) => {
 const FormCard = styled(ShadowCard)`
   max-width: ${({ theme }) => theme.sizes.modal[SIZES.LARGE]};
   overflow: unset;
-`;
-
-const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.colors.primary};
-  &:hover {
-    filter: ${({ theme }) => theme.colors.hover.filter};
-    text-decoration: underline;
-  }
-  &:active {
-    color: ${({ theme }) => theme.colors.active.filter};
-  }
 `;
 
 export default LogInSignUp;
