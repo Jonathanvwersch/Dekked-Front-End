@@ -3,9 +3,7 @@ import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { getSessionCookie } from ".";
-import { deleteBinder } from "../api/file-structure/bindersApi";
-import { deleteFolder } from "../api/file-structure/foldersApi";
-import { deleteStudySet } from "../api/file-structure/studySetsApi";
+import { deleteBinder, deleteFolder, deleteStudySet } from "../api";
 import { FILETREE_TYPES, Params } from "../shared";
 import {
   bindersAtom,

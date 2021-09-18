@@ -12,10 +12,7 @@ import React, {
 } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import {
-  getBlocksByPageId,
-  savePage,
-} from "../../api/note-taking/noteTakingApi";
+import { getBlocksByPageId, savePage } from "../../api";
 import { Params } from "../../shared";
 import { currentBlockAtom, pageEditorStateAtom } from "../../store";
 import {
@@ -44,14 +41,14 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
 
   const pageId = blocks?.pageId;
 
-  const { mutate: _savePage } = useMutation(
+  const { mutate: updatePage } = useMutation(
     `${studySetId}-save-notes`,
-    (editorState: EditorState) => pageId && savePage({ editorState, pageId })
+    (editorState: EditorState) => savePage({ editorState, pageId })
   );
 
   // Set editor state on mount with the blocks
   useLayoutEffect(() => {
-    if (blocks?.data && !isEmpty(blocks?.data)) {
+    if (blocks && !isEmpty(blocks)) {
       const savedState = convertBlocksToContent(blocks?.data);
       setEditorState(EditorState.createWithContent(savedState));
     } else {
@@ -61,7 +58,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState) => _savePage(editorState),
+    (editorState: EditorState) => pageId && updatePage(editorState),
     1000
   );
 

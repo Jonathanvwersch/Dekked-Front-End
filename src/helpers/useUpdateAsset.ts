@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { getSessionCookie } from ".";
-import { updateAsset } from "../api/file-structure/assetsApi";
+import { updateAsset } from "../api";
 import { updateAssetAtom } from "../store";
 
 export const useUpdateAsset = () => {

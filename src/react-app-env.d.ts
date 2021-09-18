@@ -29,12 +29,12 @@ interface FileTreeInterface {
 }
 interface BinderInterface {
   id: string;
-  owner_id: string;
   folder_id: string;
-  date_created?: string;
-  date_modified?: string;
   name: string;
   color: string;
+  owner_id?: string;
+  date_created?: string;
+  date_modified?: string;
 }
 interface FolderInterface {
   id: string;
@@ -84,11 +84,11 @@ interface FlashcardInterface {
 }
 
 interface UserInterface {
-  id: string;
   email_address: string;
   first_name: string;
   last_name: string;
   password: string;
+  id: string;
   date_created?: string;
   date_modified?: string;
 }
@@ -114,4 +114,11 @@ interface DueSpacedRepetitionDecks {
     number_of_learning_cards: number;
     number_of_learned_cards: number;
   };
+}
+
+interface BlockInterface {
+  id: string;
+  draft_key: string;
+  parent_id: string;
+  content: string;
 }

@@ -22,9 +22,10 @@ import {
   studySetsAtom,
   userAtom,
 } from "./store";
-import { getUser } from "./api/authentication/getUserApi";
+import { getUser } from "./api";
 import { UserType } from "./shared";
 import { theme } from "dekked-design-system";
+import ForgetYourPassword from "./components/login-signup/login/ForgetYourPassword";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -164,6 +165,20 @@ export const App: React.FC = () => {
                 exact
                 path="/login"
                 render={() => <LogInSignUpPage login />}
+              >
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Route
+                exact
+                path="/forget-password"
+                component={ForgetYourPassword}
+              >
+                {getSessionCookie() && <Redirect to="/" />}
+              </Route>
+              <Route
+                exact
+                path="/reset-password/:token"
+                component={() => <ForgetYourPassword isResetPage />}
               >
                 {getSessionCookie() && <Redirect to="/" />}
               </Route>

@@ -347,7 +347,7 @@ export const createKeysAndBlocks = (editorState: EditorState) => {
   return { keys, blocks };
 };
 
-export const convertBlocksToContent = (blocks: string[]) => {
+export const convertBlocksToContent = (blocks: any[]) => {
   const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
     JSON.parse(block)
   );

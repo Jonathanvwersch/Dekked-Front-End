@@ -10,4 +10,5 @@ export { default as Block } from "./Block/Block";
 export { default as IconDropdown } from "./IconDropdown/IconDropdown";
 export { default as ThumbnailCard } from "./ThumbnailCard/ThumbnailCard";
 export { default as ButtonDropdown } from "./ButtonDropdown/ButtonDropdown";
+export { default as InternalLink } from "./InternalLink/InternalLink";
 export { ScrollerModal } from "./Modals";

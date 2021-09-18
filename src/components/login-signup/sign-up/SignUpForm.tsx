@@ -7,7 +7,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../../helpers";
-import { register } from "../../../api/authentication/registerApi";
+import { register } from "../../../api";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
@@ -29,7 +29,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [password, setPassword] = useState<string>();
   const [repeatPassword, setRepeatPassword] = useState<string>();
   const emailRef = useRef<HTMLInputElement>(null);
-  const [errorMessage, setErrorMessage] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
   const { mutate: signUp, data, isLoading } = useMutation("register", register);
   const [, setEmailFromSignUp] = useAtom(emailFromSignUpAtom);
@@ -47,7 +47,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   const handleSubmit = (event: SyntheticEvent) => {
-    setErrorMessage(false);
+    setShowError(false);
     setErrorCode(undefined);
     event.preventDefault();
 
@@ -66,11 +66,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   };
 
   useEffect(() => {
-    if (data && !data.userData?.success) {
-      setErrorMessage(!data?.userData?.success);
-      setErrorCode(data?.errorCode);
+    if (data?.status !== 200) {
+      setShowError(true);
+      setErrorCode(data?.status);
     }
-    if (data?.userData?.success) {
+    if (data?.status === 200) {
       history.push("/login");
     }
     if (errorCode === 400) {
@@ -80,14 +80,16 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
 
   return (
     <>
-      {errorMessage && errorCode && (
-        <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
-      )}
+      <ErrorMessage
+        setShowError={setShowError}
+        errorCode={errorCode}
+        custom404Message="forms.logIn.noUserExists"
+        custom401Message="forms.logIn.noUserExists"
+        custom400Message="forms.signUp.accountExists"
+        showError={showError}
+      />
       <form onSubmit={handleSubmit}>
-        <GoogleOAuth
-          setErrorMessage={setErrorMessage}
-          setErrorCode={setErrorCode}
-        />
+        <GoogleOAuth setShowError={setShowError} setErrorCode={setErrorCode} />
         <Spacer height={theme.spacers.size32} />
         <Flex>
           <Divider color={theme.colors.grey2} />
