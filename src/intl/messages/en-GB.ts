@@ -12,6 +12,7 @@ const en_GB = {
       clickToMinimise: "Click to minimise",
       finish: "Finish",
       add: "Add",
+      here: "here",
       saving: "Saving",
       okay: "Okay",
       loggingOut: "Logging out...",
@@ -115,6 +116,7 @@ const en_GB = {
         resetPassword: "Reset password",
         passwordReset:
           "Your password has been successfully reset. You can now log in using your new credentials.",
+        passwordResetExpired: "This link to reset your password has expired",
       },
       password: {
         password: "Password",

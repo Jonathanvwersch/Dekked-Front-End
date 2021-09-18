@@ -34,7 +34,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     useState<string | undefined>(emailFromSignUp);
   const [password, setPassword] = useState<string>();
   const [, setUser] = useAtom(userAtom);
-  const [errorMessage, setErrorMessage] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -48,7 +48,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const history = useHistory();
 
   const loginUser = async (emailAddress: string, password: string) => {
-    setErrorMessage(false);
+    setShowError(false);
     setErrorCode(undefined);
     window.localStorage.setItem("user-email", "");
     logIn({ email_address: emailAddress, password });
@@ -56,7 +56,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   useEffect(() => {
     if (data?.status !== 200) {
-      setErrorMessage(true);
+      setShowError(true);
       setErrorCode(data?.status);
     } else if (data?.status === 200) {
       const token = data?.token;
@@ -90,9 +90,14 @@ const LogInForm: React.FC<LogInFormProps> = () => {
 
   return (
     <>
-      {errorMessage && errorCode && (
-        <ErrorMessage setShowError={setErrorMessage} errorCode={errorCode} />
-      )}
+      <ErrorMessage
+        errorCode={errorCode}
+        custom404Message="forms.logIn.noUserExists"
+        custom401Message="forms.logIn.noUserExists"
+        custom400Message="forms.signUp.accountExists"
+        setShowError={setShowError}
+        showError={showError}
+      />
       <form onSubmit={handleSubmit}>
         <Input
           autoFocus
@@ -139,10 +144,7 @@ const LogInForm: React.FC<LogInFormProps> = () => {
           <Divider color={theme.colors.grey2} />
         </Flex>
         <Spacer height={theme.spacers.size32} />
-        <GoogleOAuth
-          setErrorCode={setErrorCode}
-          setErrorMessage={setErrorMessage}
-        />
+        <GoogleOAuth setErrorCode={setErrorCode} setShowError={setShowError} />
       </form>
     </>
   );

@@ -9,6 +9,7 @@ import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 import { resetPassword } from "../../../api";
 import { useHistory, useParams } from "react-router-dom";
+import { InternalLink } from "../../common";
 
 interface ForgetYourPasswordFormProps {}
 
@@ -62,13 +63,13 @@ const ForgetYourPasswordForm: React.FC<ForgetYourPasswordFormProps> = () => {
         </>
       ) : (
         <>
-          {showErrorMessage && errorCode && (
-            <ErrorMessage
-              setShowError={setShowErrorMessage}
-              errorCode={errorCode}
-              custom404Message="forms.forgetYourPassword.userDoesNotExistToken"
-            />
-          )}
+          <ErrorMessage
+            setShowError={setShowErrorMessage}
+            showError={showErrorMessage}
+            errorCode={errorCode}
+            custom404Message="forms.forgetYourPassword.userDoesNotExistToken"
+            custom400Message="forms.forgetYourPassword.passwordResetExpired"
+          />
           <form onSubmit={handleSubmit}>
             <Input
               size={SIZES.MEDIUM}

@@ -16,13 +16,13 @@ import { config } from "../../../config";
 import { Button, GoogleIcon, Spacer } from "dekked-design-system";
 
 interface GoogleOAuthProps {
-  setErrorMessage?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowError?: React.Dispatch<React.SetStateAction<boolean>>;
   setErrorCode?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
   setErrorCode,
-  setErrorMessage,
+  setShowError,
 }) => {
   const theme = useContext(ThemeContext);
   const [, setUser] = useAtom(userAtom);
@@ -56,7 +56,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
       if (authenticationResponse?.token)
         setSessionCookie(authenticationResponse?.token);
       else {
-        setErrorMessage && setErrorMessage(true);
+        setShowError && setShowError(true);
         setErrorCode && setErrorCode(500);
       }
 

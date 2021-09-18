@@ -7,7 +7,6 @@ import { Button, Input, Spacer, Text } from "dekked-design-system";
 import { useMutation } from "react-query";
 import { forgetPassword } from "../../../api";
 import ErrorMessage from "../ErrorMessage";
-import SendEmail from "../../../assets/images/SendEmail.png";
 
 interface ForgetYourPasswordFormProps {}
 
@@ -50,17 +49,15 @@ const ForgetYourPasswordForm: React.FC<ForgetYourPasswordFormProps> = () => {
             id={"forms.forgetYourPassword.checkYourEmail"}
             values={{ email: emailAddress }}
           />
-          <img src={SendEmail} alt="Email sent" width="100%" />
         </>
       ) : (
         <>
-          {showErrorMessage && errorCode && (
-            <ErrorMessage
-              setShowError={setShowErrorMessage}
-              errorCode={errorCode}
-              custom404Message="forms.forgetYourPassword.userDoesNotExistEmail"
-            />
-          )}
+          <ErrorMessage
+            setShowError={setShowErrorMessage}
+            errorCode={errorCode}
+            showError={showErrorMessage}
+            custom404Message="forms.forgetYourPassword.userDoesNotExistEmail"
+          />
           <form onSubmit={handleSubmit}>
             <Text as="p" fontSize={theme.typography.fontSizes.size16}>
               <FormattedMessage id="forms.forgetYourPassword.bodyText" />
