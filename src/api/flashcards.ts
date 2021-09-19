@@ -14,7 +14,7 @@ export const getDeckByStudySetId = async ({
     errorMessage: "There was an error getting the deck by study set id",
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const getAllDueSrDecks = async (): Promise<DueSpacedRepetitionDecks> => {
@@ -23,7 +23,7 @@ export const getAllDueSrDecks = async (): Promise<DueSpacedRepetitionDecks> => {
     errorMessage:
       "There was an error getting all of the due spaced repetition decks",
   });
-  return response.data;
+  return response?.data;
 };
 
 export const getFlashcardsByDeckId = async ({
@@ -36,7 +36,7 @@ export const getFlashcardsByDeckId = async ({
     errorMessage: "There was an error getting the deck by deck id",
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const getSpacedRepetitionFlashcardsByDeckId = async ({
@@ -49,7 +49,7 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
     errorMessage:
       "There was an error getting the spaced repetition flashcard by deck id",
   });
-  return response.data;
+  return response?.data;
 };
 
 export const saveFlashcard = async ({
@@ -111,7 +111,7 @@ export const saveFlashcard = async ({
     body: payload,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const addFlashcard = async ({
@@ -161,7 +161,7 @@ export const addFlashcard = async ({
     body: payload,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const deleteFlashcard = async ({
@@ -174,5 +174,5 @@ export const deleteFlashcard = async ({
     errorMessage: "There was an error deleting the flashcard",
   });
 
-  return response.data;
+  return response?.data;
 };

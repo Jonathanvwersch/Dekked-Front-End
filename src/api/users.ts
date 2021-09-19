@@ -17,7 +17,7 @@ export const updateUser = async ({
     body: input,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const getUser = async (): Promise<UserInterface> => {
@@ -25,7 +25,7 @@ export const getUser = async (): Promise<UserInterface> => {
     apiUrl: "/user",
     errorMessage: "There was an error getting the user",
   });
-  return response.data;
+  return response?.data;
 };
 
 export const verifyUserEmail = async ({
@@ -39,5 +39,5 @@ export const verifyUserEmail = async ({
     body: { email_address },
     noAuthorisation: true,
   });
-  return response.data;
+  return response?.data;
 };

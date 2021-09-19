@@ -9,7 +9,7 @@ export const getStudySets = async () => {
     errorMessage: "There was an error getting the study set",
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const addStudySet = async ({
@@ -34,7 +34,7 @@ export const addStudySet = async ({
     errorMessage: "There was an adding the study set",
     body: payload,
   });
-  return response.data;
+  return response?.data;
 };
 
 export const updateStudySet = async (
@@ -58,7 +58,7 @@ export const updateStudySet = async (
     body: payload,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const deleteStudySet = async (study_set_id: string) => {
@@ -70,5 +70,5 @@ export const deleteStudySet = async (study_set_id: string) => {
     errorMessage: "There was an error deleting the study set",
     body: payload,
   });
-  return response.data;
+  return response?.data;
 };

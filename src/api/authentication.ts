@@ -20,7 +20,7 @@ export const googleAuthentication = async ({
     errorMessage: "Google authentication failed",
   });
 
-  return { ...response.data, status: response.status };
+  return { ...response?.data, status: response?.status };
 };
 
 export const login = async ({
@@ -39,7 +39,7 @@ export const login = async ({
     errorMessage: "Failed to log in",
   });
 
-  return { ...response.data, status: response.status };
+  return { ...response?.data, status: response?.status };
 };
 
 export const register = async ({
@@ -62,7 +62,7 @@ export const register = async ({
     errorMessage: "Failed to sign up",
   });
 
-  return { ...response.data, status: response.status };
+  return { ...response?.data, status: response?.status };
 };
 
 export const forgetPassword = async ({
@@ -78,7 +78,7 @@ export const forgetPassword = async ({
     noAuthorisation: true,
   });
 
-  return { ...response.data, status: response.status };
+  return { ...response?.data, status: response?.status };
 };
 
 export const resetPassword = async ({

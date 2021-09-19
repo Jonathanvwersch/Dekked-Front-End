@@ -30,5 +30,5 @@ export const getFileTree = async () => {
     apiUrl: `/file-tree`,
     errorMessage: "here was an error getting the file tree",
   });
-  return response.data;
+  return response?.data;
 };

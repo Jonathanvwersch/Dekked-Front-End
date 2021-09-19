@@ -11,7 +11,7 @@ export const getBinders = async (): Promise<{
     errorMessage: "There was an error getting binders",
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const addBinder = async ({
@@ -27,7 +27,7 @@ export const addBinder = async ({
     body: input,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const updateBinder = async (
