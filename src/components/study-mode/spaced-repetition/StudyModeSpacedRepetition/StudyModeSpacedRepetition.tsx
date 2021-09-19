@@ -19,8 +19,7 @@ interface StudyModeSpacedRepetitionProps {}
 
 const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
   () => {
-    const [currentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
-    const [flashcardIndex] = useState<number>(currentFlashcardIndex);
+    const [flashcardIndex] = useAtom(currentFlashcardIndexAtom);
     const [numberOfLearnedCards, setNumberOfLearnedCards] = useState<number>(0);
     const [numberOfLearningCards, setNumberOfLearningCards] =
       useState<number>(0);
@@ -36,7 +35,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: !srFlashcards && currentFlashcardIndex === 0,
+        enabled: !srFlashcards && flashcardIndex === 0,
       }
     );
 
@@ -64,7 +63,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id) && currentFlashcardIndex === 0,
+        enabled: Boolean(deck?.id) && flashcardIndex === 0,
         onSuccess: (data) => setMaxLength(data?.length),
       }
     );
@@ -106,6 +105,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
             />
             <SpacedRepetitionController
               srFlashcards={srFlashcards}
+              setSrFlashcards={setSrFlashcards}
               ownerId={srFlashcards?.[flashcardIndex]?.owner_id}
               flashcardId={srFlashcards?.[flashcardIndex]?.id}
               deckId={srFlashcards?.[flashcardIndex]?.deck_id}
