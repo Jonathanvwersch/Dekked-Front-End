@@ -49,6 +49,7 @@ const requestBuilder =
       .catch((err: AxiosError) => {
         if (err.response) {
           console.error(err.response);
+          return err.response;
         } else {
           console.error(err);
         }
