@@ -1,4 +1,3 @@
-import { isEmpty } from "lodash";
 import React, { useLayoutEffect, useState } from "react";
 import { STUDY_MODE_TYPES } from "../../../shared";
 import StudyModeFlashcard from "../StudyModeFlashcard/StudyModeFlashcard";
@@ -49,7 +48,9 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         setFlashcardIndex={setFlashcardIndex}
         blockLink={currentFlashcard?.block_link}
         flashcardId={currentFlashcard?.id}
-        isFinishedStudying={maxLength === flashcardIndex || isEmpty(flashcards)}
+        isFinishedStudying={
+          maxLength === flashcardIndex || flashcards?.length === 0
+        }
         studyMode={studyMode}
         ownerId={currentFlashcard?.owner_id}
         isFlashcardsEmpty={isFlashcardsEmpty}
