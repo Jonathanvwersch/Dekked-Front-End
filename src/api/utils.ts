@@ -42,14 +42,16 @@ const requestBuilder =
       data: body,
       headers,
     };
-
     return axios(requestConfig)
       .then((res: any) => {
         return res;
       })
       .catch((err: AxiosError) => {
-        console.error(err);
-        return err.response;
+        if (err.response) {
+          console.error(err.response);
+        } else {
+          console.error(err);
+        }
       });
   };
 
