@@ -10,7 +10,7 @@ const getPageByStudySetId = async (
     apiUrl: `/get-page-by-study-set-id/${studySetId}`,
     errorMessage: "There was an error getting the page by study set id",
   });
-  return response.data;
+  return response?.data;
 };
 
 export const getBlocksByPageId = async ({
@@ -47,5 +47,5 @@ export const savePage = async ({
     errorMessage: "There was an error updating the page",
     body: payload,
   });
-  return response.data;
+  return response?.data;
 };

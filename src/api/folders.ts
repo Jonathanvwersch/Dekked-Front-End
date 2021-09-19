@@ -11,7 +11,7 @@ export const getFolders = async (): Promise<{
     errorMessage: "There was an error getting the folders",
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const addFolder = async ({
@@ -35,7 +35,7 @@ export const addFolder = async ({
     body: input,
   });
 
-  return response.data;
+  return response?.data;
 };
 
 export const updateFolder = async (
@@ -58,7 +58,7 @@ export const updateFolder = async (
     errorMessage: "There was an error updating the folder",
     body: input,
   });
-  return response.data;
+  return response?.data;
 };
 
 export const deleteFolder = async (folder_id: string) => {
@@ -72,5 +72,5 @@ export const deleteFolder = async (folder_id: string) => {
     body: input,
   });
 
-  return response.data;
+  return response?.data;
 };
