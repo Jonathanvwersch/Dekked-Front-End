@@ -19,6 +19,11 @@ const en_GB = {
       somethingWentWrong: "Something went wrong. Please try again.",
       or: "Or",
     },
+    errorBoundary: {
+      heading: "Uh oh...something went wrong",
+      subHeading:
+        "We're really sorry that this has happened. We have informed our technical team and are working on a solution.",
+    },
     notFoundPage: {
       goHome: "Go home",
       mainMessage: "That link does not exist",
@@ -106,10 +111,10 @@ const en_GB = {
         resetYourPassword: "Reset your password",
         goBackToLogin: "Go back to login",
         bodyText:
-          "To reset your password, enter the email address you use to log in",
+          "To reset your password, enter the email address you use to log in.",
         getResetLink: "Get reset link",
         checkYourEmail:
-          "An email has been sent to the inbox of {email} with further instructions from us on how to reset your password.",
+          "An email has been sent to the inbox of {email} with further instructions from us on how to reset your password. Please check your spam folder if you cannot find the email in your inbox.",
         userDoesNotExistEmail: "No user exists with that email address",
         userDoesNotExistToken: "No user exists with that reset token",
         goToLogin: "Go to login",
