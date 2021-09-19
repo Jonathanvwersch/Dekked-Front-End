@@ -2,14 +2,13 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 import { BUTTON_THEME, BUTTON_TYPES, Params, SIZES } from "../../../shared";
 import { FormattedMessage } from "react-intl";
 import { usePageSetupHelpers } from "../../../hooks";
-import { isAnyRequiredFieldPristine } from "../../../helpers";
+import { isAnyRequiredFieldPristine, validatePassword } from "../../../helpers";
 import { Button, Input, Spacer } from "dekked-design-system";
 
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
 import { resetPassword } from "../../../api";
 import { useHistory, useParams } from "react-router-dom";
-import { InternalLink } from "../../common";
 
 interface ForgetYourPasswordFormProps {}
 
@@ -80,6 +79,7 @@ const ForgetYourPasswordForm: React.FC<ForgetYourPasswordFormProps> = () => {
               onChange={(e) => setPassword(e.target.value)}
               errorMessage={formatMessage("forms.password.length")}
               required
+              validate={() => validatePassword(password)}
               showPassword
               clearButton={false}
             />

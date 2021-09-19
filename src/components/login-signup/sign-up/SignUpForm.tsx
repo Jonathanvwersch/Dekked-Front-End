@@ -36,7 +36,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
 
   const isSubmitButtonDisabled = () => {
     if (!validateEmail(emailAddress)) return true;
-    if (password !== repeatPassword) return true;
+    if (password !== repeatPassword || !validatePassword(password)) return true;
     return isAnyRequiredFieldPristine([
       emailAddress,
       firstName,
