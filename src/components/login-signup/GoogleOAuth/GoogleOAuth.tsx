@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { BUTTON_THEME, SIZES } from "../../../shared";
 import { ThemeContext } from "styled-components";
 import { FormattedMessage } from "react-intl";
@@ -28,6 +28,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
   const [, setUser] = useAtom(userAtom);
   const history = useHistory();
   const clientId = `${config.GOOGLE_CLIENT_ID}.apps.googleusercontent.com`;
+  const [loading, setLoading] = useState<boolean>(false);
 
   const isLoginResponse = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
@@ -39,12 +40,14 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
     if (isLoginResponse(response)) {
       const basicProfile = response.getBasicProfile();
 
+      setLoading(true);
       const authenticationResponse = await googleAuthentication({
         first_name: basicProfile.getGivenName(),
         last_name: basicProfile.getFamilyName(),
         email_address: basicProfile.getEmail(),
         token: response.tokenId,
       });
+      setLoading(false);
 
       setUser({
         id: authenticationResponse?.id,
@@ -77,6 +80,7 @@ const GoogleOAuth: React.FC<GoogleOAuthProps> = ({
           fullWidth
           isDisabled={renderProps.disabled}
           handleClick={renderProps.onClick}
+          isLoading={loading}
           buttonStyle={BUTTON_THEME.SECONDARY}
         >
           <GoogleIcon size={SIZES.LARGE} />
