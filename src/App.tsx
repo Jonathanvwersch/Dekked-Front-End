@@ -26,6 +26,7 @@ import { getUser } from "./api";
 import { UserType } from "./shared";
 import { theme } from "dekked-design-system";
 import ForgetYourPassword from "./components/login-signup/login/ForgetYourPassword";
+import { ErrorBoundaryFallback } from "./components/common";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -159,37 +160,39 @@ export const App: React.FC = () => {
       <SkeletonTheme color={memoisedTheme.colors.loadingBlocks}>
         <StyledApp className="app">
           <GlobalStyle />
-          {!loadingError ? (
-            <CustomSwitch>
-              <Route
-                exact
-                path="/login"
-                render={() => <LogInSignUpPage login />}
-              >
-                {getSessionCookie() && <Redirect to="/" />}
-              </Route>
-              <Route
-                exact
-                path="/forget-password"
-                component={ForgetYourPassword}
-              >
-                {getSessionCookie() && <Redirect to="/" />}
-              </Route>
-              <Route
-                exact
-                path="/reset-password/:token"
-                component={() => <ForgetYourPassword isResetPage />}
-              >
-                {getSessionCookie() && <Redirect to="/" />}
-              </Route>
-              <Route exact path="/sign-up" component={LogInSignUpPage}>
-                {getSessionCookie() && <Redirect to="/" />}
-              </Route>
-              <Routes />
-            </CustomSwitch>
-          ) : (
-            <ErrorPage />
-          )}
+          <ErrorBoundaryFallback>
+            {!loadingError ? (
+              <CustomSwitch>
+                <Route
+                  exact
+                  path="/login"
+                  render={() => <LogInSignUpPage login />}
+                >
+                  {getSessionCookie() && <Redirect to="/" />}
+                </Route>
+                <Route
+                  exact
+                  path="/forget-password"
+                  component={ForgetYourPassword}
+                >
+                  {getSessionCookie() && <Redirect to="/" />}
+                </Route>
+                <Route
+                  exact
+                  path="/reset-password/:token"
+                  component={() => <ForgetYourPassword isResetPage />}
+                >
+                  {getSessionCookie() && <Redirect to="/" />}
+                </Route>
+                <Route exact path="/sign-up" component={LogInSignUpPage}>
+                  {getSessionCookie() && <Redirect to="/" />}
+                </Route>
+                <Routes />
+              </CustomSwitch>
+            ) : (
+              <ErrorPage />
+            )}
+          </ErrorBoundaryFallback>
         </StyledApp>
       </SkeletonTheme>
     </ThemeProvider>
