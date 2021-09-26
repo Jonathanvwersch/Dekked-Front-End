@@ -30,9 +30,7 @@ const requestBuilder =
 
     const requestConfig: AxiosRequestConfig = {
       method,
-      url: baseUrl
-        ? `${baseUrl}/api/v1${apiUrl}`
-        : `${config.API}/api/v1${apiUrl}`,
+      url: baseUrl ? `${baseUrl}/api/v1${apiUrl}` : `${config.API}${apiUrl}`,
       data: body,
       headers,
     };
