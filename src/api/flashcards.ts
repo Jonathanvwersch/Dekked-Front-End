@@ -4,36 +4,13 @@ import { FlashcardLearningStatus, FlashcardQuality } from "../shared";
 import { del, get, patch, post } from "./utils";
 import { AxiosResponse } from "axios";
 
-export const getDeckByStudySetId = async ({
-  studySetId,
-}: {
-  studySetId: string;
-}): Promise<DeckInterface> => {
-  const response: AxiosResponse<DeckInterface> = await get({
-    apiUrl: `/get-deck-by-study-set-id/${studySetId}`,
-    errorMessage: "There was an error getting the deck by study set id",
-  });
-
-  return response?.data;
-};
-
-export const getAllDueSrDecks = async (): Promise<DueSpacedRepetitionDecks> => {
-  const response: AxiosResponse<DueSpacedRepetitionDecks> = await get({
-    apiUrl: `/get-all-due-sr-decks`,
-    errorMessage:
-      "There was an error getting all of the due spaced repetition decks",
-  });
-  return response?.data;
-};
-
 export const getFlashcardsByDeckId = async ({
   deckId,
 }: {
   deckId?: string;
 }): Promise<FlashcardInterface[]> => {
   const response: AxiosResponse<FlashcardInterface[]> = await get({
-    apiUrl: `/get-flashcards-by-deck-id/${deckId}`,
-    errorMessage: "There was an error getting the deck by deck id",
+    apiUrl: `/flashcards/${deckId}`,
   });
 
   return response?.data;
@@ -45,9 +22,7 @@ export const getSpacedRepetitionFlashcardsByDeckId = async ({
   deckId: string;
 }): Promise<FlashcardInterface[]> => {
   const response: AxiosResponse<FlashcardInterface[]> = await get({
-    apiUrl: `/get-sr-flashcards-by-deck-id/${deckId}`,
-    errorMessage:
-      "There was an error getting the spaced repetition flashcard by deck id",
+    apiUrl: `/flashcards/spaced-repetition/${deckId}`,
   });
   return response?.data;
 };
@@ -106,8 +81,7 @@ export const saveFlashcard = async ({
   }
 
   const response: AxiosResponse<FlashcardInterface> = await patch({
-    apiUrl: `/flashcard/${flashcard_id}`,
-    errorMessage: "There was an error updating the flashcard",
+    apiUrl: `/flashcards/${flashcard_id}`,
     body: payload,
   });
 
@@ -156,8 +130,7 @@ export const addFlashcard = async ({
   }
 
   const response: AxiosResponse<FlashcardInterface> = await post({
-    apiUrl: `/flashcard`,
-    errorMessage: "There was an error creating the flashcard",
+    apiUrl: `/flashcards`,
     body: payload,
   });
 
@@ -170,8 +143,7 @@ export const deleteFlashcard = async ({
   flashcard_id?: string;
 }) => {
   const response = await del({
-    apiUrl: `/flashcard/${flashcard_id}`,
-    errorMessage: "There was an error deleting the flashcard",
+    apiUrl: `/flashcards/${flashcard_id}`,
   });
 
   return response?.data;

@@ -7,8 +7,7 @@ const getPageByStudySetId = async (
   studySetId: string
 ): Promise<PageInterface> => {
   const response: AxiosResponse<PageInterface> = await get({
-    apiUrl: `/get-page-by-study-set-id/${studySetId}`,
-    errorMessage: "There was an error getting the page by study set id",
+    apiUrl: `/pages/study-sets/${studySetId}`,
   });
   return response?.data;
 };
@@ -22,8 +21,7 @@ export const getBlocksByPageId = async ({
 
   const response: AxiosResponse<BlockInterface[] & { pageId: string }> =
     await get({
-      apiUrl: `/get-blocks-by-page/${page?.id}`,
-      errorMessage: "There was an error getting the blocks by study set id",
+      apiUrl: `/pages/${page?.id}`,
     });
 
   return { data: response?.data, pageId: page?.id };
@@ -43,8 +41,7 @@ export const savePage = async ({
   };
 
   const response: AxiosResponse<PageInterface> = await patch({
-    apiUrl: `/page/${pageId}`,
-    errorMessage: "There was an error updating the page",
+    apiUrl: `/pages/${pageId}`,
     body: payload,
   });
   return response?.data;

@@ -7,7 +7,6 @@ type RequestBuilderType = {
   baseUrl?: string;
   body?: object;
   noAuthorisation?: boolean;
-  errorMessage?: string;
 };
 
 type HttpMethods = "GET" | "PUT" | "POST" | "PATCH" | "DELETE";
@@ -16,18 +15,11 @@ type HttpResponse = ({
   baseUrl,
   body,
   noAuthorisation,
-  errorMessage,
 }: RequestBuilderType) => Promise<AxiosResponse<any>>;
 
 const requestBuilder =
   (method: HttpMethods) =>
-  async ({
-    apiUrl,
-    baseUrl,
-    body,
-    noAuthorisation,
-    errorMessage,
-  }: RequestBuilderType) => {
+  async ({ apiUrl, baseUrl, body, noAuthorisation }: RequestBuilderType) => {
     const headers: AxiosRequestConfig["headers"] = {
       "Content-type": "application/json",
     };

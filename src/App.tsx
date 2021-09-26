@@ -3,10 +3,10 @@ import styled, { ThemeProvider } from "styled-components";
 import { config } from "./config";
 import Routes from "./Router/Routes";
 import GlobalStyle from "./styles/GlobalStyles";
-import { Redirect, Route, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
 import { useQuery } from "react-query";
-import { ErrorPage, LogInSignUpPage } from "./pages";
+import { ErrorPage } from "./pages";
 import { getSessionCookie } from "./helpers";
 import CustomSwitch from "./Router/CustomSwitch";
 import { useAtom } from "jotai";
@@ -25,7 +25,6 @@ import {
 import { getUser } from "./api";
 import { UserType } from "./shared";
 import { theme } from "dekked-design-system";
-import ForgetYourPassword from "./components/login-signup/login/ForgetYourPassword";
 import { ErrorBoundaryFallback } from "./components/common";
 
 export const App: React.FC = () => {
@@ -40,30 +39,36 @@ export const App: React.FC = () => {
     getUser,
     {
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
       enabled: Boolean(getSessionCookie()),
       retry: 5,
     }
   );
 
   // Fetch file tree data on mount
-  const { data: initialFileTree, isFetched: isFetchedFileTree } =
-    useQuery<FileTreeInterface>(
-      `${getSessionCookie()}-file-tree`,
-      getFileTree,
-      {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        enabled: Boolean(getSessionCookie()),
-        retry: 5,
-      }
-    );
+  const {
+    data: initialFileTree,
+    isFetched: isFetchedFileTree,
+    isError: isFileTreeError,
+    isSuccess,
+    isLoadingError,
+  } = useQuery<FileTreeInterface>(
+    `${getSessionCookie()}-file-tree`,
+    getFileTree,
+    {
+      refetchOnWindowFocus: false,
+      enabled: Boolean(getSessionCookie()),
+      retry: 5,
+    }
+  );
+  console.log("iSucces", isSuccess);
+  console.log(isFileTreeError);
+
+  console.log("Islo", isLoadingError);
 
   const { data: initialFolders, isFetched: isFetchedFolders } = useQuery<{
     [key: string]: FolderInterface;
   }>(`${getSessionCookie()}-folders`, () => getFolders(), {
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
     enabled: Boolean(getSessionCookie()),
     retry: 5,
   });
@@ -72,7 +77,6 @@ export const App: React.FC = () => {
     [key: string]: BinderInterface;
   }>(`${getSessionCookie()}-binders`, getBinders, {
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
     enabled: Boolean(getSessionCookie()),
     retry: 5,
   });
@@ -81,7 +85,6 @@ export const App: React.FC = () => {
     [key: string]: StudySetInterface;
   }>(`${getSessionCookie()}-study-sets`, getStudySets, {
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
     enabled: Boolean(getSessionCookie()),
     retry: 5,
   });
@@ -153,40 +156,17 @@ export const App: React.FC = () => {
     ReactGa.pageview(window.location.pathname + window.location.search);
   }, []);
 
+  //@ts-ignore
   const memoisedTheme = useMemo(() => theme(isDarkTheme), [isDarkTheme]);
 
   return (
     <ThemeProvider theme={memoisedTheme}>
       <SkeletonTheme color={memoisedTheme.colors.loadingBlocks}>
         <StyledApp className="app">
-          <GlobalStyle />
           <ErrorBoundaryFallback>
+            <GlobalStyle />
             {!loadingError ? (
               <CustomSwitch>
-                <Route
-                  exact
-                  path="/login"
-                  render={() => <LogInSignUpPage login />}
-                >
-                  {getSessionCookie() && <Redirect to="/" />}
-                </Route>
-                <Route
-                  exact
-                  path="/forget-password"
-                  component={ForgetYourPassword}
-                >
-                  {getSessionCookie() && <Redirect to="/" />}
-                </Route>
-                <Route
-                  exact
-                  path="/reset-password/:token"
-                  component={() => <ForgetYourPassword isResetPage />}
-                >
-                  {getSessionCookie() && <Redirect to="/" />}
-                </Route>
-                <Route exact path="/sign-up" component={LogInSignUpPage}>
-                  {getSessionCookie() && <Redirect to="/" />}
-                </Route>
                 <Routes />
               </CustomSwitch>
             ) : (

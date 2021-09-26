@@ -28,7 +28,6 @@ export const updateAsset = async (
 export const getFileTree = async () => {
   const response: AxiosResponse<FileTreeInterface> = await get({
     apiUrl: `/file-tree`,
-    errorMessage: "here was an error getting the file tree",
   });
   return response?.data;
 };

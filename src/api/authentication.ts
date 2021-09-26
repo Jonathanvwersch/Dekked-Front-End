@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { patch, post } from "./utils";
 
 export const googleAuthentication = async ({
@@ -17,7 +18,6 @@ export const googleAuthentication = async ({
     apiUrl: "/auth/google",
     body: input,
     noAuthorisation: true,
-    errorMessage: "Google authentication failed",
   });
 
   return { ...response?.data, status: response?.status };
@@ -33,10 +33,9 @@ export const login = async ({
   const input = { email_address, password };
 
   const response = await post({
-    apiUrl: "/login",
+    apiUrl: "/auth/login",
     body: input,
     noAuthorisation: true,
-    errorMessage: "Failed to log in",
   });
 
   return { ...response?.data, status: response?.status };
@@ -56,10 +55,9 @@ export const register = async ({
   const input = { email_address, first_name, last_name, password };
 
   const response = await post({
-    apiUrl: "/register",
+    apiUrl: "/auth/register",
     body: input,
     noAuthorisation: true,
-    errorMessage: "Failed to sign up",
   });
 
   return { ...response?.data, status: response?.status };
@@ -73,7 +71,7 @@ export const forgetPassword = async ({
   const input = { email_address };
 
   const response = await patch({
-    apiUrl: "/forget-password",
+    apiUrl: "/auth/forget-password",
     body: input,
     noAuthorisation: true,
   });
@@ -91,10 +89,23 @@ export const resetPassword = async ({
   const input = { password: newPassword, token };
 
   const response = await patch({
-    apiUrl: `/reset-password`,
+    apiUrl: `/auth/reset-password`,
     body: input,
     noAuthorisation: true,
   });
 
   return response;
+};
+
+export const verifyUserEmail = async ({
+  email_address,
+}: {
+  email_address: string;
+}): Promise<{ success: boolean }> => {
+  const response: AxiosResponse<{ success: boolean }> = await post({
+    apiUrl: "/auth/verify-user-email",
+    body: { email_address },
+    noAuthorisation: true,
+  });
+  return response?.data;
 };

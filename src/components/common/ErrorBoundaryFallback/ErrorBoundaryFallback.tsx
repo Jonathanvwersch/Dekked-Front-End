@@ -33,6 +33,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
           width="100%"
           height="100%"
         >
+          {console.log(error)}
           <ShadowCard
             maxWidth="600px"
             padding={theme.spacers.size32}
@@ -86,7 +87,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
               handleClick={() => history.push("/")}
               fullWidth
             >
-              Return home
+              <FormattedMessage id="notFoundPage.returnHome" />
             </Button>
           </ShadowCard>
         </Flex>
