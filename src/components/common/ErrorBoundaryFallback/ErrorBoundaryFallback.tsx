@@ -84,10 +84,13 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
             <Spacer height={theme.spacers.size32} />
             <Button
               size={SIZES.LARGE}
-              handleClick={() => history.push("/")}
+              handleClick={() => {
+                history.push("/");
+                window.location.reload();
+              }}
               fullWidth
             >
-              <FormattedMessage id="notFoundPage.returnHome" />
+              <FormattedMessage id="errorBoundary.returnHome" />
             </Button>
           </ShadowCard>
         </Flex>

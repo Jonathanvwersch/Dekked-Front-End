@@ -45,25 +45,16 @@ export const App: React.FC = () => {
   );
 
   // Fetch file tree data on mount
-  const {
-    data: initialFileTree,
-    isFetched: isFetchedFileTree,
-    isError: isFileTreeError,
-    isSuccess,
-    isLoadingError,
-  } = useQuery<FileTreeInterface>(
-    `${getSessionCookie()}-file-tree`,
-    getFileTree,
-    {
-      refetchOnWindowFocus: false,
-      enabled: Boolean(getSessionCookie()),
-      retry: 5,
-    }
-  );
-  console.log("iSucces", isSuccess);
-  console.log(isFileTreeError);
-
-  console.log("Islo", isLoadingError);
+  const { data: initialFileTree, isFetched: isFetchedFileTree } =
+    useQuery<FileTreeInterface>(
+      `${getSessionCookie()}-file-tree`,
+      getFileTree,
+      {
+        refetchOnWindowFocus: false,
+        enabled: Boolean(getSessionCookie()),
+        retry: 5,
+      }
+    );
 
   const { data: initialFolders, isFetched: isFetchedFolders } = useQuery<{
     [key: string]: FolderInterface;

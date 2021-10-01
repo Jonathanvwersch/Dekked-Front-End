@@ -21,7 +21,7 @@ export const getBlocksByPageId = async ({
 
   const response: AxiosResponse<BlockInterface[] & { pageId: string }> =
     await get({
-      apiUrl: `/pages/${page?.id}`,
+      apiUrl: `/blocks/${page?.id}`,
     });
 
   return { data: response?.data, pageId: page?.id };
@@ -38,10 +38,11 @@ export const savePage = async ({
   const payload = {
     draft_keys: keys,
     blocks,
+    page_id: pageId,
   };
 
   const response: AxiosResponse<PageInterface> = await patch({
-    apiUrl: `/pages/${pageId}`,
+    apiUrl: `/pages`,
     body: payload,
   });
   return response?.data;

@@ -81,7 +81,7 @@ export const saveFlashcard = async ({
   }
 
   const response: AxiosResponse<FlashcardInterface> = await patch({
-    apiUrl: `/flashcards/${flashcard_id}`,
+    apiUrl: `/flashcards`,
     body: payload,
   });
 
@@ -143,7 +143,10 @@ export const deleteFlashcard = async ({
   flashcard_id?: string;
 }) => {
   const response = await del({
-    apiUrl: `/flashcards/${flashcard_id}`,
+    apiUrl: "/flashcards",
+    body: {
+      flashcard_id,
+    },
   });
 
   return response?.data;
