@@ -1,29 +1,21 @@
 import React from "react";
-import { Redirect, Route, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ForgetYourPassword from "../components/login-signup/login/ForgetYourPassword";
-import { getSessionCookie } from "../helpers";
 import { LogInSignUpPage, OptionsPage } from "../pages";
+import CustomRoute from "./CustomRoute";
 import CustomSwitch from "./CustomSwitch";
 import PrivateRoute from "./PrivateRoute";
 
 const Routes = () => (
   <CustomSwitch>
-    <Route exact path="/login" render={() => <LogInSignUpPage login />}>
-      {getSessionCookie() && <Redirect to="/" />}
-    </Route>
-    <Route exact path="/forget-password" component={ForgetYourPassword}>
-      {getSessionCookie() && <Redirect to="/" />}
-    </Route>
-    <Route
+    <CustomRoute exact path="/login" render={() => <LogInSignUpPage login />} />
+    <CustomRoute exact path="/forget-password" component={ForgetYourPassword} />
+    <CustomRoute
       exact
       path="/reset-password/:token"
       component={() => <ForgetYourPassword isResetPage />}
-    >
-      {getSessionCookie() && <Redirect to="/" />}
-    </Route>
-    <Route exact path="/sign-up" component={LogInSignUpPage}>
-      {getSessionCookie() && <Redirect to="/" />}
-    </Route>
+    />
+    <CustomRoute exact path="/sign-up" component={LogInSignUpPage} />
     <PrivateRoute exact path="/" />
     <PrivateRoute path="/:type/:id" component={OptionsPage} />
   </CustomSwitch>

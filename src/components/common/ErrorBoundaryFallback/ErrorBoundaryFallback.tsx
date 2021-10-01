@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { config } from "../../../config";
 import { FormattedMessage } from "react-intl";
+import { InternalLink } from "..";
 
 interface ErrorBoundaryFallbackProps {}
 
@@ -33,23 +34,33 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
           width="100%"
           height="100%"
         >
-          {console.log(error)}
+          {console.error(error)}
           <ShadowCard
             maxWidth="600px"
             padding={theme.spacers.size32}
             maxHeight="700px"
-            overflow="auto"
+            margin={theme.spacers.size32}
+            overflow="hidden auto"
           >
             <Flex width="100%" alignItems="center" justifyContent="center">
-              <ErrorIcon size="60px" color={theme.colors.danger} />
+              <ErrorIcon size="40px" color={theme.colors.danger} />
             </Flex>
             <Spacer height={theme.spacers.size32} />
-            <H1 styledAs="h3">
-              <FormattedMessage id="errorBoundary.heading" />
+            <H1 styledAs="h5" textAlign="center">
+              <FormattedMessage id="errorPage.mainMessage" />
             </H1>
             <Spacer height={theme.spacers.size16} />
-            <H2 styledAs="h5">
-              <FormattedMessage id="errorBoundary.subHeading" />
+            <H2 styledAs="h6" textAlign="center">
+              <FormattedMessage id="errorPage.subMessage" />
+              <InternalLink
+                to="mailto:team@dekked.app"
+                type="email"
+                fontSize="inherit"
+                textDecoration="underline"
+              >
+                team@dekked.app
+              </InternalLink>
+              .
             </H2>
             {config.APP_ENV !== "production" ? (
               <>
@@ -63,21 +74,13 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
                 </Text>
                 <Spacer height={theme.spacers.size32} />
                 <Text
-                  as="p"
+                  as="pre"
                   fontSize={theme.typography.fontSizes.size18}
                   textAlign="left"
                   fontColor={theme.colors.danger}
+                  whiteSpace="break-spaces"
                 >
-                  Error: {error.message}
-                </Text>
-                <Spacer height={theme.spacers.size32} />
-                <Text
-                  as="p"
-                  fontSize={theme.typography.fontSizes.size18}
-                  textAlign="left"
-                  fontColor={theme.colors.danger}
-                >
-                  Stack: {error.stack}
+                  {error.stack}
                 </Text>
               </>
             ) : null}

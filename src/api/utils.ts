@@ -1,6 +1,6 @@
 import { config } from "../config";
 import { getSessionCookie } from "../helpers";
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 type RequestBuilderType = {
   apiUrl: string;
@@ -34,18 +34,8 @@ const requestBuilder =
       data: body,
       headers,
     };
-    return axios(requestConfig)
-      .then((res: any) => {
-        return res;
-      })
-      .catch((err: AxiosError) => {
-        if (err.response) {
-          console.error(err.response);
-          return err.response;
-        } else {
-          console.error(err);
-        }
-      });
+
+    return await axios(requestConfig);
   };
 
 export const get: HttpResponse = requestBuilder("GET");
