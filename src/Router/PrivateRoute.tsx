@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router";
 import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "dekked-design-system";
@@ -23,18 +23,15 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
-  const [isLoading, setIsLoading] = useAtom(isAppLoadingAtom);
+  const [isLoading] = useAtom(isAppLoadingAtom);
   const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
   const { addAsset } = useAddAsset();
 
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
-  useLayoutEffect(() => {
-    if (loadingError) {
-      history.push("/error");
-      setIsLoading(false);
-    } else if (!getSessionCookie()) {
+  useEffect(() => {
+    if (!getSessionCookie()) {
       history.push("/login");
     } else if (path === "/" && fileTree) {
       if (!Object.keys(fileTree)[0]) {

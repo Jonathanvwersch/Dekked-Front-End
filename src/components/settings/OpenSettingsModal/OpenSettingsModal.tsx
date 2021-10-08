@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollerModal } from "../../common";
 import {
   OPEN_SETTINGS_DATA,
@@ -6,9 +6,12 @@ import {
 } from "./OpenSettingsModal.data";
 import { CoordsType } from "../../../shared";
 import { MainSettingsModal } from "..";
+import { queryClient } from "../../..";
+import { useMutation } from "react-query";
+import { logout } from "../../../api";
+import { FullPageLoadingSpinner } from "dekked-design-system";
 import { useHistory } from "react-router-dom";
 import { removeCookie } from "../../../helpers";
-import { QueryCache } from "react-query";
 
 interface OpenSettingsModalProps {
   open: boolean;
@@ -25,8 +28,8 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   openMainSettingsModal,
   setOpenMainSettingsModal,
 }) => {
+  const { mutate: logoutApp, isLoading, data } = useMutation("log-out", logout);
   const history = useHistory();
-  const queryCache = new QueryCache();
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
@@ -34,25 +37,36 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
       setOpenMainSettingsModal(true);
     }
     if (option === OPEN_SETTINGS_DATA.LOGOUT) {
+      queryClient.clear();
+      queryClient.removeQueries();
       removeCookie();
-      queryCache.clear();
-      history.push("/login");
+      logoutApp();
     }
   };
 
+  useEffect(() => {
+    if (data?.success) history.push("/logout");
+  }, [data, history]);
+
   return (
     <>
-      <ScrollerModal
-        coords={coords}
-        clickFunctions={clickFunctions}
-        open={open}
-        handleClose={handleClose}
-        data={OpenSettingsModalData}
-      />
-      <MainSettingsModal
-        handleCloseModal={() => setOpenMainSettingsModal(false)}
-        openModal={openMainSettingsModal}
-      />
+      {isLoading ? (
+        <FullPageLoadingSpinner />
+      ) : (
+        <>
+          <ScrollerModal
+            coords={coords}
+            clickFunctions={clickFunctions}
+            open={open}
+            handleClose={handleClose}
+            data={OpenSettingsModalData}
+          />
+          <MainSettingsModal
+            handleCloseModal={() => setOpenMainSettingsModal(false)}
+            openModal={openMainSettingsModal}
+          />
+        </>
+      )}
     </>
   );
 };

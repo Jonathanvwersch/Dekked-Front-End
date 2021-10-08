@@ -53,12 +53,12 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
             <H2 styledAs="h6" textAlign="center">
               <FormattedMessage id="errorPage.subMessage" />
               <InternalLink
-                to="mailto:team@dekked.app"
+                to="mailto:team@dekked.com"
                 type="email"
                 fontSize="inherit"
                 textDecoration="underline"
               >
-                team@dekked.app
+                team@dekked.com
               </InternalLink>
               .
             </H2>

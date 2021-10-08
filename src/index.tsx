@@ -5,15 +5,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { IntlProvider, LOCALES } from "./intl";
 import { Provider } from "jotai";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { getSessionCookie } from "./helpers";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
       useErrorBoundary: true,
       refetchOnWindowFocus: false,
-      enabled: Boolean(getSessionCookie()),
     },
   },
 });
