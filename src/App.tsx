@@ -11,7 +11,7 @@ import { darkModeAtom } from "./store";
 
 import { theme } from "dekked-design-system";
 import { ErrorBoundaryFallback } from "./components/common";
-import InnerApp from "./InnerApp";
+import CustomSwitch from "./Router/CustomSwitch";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -30,7 +30,9 @@ export const App: React.FC = () => {
         <StyledApp className="app">
           <ErrorBoundaryFallback>
             <GlobalStyle />
-            <InnerApp />
+            <CustomSwitch>
+              <Routes />
+            </CustomSwitch>
           </ErrorBoundaryFallback>
         </StyledApp>
       </SkeletonTheme>
