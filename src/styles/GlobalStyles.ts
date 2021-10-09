@@ -10,10 +10,14 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
         }
     }
 
+    body {
+        font-family: ${({ theme }) => theme.typography.fontFamily};
+
+    }
+
     * {
         margin: 0;
         box-sizing: border-box;
-        font-family: ${({ theme }) => theme.typography.fontFamily};
         &:focus {
             outline: 0;
         }

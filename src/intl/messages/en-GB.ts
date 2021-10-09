@@ -178,6 +178,7 @@ const en_GB = {
           bulletedList: "Bulleted list",
           numberedList: "Numbered list",
           quote: "Quote",
+          codeBlock: "Code block",
           divider: "Divider",
           todo: "Todo",
           toggle: "Toggle list",
