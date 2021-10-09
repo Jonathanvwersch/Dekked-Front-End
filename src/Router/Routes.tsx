@@ -1,7 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import ForgetYourPassword from "../components/login-signup/login/ForgetYourPassword";
-import { LogInSignUpPage, OptionsPage } from "../pages";
+import InnerApp from "../InnerApp";
+import { LogInSignUpPage } from "../pages";
 import CustomRoute from "./CustomRoute";
 import CustomSwitch from "./CustomSwitch";
 import PrivateRoute from "./PrivateRoute";
@@ -16,8 +17,7 @@ const Routes = () => (
       component={() => <ForgetYourPassword isResetPage />}
     />
     <CustomRoute exact path="/sign-up" component={LogInSignUpPage} />
-    <PrivateRoute exact path="/" />
-    <PrivateRoute path="/:type/:id" component={OptionsPage} />
+    <PrivateRoute path="/" component={InnerApp} />
   </CustomSwitch>
 );
 
