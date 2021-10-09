@@ -28,7 +28,6 @@ export const useUpdateAsset = () => {
         color: updateData.color,
       }),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`

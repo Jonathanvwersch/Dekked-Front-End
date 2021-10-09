@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BinderPage, FolderPage, StudyModePage, StudySetPage } from "..";
 import { Sidebar } from "../../components/shared/Sidebar";
@@ -16,115 +16,72 @@ import {
   typeAtom,
   userAtom,
 } from "../../store";
-import {
-  differenceInObjects,
-  getSessionCookie,
-  uniqueApiKey,
-} from "../../helpers";
-import { isEmpty } from "lodash";
+import { uniqueApiKey } from "../../helpers";
 import { useQuery } from "react-query";
-import {
-  getBinders,
-  getFileTree,
-  getFolders,
-  getStudySets,
-  getUser,
-} from "../../api";
+import { getFiles, getUser } from "../../api";
+import { FullPageLoadingSpinner } from "dekked-design-system";
 
 const OptionsPage: React.FC = () => {
   const { type } = useParams<Params>();
   const [, setType] = useAtom(typeAtom);
+  const [isLoading] = useAtom(isAppLoadingAtom);
 
   useLayoutEffect(() => {
     setType(type);
   }, [type, setType]);
 
   const [, setIsLoading] = useAtom(isAppLoadingAtom);
-  const [, _setFileTree] = useAtom(fileTreeAtom);
-  const [, _setFolders] = useAtom(foldersAtom);
-  const [, _setBinders] = useAtom(bindersAtom);
-  const [, _setStudySets] = useAtom(studySetsAtom);
-  const [, _setUser] = useAtom(userAtom);
+  const [, setFileTree] = useAtom(fileTreeAtom);
+  const [, setFolders] = useAtom(foldersAtom);
+  const [, setBinders] = useAtom(bindersAtom);
+  const [, setStudySets] = useAtom(studySetsAtom);
+  const [, setUser] = useAtom(userAtom);
 
   useQuery<UserType>(uniqueApiKey("user"), getUser, {
-    onSuccess: (data) => _setUser(data),
-    enabled: Boolean(getSessionCookie()),
+    onSuccess: (data) => setUser(data),
   });
 
-  const { isFetched: isFetchedFileTree } = useQuery<FileTreeInterface>(
-    uniqueApiKey("file-tree"),
-    getFileTree,
-    {
-      onSuccess: (data) => _setFileTree(data),
-      enabled: Boolean(getSessionCookie()),
-    }
-  );
-
-  const { isFetched: isFetchedFolders } = useQuery<{
-    [key: string]: FolderInterface;
-  }>(uniqueApiKey("folders"), getFolders, {
-    onSuccess: (data) => _setFolders(data),
-    enabled: Boolean(getSessionCookie()),
-  });
-
-  const { isFetched: isFetchedBinders } = useQuery<{
-    [key: string]: BinderInterface;
-  }>(uniqueApiKey("binders"), getBinders, {
-    onSuccess: (data) => _setBinders(data),
-    enabled: Boolean(getSessionCookie()),
-  });
-
-  const { isFetched: isFetchedStudySets } = useQuery<{
-    [key: string]: StudySetInterface;
-  }>(uniqueApiKey("study-sets"), getStudySets, {
-    onSuccess: (data) => _setStudySets(data),
-    enabled: Boolean(getSessionCookie()),
-  });
-
-  useEffect(() => {
-    if (
-      isFetchedFileTree &&
-      isFetchedFolders &&
-      isFetchedStudySets &&
-      isFetchedBinders
-    ) {
+  useQuery<LoadFilesInterface>(uniqueApiKey("files"), getFiles, {
+    onSuccess: (data) => {
+      setFolders(data?.folders);
+      setFileTree(data?.fileTree);
+      setStudySets(data?.studySets);
+      setBinders(data?.binders);
       setIsLoading(false);
-    }
-  }, [
-    isFetchedBinders,
-    isFetchedFileTree,
-    isFetchedFolders,
-    isFetchedStudySets,
-    setIsLoading,
-  ]);
+    },
+  });
 
   return (
     <>
-      <Sidebar />
-      <CustomSwitch>
-        <PrivateRoute
-          exact
-          path={`/${FILETREE_TYPES.FOLDER}/:id`}
-          component={FolderPage}
-        />
-        <PrivateRoute
-          path={`/${FILETREE_TYPES.BINDER}/:id`}
-          component={BinderPage}
-        />
-        <PrivateRoute
-          exact
-          path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
-          component={StudySetPage}
-        />
-        <PrivateRoute
-          path={`/:type/:id/study/:studyModes`}
-          component={StudyModePage}
-        />
-      </CustomSwitch>
+      {!isLoading ? (
+        <>
+          <Sidebar />
+          <CustomSwitch>
+            <PrivateRoute
+              exact
+              path={`/${FILETREE_TYPES.FOLDER}/:id`}
+              component={FolderPage}
+            />
+            <PrivateRoute
+              path={`/${FILETREE_TYPES.BINDER}/:id`}
+              component={BinderPage}
+            />
+            <PrivateRoute
+              exact
+              path={`/${FILETREE_TYPES.STUDY_SET}/:id/:tab`}
+              component={StudySetPage}
+            />
+            <PrivateRoute
+              path={`/:type/:id/study/:studyModes`}
+              component={StudyModePage}
+            />
+          </CustomSwitch>
+        </>
+      ) : (
+        <FullPageLoadingSpinner />
+      )}
     </>
   );
 };
 
-export default React.memo(OptionsPage, (prevProps, newProps) => {
-  return isEmpty(differenceInObjects(newProps, prevProps));
-});
+export default OptionsPage;

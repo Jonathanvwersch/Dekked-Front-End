@@ -29,7 +29,6 @@ export const useDeleteAsset = () => {
     "delete-folder",
     (folderId: string) => deleteFolder(folderId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
@@ -42,7 +41,6 @@ export const useDeleteAsset = () => {
     "delete-binder",
     (binderId: string) => deleteBinder(binderId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
@@ -55,7 +53,6 @@ export const useDeleteAsset = () => {
     "delete-study-set",
     (studySetId: string) => deleteStudySet(studySetId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`

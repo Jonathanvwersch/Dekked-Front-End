@@ -31,3 +31,10 @@ export const getFileTree = async () => {
   });
   return response?.data;
 };
+
+export const getFiles = async () => {
+  const response: AxiosResponse<LoadFilesInterface> = await get({
+    apiUrl: `/files`,
+  });
+  return response?.data;
+};

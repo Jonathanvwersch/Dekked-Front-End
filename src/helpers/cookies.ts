@@ -20,5 +20,5 @@ export const getSessionCookie: any = () => {
 };
 
 export const removeCookie: any = () => {
-  Cookies.remove("session");
+  Cookies.remove(cookieName);
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ScrollerModal } from "../../common";
 import {
   OPEN_SETTINGS_DATA,
@@ -28,7 +28,9 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   openMainSettingsModal,
   setOpenMainSettingsModal,
 }) => {
-  const { mutate: logoutApp, isLoading, data } = useMutation("log-out", logout);
+  const { mutate: logoutApp, isLoading } = useMutation("log-out", logout, {
+    onSuccess: () => history.push("/"),
+  });
   const history = useHistory();
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
@@ -43,10 +45,6 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
       logoutApp();
     }
   };
-
-  useEffect(() => {
-    if (data?.success) history.push("/logout");
-  }, [data, history]);
 
   return (
     <>
