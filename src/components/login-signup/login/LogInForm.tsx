@@ -1,6 +1,5 @@
 import React, {
   SyntheticEvent,
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -24,6 +23,7 @@ import { FormattedMessage } from "react-intl";
 import GoogleOAuth from "../GoogleOAuth/GoogleOAuth";
 import { Button, Divider, Flex, Input, Spacer } from "dekked-design-system";
 import { InternalLink } from "../../common";
+import { AxiosError } from "axios";
 
 interface LogInFormProps {}
 
@@ -37,15 +37,33 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   const [showError, setShowError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const history = useHistory();
 
-  const { mutate: logIn, data, isLoading } = useMutation("log-in", login);
+  const { mutate: logIn, isLoading } = useMutation("log-in", login, {
+    onError: (error: AxiosError) => {
+      setShowError(true);
+      setErrorCode(error?.response?.status);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setSessionCookie(data?.token);
+        setUser({
+          id: data?.id,
+          last_name: data?.first_name,
+          first_name: data?.last_name,
+          email_address: data?.email_address,
+        });
+        if (getSessionCookie()) {
+          history.push("/");
+        }
+      }
+    },
+  });
 
   const isSubmitButtonDisabled = () => {
     if (!validateEmail(emailAddress)) return true;
     return isAnyRequiredFieldPristine([emailAddress, password]);
   };
-
-  const history = useHistory();
 
   const loginUser = async (emailAddress: string, password: string) => {
     setShowError(false);
@@ -53,30 +71,6 @@ const LogInForm: React.FC<LogInFormProps> = () => {
     window.localStorage.setItem("user-email", "");
     logIn({ email_address: emailAddress, password });
   };
-
-  useEffect(() => {
-    if (data?.status !== 200) {
-      setShowError(true);
-      setErrorCode(data?.status);
-    } else if (data?.status === 200) {
-      const token = data?.token;
-      setSessionCookie(token);
-      setUser({
-        id: data?.id,
-        last_name: data?.first_name,
-        first_name: data?.last_name,
-        email_address: data?.email_address,
-      });
-      const logInInterval = setInterval(() => {
-        setSessionCookie(token);
-      }, 1000);
-
-      if (getSessionCookie()) {
-        clearInterval(logInInterval);
-        history.push("/");
-      }
-    }
-  }, [data, history, setUser]);
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();

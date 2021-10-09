@@ -28,7 +28,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   const intl = useIntl();
   const theme = useContext(ThemeContext);
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
-  var options = {
+  var options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "short",
     day: "numeric",

@@ -8,7 +8,6 @@ export const getBinders = async (): Promise<{
     [key: string]: BinderInterface;
   }> = await get({
     apiUrl: "/binders",
-    errorMessage: "There was an error getting binders",
   });
 
   return response?.data;
@@ -22,8 +21,7 @@ export const addBinder = async ({
 }: BinderInterface): Promise<BinderInterface> => {
   const input = { name, color, folder_id, id };
   const response: AxiosResponse<BinderInterface> = await post({
-    apiUrl: "/binder",
-    errorMessage: "There was an error adding a binder",
+    apiUrl: "/binders",
     body: input,
   });
 
@@ -42,8 +40,7 @@ export const updateBinder = async (
 ) => {
   const input = { name, color, binder_id };
   await patch({
-    apiUrl: "/binder",
-    errorMessage: "There was an error updating the binder",
+    apiUrl: "/binders",
     body: input,
   });
 };
@@ -51,8 +48,7 @@ export const updateBinder = async (
 export const deleteBinder = async (binder_id: string) => {
   const input = { binder_id };
   await del({
-    apiUrl: "/binder",
-    errorMessage: "There was an error deleting the binder",
+    apiUrl: "/binders",
     body: input,
   });
 };

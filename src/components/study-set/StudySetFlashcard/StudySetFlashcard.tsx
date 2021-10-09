@@ -30,7 +30,7 @@ import {
   getWordCount,
 } from "../../notetaking/Editor/Editor.helpers";
 import { DeleteModal, FlashcardModal } from "../../shared";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { addFlashcard, deleteFlashcard, saveFlashcard } from "../../../api";
 import {
   addedLinkedFlashcardAtom,
@@ -43,6 +43,7 @@ import { useParams } from "react-router-dom";
 import { getSessionCookie } from "../../../helpers";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import { Tooltip } from "../../common";
+import { queryClient } from "../../..";
 
 enum FLASHCARD_SIDE {
   FRONT = "front",
@@ -101,7 +102,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [deck] = useAtom(deckAtom);
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
-  const queryClient = useQueryClient();
   const [isMainFlashcardButtonDisabled, setIsMainFlashcardButtonDisabled] =
     useAtom(isMainFlashcardButtonDisabledAtom);
 

@@ -1,8 +1,9 @@
 import { useAtom } from "jotai";
 import { useCallback } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { getSessionCookie } from ".";
+import { queryClient } from "..";
 import { deleteBinder, deleteFolder, deleteStudySet } from "../api";
 import { FILETREE_TYPES, Params } from "../shared";
 import {
@@ -23,13 +24,11 @@ export const useDeleteAsset = () => {
   const [studySets] = useAtom(studySetsAtom);
   const [firstFolderId] = useAtom(firstFolderIdAtom);
   const [secondFolderId] = useAtom(secondFolderIdAtom);
-  const queryClient = useQueryClient();
 
   const { mutate: _deleteFolder } = useMutation(
     "delete-folder",
     (folderId: string) => deleteFolder(folderId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
@@ -42,7 +41,6 @@ export const useDeleteAsset = () => {
     "delete-binder",
     (binderId: string) => deleteBinder(binderId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
@@ -55,7 +53,6 @@ export const useDeleteAsset = () => {
     "delete-study-set",
     (studySetId: string) => deleteStudySet(studySetId),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`

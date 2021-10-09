@@ -11,5 +11,6 @@ export { useUpdateAsset } from "./useUpdateAsset";
 export { moveArrayItem } from "./moveArrayItem";
 export { orZero } from "./orZero";
 export { titleCase } from "./titleCase";
+export { uniqueApiKey } from "./uniqueApiKey";
 export * from "./formValidation";
 export * from "./cookies";

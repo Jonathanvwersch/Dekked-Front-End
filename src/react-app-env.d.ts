@@ -27,6 +27,26 @@ interface FileTreeInterface {
     children: FileTreeInterface;
   };
 }
+
+interface LoadFilesInterface {
+  binders: Binders;
+  fileTree: FileTreeInterface;
+  folders: Folders;
+  studySets: StudySets;
+}
+
+type Binders = {
+  [key: string]: BinderInterface;
+};
+
+type Folders = {
+  [key: string]: FolderInterface;
+};
+
+type StudySets = {
+  [key: string]: StudySetsInterface;
+};
+
 interface BinderInterface {
   id: string;
   folder_id: string;

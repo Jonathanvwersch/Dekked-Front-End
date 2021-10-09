@@ -8,7 +8,6 @@ export const getFolders = async (): Promise<{
     [key: string]: FolderInterface;
   }> = await get({
     apiUrl: `/folders`,
-    errorMessage: "There was an error getting the folders",
   });
 
   return response?.data;
@@ -30,8 +29,8 @@ export const addFolder = async ({
   };
 
   const response: AxiosResponse<FolderInterface> = await post({
-    apiUrl: `/folder`,
-    errorMessage: "There was an error adding folders",
+    apiUrl: `/folders`,
+
     body: input,
   });
 
@@ -54,8 +53,8 @@ export const updateFolder = async (
     name,
   };
   const response: AxiosResponse<FolderInterface> = await patch({
-    apiUrl: `/folder`,
-    errorMessage: "There was an error updating the folder",
+    apiUrl: `/folders`,
+
     body: input,
   });
   return response?.data;
@@ -67,8 +66,8 @@ export const deleteFolder = async (folder_id: string) => {
   };
 
   const response: AxiosResponse<{ folder_id: string }> = await del({
-    apiUrl: `/folder`,
-    errorMessage: "There was an error deleting the folder",
+    apiUrl: `/folders`,
+
     body: input,
   });
 

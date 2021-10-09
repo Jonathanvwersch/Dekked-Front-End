@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import React, { useContext, useRef, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import {
@@ -24,6 +24,7 @@ import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 import { getSessionCookie } from "../../../helpers";
 import { isEmpty } from "lodash";
 import { Tooltip } from "../../common";
+import { queryClient } from "../../..";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,7 +53,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
-  const queryClient = useQueryClient();
   const fullscreenRef = useRef<HTMLButtonElement>(null);
   const getFlashcardsKey =
     studyMode === STUDY_MODE_TYPES.FREE_STUDY
