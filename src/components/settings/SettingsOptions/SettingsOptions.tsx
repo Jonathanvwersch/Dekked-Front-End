@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import React, { SyntheticEvent, useContext, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { ThemeContext } from "styled-components";
 import { SettingsAccount, SettingsAppearance } from "..";
 import { getSessionCookie } from "../../../helpers";
@@ -10,6 +10,7 @@ import { userAtom } from "../../../store";
 import { SETTINGS_SIDEBAR_DATA } from "../SettingsSidebar/SettingSidebar.data";
 import { Box } from "dekked-design-system";
 import { Footer } from "../../common";
+import { queryClient } from "../../..";
 
 interface SettingsOptionsProps {
   activeSetting: SETTINGS_SIDEBAR_DATA;
@@ -21,7 +22,6 @@ const SettingsOptions: React.FC<SettingsOptionsProps> = ({
   handleCloseModal,
 }) => {
   const theme = useContext(ThemeContext);
-  const queryClient = useQueryClient();
   const [user] = useAtom(userAtom);
 
   const [firstName, setFirstName] = useState(user?.first_name);

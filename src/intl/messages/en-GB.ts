@@ -20,6 +20,7 @@ const en_GB = {
       or: "Or",
     },
     errorBoundary: {
+      returnHome: "Return home",
       heading: "Uh oh...something went wrong",
       subHeading:
         "We're really sorry that this has happened. We have informed our technical team and are working on a solution.",

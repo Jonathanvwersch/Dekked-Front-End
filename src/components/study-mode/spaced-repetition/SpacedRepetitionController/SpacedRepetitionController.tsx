@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
 import {
@@ -27,6 +27,7 @@ import {
   rememberedButtonTimings,
 } from "./SpacedRepetitionController.helpers";
 import { Tooltip } from "../../../common";
+import { queryClient } from "../../../..";
 
 interface SpacedRepetitionControllerProps {
   numberOfNewCards: number;
@@ -77,7 +78,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const [_numberOfLearningCards, setNumberOfLearningCards] = useState<number>(
     numberOfLearningCards
   );
-  const queryClient = useQueryClient();
 
   const { theme, formatMessage } = usePageSetupHelpers();
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {

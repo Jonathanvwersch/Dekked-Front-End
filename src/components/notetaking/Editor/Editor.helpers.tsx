@@ -342,13 +342,13 @@ export const toggleInlineStyle = (
 
 export const createKeysAndBlocks = (editorState: EditorState) => {
   const rawContent = convertToRaw(editorState.getCurrentContent());
-  const keys = rawContent.blocks.map((val) => val.key);
-  const blocks = rawContent.blocks.map((val) => JSON.stringify(val));
+  const keys = rawContent.blocks?.map((val) => val.key);
+  const blocks = rawContent.blocks?.map((val) => JSON.stringify(val));
   return { keys, blocks };
 };
 
 export const convertBlocksToContent = (blocks: any[]) => {
-  const parsedBlocks: RawDraftContentBlock[] = blocks.map((block) =>
+  const parsedBlocks: RawDraftContentBlock[] = blocks?.map((block) =>
     JSON.parse(block)
   );
   const content = convertFromRaw({

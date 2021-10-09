@@ -6,9 +6,14 @@ import {
 } from "./OpenSettingsModal.data";
 import { CoordsType } from "../../../shared";
 import { MainSettingsModal } from "..";
+import { queryClient } from "../../..";
+import { useMutation } from "react-query";
+import { logout } from "../../../api";
+import { FullPageLoadingSpinner } from "dekked-design-system";
 import { useHistory } from "react-router-dom";
 import { removeCookie } from "../../../helpers";
-import { QueryCache } from "react-query";
+import { useAtom } from "jotai";
+import { fileTreeAtom } from "../../../store";
 
 interface OpenSettingsModalProps {
   open: boolean;
@@ -25,8 +30,11 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
   openMainSettingsModal,
   setOpenMainSettingsModal,
 }) => {
+  const { mutate: logoutApp, isLoading } = useMutation("log-out", logout, {
+    onSuccess: () => history.push("/"),
+  });
   const history = useHistory();
-  const queryCache = new QueryCache();
+  const [, setFileTree] = useAtom(fileTreeAtom);
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
@@ -34,25 +42,33 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
       setOpenMainSettingsModal(true);
     }
     if (option === OPEN_SETTINGS_DATA.LOGOUT) {
+      queryClient.clear();
+      queryClient.removeQueries();
+      setFileTree(undefined);
       removeCookie();
-      queryCache.clear();
-      history.push("/login");
+      logoutApp();
     }
   };
 
   return (
     <>
-      <ScrollerModal
-        coords={coords}
-        clickFunctions={clickFunctions}
-        open={open}
-        handleClose={handleClose}
-        data={OpenSettingsModalData}
-      />
-      <MainSettingsModal
-        handleCloseModal={() => setOpenMainSettingsModal(false)}
-        openModal={openMainSettingsModal}
-      />
+      {isLoading ? (
+        <FullPageLoadingSpinner />
+      ) : (
+        <>
+          <ScrollerModal
+            coords={coords}
+            clickFunctions={clickFunctions}
+            open={open}
+            handleClose={handleClose}
+            data={OpenSettingsModalData}
+          />
+          <MainSettingsModal
+            handleCloseModal={() => setOpenMainSettingsModal(false)}
+            openModal={openMainSettingsModal}
+          />
+        </>
+      )}
     </>
   );
 };

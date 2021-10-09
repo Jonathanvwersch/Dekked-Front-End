@@ -1,4 +1,3 @@
-// import "./wdyr"
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -6,7 +5,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { IntlProvider, LOCALES } from "./intl";
 import { Provider } from "jotai";
 import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient();
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      useErrorBoundary: true,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <Provider>

@@ -6,7 +6,6 @@ export const getStudySets = async () => {
     [key: string]: StudySetInterface;
   }> = await get({
     apiUrl: "/study-sets",
-    errorMessage: "There was an error getting the study set",
   });
 
   return response?.data;
@@ -30,8 +29,8 @@ export const addStudySet = async ({
     id,
   };
   const response: AxiosResponse<StudySetInterface> = await post({
-    apiUrl: "/study-set",
-    errorMessage: "There was an adding the study set",
+    apiUrl: "/study-sets",
+
     body: payload,
   });
   return response?.data;
@@ -53,8 +52,8 @@ export const updateStudySet = async (
     name,
   };
   const response = await patch({
-    apiUrl: "/study-set",
-    errorMessage: "There was an adding the study set",
+    apiUrl: "/study-sets",
+
     body: payload,
   });
 
@@ -66,8 +65,8 @@ export const deleteStudySet = async (study_set_id: string) => {
     study_set_id,
   };
   const response = await del({
-    apiUrl: "/study-set",
-    errorMessage: "There was an error deleting the study set",
+    apiUrl: "/study-sets",
+
     body: payload,
   });
   return response?.data;

@@ -1,13 +1,12 @@
 import { config } from "../config";
 import { getSessionCookie } from "../helpers";
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 type RequestBuilderType = {
   apiUrl: string;
   baseUrl?: string;
   body?: object;
   noAuthorisation?: boolean;
-  errorMessage?: string;
 };
 
 type HttpMethods = "GET" | "PUT" | "POST" | "PATCH" | "DELETE";
@@ -16,18 +15,11 @@ type HttpResponse = ({
   baseUrl,
   body,
   noAuthorisation,
-  errorMessage,
 }: RequestBuilderType) => Promise<AxiosResponse<any>>;
 
 const requestBuilder =
   (method: HttpMethods) =>
-  async ({
-    apiUrl,
-    baseUrl,
-    body,
-    noAuthorisation,
-    errorMessage,
-  }: RequestBuilderType) => {
+  async ({ apiUrl, baseUrl, body, noAuthorisation }: RequestBuilderType) => {
     const headers: AxiosRequestConfig["headers"] = {
       "Content-type": "application/json",
     };
@@ -38,22 +30,12 @@ const requestBuilder =
 
     const requestConfig: AxiosRequestConfig = {
       method,
-      url: baseUrl ? `${baseUrl}${apiUrl}` : `${config.API}${apiUrl}`,
+      url: baseUrl ? `${baseUrl}/api/v1${apiUrl}` : `${config.API}${apiUrl}`,
       data: body,
       headers,
     };
-    return axios(requestConfig)
-      .then((res: any) => {
-        return res;
-      })
-      .catch((err: AxiosError) => {
-        if (err.response) {
-          console.error(err.response);
-          return err.response;
-        } else {
-          console.error(err);
-        }
-      });
+
+    return await axios(requestConfig);
   };
 
 export const get: HttpResponse = requestBuilder("GET");

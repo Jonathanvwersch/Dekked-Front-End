@@ -1,13 +1,13 @@
 import { useAtom } from "jotai";
 import { useCallback } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { getSessionCookie } from ".";
+import { queryClient } from "..";
 import { updateAsset } from "../api";
 import { updateAssetAtom } from "../store";
 
 export const useUpdateAsset = () => {
   const [, setAsset] = useAtom(updateAssetAtom);
-  const queryClient = useQueryClient();
 
   const { mutate: _updateAsset } = useMutation(
     "update-study-set",
@@ -28,7 +28,6 @@ export const useUpdateAsset = () => {
         color: updateData.color,
       }),
     {
-      retry: 3,
       onSuccess: () => {
         queryClient.refetchQueries(
           `${getSessionCookie()}-get-all-due-sr-decks`
