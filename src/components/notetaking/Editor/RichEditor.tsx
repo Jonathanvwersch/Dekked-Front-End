@@ -29,6 +29,7 @@ import { styleMap } from "./Editor.data";
 import GeneralBlock from "../GeneralBlock/GeneralBlock";
 import { blockLinkAtom, isFlashcardLinkedAtom } from "../../../store";
 import { useAtom } from "jotai";
+import { SIZES } from "dekked-design-system";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -158,6 +159,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
     const type = contentBlock.getType();
     if (type === "blockquote") {
       return "custom-blockquote";
+    } else if (type === "code-block") {
+      return "custom-codeblock";
     } else return "";
   };
 
@@ -310,6 +313,17 @@ const EditorContainer = styled.div<{
     font-style: italic;
     font-size: ${({ theme }) => theme.typography.fontSizes.size18};
     padding-left: ${({ theme }) => theme.spacers.size16};
+  }
+
+  .custom-codeblock {
+    margin-top: ${({ theme }) => theme.spacers.size20};
+    margin-bottom: ${({ theme }) => theme.spacers.size20};
+    background-color: ${({ theme }) => theme.colors.secondary};
+    border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.MEDIUM]};
+    font-size: ${({ theme }) => theme.typography.fontSizes.size18};
+    padding: ${({ theme }) => theme.spacers.size16};
+    font-family: "Courier Prime", monospace;
+    font-size: ${({ theme }) => theme.typography.fontSizes.size16};
   }
 `;
 

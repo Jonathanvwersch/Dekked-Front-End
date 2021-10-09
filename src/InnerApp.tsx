@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, withRouter } from "react-router-dom";
+import { useHistory, useLocation, withRouter } from "react-router-dom";
 import { useAtom } from "jotai";
 import {
   bindersAtom,
@@ -26,6 +26,7 @@ export const App: React.FC = () => {
   const [, setStudySets] = useAtom(studySetsAtom);
   const [, setUser] = useAtom(userAtom);
   const history = useHistory();
+  const location = useLocation();
 
   useQuery<UserType>(uniqueApiKey("user"), getUser, {
     onSuccess: (data) => setUser(data),
@@ -38,9 +39,10 @@ export const App: React.FC = () => {
       setStudySets(data?.studySets);
       setBinders(data?.binders);
       setIsLoading(false);
-      history.push(
-        `/${FILETREE_TYPES.FOLDER}/${Object.keys(data?.fileTree)[0]}`
-      );
+      location.pathname === "/" &&
+        history.push(
+          `/${FILETREE_TYPES.FOLDER}/${Object.keys(data?.fileTree)[0]}`
+        );
     },
   });
 

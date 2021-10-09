@@ -63,6 +63,7 @@ export enum BLOCK_TYPES {
   QUOTE = "blockquote",
   DIVIDER = "divider",
   TODO = "to-do",
+  CODE = "code-block",
   TOGGLE = "toggle",
 }
 
