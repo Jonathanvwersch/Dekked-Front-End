@@ -27,7 +27,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
 
   return (
     <ErrorBoundary
-      fallbackRender={({ error }) => (
+      fallbackRender={({ error, resetErrorBoundary }) => (
         <Flex
           alignItems="center"
           justifyContent="center"
@@ -88,6 +88,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
             <Button
               size={SIZES.LARGE}
               handleClick={() => {
+                resetErrorBoundary();
                 history.push("/");
                 window.location.reload();
               }}
