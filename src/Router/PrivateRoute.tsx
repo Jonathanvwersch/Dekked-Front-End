@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { FullPageLoadingSpinner } from "dekked-design-system";
 import { getSessionCookie, useAddAsset } from "../helpers";
 import { FILETREE_TYPES } from "../shared";
-import { fileTreeAtom, loadingErrorAtom } from "../store";
+import { fileTreeAtom, isAppLoadingAtom, loadingErrorAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -23,6 +23,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
 }) => {
   const history = useHistory();
+  const [isLoading] = useAtom(isAppLoadingAtom);
   const [fileTree] = useAtom(fileTreeAtom);
   const [loadingError] = useAtom(loadingErrorAtom);
   const { addAsset } = useAddAsset();
@@ -43,7 +44,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
   return (
     <>
-      {getSessionCookie() ? (
+      {!isLoading && getSessionCookie() ? (
         <Route path={path} exact={exact} strict={strict} component={Component}>
           {children}
         </Route>
