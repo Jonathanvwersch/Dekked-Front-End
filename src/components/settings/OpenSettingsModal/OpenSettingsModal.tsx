@@ -12,6 +12,8 @@ import { logout } from "../../../api";
 import { FullPageLoadingSpinner } from "dekked-design-system";
 import { useHistory } from "react-router-dom";
 import { removeCookie } from "../../../helpers";
+import { useAtom } from "jotai";
+import { fileTreeAtom } from "../../../store";
 
 interface OpenSettingsModalProps {
   open: boolean;
@@ -32,6 +34,7 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
     onSuccess: () => history.push("/"),
   });
   const history = useHistory();
+  const [, setFileTree] = useAtom(fileTreeAtom);
 
   const clickFunctions = (option: OPEN_SETTINGS_DATA) => {
     handleClose();
@@ -41,6 +44,7 @@ const OpenSettingsModal: React.FC<OpenSettingsModalProps> = ({
     if (option === OPEN_SETTINGS_DATA.LOGOUT) {
       queryClient.clear();
       queryClient.removeQueries();
+      setFileTree(undefined);
       removeCookie();
       logoutApp();
     }

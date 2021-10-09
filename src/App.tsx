@@ -7,11 +7,23 @@ import { withRouter } from "react-router-dom";
 import ReactGa from "react-ga";
 import { useAtom } from "jotai";
 import { SkeletonTheme } from "react-loading-skeleton";
-import { darkModeAtom } from "./store";
+import {
+  bindersAtom,
+  darkModeAtom,
+  fileTreeAtom,
+  foldersAtom,
+  isAppLoadingAtom,
+  studySetsAtom,
+  userAtom,
+} from "./store";
 
 import { theme } from "dekked-design-system";
 import { ErrorBoundaryFallback } from "./components/common";
 import CustomSwitch from "./Router/CustomSwitch";
+import { useQuery } from "react-query";
+import { getFiles, getUser } from "./api";
+import { getSessionCookie, uniqueApiKey } from "./helpers";
+import { UserType } from "./shared";
 
 export const App: React.FC = () => {
   ReactGa.initialize(config.GA_TRACKING_CODE);
@@ -23,6 +35,29 @@ export const App: React.FC = () => {
   }, []);
 
   const memoisedTheme = useMemo(() => theme(isDarkTheme), [isDarkTheme]);
+
+  const [, setIsLoading] = useAtom(isAppLoadingAtom);
+  const [, setFileTree] = useAtom(fileTreeAtom);
+  const [, setFolders] = useAtom(foldersAtom);
+  const [, setBinders] = useAtom(bindersAtom);
+  const [, setStudySets] = useAtom(studySetsAtom);
+  const [, setUser] = useAtom(userAtom);
+
+  useQuery<UserType>(uniqueApiKey("user"), getUser, {
+    onSuccess: (data) => setUser(data),
+    enabled: Boolean(getSessionCookie()),
+  });
+
+  useQuery<LoadFilesInterface>(uniqueApiKey("files"), getFiles, {
+    onSuccess: (data) => {
+      setFolders(data?.folders);
+      setFileTree(data?.fileTree);
+      setStudySets(data?.studySets);
+      setBinders(data?.binders);
+      setIsLoading(false);
+    },
+    enabled: Boolean(getSessionCookie()),
+  });
 
   return (
     <ThemeProvider theme={memoisedTheme}>
