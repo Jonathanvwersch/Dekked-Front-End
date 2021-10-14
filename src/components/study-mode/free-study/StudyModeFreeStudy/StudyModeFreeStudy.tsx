@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../../api";
+import { getFlashcards } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { currentFlashcardIndexAtom, flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "dekked-design-system";
@@ -17,42 +17,25 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
   const [flashcardIndex, setFlashcardIndex] = useState<number>(
     currentFlashcardIndex
   );
-  const { id: studySetId } = useParams<Params>();
+  const { id: fileId, type } = useParams<Params>();
   const [flippedState, setFlippedState] = useState<boolean>(true);
   const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
   const maxLength = flashcards?.length;
 
-  // we only want to fetch flashcards if none exist
-  // this occurs on refresh of study mode page.
-  const { data: deck } = useQuery(
-    `${studySetId}-get-deck`,
-    () => getDeckByStudySetId({ studySetId }),
-    {
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      enabled: !flashcards,
-    }
-  );
-
-  const { data: fetchedFlashcards, isFetching } = useQuery<
-    FlashcardInterface[]
-  >(
-    `${studySetId}-get-flashcards`,
-    () => getFlashcardsByDeckId({ deckId: deck?.id }),
-    {
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      enabled: Boolean(deck?.id) && !flashcards,
-    }
-  );
+  const { data: fetchedFlashcards, isFetching: isFetchingFlashcards } =
+    useQuery<FlashcardInterface[]>(`${fileId}-get-flashcards`, () =>
+      getFlashcards({ id: fileId, type })
+    );
 
   useEffect(() => {
     if (fetchedFlashcards) setFlashcards(fetchedFlashcards);
-  }, [fetchedFlashcards, setFlashcards]);
+  }, [fetchedFlashcards, isFetchingFlashcards, setFlashcards]);
 
   return (
     <>
-      {typeof maxLength !== "undefined" && !isFetching && flashcards ? (
+      {typeof maxLength !== "undefined" &&
+      !isFetchingFlashcards &&
+      flashcards ? (
         <>
           <StudyModeMainFrame
             flashcardIndex={flashcardIndex}

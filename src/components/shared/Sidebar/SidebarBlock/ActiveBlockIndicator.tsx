@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../../shared";
-import { bindersAtom, studySetsAtom, typeAtom } from "../../../../store";
+import { bindersAtom, studySetsAtom } from "../../../../store";
 
 interface ActiveBlockIndicatorProps {
   blockId: string;
@@ -14,8 +14,7 @@ const ActiveBlockIndicator: React.FC<ActiveBlockIndicatorProps> = ({
   blockId,
 }) => {
   let isActive = false;
-  const [type] = useAtom(typeAtom);
-  const { id } = useParams<Params>();
+  const { id, type } = useParams<Params>();
   const [studySets] = useAtom(studySetsAtom);
   const [binders] = useAtom(bindersAtom);
   const theme = useContext(ThemeContext);

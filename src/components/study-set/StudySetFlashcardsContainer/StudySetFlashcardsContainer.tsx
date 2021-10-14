@@ -13,14 +13,14 @@ import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Params } from "../../../shared";
-import { getDeckByStudySetId, getFlashcardsByDeckId } from "../../../api";
+import { getDeckByStudySetId, getFlashcards } from "../../../api";
 
 interface StudySetFlashcardsContainerProps {}
 
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useContext(ThemeContext);
-    const { id: studySetId } = useParams<Params>();
+    const { id: studySetId, type } = useParams<Params>();
     const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
     const [, setDeck] = useAtom(deckAtom);
     const isAdding = useIsMutating({
@@ -43,11 +43,10 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
 
     const { data: fetchedFlashcards, isLoading } = useQuery(
       `${studySetId}-get-flashcards`,
-      () => getFlashcardsByDeckId({ deckId: deck?.id }),
+      () => getFlashcards({ id: studySetId, type }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id),
       }
     );
 

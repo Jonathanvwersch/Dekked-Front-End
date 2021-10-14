@@ -38,7 +38,7 @@ const Crumb: React.FC<CrumbProps> = ({
     <>
       {breadCrumbData || (name && icon) ? (
         <Flex>
-          {breadCrumbType !== FILETREE_TYPES.FOLDER ? (
+          {breadCrumbType !== FILETREE_TYPES.FOLDER && link !== "/" ? (
             <>
               <Spacer width={theme.spacers.size4} />
               <Text

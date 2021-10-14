@@ -78,7 +78,13 @@ export const useDeleteAsset = () => {
           ) {
             if (assetId === firstFolderId) {
               history.push(secondFolderLink);
+            } else if (folders && !Object.keys(folders).length) {
+              history.push("/");
             } else history.push(firstFolderLink);
+          }
+
+          if (folders && !Object.keys(folders).length) {
+            history.push("/");
           }
 
           _deleteFolder(assetId);

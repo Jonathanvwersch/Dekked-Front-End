@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import React, { useContext, useLayoutEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 import { MainFrame } from "../../components/common";
 import {
@@ -8,10 +9,9 @@ import {
 } from "../../components/study-mode";
 import { useResponsiveLayout } from "../../hooks";
 import { LAYOUT_VERTICAL } from "../../hooks/useResponsiveLayout";
-import CustomSwitch from "../../Router/CustomSwitch";
-import PrivateRoute from "../../Router/PrivateRoute";
-import { STUDY_MODE_TYPES } from "../../shared";
+import { Params, STUDY_MODE_TYPES } from "../../shared";
 import { fullscreenStudyModeAtom, sidebarAtom } from "../../store";
+
 interface StudyModePageProps {}
 
 const StudyModePage: React.FC<StudyModePageProps> = () => {
@@ -19,6 +19,7 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
   const theme = useContext(ThemeContext);
   const [fullscreen] = useAtom(fullscreenStudyModeAtom);
   const layout = useResponsiveLayout();
+  const { studyModes } = useParams<Params>();
 
   useLayoutEffect(() => {
     setSidebar(false);
@@ -33,17 +34,11 @@ const StudyModePage: React.FC<StudyModePageProps> = () => {
       justifyContent="center"
     >
       <Wrapper maxWidth={maxWidth}>
-        <CustomSwitch>
-          <PrivateRoute
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`}
-            component={StudyModeSpacedRepetition}
-          />
-          <PrivateRoute
-            exact
-            path={`/:type/:id/study/${STUDY_MODE_TYPES.FREE_STUDY}`}
-            component={StudyModeFreeStudy}
-          />
-        </CustomSwitch>
+        {studyModes === STUDY_MODE_TYPES.FREE_STUDY ? (
+          <StudyModeFreeStudy />
+        ) : (
+          <StudyModeSpacedRepetition />
+        )}
       </Wrapper>
     </MainFrame>
   );

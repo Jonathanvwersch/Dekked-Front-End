@@ -6,8 +6,8 @@ import { useIntl } from "react-intl";
 
 import { formatMessage } from "../../../intl";
 import { useUpdateAsset } from "../../../helpers";
-import { typeAtom } from "../../../store";
-import { useAtom } from "jotai";
+import { useParams } from "react-router-dom";
+import { Params } from "../../../shared";
 
 interface EditableTextProps {
   editableTextRef: React.RefObject<HTMLDivElement>;
@@ -26,7 +26,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   className,
   itemId,
 }) => {
-  const [type] = useAtom(typeAtom);
+  const { type } = useParams<Params>();
   const intl = useIntl();
   const [html, setHtml] = useState<string>(name);
   const { updateItem } = useUpdateAsset();

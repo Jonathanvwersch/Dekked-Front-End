@@ -11,7 +11,7 @@ import {
   Text,
 } from "dekked-design-system";
 import { ErrorBoundary } from "react-error-boundary";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { config } from "../../../config";
 import { FormattedMessage } from "react-intl";
@@ -90,7 +90,6 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
               handleClick={() => {
                 resetErrorBoundary();
                 history.push("/");
-                window.location.reload();
               }}
               fullWidth
             >
@@ -105,4 +104,4 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
   );
 };
 
-export default ErrorBoundaryFallback;
+export default withRouter(ErrorBoundaryFallback);

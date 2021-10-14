@@ -13,7 +13,7 @@ import {
   validateEmail,
 } from "../../../helpers";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { login } from "../../../api";
 import ErrorMessage from "../ErrorMessage";
 import { useMutation } from "react-query";
@@ -144,4 +144,4 @@ const LogInForm: React.FC<LogInFormProps> = () => {
   );
 };
 
-export default LogInForm;
+export default withRouter(LogInForm);

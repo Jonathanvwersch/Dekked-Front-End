@@ -1,14 +1,13 @@
 import React, { useMemo, useRef } from "react";
 import styled from "styled-components";
 import { ButtonDropdown, EditableText, Tooltip } from "../../common";
-import { FILETREE_TYPES, Params, STUDY_MODE_TYPES } from "../../../shared";
+import { Params, STUDY_MODE_TYPES } from "../../../shared";
 import { usePageSetupHelpers } from "../../../hooks";
 import { useHistory, useParams } from "react-router-dom";
 import {
   currentFlashcardIndexAtom,
   isAppLoadingAtom,
   selectActiveBlockName,
-  typeAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
@@ -27,8 +26,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const [, setCurrentFlashcardIndex] = useAtom(currentFlashcardIndexAtom);
   const headerRef = useRef<HTMLDivElement>(null);
   const { theme, formatMessage } = usePageSetupHelpers();
-  const { id } = useParams<Params>();
-  const [type] = useAtom(typeAtom);
+  const { id, type } = useParams<Params>();
   const [isLoading] = useAtom(isAppLoadingAtom);
   const [selectedBlockName] = useAtom(
     useMemo(() => selectActiveBlockName(id, type), [id, type])
@@ -40,6 +38,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       <Flex
         flexDirection="column"
         alignItems={isLoading ? "flex-start" : "center"}
+        mt={theme.spacers.size16}
       >
         <>
           {!isLoading ? (
@@ -64,41 +63,39 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             )}
             {!isLoading ? (
               <Flex width="auto">
-                {type === FILETREE_TYPES.STUDY_SET ? (
-                  <>
-                    <Spacer width={theme.spacers.size16} />
-                    <Tooltip
-                      id="DisabledStudyButton"
-                      text="tooltips.studyMode.disabledStudyButton"
-                      isActive={disableStudyButton}
-                    >
-                      <ButtonDropdown
-                        modal={{
-                          clickFunctions: (option: STUDY_MODE_TYPES) => {
-                            setCurrentFlashcardIndex(0);
-                            if (option === STUDY_MODE_TYPES.FREE_STUDY) {
-                              history.push(
-                                `/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`
-                              );
-                            } else if (
-                              option === STUDY_MODE_TYPES.SPACED_REPETITION
-                            ) {
-                              history.push(
-                                `/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`
-                              );
-                            }
-                          },
-                          data: studyButtonData,
-                        }}
-                        flushWithRightButtonSide
-                        button={{
-                          text: formatMessage("generics.study"),
-                          isDisabled: disableStudyButton,
-                        }}
-                      />
-                    </Tooltip>
-                  </>
-                ) : null}
+                <>
+                  <Spacer width={theme.spacers.size16} />
+                  <Tooltip
+                    id="DisabledStudyButton"
+                    text="tooltips.studyMode.disabledStudyButton"
+                    isActive={disableStudyButton}
+                  >
+                    <ButtonDropdown
+                      modal={{
+                        clickFunctions: (option: STUDY_MODE_TYPES) => {
+                          setCurrentFlashcardIndex(0);
+                          if (option === STUDY_MODE_TYPES.FREE_STUDY) {
+                            history.push(
+                              `/${type}/${id}/study/${STUDY_MODE_TYPES.FREE_STUDY}`
+                            );
+                          } else if (
+                            option === STUDY_MODE_TYPES.SPACED_REPETITION
+                          ) {
+                            history.push(
+                              `/${type}/${id}/study/${STUDY_MODE_TYPES.SPACED_REPETITION}`
+                            );
+                          }
+                        },
+                        data: studyButtonData,
+                      }}
+                      flushWithRightButtonSide
+                      button={{
+                        text: formatMessage("generics.study"),
+                        isDisabled: disableStudyButton,
+                      }}
+                    />
+                  </Tooltip>
+                </>
               </Flex>
             ) : (
               <Skeleton width="70px" height="32px" />

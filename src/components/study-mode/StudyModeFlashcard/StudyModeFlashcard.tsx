@@ -77,7 +77,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
-  const { id } = useParams<Params>();
+  const { id, type } = useParams<Params>();
   const [deletedLastFlashcard, setDeletedLastFlashcard] =
     useState<boolean>(false);
   const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
@@ -142,9 +142,11 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           size={SIZES.LARGE}
           width="200px"
           handleClick={() => {
-            history.push(
-              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.FLASHCARDS}`
-            );
+            type === FILETREE_TYPES.STUDY_SET
+              ? history.push(
+                  `/${type}/${id}/${studySetTab || TAB_TYPE.FLASHCARDS}`
+                )
+              : history.push(`/${type}/${id}`);
           }}
         >
           <FormattedMessage id="studyMode.flashcard.returnToStudySet" />
@@ -155,11 +157,9 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             size={SIZES.LARGE}
             width="200px"
             handleClick={() => {
-              history.push(
-                `/${FILETREE_TYPES.STUDY_SET}/${id}/${
-                  studySetTab || TAB_TYPE.FLASHCARDS
-                }`
-              );
+              type === FILETREE_TYPES.STUDY_SET
+                ? history.push(`/${type}/${id}/${TAB_TYPE.FLASHCARDS}`)
+                : history.push(`/${type}/${id}`);
             }}
           >
             <FormattedMessage id="generics.finish" />

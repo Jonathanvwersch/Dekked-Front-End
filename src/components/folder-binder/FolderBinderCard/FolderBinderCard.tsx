@@ -14,7 +14,7 @@ interface FolderBinderCardProps {
   name: string;
   color: string;
   id: string;
-  dateCreated: string | undefined;
+  dateModified: string | undefined;
   type: FILETREE_TYPES;
 }
 
@@ -22,7 +22,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   name,
   color,
   id,
-  dateCreated,
+  dateModified,
   type,
 }) => {
   const intl = useIntl();
@@ -33,7 +33,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
     month: "short",
     day: "numeric",
   };
-  const date = new Date(dateCreated || "");
+  const date = new Date(dateModified || "");
 
   return (
     <NavLink
@@ -48,16 +48,16 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
       <ThumbnailCard
         topText={handleUntitled(name, intl)}
         bottomText={`${formatMessage(
-          "folderBinders.created",
+          "folderBinders.edited",
           intl
         )} ${date.toLocaleDateString("en-US", options)}`}
         thumbnailBackgroundColor={theme.colors.secondary}
         descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
         backgroundIcon={
           type === FILETREE_TYPES.BINDER ? (
-            <BinderIcon color={color} size="80px" />
+            <BinderIcon color={color} size="50px" />
           ) : (
-            <StudySetIcon color={color} size="80px" />
+            <StudySetIcon color={color} size="50px" />
           )
         }
       />

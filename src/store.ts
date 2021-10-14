@@ -14,6 +14,17 @@ export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
 export const studySetsAtom = atom<
   { [key: string]: StudySetInterface } | undefined
 >({});
+export const fileAtom = atom((get) => {
+  const folders = get(foldersAtom || {});
+  const binders = get(bindersAtom || {});
+  const studySets = get(studySetsAtom || {});
+  const files = [
+    ...Object.keys(folders || {}),
+    ...Object.keys(binders || {}),
+    ...Object.keys(studySets || {}),
+  ];
+  return files;
+});
 export const firstFolderIdAtom = atom((get) => {
   const fileTree = get(fileTreeAtom || {});
   return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
@@ -443,9 +454,6 @@ export const pageEditorStateAtom = atom<EditorState>(EditorState.createEmpty());
 
 // Layered Modal
 export const layeredModalAtom = atom<boolean>(false);
-
-// General
-export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 
 // Study mode
 export const fullscreenStudyModeAtom = atomWithStorage<boolean>(

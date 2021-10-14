@@ -38,6 +38,7 @@ const en_GB = {
       workspace: {
         header: "Folders ({num})",
         untitled: "Untitled",
+        home: "Home",
       },
       base: {
         addFolder: "Add folder",
@@ -217,7 +218,10 @@ const en_GB = {
     },
     folderBinders: {
       created: "Created",
+      edited: "Edited",
       untitled: "Untitled",
+      addFolder: "Add binder",
+      addStudySet: "Add study set",
       numOfBinders: "{num} binders",
       numOfBinder: "{num} binder",
       numOfStudySets: "{num} study sets",

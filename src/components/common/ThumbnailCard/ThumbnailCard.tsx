@@ -6,7 +6,6 @@ interface ThumbnailCardProps {
   topText: string;
   bottomText: string;
   backgroundImage?: string;
-  icon?: any;
   backgroundIcon?: any;
   thumbnailBackgroundColor?: string;
   descriptionBackgroundColor?: string;
@@ -15,7 +14,6 @@ interface ThumbnailCardProps {
 const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
   topText,
   bottomText,
-  icon,
   backgroundImage,
   backgroundIcon,
   thumbnailBackgroundColor,
@@ -25,8 +23,8 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
 
   return (
     <StyledCard
-      height="180px"
-      width="160px"
+      height="90px"
+      width="200px"
       padding="0px"
       border={`1px solid ${theme.colors.grey2}`}
       backgroundColor={
@@ -34,7 +32,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       }
       ariaLabel={topText}
     >
-      <Flex flexDirection="column" height="100%">
+      <Flex height="100%">
         <Thumbnail backgroundImage={backgroundImage}>
           {backgroundIcon}
         </Thumbnail>
@@ -43,21 +41,13 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
           backgroundColor={descriptionBackgroundColor || theme.colors.secondary}
         >
           <Text className="overflow">{topText}</Text>
-          <Spacer height="2px" />
-          <Flex>
-            {icon ? (
-              <>
-                {icon}
-                <Spacer width={theme.spacers.size4} />
-              </>
-            ) : null}
-            <Text
-              fontColor={theme.colors.grey1}
-              fontSize={theme.typography.fontSizes.size10}
-            >
-              {bottomText}
-            </Text>
-          </Flex>
+          <Spacer height="8px" />
+          <Text
+            fontColor={theme.colors.grey1}
+            fontSize={theme.typography.fontSizes.size10}
+          >
+            {bottomText}
+          </Text>
         </Description>
       </Flex>
     </StyledCard>
@@ -79,20 +69,21 @@ const Thumbnail = styled.div<{ backgroundImage?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   height: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
   background-size: cover;
   background-image: ${({ backgroundImage }) =>
     backgroundImage ? `url(${backgroundImage})` : undefined};
 `;
 
-const Description = styled((props) => <Card {...props} />)`
-  display: flex;
+const Description = styled((props) => <Flex {...props} />)`
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 8px 16px;
-  border-top: 1px solid ${({ theme }) => theme.colors.grey2};
-  min-height: 52px;
+  background: white;
+  height: 100%;
+  align-items: flex-start;
 `;
 
 export default ThumbnailCard;

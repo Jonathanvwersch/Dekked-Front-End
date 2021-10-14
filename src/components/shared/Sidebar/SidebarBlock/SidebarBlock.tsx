@@ -35,6 +35,19 @@ import {
   ThemeType,
 } from "dekked-design-system";
 
+export const navLinkStyle: React.CSSProperties = {
+  width: "100%",
+  position: "relative",
+};
+
+export const navLinkActiveStyle = (theme: ThemeType): React.CSSProperties => {
+  return {
+    filter: `${theme.colors.active.filter}`,
+    fontWeight: "bold",
+    borderRight: `solid 2px ${theme.colors.primary}`,
+  };
+};
+
 interface SidebarBlockProps {
   blockId: string;
   blockName: string;
@@ -124,22 +137,12 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
         : `/${blockType}/${blockId}/${studySetTab || TAB_TYPE.NOTES}`,
   };
 
-  const navLinkStyle: React.CSSProperties = {
-    width: "100%",
-    position: "relative",
-  };
-  const navLinkActiveStyle: React.CSSProperties = {
-    filter: `${theme.colors.active.filter}`,
-    fontWeight: "bold",
-    borderRight: `solid 2px ${theme.colors.primary}`,
-  };
-
   return (
     <>
       <NavLink
         to={pathName}
         style={navLinkStyle}
-        activeStyle={navLinkActiveStyle}
+        activeStyle={navLinkActiveStyle(theme)}
       >
         <StyledBlock paddingLeft={paddingLeft}>
           <Flex>
@@ -212,7 +215,7 @@ const HiddenIconsContainer = styled.div`
   display: none;
 `;
 
-const StyledBlock = styled.div<{
+export const StyledBlock = styled.div<{
   paddingLeft?: string | null;
 }>`
   display: flex;

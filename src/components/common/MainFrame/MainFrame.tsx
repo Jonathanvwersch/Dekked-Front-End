@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Page } from "..";
+import { FullPage } from "../../shared";
 import TopBar from "../../shared/Topbar/Topbar";
 
 interface MainFrameProps {
@@ -11,12 +12,14 @@ interface MainFrameProps {
 
 const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
   return (
-    <StyledMainFrame backgroundColor={backgroundColor}>
-      <>
-        <TopBar />
-        <Page>{children}</Page>
-      </>
-    </StyledMainFrame>
+    <FullPage>
+      <StyledMainFrame backgroundColor={backgroundColor}>
+        <>
+          <TopBar />
+          <Page>{children}</Page>
+        </>
+      </StyledMainFrame>
+    </FullPage>
   );
 };
 

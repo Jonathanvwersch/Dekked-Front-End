@@ -4,9 +4,9 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import {
+  getFlashcards,
+  getSpacedRepetitionFlashcards,
   getDeckByStudySetId,
-  getFlashcardsByDeckId,
-  getSpacedRepetitionFlashcardsByDeckId,
 } from "../../../../api";
 import { Params, STUDY_MODE_TYPES } from "../../../../shared";
 import { currentFlashcardIndexAtom, srFlashcardsAtom } from "../../../../store";
@@ -25,13 +25,13 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       useState<number>(0);
     const [numberOfNewCards, setNumberOfNewCards] = useState<number>(0);
     const [srFlashcards, setSrFlashcards] = useAtom(srFlashcardsAtom);
-    const { id: studySetId } = useParams<Params>();
+    const { id: fileId, type } = useParams<Params>();
     const [flippedState, setFlippedState] = useState<boolean>(true);
     const [maxLength, setMaxLength] = useState<number>();
 
     const { data: deck, isLoading: isDeckLoading } = useQuery(
-      `${studySetId}-get-deck`,
-      () => getDeckByStudySetId({ studySetId }),
+      `${fileId}-get-deck`,
+      () => getDeckByStudySetId({ studySetId: fileId }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
@@ -44,12 +44,11 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       isLoading: isFlashcardsLoading,
       isFetching: isFlashcardsFetching,
     } = useQuery(
-      `${studySetId}-get-flashcards`,
-      () => getFlashcardsByDeckId({ deckId: deck?.id }),
+      `${fileId}-get-flashcards`,
+      () => getFlashcards({ id: fileId, type }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id),
       }
     );
 
@@ -58,12 +57,12 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
       isLoading: isSrFlashcardsLoading,
       isFetching: isSrFlashcardsFetching,
     } = useQuery(
-      `${studySetId}-get-sr-flashcards`,
-      () => getSpacedRepetitionFlashcardsByDeckId({ deckId: deck?.id || "" }),
+      `${fileId}-get-sr-flashcards`,
+      () => getSpacedRepetitionFlashcards({ id: fileId, type }),
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
-        enabled: Boolean(deck?.id) && flashcardIndex === 0,
+        enabled: flashcardIndex === 0,
         onSuccess: (data) => setMaxLength(data?.length),
       }
     );
