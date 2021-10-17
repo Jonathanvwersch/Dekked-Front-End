@@ -8,7 +8,7 @@ export { default as Footer } from "./Footer/Footer";
 export { default as Tooltip } from "./Tooltip/Tooltip";
 export { default as Block } from "./Block/Block";
 export { default as IconDropdown } from "./IconDropdown/IconDropdown";
-export { default as ThumbnailCard } from "./ThumbnailCard/ThumbnailCard";
+export { default as FileCard } from "./FileCard/FileCard";
 export { default as ButtonDropdown } from "./ButtonDropdown/ButtonDropdown";
 export { default as InternalLink } from "./InternalLink/InternalLink";
 export { default as ErrorBoundaryFallback } from "./ErrorBoundaryFallback/ErrorBoundaryFallback";

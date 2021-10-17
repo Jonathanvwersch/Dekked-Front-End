@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import { FullPageLoadingSpinner } from "dekked-design-system";
+import { useAtom } from "jotai";
+import React, { useLayoutEffect } from "react";
 import { Route } from "react-router";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { getSessionCookie } from "../helpers";
+import { useInitialiseApp } from "../hooks";
+import { isAppLoadingAtom } from "../store";
 
 type PrivateRouteProps = {
   path: string | string[];
@@ -9,6 +13,17 @@ type PrivateRouteProps = {
   strict?: boolean;
   component?: any;
   children?: any;
+  render?:
+    | ((
+        props: RouteComponentProps<
+          {
+            [x: string]: string | undefined;
+          },
+          any,
+          unknown
+        >
+      ) => React.ReactNode)
+    | undefined;
 };
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
@@ -17,13 +32,16 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   strict = false,
   component: Component,
   children,
+  render,
 }) => {
   const history = useHistory();
   const cookie = getSessionCookie();
+  const [isLoading] = useAtom(isAppLoadingAtom);
+  useInitialiseApp();
 
   // If there is no user, redirect to login
   // If path === '/', redirect to first folder
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!cookie) {
       history.push("/login");
     }
@@ -31,10 +49,18 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
   return (
     <>
-      {cookie && (
-        <Route path={path} exact={exact} strict={strict} component={Component}>
+      {cookie && !isLoading ? (
+        <Route
+          path={path}
+          exact={exact}
+          strict={strict}
+          component={Component}
+          render={render}
+        >
           {children}
         </Route>
+      ) : (
+        <FullPageLoadingSpinner />
       )}
     </>
   );

@@ -7,23 +7,25 @@ import { handleUntitled } from "../../../helpers";
 import { ThemeContext } from "styled-components";
 import { selectStudySetTab } from "../../../store";
 import { useAtom } from "jotai";
-import { BinderIcon, StudySetIcon } from "dekked-design-system";
-import { ThumbnailCard } from "../../common";
+import { BinderIcon, SIZES, StudySetIcon } from "dekked-design-system";
+import { FileCard } from "../../common";
 
 interface FolderBinderCardProps {
   name: string;
   color: string;
   id: string;
-  dateCreated: string | undefined;
+  dateModified: string | undefined;
   type: FILETREE_TYPES;
+  size?: SIZES;
 }
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   name,
   color,
   id,
-  dateCreated,
+  dateModified,
   type,
+  size,
 }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
@@ -33,7 +35,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
     month: "short",
     day: "numeric",
   };
-  const date = new Date(dateCreated || "");
+  const date = new Date(dateModified || "");
 
   return (
     <NavLink
@@ -45,21 +47,22 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
             }`
       }
     >
-      <ThumbnailCard
+      <FileCard
         topText={handleUntitled(name, intl)}
         bottomText={`${formatMessage(
-          "folderBinders.created",
+          "folderBinders.edited",
           intl
         )} ${date.toLocaleDateString("en-US", options)}`}
         thumbnailBackgroundColor={theme.colors.secondary}
         descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
-        backgroundIcon={
+        icon={
           type === FILETREE_TYPES.BINDER ? (
-            <BinderIcon color={color} size="80px" />
+            <BinderIcon color={color} size="50px" />
           ) : (
-            <StudySetIcon color={color} size="80px" />
+            <StudySetIcon color={color} size="50px" />
           )
         }
+        size={size}
       />
     </NavLink>
   );

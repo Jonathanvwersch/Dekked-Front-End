@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import React, { useCallback, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { SidebarTop, SidebarWorkspace } from ".";
+import { SidebarHome, SidebarTop, SidebarWorkspace } from ".";
 import { SIZES } from "../../../shared";
 import { sidebarAtom } from "../../../store";
 import SidebarBase from "./SidebarBase/SidebarBase";
@@ -30,20 +30,21 @@ const Sidebar: React.FC<SidebarProps> = () => {
         onMouseLeave={
           !sidebar
             ? mouseLeave
-            : (e) => {
+            : () => {
                 return null;
               }
         }
         onMouseEnter={
           !sidebar
             ? mouseEnter
-            : (e) => {
+            : () => {
                 return null;
               }
         }
       >
         <>
           <SidebarTop />
+          <SidebarHome />
           <SidebarWorkspaceHeader />
           <SidebarWorkspace bottomFolderRef={bottomFolderRef} />
           <SidebarBase bottomFolderRef={bottomFolderRef} />
@@ -87,7 +88,8 @@ const sidebarHidden = css<{ hoverbar: boolean }>`
   height: calc(100vh - 130px);
   min-width: ${({ theme }) => theme.sizes.sidebar};
   box-shadow: ${({ theme }) => theme.boxShadow};
-  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.SMALL]};
+  overflow: hidden;
+  border-radius: ${({ theme }) => theme.sizes.borderRadius[SIZES.LARGE]};
   opacity: ${({ hoverbar }) => (hoverbar ? 1 : 0)};
   transform: ${({ hoverbar, theme }) =>
     hoverbar

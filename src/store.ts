@@ -1,7 +1,7 @@
 import { EditorState } from "draft-js";
 import { Atom, atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { FILETREE_TYPES, TAB_TYPE, UserType } from "./shared";
+import { FILETREE_TYPES, TAB_TYPE } from "./shared";
 
 // File tree atoms
 export const fileTreeAtom = atom<FileTreeInterface | undefined>({});
@@ -14,6 +14,17 @@ export const bindersAtom = atom<{ [key: string]: BinderInterface } | undefined>(
 export const studySetsAtom = atom<
   { [key: string]: StudySetInterface } | undefined
 >({});
+export const fileAtom = atom((get) => {
+  const folders = get(foldersAtom || {});
+  const binders = get(bindersAtom || {});
+  const studySets = get(studySetsAtom || {});
+  const files = [
+    ...Object.keys(folders || {}),
+    ...Object.keys(binders || {}),
+    ...Object.keys(studySets || {}),
+  ];
+  return files;
+});
 export const firstFolderIdAtom = atom((get) => {
   const fileTree = get(fileTreeAtom || {});
   return fileTree && fileTree[Object.keys(fileTree)?.[0]]?.id;
@@ -343,7 +354,7 @@ export const updateAssetAtom = atom(
 export const darkModeAtom = atomWithStorage<boolean>("dark-mode", false);
 
 // User
-export const userAtom = atom<UserType>({
+export const userAtom = atom<UserInterface>({
   id: "",
   email_address: "",
   first_name: "",
@@ -443,9 +454,6 @@ export const pageEditorStateAtom = atom<EditorState>(EditorState.createEmpty());
 
 // Layered Modal
 export const layeredModalAtom = atom<boolean>(false);
-
-// General
-export const typeAtom = atom<FILETREE_TYPES>(FILETREE_TYPES.FOLDER);
 
 // Study mode
 export const fullscreenStudyModeAtom = atomWithStorage<boolean>(

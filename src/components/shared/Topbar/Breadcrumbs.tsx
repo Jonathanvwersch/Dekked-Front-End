@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { FILETREE_TYPES, Params, TAB_TYPE } from "../../../shared";
-import { Flex, StudyModeIcon } from "dekked-design-system";
+import { Flex, HomeIcon, StudyModeIcon } from "dekked-design-system";
 import Crumb from "./Crumb";
 import { useIntl } from "react-intl";
 import { formatMessage } from "../../../intl";
@@ -11,14 +11,12 @@ import {
   getActiveStudySet,
   isAppLoadingAtom,
   studySetTabAtom,
-  typeAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 
 const Breadcrumbs: React.FC = () => {
-  const [type] = useAtom(typeAtom);
   const [loading] = useAtom(isAppLoadingAtom);
-  const { studyModes, id } = useParams<Params>();
+  const { studyModes, id, type } = useParams<Params>();
   const [studySetTab] = useAtom(studySetTabAtom);
   const { url } = useRouteMatch();
   const intl = useIntl();
@@ -64,6 +62,14 @@ const Breadcrumbs: React.FC = () => {
           link={url}
         />
       ) : null}
+
+      {url === "/" && (
+        <Crumb
+          icon={<HomeIcon />}
+          name={formatMessage("sidebar.workspace.home", intl)}
+          link={"/"}
+        />
+      )}
     </Flex>
   ) : null;
 };

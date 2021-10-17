@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlashcardModal, PageHeader } from "../../shared";
-import { Button, Flex, Spacer } from "dekked-design-system";
+import { Button, Flex } from "dekked-design-system";
 import { StudySetToolbar, StudySetTabSwitcher } from "..";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getPluralOrSingular } from "../../../helpers";
 import { BUTTON_THEME, Params, SIZES, TAB_TYPE } from "../../../shared";
@@ -23,7 +23,6 @@ interface StudySetHeaderProps {
 const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const intl = useIntl();
   const [numOfWords, setNumOfWords] = useState<number>(0);
-  const theme = useContext(ThemeContext);
   const { tab } = useParams<Params>();
   const [addFlashcard, setAddFlashcard] = useState<boolean>(false);
   const [isLoading] = useAtom(isAppLoadingAtom);
@@ -76,7 +75,6 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
       </ToolbarAndTabs>
       <PageHeaderWrapper ref={headerRef}>
         <Flex flexDirection="column">
-          <Spacer height={theme.spacers.size16} />
           <PageHeader
             message={message(tab)}
             disableStudyButton={flashcardsDoNotExist}
@@ -96,7 +94,7 @@ const PageHeaderWrapper = styled.div`
   max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
 `;
 
-const ToolbarAndTabs = styled(Flex)`
+export const ToolbarAndTabs = styled(Flex)`
   position: sticky;
   margin-top: ${({ theme }) => theme.spacers.size32};
   width: 100%;

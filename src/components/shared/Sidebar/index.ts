@@ -7,3 +7,4 @@ export { default as SidebarFileTree } from "./SidebarFileTree/SidebarFileTree";
 export { default as SidebarTop } from "./SidebarTop/SidebarTop";
 export { default as SidebarWorkspace } from "./SidebarWorkspace/SidebarWorkspace";
 export { default as SidebarBase } from "./SidebarBase/SidebarBase";
+export { default as SidebarHome } from "./SidebarHome/SidebarHome";

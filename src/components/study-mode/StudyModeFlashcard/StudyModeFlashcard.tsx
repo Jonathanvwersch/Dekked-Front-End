@@ -77,7 +77,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const [backFlashcardEditorState, setBackFlashcardEditorState] =
     useState<EditorState>(EditorState.createEmpty());
-  const { id } = useParams<Params>();
+  const { id, type } = useParams<Params>();
   const [deletedLastFlashcard, setDeletedLastFlashcard] =
     useState<boolean>(false);
   const [, setIsLinked] = useAtom(isFlashcardLinkedAtom);
@@ -103,9 +103,21 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     }
   }, [backBlocks]);
 
+  const returnToTextId =
+    type === FILETREE_TYPES.FOLDER
+      ? "returnToFolder"
+      : type === FILETREE_TYPES.BINDER
+      ? "returnToBinder"
+      : "returnToStudySet";
+
+  const emptyDeckTextId =
+    type === FILETREE_TYPES.STUDY_SET
+      ? "clickReturnToStudySet"
+      : "goToStudySet";
+
   const FinalCard = (
     <Flex flexDirection="column" width="100%" justifyContent="center" m="auto">
-      {(!isFlashcardsEmpty || !deletedLastFlashcard) && (
+      {isFlashcardsEmpty || deletedLastFlashcard ? null : (
         <H1 textAlign="center" styledAs="h2">
           <FormattedMessage id="studyMode.flashcard.congratulations" />
         </H1>
@@ -124,7 +136,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
       <Spacer height={theme.spacers.size48} />
       {isFlashcardsEmpty || deletedLastFlashcard ? (
         <H2 styledAs="h5" fontWeight="normal" textAlign="center">
-          <FormattedMessage id="studyMode.flashcard.clickReturnToStudySet" />
+          <FormattedMessage id={`studyMode.flashcard.${emptyDeckTextId}`} />
         </H2>
       ) : (
         <>
@@ -142,12 +154,14 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           size={SIZES.LARGE}
           width="200px"
           handleClick={() => {
-            history.push(
-              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.FLASHCARDS}`
-            );
+            type === FILETREE_TYPES.STUDY_SET
+              ? history.push(
+                  `/${type}/${id}/${studySetTab || TAB_TYPE.FLASHCARDS}`
+                )
+              : history.push(`/${type}/${id}`);
           }}
         >
-          <FormattedMessage id="studyMode.flashcard.returnToStudySet" />
+          <FormattedMessage id={`studyMode.flashcard.${returnToTextId}`} />
         </Button>
       ) : (
         <Flex flexDirection="row" alignItems="center" justifyContent="center">
@@ -155,11 +169,9 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
             size={SIZES.LARGE}
             width="200px"
             handleClick={() => {
-              history.push(
-                `/${FILETREE_TYPES.STUDY_SET}/${id}/${
-                  studySetTab || TAB_TYPE.FLASHCARDS
-                }`
-              );
+              type === FILETREE_TYPES.STUDY_SET
+                ? history.push(`/${type}/${id}/${TAB_TYPE.FLASHCARDS}`)
+                : history.push(`/${type}/${id}`);
             }}
           >
             <FormattedMessage id="generics.finish" />

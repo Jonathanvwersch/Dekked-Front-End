@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory, withRouter } from "react-router-dom";
 import { Flex, Spacer, Text, Button } from "dekked-design-system";
 import { usePageSetupHelpers } from "../../hooks";
 import { BUTTON_THEME } from "../../shared";
@@ -7,10 +7,6 @@ import { BUTTON_THEME } from "../../shared";
 const NotFoundPage: React.FC = () => {
   const { theme, formatMessage } = usePageSetupHelpers();
   const history = useHistory();
-
-  useLayoutEffect(() => {
-    history.push("/404");
-  }, [history]);
 
   return (
     <Flex width="100%" height="100%" justifyContent="center">
@@ -21,7 +17,9 @@ const NotFoundPage: React.FC = () => {
         <Spacer height={theme.spacers.size8} />
         <Button
           buttonStyle={BUTTON_THEME.PRIMARY}
-          handleClick={() => history.push("/")}
+          handleClick={() => {
+            history.push("/");
+          }}
         >
           {formatMessage("notFoundPage.goHome")}
         </Button>
@@ -30,4 +28,4 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-export default NotFoundPage;
+export default withRouter(NotFoundPage);

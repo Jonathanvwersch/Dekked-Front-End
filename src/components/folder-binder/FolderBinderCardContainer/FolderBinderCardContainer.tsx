@@ -1,24 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { FILETREE_TYPES, Params } from "../../../shared";
-import { FolderBinderAddCard, FolderBinderCard } from "..";
-import {
-  bindersAtom,
-  fileTreeAtom,
-  isAppLoadingAtom,
-  typeAtom,
-} from "../../../store";
+import { FolderBinderCard } from "..";
+import { bindersAtom, fileTreeAtom, isAppLoadingAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import { FileContainer } from "../..";
 
 interface FolderBinderCardContainerProps {}
 
 const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
   () => {
     const [fileTree] = useAtom(fileTreeAtom);
-    const [type] = useAtom(typeAtom);
-    const { id } = useParams<Params>();
+    const { id, type } = useParams<Params>();
     const [binders] = useAtom(bindersAtom);
     const [isLoading] = useAtom(isAppLoadingAtom);
     const folderId = binders?.[id]?.folder_id;
@@ -35,7 +30,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
                     color={binder?.[1]?.color}
                     name={binder?.[1]?.name}
                     id={binder?.[1]?.id}
-                    dateCreated={binder?.[1]?.date_created}
+                    dateModified={binder?.[1]?.date_modified}
                     type={binder?.[1]?.type as FILETREE_TYPES}
                   />
                 )
@@ -54,8 +49,8 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
                     color={studySet?.[1]?.color}
                     name={studySet?.[1]?.name}
                     id={studySet?.[1]?.id}
-                    dateCreated={
-                      studySet?.[1]?.date_created as unknown as string
+                    dateModified={
+                      studySet?.[1]?.date_modified as unknown as string
                     }
                     type={studySet?.[1]?.type as FILETREE_TYPES}
                   />
@@ -68,10 +63,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
     return (
       <>
         {!isLoading ? (
-          <StyledContainer>
-            <FolderBinderAddCard id={id} type={type} folderId={folderId} />
-            {Cards(type)}
-          </StyledContainer>
+          <FileContainer width="210px">{Cards(type)}</FileContainer>
         ) : (
           <StyledSkeleton width="160px" height="180px" count={2} />
         )}
@@ -81,16 +73,6 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
 
 const StyledSkeleton = styled(Skeleton)`
   margin-right: ${({ theme }) => theme.spacers.size32};
-`;
-
-const StyledContainer = styled.div<FolderBinderCardContainerProps>`
-  flex-shrink: 0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 0.5fr));
-  grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default React.memo(FolderBinderCardContainer);

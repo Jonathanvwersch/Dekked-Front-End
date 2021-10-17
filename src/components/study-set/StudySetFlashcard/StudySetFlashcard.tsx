@@ -98,7 +98,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [user] = useAtom(userAtom);
   const { id: ownerId } = user;
-  const { id: studySetId } = useParams<Params>();
+  const { id: fileId } = useParams<Params>();
   const [deck] = useAtom(deckAtom);
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
@@ -107,8 +107,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const getFlashcardsKey =
     studyMode === STUDY_MODE_TYPES.SPACED_REPETITION
-      ? `${studySetId}-get-sr-flashcards`
-      : `${studySetId}-get-flashcards`;
+      ? `${fileId}-get-sr-flashcards`
+      : `${fileId}-get-flashcards`;
 
   useEffect(() => {
     if (linked) {
@@ -118,7 +118,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   }, [linked, frontEditorRef]);
 
   const { mutate: addCard } = useMutation(
-    `${studySetId}-add-flashcard`,
+    `${fileId}-add-flashcard`,
     addFlashcard,
     {
       onSuccess: async (flashcard: FlashcardInterface) => {
@@ -135,7 +135,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   );
 
   const { mutate: deleteCard } = useMutation(
-    `${studySetId}-delete-flashcard`,
+    `${fileId}-delete-flashcard`,
     deleteFlashcard,
     {
       onSuccess: async (_, { flashcard_id }) => {
@@ -177,6 +177,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
           updateFlashcards(prevState, data, flashcard_id)
         );
+
         closeModal && closeModal();
       },
     }
@@ -314,11 +315,11 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 
   const handleSubmitFlashcard = () => {
     if (type === "add") {
-      studySetId &&
+      fileId &&
         addCard({
           owner_id: ownerId,
           deck_id: deck?.id,
-          study_set_id: studySetId,
+          study_set_id: fileId,
           block_link: currentBlockKey,
           frontFlashcardEditorState,
           backFlashcardEditorState,
@@ -337,6 +338,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           flashcard_id: flashcardId,
           deck_id: deck?.id,
           owner_id: ownerId,
+          study_set_id: fileId,
         });
     }
   };

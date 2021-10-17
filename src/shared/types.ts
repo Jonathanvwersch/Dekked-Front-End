@@ -26,13 +26,6 @@ export type CoordsType = {
   left?: number;
 };
 
-export type UserType = {
-  id: string;
-  email_address: string;
-  first_name: string;
-  last_name: string;
-};
-
 export type DropDownType = {
   label: string;
   value: string;

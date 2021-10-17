@@ -43,7 +43,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
 
   const { mutate: updatePage } = useMutation(
     `${studySetId}-save-notes`,
-    (editorState: EditorState) => savePage({ editorState, pageId })
+    (editorState: EditorState) => savePage({ editorState, pageId, studySetId })
   );
 
   // Set editor state on mount with the blocks

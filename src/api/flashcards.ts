@@ -1,28 +1,36 @@
 import { EditorState } from "draft-js";
 import { createKeysAndBlocks } from "../components/notetaking/Editor/Editor.helpers";
-import { FlashcardLearningStatus, FlashcardQuality } from "../shared";
+import {
+  FILETREE_TYPES,
+  FlashcardLearningStatus,
+  FlashcardQuality,
+} from "../shared";
 import { del, get, patch, post } from "./utils";
 import { AxiosResponse } from "axios";
 
-export const getFlashcardsByDeckId = async ({
-  deckId,
+export const getFlashcards = async ({
+  id,
+  type,
 }: {
-  deckId?: string;
+  id: string;
+  type: FILETREE_TYPES;
 }): Promise<FlashcardInterface[]> => {
   const response: AxiosResponse<FlashcardInterface[]> = await get({
-    apiUrl: `/flashcards/${deckId}`,
+    apiUrl: `/flashcards?id=${id}&type=${type}`,
   });
 
   return response?.data;
 };
 
-export const getSpacedRepetitionFlashcardsByDeckId = async ({
-  deckId,
+export const getSpacedRepetitionFlashcards = async ({
+  id,
+  type,
 }: {
-  deckId: string;
+  id: string;
+  type: FILETREE_TYPES;
 }): Promise<FlashcardInterface[]> => {
   const response: AxiosResponse<FlashcardInterface[]> = await get({
-    apiUrl: `/flashcards/spaced-repetition/${deckId}`,
+    apiUrl: `/flashcards/spaced-repetition?id=${id}&type=${type}`,
   });
   return response?.data;
 };
@@ -36,6 +44,7 @@ export const saveFlashcard = async ({
   quality,
   interval,
   learningStatus,
+  study_set_id,
 }: {
   flashcard_id: string | undefined;
   owner_id: string | undefined;
@@ -45,6 +54,7 @@ export const saveFlashcard = async ({
   quality?: FlashcardQuality;
   interval?: number;
   learningStatus?: FlashcardLearningStatus;
+  study_set_id?: string;
 }) => {
   const payload: {
     flashcard_id: string | undefined;
@@ -57,6 +67,7 @@ export const saveFlashcard = async ({
     quality?: FlashcardQuality;
     interval?: number;
     learning_status?: FlashcardLearningStatus;
+    study_set_id?: string;
   } = {
     flashcard_id,
     owner_id,
@@ -64,6 +75,7 @@ export const saveFlashcard = async ({
     quality,
     interval,
     learning_status: learningStatus,
+    study_set_id,
   };
 
   if (frontEditorState) {

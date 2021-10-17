@@ -7,13 +7,15 @@ import {
 } from "../../components/folder-binder";
 import { SIZES } from "../../shared";
 
-const FolderPage: React.FC = () => (
-  <MainFrame>
-    <InsetPage size={SIZES.MEDIUM}>
-      <FolderBinderHeader />
-      <FolderBinderCardContainer />
-    </InsetPage>
-  </MainFrame>
-);
+const FolderPage: React.FC = () => {
+  return (
+    <MainFrame>
+      <InsetPage size={SIZES.MEDIUM}>
+        <FolderBinderHeader />
+        <FolderBinderCardContainer />
+      </InsetPage>
+    </MainFrame>
+  );
+};
 
 export default FolderPage;
