@@ -103,9 +103,21 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     }
   }, [backBlocks]);
 
+  const returnToTextId =
+    type === FILETREE_TYPES.FOLDER
+      ? "returnToFolder"
+      : type === FILETREE_TYPES.BINDER
+      ? "returnToBinder"
+      : "returnToStudySet";
+
+  const emptyDeckTextId =
+    type === FILETREE_TYPES.STUDY_SET
+      ? "clickReturnToStudySet"
+      : "goToStudySet";
+
   const FinalCard = (
     <Flex flexDirection="column" width="100%" justifyContent="center" m="auto">
-      {(!isFlashcardsEmpty || !deletedLastFlashcard) && (
+      {isFlashcardsEmpty || deletedLastFlashcard ? null : (
         <H1 textAlign="center" styledAs="h2">
           <FormattedMessage id="studyMode.flashcard.congratulations" />
         </H1>
@@ -124,7 +136,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
       <Spacer height={theme.spacers.size48} />
       {isFlashcardsEmpty || deletedLastFlashcard ? (
         <H2 styledAs="h5" fontWeight="normal" textAlign="center">
-          <FormattedMessage id="studyMode.flashcard.clickReturnToStudySet" />
+          <FormattedMessage id={`studyMode.flashcard.${emptyDeckTextId}`} />
         </H2>
       ) : (
         <>
@@ -149,7 +161,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
               : history.push(`/${type}/${id}`);
           }}
         >
-          <FormattedMessage id="studyMode.flashcard.returnToStudySet" />
+          <FormattedMessage id={`studyMode.flashcard.${returnToTextId}`} />
         </Button>
       ) : (
         <Flex flexDirection="row" alignItems="center" justifyContent="center">

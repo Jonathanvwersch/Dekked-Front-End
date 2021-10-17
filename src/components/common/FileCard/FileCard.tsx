@@ -1,30 +1,34 @@
-import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
-import { Card, Spacer, Text, Flex, ThemeType } from "dekked-design-system";
+import React from "react";
+import styled from "styled-components";
+import { Card, Spacer, Text, Flex, SIZES } from "dekked-design-system";
+import { useTheme } from "../../../hooks";
 
-interface ThumbnailCardProps {
+interface FileCardProps {
   topText: string;
   bottomText: string;
   backgroundImage?: string;
-  backgroundIcon?: any;
+  icon?: any;
   thumbnailBackgroundColor?: string;
   descriptionBackgroundColor?: string;
+  size?: SIZES;
 }
 
-const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
+const FileCard: React.FC<FileCardProps> = ({
   topText,
   bottomText,
   backgroundImage,
-  backgroundIcon,
+  icon,
   thumbnailBackgroundColor,
   descriptionBackgroundColor,
+  size,
 }) => {
-  const theme: ThemeType = useContext(ThemeContext);
+  const theme = useTheme();
+  const width = size === SIZES.LARGE ? "300px" : "210px";
 
   return (
     <StyledCard
-      height="90px"
-      width="200px"
+      height={size === SIZES.LARGE ? "150px" : "90px"}
+      width={width}
       padding="0px"
       border={`1px solid ${theme.colors.grey2}`}
       backgroundColor={
@@ -33,18 +37,30 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
       ariaLabel={topText}
     >
       <Flex height="100%">
-        <Thumbnail backgroundImage={backgroundImage}>
-          {backgroundIcon}
-        </Thumbnail>
+        <Thumbnail backgroundImage={backgroundImage}>{icon}</Thumbnail>
         <Description
           borderRadius="0px"
           backgroundColor={descriptionBackgroundColor || theme.colors.secondary}
         >
-          <Text className="overflow">{topText}</Text>
+          <Text
+            fontWeight="bold"
+            fontSize={
+              size === SIZES.LARGE
+                ? theme.typography.fontSizes.size14
+                : theme.typography.fontSizes.size12
+            }
+            className="overflow"
+          >
+            {topText}
+          </Text>
           <Spacer height="8px" />
           <Text
             fontColor={theme.colors.grey1}
-            fontSize={theme.typography.fontSizes.size10}
+            fontSize={
+              size === SIZES.LARGE
+                ? theme.typography.fontSizes.size12
+                : theme.typography.fontSizes.size10
+            }
           >
             {bottomText}
           </Text>
@@ -70,8 +86,8 @@ const Thumbnail = styled.div<{ backgroundImage?: string }>`
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
   background-size: cover;
   background-image: ${({ backgroundImage }) =>
     backgroundImage ? `url(${backgroundImage})` : undefined};
@@ -86,4 +102,4 @@ const Description = styled((props) => <Flex {...props} />)`
   align-items: flex-start;
 `;
 
-export default ThumbnailCard;
+export default FileCard;

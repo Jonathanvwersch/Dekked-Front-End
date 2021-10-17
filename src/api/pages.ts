@@ -30,15 +30,18 @@ export const getBlocksByPageId = async ({
 export const savePage = async ({
   editorState,
   pageId,
+  studySetId,
 }: {
   editorState: EditorState;
   pageId?: string;
+  studySetId?: string;
 }): Promise<PageInterface> => {
   const { keys, blocks } = createKeysAndBlocks(editorState);
   const payload = {
     draft_keys: keys,
     blocks,
     page_id: pageId,
+    study_set_id: studySetId,
   };
 
   const response: AxiosResponse<PageInterface> = await patch({

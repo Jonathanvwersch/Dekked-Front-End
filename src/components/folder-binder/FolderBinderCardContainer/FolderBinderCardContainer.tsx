@@ -6,6 +6,7 @@ import { bindersAtom, fileTreeAtom, isAppLoadingAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import { FileContainer } from "../..";
 
 interface FolderBinderCardContainerProps {}
 
@@ -62,7 +63,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
     return (
       <>
         {!isLoading ? (
-          <StyledContainer>{Cards(type)}</StyledContainer>
+          <FileContainer width="210px">{Cards(type)}</FileContainer>
         ) : (
           <StyledSkeleton width="160px" height="180px" count={2} />
         )}
@@ -72,16 +73,6 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
 
 const StyledSkeleton = styled(Skeleton)`
   margin-right: ${({ theme }) => theme.spacers.size32};
-`;
-
-const StyledContainer = styled.div<FolderBinderCardContainerProps>`
-  flex-shrink: 0;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 0.5fr));
-  grid-row-gap: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default React.memo(FolderBinderCardContainer);

@@ -19,7 +19,15 @@ const en_GB = {
       somethingWentWrong: "Something went wrong. Please try again.",
       or: "Or",
     },
+    home: {
+      titles: {
+        recent: "Recent",
+        welcome: "Welcome",
+      },
+      noRecentActivity: "No recent activity",
+    },
     errorBoundary: {
+      reload: "Reload",
       returnHome: "Return home",
       heading: "Uh oh...something went wrong",
       subHeading:
@@ -99,6 +107,9 @@ const en_GB = {
         reachedTheEnd: "You've reached the end of your deck",
         caughtUp: "You're all caught up for the day",
         flashcardsEmpty: "It looks like your deck of flashcards is empty",
+        returnToBinder: "Return to binder",
+        returnToFolder: "Return to folder",
+        goToStudySet: "Go to a study set to add your first flashcard",
         clickReturnToStudySet:
           "Click return to study set to add your first flashcard",
         returnToStudySet: "Return to study set",

@@ -107,10 +107,11 @@ interface UserInterface {
   email_address: string;
   first_name: string;
   last_name: string;
-  password: string;
+  password?: string;
   id: string;
   date_created?: string;
   date_modified?: string;
+  recently_visited?: string[];
 }
 
 interface DeckInterface {

@@ -338,6 +338,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           flashcard_id: flashcardId,
           deck_id: deck?.id,
           owner_id: ownerId,
+          study_set_id: fileId,
         });
     }
   };

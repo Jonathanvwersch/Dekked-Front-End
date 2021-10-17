@@ -16,6 +16,7 @@ import {
   FlashcardLearningStatus,
   FlashcardQuality,
   FlashcardStatus,
+  Params,
   SIZES,
 } from "../../../../shared";
 import { Button, Flex, Spacer, Text } from "dekked-design-system";
@@ -28,6 +29,7 @@ import {
 } from "./SpacedRepetitionController.helpers";
 import { Tooltip } from "../../../common";
 import { queryClient } from "../../../..";
+import { useParams } from "react-router-dom";
 
 interface SpacedRepetitionControllerProps {
   numberOfNewCards: number;
@@ -78,6 +80,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const [_numberOfLearningCards, setNumberOfLearningCards] = useState<number>(
     numberOfLearningCards
   );
+  const { id: studySetId } = useParams<Params>();
 
   const { theme, formatMessage } = usePageSetupHelpers();
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
@@ -152,6 +155,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
         owner_id: ownerId,
         deck_id: deckId,
         quality,
+        study_set_id: studySetId,
         interval: calculateNewInterval(
           quality,
           status,

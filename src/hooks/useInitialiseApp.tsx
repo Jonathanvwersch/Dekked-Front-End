@@ -2,7 +2,6 @@ import { useAtom } from "jotai";
 import { useQuery } from "react-query";
 import { getFiles, getUser } from "../api";
 import { getSessionCookie, uniqueApiKey } from "../helpers";
-import { UserType } from "../shared";
 import {
   bindersAtom,
   fileTreeAtom,
@@ -20,7 +19,7 @@ const useInitialiseApp = () => {
   const [, setStudySets] = useAtom(studySetsAtom);
   const [, setUser] = useAtom(userAtom);
 
-  useQuery<UserType>(uniqueApiKey("user"), getUser, {
+  useQuery<UserInterface>(uniqueApiKey("user"), getUser, {
     onSuccess: (data) => setUser(data),
     refetchOnMount: false,
     enabled: Boolean(getSessionCookie()),

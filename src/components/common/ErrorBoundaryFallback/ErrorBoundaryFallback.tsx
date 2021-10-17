@@ -11,7 +11,7 @@ import {
   Text,
 } from "dekked-design-system";
 import { ErrorBoundary } from "react-error-boundary";
-import { useHistory, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { config } from "../../../config";
 import { FormattedMessage } from "react-intl";
@@ -22,7 +22,6 @@ interface ErrorBoundaryFallbackProps {}
 const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
   children,
 }) => {
-  const history = useHistory();
   const theme = useContext(ThemeContext);
 
   return (
@@ -88,12 +87,13 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
             <Button
               size={SIZES.LARGE}
               handleClick={() => {
-                resetErrorBoundary();
-                history.push("/");
+                config.APP_ENV !== "production"
+                  ? window.location.reload()
+                  : resetErrorBoundary();
               }}
               fullWidth
             >
-              <FormattedMessage id="errorBoundary.returnHome" />
+              <FormattedMessage id="errorBoundary.reload" />
             </Button>
           </ShadowCard>
         </Flex>

@@ -44,6 +44,7 @@ export const saveFlashcard = async ({
   quality,
   interval,
   learningStatus,
+  study_set_id,
 }: {
   flashcard_id: string | undefined;
   owner_id: string | undefined;
@@ -53,6 +54,7 @@ export const saveFlashcard = async ({
   quality?: FlashcardQuality;
   interval?: number;
   learningStatus?: FlashcardLearningStatus;
+  study_set_id?: string;
 }) => {
   const payload: {
     flashcard_id: string | undefined;
@@ -65,6 +67,7 @@ export const saveFlashcard = async ({
     quality?: FlashcardQuality;
     interval?: number;
     learning_status?: FlashcardLearningStatus;
+    study_set_id?: string;
   } = {
     flashcard_id,
     owner_id,
@@ -72,6 +75,7 @@ export const saveFlashcard = async ({
     quality,
     interval,
     learning_status: learningStatus,
+    study_set_id,
   };
 
   if (frontEditorState) {
