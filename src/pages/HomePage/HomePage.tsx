@@ -2,7 +2,9 @@ import { Box, Divider, H1, H2, SIZES, Spacer } from "dekked-design-system";
 import { useAtom } from "jotai";
 import React from "react";
 import { FormattedMessage } from "react-intl";
+import Skeleton from "react-loading-skeleton";
 import { useQuery } from "react-query";
+import styled from "styled-components";
 import { getUser } from "../../api";
 import { FileContainer } from "../../components";
 import { InsetPage } from "../../components/common";
@@ -24,11 +26,15 @@ const HomePage: React.FC<HomePageProps> = () => {
   const lastName = user?.last_name || "";
   const fullName = `${firstName} ${lastName}`;
 
-  const { data } = useQuery<UserInterface>(uniqueApiKey("user"), getUser, {
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    enabled: Boolean(getSessionCookie()),
-  });
+  const { data, isLoading: isUserLoading } = useQuery<UserInterface>(
+    uniqueApiKey("user"),
+    getUser,
+    {
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      enabled: Boolean(getSessionCookie()),
+    }
+  );
 
   return (
     <MainFrame>
@@ -47,11 +53,17 @@ const HomePage: React.FC<HomePageProps> = () => {
             }}
           />
           <FileContainer width="325px">
-            {!data?.recently_visited ? (
+            {isUserLoading ? (
+              <>
+                <StyledSkeleton width="325px" height="150px" />
+                <StyledSkeleton width="325px" height="150px" />
+                <StyledSkeleton width="325px" height="150px" />
+              </>
+            ) : !data?.recently_visited ? (
               <FormattedMessage id="home.noRecentActivity" />
             ) : (
               data?.recently_visited?.map((studySetId) =>
-                studySets ? (
+                studySets?.[studySetId] ? (
                   <FolderBinderCard
                     name={studySets?.[studySetId]?.name || ""}
                     color={studySets?.[studySetId]?.color}
@@ -77,5 +89,9 @@ const HomePage: React.FC<HomePageProps> = () => {
     </MainFrame>
   );
 };
+
+const StyledSkeleton = styled(Skeleton)`
+  margin-right: ${({ theme }) => theme.spacers.size32};
+`;
 
 export default HomePage;
