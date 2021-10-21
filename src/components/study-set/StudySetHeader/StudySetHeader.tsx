@@ -102,6 +102,7 @@ export const ToolbarAndTabs = styled(Flex)`
   max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
   padding: ${({ theme }) => theme.spacers.size16} 0px;
   background: ${({ theme }) => theme.colors.backgrounds.pageBackground};
+  min-height: ${({ theme }) => theme.spacers.size64};
   height: ${({ theme }) => theme.spacers.size64};
   z-index: 100;
   padding-left: 100px;
