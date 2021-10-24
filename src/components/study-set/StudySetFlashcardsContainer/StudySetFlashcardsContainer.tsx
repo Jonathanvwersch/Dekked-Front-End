@@ -1,5 +1,5 @@
 import { isEmpty, isEqual } from "lodash";
-import React, { Fragment, useContext, useEffect, useRef } from "react";
+import React, { Fragment, useContext, useLayoutEffect, useRef } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
@@ -31,14 +31,18 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       addedLinkedFlashcardAtom
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       addedLinkedFlashcard !== 0 && setAddedLinkedFlashcard(0);
     }, [addedLinkedFlashcard, setAddedLinkedFlashcard]);
 
     const { data: deck } = useQuery(
       `${studySetId}-get-deck`,
       () => getDeckByStudySetId({ studySetId }),
-      { refetchOnReconnect: false, refetchOnWindowFocus: false }
+      {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+      }
     );
 
     const { data: fetchedFlashcards, isLoading } = useQuery(
@@ -47,14 +51,15 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       {
         refetchOnReconnect: false,
         refetchOnWindowFocus: false,
+        refetchOnMount: false,
       }
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       setFlashcards(fetchedFlashcards);
     }, [fetchedFlashcards, setFlashcards]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       setDeck(deck);
     }, [setDeck, deck]);
 

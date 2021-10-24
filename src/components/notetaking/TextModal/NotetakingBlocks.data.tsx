@@ -11,6 +11,7 @@ import {
   ROTATE,
   CloseIcon,
   CodeIcon,
+  ImageIcon,
 } from "dekked-design-system";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
@@ -26,6 +27,7 @@ export enum NOTETAKING_BLOCKS {
   TODO = "studySet.notetaking.toolbar.todo",
   TOGGLE = "studySet.notetaking.toolbar.toggle",
   CODE = "studySet.notetaking.toolbar.codeBlock",
+  IMAGE = "studySet.notetaking.toolbar.image",
   NO_DATA = "studySet.notetaking.noMatchingBlocks",
 }
 
@@ -60,6 +62,11 @@ const blockData: ScrollerModalData = [
     value: BLOCK_TYPES.NUMBERED_LIST,
     icon: <NumberedListIcon />,
   },
+  // {
+  //   label: NOTETAKING_BLOCKS.IMAGE,
+  //   value: BLOCK_TYPES.IMAGE,
+  //   icon: <ImageIcon />,
+  // },
   {
     label: NOTETAKING_BLOCKS.QUOTE,
     value: BLOCK_TYPES.QUOTE,

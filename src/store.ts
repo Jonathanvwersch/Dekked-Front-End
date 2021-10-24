@@ -451,6 +451,7 @@ export const currentBlockAtom = atom<{
 
 // Notes
 export const pageEditorStateAtom = atom<EditorState>(EditorState.createEmpty());
+export const pageIdAtom = atom<string | undefined>(undefined);
 
 // Layered Modal
 export const layeredModalAtom = atom<boolean>(false);

@@ -2,6 +2,7 @@ import { EditorState } from "draft-js";
 import { createKeysAndBlocks } from "../components/notetaking/Editor/Editor.helpers";
 import { get, patch } from "./utils";
 import { AxiosResponse } from "axios";
+import { queryClient } from "..";
 
 const getPageByStudySetId = async (
   studySetId: string
@@ -37,6 +38,11 @@ export const savePage = async ({
   studySetId?: string;
 }): Promise<PageInterface> => {
   const { keys, blocks } = createKeysAndBlocks(editorState);
+
+  queryClient.setQueryData(`${studySetId}-notes`, () => {
+    return { pageId: pageId, data: blocks };
+  });
+
   const payload = {
     draft_keys: keys,
     blocks,

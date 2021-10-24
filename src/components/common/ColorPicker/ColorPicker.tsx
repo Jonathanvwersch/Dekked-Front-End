@@ -48,6 +48,7 @@ interface ColorPickerProps {
   variant?: "color-background" | "color-block" | "color-font";
   type?: string;
   id?: string;
+  saveEditor?: any;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -61,6 +62,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   variant = "color-block",
   type,
   id,
+  saveEditor,
 }) => {
   const theme = useContext(ThemeContext);
   const [isDarkTheme] = useAtom(darkModeAtom);
@@ -110,6 +112,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         );
       }
     }
+    saveEditor && saveEditor(editorState);
   };
 
   const colorArray =

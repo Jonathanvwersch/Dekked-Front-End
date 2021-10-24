@@ -3,10 +3,13 @@ export const styleMap = {
     fontSize: "smaller",
     verticalAlign: "super",
   },
+
   SUBSCRIPT: {
     fontSize: "smaller",
     verticalAlign: "sub",
   },
+
+  CODE: {},
 
   // light theme background
   BACKGROUND_COLOR_FFFFFF: {

@@ -65,6 +65,7 @@ export enum BLOCK_TYPES {
   TODO = "to-do",
   CODE = "code-block",
   TOGGLE = "toggle",
+  IMAGE = "image",
 }
 
 export enum LIGHT_THEME_FONT_COLORS {
