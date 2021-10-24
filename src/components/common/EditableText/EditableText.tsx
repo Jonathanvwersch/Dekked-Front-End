@@ -59,10 +59,10 @@ const EditableText: React.FC<EditableTextProps> = ({
 
   // focus in on text when isEditable is true
   useEffect(() => {
-    if (isEditable && editableTextRef && editableTextRef.current) {
+    if (isEditable && editableTextRef && editableTextRef.current && !html) {
       editableTextRef.current.focus();
     }
-  }, [isEditable, editableTextRef, itemId]);
+  }, [isEditable, editableTextRef, itemId, html]);
 
   // only allow plain text (or emojis) on paste
   const handlePaste = (e: any) => {

@@ -24,6 +24,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
+  saveEditor?: any;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -31,6 +32,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
+  saveEditor,
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
@@ -39,14 +41,18 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 
   // change alignment of block by updating meta state
   const updateData = (alignment: AlignmentTypes) => {
-    const newData = data.set("alignment", alignment);
-    setEditorState(
-      updateDataOfBlock(
-        removeSpecificBlockStyle(undefined, editorState, true),
-        block,
-        newData
-      )
-    );
+    const currentData = data.get("alignment");
+    if (currentData !== alignment) {
+      const newData = data.set("alignment", alignment);
+      setEditorState(
+        updateDataOfBlock(
+          removeSpecificBlockStyle(undefined, editorState, true),
+          block,
+          newData
+        )
+      );
+      saveEditor(editorState);
+    }
   };
 
   return (

@@ -25,12 +25,14 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
+  saveEditor?: any;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   editorState,
   setEditorState,
   isDisabled,
+  saveEditor,
 }) => {
   const theme = useContext(ThemeContext);
   const stylesToRemoveScripts = [
@@ -46,6 +48,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     // only change block type if user chooses option other than current block type
     if (getCurrentBlock(editorState).getType() !== type) {
       setEditorState(RichUtils.toggleBlockType(editorState, type));
+      saveEditor(editorState);
     }
   };
 
@@ -72,6 +75,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     } else {
       setEditorState(toggleInlineStyle(editorState, textStyle));
     }
+    saveEditor(editorState);
   };
 
   return (
