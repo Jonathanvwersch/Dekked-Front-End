@@ -79,6 +79,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
     return "not-handled";
   };
 
+  useEffect(() => {
+    setEditorState(EditorState.moveFocusToEnd(editorState));
+  }, []);
+
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
     const currentContent = editorState.getCurrentContent();
 
@@ -146,11 +150,14 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   const onChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
-  };
 
-  useEffect(() => {
-    saveEditor && saveEditor(editorState);
-  }, [editorState, saveEditor]);
+    const currentContentState = editorState.getCurrentContent();
+    const newContentState = newEditorState.getCurrentContent();
+
+    if (currentContentState !== newContentState) {
+      saveEditor && saveEditor(newEditorState);
+    }
+  };
 
   // see https://draftjs.org/docs/advanced-topics-block-styling
   // essentially the following bit of code defines what happens
@@ -215,10 +222,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
         >
           <Editor
             editorState={editorState}
-            onChange={(newEditorState) => onChange(newEditorState)}
+            onChange={onChange}
             handleKeyCommand={handleKeyCommand}
             ref={editorRef}
             onTab={onTab}
+            spellCheck={true}
             blockRendererFn={myBlockRenderer}
             readOnly={!isEditable}
             handleReturn={handleReturn}
@@ -242,7 +250,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
         </EditorContainer>
       ) : (
         <SkeletonContainer>
-          <StyledSkeleton count={5} width="100%" height="32px" />
+          <StyledSkeleton
+            count={5}
+            width="100%"
+            height={theme.spacers.size32}
+          />
         </SkeletonContainer>
       )}
     </>

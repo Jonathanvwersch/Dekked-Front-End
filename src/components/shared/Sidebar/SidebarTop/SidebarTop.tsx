@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
-import Skeleton from "react-loading-skeleton";
 import {
   Avatar,
   Card,
@@ -14,12 +13,11 @@ import {
   ROTATE,
   ThemeType,
 } from "dekked-design-system";
-import { getSessionCookie, positionModals } from "../../../../helpers";
+import { positionModals } from "../../../../helpers";
 import { OpenSettingsModal } from "../../../settings";
 import { CoordsType } from "../../../../shared";
 import { useAtom } from "jotai";
 import { sidebarAtom, userAtom } from "../../../../store";
-import { useIsFetching } from "react-query";
 import { Tooltip } from "../../../common";
 
 interface SidebarTopProps {}
@@ -30,7 +28,6 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
   const [coords, setCoords] = useState<CoordsType>();
   const settingsRef = useRef<HTMLButtonElement>(null);
   const [user] = useAtom(userAtom);
-  const isFetchingUser = useIsFetching([`${getSessionCookie()}-user`]);
 
   const firstName = user?.first_name || "";
   const lastName = user?.last_name || "";
@@ -57,27 +54,19 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
       <StyledSidebarTop py={theme.spacers.size12} px={theme.spacers.size16}>
         <Card padding="0px">
           <Flex>
-            {!isFetchingUser ? (
-              <Avatar handleClick={() => setOpenMainSettingsModal(true)}>
-                {firstLetterOfFirstName ? (
-                  firstLetterOfFirstName.toUpperCase()
-                ) : (
-                  <LogoIcon color="white" />
-                )}
-              </Avatar>
-            ) : (
-              <Skeleton
-                circle={true}
-                height={theme.spacers.size32}
-                width={theme.spacers.size32}
-              />
-            )}
+            <Avatar handleClick={() => setOpenMainSettingsModal(true)}>
+              {firstLetterOfFirstName ? (
+                firstLetterOfFirstName.toUpperCase()
+              ) : (
+                <LogoIcon color="white" />
+              )}
+            </Avatar>
             <Spacer width={theme.spacers.size8} />
             <Text
               fontSize={theme.typography.fontSizes.size14}
               className="overflow"
             >
-              {!isFetchingUser ? fullName : <Skeleton width="100px" />}
+              {fullName}
             </Text>
             <Spacer width={theme.spacers.size4} />
             <IconActive
@@ -86,7 +75,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
                 handleOpenModal(e)
               }
             >
-              {!isFetchingUser && <DropDownArrowIcon rotate={ROTATE.NINETY} />}
+              <DropDownArrowIcon rotate={ROTATE.NINETY} />
             </IconActive>
             <Spacer width={theme.spacers.size24} />
           </Flex>
@@ -98,11 +87,9 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
             ariaLabel={ariaText}
           >
             <Tooltip id="CloseSidebar" text={ariaText}>
-              {!isFetchingUser && (
-                <DoubleChevronIcon
-                  rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
-                />
-              )}
+              <DoubleChevronIcon
+                rotate={!sidebar ? ROTATE.ONEEIGHTY : undefined}
+              />
             </Tooltip>
           </IconActive>
         </DoubleChevronIconContainer>
