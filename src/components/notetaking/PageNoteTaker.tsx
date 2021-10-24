@@ -12,11 +12,13 @@ import React, {
 } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { queryClient } from "../..";
 import { getBlocksByPageId, savePage } from "../../api";
 import { Params } from "../../shared";
 import { currentBlockAtom, pageEditorStateAtom, pageIdAtom } from "../../store";
 import {
   convertBlocksToContent,
+  createKeysAndBlocks,
   getCurrentBlock,
 } from "./Editor/Editor.helpers";
 import RichEditor from "./Editor/RichEditor";
@@ -71,6 +73,11 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
 
   const autoSave = useCallback(
     (editorState: EditorState) => {
+      const { blocks } = createKeysAndBlocks(editorState);
+      queryClient.setQueryData(`${studySetId}-notes`, () => {
+        return { pageId: pageId, data: blocks };
+      });
+
       debounced(editorState);
     },
     [pageId] // eslint-disable-line react-hooks/exhaustive-deps

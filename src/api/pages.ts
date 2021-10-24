@@ -39,10 +39,6 @@ export const savePage = async ({
 }): Promise<PageInterface> => {
   const { keys, blocks } = createKeysAndBlocks(editorState);
 
-  queryClient.setQueryData(`${studySetId}-notes`, () => {
-    return { pageId: pageId, data: blocks };
-  });
-
   const payload = {
     draft_keys: keys,
     blocks,
