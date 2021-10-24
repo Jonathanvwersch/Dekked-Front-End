@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import { DividerIcon, ThemeType, Flex, Spacer } from "dekked-design-system";
 import { ThemeContext } from "styled-components";
-import { SIZES } from "../../../shared";
+import { Params, SIZES } from "../../../shared";
 import Skeleton from "react-loading-skeleton";
 import ChangeTextStyles from "./ChangeTextStyles";
 import ChangeTextAlignment from "./ChangeTextAlignment";
 import ChangeTextColor from "./ChangeTextColor";
 import { EditorState } from "draft-js";
-import { isAppLoadingAtom } from "../../../store";
+import { isAppLoadingAtom, pageIdAtom } from "../../../store";
 import { useAtom } from "jotai";
+import { useParams } from "react-router-dom";
+import { useMutation } from "react-query";
+import { savePage } from "../../../api";
 
 interface StudySetToolbarProps {
   editorState: EditorState;
@@ -27,6 +30,13 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const [isLoading] = useAtom(isAppLoadingAtom);
+  const { id: studySetId } = useParams<Params>();
+  const [pageId] = useAtom(pageIdAtom);
+
+  const { mutate: updatePage } = useMutation(
+    `${studySetId}-save-notes`,
+    (editorState: EditorState) => savePage({ editorState, pageId, studySetId })
+  );
 
   return (
     <>
@@ -37,6 +47,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               editorState={editorState}
               setEditorState={setEditorState}
               isDisabled={isDisabled}
+              saveEditor={updatePage}
             />
             <Spacer width={theme.spacers.size4} />
             <DividerIcon size={iconSize} />
@@ -46,6 +57,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               setEditorState={setEditorState}
               isDisabled={isDisabled}
               iconSize={iconSize}
+              saveEditor={updatePage}
             />
             <Spacer width={theme.spacers.size4} />
             <DividerIcon size={iconSize} />
@@ -55,6 +67,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               setEditorState={setEditorState}
               isDisabled={isDisabled}
               iconSize={iconSize}
+              saveEditor={updatePage}
             />
           </>
         ) : (

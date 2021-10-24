@@ -17,6 +17,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
+  saveEditor?: any;
 }
 
 const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
@@ -24,6 +25,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   iconSize = SIZES.MEDIUM,
+  saveEditor,
 }) => {
   const theme = useContext(ThemeContext);
   const [colorPickerFont, setColorPickerFont] = useState<boolean>(false);
@@ -91,6 +93,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
         variant="color-font"
         editorState={editorState}
         setEditorState={setEditorState}
+        saveEditor={saveEditor}
       />
       <ColorPicker
         isOpen={colorPickerBackground}
@@ -99,6 +102,7 @@ const ChangeTextColor: React.FC<ChangeTextStyleProps> = ({
         variant="color-background"
         editorState={editorState}
         setEditorState={setEditorState}
+        saveEditor={saveEditor}
       />
     </>
   );

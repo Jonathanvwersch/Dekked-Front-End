@@ -194,6 +194,7 @@ const en_GB = {
           divider: "Divider",
           todo: "Todo",
           toggle: "Toggle list",
+          image: "Upload an image",
         },
       },
       flashcards: {
