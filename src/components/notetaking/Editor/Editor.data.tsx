@@ -14,7 +14,7 @@ export const styleMap = (theme: ThemeType) => {
 
     CODE: {
       background: theme.colors.secondary,
-      padding: theme.spacers.size8,
+      padding: "1px 2px",
       borderRadius: theme.sizes.borderRadius[SIZES.MEDIUM],
     },
 
