@@ -38,6 +38,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     isLoading,
     isFetching,
     isRefetching,
+    isSuccess,
   } = useQuery(`${studySetId}-notes`, () => getBlocksByPageId({ studySetId }), {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -71,7 +72,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [blocks, setEditorState]);
+  }, [studySetId, isSuccess]);
 
   // Debounce function to autosave notes
   const debounced = debounce(
