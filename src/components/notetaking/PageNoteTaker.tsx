@@ -52,7 +52,15 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
 
   const { mutate: updatePage } = useMutation(
     `${studySetId}-save-notes`,
-    (editorState: EditorState) => savePage({ editorState, pageId, studySetId })
+    ({
+      editorState,
+      pageId,
+      studySetId,
+    }: {
+      editorState: EditorState;
+      pageId?: string;
+      studySetId?: string;
+    }) => savePage({ editorState, pageId, studySetId })
   );
 
   // Set editor state on mount with the blocks
@@ -63,11 +71,12 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     } else {
       setEditorState(EditorState.createEmpty());
     }
-  }, [studySetId]);
+  }, [blocks, setEditorState]);
 
   // Debounce function to autosave notes
   const debounced = debounce(
-    (editorState: EditorState) => pageId && updatePage(editorState),
+    (editorState: EditorState) =>
+      pageId && updatePage({ editorState, pageId, studySetId }),
     1000
   );
 
