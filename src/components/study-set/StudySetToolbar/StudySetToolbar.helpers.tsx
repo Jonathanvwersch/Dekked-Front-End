@@ -18,6 +18,7 @@ import {
   SuperscriptIcon,
   TodoIcon,
   UnderlineIcon,
+  CodeIcon,
 } from "dekked-design-system";
 import {
   BLOCK_TYPES,
@@ -132,6 +133,12 @@ export const changeTextStylesData: ScrollerModalData = [
     value: TEXT_STYLES.SUPERSCRIPT,
     label: "tooltips.studySet.toolbar.superscript",
     id: "Superscript",
+  },
+  {
+    icon: <CodeIcon size={SIZES.MEDIUM} />,
+    value: TEXT_STYLES.CODE,
+    label: "tooltips.studySet.toolbar.inlineCode",
+    id: "InlineCode",
   },
   {
     icon: <RemoveFormattingIcon size={SIZES.MEDIUM} />,

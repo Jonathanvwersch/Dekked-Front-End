@@ -79,10 +79,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
     return "not-handled";
   };
 
-  useEffect(() => {
-    setEditorState(EditorState.moveFocusToEnd(editorState));
-  }, []);
-
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
     const currentContent = editorState.getCurrentContent();
 
@@ -232,7 +228,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             handleReturn={handleReturn}
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
-            customStyleMap={styleMap}
+            customStyleMap={styleMap(theme)}
             placeholder={
               showPlaceholder &&
               getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
