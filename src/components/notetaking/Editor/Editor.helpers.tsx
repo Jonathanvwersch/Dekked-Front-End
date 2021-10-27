@@ -357,3 +357,34 @@ export const convertBlocksToContent = (blocks: any[]) => {
   });
   return content;
 };
+
+export const removeCharacters = (
+  editorState: EditorState,
+  from: number,
+  to: number
+) => {
+  const currentContent = editorState.getCurrentContent();
+  const currentBlock = getCurrentBlock(editorState);
+
+  const targetRange = new SelectionState({
+    anchorKey: currentBlock.getKey(),
+    anchorOffset: from,
+    focusKey: currentBlock.getKey(),
+    focusOffset: to,
+    hasFocus: true,
+  });
+
+  const newContent = Modifier.removeRange(
+    currentContent,
+    targetRange,
+    "backward"
+  );
+
+  const newEditorState = EditorState.push(
+    editorState,
+    newContent,
+    "insert-characters"
+  );
+
+  return newEditorState;
+};

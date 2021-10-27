@@ -11,7 +11,6 @@ import {
   ROTATE,
   CloseIcon,
   CodeIcon,
-  ImageIcon,
 } from "dekked-design-system";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
