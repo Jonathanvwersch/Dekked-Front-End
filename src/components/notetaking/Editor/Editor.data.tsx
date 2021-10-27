@@ -16,6 +16,7 @@ export const styleMap = (theme: ThemeType) => {
       background: theme.colors.secondary,
       padding: "1px 2px",
       borderRadius: theme.sizes.borderRadius[SIZES.MEDIUM],
+      fontFamily: "Courier Prime, monospace",
     },
 
     // light theme background
