@@ -2,9 +2,7 @@ import Draft, {
   ContentBlock,
   DraftEditorCommand,
   EditorState,
-  Modifier,
   RichUtils,
-  SelectionState,
   Editor,
   DraftHandleValue,
 } from "draft-js";
@@ -17,11 +15,13 @@ import {
   addNewBlockAt,
   getCurrentBlock,
   isSoftNewlineEvent,
+  removeCharacters,
+  toggleInlineStyle,
 } from "./Editor.helpers";
 
 import styled, { ThemeContext } from "styled-components";
 import NotetakingBlocksModal from "../TextModal/NotetakingBlocksModal";
-import { BLOCK_TYPES } from "../../../shared";
+import { BLOCK_TYPES, TEXT_STYLES } from "../../../shared";
 import Skeleton from "react-loading-skeleton";
 import { formatMessage } from "../../../intl";
 import { useIntl } from "react-intl";
@@ -80,26 +80,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
   };
 
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
-    const currentContent = editorState.getCurrentContent();
-
-    const targetRange = new SelectionState({
-      anchorKey: currentBlock.getKey(),
-      anchorOffset: 0,
-      focusKey: currentBlock.getKey(),
-      focusOffset: currentBlock.getText().length,
-      hasFocus: true,
-    });
-
-    const newContent = Modifier.removeRange(
-      currentContent,
-      targetRange,
-      "backward"
-    );
-
-    const newEditorState = EditorState.push(
+    const newEditorState = removeCharacters(
       editorState,
-      newContent,
-      "insert-characters"
+      0,
+      currentBlock.getText().length
     );
 
     setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
@@ -139,7 +123,6 @@ const RichEditor: React.FC<RichEditorProps> = ({
     ) {
       return "not-handled";
     }
-
     setEditorState(addNewBlockAt(editorState, currentBlock.getKey()));
     return "handled";
   };
@@ -197,6 +180,19 @@ const RichEditor: React.FC<RichEditorProps> = ({
       div.style.borderRadius = "none";
     }
   }, [isLinked, div, blockLink, theme]);
+
+  useEffect(() => {
+    if (currentBlock.getText()[currentBlock.getLength() - 1] === "^") {
+      const newEditorState = removeCharacters(
+        editorState,
+        currentBlock.getLength() - 1,
+        currentBlock.getLength()
+      );
+      setEditorState(
+        toggleInlineStyle(newEditorState, TEXT_STYLES.SUPERSCRIPT)
+      );
+    }
+  }, [currentBlock, editorState, setEditorState]);
 
   return (
     <>
