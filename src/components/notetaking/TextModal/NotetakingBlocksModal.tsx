@@ -58,7 +58,11 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   };
 
   useEffect(() => {
-    if (currentBlock.getText()[0] === "/" && editorHasFocus) {
+    if (
+      currentBlock.getText()[0] === "/" &&
+      editorHasFocus &&
+      currentBlock.getType() === "unstyled"
+    ) {
       updatePosition();
       if (coords) {
         setIsOpen(true);
@@ -66,7 +70,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
     } else {
       setIsOpen(false);
     }
-  }, [currentBlock, editorHasFocus, setIsOpen, coords]);
+  }, [currentBlock, editorHasFocus, setIsOpen]);
 
   useEffect(() => {
     if (isOpen) {
