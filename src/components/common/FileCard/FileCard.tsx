@@ -50,6 +50,8 @@ const FileCard: React.FC<FileCardProps> = ({
                 : theme.typography.fontSizes.size12
             }
             className="overflow"
+            maxWidth={size === SIZES.LARGE ? "195px" : "95px"}
+            as="p"
           >
             {topText}
           </Text>
