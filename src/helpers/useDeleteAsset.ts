@@ -97,7 +97,8 @@ export const useDeleteAsset = () => {
           const parentFolderId = parentFolder?.id;
           const parentFolderLink = `/${FILETREE_TYPES.FOLDER}/${parentFolderId}`;
 
-          if (shouldRedirect) history.push(parentFolderLink);
+          if (shouldRedirect || studySets?.[id]?.binder_id === assetId)
+            history.push(parentFolderLink);
 
           setAsset({ fileId: assetId, type });
 
