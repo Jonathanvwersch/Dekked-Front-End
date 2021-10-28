@@ -87,7 +87,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
             <Button
               size={SIZES.LARGE}
               handleClick={() => {
-                config.APP_ENV !== "production"
+                config.APP_ENV === "production"
                   ? window.location.reload()
                   : resetErrorBoundary();
               }}
