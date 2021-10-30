@@ -44,14 +44,14 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     const currentData = data.get("alignment");
     if (currentData !== alignment) {
       const newData = data.set("alignment", alignment);
-      setEditorState(
-        updateDataOfBlock(
-          removeSpecificBlockStyle(undefined, editorState, true),
-          block,
-          newData
-        )
+
+      const newEditorState = updateDataOfBlock(
+        removeSpecificBlockStyle(undefined, editorState, true),
+        block,
+        newData
       );
-      saveEditor(editorState);
+      setEditorState(newEditorState);
+      saveEditor(newEditorState);
     }
   };
 
