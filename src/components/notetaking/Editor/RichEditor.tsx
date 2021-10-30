@@ -297,17 +297,17 @@ const EditorContainer = styled.div<{
 
   h1 {
     margin-top: ${({ theme }) => theme.spacers.size16};
-    margin-bottom: ${({ theme }) => theme.spacers.size24};
+    margin-bottom: ${({ theme }) => theme.spacers.size20};
   }
 
   h2 {
     margin-top: ${({ theme }) => theme.spacers.size12};
-    margin-bottom: ${({ theme }) => theme.spacers.size20};
+    margin-bottom: ${({ theme }) => theme.spacers.size12};
   }
 
   h3 {
     margin-top: ${({ theme }) => theme.spacers.size8};
-    margin-bottom: ${({ theme }) => theme.spacers.size16};
+    margin-bottom: ${({ theme }) => theme.spacers.size4};
   }
 
   .custom-blockquote {
