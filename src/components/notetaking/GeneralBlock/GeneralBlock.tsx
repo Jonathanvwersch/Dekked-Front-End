@@ -16,13 +16,13 @@ const GeneralBlock: React.FC = (props: any) => {
   const GeneralBlock = () => {
     switch (type) {
       case BLOCK_TYPES.UNSTYLED:
-        return <TextBlock {...props} />;
+        return <TextBlock props={props} type={type} />;
       case BLOCK_TYPES.DIVIDER:
         return <DividerBlock {...props} />;
       // case BLOCK_TYPES.TODO:
       //   return <TodoBlock {...props} />;
       default:
-        return <TextBlock {...props} />;
+        return <TextBlock type={type} props={props} />;
     }
   };
 
