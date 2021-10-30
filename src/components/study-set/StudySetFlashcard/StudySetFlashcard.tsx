@@ -127,9 +127,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           allFlashcards?.push(flashcard);
           return allFlashcards;
         });
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );
@@ -148,9 +146,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         });
 
         isEmpty(flashcards) &&
-          queryClient.refetchQueries(
-            `${getSessionCookie()}-get-all-due-sr-decks`
-          );
+          queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );
@@ -279,6 +275,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           iconSize={toolbarSize}
           editorState={editorState}
           setEditorState={setEditorState}
+          fullHeightBlockTypeModal={false}
         />
       </Flex>
     ) : (

@@ -39,6 +39,8 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import { Tooltip } from "../../common";
+import { getSpacedRepetitionFlashcards } from "../../../api";
+import { queryClient } from "../../..";
 
 interface StudyModeFlashcardProps {
   flippedState?: boolean;
@@ -103,6 +105,14 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
     }
   }, [backBlocks]);
 
+  const handleFinishButton = () => {
+    type === FILETREE_TYPES.STUDY_SET
+      ? history.push(`/${type}/${id}/${studySetTab || TAB_TYPE.FLASHCARDS}`)
+      : history.push(`/${type}/${id}`);
+
+    queryClient.refetchQueries("get-all-due-sr-decks");
+  };
+
   const returnToTextId =
     type === FILETREE_TYPES.FOLDER
       ? "returnToFolder"
@@ -153,13 +163,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         <Button
           size={SIZES.LARGE}
           width="200px"
-          handleClick={() => {
-            type === FILETREE_TYPES.STUDY_SET
-              ? history.push(
-                  `/${type}/${id}/${studySetTab || TAB_TYPE.FLASHCARDS}`
-                )
-              : history.push(`/${type}/${id}`);
-          }}
+          handleClick={handleFinishButton}
         >
           <FormattedMessage id={`studyMode.flashcard.${returnToTextId}`} />
         </Button>
@@ -168,11 +172,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           <Button
             size={SIZES.LARGE}
             width="200px"
-            handleClick={() => {
-              type === FILETREE_TYPES.STUDY_SET
-                ? history.push(`/${type}/${id}/${TAB_TYPE.FLASHCARDS}`)
-                : history.push(`/${type}/${id}`);
-            }}
+            handleClick={handleFinishButton}
           >
             <FormattedMessage id="generics.finish" />
           </Button>

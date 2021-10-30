@@ -13,14 +13,13 @@ import { useQuery } from "react-query";
 import { getAllDueSrDecks } from "../../../api";
 import { formatNumber } from "../../../intl";
 import { useIntl } from "react-intl";
-import { getSessionCookie } from "../../../helpers";
 
 const StudyQueueContainer: React.FC = () => {
   const intl = useIntl();
   const { theme, formatMessage } = usePageSetupHelpers();
   const [studyQueueModal, setStudyQueueModal] = useState<boolean>(false);
   const { data, isLoading } = useQuery<DueSpacedRepetitionDecks>(
-    `${getSessionCookie()}-get-all-due-sr-decks`,
+    "get-all-due-sr-decks",
     getAllDueSrDecks,
     {
       refetchOnMount: false,

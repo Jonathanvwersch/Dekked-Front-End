@@ -30,9 +30,7 @@ export const useDeleteAsset = () => {
     (folderId: string) => deleteFolder(folderId),
     {
       onSuccess: () => {
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );
@@ -42,9 +40,7 @@ export const useDeleteAsset = () => {
     (binderId: string) => deleteBinder(binderId),
     {
       onSuccess: () => {
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );
@@ -54,9 +50,7 @@ export const useDeleteAsset = () => {
     (studySetId: string) => deleteStudySet(studySetId),
     {
       onSuccess: () => {
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );
