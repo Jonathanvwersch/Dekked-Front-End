@@ -49,8 +49,9 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   const changeBlockTypes = (type: BLOCK_TYPES) => {
     // only change block type if user chooses option other than current block type
     if (getCurrentBlock(editorState).getType() !== type) {
-      setEditorState(RichUtils.toggleBlockType(editorState, type));
-      saveEditor(editorState);
+      const newEditorState = RichUtils.toggleBlockType(editorState, type);
+      setEditorState(newEditorState);
+      saveEditor(newEditorState);
     }
   };
 

@@ -79,40 +79,40 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     if (editorState && setEditorState) {
       // Toggle font color change in study set toolbar
       if (variant === "color-font") {
-        setEditorState(
-          toggleInlineStyle(
-            editorState,
-            TEXT_STYLES[
-              `FONT_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
-            ],
-            [
-              ...Object.keys(
-                isDarkTheme ? DARK_THEME_FONT_COLORS : LIGHT_THEME_FONT_COLORS
-              ),
-            ]
-          )
+        const newEditorState = toggleInlineStyle(
+          editorState,
+          TEXT_STYLES[
+            `FONT_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
+          ],
+          [
+            ...Object.keys(
+              isDarkTheme ? DARK_THEME_FONT_COLORS : LIGHT_THEME_FONT_COLORS
+            ),
+          ]
         );
+        setEditorState(newEditorState);
+        saveEditor && saveEditor(newEditorState);
       }
       // Toggle background color change in study set toolbar
       else if (variant === "color-background") {
-        setEditorState(
-          toggleInlineStyle(
-            editorState,
-            TEXT_STYLES[
-              `BACKGROUND_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
-            ],
-            [
-              ...Object.keys(
-                isDarkTheme
-                  ? DARK_THEME_BACKGROUND_COLORS
-                  : LIGHT_THEME_BACKGROUND_COLORS
-              ),
-            ]
-          )
+        const newEditorState = toggleInlineStyle(
+          editorState,
+          TEXT_STYLES[
+            `BACKGROUND_COLOR_${colour.slice(1).toUpperCase()}` as TEXT_STYLES
+          ],
+          [
+            ...Object.keys(
+              isDarkTheme
+                ? DARK_THEME_BACKGROUND_COLORS
+                : LIGHT_THEME_BACKGROUND_COLORS
+            ),
+          ]
         );
+
+        setEditorState(newEditorState);
+        saveEditor && saveEditor(newEditorState);
       }
     }
-    saveEditor && saveEditor(editorState);
   };
 
   const colorArray =

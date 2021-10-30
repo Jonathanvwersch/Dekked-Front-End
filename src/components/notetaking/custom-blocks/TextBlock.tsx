@@ -13,7 +13,7 @@ const TextBlock: React.FC<TextBlockProps> = ({ props }) => {
   let alignment = data.has("alignment") && data.get("alignment");
 
   // only allow alignment to be set if block has text to prevent misplaced placeholder text
-  if (props.block.getText().length > 0) {
+  if (props.block.getText().length === 0 || props.block.getText()[0] === "/") {
     alignment = "left";
   }
 
