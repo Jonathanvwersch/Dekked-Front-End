@@ -4,11 +4,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 import { saveFlashcard } from "../../../../api";
-import {
-  getSessionCookie,
-  moveArrayItem,
-  titleCase,
-} from "../../../../helpers";
+import { moveArrayItem, titleCase } from "../../../../helpers";
 import { useKeyPress, usePageSetupHelpers } from "../../../../hooks";
 import { formatNumber } from "../../../../intl";
 import {
@@ -86,9 +82,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
     onSuccess: () => {
       isEmpty(srFlashcards) &&
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       return undefined;
     },
   });

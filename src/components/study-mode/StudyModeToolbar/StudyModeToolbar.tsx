@@ -21,7 +21,6 @@ import {
 } from "../../../store";
 import { DeleteModal } from "../../shared";
 import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
-import { getSessionCookie } from "../../../helpers";
 import { isEmpty } from "lodash";
 import { Tooltip } from "../../common";
 import { queryClient } from "../../..";
@@ -73,9 +72,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         });
 
         isEmpty(flashcards) &&
-          queryClient.refetchQueries(
-            `${getSessionCookie()}-get-all-due-sr-decks`
-          );
+          queryClient.refetchQueries("get-all-due-sr-decks");
 
         isEmpty(flashcards) && setDeletedLastFlashcard(true);
       },

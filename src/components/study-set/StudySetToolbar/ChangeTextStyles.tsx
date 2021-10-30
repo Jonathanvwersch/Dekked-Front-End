@@ -26,6 +26,7 @@ interface ChangeTextStyleProps {
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
   saveEditor?: any;
+  fullHeightBlockTypeModal?: boolean;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -33,6 +34,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
   setEditorState,
   isDisabled,
   saveEditor,
+  fullHeightBlockTypeModal,
 }) => {
   const theme = useContext(ThemeContext);
   const stylesToRemoveScripts = [
@@ -95,6 +97,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
           size: SIZES.MEDIUM,
         }}
         id="ChangeTextStyles"
+        fullHeightDropdownModal={fullHeightBlockTypeModal}
       />
       {layout === LAYOUT_HORIZONTAL ? (
         <>
