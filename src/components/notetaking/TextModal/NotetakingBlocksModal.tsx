@@ -70,7 +70,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
     } else {
       setIsOpen(false);
     }
-  }, [currentBlock, editorHasFocus, setIsOpen]);
+  }, [currentBlock, editorHasFocus, setIsOpen, coords]);
 
   useEffect(() => {
     if (isOpen) {

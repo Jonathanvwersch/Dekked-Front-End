@@ -29,9 +29,7 @@ export const useUpdateAsset = () => {
       }),
     {
       onSuccess: () => {
-        queryClient.refetchQueries(
-          `${getSessionCookie()}-get-all-due-sr-decks`
-        );
+        queryClient.refetchQueries("get-all-due-sr-decks");
       },
     }
   );

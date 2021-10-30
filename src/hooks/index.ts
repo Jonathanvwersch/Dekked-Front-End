@@ -9,3 +9,4 @@ export { default as useResponsiveLayout } from "./useResponsiveLayout";
 export { default as useLayeredModal } from "./useLayeredModal";
 export { default as useInitialiseApp } from "./useInitialiseApp";
 export { default as useTheme } from "./useTheme";
+export { default as useLazyQuery } from "./useLazyQuery";

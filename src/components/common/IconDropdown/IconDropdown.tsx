@@ -23,6 +23,7 @@ interface IconDropdownProps {
     isDisabled?: boolean;
   };
   id?: string;
+  fullHeightDropdownModal?: boolean;
 }
 
 const IconDropdown: React.FC<IconDropdownProps> = ({
@@ -30,6 +31,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
   icon,
   modal,
   id,
+  fullHeightDropdownModal,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const modalRef = useRef<HTMLButtonElement>(null);
@@ -70,7 +72,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
         handleClose={() => setShowModal(false)}
         data={modal.data}
         fakeFocus={true}
-        fullHeight={true}
+        fullHeight={fullHeightDropdownModal}
         id={id}
       />
     </>
