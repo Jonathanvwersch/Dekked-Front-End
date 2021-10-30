@@ -1,5 +1,5 @@
 import { EditorState } from "draft-js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   noMatchingBlocksData,
   NoteTakingBlocksData,
@@ -36,7 +36,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   const intl = useIntl();
   const [currentTextLength, setCurrentTextLength] = useState<number>(0);
   const [data, setData] = useState<ScrollerModalData>(NoteTakingBlocksData);
-  const [coords, setCoords] = useState<CoordsType>();
+  const [coords, setCoords] = useState<CoordsType | undefined>();
   const currentBlock = getCurrentBlock(editorState);
   const currentText = currentBlock.getText().slice(1).toLowerCase();
   const editorHasFocus = editorState.getSelection().getHasFocus();
@@ -57,16 +57,24 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
     onToggle(style);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       currentBlock.getText()[0] === "/" &&
       editorHasFocus &&
       currentBlock.getType() === "unstyled"
     ) {
       updatePosition();
-      if (coords) {
-        setIsOpen(true);
-      }
+    }
+  }, [currentBlock, editorHasFocus]);
+
+  useLayoutEffect(() => {
+    if (
+      currentBlock.getText()[0] === "/" &&
+      editorHasFocus &&
+      currentBlock.getType() === "unstyled" &&
+      coords
+    ) {
+      setIsOpen(true);
     } else {
       setIsOpen(false);
     }
@@ -106,16 +114,20 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   }, [isOpen, currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <ScrollerModal
-      open={isOpen}
-      handleClose={() => setIsOpen(false)}
-      coords={coords}
-      clickFunctions={toggleBlockStyle}
-      data={data}
-      type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-      fakeFocus
-      preventDefault
-    />
+    <>
+      {isOpen ? (
+        <ScrollerModal
+          open={isOpen}
+          handleClose={() => setIsOpen(false)}
+          coords={coords}
+          clickFunctions={toggleBlockStyle}
+          data={data}
+          type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+          fakeFocus
+          preventDefault
+        />
+      ) : null}
+    </>
   );
 };
 

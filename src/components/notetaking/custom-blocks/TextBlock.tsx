@@ -1,14 +1,19 @@
 import { EditorBlock } from "draft-js";
 import React from "react";
 import styled from "styled-components";
+import { BLOCK_TYPES } from "../../../shared";
 
-const TextBlock: React.FC = (props: any) => {
+interface TextBlockProps {
+  props: any;
+  type: BLOCK_TYPES;
+}
+
+const TextBlock: React.FC<TextBlockProps> = ({ props }) => {
   const data = props.block.getData();
-
   let alignment = data.has("alignment") && data.get("alignment");
 
   // only allow alignment to be set if block has text to prevent misplaced placeholder text
-  if (props.block.getText().length === 0) {
+  if (props.block.getText().length > 0) {
     alignment = "left";
   }
 
