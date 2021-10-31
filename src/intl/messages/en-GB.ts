@@ -204,6 +204,8 @@ const en_GB = {
         addFlashcard: "+ Add flashcard",
         flashcard: "{num} flashcard",
         flashcards: "{num} flashcards",
+        noFlashcards:
+          "Your deck of flashcards is empty. Click the add flashcard button to add your first flashcard.",
       },
       tabs: {
         notes: "Notes",
