@@ -1,9 +1,9 @@
 import { isEmpty, isEqual } from "lodash";
-import React, { Fragment, useContext, useLayoutEffect, useRef } from "react";
-import styled, { ThemeContext } from "styled-components";
+import React, { Fragment, useLayoutEffect, useRef } from "react";
+import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
-import { Spacer, Flex } from "dekked-design-system";
+import { Spacer, Flex, Text } from "dekked-design-system";
 import {
   addedLinkedFlashcardAtom,
   deckAtom,
@@ -14,12 +14,14 @@ import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Params } from "../../../shared";
 import { getDeckByStudySetId, getFlashcards } from "../../../api";
+import { useTheme } from "../../../hooks";
+import { FormattedMessage } from "react-intl";
 
 interface StudySetFlashcardsContainerProps {}
 
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
-    const theme = useContext(ThemeContext);
+    const theme = useTheme();
     const { id: studySetId, type } = useParams<Params>();
     const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
     const [, setDeck] = useAtom(deckAtom);
@@ -85,7 +87,15 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                 )}
                 <div ref={endOfFlashcardsContainer} />
               </>
-            ) : null}
+            ) : (
+              <Text
+                as="p"
+                fontSize={theme.typography.fontSizes.size16}
+                fontColor={theme.colors.grey1}
+              >
+                <FormattedMessage id="studySet.flashcards.noFlashcards" />
+              </Text>
+            )}
           </>
         ) : (
           <Div>
