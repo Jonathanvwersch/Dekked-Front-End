@@ -269,6 +269,7 @@ const EditorContainer = styled.div<{
   editorType: EditorType;
   isLinked?: boolean;
 }>`
+  margin-bottom: 250px;
   color: ${({ theme }) => theme.colors.fontColor};
   width: 100%;
   position: relative;
