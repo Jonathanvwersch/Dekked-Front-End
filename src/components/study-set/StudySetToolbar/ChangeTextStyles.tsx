@@ -25,7 +25,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   headerRef?: React.RefObject<HTMLDivElement>;
   isDisabled?: boolean;
-  saveEditor?: any;
+  saveEditor?: (args: any) => void;
   fullHeightBlockTypeModal?: boolean;
 }
 
@@ -51,7 +51,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     if (getCurrentBlock(editorState).getType() !== type) {
       const newEditorState = RichUtils.toggleBlockType(editorState, type);
       setEditorState(newEditorState);
-      saveEditor(newEditorState);
+      saveEditor && saveEditor(newEditorState);
     }
   };
 
@@ -78,7 +78,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
     } else {
       setEditorState(toggleInlineStyle(editorState, textStyle));
     }
-    saveEditor(editorState);
+    saveEditor && saveEditor(editorState);
   };
 
   return (

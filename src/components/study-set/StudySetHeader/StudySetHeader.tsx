@@ -60,6 +60,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
           <StudySetToolbar
             editorState={editorState}
             setEditorState={setEditorState}
+            isNotesPage={true}
           />
         ) : !isLoading ? (
           <Button

@@ -48,7 +48,7 @@ interface ColorPickerProps {
   variant?: "color-background" | "color-block" | "color-font";
   type?: string;
   id?: string;
-  saveEditor?: any;
+  saveEditor?: (args: any) => void;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({

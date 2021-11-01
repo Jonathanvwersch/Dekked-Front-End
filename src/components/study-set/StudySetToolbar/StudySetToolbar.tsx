@@ -20,6 +20,7 @@ interface StudySetToolbarProps {
   isDisabled?: boolean;
   iconSize?: SIZES;
   fullHeightBlockTypeModal?: boolean;
+  isNotesPage?: boolean;
 }
 
 const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
@@ -29,6 +30,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
   isDisabled = false,
   iconSize = SIZES.MEDIUM,
   fullHeightBlockTypeModal = true,
+  isNotesPage,
 }) => {
   const theme: ThemeType = useContext(ThemeContext);
   const [isLoading] = useAtom(isAppLoadingAtom);
@@ -49,7 +51,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               editorState={editorState}
               setEditorState={setEditorState}
               isDisabled={isDisabled}
-              saveEditor={updatePage}
+              saveEditor={isNotesPage ? updatePage : undefined}
               fullHeightBlockTypeModal={fullHeightBlockTypeModal}
             />
             <Spacer width={theme.spacers.size4} />
@@ -60,7 +62,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               setEditorState={setEditorState}
               isDisabled={isDisabled}
               iconSize={iconSize}
-              saveEditor={updatePage}
+              saveEditor={isNotesPage ? updatePage : undefined}
             />
             <Spacer width={theme.spacers.size4} />
             <DividerIcon size={iconSize} />
@@ -70,7 +72,7 @@ const StudySetToolbar: React.FC<StudySetToolbarProps> = ({
               setEditorState={setEditorState}
               isDisabled={isDisabled}
               iconSize={iconSize}
-              saveEditor={updatePage}
+              saveEditor={isNotesPage ? updatePage : undefined}
             />
           </>
         ) : (

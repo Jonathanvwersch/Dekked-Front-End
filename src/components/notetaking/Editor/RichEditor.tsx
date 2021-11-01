@@ -38,7 +38,7 @@ interface RichEditorProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
-  saveEditor?: (editorState: EditorState) => void;
+  saveEditor?: (args: any) => void;
   hasFocus?: boolean;
   isLoading?: boolean;
   editorType?: EditorType;
