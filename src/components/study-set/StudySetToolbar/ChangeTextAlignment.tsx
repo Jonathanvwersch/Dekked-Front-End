@@ -24,7 +24,7 @@ interface ChangeTextStyleProps {
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   isDisabled?: boolean;
   iconSize?: SIZES;
-  saveEditor?: any;
+  saveEditor?: (args: any) => void;
 }
 
 const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
@@ -51,7 +51,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
         newData
       );
       setEditorState(newEditorState);
-      saveEditor(newEditorState);
+      saveEditor && saveEditor(newEditorState);
     }
   };
 
