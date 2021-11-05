@@ -9,7 +9,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   addNewBlockAt,

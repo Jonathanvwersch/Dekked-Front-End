@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -12,7 +12,6 @@ import {
   LogoIcon,
   FILL_TYPE,
 } from "dekked-design-system";
-import { HashLink } from "react-router-hash-link";
 import {
   BUTTON_THEME,
   FILETREE_TYPES,
