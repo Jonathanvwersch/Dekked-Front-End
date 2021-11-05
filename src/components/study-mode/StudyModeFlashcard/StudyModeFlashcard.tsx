@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -27,7 +27,7 @@ import { isEmpty } from "lodash";
 import { EditorState } from "draft-js";
 import RichEditor from "../../notetaking/Editor/RichEditor";
 import { FormattedMessage } from "react-intl";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { convertBlocksToContent } from "../../notetaking/Editor/Editor.helpers";
 import { usePageSetupHelpers } from "../../../hooks";
 import {
@@ -39,7 +39,6 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import { Tooltip } from "../../common";
-import { getSpacedRepetitionFlashcards } from "../../../api";
 import { queryClient } from "../../..";
 
 interface StudyModeFlashcardProps {
@@ -241,17 +240,14 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           FinalCard
         )}
         {blockLink ? (
-          <LogoIconContainer
-            handleMouseDown={() => {
-              setIsLinked(true);
-              setCurrentFlashcardIndex(flashcardIndex || 0);
-              setBlockLink(blockLink);
-            }}
-            fillType={FILL_TYPE.FILL}
-          >
-            <HashLink
-              smooth
-              to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}#${blockLink}-0-0`}
+          <Link to={`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`}>
+            <LogoIconContainer
+              handleMouseDown={() => {
+                setIsLinked(true);
+                setCurrentFlashcardIndex(flashcardIndex || 0);
+                setBlockLink(blockLink);
+              }}
+              fillType={FILL_TYPE.FILL}
             >
               <Tooltip
                 id="LinkedFlashcardLink"
@@ -260,8 +256,8 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
               >
                 <LogoIcon size={logoIconSize} />
               </Tooltip>
-            </HashLink>
-          </LogoIconContainer>
+            </LogoIconContainer>
+          </Link>
         ) : null}
       </Flashcard>
       {!isFinishedStudying ? (

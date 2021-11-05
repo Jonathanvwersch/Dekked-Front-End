@@ -108,6 +108,7 @@ const SidebarTop: React.FC<SidebarTopProps> = () => {
 const StyledSidebarTop = styled(Flex)`
   position: relative;
   border-bottom: solid ${({ theme }) => theme.colors.grey3} 1px;
+  user-select: none;
 `;
 
 const DoubleChevronIconContainer = styled.div`

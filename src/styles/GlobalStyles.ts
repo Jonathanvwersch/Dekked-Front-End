@@ -12,7 +12,6 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
 
     body {
         font-family: ${({ theme }) => theme.typography.fontFamily};
-
     }
 
     * {
