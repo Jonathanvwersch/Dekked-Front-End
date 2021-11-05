@@ -8,7 +8,7 @@ const Page: React.FC = ({ children }) => {
   const { studyModes } = useParams<Params>();
 
   return (
-    <StyledPage studyMode={studyModes}>
+    <StyledPage studyMode={studyModes} id="Page">
       {children}
       {/* hide study queue on study mode page */}
       {!studyModes ? <StudyQueueContainer /> : null}

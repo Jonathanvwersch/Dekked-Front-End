@@ -9,7 +9,7 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import {
   addNewBlockAt,
@@ -164,22 +164,29 @@ const RichEditor: React.FC<RichEditorProps> = ({
 
   const [isLinked] = useAtom(isFlashcardLinkedAtom);
   const [blockLink] = useAtom(blockLinkAtom);
-  const div = document.getElementById(`${blockLink}-0-0`);
+  const blockLinkDiv = document.getElementById(`${blockLink}-0-0`);
 
   useEffect(() => {
     // style block if is linked
     if (isLinked) {
-      if (div) {
-        div.style.boxShadow = theme.boxShadow;
-        div.style.padding = "4px";
-        div.style.borderRadius = "8px";
+      const distanceFromTop = blockLinkDiv?.getBoundingClientRect().top ?? 0;
+      const topOffset = -200;
+
+      document
+        .getElementById("Page")
+        ?.scrollTo({ top: topOffset + distanceFromTop, behavior: "smooth" });
+
+      if (blockLinkDiv) {
+        blockLinkDiv.style.boxShadow = theme.boxShadow;
+        blockLinkDiv.style.padding = "4px";
+        blockLinkDiv.style.borderRadius = "8px";
       }
-    } else if (div) {
-      div.style.boxShadow = "none";
-      div.style.padding = "0px";
-      div.style.borderRadius = "none";
+    } else if (blockLinkDiv) {
+      blockLinkDiv.style.boxShadow = "none";
+      blockLinkDiv.style.padding = "0px";
+      blockLinkDiv.style.borderRadius = "none";
     }
-  }, [isLinked, div, blockLink, theme]);
+  }, [isLinked, blockLinkDiv, blockLink, theme]);
 
   useEffect(() => {
     if (currentBlock.getText()[currentBlock.getLength() - 1] === "^") {
