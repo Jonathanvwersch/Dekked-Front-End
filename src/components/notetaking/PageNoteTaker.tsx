@@ -15,7 +15,12 @@ import { useParams } from "react-router-dom";
 import { queryClient } from "../..";
 import { getBlocksByPageId, savePage } from "../../api";
 import { FILETREE_TYPES, Params } from "../../shared";
-import { currentBlockAtom, pageEditorStateAtom, pageIdAtom } from "../../store";
+import {
+  addedLinkedFlashcardAtom,
+  currentBlockAtom,
+  pageEditorStateAtom,
+  pageIdAtom,
+} from "../../store";
 import {
   convertBlocksToContent,
   createKeysAndBlocks,
@@ -31,6 +36,13 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const [, setPageId] = useAtom(pageIdAtom);
   const { id: studySetId, type } = useParams<Params>();
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
+  const [addedLinkedFlashcard, setAddedLinkedFlashcard] = useAtom(
+    addedLinkedFlashcardAtom
+  );
+
+  useEffect(() => {
+    addedLinkedFlashcard !== 0 && setAddedLinkedFlashcard(0);
+  }, [studySetId]);
 
   const currentBlock = editorState && getCurrentBlock(editorState);
   const {
