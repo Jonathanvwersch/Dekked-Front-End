@@ -40,7 +40,6 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
-import { getSessionCookie } from "../../../helpers";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import { Tooltip } from "../../common";
 import { queryClient } from "../../..";
