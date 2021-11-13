@@ -14,6 +14,7 @@ import { Flex, FullPageLoadingSpinner } from "dekked-design-system";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import SpacedRepetitionController from "../SpacedRepetitionController/SpacedRepetitionController";
 import { calculateNumberOfCardsGroupedByLearningStatus } from "./StudyModeSpacedRepetition.helpers";
+import { sortFlashcardsByStarred } from "../../../study-set/StudySetFlashcardsContainer/StudySetFlashcardsContainer";
 
 interface StudyModeSpacedRepetitionProps {}
 
@@ -68,7 +69,7 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
     );
 
     useLayoutEffect(() => {
-      setSrFlashcards(fetchedSrFlashcards);
+      setSrFlashcards(fetchedSrFlashcards?.sort(sortFlashcardsByStarred));
     }, [fetchedSrFlashcards, setSrFlashcards]);
 
     useEffect(() => {
@@ -105,7 +106,6 @@ const StudyModeSpacedRepetition: React.FC<StudyModeSpacedRepetitionProps> =
             <SpacedRepetitionController
               srFlashcards={srFlashcards}
               setSrFlashcards={setSrFlashcards}
-              ownerId={srFlashcards?.[flashcardIndex]?.owner_id}
               flashcardId={srFlashcards?.[flashcardIndex]?.id}
               deckId={srFlashcards?.[flashcardIndex]?.deck_id}
               maxLength={maxLength || 0}

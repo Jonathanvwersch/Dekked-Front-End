@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
@@ -10,9 +10,11 @@ import {
   IconActive,
   Spacer,
   Flex,
+  FilledStarIcon,
+  EmptyStarIcon,
 } from "dekked-design-system";
 import { useKeyPress } from "../../../hooks";
-import { deleteFlashcard } from "../../../api";
+import { deleteFlashcard, saveFlashcard } from "../../../api";
 import { Params, SIZES, STUDY_MODE_TYPES } from "../../../shared";
 import {
   flashcardsAtom,
@@ -24,6 +26,8 @@ import FlashcardModal from "../../shared/FlashcardModal/FlashcardModal";
 import { isEmpty } from "lodash";
 import { Tooltip } from "../../common";
 import { queryClient } from "../../..";
+import { updateFlashcards } from "../../study-set/StudySetFlashcard/StudySetFlashcard";
+import { EditorState } from "draft-js";
 
 interface StudyModeToolbarProps {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +38,9 @@ interface StudyModeToolbarProps {
   backBlocks?: string[];
   currentBlockKey?: string;
   studyMode?: STUDY_MODE_TYPES;
+  starred?: boolean;
+  frontFlashcardEditorState: EditorState;
+  backFlashcardEditorState: EditorState;
 }
 
 const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
@@ -45,10 +52,14 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   currentBlockKey,
   setDeletedLastFlashcard,
   studyMode,
+  starred,
+  frontFlashcardEditorState,
+  backFlashcardEditorState,
 }) => {
   const theme = useContext(ThemeContext);
   const [fullscreen, setFullscreen] = useAtom(fullscreenStudyModeAtom);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [starFlashcard, setStarFlashcard] = useState<boolean>(Boolean(starred));
   const { id: studySetId } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
@@ -79,6 +90,14 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
     }
   );
 
+  const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
+    onSuccess: (data, { flashcard_id }) => {
+      queryClient.setQueryData(getFlashcardsKey, (prevState: any) =>
+        updateFlashcards(prevState, data, flashcard_id)
+      );
+    },
+  });
+
   useKeyPress(["e", "E"], () => !isDeleteModalOpen && setIsEditable(true));
   useKeyPress(["d", "D"], () => !isEditable && setIsDeleteModalOpen(true));
 
@@ -90,6 +109,10 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
       setFullscreen((prevState) => !prevState)
   );
 
+  useEffect(() => {
+    setStarFlashcard(Boolean(starred));
+  }, [starred]);
+
   return (
     <>
       <Flex
@@ -99,6 +122,35 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         ml={theme.spacers.size16}
         justifyContent="flex-start"
       >
+        <Tooltip
+          id="FavouriteFlashcard"
+          text={
+            starFlashcard
+              ? "tooltips.studyMode.unstarCard"
+              : "tooltips.studyMode.starCard"
+          }
+          place="bottom"
+        >
+          <IconActive
+            handleClick={() => {
+              setStarFlashcard((prevState) => !prevState);
+              saveCard({
+                flashcard_id: flashcardId,
+                starred: !starFlashcard,
+                study_set_id: studySetId,
+                frontEditorState: frontFlashcardEditorState,
+                backEditorState: backFlashcardEditorState,
+              });
+            }}
+          >
+            {starFlashcard ? (
+              <FilledStarIcon color={theme.colors.primary} />
+            ) : (
+              <EmptyStarIcon />
+            )}
+          </IconActive>
+        </Tooltip>
+        <Spacer height={theme.spacers.size16} />
         <Tooltip
           id="EditFlashcard"
           text={"tooltips.studyMode.editCard"}

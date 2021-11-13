@@ -11,6 +11,7 @@ interface FileCardProps {
   thumbnailBackgroundColor?: string;
   descriptionBackgroundColor?: string;
   size?: SIZES;
+  unsetWidth?: boolean;
 }
 
 const FileCard: React.FC<FileCardProps> = ({
@@ -21,6 +22,7 @@ const FileCard: React.FC<FileCardProps> = ({
   thumbnailBackgroundColor,
   descriptionBackgroundColor,
   size,
+  unsetWidth,
 }) => {
   const theme = useTheme();
   const width = size === SIZES.LARGE ? "300px" : "210px";
@@ -28,7 +30,7 @@ const FileCard: React.FC<FileCardProps> = ({
   return (
     <StyledCard
       height={size === SIZES.LARGE ? "150px" : "90px"}
-      width={width}
+      width={unsetWidth ? undefined : width}
       padding="0px"
       border={`1px solid ${theme.colors.grey2}`}
       backgroundColor={
@@ -46,8 +48,8 @@ const FileCard: React.FC<FileCardProps> = ({
             fontWeight="bold"
             fontSize={
               size === SIZES.LARGE
-                ? theme.typography.fontSizes.size14
-                : theme.typography.fontSizes.size12
+                ? theme.typography.fontSizes.size16
+                : theme.typography.fontSizes.size14
             }
             className="overflow"
             maxWidth={size === SIZES.LARGE ? "195px" : "95px"}
@@ -60,8 +62,8 @@ const FileCard: React.FC<FileCardProps> = ({
             fontColor={theme.colors.grey1}
             fontSize={
               size === SIZES.LARGE
-                ? theme.typography.fontSizes.size12
-                : theme.typography.fontSizes.size10
+                ? theme.typography.fontSizes.size14
+                : theme.typography.fontSizes.size12
             }
           >
             {bottomText}

@@ -35,7 +35,6 @@ interface SpacedRepetitionControllerProps {
   flashcardIndex: number;
   setFlippedState: React.Dispatch<React.SetStateAction<boolean>>;
   flippedState: boolean | undefined;
-  ownerId?: string;
   flashcardId?: string;
   deckId?: string;
   status?: FlashcardStatus;
@@ -54,7 +53,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   flashcardIndex,
   flippedState,
   setFlippedState,
-  ownerId,
   flashcardId,
   deckId,
   status,
@@ -146,7 +144,6 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     quality &&
       saveCard({
         flashcard_id: flashcardId,
-        owner_id: ownerId,
         deck_id: deckId,
         quality,
         study_set_id: studySetId,

@@ -19,6 +19,15 @@ import { FormattedMessage } from "react-intl";
 
 interface StudySetFlashcardsContainerProps {}
 
+export const sortFlashcardsByStarred = (
+  a: FlashcardInterface,
+  b: FlashcardInterface
+) => {
+  if (a.starred) return -1;
+  else if (b.starred) return 1;
+  else return 0;
+};
+
 const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
   () => {
     const theme = useTheme();
@@ -71,8 +80,9 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
           <>
             {flashcards && !isEmpty(flashcards) ? (
               <>
-                {flashcards?.map(
-                  (flashcard: FlashcardInterface, index: number) => (
+                {flashcards
+                  ?.sort(sortFlashcardsByStarred)
+                  .map((flashcard: FlashcardInterface, index: number) => (
                     <Fragment key={flashcard?.id}>
                       <StudySetFlashcard
                         index={index + 1}
@@ -80,11 +90,11 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                         frontBlocks={flashcard?.front_blocks}
                         backBlocks={flashcard?.back_blocks}
                         setFlashcards={setFlashcards}
+                        starred={flashcard?.starred}
                       />
                       <Spacer height={theme.spacers.size32} />
                     </Fragment>
-                  )
-                )}
+                  ))}
                 <div ref={endOfFlashcardsContainer} />
               </>
             ) : (

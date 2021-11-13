@@ -47,12 +47,12 @@ const StudyModeMainFrame: React.FC<StudyModeMainFrameProps> = ({
         flashcardIndex={flashcardIndex}
         setFlashcardIndex={setFlashcardIndex}
         blockLink={currentFlashcard?.block_link}
+        starred={currentFlashcard?.starred}
         flashcardId={currentFlashcard?.id}
         isFinishedStudying={
           maxLength === flashcardIndex || flashcards?.length === 0
         }
         studyMode={studyMode}
-        ownerId={currentFlashcard?.owner_id}
         isFlashcardsEmpty={isFlashcardsEmpty}
       />
     </>

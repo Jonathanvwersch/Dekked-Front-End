@@ -14,9 +14,11 @@ interface FolderBinderCardProps {
   name: string;
   color: string;
   id: string;
-  dateModified: string | undefined;
   type: FILETREE_TYPES;
+  dateModified?: string;
+  bottomText?: string;
   size?: SIZES;
+  unsetWidth?: boolean;
 }
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
@@ -24,8 +26,10 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   color,
   id,
   dateModified,
+  bottomText,
   type,
   size,
+  unsetWidth,
 }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
@@ -49,10 +53,13 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
     >
       <FileCard
         topText={handleUntitled(name, intl)}
-        bottomText={`${formatMessage(
-          "folderBinders.edited",
-          intl
-        )} ${date.toLocaleDateString("en-US", options)}`}
+        bottomText={
+          bottomText ||
+          `${formatMessage(
+            "folderBinders.edited",
+            intl
+          )} ${date.toLocaleDateString("en-US", options)}`
+        }
         thumbnailBackgroundColor={theme.colors.secondary}
         descriptionBackgroundColor={theme.colors.backgrounds.pageBackground}
         icon={
@@ -63,6 +70,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
           )
         }
         size={size}
+        unsetWidth={unsetWidth}
       />
     </NavLink>
   );
