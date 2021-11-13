@@ -10,19 +10,20 @@ import {
   navLinkStyle,
   StyledBlock,
 } from "../SidebarBlock/SidebarBlock";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface SidebarHomeProps {}
 
 const SidebarHome: React.FC<SidebarHomeProps> = () => {
   const theme = useContext(ThemeContext);
   const [isLoading] = useAtom(isAppLoadingAtom);
-
+  const { pathname } = useLocation();
   return (
     <>
       {!isLoading ? (
         <NavLink
           to={"/"}
+          isActive={() => ["/", "/home"].includes(pathname)}
           exact
           style={navLinkStyle}
           activeStyle={navLinkActiveStyle(theme)}
@@ -31,7 +32,10 @@ const SidebarHome: React.FC<SidebarHomeProps> = () => {
             <Flex alignItems="center">
               <HomeIcon />
               <Spacer width={theme.spacers.size8} />
-              <Text fontSize={theme.typography.fontSizes.size14}>
+              <Text
+                fontSize={theme.typography.fontSizes.size14}
+                userSelect="none"
+              >
                 <FormattedMessage id="sidebar.workspace.home" />
               </Text>
             </Flex>

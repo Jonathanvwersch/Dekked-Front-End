@@ -149,9 +149,14 @@ const SidebarBlock: React.FC<SidebarBlockProps> = ({
             {blockType === FILETREE_TYPES.FOLDER ||
             blockType === FILETREE_TYPES.BINDER ? (
               <IconActive handleClick={(e) => handleExpandBlock(e)}>
-                <DropDownArrowIcon
-                  rotate={isBlockOpen ? ROTATE.NINETY : ROTATE.ZERO}
-                />
+                <Tooltip
+                  id={`SidebarBlockDropDownArrow${blockId}`}
+                  text="tooltips.generics.clickToExpand"
+                >
+                  <DropDownArrowIcon
+                    rotate={isBlockOpen ? ROTATE.NINETY : ROTATE.ZERO}
+                  />
+                </Tooltip>
               </IconActive>
             ) : null}
             <Spacer width={theme.spacers.size8} />

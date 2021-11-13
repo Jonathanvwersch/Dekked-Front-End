@@ -48,11 +48,11 @@ interface StudyModeFlashcardProps {
   blockLink?: string;
   studyMode?: STUDY_MODE_TYPES;
   flashcardId?: string;
-  ownerId?: string;
   flashcardIndex?: number;
   learningStatus?: FlashcardLearningStatus;
   setFlashcardIndex?: React.Dispatch<React.SetStateAction<number>>;
   isFlashcardsEmpty?: boolean;
+  starred?: boolean;
 }
 const logoIconSize = SIZES.MEDIUM;
 
@@ -68,6 +68,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   setFlashcardIndex,
   isFlashcardsEmpty,
   flashcardIndex,
+  starred,
 }) => {
   const [fullscreen] = useAtom(fullscreenStudyModeAtom);
   const flashcardMaxHeight = fullscreen ? "80%" : "400px";
@@ -86,6 +87,10 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
   const [hasFocus, setHasFocus] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
+
+  const studySetFlashcard = document.getElementById(`StudyModeFlashcard`);
+
+  studySetFlashcard?.addEventListener("dblclick", () => setIsEditable(true));
 
   // Set front editor state on mount
   useEffect(() => {
@@ -199,6 +204,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
         padding={`0 0 ${isFinishedStudying ? 0 : theme.spacers.size48} 0`}
         borderRadius={theme.sizes.borderRadius[SIZES.MEDIUM]}
         height="100%"
+        id="StudyModeFlashcard"
         isFinishedStudying={isFinishedStudying}
         learningStatus={learningStatus}
         studyMode={studyMode}
@@ -264,11 +270,14 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
           flashcardId={flashcardId}
           setIsEditable={setIsEditable}
           isEditable={isEditable}
+          frontFlashcardEditorState={frontFlashcardEditorState}
+          backFlashcardEditorState={backFlashcardEditorState}
           setDeletedLastFlashcard={setDeletedLastFlashcard}
           studyMode={studyMode}
           currentBlockKey={blockLink}
           frontBlocks={frontBlocks}
           backBlocks={backBlocks}
+          starred={starred}
         />
       ) : null}
     </Flex>

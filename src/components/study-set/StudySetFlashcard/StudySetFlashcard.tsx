@@ -18,6 +18,8 @@ import {
   DeleteForeverIcon,
   EditIcon,
   BUTTON_THEME,
+  FilledStarIcon,
+  EmptyStarIcon,
 } from "dekked-design-system";
 import { StudySetToolbar } from "..";
 import { usePageSetupHelpers } from "../../../hooks";
@@ -36,7 +38,6 @@ import {
   addedLinkedFlashcardAtom,
   deckAtom,
   isMainFlashcardButtonDisabledAtom,
-  userAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 import { useParams } from "react-router-dom";
@@ -65,7 +66,22 @@ interface StudySetFlashcardProps {
     update?: SetStateAction<FlashcardInterface[] | undefined>
   ) => void;
   closeModal?: () => void;
+  starred?: boolean;
 }
+
+export const updateFlashcards = (
+  flashcards: FlashcardInterface[] | undefined,
+  updatedFlashcard: FlashcardInterface,
+  flashcardId?: string
+) => {
+  if (flashcards && flashcardId) {
+    const flashcardIndex = flashcards.findIndex(
+      (card) => card?.id === flashcardId
+    );
+    flashcards[flashcardIndex] = updatedFlashcard;
+  }
+  return flashcards || [];
+};
 
 const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   frontBlocks,
@@ -82,6 +98,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   type,
   setFlashcards,
   closeModal,
+  starred,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -94,9 +111,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     useState<EditorState>(EditorState.createEmpty());
   const [currentSide, setCurrentSide] = useState<FLASHCARD_SIDE>();
   const [editFlashcard, setEditFlashcard] = useState<boolean>(false);
+  const [starFlashcard, setStarFlashcard] = useState<boolean>(Boolean(starred));
   const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [user] = useAtom(userAtom);
-  const { id: ownerId } = user;
   const { id: fileId } = useParams<Params>();
   const [deck] = useAtom(deckAtom);
   const frontEditorRef = useRef<any>();
@@ -149,20 +165,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       },
     }
   );
-
-  const updateFlashcards = (
-    flashcards: FlashcardInterface[] | undefined,
-    updatedFlashcard: FlashcardInterface,
-    flashcardId?: string
-  ) => {
-    if (flashcards && flashcardId) {
-      const flashcardIndex = flashcards.findIndex(
-        (card) => card?.id === flashcardId
-      );
-      flashcards[flashcardIndex] = updatedFlashcard;
-    }
-    return flashcards || [];
-  };
 
   const { mutate: saveCard, isLoading: isSaveLoading } = useMutation(
     "save-flashcard",
@@ -282,6 +284,36 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         <Text userSelect="none">{index}</Text>
         <Flex width="auto">
           <Tooltip
+            id="FavouriteFlashcard"
+            text={
+              starFlashcard
+                ? "tooltips.studyMode.unstarCard"
+                : "tooltips.studyMode.starCard"
+            }
+            place="bottom"
+          >
+            <IconActive
+              handleClick={() => {
+                setStarFlashcard((prevState) => !prevState);
+                saveCard({
+                  flashcard_id: flashcardId,
+                  starred: !starFlashcard,
+                  deck_id: deck?.id,
+                  study_set_id: fileId,
+                  frontEditorState: frontFlashcardEditorState,
+                  backEditorState: backFlashcardEditorState,
+                });
+              }}
+            >
+              {starFlashcard ? (
+                <FilledStarIcon color={theme.colors.primary} />
+              ) : (
+                <EmptyStarIcon />
+              )}
+            </IconActive>
+          </Tooltip>
+          <Spacer width={theme.spacers.size8} />
+          <Tooltip
             id="EditFlashcard"
             text={"tooltips.studyMode.editCard"}
             place="bottom"
@@ -291,7 +323,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
             </IconActive>
           </Tooltip>
           <Spacer width={theme.spacers.size8} />
-
           <Tooltip
             id="DeleteFlashcard"
             text="tooltips.studyMode.deleteCard"
@@ -313,7 +344,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     if (type === "add") {
       fileId &&
         addCard({
-          owner_id: ownerId,
           deck_id: deck?.id,
           study_set_id: fileId,
           block_link: currentBlockKey,
@@ -333,7 +363,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           backEditorState: backFlashcardEditorState,
           flashcard_id: flashcardId,
           deck_id: deck?.id,
-          owner_id: ownerId,
           study_set_id: fileId,
         });
     }

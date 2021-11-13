@@ -9,6 +9,7 @@ import { currentFlashcardIndexAtom, flashcardsAtom } from "../../../../store";
 import { FullPageLoadingSpinner } from "dekked-design-system";
 import StudyModeMainFrame from "../../StudyModeMainFrame/StudyModeMainFrame";
 import FreeStudyController from "../FreeStudyController/FreeStudyController";
+import { sortFlashcardsByStarred } from "../../../study-set/StudySetFlashcardsContainer/StudySetFlashcardsContainer";
 
 interface StudyModeFreeStudyProps {}
 
@@ -28,7 +29,8 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
     );
 
   useEffect(() => {
-    if (fetchedFlashcards) setFlashcards(fetchedFlashcards);
+    if (fetchedFlashcards)
+      setFlashcards(fetchedFlashcards?.sort(sortFlashcardsByStarred));
   }, [fetchedFlashcards, isFetchingFlashcards, setFlashcards]);
 
   return (

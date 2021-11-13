@@ -16,7 +16,7 @@ const Routes = () => (
       component={() => <ForgetYourPassword isResetPage />}
     />
     <CustomRoute exact path="/sign-up" component={LogInSignUpPage} />
-    <PrivateRoute exact path="/" component={HomePage} />
+    <PrivateRoute exact path={["/", "/home"]} component={HomePage} />
     <PrivateRoute path="/:type/:id" component={OptionsPage} />
   </CustomSwitch>
 );

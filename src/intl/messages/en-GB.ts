@@ -23,6 +23,12 @@ const en_GB = {
       titles: {
         recent: "Recent",
         welcome: "Welcome",
+        dueDecks: "Due decks",
+      },
+      dueDecks: {
+        dueCards: "Due cards:",
+        showAll: "Show all",
+        showLess: "Show less",
       },
       noRecentActivity: "No recent activity",
     },
@@ -264,6 +270,7 @@ const en_GB = {
     tooltips: {
       generics: {
         close: "Close",
+        clickToExpand: "Click to expand",
       },
       sidebar: {
         addItem: "Add an item inside",
@@ -289,6 +296,8 @@ const en_GB = {
       studyMode: {
         flip: "Flip flashcard",
         editCard: "Edit flashcard",
+        starCard: "Mark as favourite",
+        unstarCard: "Unfavourite",
         cardNowEditable: "Flashcard is now editable",
         deleteCard: "Delete flashcard",
         linkedFlashcard: "Click to view linked block",

@@ -32,6 +32,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
                     id={binder?.[1]?.id}
                     dateModified={binder?.[1]?.date_modified}
                     type={binder?.[1]?.type as FILETREE_TYPES}
+                    unsetWidth
                   />
                 )
             )
@@ -53,6 +54,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
                       studySet?.[1]?.date_modified as unknown as string
                     }
                     type={studySet?.[1]?.type as FILETREE_TYPES}
+                    unsetWidth
                   />
                 )
             )
@@ -65,7 +67,7 @@ const FolderBinderCardContainer: React.FC<FolderBinderCardContainerProps> =
         {!isLoading ? (
           <FileContainer width="210px">{Cards(type)}</FileContainer>
         ) : (
-          <StyledSkeleton width="160px" height="180px" count={2} />
+          <StyledSkeleton height="90px" count={2} />
         )}
       </>
     );

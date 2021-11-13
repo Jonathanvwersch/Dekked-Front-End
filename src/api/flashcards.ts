@@ -37,7 +37,6 @@ export const getSpacedRepetitionFlashcards = async ({
 
 export const saveFlashcard = async ({
   flashcard_id,
-  owner_id,
   deck_id,
   frontEditorState,
   backEditorState,
@@ -45,20 +44,20 @@ export const saveFlashcard = async ({
   interval,
   learningStatus,
   study_set_id,
+  starred,
 }: {
   flashcard_id: string | undefined;
-  owner_id: string | undefined;
-  deck_id: string | undefined;
+  deck_id?: string | undefined;
   frontEditorState?: EditorState;
   backEditorState?: EditorState;
   quality?: FlashcardQuality;
   interval?: number;
   learningStatus?: FlashcardLearningStatus;
   study_set_id?: string;
+  starred?: boolean;
 }) => {
   const payload: {
     flashcard_id: string | undefined;
-    owner_id: string | undefined;
     deck_id: string | undefined;
     front_draft_keys?: string[];
     front_blocks?: string[];
@@ -68,14 +67,15 @@ export const saveFlashcard = async ({
     interval?: number;
     learning_status?: FlashcardLearningStatus;
     study_set_id?: string;
+    starred?: boolean;
   } = {
     flashcard_id,
-    owner_id,
     deck_id,
     quality,
     interval,
     learning_status: learningStatus,
     study_set_id,
+    starred,
   };
 
   if (frontEditorState) {
@@ -101,14 +101,12 @@ export const saveFlashcard = async ({
 };
 
 export const addFlashcard = async ({
-  owner_id,
   study_set_id,
   block_link,
   frontFlashcardEditorState,
   deck_id,
   backFlashcardEditorState,
 }: {
-  owner_id: string;
   study_set_id: string;
   deck_id: string | undefined;
   block_link?: string;
@@ -124,7 +122,6 @@ export const addFlashcard = async ({
       backFlashcardEditorState && createKeysAndBlocks(backFlashcardEditorState);
     payload = {
       study_set_id,
-      owner_id,
       deck_id,
       block_link,
       front_blocks: frontBlocks,
@@ -135,7 +132,6 @@ export const addFlashcard = async ({
   } else {
     payload = {
       study_set_id: study_set_id,
-      owner_id: owner_id,
       deck_id,
       block_link: block_link,
     };

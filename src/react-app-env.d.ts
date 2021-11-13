@@ -101,6 +101,7 @@ interface FlashcardInterface {
   deck_id: string;
   block_link?: string;
   quality?: number;
+  starred?: boolean;
 }
 
 interface UserInterface {

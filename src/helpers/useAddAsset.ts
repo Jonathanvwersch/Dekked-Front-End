@@ -1,10 +1,11 @@
 import { useAtom } from "jotai";
 import { useCallback, useContext } from "react";
 import { useMutation } from "react-query";
+import { useHistory } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { addBinder, addFolder, addStudySet } from "../api";
-import { FILETREE_TYPES } from "../shared";
+import { FILETREE_TYPES, TAB_TYPE } from "../shared";
 import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 
 export const useAddAsset = () => {
@@ -12,24 +13,16 @@ export const useAddAsset = () => {
   const theme = useContext(ThemeContext);
   const iconColor = theme.colors.primary;
   const itemName = "";
+  const history = useHistory();
   const [, setAsset] = useAtom(addAssetAtom);
   const [, setIsBlockOpen] = useAtom(updateBlockOpenStateAtom);
   const [user] = useAtom(userAtom);
-  const { mutate: _addFolder } = useMutation(
-    "add-folder",
-    () => addFolder({ id, name: itemName, color: iconColor }),
-    {
-      retry: 3,
-    }
+  const { mutate: _addFolder } = useMutation("add-folder", () =>
+    addFolder({ id, name: itemName, color: iconColor })
   );
 
-  const { mutate: _addBinder } = useMutation(
-    "add-binder",
-    (folderId: string) =>
-      addBinder({ id, name: itemName, color: iconColor, folder_id: folderId }),
-    {
-      retry: 3,
-    }
+  const { mutate: _addBinder } = useMutation("add-binder", (folderId: string) =>
+    addBinder({ id, name: itemName, color: iconColor, folder_id: folderId })
   );
 
   const { mutate: _addStudySet } = useMutation(
@@ -40,10 +33,7 @@ export const useAddAsset = () => {
         name: itemName,
         color: iconColor,
         binder_id: binderId,
-      }),
-    {
-      retry: 3,
-    }
+      })
   );
 
   const addAsset = useCallback(
@@ -67,6 +57,8 @@ export const useAddAsset = () => {
             },
           });
           _addFolder();
+          history.push(`/${FILETREE_TYPES.FOLDER}/${id}`);
+
           break;
 
         case FILETREE_TYPES.BINDER:
@@ -93,6 +85,8 @@ export const useAddAsset = () => {
               isOpen: true,
             });
           folderId && _addBinder(folderId);
+          history.push(`/${FILETREE_TYPES.BINDER}/${id}`);
+
           break;
 
         case FILETREE_TYPES.STUDY_SET:
@@ -120,7 +114,9 @@ export const useAddAsset = () => {
               id: binderId,
               isOpen: true,
             });
+          history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`);
           binderId && _addStudySet(binderId);
+
           break;
         default:
           break;
@@ -135,6 +131,7 @@ export const useAddAsset = () => {
       _addFolder,
       user?.id,
       iconColor,
+      history,
     ]
   );
 
