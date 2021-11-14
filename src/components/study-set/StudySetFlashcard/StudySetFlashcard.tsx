@@ -298,7 +298,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                 saveCard({
                   flashcard_id: flashcardId,
                   starred: !starFlashcard,
-                  deck_id: deck?.id,
+                  deck_id: deckId,
                   study_set_id: fileId,
                   frontEditorState: frontFlashcardEditorState,
                   backEditorState: backFlashcardEditorState,
@@ -344,7 +344,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     if (type === "add") {
       fileId &&
         addCard({
-          deck_id: deck?.id,
+          deck_id: deckId,
           study_set_id: fileId,
           block_link: currentBlockKey,
           frontFlashcardEditorState,
@@ -362,7 +362,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
           frontEditorState: frontFlashcardEditorState,
           backEditorState: backFlashcardEditorState,
           flashcard_id: flashcardId,
-          deck_id: deck?.id,
+          deck_id: deckId,
           study_set_id: fileId,
         });
     }
