@@ -25,6 +25,7 @@ interface FlashcardModalProps {
   blockLink?: string;
   flashcardId?: string;
   studyMode?: STUDY_MODE_TYPES;
+  deckId?: string;
 }
 
 const FlashcardModal: React.FC<FlashcardModalProps> = ({
@@ -36,6 +37,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
   setIsOpen,
   type = "add",
   studyMode,
+  deckId,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -85,6 +87,7 @@ const FlashcardModal: React.FC<FlashcardModalProps> = ({
               toolbarSize={SIZES.MEDIUM}
               fullHeight
               closeModal={() => setIsOpen(false)}
+              deckId={deckId}
             />
           </StyledAutoFocusInside>
         </StyledFocusLock>

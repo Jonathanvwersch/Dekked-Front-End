@@ -340,7 +340,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     );
   };
 
-  const handleSubmitFlashcard = () => {
+  const handleSubmitFlashcard = (deckId?: string) => {
     if (type === "add") {
       fileId &&
         addCard({
@@ -457,7 +457,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                     ? isSaveButtonDisabled()
                     : isAddButtonDisabled()
                 }
-                handleClick={handleSubmitFlashcard}
+                handleClick={() => handleSubmitFlashcard(deckId)}
                 isLoading={type === "edit" ? isSaveLoading : false}
               >
                 {formatMessage(
@@ -489,6 +489,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
         backBlocks={backBlocks}
         type="edit"
         flashcardId={flashcardId}
+        deckId={deckId}
       />
     </>
   );
