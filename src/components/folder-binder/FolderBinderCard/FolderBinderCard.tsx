@@ -19,6 +19,7 @@ interface FolderBinderCardProps {
   bottomText?: string;
   size?: SIZES;
   unsetWidth?: boolean;
+  studyMode?: boolean;
 }
 
 const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
@@ -30,6 +31,7 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   type,
   size,
   unsetWidth,
+  studyMode,
 }) => {
   const intl = useIntl();
   const theme = useContext(ThemeContext);
@@ -44,7 +46,9 @@ const FolderBinderCard: React.FC<FolderBinderCardProps> = ({
   return (
     <NavLink
       to={
-        type === FILETREE_TYPES.BINDER
+        studyMode
+          ? `/${FILETREE_TYPES.STUDY_SET}/${id}/study/spaced-repetition`
+          : type === FILETREE_TYPES.BINDER
           ? `/${FILETREE_TYPES.BINDER}/${id}`
           : `/${FILETREE_TYPES.STUDY_SET}/${id}/${
               studySetTab || TAB_TYPE.NOTES

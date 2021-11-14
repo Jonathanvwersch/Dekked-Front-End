@@ -43,6 +43,7 @@ const DueDecks: React.FC<DueDecksProps> = () => {
 
   const dueDecks = Object.entries(data || []).map((dueDeck) => (
     <FolderBinderCard
+      studyMode
       key={dueDeck?.[0]}
       name={dueDeck?.[1]?.name || ""}
       color={dueDeck?.[1]?.iconColor || ""}
