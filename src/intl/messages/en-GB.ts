@@ -29,6 +29,8 @@ const en_GB = {
         dueCards: "Due cards:",
         showAll: "Show all",
         showLess: "Show less",
+        showMoreDecks:
+          "Click show all to view the remaining {numberOfDueDecks} deck(s)",
       },
       noRecentActivity: "No recent activity",
     },
