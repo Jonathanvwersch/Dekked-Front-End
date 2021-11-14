@@ -80,7 +80,7 @@ const DueDecks: React.FC<DueDecksProps> = () => {
           </Tooltip>
         </IconActive>
         <Spacer width={theme.spacers.size32} />
-        {shouldShowMore && (
+        {shouldShowMore && showAll && (
           <Button
             handleClick={() => setShowAll((prevData) => !prevData)}
             buttonStyle={BUTTON_THEME.SECONDARY}

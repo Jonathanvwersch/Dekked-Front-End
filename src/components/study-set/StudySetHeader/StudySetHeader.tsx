@@ -15,6 +15,7 @@ import {
 } from "../../../store";
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
+import { queryClient } from "../../..";
 
 interface StudySetHeaderProps {
   headerRef?: React.RefObject<HTMLDivElement>;
@@ -23,7 +24,7 @@ interface StudySetHeaderProps {
 const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const intl = useIntl();
   const [numOfWords, setNumOfWords] = useState<number>(0);
-  const { tab } = useParams<Params>();
+  const { tab, id } = useParams<Params>();
   const [addFlashcard, setAddFlashcard] = useState<boolean>(false);
   const [isLoading] = useAtom(isAppLoadingAtom);
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
@@ -83,7 +84,14 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
         </Flex>
       </PageHeaderWrapper>
 
-      <FlashcardModal isOpen={addFlashcard} setIsOpen={setAddFlashcard} />
+      <FlashcardModal
+        isOpen={addFlashcard}
+        setIsOpen={setAddFlashcard}
+        deckId={
+          // @ts-ignore
+          queryClient.getQueryData(`${id}-get-deck`)?.id
+        }
+      />
     </>
   );
 };
