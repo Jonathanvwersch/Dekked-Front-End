@@ -440,7 +440,6 @@ export const flashcardsAtom = atom<FlashcardInterface[] | undefined>(undefined);
 export const srFlashcardsAtom =
   atom<FlashcardInterface[] | undefined>(undefined);
 export const isMainFlashcardButtonDisabledAtom = atom<boolean>(true);
-export const deckAtom = atom<DeckInterface | undefined>(undefined);
 
 // Current Block
 export const savingNotesAtom = atom<boolean>(false);

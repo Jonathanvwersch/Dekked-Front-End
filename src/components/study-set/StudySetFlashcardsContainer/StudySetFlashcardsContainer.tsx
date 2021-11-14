@@ -4,11 +4,7 @@ import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import Skeleton from "react-loading-skeleton";
 import { Spacer, Flex, Text } from "dekked-design-system";
-import {
-  addedLinkedFlashcardAtom,
-  deckAtom,
-  flashcardsAtom,
-} from "../../../store";
+import { addedLinkedFlashcardAtom, flashcardsAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { useIsMutating, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -33,7 +29,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
     const theme = useTheme();
     const { id: studySetId, type } = useParams<Params>();
     const [flashcards, setFlashcards] = useAtom(flashcardsAtom);
-    const [, setDeck] = useAtom(deckAtom);
     const isAdding = useIsMutating({
       mutationKey: `${studySetId}-add-flashcard`,
     });
@@ -70,10 +65,6 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
       setFlashcards(fetchedFlashcards);
     }, [fetchedFlashcards, setFlashcards]);
 
-    useLayoutEffect(() => {
-      setDeck(deck);
-    }, [setDeck, deck]);
-
     return (
       <Flex flexDirection="column">
         {!isAdding && !isLoading ? (
@@ -86,6 +77,7 @@ const StudySetFlashcardsContainer: React.FC<StudySetFlashcardsContainerProps> =
                     <Fragment key={flashcard?.id}>
                       <StudySetFlashcard
                         index={index + 1}
+                        deckId={deck?.id}
                         flashcardId={flashcard?.id}
                         frontBlocks={flashcard?.front_blocks}
                         backBlocks={flashcard?.back_blocks}
