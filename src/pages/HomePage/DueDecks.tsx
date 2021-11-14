@@ -56,6 +56,8 @@ const DueDecks: React.FC<DueDecksProps> = () => {
     />
   ));
 
+  const shouldShowMore = !isLoading && numberOfDueDecks > 10;
+
   return (
     <Box mt={theme.spacers.size48}>
       <Flex>
@@ -78,7 +80,7 @@ const DueDecks: React.FC<DueDecksProps> = () => {
           </Tooltip>
         </IconActive>
         <Spacer width={theme.spacers.size32} />
-        {!isLoading && numberOfDueDecks > 10 && (
+        {shouldShowMore && (
           <Button
             handleClick={() => setShowAll((prevData) => !prevData)}
             buttonStyle={BUTTON_THEME.SECONDARY}
@@ -98,24 +100,38 @@ const DueDecks: React.FC<DueDecksProps> = () => {
         }}
       />
       {showData ? (
-        <FileContainer width="210px">
-          {isLoading ? (
-            <>
-              <StyledSkeleton height="90px" />
-              <StyledSkeleton height="90px" />
-              <StyledSkeleton height="90px" />
-            </>
-          ) : numberOfDueDecks === 0 ? (
+        <>
+          <FileContainer width="210px">
+            {isLoading ? (
+              <>
+                <StyledSkeleton height="90px" />
+                <StyledSkeleton height="90px" />
+                <StyledSkeleton height="90px" />
+              </>
+            ) : numberOfDueDecks === 0 ? (
+              <Text
+                fontColor={theme.colors.grey1}
+                fontSize={theme.typography.fontSizes.size16}
+              >
+                <FormattedMessage id="studyMode.flashcard.caughtUp" />
+              </Text>
+            ) : (
+              <>{dueDecks.splice(0, showAll ? numberOfDueDecks : 10)}</>
+            )}
+          </FileContainer>
+          <Spacer height={theme.spacers.size16} />
+          {!isLoading && numberOfDueDecks > 10 && !showAll && (
             <Text
               fontColor={theme.colors.grey1}
               fontSize={theme.typography.fontSizes.size16}
             >
-              <FormattedMessage id="studyMode.flashcard.caughtUp" />
+              <FormattedMessage
+                id="home.dueDecks.showMoreDecks"
+                values={{ numberOfDueDecks: numberOfDueDecks - 10 }}
+              />
             </Text>
-          ) : (
-            <>{dueDecks.splice(0, showAll ? numberOfDueDecks : 10)}</>
           )}
-        </FileContainer>
+        </>
       ) : null}
     </Box>
   );
