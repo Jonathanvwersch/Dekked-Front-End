@@ -89,8 +89,8 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
 };
 
 const PageHeaderWrapper = styled.div`
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: ${({ theme }) => theme.spacers.size32};
+  padding-right: ${({ theme }) => theme.spacers.size32};
   width: 100%;
   max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
 `;
@@ -106,8 +106,8 @@ export const ToolbarAndTabs = styled(Flex)`
   min-height: ${({ theme }) => theme.spacers.size64};
   height: ${({ theme }) => theme.spacers.size64};
   z-index: 100;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: ${({ theme }) => theme.spacers.size32};
+  padding-right: ${({ theme }) => theme.spacers.size32};
 `;
 
 export default React.memo(StudySetHeader);

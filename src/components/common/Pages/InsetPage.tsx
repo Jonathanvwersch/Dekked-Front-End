@@ -22,8 +22,8 @@ const InsetPage: React.FC<InsetPageProps> = ({
 };
 
 const StyledInsetPage = styled.div<InsetPageProps>`
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: ${({ theme }) => theme.spacers.size32};
+  padding-right: ${({ theme }) => theme.spacers.size32};
   width: 100%;
   flex-grow: 1;
   overflow: ${({ overflow }) => overflow};

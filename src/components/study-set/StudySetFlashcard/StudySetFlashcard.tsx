@@ -36,7 +36,6 @@ import { useMutation } from "react-query";
 import { addFlashcard, deleteFlashcard, saveFlashcard } from "../../../api";
 import {
   addedLinkedFlashcardAtom,
-  deckAtom,
   isMainFlashcardButtonDisabledAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
@@ -67,6 +66,7 @@ interface StudySetFlashcardProps {
   ) => void;
   closeModal?: () => void;
   starred?: boolean;
+  deckId?: string;
 }
 
 export const updateFlashcards = (
@@ -99,6 +99,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   setFlashcards,
   closeModal,
   starred,
+  deckId,
 }) => {
   const [frontHasFocus, setFrontHasFocus] = useState<boolean>(false);
   const [backHasFocus, setBackHasFocus] = useState<boolean>(false);
@@ -114,7 +115,6 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [starFlashcard, setStarFlashcard] = useState<boolean>(Boolean(starred));
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const { id: fileId } = useParams<Params>();
-  const [deck] = useAtom(deckAtom);
   const frontEditorRef = useRef<any>();
   const backEditorRef = useRef<any>();
   const [isMainFlashcardButtonDisabled, setIsMainFlashcardButtonDisabled] =
