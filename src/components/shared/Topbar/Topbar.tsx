@@ -15,11 +15,17 @@ import {
 import Breadcrumbs from "./Breadcrumbs";
 import PageSaving from "./PageSaving";
 import { Tooltip } from "../../common";
+import { useResponsiveLayout } from "../../../hooks";
+import {
+  BREAKPOINT_MOBILE,
+  LAYOUT_VERTICAL,
+} from "../../../hooks/useResponsiveLayout";
 
 const TopBar: React.FC = () => {
   const [sidebar, setSidebar] = useAtom(sidebarAtom);
   const theme = useContext(ThemeContext);
   const [isLoading] = useAtom(isAppLoadingAtom);
+  const layout = useResponsiveLayout(BREAKPOINT_MOBILE);
 
   return (
     <StyledTopbar>
@@ -36,14 +42,18 @@ const TopBar: React.FC = () => {
           <Spacer width={theme.spacers.size16} />
         </>
       ) : null}
-      <Flex width="auto" justifyContent="center">
-        {!isLoading ? (
-          <Breadcrumbs />
-        ) : (
-          <StyledSkeleton count={3} width="100px" height="20px" />
-        )}
-        <PageSaving />
-      </Flex>
+      <>
+        {layout !== LAYOUT_VERTICAL ? (
+          <Flex width="auto" justifyContent="center">
+            {!isLoading ? (
+              <Breadcrumbs />
+            ) : (
+              <StyledSkeleton count={3} width="100px" height="20px" />
+            )}
+            <PageSaving />
+          </Flex>
+        ) : null}
+      </>
     </StyledTopbar>
   );
 };

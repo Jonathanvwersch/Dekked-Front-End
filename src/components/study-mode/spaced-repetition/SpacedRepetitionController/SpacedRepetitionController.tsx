@@ -289,7 +289,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
                 `${messagePrefix}.flipCard.showAnswer`
               )
             ) : (
-              <Flex width="90%" justifyContent="space-evenly">
+              <Flex width="90%" mb={theme.spacers.size8}>
                 {spacedRepetitionButton(
                   false,
                   BUTTON_THEME.DANGER,

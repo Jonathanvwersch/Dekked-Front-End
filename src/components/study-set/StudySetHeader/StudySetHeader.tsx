@@ -16,6 +16,11 @@ import {
 import { useAtom } from "jotai";
 import Skeleton from "react-loading-skeleton";
 import { queryClient } from "../../..";
+import { useResponsiveLayout } from "../../../hooks";
+import {
+  BREAKPOINT_MOBILE,
+  LAYOUT_VERTICAL,
+} from "../../../hooks/useResponsiveLayout";
 
 interface StudySetHeaderProps {
   headerRef?: React.RefObject<HTMLDivElement>;
@@ -30,6 +35,7 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
   const [flashcards] = useAtom(flashcardsAtom);
   const flashcardsDoNotExist = flashcards?.length === 0 || !flashcards;
+  const layout = useResponsiveLayout(BREAKPOINT_MOBILE);
 
   // Calculate the number of words in text
   useEffect(() => {
@@ -56,7 +62,10 @@ const StudySetHeader: React.FC<StudySetHeaderProps> = ({ headerRef }) => {
 
   return (
     <>
-      <ToolbarAndTabs justifyContent="space-between">
+      <ToolbarAndTabs
+        justifyContent="space-between"
+        isMobile={layout === LAYOUT_VERTICAL && tab === TAB_TYPE.NOTES}
+      >
         {tab === TAB_TYPE.NOTES ? (
           <StudySetToolbar
             editorState={editorState}
@@ -103,7 +112,7 @@ const PageHeaderWrapper = styled.div`
   max-width: ${({ theme }) => theme.sizes.wrappers[SIZES.SMALL]};
 `;
 
-export const ToolbarAndTabs = styled(Flex)`
+export const ToolbarAndTabs = styled(Flex)<{ isMobile?: boolean }>`
   position: sticky;
   margin-top: ${({ theme }) => theme.spacers.size32};
   width: 100%;
@@ -116,6 +125,10 @@ export const ToolbarAndTabs = styled(Flex)`
   z-index: 100;
   padding-left: ${({ theme }) => theme.spacers.size32};
   padding-right: ${({ theme }) => theme.spacers.size32};
+  flex-direction: ${({ isMobile }) =>
+    isMobile ? "column-reverse" : undefined};
+  gap: ${({ theme, isMobile }) =>
+    isMobile ? theme.spacers.size16 : undefined};
 `;
 
 export default React.memo(StudySetHeader);

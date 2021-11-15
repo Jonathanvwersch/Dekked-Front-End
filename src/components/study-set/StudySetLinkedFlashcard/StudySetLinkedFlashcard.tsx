@@ -77,8 +77,7 @@ const LinkedCard = styled(Flex)<StudySetLinkedFlashcardProps>`
   z-index: 998;
   position: fixed;
   bottom: 0;
-  left: ${({ flashcardPosition }) =>
-    flashcardPosition ? `${flashcardPosition}px` : "auto"};
+  left: auto;
   width: ${({ flashcardSize }) => flashcardSize}px;
 `;
 
