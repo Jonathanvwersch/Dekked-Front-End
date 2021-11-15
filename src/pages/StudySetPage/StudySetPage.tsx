@@ -39,7 +39,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
               <StudySetNotesContainer
                 notesRef={initialRef}
                 flashcardSize={
-                  dimensions.width ? dimensions.width - 200 : initialWidth
+                  dimensions.width ? dimensions.width - 64 : initialWidth
                 }
                 flashcardPosition={position.left && position.left + 100}
               />

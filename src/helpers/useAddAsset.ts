@@ -1,17 +1,18 @@
 import { useAtom } from "jotai";
 import { useCallback, useContext } from "react";
 import { useMutation } from "react-query";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { addBinder, addFolder, addStudySet } from "../api";
-import { FILETREE_TYPES, TAB_TYPE } from "../shared";
+import { FILETREE_TYPES, Params, TAB_TYPE } from "../shared";
 import { addAssetAtom, updateBlockOpenStateAtom, userAtom } from "../store";
 
 export const useAddAsset = () => {
   const id = uuidv4();
   const theme = useContext(ThemeContext);
   const iconColor = theme.colors.primary;
+  const { studyModes } = useParams<Params>();
   const itemName = "";
   const history = useHistory();
   const [, setAsset] = useAtom(addAssetAtom);
@@ -57,7 +58,7 @@ export const useAddAsset = () => {
             },
           });
           _addFolder();
-          history.push(`/${FILETREE_TYPES.FOLDER}/${id}`);
+          !studyModes && history.push(`/${FILETREE_TYPES.FOLDER}/${id}`);
 
           break;
 
@@ -85,7 +86,7 @@ export const useAddAsset = () => {
               isOpen: true,
             });
           folderId && _addBinder(folderId);
-          history.push(`/${FILETREE_TYPES.BINDER}/${id}`);
+          !studyModes && history.push(`/${FILETREE_TYPES.BINDER}/${id}`);
 
           break;
 
@@ -114,7 +115,10 @@ export const useAddAsset = () => {
               id: binderId,
               isOpen: true,
             });
-          history.push(`/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`);
+          !studyModes &&
+            history.push(
+              `/${FILETREE_TYPES.STUDY_SET}/${id}/${TAB_TYPE.NOTES}`
+            );
           binderId && _addStudySet(binderId);
 
           break;
@@ -132,6 +136,7 @@ export const useAddAsset = () => {
       user?.id,
       iconColor,
       history,
+      studyModes,
     ]
   );
 

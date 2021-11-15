@@ -2,6 +2,8 @@ import { useAtom } from "jotai";
 import React, { useCallback, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { SidebarHome, SidebarTop, SidebarWorkspace } from ".";
+import { useOutsideClickListener, useResponsiveLayout } from "../../../hooks";
+import { LAYOUT_VERTICAL } from "../../../hooks/useResponsiveLayout";
 import { SIZES } from "../../../shared";
 import { sidebarAtom } from "../../../store";
 import SidebarBase from "./SidebarBase/SidebarBase";
@@ -10,9 +12,13 @@ import SidebarWorkspaceHeader from "./SidebarWorkspace/SidebarWorkspaceHeader";
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const [sidebar] = useAtom(sidebarAtom);
+  const [sidebar, setSidebar] = useAtom(sidebarAtom);
   const [hoverbar, setHoverbar] = useState<boolean>(false);
   const bottomFolderRef = useRef<HTMLDivElement>(null);
+  const layout = useResponsiveLayout();
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const isMobile = layout === LAYOUT_VERTICAL && sidebar;
+  useOutsideClickListener(sidebarRef, () => setSidebar(false), isMobile);
 
   const mouseLeave = useCallback(() => {
     !sidebar && setHoverbar(false);
@@ -23,7 +29,13 @@ const Sidebar: React.FC<SidebarProps> = () => {
   }, [sidebar]);
 
   return (
-    <SidebarContainer sidebar={sidebar}>
+    <SidebarContainer
+      ref={sidebarRef}
+      sidebar={sidebar}
+      style={{
+        position: isMobile ? "fixed" : "unset",
+      }}
+    >
       <InnerSidebar
         sidebar={sidebar}
         hoverbar={hoverbar}
@@ -61,6 +73,7 @@ const SidebarContainer = styled.div<{ sidebar: boolean }>`
   z-index: 1000;
   transition: box-shadow 300ms ease-in 0s;
   max-width: ${({ theme, sidebar }) => (sidebar ? theme.sizes.sidebar : "0px")};
+  height: 100%;
 `;
 
 const InnerSidebar = styled.div<{ sidebar: boolean; hoverbar: boolean }>`
