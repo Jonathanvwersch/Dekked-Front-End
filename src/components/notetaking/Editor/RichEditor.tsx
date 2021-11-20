@@ -9,12 +9,14 @@ import Draft, {
 
 import "draft-js/dist/Draft.css";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import {
   addNewBlockAt,
   getCurrentBlock,
   isSoftNewlineEvent,
+  myBlockStyleFn,
+  onSuccessOfImageUpload,
   removeCharacters,
   toggleInlineStyle,
 } from "./Editor.helpers";
@@ -30,6 +32,9 @@ import GeneralBlock from "../GeneralBlock/GeneralBlock";
 import { blockLinkAtom, isFlashcardLinkedAtom } from "../../../store";
 import { useAtom } from "jotai";
 import { SIZES } from "dekked-design-system";
+import { ImageBlock } from "..";
+import { uploadImage } from "../../../api";
+import { useMutation } from "react-query";
 const Immutable = require("immutable");
 
 export type EditorType = "flashcard" | "page";
@@ -64,6 +69,38 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const [dragBlockKey, setDragBlockKey] = useState<string | undefined>();
   const theme = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [imageFile, setImageFile] = useState<any>();
+
+  const { mutate: saveImage } = useMutation<{ imagePath: string }>(
+    "upload-image",
+    uploadImage,
+    {
+      onSuccess: (data) => {
+        const newEditorState = onSuccessOfImageUpload(
+          data?.imagePath,
+          editorState
+        );
+        setEditorState(newEditorState);
+      },
+    }
+  );
+
+  const handleImageUpload = useCallback(
+    (e: any) => {
+      setImageFile(e?.target?.files?.[0]);
+    },
+    [imageFile?.name]
+  );
+
+  useEffect(() => {
+    if (imageFile) {
+      saveImage(imageFile);
+      return () =>
+        document
+          ?.getElementById("ImageUpload")
+          ?.removeEventListener("change", handleImageUpload);
+    }
+  }, [imageFile?.name, saveImage]);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -80,30 +117,55 @@ const RichEditor: React.FC<RichEditorProps> = ({
   };
 
   const toggleBlockType = (blockType: BLOCK_TYPES) => {
-    const newEditorState = removeCharacters(
-      editorState,
-      0,
-      currentBlock.getText().length
-    );
+    if (blockType === BLOCK_TYPES.IMAGE) {
+      const imageUpload = document.getElementById("ImageUpload");
+      imageUpload?.click();
+      imageUpload?.addEventListener("change", handleImageUpload);
 
-    setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
+      const newEditorState = removeCharacters(
+        editorState,
+        0,
+        currentBlock?.getText().length
+      );
+      setEditorState(newEditorState);
+    } else {
+      const newEditorState = removeCharacters(
+        editorState,
+        0,
+        currentBlock?.getText().length
+      );
+
+      setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
+    }
   };
 
   // block type selector
   const myBlockRenderer = (contentBlock: ContentBlock) => {
-    const type = contentBlock.getType();
-    return {
-      component: GeneralBlock,
-      props: {
-        editorState,
-        setEditorState,
-        dragBlockKey,
-        setDragBlockKey,
-        type,
-        editorType,
-        isEditable,
-      },
-    };
+    if (contentBlock?.getType() === "atomic") {
+      return {
+        component: ImageBlock,
+        editable: false,
+        props: {
+          editorState,
+          setEditorState,
+          saveEditor,
+        },
+      };
+    } else {
+      const type = contentBlock?.getType();
+      return {
+        component: GeneralBlock,
+        props: {
+          editorState,
+          setEditorState,
+          dragBlockKey,
+          setDragBlockKey,
+          type,
+          editorType,
+          isEditable,
+        },
+      };
+    }
   };
 
   // handle what happens when return key is pressed
@@ -114,7 +176,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
       return "handled";
     }
     const currentBlock = getCurrentBlock(editorState);
-    const blockType = currentBlock.getType();
+    const blockType = currentBlock?.getType();
     if (
       blockType === "unstyled" ||
       blockType === "unordered-list-item" ||
@@ -123,31 +185,20 @@ const RichEditor: React.FC<RichEditorProps> = ({
     ) {
       return "not-handled";
     }
-    setEditorState(addNewBlockAt(editorState, currentBlock.getKey()));
+
+    setEditorState(addNewBlockAt(editorState, currentBlock?.getKey()));
     return "handled";
   };
 
   const onChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
 
-    const currentContentState = editorState.getCurrentContent();
-    const newContentState = newEditorState.getCurrentContent();
+    const currentContentState = editorState?.getCurrentContent();
+    const newContentState = newEditorState?.getCurrentContent();
 
     if (currentContentState !== newContentState) {
       saveEditor && saveEditor(newEditorState);
     }
-  };
-
-  // see https://draftjs.org/docs/advanced-topics-block-styling
-  // essentially the following bit of code defines what happens
-  // when the block quote block-type is selected
-  const myBlockStyleFn = (contentBlock: ContentBlock) => {
-    const type = contentBlock.getType();
-    if (type === "blockquote") {
-      return "custom-blockquote";
-    } else if (type === "code-block") {
-      return "custom-codeblock";
-    } else return "";
   };
 
   // see https://draftjs.org/docs/advanced-topics-custom-block-render-map
@@ -189,11 +240,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
   }, [isLinked, blockLinkDiv, blockLink, theme]);
 
   useEffect(() => {
-    if (currentBlock.getText()[currentBlock.getLength() - 1] === "^") {
+    if (currentBlock?.getText()[currentBlock?.getLength() - 1] === "^") {
       const newEditorState = removeCharacters(
         editorState,
-        currentBlock.getLength() - 1,
-        currentBlock.getLength()
+        currentBlock?.getLength() - 1,
+        currentBlock?.getLength()
       );
       setEditorState(
         toggleInlineStyle(newEditorState, TEXT_STYLES.SUPERSCRIPT)
@@ -234,7 +285,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             customStyleMap={styleMap(theme)}
             placeholder={
               showPlaceholder &&
-              getCurrentBlock(editorState).getType() === BLOCK_TYPES.UNSTYLED
+              getCurrentBlock(editorState)?.getType() === BLOCK_TYPES.UNSTYLED
                 ? formatMessage(`studySet.notetaking.placeholder`, intl)
                 : ""
             }
@@ -326,6 +377,16 @@ const EditorContainer = styled.div<{
     font-style: italic;
     font-size: ${({ theme }) => theme.typography.fontSizes.size18};
     padding-left: ${({ theme }) => theme.spacers.size16};
+  }
+
+  .custom-image {
+    width: 100%;
+
+    img {
+      max-width: 100%;
+      object-fit: cover;
+      height: auto;
+    }
   }
 
   .custom-codeblock {

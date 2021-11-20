@@ -49,7 +49,10 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
               <FormattedMessage id="errorPage.mainMessage" />
             </H1>
             <Spacer height={theme.spacers.size16} />
-            <H2 styledAs="h6" textAlign="center">
+            <Text
+              textAlign="center"
+              fontSize={theme.typography.fontSizes.size18}
+            >
               <FormattedMessage id="errorPage.subMessage" />
               <InternalLink
                 to="mailto:team@dekked.com"
@@ -60,7 +63,7 @@ const ErrorBoundaryFallback: React.FC<ErrorBoundaryFallbackProps> = ({
                 team@dekked.com
               </InternalLink>
               .
-            </H2>
+            </Text>
             {config.APP_ENV !== "production" ? (
               <>
                 <Spacer height={theme.spacers.size32} />

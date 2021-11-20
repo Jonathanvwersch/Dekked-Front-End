@@ -11,6 +11,7 @@ import {
   ROTATE,
   CloseIcon,
   CodeIcon,
+  ImageIcon,
 } from "dekked-design-system";
 import { ScrollerModalData, BLOCK_TYPES } from "../../../shared";
 
@@ -61,11 +62,11 @@ const blockData: ScrollerModalData = [
     value: BLOCK_TYPES.NUMBERED_LIST,
     icon: <NumberedListIcon />,
   },
-  // {
-  //   label: NOTETAKING_BLOCKS.IMAGE,
-  //   value: BLOCK_TYPES.IMAGE,
-  //   icon: <ImageIcon />,
-  // },
+  {
+    label: NOTETAKING_BLOCKS.IMAGE,
+    value: BLOCK_TYPES.IMAGE,
+    icon: <ImageIcon />,
+  },
   {
     label: NOTETAKING_BLOCKS.QUOTE,
     value: BLOCK_TYPES.QUOTE,

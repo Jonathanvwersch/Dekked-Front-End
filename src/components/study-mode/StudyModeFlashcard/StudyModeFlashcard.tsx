@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import {
   Button,
@@ -93,7 +93,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   studySetFlashcard?.addEventListener("dblclick", () => setIsEditable(true));
 
   // Set front editor state on mount
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks[0] !== null) {
       const frontContent = convertBlocksToContent(frontBlocks);
       setFrontFlashcardEditorState(EditorState.createWithContent(frontContent));
@@ -101,7 +101,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   }, [frontBlocks]);
 
   // Set back editor state on mount
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (backBlocks && !isEmpty(backBlocks) && backBlocks[0] !== null) {
       const backContent = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(backContent));

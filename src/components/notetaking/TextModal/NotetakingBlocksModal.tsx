@@ -38,13 +38,13 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   const [data, setData] = useState<ScrollerModalData>(NoteTakingBlocksData);
   const [coords, setCoords] = useState<CoordsType | undefined>();
   const currentBlock = getCurrentBlock(editorState);
-  const currentText = currentBlock.getText().slice(1).toLowerCase();
-  const editorHasFocus = editorState.getSelection().getHasFocus();
+  const currentText = currentBlock?.getText().slice(1).toLowerCase();
+  const editorHasFocus = editorState?.getSelection()?.getHasFocus();
 
   const updatePosition = () => {
     const nodeSelected = getSelectedBlockNode(window);
     if (nodeSelected) {
-      const selectedBox = nodeSelected.getBoundingClientRect();
+      const selectedBox = nodeSelected?.getBoundingClientRect();
       const blockHeight = 180;
       const newCoords = positionBlockEditorModal(selectedBox, blockHeight);
       setCoords({
@@ -59,9 +59,9 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
 
   useLayoutEffect(() => {
     if (
-      currentBlock.getText()[0] === "/" &&
+      currentBlock?.getText()[0] === "/" &&
       editorHasFocus &&
-      currentBlock.getType() === "unstyled"
+      currentBlock?.getType() === "unstyled"
     ) {
       updatePosition();
     }
@@ -69,9 +69,9 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
 
   useLayoutEffect(() => {
     if (
-      currentBlock.getText()[0] === "/" &&
+      currentBlock?.getText()[0] === "/" &&
       editorHasFocus &&
-      currentBlock.getType() === "unstyled" &&
+      currentBlock?.getType() === "unstyled" &&
       coords
     ) {
       setIsOpen(true);
@@ -83,14 +83,14 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       // Filter data of modal based on what user types
-      let filteredData = NoteTakingBlocksData.filter((item) => {
+      let filteredData = NoteTakingBlocksData?.filter((item) => {
         const label = formatMessage(item.label, intl).toLowerCase();
         return label.includes(currentText);
       });
 
       // Show special 'no results block' in modal,
       // if current text does not match any blocks
-      if (filteredData.length === 0) {
+      if (filteredData?.length === 0) {
         filteredData = noMatchingBlocksData;
       }
 
@@ -104,7 +104,7 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
       // Six is an arbitrary number.
       if (
         filteredData === noMatchingBlocksData &&
-        currentText.length > currentTextLength + 6
+        currentText?.length > currentTextLength + 6
       ) {
         setIsOpen(false);
       }

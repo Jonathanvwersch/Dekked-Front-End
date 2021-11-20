@@ -7,6 +7,7 @@ type RequestBuilderType = {
   baseUrl?: string;
   body?: object;
   noAuthorisation?: boolean;
+  headers?: AxiosRequestConfig["headers"];
 };
 
 type HttpMethods = "GET" | "PUT" | "POST" | "PATCH" | "DELETE";
@@ -19,20 +20,27 @@ type HttpResponse = ({
 
 const requestBuilder =
   (method: HttpMethods) =>
-  async ({ apiUrl, baseUrl, body, noAuthorisation }: RequestBuilderType) => {
-    const headers: AxiosRequestConfig["headers"] = {
+  async ({
+    apiUrl,
+    baseUrl,
+    body,
+    noAuthorisation,
+    headers,
+  }: RequestBuilderType) => {
+    const defaultHeaders: AxiosRequestConfig["headers"] = {
       "Content-type": "application/json",
+      ...headers,
     };
 
     if (!noAuthorisation && getSessionCookie()) {
-      headers["Authorization"] = `Bearer ${getSessionCookie()}`;
+      defaultHeaders["Authorization"] = `Bearer ${getSessionCookie()}`;
     }
 
     const requestConfig: AxiosRequestConfig = {
       method,
       url: baseUrl ? `${baseUrl}/api/v1${apiUrl}` : `${config.API}${apiUrl}`,
       data: body,
-      headers,
+      headers: defaultHeaders,
     };
 
     return await axios(requestConfig);
