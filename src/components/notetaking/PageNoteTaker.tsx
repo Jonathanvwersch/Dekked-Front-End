@@ -32,7 +32,7 @@ interface PageNoteTakerProps {}
 
 const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const [editorHasFocus, setEditorHasFocus] = useState<boolean>(false);
-  const [, setCurrentBlock] = useAtom(currentBlockAtom);
+  const [newBlock, setNewBlock] = useAtom(currentBlockAtom);
   const [, setPageId] = useAtom(pageIdAtom);
   const { id: studySetId, type } = useParams<Params>();
   const [editorState, setEditorState] = useAtom(pageEditorStateAtom);
@@ -44,7 +44,6 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     addedLinkedFlashcard !== 0 && setAddedLinkedFlashcard(0);
   }, [studySetId]);
 
-  const currentBlock = editorState && getCurrentBlock(editorState);
   const {
     data: blocks,
     isLoading,
@@ -91,7 +90,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const debounced = debounce(
     (editorState: EditorState) =>
       pageId && updatePage({ editorState, pageId, studySetId }),
-    1000
+    500
   );
 
   const autoSave = useCallback(
@@ -106,9 +105,15 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     [pageId] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
+  const currentBlock = editorState && getCurrentBlock(editorState);
   useLayoutEffect(() => {
-    setCurrentBlock({ key: currentBlock.getKey(), hasFocus: editorHasFocus });
-  }, [editorHasFocus, currentBlock, setCurrentBlock]);
+    if (
+      editorHasFocus !== newBlock.hasFocus &&
+      currentBlock?.getKey() === newBlock.key
+    ) {
+      setNewBlock({ key: currentBlock?.getKey(), hasFocus: editorHasFocus });
+    }
+  }, [editorHasFocus, currentBlock, setNewBlock, newBlock]);
 
   return (
     <RichEditor

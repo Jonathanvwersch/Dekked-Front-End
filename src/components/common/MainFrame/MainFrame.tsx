@@ -19,6 +19,18 @@ const MainFrame: React.FC<MainFrameProps> = ({ children, backgroundColor }) => {
           <Page>{children}</Page>
         </>
       </StyledMainFrame>
+      <input
+        type="file"
+        accept="image/gif,image/jpeg,image/png,image/x-png,image/bmp"
+        id="ImageUpload"
+        style={{
+          opacity: "0",
+          pointerEvents: "none",
+          position: "fixed",
+          left: "-1000",
+          top: "-1000",
+        }}
+      />
     </FullPage>
   );
 };

@@ -1,8 +1,10 @@
 import {
+  AtomicBlockUtils,
   ContentBlock,
   convertFromRaw,
   convertToRaw,
   EditorState,
+  Entity,
   genKey,
   Modifier,
   RawDraftContentBlock,
@@ -147,6 +149,7 @@ export const removeBlock = (
   const content = editorState.getCurrentContent();
   const blockMap = content.getBlockMap();
   const block = blockMap.get(pivotBlockKey);
+
   if (!block) {
     throw new Error(
       `The pivot key - ${pivotBlockKey} is not present in blockMap.`
@@ -387,4 +390,48 @@ export const removeCharacters = (
   );
 
   return newEditorState;
+};
+
+// see https://draftjs.org/docs/advanced-topics-block-styling
+// defines custom classes for certain block types
+export const myBlockStyleFn = (contentBlock: ContentBlock) => {
+  const type = contentBlock.getType();
+  if (type === "blockquote") {
+    return "custom-blockquote";
+  } else if (type === "code-block") {
+    return "custom-codeblock";
+  } else if (type === "atomic") {
+    return "custom-image";
+  } else return "";
+};
+
+export const onSuccessOfImageUpload = (
+  imageUrl: any,
+  editorState: EditorState
+) => {
+  // const contentState = editorState.getCurrentContent();
+  const entityKey = Entity.create("image", "IMMUTABLE", {
+    src: imageUrl,
+  });
+  return AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
+
+  // // all of this extra logic is done simply to remove the extra empty block that is prepending when adding an atomic block in draft.js
+  // const newContentState = atomicBlock.getCurrentContent();
+  // const blockMap = newContentState.getBlockMap();
+
+  // const currentBlockMap = blockMap.find(
+  //   (block) => block?.getEntityAt(0) === entityKey
+  // );
+
+  // const atomicBlockKey = currentBlockMap.getKey();
+
+  // const blockBefore = newContentState?.getBlockBefore(atomicBlockKey)?.getKey();
+
+  // const newBlockMap = blockMap.filter((block) =>
+  //   Boolean(block && block.getKey() !== blockBefore)
+  // );
+
+  // return EditorState.createWithContent(
+  //   contentState.set("blockMap", newBlockMap) as ContentState
+  // );
 };

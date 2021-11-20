@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { isEmpty } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getFlashcards } from "../../../../api";
@@ -28,7 +28,7 @@ const StudyModeFreeStudy: React.FC<StudyModeFreeStudyProps> = () => {
       getFlashcards({ id: fileId, type })
     );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (fetchedFlashcards)
       setFlashcards(fetchedFlashcards?.sort(sortFlashcardsByStarred));
   }, [fetchedFlashcards, isFetchingFlashcards, setFlashcards]);

@@ -7,3 +7,4 @@ export * from "./pages";
 export * from "./studySets";
 export * from "./users";
 export * from "./decks";
+export * from "./images";

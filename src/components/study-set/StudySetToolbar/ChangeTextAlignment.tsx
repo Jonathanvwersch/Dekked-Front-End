@@ -36,7 +36,7 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 }) => {
   const theme = useContext(ThemeContext);
   const block = getCurrentBlock(editorState);
-  const data = block.getData();
+  const data = block?.getData();
   const layout = useResponsiveLayout();
 
   // change alignment of block by updating meta state

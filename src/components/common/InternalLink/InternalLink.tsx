@@ -18,7 +18,7 @@ interface InternalLinkProps {
   hreflang?: string;
   target?: string;
   rel?: string;
-  referrerpolicy?: string;
+  referrerPolicy?: any;
   type?: string;
   ping?: string;
   style?: React.CSSProperties;
@@ -29,8 +29,8 @@ const InternalLink: React.FC<InternalLinkProps> = ({ children, ...props }) => {
     <StyledLink
       {...props}
       className={props.className}
-      referrerpolicy={
-        props.target === "_blank" ? "noopener noreferrer" : props.referrerpolicy
+      referrerPolicy={
+        props.target === "_blank" ? "noopener noreferrer" : props.referrerPolicy
       }
     >
       {children}

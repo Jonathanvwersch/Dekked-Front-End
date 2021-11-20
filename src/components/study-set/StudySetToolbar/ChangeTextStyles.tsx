@@ -44,7 +44,8 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
 
   const layout = useResponsiveLayout();
 
-  const currentBlockType = getCurrentBlock(editorState).getType() || "unstyled";
+  const currentBlockType =
+    getCurrentBlock(editorState)?.getType() || "unstyled";
 
   const changeBlockTypes = (type: BLOCK_TYPES) => {
     // only change block type if user chooses option other than current block type
@@ -64,21 +65,36 @@ const ChangeTextStyles: React.FC<ChangeTextStyleProps> = ({
         textStyle === TEXT_STYLES.SUBSCRIPT
           ? TEXT_STYLES.SUPERSCRIPT
           : TEXT_STYLES.SUBSCRIPT;
-      doesBlockContainStyle(editorState, textStyle)
-        ? setEditorState(removeSpecificBlockStyle([textStyle], editorState))
-        : setEditorState(
-            toggleInlineStyle(
-              removeSpecificBlockStyle([oppositeStyle], editorState),
-              textStyle,
-              stylesToRemoveScripts
-            )
-          );
+      if (doesBlockContainStyle(editorState, textStyle)) {
+        const newEditorState = removeSpecificBlockStyle(
+          [textStyle],
+          editorState
+        );
+        setEditorState(removeSpecificBlockStyle([textStyle], editorState));
+        saveEditor && saveEditor(newEditorState);
+      } else {
+        const newEditorState = toggleInlineStyle(
+          removeSpecificBlockStyle([oppositeStyle], editorState),
+          textStyle,
+          stylesToRemoveScripts
+        );
+
+        setEditorState(newEditorState);
+        saveEditor && saveEditor(newEditorState);
+      }
     } else if (textStyle === TEXT_STYLES.REMOVE_FORMATTING) {
-      setEditorState(removeSpecificBlockStyle(undefined, editorState, true));
+      const newEditorState = removeSpecificBlockStyle(
+        undefined,
+        editorState,
+        true
+      );
+      setEditorState(newEditorState);
+      saveEditor && saveEditor(newEditorState);
     } else {
+      const newEditorState = toggleInlineStyle(editorState, textStyle);
       setEditorState(toggleInlineStyle(editorState, textStyle));
+      saveEditor && saveEditor(newEditorState);
     }
-    saveEditor && saveEditor(editorState);
   };
 
   return (
