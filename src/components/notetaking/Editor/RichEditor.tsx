@@ -75,9 +75,11 @@ const RichEditor: React.FC<RichEditorProps> = ({
     "upload-image",
     uploadImage,
     {
-      onSuccess: (data) => {
+      onSuccess: (data, variables) => {
         const newEditorState = onSuccessOfImageUpload(
           data?.imagePath,
+          //@ts-ignore
+          variables?.name,
           editorState
         );
         setEditorState(newEditorState);

@@ -63,11 +63,6 @@ const blockData: ScrollerModalData = [
     icon: <NumberedListIcon />,
   },
   {
-    label: NOTETAKING_BLOCKS.IMAGE,
-    value: BLOCK_TYPES.IMAGE,
-    icon: <ImageIcon />,
-  },
-  {
     label: NOTETAKING_BLOCKS.QUOTE,
     value: BLOCK_TYPES.QUOTE,
     icon: <QuoteIcon />,
@@ -83,6 +78,11 @@ export const ConvertToBlockData: ScrollerModalData = [...blockData];
 
 export const NoteTakingBlocksData: ScrollerModalData = [
   ...blockData,
+  {
+    label: NOTETAKING_BLOCKS.IMAGE,
+    value: BLOCK_TYPES.IMAGE,
+    icon: <ImageIcon />,
+  },
   {
     label: NOTETAKING_BLOCKS.DIVIDER,
     value: BLOCK_TYPES.DIVIDER,
