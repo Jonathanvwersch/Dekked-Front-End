@@ -407,11 +407,13 @@ export const myBlockStyleFn = (contentBlock: ContentBlock) => {
 
 export const onSuccessOfImageUpload = (
   imageUrl: any,
+  fileName: string,
   editorState: EditorState
 ) => {
   // const contentState = editorState.getCurrentContent();
   const entityKey = Entity.create("image", "IMMUTABLE", {
     src: imageUrl,
+    alt: fileName,
   });
   return AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
 
