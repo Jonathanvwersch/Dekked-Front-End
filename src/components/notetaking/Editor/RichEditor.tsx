@@ -151,6 +151,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           editorState,
           setEditorState,
           saveEditor,
+          isEditable,
         },
       };
     } else {

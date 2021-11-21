@@ -2,12 +2,9 @@ import { EditorState } from "draft-js";
 import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useKeyPress, useOutsideClickListener } from "../../../hooks";
-import {
-  getCurrentBlock,
-  removeBlock,
-} from "../../notetaking/Editor/Editor.helpers";
+import { removeBlock } from "../../notetaking/Editor/Editor.helpers";
 
-interface DividerBlockProps {
+interface HaloProps {
   editorState: EditorState;
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   blockKey: string;
@@ -15,7 +12,7 @@ interface DividerBlockProps {
   saveEditor?: (args: any) => void;
 }
 
-const DividerBlock: React.FC<DividerBlockProps> = ({
+const Halo: React.FC<HaloProps> = ({
   children,
   editable = true,
   setEditorState,
@@ -28,7 +25,7 @@ const DividerBlock: React.FC<DividerBlockProps> = ({
   useOutsideClickListener(
     haloRef,
     () => setIsColored(false),
-    isColored,
+    editable && isColored,
     true,
     true
   );
@@ -40,23 +37,23 @@ const DividerBlock: React.FC<DividerBlockProps> = ({
       setEditorState(newEditorState);
       saveEditor && saveEditor(newEditorState);
     },
-    isColored
+    editable && isColored
   );
 
   return (
-    <Halo
-      onClick={() => setIsColored(true)}
-      onFocus={() => setIsColored(true)}
+    <StyledHalo
+      onClick={() => editable && setIsColored(true)}
+      onFocus={() => editable && setIsColored(true)}
       isColored={isColored}
       ref={haloRef}
       contentEditable={editable}
     >
       {children}
-    </Halo>
+    </StyledHalo>
   );
 };
 
-export default DividerBlock;
+export default Halo;
 
 const coloredBackground = css`
   background: ${({ theme }) => theme.colors.selection};
@@ -64,7 +61,7 @@ const coloredBackground = css`
   z-index: 81;
 `;
 
-const Halo = styled.div<{ isColored: boolean }>`
+const StyledHalo = styled.div<{ isColored: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;

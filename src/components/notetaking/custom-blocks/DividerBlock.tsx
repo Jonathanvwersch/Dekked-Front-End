@@ -5,7 +5,7 @@ import { addNewBlockAt, updateDataOfBlock } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
-  const { setEditorState, editorState, saveEditor } = blockProps;
+  const { setEditorState, editorState, saveEditor, isEditable } = blockProps;
   const data = block.getData();
   const newBlock = data.has("created") && data.get("created") === true;
 
@@ -29,7 +29,7 @@ const DividerBlock: React.FC = (props: any) => {
 
   return (
     <Halo
-      editable={false}
+      editable={isEditable}
       editorState={editorState}
       setEditorState={setEditorState}
       blockKey={block.getKey()}

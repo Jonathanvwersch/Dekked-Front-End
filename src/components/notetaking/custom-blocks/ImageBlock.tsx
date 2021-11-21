@@ -21,10 +21,11 @@ const ImageBlock: React.FC = (props: any) => {
   const theme = useTheme();
   const { block, contentState, blockProps } = props;
 
-  const { setEditorState, editorState, saveEditor } = blockProps;
+  const { setEditorState, editorState, saveEditor, isEditable } = blockProps;
   const data = block.getData();
 
   const [width, setWidth] = useState<any>(data?.get("width") || "100%");
+  const [height, setHeight] = useState<any>(data?.get("height") || "auto");
   const [error, setError] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
@@ -35,12 +36,15 @@ const ImageBlock: React.FC = (props: any) => {
 
   const onLoad = (event: any) => {
     event.target.classList.add("loaded");
-    if (!data?.has("width") && data.has("src")) {
+
+    if ((!data?.has("width") || !data?.has("height")) && data.has("src")) {
       setWidth(event?.target?.width);
+      setHeight(event?.target?.height);
       const newEditorState = updateDataOfBlock(editorState, block, {
         src: data.get("src"),
         alt: data.get("alt"),
         width: event?.target?.width,
+        height: event?.target?.height,
       });
       setEditorState(newEditorState);
       saveEditor && saveEditor(newEditorState);
@@ -48,7 +52,7 @@ const ImageBlock: React.FC = (props: any) => {
   };
 
   useLayoutEffect(() => {
-    if (!data.has("src") && !data?.has("height") && block?.getEntityAt(0)) {
+    if (!data.has("src") && block?.getEntityAt(0)) {
       const entity = contentState?.getEntity(block?.getEntityAt(0));
       const { src, alt, key } = entity?.getData();
       const newEditorState = updateDataOfBlock(editorState, block, {
@@ -67,6 +71,7 @@ const ImageBlock: React.FC = (props: any) => {
       src={`${config.API}${data.get("src")}`}
       alt={data.get("alt")}
       width={width}
+      height={height}
       onLoad={onLoad}
       onError={onError}
       onDoubleClick={() => setFullscreen((prevState) => !prevState)}
@@ -76,13 +81,16 @@ const ImageBlock: React.FC = (props: any) => {
   return (
     <>
       <Halo
-        editable={false}
+        editable={isEditable}
         saveEditor={saveEditor}
         editorState={editorState}
         setEditorState={setEditorState}
         blockKey={block.getKey()}
       >
-        <ImageContainer className={error ? "error" : undefined}>
+        <ImageContainer
+          className={error ? "error" : undefined}
+          isEditable={isEditable}
+        >
           {error && (
             <Flex flexDirection="column">
               <ImageIcon
@@ -117,9 +125,9 @@ const ImageBlock: React.FC = (props: any) => {
   );
 };
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ isEditable?: boolean }>`
   width: 100%;
-  cursor: pointer;
+  cursor: ${({ isEditable }) => isEditable && "pointer"};
   &.error {
     display: flex;
     align-items: center;
