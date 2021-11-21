@@ -155,14 +155,8 @@ export const removeBlock = (
       `The pivot key - ${pivotBlockKey} is not present in blockMap.`
     );
   }
-  const blocksBefore = blockMap.toSeq().takeUntil((v) => v === block);
-  const blocksAfter = blockMap
-    .toSeq()
-    .skipUntil((v) => v === block)
-    .rest();
 
-  const newBlockMap = blocksBefore.concat(blocksAfter).toOrderedMap();
-
+  const newBlockMap = blockMap.delete(pivotBlockKey);
   const selection = editorState.getSelection();
 
   const newContent: any = content.merge({
@@ -414,6 +408,7 @@ export const onSuccessOfImageUpload = (
   const entityKey = Entity.create("image", "IMMUTABLE", {
     src: imageUrl,
     alt: fileName,
+    key: imageUrl?.split("/")?.[2],
   });
   return AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
 

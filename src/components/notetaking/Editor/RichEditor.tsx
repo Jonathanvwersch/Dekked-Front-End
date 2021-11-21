@@ -102,7 +102,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           ?.getElementById("ImageUpload")
           ?.removeEventListener("change", handleImageUpload);
     }
-  }, [imageFile?.name, saveImage]);
+  }, [imageFile, saveImage]);
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -165,6 +165,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           type,
           editorType,
           isEditable,
+          saveEditor,
         },
       };
     }
@@ -254,6 +255,21 @@ const RichEditor: React.FC<RichEditorProps> = ({
     }
   }, [currentBlock, editorState, setEditorState]);
 
+  const handlePastedFiles = (files: any) => {
+    // handleImageUpload
+    const acceptFilesType = [
+      "image/gif",
+      "image/jpeg",
+      "image/png",
+      "image/x-png",
+      "image/bmp",
+    ];
+
+    if (acceptFilesType.includes(files?.[0]?.type)) setImageFile(files[0]);
+
+    return "handled" as DraftHandleValue;
+  };
+
   return (
     <>
       {!isLoading ? (
@@ -282,6 +298,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
             blockRendererFn={myBlockRenderer}
             readOnly={!isEditable}
             handleReturn={handleReturn}
+            handlePastedFiles={handlePastedFiles}
             blockStyleFn={myBlockStyleFn}
             blockRenderMap={extendedBlockRenderMap}
             customStyleMap={styleMap(theme)}
