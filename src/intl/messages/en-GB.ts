@@ -190,6 +190,7 @@ const en_GB = {
         placeholder: "Type '/' to view block types or just start writing",
         noMatchingBlocks: "No matching blocks",
         emailUs: "Missing a block you'd like to see? Email us",
+        imageError: "This image could not be loaded.",
         toolbar: {
           text: "Text",
           largeHeading: "Large heading",

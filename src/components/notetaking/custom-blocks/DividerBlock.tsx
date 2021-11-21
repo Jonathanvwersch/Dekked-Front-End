@@ -5,7 +5,7 @@ import { addNewBlockAt, updateDataOfBlock } from "../Editor/Editor.helpers";
 
 const DividerBlock: React.FC = (props: any) => {
   const { block, blockProps } = props;
-  const { setEditorState, editorState } = blockProps;
+  const { setEditorState, editorState, saveEditor } = blockProps;
   const data = block.getData();
   const newBlock = data.has("created") && data.get("created") === true;
 
@@ -28,7 +28,13 @@ const DividerBlock: React.FC = (props: any) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Halo editable={false}>
+    <Halo
+      editable={false}
+      editorState={editorState}
+      setEditorState={setEditorState}
+      blockKey={block.getKey()}
+      saveEditor={saveEditor}
+    >
       <Divider id={`${block.getKey()}-0-0`} />
     </Halo>
   );
