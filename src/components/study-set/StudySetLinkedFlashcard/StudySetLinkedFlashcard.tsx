@@ -4,10 +4,14 @@ import styled from "styled-components";
 import { StudySetFlashcard } from "..";
 import { LogoIcon, Flex, IconActive, FILL_TYPE } from "dekked-design-system";
 import { useMultiKeyPress } from "../../../hooks";
-import { SIZES } from "../../../shared";
+import { Params, SIZES } from "../../../shared";
 import { currentBlockAtom, isAppLoadingAtom } from "../../../store";
 import Skeleton from "react-loading-skeleton";
 import { Tooltip } from "../../common";
+import { queryClient } from "../../..";
+import { useParams } from "react-router-dom";
+import { getDeckByStudySetId } from "../../../api";
+import { useQuery } from "react-query";
 
 interface StudySetLinkedFlashcardProps {
   flashcardSize: number;
@@ -19,6 +23,7 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   flashcardPosition,
 }) => {
   const [showFlashcard, setShowFlashcard] = useState<boolean>(false);
+  const { id } = useParams<Params>();
   const [currentBlock] = useAtom(currentBlockAtom);
   useMultiKeyPress(["Control", "1"], () =>
     setShowFlashcard((prevState) => !prevState)
@@ -29,6 +34,17 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
   }, []);
 
   const memoChildren = useMemo(() => <LogoIcon />, []);
+
+  const { data: deck } = useQuery(
+    `${id}-get-deck`,
+    () => getDeckByStudySetId({ studySetId: id }),
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      onSuccess: () => queryClient.refetchQueries(`${id}-get-flashcards`),
+    }
+  );
 
   return (
     <LinkedCard
@@ -67,6 +83,8 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
           currentBlockKey={currentBlock?.key}
           type="add"
           width="100%"
+          // @ts-ignore
+          deckId={deck?.id}
         />
       ) : null}
     </LinkedCard>

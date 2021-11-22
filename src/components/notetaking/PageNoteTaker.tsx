@@ -104,13 +104,9 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
     },
     [pageId] // eslint-disable-line react-hooks/exhaustive-deps
   );
-
   const currentBlock = editorState && getCurrentBlock(editorState);
   useLayoutEffect(() => {
-    if (
-      editorHasFocus !== newBlock.hasFocus &&
-      currentBlock?.getKey() === newBlock.key
-    ) {
+    if (currentBlock?.getKey() !== newBlock.key && editorHasFocus) {
       setNewBlock({ key: currentBlock?.getKey(), hasFocus: editorHasFocus });
     }
   }, [editorHasFocus, currentBlock, setNewBlock, newBlock]);

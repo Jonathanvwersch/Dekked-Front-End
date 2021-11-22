@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 
 const useKeyPress = (
   targetKey: string[],
-  onKeyPress?: () => void,
-  shouldRun?: boolean
+  onKeyPress: () => void,
+  shouldRun: boolean = true
 ) => {
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
