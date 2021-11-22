@@ -368,19 +368,19 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
     }
   };
 
-  const studySetFlashcard = document.getElementById(
-    `StudySetFlashcard-${index}`
-  );
+  // const studySetFlashcard = document.getElementById(
+  //   `StudySetFlashcard-${index}`
+  // );
 
-  studySetFlashcard?.addEventListener(
-    "dblclick",
-    () => type !== "add" && type !== "edit" && setEditFlashcard(true)
-  );
+  // studySetFlashcard?.addEventListener(
+  //   "dblclick",
+  //   () => type !== "add" && type !== "edit" && setEditFlashcard(true)
+  // );
 
-  studySetFlashcard?.addEventListener("keypress", function (e) {
-    if (e.key === "Enter" && type !== "add" && type !== "edit")
-      setEditFlashcard(true);
-  });
+  // studySetFlashcard?.addEventListener("keypress", function (e) {
+  //   if (e.key === "Enter" && type !== "add" && type !== "edit")
+  //     setEditFlashcard(true);
+  // });
 
   const { blocks: _backBlocks } = createKeysAndBlocks(backFlashcardEditorState);
   const { blocks: _frontBlocks } = createKeysAndBlocks(
@@ -496,7 +496,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
 };
 
 const StyledShadowCard = styled(ShadowCard)<{ type?: "edit" | "add" }>`
-  &:focus {
+  &:focus1 {
     border: ${({ theme, type }) =>
       type !== "edit" && type !== "add" && `1px solid ${theme.colors.primary}`};
   }
