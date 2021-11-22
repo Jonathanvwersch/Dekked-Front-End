@@ -201,7 +201,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     );
   };
 
-  useKeyPress([" ", "Spacebar"], flipCard, flippedState);
+  useKeyPress([" ", "Spacebar"], flipCard);
 
   useKeyPress(
     ["1"],
