@@ -5,32 +5,31 @@ const useKeyPress = (
   onKeyPress?: () => void,
   shouldRun?: boolean
 ) => {
-  const shouldThisHookRun = shouldRun ? shouldRun : true;
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
   // If pressed key is our target key then set to true
   const downHandler = useCallback(
     ({ key }: any) => {
-      if (shouldThisHookRun) {
+      if (shouldRun) {
         if (targetKey.includes(key)) {
           setTimeout(() => onKeyPress && onKeyPress(), 0);
           setKeyPressed(true);
         }
       }
     },
-    [onKeyPress, targetKey, shouldThisHookRun]
+    [onKeyPress, targetKey, shouldRun]
   );
 
   // If released key is our target key then set to false
   const upHandler = useCallback(
     ({ key }: any) => {
-      if (shouldThisHookRun) {
+      if (shouldRun) {
         if (targetKey.includes(key)) {
           setKeyPressed(false);
         }
       }
     },
-    [targetKey, shouldThisHookRun]
+    [targetKey, shouldRun]
   );
 
   // Add event listeners

@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { flip, isEmpty } from "lodash";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
@@ -222,6 +222,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
       ),
     !flippedState
   );
+  console.log(flippedState);
 
   useKeyPress(
     ["3"],
