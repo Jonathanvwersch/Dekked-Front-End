@@ -47,7 +47,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:development": "env-cmd -f .env.development yarn run start",
-    "build:integration": "env-cmd -f .env.integration yarn run build",
+    "start:integration": "env-cmd -f .env.integration yarn run start",
     "build:production": "env-cmd -f .env.production yarn run build",
     "env:integration": "env-cmd -f .env.integration",
     "env:production": "env-cmd -f .env.production",

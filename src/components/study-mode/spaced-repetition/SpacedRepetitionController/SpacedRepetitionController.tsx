@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { flip, isEmpty } from "lodash";
 import React, { SetStateAction, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useMutation } from "react-query";
@@ -203,28 +203,35 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
 
   useKeyPress([" ", "Spacebar"], flipCard);
 
-  useKeyPress(["1"], () =>
-    handleSpacedRepetitionButton(
-      FlashcardQuality.REPEAT,
-      FlashcardLearningStatus.LEARNING
-    )
+  useKeyPress(
+    ["1"],
+    () =>
+      handleSpacedRepetitionButton(
+        FlashcardQuality.REPEAT,
+        FlashcardLearningStatus.LEARNING
+      ),
+    !flippedState
   );
 
-  useKeyPress(["2"], () =>
-    handleSpacedRepetitionButton(
-      FlashcardQuality.REMEMBERED,
-      FlashcardLearningStatus.LEARNED
-    )
+  useKeyPress(
+    ["2"],
+    () =>
+      handleSpacedRepetitionButton(
+        FlashcardQuality.REMEMBERED,
+        FlashcardLearningStatus.LEARNED
+      ),
+    !flippedState
   );
+  console.log(flippedState);
 
   useKeyPress(
     ["3"],
     () =>
-      status === FlashcardStatus.GRADUATED &&
       handleSpacedRepetitionButton(
         FlashcardQuality.EASILY_REMEMBERED,
         FlashcardLearningStatus.LEARNED
-      )
+      ),
+    !flippedState && status === FlashcardStatus.GRADUATED
   );
 
   const remembered = rememberedButtonTimings(
