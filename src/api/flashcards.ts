@@ -48,7 +48,7 @@ export const saveFlashcard = async ({
   starred,
 }: {
   flashcard_id: string | undefined;
-  deck_id: string | undefined;
+  deck_id?: string | undefined;
   frontEditorState?: EditorState;
   backEditorState?: EditorState;
   quality?: FlashcardQuality;
