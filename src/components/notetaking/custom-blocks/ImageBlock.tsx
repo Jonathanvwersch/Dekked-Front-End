@@ -1,4 +1,6 @@
 import {
+  Box,
+  ComponentLoadingSpinner,
   Flex,
   ImageIcon,
   MODAL_TYPE,
@@ -26,12 +28,17 @@ const ImageBlock: React.FC = (props: any) => {
 
   const [width, setWidth] = useState<any>(data?.get("width") || "100%");
   const [height, setHeight] = useState<any>(data?.get("height") || "auto");
+  const [hasImageRendered, setHasImageRendered] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
   const onError = (event: any) => {
     setError(true);
     event.target.classList.add("error");
+  };
+
+  const startRender = () => {
+    requestAnimationFrame(() => setHasImageRendered(true));
   };
 
   const onLoad = (event: any) => {
@@ -49,6 +56,8 @@ const ImageBlock: React.FC = (props: any) => {
       setEditorState(newEditorState);
       saveEditor && saveEditor(newEditorState);
     }
+
+    requestAnimationFrame(startRender);
   };
 
   useLayoutEffect(() => {
@@ -88,9 +97,15 @@ const ImageBlock: React.FC = (props: any) => {
         blockKey={block.getKey()}
       >
         <ImageContainer
-          className={error ? "error" : undefined}
+          className={"rendering"}
           isEditable={isEditable}
+          style={{ height: height, width: width }}
         >
+          {!hasImageRendered && (
+            <Box style={{ position: "absolute" }}>
+              <ComponentLoadingSpinner />
+            </Box>
+          )}
           {error && (
             <Flex flexDirection="column">
               <ImageIcon
@@ -125,9 +140,19 @@ const ImageBlock: React.FC = (props: any) => {
   );
 };
 
-const ImageContainer = styled.div<{ isEditable?: boolean }>`
+const ImageContainer = styled.div<{
+  isEditable?: boolean;
+}>`
   width: 100%;
+  position: relative;
   cursor: ${({ isEditable }) => isEditable && "pointer"};
+
+  &.rendering {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &.error {
     display: flex;
     align-items: center;
