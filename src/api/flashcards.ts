@@ -38,6 +38,7 @@ export const getSpacedRepetitionFlashcards = async ({
 export const saveFlashcard = async ({
   flashcard_id,
   deck_id,
+  block_link,
   frontEditorState,
   backEditorState,
   quality,
@@ -47,7 +48,7 @@ export const saveFlashcard = async ({
   starred,
 }: {
   flashcard_id: string | undefined;
-  deck_id?: string | undefined;
+  deck_id: string | undefined;
   frontEditorState?: EditorState;
   backEditorState?: EditorState;
   quality?: FlashcardQuality;
@@ -55,6 +56,7 @@ export const saveFlashcard = async ({
   learningStatus?: FlashcardLearningStatus;
   study_set_id?: string;
   starred?: boolean;
+  block_link?: string | null;
 }) => {
   const payload: {
     flashcard_id: string | undefined;
@@ -68,6 +70,7 @@ export const saveFlashcard = async ({
     learning_status?: FlashcardLearningStatus;
     study_set_id?: string;
     starred?: boolean;
+    block_link?: string | null;
   } = {
     flashcard_id,
     deck_id,
@@ -76,6 +79,7 @@ export const saveFlashcard = async ({
     learning_status: learningStatus,
     study_set_id,
     starred,
+    block_link,
   };
 
   if (frontEditorState) {
