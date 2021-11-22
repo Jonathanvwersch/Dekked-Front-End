@@ -201,7 +201,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     );
   };
 
-  useKeyPress([" ", "Spacebar"], flipCard);
+  useKeyPress([" ", "Spacebar"], flipCard, flippedState);
 
   useKeyPress(["1"], () =>
     handleSpacedRepetitionButton(
@@ -220,11 +220,11 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
   useKeyPress(
     ["3"],
     () =>
-      status === FlashcardStatus.GRADUATED &&
       handleSpacedRepetitionButton(
         FlashcardQuality.EASILY_REMEMBERED,
         FlashcardLearningStatus.LEARNED
-      )
+      ),
+    status === FlashcardStatus.GRADUATED
   );
 
   const remembered = rememberedButtonTimings(
