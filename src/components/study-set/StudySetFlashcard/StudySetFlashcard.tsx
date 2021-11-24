@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -242,9 +243,13 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
                 : backFlashcardEditorState
             }
             setEditorState={
-              side === FLASHCARD_SIDE.FRONT
+              side === FLASHCARD_SIDE.FRONT &&
+              currentSide === FLASHCARD_SIDE.FRONT
                 ? setFrontFlashcardEditorState
-                : setBackFlashcardEditorState
+                : side === FLASHCARD_SIDE.BACK &&
+                  currentSide === FLASHCARD_SIDE.BACK
+                ? setBackFlashcardEditorState
+                : undefined
             }
             editorRef={
               side === FLASHCARD_SIDE.FRONT
@@ -382,9 +387,14 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   //     setEditFlashcard(true);
   // });
 
-  const { blocks: _backBlocks } = createKeysAndBlocks(backFlashcardEditorState);
-  const { blocks: _frontBlocks } = createKeysAndBlocks(
-    frontFlashcardEditorState
+  const { blocks: _backBlocks } = useMemo(
+    () => createKeysAndBlocks(backFlashcardEditorState),
+    [backFlashcardEditorState]
+  );
+
+  const { blocks: _frontBlocks } = useMemo(
+    () => createKeysAndBlocks(frontFlashcardEditorState),
+    [frontFlashcardEditorState]
   );
 
   const isSaveButtonDisabled = useCallback(

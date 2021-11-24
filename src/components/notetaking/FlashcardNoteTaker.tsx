@@ -5,10 +5,10 @@ import RichEditor from "./Editor/RichEditor";
 
 interface FlashcardNoteTakerProps {
   editorState: EditorState;
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
   hasFocus: boolean;
   isEditable: boolean;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
   editorRef?: React.MutableRefObject<any>;
 }
 
