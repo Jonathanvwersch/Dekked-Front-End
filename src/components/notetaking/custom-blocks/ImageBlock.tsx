@@ -14,7 +14,7 @@ import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 import { Halo } from "../..";
 import { config } from "../../../config";
-import { useTheme } from "../../../hooks";
+import { useLayeredModal, useTheme } from "../../../hooks";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 
 export type EditorType = "flashcard" | "page";
@@ -31,6 +31,7 @@ const ImageBlock: React.FC = (props: any) => {
   const [hasImageRendered, setHasImageRendered] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
+  useLayeredModal(fullscreen);
 
   const onError = (event: any) => {
     setError(true);
@@ -90,22 +91,23 @@ const ImageBlock: React.FC = (props: any) => {
   return (
     <>
       <Halo
-        editable={isEditable}
+        editable={true}
         saveEditor={saveEditor}
         editorState={editorState}
         setEditorState={setEditorState}
         blockKey={block.getKey()}
       >
         <ImageContainer
+          contentEditable={false}
           className={"rendering"}
           isEditable={isEditable}
           style={{ height: height, width: width }}
         >
-          {!hasImageRendered && (
+          {!hasImageRendered && !error ? (
             <Box style={{ position: "absolute" }}>
               <ComponentLoadingSpinner />
             </Box>
-          )}
+          ) : null}
           {error && (
             <Flex flexDirection="column">
               <ImageIcon

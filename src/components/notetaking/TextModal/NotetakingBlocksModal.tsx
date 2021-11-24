@@ -114,20 +114,16 @@ const NotetakingBlocksModal: React.FC<NotetakingBlocksModalProps> = ({
   }, [isOpen, currentText]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
-      {isOpen ? (
-        <ScrollerModal
-          open={isOpen}
-          handleClose={() => setIsOpen(false)}
-          coords={coords}
-          clickFunctions={toggleBlockStyle}
-          data={data}
-          type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
-          fakeFocus
-          preventDefault
-        />
-      ) : null}
-    </>
+    <ScrollerModal
+      open={isOpen}
+      handleClose={() => setIsOpen(false)}
+      coords={coords}
+      clickFunctions={toggleBlockStyle}
+      data={data}
+      type={MODAL_TYPE.NON_MODAL_NON_LIGHTBOX}
+      fakeFocus
+      preventDefault
+    />
   );
 };
 

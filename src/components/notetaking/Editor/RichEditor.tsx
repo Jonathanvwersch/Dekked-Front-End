@@ -41,8 +41,8 @@ export type EditorType = "flashcard" | "page";
 
 interface RichEditorProps {
   editorState: EditorState;
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   setHasFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
   saveEditor?: (args: any) => void;
   hasFocus?: boolean;
   isLoading?: boolean;
@@ -72,7 +72,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const [imageFile, setImageFile] = useState<any>();
 
   const { mutate: saveImage } = useMutation<{ imagePath: string }>(
-    "upload-image",
+    `${currentBlock.getKey()}-upload-image`,
     uploadImage,
     {
       onSuccess: (data, variables) => {
@@ -82,7 +82,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           variables?.name,
           editorState
         );
-        setEditorState(newEditorState);
+        setEditorState && setEditorState(newEditorState);
       },
     }
   );
@@ -91,7 +91,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
     (e: any) => {
       setImageFile(e?.target?.files?.[0]);
     },
-    [imageFile?.name]
+    [imageFile]
   );
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
     if (newState) {
-      setEditorState(newState);
+      setEditorState && setEditorState(newState);
       return "handled";
     }
 
@@ -129,7 +129,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
         0,
         currentBlock?.getText().length
       );
-      setEditorState(newEditorState);
+      setEditorState && setEditorState(newEditorState);
     } else {
       const newEditorState = removeCharacters(
         editorState,
@@ -137,7 +137,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
         currentBlock?.getText().length
       );
 
-      setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
+      setEditorState &&
+        setEditorState(RichUtils.toggleBlockType(newEditorState, blockType));
     }
   };
 
@@ -152,6 +153,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
           setEditorState,
           saveEditor,
           isEditable,
+          currentBlock,
         },
       };
     } else {
@@ -176,7 +178,8 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const handleReturn = (e: any): DraftHandleValue => {
     if (isOpen) return "handled";
     if (isSoftNewlineEvent(e)) {
-      setEditorState(RichUtils.insertSoftNewline(editorState));
+      setEditorState &&
+        setEditorState(RichUtils.insertSoftNewline(editorState));
       return "handled";
     }
     const currentBlock = getCurrentBlock(editorState);
@@ -190,12 +193,13 @@ const RichEditor: React.FC<RichEditorProps> = ({
       return "not-handled";
     }
 
-    setEditorState(addNewBlockAt(editorState, currentBlock?.getKey()));
+    setEditorState &&
+      setEditorState(addNewBlockAt(editorState, currentBlock?.getKey()));
     return "handled";
   };
 
   const onChange = (newEditorState: EditorState) => {
-    setEditorState(newEditorState);
+    setEditorState && setEditorState(newEditorState);
 
     const currentContentState = editorState?.getCurrentContent();
     const newContentState = newEditorState?.getCurrentContent();
@@ -214,7 +218,7 @@ const RichEditor: React.FC<RichEditorProps> = ({
   const showPlaceholder = editorType === "flashcard" ? hasFocus : true;
 
   const onTab = (event: React.KeyboardEvent<{}>) => {
-    setEditorState(RichUtils.onTab(event, editorState, 4));
+    setEditorState && setEditorState(RichUtils.onTab(event, editorState, 4));
   };
 
   const [isLinked] = useAtom(isFlashcardLinkedAtom);
@@ -250,9 +254,10 @@ const RichEditor: React.FC<RichEditorProps> = ({
         currentBlock?.getLength() - 1,
         currentBlock?.getLength()
       );
-      setEditorState(
-        toggleInlineStyle(newEditorState, TEXT_STYLES.SUPERSCRIPT)
-      );
+      setEditorState &&
+        setEditorState(
+          toggleInlineStyle(newEditorState, TEXT_STYLES.SUPERSCRIPT)
+        );
     }
   }, [currentBlock, editorState, setEditorState]);
 

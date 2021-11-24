@@ -6,8 +6,8 @@ const useMultiKeyPress = (isOpen: boolean) => {
   const [, setIsLayeredModalOpen] = useAtom(layeredModalAtom);
 
   useEffect(() => {
-    setIsLayeredModalOpen(true);
-    !isOpen && setIsLayeredModalOpen(false);
+    if (isOpen) setIsLayeredModalOpen(true);
+    else if (isOpen === false) setIsLayeredModalOpen(false);
   }, [isOpen, setIsLayeredModalOpen]);
 };
 
