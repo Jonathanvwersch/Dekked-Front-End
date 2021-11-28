@@ -116,8 +116,8 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   const [starFlashcard, setStarFlashcard] = useState<boolean>(Boolean(starred));
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const { id: fileId } = useParams<Params>();
-  const frontEditorRef = useRef<any>();
-  const backEditorRef = useRef<any>();
+  const frontEditorRef = useRef<HTMLDivElement>();
+  const backEditorRef = useRef<HTMLDivElement>();
   const [isMainFlashcardButtonDisabled, setIsMainFlashcardButtonDisabled] =
     useAtom(isMainFlashcardButtonDisabledAtom);
 
@@ -126,7 +126,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       ? `${fileId}-get-sr-flashcards`
       : `${fileId}-get-flashcards`;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (linked) {
       setIsEditable(true);
       frontEditorRef?.current?.focus();
@@ -206,7 +206,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
       const savedState = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
     }
-  }, [backBlocks, frontBlocks]);
+  }, [backBlocks]);
 
   const frontAndBack = (side: string) => {
     return (

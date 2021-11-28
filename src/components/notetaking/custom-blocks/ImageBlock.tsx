@@ -12,10 +12,12 @@ import {
 import { useAtom } from "jotai";
 import React, { useLayoutEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Halo } from "../..";
 import { config } from "../../../config";
 import { useLayeredModal, useTheme } from "../../../hooks";
+import { Params } from "../../../shared";
 import { isStudyModeFlashcardEditableAtom } from "../../../store";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 
@@ -25,12 +27,14 @@ const ImageBlock: React.FC = (props: any) => {
   const theme = useTheme();
   const { block, contentState, blockProps } = props;
 
-  const { setEditorState, editorState, saveEditor, isEditable } = blockProps;
+  const { setEditorState, editorState, saveEditor, isEditable, editorType } =
+    blockProps;
   const data = block.getData();
 
   const [width, setWidth] = useState<any>(data?.get("width") || "100%");
   const [height, setHeight] = useState<any>(data?.get("height") || "auto");
   const [hasImageRendered, setHasImageRendered] = useState<boolean>(false);
+  const { studyModes } = useParams<Params>();
   const [error, setError] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
   useLayeredModal(fullscreen);
@@ -92,11 +96,16 @@ const ImageBlock: React.FC = (props: any) => {
       }
     />
   );
-
   return (
     <>
       <Halo
-        editable={!isFlashcardEditable ? false : true}
+        editable={
+          studyModes && !isFlashcardEditable
+            ? false
+            : editorType === "flashcard" && !isEditable
+            ? false
+            : true
+        }
         saveEditor={saveEditor}
         editorState={editorState}
         setEditorState={setEditorState}
