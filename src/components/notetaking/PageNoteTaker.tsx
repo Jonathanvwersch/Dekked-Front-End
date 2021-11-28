@@ -90,7 +90,7 @@ const PageNoteTaker: React.FC<PageNoteTakerProps> = () => {
   const debounced = debounce(
     (editorState: EditorState) =>
       pageId && updatePage({ editorState, pageId, studySetId }),
-    500
+    250
   );
 
   const autoSave = useCallback(
