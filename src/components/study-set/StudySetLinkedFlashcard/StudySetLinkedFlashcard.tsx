@@ -39,9 +39,6 @@ const StudySetLinkedFlashcard: React.FC<StudySetLinkedFlashcardProps> = ({
     `${id}-get-deck`,
     () => getDeckByStudySetId({ studySetId: id }),
     {
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
       onSuccess: () => queryClient.refetchQueries(`${id}-get-flashcards`),
     }
   );

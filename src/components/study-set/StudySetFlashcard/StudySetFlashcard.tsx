@@ -193,7 +193,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   }, [frontHasFocus, backHasFocus]);
 
   // Set front editor state on mount
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (frontBlocks && !isEmpty(frontBlocks) && frontBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(frontBlocks);
       setFrontFlashcardEditorState(EditorState.createWithContent(savedState));
@@ -201,7 +201,7 @@ const StudySetFlashcard: React.FC<StudySetFlashcardProps> = ({
   }, [frontBlocks]);
 
   // Set back editor state on mount
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (backBlocks && !isEmpty(backBlocks) && backBlocks?.[0]?.[0] === "{") {
       const savedState = convertBlocksToContent(backBlocks);
       setBackFlashcardEditorState(EditorState.createWithContent(savedState));
