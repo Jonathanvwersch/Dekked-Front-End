@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 import {
   ROTATE,
@@ -11,6 +11,8 @@ import {
 import useKeyPress from "../../../../hooks/useKeyPress";
 import { SIZES } from "../../../../shared";
 import { Tooltip } from "../../../common";
+import { useAtom } from "jotai";
+import { isStudyModeFlashcardEditableAtom } from "../../../../store";
 
 interface FreeStudyControllerProps {
   maxLength: number;
@@ -26,6 +28,7 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
   setFlippedState,
 }) => {
   const theme = useContext(ThemeContext);
+  const [isEditable] = useAtom(isStudyModeFlashcardEditableAtom);
 
   const arrowLeft = () => {
     if (flashcardIndex !== 0) {
@@ -46,9 +49,9 @@ const FreeStudyController: React.FC<FreeStudyControllerProps> = ({
     }
   };
 
-  useKeyPress([" ", "Spacebar"], flipCard);
-  useKeyPress(["ArrowRight"], arrowRight);
-  useKeyPress(["ArrowLeft"], arrowLeft);
+  useKeyPress([" ", "Spacebar"], flipCard, !isEditable);
+  useKeyPress(["ArrowRight"], arrowRight, !isEditable);
+  useKeyPress(["ArrowLeft"], arrowLeft, !isEditable);
 
   return (
     <Flex justifyContent="center" mt={theme.spacers.size48}>

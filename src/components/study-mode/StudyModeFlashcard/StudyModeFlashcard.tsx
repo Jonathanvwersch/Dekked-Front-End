@@ -35,6 +35,7 @@ import {
   selectStudySetTab,
   currentFlashcardIndexAtom,
   fullscreenStudyModeAtom,
+  isStudyModeFlashcardEditableAtom,
 } from "../../../store";
 import { useAtom } from "jotai";
 import { Tooltip } from "../../common";
@@ -86,7 +87,7 @@ const StudyModeFlashcard: React.FC<StudyModeFlashcardProps> = ({
   const [, setBlockLink] = useAtom(blockLinkAtom);
   const [studySetTab] = useAtom(useMemo(() => selectStudySetTab(id), [id]));
   const [hasFocus, setHasFocus] = useState<boolean>(false);
-  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [isEditable, setIsEditable] = useAtom(isStudyModeFlashcardEditableAtom);
 
   const studySetFlashcard = document.getElementById(`StudyModeFlashcard`);
 
