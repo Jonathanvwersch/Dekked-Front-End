@@ -26,6 +26,8 @@ import {
 import { Tooltip } from "../../../common";
 import { queryClient } from "../../../..";
 import { useParams } from "react-router-dom";
+import { isStudyModeFlashcardEditableAtom } from "../../../../store";
+import { useAtom } from "jotai";
 
 interface SpacedRepetitionControllerProps {
   numberOfNewCards: number;
@@ -75,6 +77,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     numberOfLearningCards
   );
   const { id: studySetId } = useParams<Params>();
+  const [isEditable] = useAtom(isStudyModeFlashcardEditableAtom);
 
   const { theme, formatMessage } = usePageSetupHelpers();
   const { mutate: saveCard } = useMutation("save-flashcard", saveFlashcard, {
@@ -201,7 +204,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
     );
   };
 
-  useKeyPress([" ", "Spacebar"], flipCard);
+  useKeyPress([" ", "Spacebar"], flipCard, !isEditable);
 
   useKeyPress(
     ["1"],
@@ -210,7 +213,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
         FlashcardQuality.REPEAT,
         FlashcardLearningStatus.LEARNING
       ),
-    !flippedState
+    !flippedState && !isEditable
   );
 
   useKeyPress(
@@ -220,7 +223,7 @@ const SpacedRepetitionController: React.FC<SpacedRepetitionControllerProps> = ({
         FlashcardQuality.REMEMBERED,
         FlashcardLearningStatus.LEARNED
       ),
-    !flippedState
+    !flippedState && !isEditable
   );
   console.log(flippedState);
 

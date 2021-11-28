@@ -9,12 +9,14 @@ import {
   Spacer,
   Text,
 } from "dekked-design-system";
+import { useAtom } from "jotai";
 import React, { useLayoutEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 import { Halo } from "../..";
 import { config } from "../../../config";
 import { useLayeredModal, useTheme } from "../../../hooks";
+import { isStudyModeFlashcardEditableAtom } from "../../../store";
 import { updateDataOfBlock } from "../Editor/Editor.helpers";
 
 export type EditorType = "flashcard" | "page";
@@ -32,6 +34,7 @@ const ImageBlock: React.FC = (props: any) => {
   const [error, setError] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
   useLayeredModal(fullscreen);
+  const [isFlashcardEditable] = useAtom(isStudyModeFlashcardEditableAtom);
 
   const onError = (event: any) => {
     setError(true);
@@ -84,14 +87,16 @@ const ImageBlock: React.FC = (props: any) => {
       height={height}
       onLoad={onLoad}
       onError={onError}
-      onDoubleClick={() => setFullscreen((prevState) => !prevState)}
+      onDoubleClick={() =>
+        !isFlashcardEditable && setFullscreen((prevState) => !prevState)
+      }
     />
   );
 
   return (
     <>
       <Halo
-        editable={true}
+        editable={!isFlashcardEditable ? false : true}
         saveEditor={saveEditor}
         editorState={editorState}
         setEditorState={setEditorState}
