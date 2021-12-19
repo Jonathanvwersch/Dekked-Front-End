@@ -219,6 +219,15 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
             </IconActive>
           </Tooltip>
         </Tooltip>
+        <Tooltip
+          id="DeleteFlashcard"
+          text="tooltips.studyMode.deleteCard"
+          place="left"
+        >
+          <IconActive handleClick={() => setIsDeleteModalOpen(true)}>
+            <DeleteForeverIcon size={SIZES.LARGE} />
+          </IconActive>
+        </Tooltip>
       </Flex>
       <DeleteModal
         isOpen={isDeleteModalOpen}
