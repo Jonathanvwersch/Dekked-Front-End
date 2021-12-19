@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import { ThemeContext } from "styled-components";
 import {
   DeleteForeverIcon,
@@ -12,6 +12,7 @@ import {
   Flex,
   FilledStarIcon,
   EmptyStarIcon,
+  StudyModeIcon,
 } from "dekked-design-system";
 import { useKeyPress } from "../../../hooks";
 import { deleteFlashcard, saveFlashcard } from "../../../api";
@@ -60,17 +61,20 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
   const [fullscreen, setFullscreen] = useAtom(fullscreenStudyModeAtom);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [starFlashcard, setStarFlashcard] = useState<boolean>(Boolean(starred));
-  const { id: studySetId } = useParams<Params>();
+  const { id: fileId, type } = useParams<Params>();
   const [, setFlashcards] = useAtom(flashcardsAtom);
   const [, setSrFlashcards] = useAtom(srFlashcardsAtom);
   const fullscreenRef = useRef<HTMLButtonElement>(null);
   const getFlashcardsKey =
     studyMode === STUDY_MODE_TYPES.FREE_STUDY
-      ? `${studySetId}-get-flashcards`
-      : `${studySetId}-get-sr-flashcards`;
+      ? `${fileId}-get-flashcards`
+      : `${fileId}-get-sr-flashcards`;
+  const history = useHistory();
+  const route = useRouteMatch();
+  console.log(route);
 
   const { mutate: deleteCard } = useMutation(
-    `${studySetId}-delete-flashcard`,
+    `${fileId}-delete-flashcard`,
     deleteFlashcard,
     {
       onSuccess: async (_, { flashcard_id }) => {
@@ -137,7 +141,7 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
               saveCard({
                 flashcard_id: flashcardId,
                 starred: !starFlashcard,
-                study_set_id: studySetId,
+                study_set_id: fileId,
                 frontEditorState: frontFlashcardEditorState,
                 backEditorState: backFlashcardEditorState,
               });
@@ -188,6 +192,30 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         >
           <IconActive handleClick={() => setIsDeleteModalOpen(true)}>
             <DeleteForeverIcon size={SIZES.LARGE} />
+          </IconActive>
+        </Tooltip>
+        <Spacer height={theme.spacers.size16} />
+        <Tooltip
+          id="SwitchStudyModes"
+          text={
+            studyMode === STUDY_MODE_TYPES.FREE_STUDY
+              ? "tooltips.studyMode.switchToSpacedRepetition"
+              : "tooltips.studyMode.switchToFreeStudy"
+          }
+          place="left"
+        >
+          <IconActive
+            handleClick={() =>
+              history.push(
+                `${
+                  studyMode === STUDY_MODE_TYPES.FREE_STUDY
+                    ? STUDY_MODE_TYPES.SPACED_REPETITION
+                    : STUDY_MODE_TYPES.FREE_STUDY
+                }`
+              )
+            }
+          >
+            <StudyModeIcon />
           </IconActive>
         </Tooltip>
       </Flex>
