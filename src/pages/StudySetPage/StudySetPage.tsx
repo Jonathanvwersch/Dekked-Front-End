@@ -34,7 +34,7 @@ const StudySetPage: React.FC<StudySetPageProps> = () => {
       ) : (
         <MainFrame>
           <StudySetHeader headerRef={headerRef} />
-          <InsetPage size={SIZES.SMALL}>
+          <InsetPage size={SIZES.SMALL} isNotesPage>
             {tab === TAB_TYPE.NOTES ? (
               <StudySetNotesContainer
                 notesRef={initialRef}

@@ -6,6 +6,7 @@ interface InsetPageProps {
   size?: SIZES;
   overflow?: string;
   className?: string;
+  isNotesPage?: boolean;
 }
 
 const InsetPage: React.FC<InsetPageProps> = ({
@@ -13,9 +14,15 @@ const InsetPage: React.FC<InsetPageProps> = ({
   overflow,
   className,
   size = SIZES.SMALL,
+  isNotesPage,
 }) => {
   return (
-    <StyledInsetPage className={className} overflow={overflow} size={size}>
+    <StyledInsetPage
+      className={className}
+      overflow={overflow}
+      size={size}
+      isNotesPage={isNotesPage}
+    >
       {children}
     </StyledInsetPage>
   );
@@ -29,8 +36,8 @@ const StyledInsetPage = styled.div<InsetPageProps>`
   overflow: ${({ overflow }) => overflow};
   max-width: ${({ theme, size }) =>
     size ? theme.sizes.wrappers[size] : theme.sizes.wrappers[SIZES.SMALL]};
-  padding-bottom: ${({ theme, size }) =>
-    size === SIZES.LARGE ? theme.spacers.size32 : theme.spacers.size128};
+  padding-bottom: ${({ theme, isNotesPage }) =>
+    isNotesPage ? "400px" : theme.spacers.size128};
 `;
 
 export default InsetPage;
