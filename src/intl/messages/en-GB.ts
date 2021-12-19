@@ -297,6 +297,8 @@ const en_GB = {
         bubble: "View which decks are due",
       },
       studyMode: {
+        switchToSpacedRepetition: "Switch to spaced repetition",
+        switchToFreeStudy: "Switch to free study",
         flip: "Flip flashcard",
         editCard: "Edit flashcard",
         starCard: "Mark as favourite",
