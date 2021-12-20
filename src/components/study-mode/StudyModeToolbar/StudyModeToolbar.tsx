@@ -186,16 +186,6 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
         </Tooltip>
         <Spacer height={theme.spacers.size16} />
         <Tooltip
-          id="DeleteFlashcard"
-          text="tooltips.studyMode.deleteCard"
-          place="left"
-        >
-          <IconActive handleClick={() => setIsDeleteModalOpen(true)}>
-            <DeleteForeverIcon size={SIZES.LARGE} />
-          </IconActive>
-        </Tooltip>
-        <Spacer height={theme.spacers.size16} />
-        <Tooltip
           id="SwitchStudyModes"
           text={
             studyMode === STUDY_MODE_TYPES.FREE_STUDY
@@ -216,6 +206,16 @@ const StudyModeToolbar: React.FC<StudyModeToolbarProps> = ({
             }
           >
             <StudyModeIcon />
+          </IconActive>
+        </Tooltip>
+        <Spacer height={theme.spacers.size16} />
+        <Tooltip
+          id="DeleteFlashcard"
+          text="tooltips.studyMode.deleteCard"
+          place="left"
+        >
+          <IconActive handleClick={() => setIsDeleteModalOpen(true)}>
+            <DeleteForeverIcon size={SIZES.LARGE} />
           </IconActive>
         </Tooltip>
       </Flex>
